@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splash = installSplashScreen()
-        splash.setKeepOnScreenCondition { viewModel.startState.value == StartState.Loading }
+        splash.setKeepOnScreenCondition { viewModel.startState.value == StartState.Loading || viewModel.settings.value == null }
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
@@ -45,11 +45,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RecentrTheme {
-                // Settings › Appearance: Reduce motion and Haptics apply to every screen.
-                val settings = RecentrData.settings.settings.collectAsStateWithLifecycle(AppSettings()).value
+                // Settings › Appearance: Reduce motion and Haptics apply to every screen. Screens wait
+                // until they are read, so each opens with the right motion, also when recreated.
+                val loadedSettings = viewModel.settings.collectAsStateWithLifecycle().value
+                val settings = loadedSettings ?: AppSettings()
                 ProvideRecentrMotion(reduceMotion = settings.reduceMotion, hapticsEnabled = settings.haptics) {
                     val start = viewModel.startState.collectAsStateWithLifecycle().value
-                    if (start != StartState.Loading) {
+                    if (start != StartState.Loading && loadedSettings != null) {
                         val showOnboarding = when (forcedStart) {
                             "main" -> false
                             "onboarding" -> true
