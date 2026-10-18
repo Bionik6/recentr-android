@@ -72,11 +72,13 @@ import com.recentr.feature.rules.ui.unlocksPerDayLabel
 internal class EditorActions(
     val open: (RuleSheet) -> Unit,
     val update: ((Rule) -> Rule) -> Unit,
-    /** Strict toggle: turning it on goes through the explainer + confirmation. */
+    /** Strict mode toggle. */
     val onStrictChange: (Boolean) -> Unit,
     val onSuggestion: (BuiltInTemplate) -> Unit,
     val onSaveTemplate: () -> Unit,
     val onCommit: () -> Unit,
+    /** The rule is strict and blocking now: Strict mode can't be turned off until it ends. */
+    val strictLocked: Boolean = false,
 )
 
 @Composable
@@ -172,7 +174,7 @@ internal fun ColumnScope.SessionEditor(state: RuleEditorUiState, title: String, 
     }
     Gap(10.dp)
     SettingsGroup {
-        StrictToggleRow(stringResource(R.string.rules_strict_mode), rule.strictMode, actions.onStrictChange)
+        StrictToggleRow(rule.strictMode, actions.onStrictChange, locked = actions.strictLocked)
     }
 }
 
@@ -265,7 +267,7 @@ internal fun ColumnScope.BedtimeEditor(state: RuleEditorUiState, title: String, 
     SettingsGroup {
         EditorRow(R.string.rules_row_block, bedtimeBlockLabel(rule), RecentrIcon.Apps) { actions.open(RuleSheet.BlockMode) }
         EditorRow(R.string.rules_row_always_allowed, allowedAppsLabel(rule), RecentrIcon.Check) { actions.open(RuleSheet.AllowedApps) }
-        StrictToggleRow(stringResource(R.string.rules_strict_mode), rule.strictMode, actions.onStrictChange)
+        StrictToggleRow(rule.strictMode, actions.onStrictChange, locked = actions.strictLocked)
     }
 }
 

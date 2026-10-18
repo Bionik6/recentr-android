@@ -79,6 +79,10 @@ also from the Home streak tile.
   the share sheet before).
 - Rules are kept in memory (`RulesRepository`) and do not block apps at OS level yet (that needs
   an accessibility / device-policy service).
+- Strict mode is a toggle on sessions and routines: once the rule blocks, it can't be edited,
+  deleted, paused or unlocked, and Strict mode can't be turned off until the session ends
+  (turning it on while the rule already blocks asks first). Settings › Strict mode makes new
+  sessions and routines start strict. Every toggle is the native Material 3 switch.
 - No account backend: "Save your progress" and "I already have an account" only move the flow on.
 - Profile & Settings: no billing or account backend. *Start 7-day free trial* keeps the Recentr Plus
   plan on the device (`AppSettings.plusPlan`), *Invoices* opens the Play subscriptions page, *Log

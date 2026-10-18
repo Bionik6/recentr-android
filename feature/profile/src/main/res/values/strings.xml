@@ -113,6 +113,7 @@
     <string name="settings_app_icon">App icon</string>
     <string name="settings_language">Language</string>
     <string name="settings_strict_mode">Strict mode</string>
+    <string name="settings_strict_caption">New sessions and routines start strict.</string>
     <string name="settings_emergency_unlocks">Emergency unlocks</string>
     <string name="settings_unlocks_left">%d left</string>
     <string name="settings_unlock_pass">Unlock pass</string>
@@ -126,19 +127,6 @@
     <string name="settings_delete_account">Delete account</string>
     <string name="settings_replay_onboarding">Replay onboarding</string>
     <string name="settings_design_system">Design system</string>
-    <string name="strict_off">Off</string>
-    <string name="strict_sessions">Sessions</string>
-    <string name="strict_always">Always</string>
-    <string name="strict_sheet_subtitle">When it’s on, rules can’t be edited, paused or unlocked.</string>
-    <string name="strict_option_off">Never</string>
-    <string name="strict_option_sessions">During sessions</string>
-    <string name="strict_option_always">Always</string>
-    <string name="strict_option_off_desc">Rules can be edited, paused and unlocked any time.</string>
-    <string name="strict_option_sessions_desc">No edits, pauses or unlocks while a rule or session blocks.</string>
-    <string name="strict_option_always_desc">No edits, pauses or unlocks, ever. Only emergency unlocks.</string>
-    <string name="strict_turn_on">Turn on Strict mode</string>
-    <string name="strict_turn_off">Turn off Strict mode</string>
-    <string name="strict_keep_off">Keep Strict mode off</string>
     <string name="emergency_title">Emergency unlocks</string>
     <string name="emergency_body">You have %d emergency unlocks left this week. Each one opens a blocked app for 5 minutes, even in Strict mode.</string>
     <string name="unlock_pass_title">Unlock pass</string>
@@ -153,7 +141,7 @@
     <string name="help_not_blocking">Recentr isn’t blocking an app</string>
     <string name="help_not_blocking_body">Blocking needs Usage access and Recentr running in the background. Check Settings › Apps › Recentr and turn off battery optimisation.</string>
     <string name="help_strict">Questions about Strict mode</string>
-    <string name="help_strict_body">Strict mode locks your rules while they run: no edits, no pauses, no unlocks. Choose when it applies in Settings › Strict mode.</string>
+    <string name="help_strict_body">Turn Strict mode on for a session or a routine and it holds until it ends: no edits, no pauses, no unlocks, and no turning it off. Settings › Strict mode turns it on for every new one.</string>
     <string name="help_billing">Billing &amp; Recentr Plus</string>
     <string name="help_billing_body">Recentr Plus is billed through Google Play. You can cancel anytime from Settings › Recentr Plus or your Play subscriptions.</string>
     <string name="help_note_section">Send us a note</string>

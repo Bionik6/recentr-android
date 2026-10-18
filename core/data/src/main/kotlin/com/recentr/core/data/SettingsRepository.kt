@@ -46,7 +46,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
             notifyWeeklyRecap = this[Keys.notifyRecap] ?: defaults.notifyWeeklyRecap,
             quietHoursStartMinute = this[Keys.quietStart] ?: defaults.quietHoursStartMinute,
             quietHoursEndMinute = this[Keys.quietEnd] ?: defaults.quietHoursEndMinute,
-            strictScope = enumOr(this[Keys.strictScope], defaults.strictScope),
+            strictByDefault = this[Keys.strictByDefault] ?: defaults.strictByDefault,
             emergencyUnlocksLeft = this[Keys.emergencyUnlocks] ?: defaults.emergencyUnlocksLeft,
             unlockPassPrinted = this[Keys.unlockPassPrinted] ?: defaults.unlockPassPrinted,
             plusPlan = PlusPlan.entries.firstOrNull { it.name == this[Keys.plusPlan] },
@@ -67,7 +67,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         this[Keys.notifyRecap] = s.notifyWeeklyRecap
         this[Keys.quietStart] = s.quietHoursStartMinute
         this[Keys.quietEnd] = s.quietHoursEndMinute
-        this[Keys.strictScope] = s.strictScope.name
+        this[Keys.strictByDefault] = s.strictByDefault
         this[Keys.emergencyUnlocks] = s.emergencyUnlocksLeft
         this[Keys.unlockPassPrinted] = s.unlockPassPrinted
         s.plusPlan?.let { this[Keys.plusPlan] = it.name } ?: remove(Keys.plusPlan)
@@ -90,7 +90,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         val notifyRecap = booleanPreferencesKey("notify_weekly_recap")
         val quietStart = intPreferencesKey("quiet_start")
         val quietEnd = intPreferencesKey("quiet_end")
-        val strictScope = stringPreferencesKey("strict_scope")
+        val strictByDefault = booleanPreferencesKey("strict_by_default")
         val emergencyUnlocks = intPreferencesKey("emergency_unlocks_left")
         val unlockPassPrinted = booleanPreferencesKey("unlock_pass_printed")
         val plusPlan = stringPreferencesKey("plus_plan")

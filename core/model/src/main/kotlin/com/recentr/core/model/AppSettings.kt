@@ -6,9 +6,6 @@ enum class ThemeMode { Light, Dark, Auto }
 /** Launcher icon colourway of Settings › Appearance › App icon. */
 enum class AppIconStyle { Sky, Night, Mint, Sunset }
 
-/** Global strict mode (Settings › Protection): when edits and unlocks are refused. */
-enum class StrictScope { Off, Sessions, Always }
-
 /** Languages offered by Settings › Language (BCP 47 tag + endonym). */
 enum class AppLanguage(val tag: String, val endonym: String) {
     English("en", "English"),
@@ -46,7 +43,8 @@ data class AppSettings(
     val quietHoursStartMinute: Int = 22 * 60,
     val quietHoursEndMinute: Int = 7 * 60,
     // Protection
-    val strictScope: StrictScope = StrictScope.Sessions,
+    /** Settings › Strict mode: new sessions and routines start strict. */
+    val strictByDefault: Boolean = false,
     val emergencyUnlocksLeft: Int = 2,
     val unlockPassPrinted: Boolean = true,
     // Recentr Plus (no billing backend: kept on this device)

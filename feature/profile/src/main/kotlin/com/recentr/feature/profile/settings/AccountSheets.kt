@@ -32,12 +32,9 @@ import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrSheet
-import com.recentr.core.designsystem.component.StrictModeSheet as DesignSystemStrictModeSheet
-import com.recentr.core.designsystem.component.StrictOption
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.core.model.StrictScope
 import com.recentr.feature.profile.R
 import com.recentr.feature.profile.ui.SheetContent
 import com.recentr.feature.profile.ui.SheetHeading
@@ -141,34 +138,3 @@ private fun ConfirmWordField(value: String, onValueChange: (String) -> Unit, pla
     )
 }
 
-/**
- * Settings › Strict mode, with the rules' Figma 32 sheet: Never / During sessions / Always as
- * option rows, saved with the CTA ("Turn on Strict mode", or turning it off).
- */
-@Composable
-internal fun StrictModeSheet(selected: StrictScope, onSelect: (StrictScope) -> Unit, onDismissRequest: () -> Unit) {
-    val scopes = StrictScope.entries
-    DesignSystemStrictModeSheet(
-        subtitle = stringResource(R.string.strict_sheet_subtitle),
-        options = scopes.map { scope ->
-            when (scope) {
-                StrictScope.Off -> StrictOption(stringResource(R.string.strict_option_off), stringResource(R.string.strict_option_off_desc))
-                StrictScope.Sessions -> StrictOption(stringResource(R.string.strict_option_sessions), stringResource(R.string.strict_option_sessions_desc))
-                StrictScope.Always -> StrictOption(stringResource(R.string.strict_option_always), stringResource(R.string.strict_option_always_desc))
-            }
-        },
-        initialIndex = selected.ordinal,
-        confirmText = { index ->
-            stringResource(
-                when {
-                    scopes[index] != StrictScope.Off -> R.string.strict_turn_on
-                    selected == StrictScope.Off -> R.string.strict_keep_off
-                    else -> R.string.strict_turn_off
-                },
-            )
-        },
-        confirmStyle = { index -> if (scopes[index] == StrictScope.Off) RecentrButtonStyle.Primary else RecentrButtonStyle.Strict },
-        onConfirm = { index -> onSelect(scopes[index]) },
-        onDismissRequest = onDismissRequest,
-    )
-}

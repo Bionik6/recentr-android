@@ -78,9 +78,6 @@ enum class UnlockMethod {
     ScanCode,
 }
 
-/** Strict mode scope (Figma "Strict mode" segmented control). */
-enum class StrictLevel { StartTime, During, Always }
-
 /** When a daily limit resets. */
 enum class LimitReset { Midnight, FourAm, Monday }
 
@@ -115,7 +112,6 @@ data class Rule(
     /** Epoch millis when an active session started, or null. */
     val activeSince: Long? = null,
     val sticker: RuleSticker = type.defaultSticker,
-    val strictLevel: StrictLevel = StrictLevel.During,
     /** Unlock method [UnlockMethod.Wait]: seconds to wait. */
     val waitSeconds: Int = 5,
     /** Unlocks allowed per day, or null for unlimited. */
@@ -157,9 +153,13 @@ data class Rule(
         else -> schedule.isActiveAt(now)
     }
 
-    /** Strict mode currently prevents edits, deletes and unlocks. */
-    fun isStrictLocked(now: Long): Boolean = strictMode && when (strictLevel) {
-        StrictLevel.Always -> true
-        StrictLevel.During, StrictLevel.StartTime -> isEnforcing(now)
-    }
+    /**
+     * Strict mode holds while the rule blocks (the running session, the scheduled window): no
+     * edits, deletes, pauses or unlocks, and it can't be turned off until the session ends.
+     */
+    fun isStrictLocked(now: Long): Boolean = strictMode && isEnforcing(now)
+
+    /** Rules that end (sessions, routines) can be made strict: the lock lifts when they end. */
+    val canBeStrict: Boolean
+        get() = type == RuleType.Session || type == RuleType.Bedtime
 }

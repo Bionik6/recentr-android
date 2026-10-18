@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.toRoute
@@ -19,10 +20,15 @@ import com.recentr.feature.rules.model.BuiltInTemplate
 import com.recentr.feature.rules.model.RuleFactory
 import com.recentr.feature.rules.model.RulesMessages
 import com.recentr.feature.rules.ui.durationText
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @Immutable
 internal data class RuleEditorUiState(
@@ -41,10 +47,21 @@ internal class RuleEditorViewModel(
     private val repository: RulesRepository,
     private val factory: RuleFactory,
     private val string: (Int, Array<out Any>) -> String,
+    /** Settings › Strict mode: new sessions and routines start strict. */
+    strictByDefault: Flow<Boolean> = flowOf(false),
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(initialState(route))
     val state: StateFlow<RuleEditorUiState> = _state.asStateFlow()
+
+    init {
+        val initial = _state.value
+        if (initial.isNew && initial.draft.canBeStrict && !initial.draft.strictMode) {
+            viewModelScope.launch {
+                if (strictByDefault.first()) _state.update { it.copy(draft = it.draft.copy(strictMode = true)) }
+            }
+        }
+    }
 
     private fun initialState(route: RuleEditorRoute): RuleEditorUiState {
         route.ruleId?.let(repository::rule)?.let { return RuleEditorUiState(it, isNew = false, customTitle = true) }
@@ -129,6 +146,7 @@ internal class RuleEditorViewModel(
                     repository = repository,
                     factory = RuleFactory(string, repository::newId),
                     string = string,
+                    strictByDefault = RecentrData.settings.settings.map { it.strictByDefault },
                 )
             }
         }

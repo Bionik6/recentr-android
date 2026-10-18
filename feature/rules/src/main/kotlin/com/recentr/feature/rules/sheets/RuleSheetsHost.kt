@@ -1,10 +1,6 @@
 package com.recentr.feature.rules.sheets
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.recentr.core.model.AppId
 import com.recentr.core.model.HabitRepeat
@@ -14,7 +10,6 @@ import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
-import com.recentr.core.model.StrictLevel
 import com.recentr.core.model.UnlockMethod
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.ui.habitRepeatLabel
@@ -25,7 +20,7 @@ import java.util.UUID
 
 /** Sub-sheets a rule editor (or the rule detail) can open. */
 internal enum class RuleSheet {
-    None, Name, Apps, AllowedApps, BlockMode, Duration, Schedule, BedtimeStart, BedtimeEnd, Strict, Unlock, Wait,
+    None, Name, Apps, AllowedApps, BlockMode, Duration, Schedule, BedtimeStart, BedtimeEnd, Unlock, Wait,
     UnlocksPerDay, Resets, TimeUp, Repeats, Reminders, Note, AddTask,
 }
 
@@ -46,7 +41,6 @@ internal fun RuleSheetsHost(
     onApps: (List<AppId>) -> Unit,
     noteTitle: String = stringResource(R.string.rules_note_title),
 ) {
-    var pendingStrict by rememberSaveable { mutableStateOf<StrictLevel?>(null) }
     val close = { onSheet(RuleSheet.None) }
     when (sheet) {
         RuleSheet.None -> Unit
@@ -102,11 +96,6 @@ internal fun RuleSheetsHost(
                 onDismiss = close,
             )
         }
-        RuleSheet.Strict -> StrictModeSheet(
-            initialLevel = rule.strictLevel,
-            onTurnOn = { level -> pendingStrict = level },
-            onDismiss = close,
-        )
         RuleSheet.Unlock -> UnlockMethodSheet(
             initial = rule.unlockMethod,
             includeNone = rule.type != RuleType.Lock,
@@ -173,15 +162,6 @@ internal fun RuleSheetsHost(
             placeholder = stringResource(R.string.rules_new_task_placeholder),
             onSave = { title -> onUpdate { it.copy(habitTasks = it.habitTasks + HabitTask(UUID.randomUUID().toString(), title)) } },
             onDismiss = close,
-        )
-    }
-    pendingStrict?.let { level ->
-        StrictConfirmDialog(
-            onConfirm = {
-                onUpdate { it.copy(strictMode = true, strictLevel = level) }
-                pendingStrict = null
-            },
-            onDismiss = { pendingStrict = null },
         )
     }
 }

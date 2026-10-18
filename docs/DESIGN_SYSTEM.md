@@ -72,8 +72,8 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Keyboard | Android IME (not drawn) |
 | Review Card | `ReviewCard(title, body, name, initial)` |
 | Alert | `RecentrAlertDialog(title, body, primaryText, onPrimary, onDismissRequest, secondaryText)` |
-| Toggle / Checkbox | `RecentrToggle(checked, onCheckedChange)` · `RecentrCheckbox(checked, onCheckedChange)` |
-| Setting Row (Value / Toggle) | `SettingRow(label, value, onClick, icon, iconTint, iconBackground, labelColor)` · `SettingToggleRow(label, checked, onCheckedChange, icon)` |
+| Toggle / Checkbox | `RecentrToggle(checked, onCheckedChange)` — the native Material 3 `Switch` in the Figma colours · `RecentrCheckbox(checked, onCheckedChange)` |
+| Setting Row (Value / Toggle) | `SettingRow(label, value, onClick, icon, iconTint, iconBackground, labelColor)` · `SettingToggleRow(label, checked, onCheckedChange, icon, iconTint, iconBackground, caption, enabled)` |
 | Settings "Group" + section caption | `SettingsGroup { rows }` · `SettingsSectionLabel(text)` |
 | Segmented | `RecentrSegmented(options, selectedIndex, onSelect)` |
 | App Row | `AppRow(app, checked, onCheckedChange)` |
@@ -81,7 +81,6 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Sheets (grabber + 36dp corners + scrim) | `RecentrBottomSheet(onDismissRequest) { … }` · `RecentrSheet(onDismissRequest) { controller -> … }` (animated `controller.close { then }`) · `SheetGrabber()` |
 | Surface card | `SurfaceCard(cornerRadius, onClick) { … }` |
 | Daily goal sheet (Figma 28, Home and Insights) | `DailyGoalSheet(currentGoalMinutes, onSave, onDismissRequest, formatMinutes)` |
-| Strict mode sheet (Figma 32, rules and Settings) | `StrictModeSheet(subtitle, options, initialIndex, confirmText, onConfirm, onDismissRequest, confirmStyle)` with `StrictOption(title, description)` |
 
 A living catalogue of everything above: `DesignSystemCatalog()` (Profile tab → *Design system*).
 
@@ -109,7 +108,7 @@ Local components the feature flows had to add, to fold back into `:core:designsy
   `RecentrIconButton`; long-press repeat for steppers (`StepperButton`).
 * **Charts** — per-bar colours and the Figma 13.2dp pitch for `HourlyUsageChart`
   (`HourlyBarsChart`), plus a weekly chart (`WeekBarsChart`).
-* **Rules pieces** — tangerine strict `SettingToggleRow`, icon-tinted chip, small template card,
+* **Rules pieces** — icon-tinted chip, small template card,
   active-border state on `RuleCard`, auto-shrinking hero value text.
 * **Sheets** — let `RecentrBottomSheet` take window insets for full-height sheets (`SheetBody`);
   move the rules sheets to `RecentrSheet` (same controller as their local `RulesSheet`), and the

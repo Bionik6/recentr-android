@@ -64,6 +64,7 @@ import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.sheets.RuleSheet
 import com.recentr.feature.rules.sheets.RuleSheetsHost
+import com.recentr.feature.rules.sheets.StrictConfirmDialog
 import com.recentr.feature.rules.ui.ESSENTIAL_APPS
 import com.recentr.feature.rules.ui.allowedAppsLabel
 import com.recentr.feature.rules.ui.asDemoApp
@@ -108,6 +109,7 @@ internal fun RuleDetailDestination(
     var sheet by rememberSaveable { mutableStateOf(RuleSheet.None) }
     var pause by rememberSaveable { mutableStateOf(false) }
     var delete by rememberSaveable { mutableStateOf(false) }
+    var confirmStrict by rememberSaveable { mutableStateOf(false) }
     val locked = rule.isStrictLocked(state.now)
     fun guarded(action: () -> Unit) = if (locked) viewModel.strictLockedNotice() else action()
 
@@ -118,7 +120,12 @@ internal fun RuleDetailDestination(
             onBack = onBack,
             onOpen = { target -> guarded { sheet = target } },
             onStrictChange = { on ->
-                if (on) sheet = RuleSheet.Strict else guarded { viewModel.update { it.copy(strictMode = false) } }
+                when {
+                    !on -> guarded { viewModel.update { it.copy(strictMode = false) } }
+                    // It would lock right away, for the rest of the session: ask first.
+                    rule.isEnforcing(state.now) -> confirmStrict = true
+                    else -> viewModel.update { it.copy(strictMode = true) }
+                }
             },
             onPause = {
                 if (rule.isPaused(state.now)) viewModel.resume() else guarded { pause = true }
@@ -139,6 +146,15 @@ internal fun RuleDetailDestination(
     )
     if (pause) {
         PauseRuleSheet(ruleName = rule.name, onPause = viewModel::pause, onDismiss = { pause = false })
+    }
+    if (confirmStrict) {
+        StrictConfirmDialog(
+            onConfirm = {
+                viewModel.update { it.copy(strictMode = true) }
+                confirmStrict = false
+            },
+            onDismiss = { confirmStrict = false },
+        )
     }
     if (delete) {
         DeleteRuleSheet(
@@ -192,7 +208,7 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                 Gap(19.dp)
                 DetailCollage(rule, now, actions)
                 Gap(24.dp)
-                DetailSettings(rule, actions)
+                DetailSettings(rule, now, actions)
                 Gap(16.dp)
             }
             Row(
@@ -407,7 +423,7 @@ private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modif
 }
 
 @Composable
-private fun DetailSettings(rule: Rule, actions: DetailActions) {
+private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
     @Composable
     fun row(label: Int, value: String, icon: RecentrIcon, target: RuleSheet?) = SettingRow(
         label = stringResource(label),
@@ -448,7 +464,9 @@ private fun DetailSettings(rule: Rule, actions: DetailActions) {
                 )
             }
         }
-        StrictToggleRow(stringResource(R.string.rules_strict_mode), rule.strictMode, actions.onStrictChange)
+        if (rule.canBeStrict || rule.strictMode) {
+            StrictToggleRow(rule.strictMode, actions.onStrictChange, locked = rule.isStrictLocked(now))
+        }
     }
 }
 

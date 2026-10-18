@@ -50,7 +50,8 @@ internal fun RuleEditorDestination(
         val actions = EditorActions(
             open = { sheet = it },
             update = viewModel::update,
-            onStrictChange = { on -> if (on) sheet = RuleSheet.Strict else viewModel.update { it.copy(strictMode = false) } },
+            onStrictChange = { on -> viewModel.update { it.copy(strictMode = on) } },
+            strictLocked = !state.isNew && state.draft.isStrictLocked(now),
             onSuggestion = viewModel::applySuggestion,
             onSaveTemplate = {
                 // Saving closes the sheet so the confirmation toast is visible on the list.

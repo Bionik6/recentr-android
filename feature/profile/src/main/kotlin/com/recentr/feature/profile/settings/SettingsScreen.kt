@@ -22,6 +22,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import com.recentr.core.designsystem.component.RecentrAlertDialog
 import com.recentr.core.designsystem.component.SettingRow
+import com.recentr.core.designsystem.component.SettingToggleRow
 import com.recentr.core.designsystem.component.SettingsGroup
 import com.recentr.core.designsystem.component.SettingsSectionLabel
 import com.recentr.core.designsystem.icon.RecentrIcon
@@ -48,7 +49,7 @@ internal class SettingsActions(
     val onOpenDesignSystem: (() -> Unit)? = null,
 )
 
-private enum class SettingsOverlay { Strict, Emergency, UnlockPass, LogOut, Delete }
+private enum class SettingsOverlay { Emergency, UnlockPass, LogOut, Delete }
 
 /** 66 · Settings (+ 71 / 72 sheets): General, Protection, Support and Account groups. */
 @Composable
@@ -78,13 +79,14 @@ internal fun SettingsScreen(
             }
             Spacer(Modifier.height(6.dp))
             Section(R.string.settings_protection) {
-                SettingRow(
+                SettingToggleRow(
                     label = stringResource(R.string.settings_strict_mode),
-                    value = stringResource(settings.strictScope.label),
+                    checked = settings.strictByDefault,
+                    onCheckedChange = { on -> actions.onUpdate { it.copy(strictByDefault = on) } },
                     icon = RecentrIcon.Shield,
                     iconTint = RecentrTheme.colors.accentTangerine,
                     iconBackground = RecentrTheme.colors.alphaTangerine14,
-                    onClick = { overlay = SettingsOverlay.Strict },
+                    caption = stringResource(R.string.settings_strict_caption),
                     modifier = Modifier.fillMaxWidth(),
                 )
                 ValueRow(R.string.settings_emergency_unlocks, stringResource(R.string.settings_unlocks_left, settings.emergencyUnlocksLeft), RecentrIcon.Lock) {
@@ -131,11 +133,6 @@ internal fun SettingsScreen(
     }
 
     when (overlay) {
-        SettingsOverlay.Strict -> StrictModeSheet(
-            selected = settings.strictScope,
-            onSelect = { scope -> actions.onUpdate { it.copy(strictScope = scope) } },
-            onDismissRequest = { overlay = null },
-        )
         SettingsOverlay.Emergency -> RecentrAlertDialog(
             title = stringResource(R.string.emergency_title),
             body = stringResource(R.string.emergency_body, settings.emergencyUnlocksLeft),

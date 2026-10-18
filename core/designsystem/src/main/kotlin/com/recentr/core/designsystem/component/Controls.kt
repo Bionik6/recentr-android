@@ -1,7 +1,5 @@
 package com.recentr.core.designsystem.component
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,26 +10,23 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
@@ -45,9 +40,11 @@ import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
 
-private val KnobShadow = Shadow(radius = 4.dp, color = Color(0x2E000000), offset = DpOffset(0.dp, 2.dp))
-
-/** Figma "Toggle" — 51×31 switch (green when on). Semantics: [Role.Switch]. */
+/**
+ * The native Android switch (Material 3 [Switch]) in the Figma "Toggle" colours: green track when
+ * on, sunken outlined track when off. Pass a null [onCheckedChange] when the whole row toggles
+ * (the row then carries the [Role.Switch] semantics).
+ */
 @Composable
 fun RecentrToggle(
     checked: Boolean,
@@ -56,30 +53,23 @@ fun RecentrToggle(
     enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
-    val track by animateColorAsState(if (checked) colors.feedbackSuccess else colors.fillGrabber, label = "toggleTrack")
-    val knobOffset by animateDpAsState(if (checked) 22.dp else 2.dp, label = "toggleKnob")
-    Box(
-        modifier = modifier
-            .size(width = 51.dp, height = 31.dp)
-            .clip(RecentrShapes.full)
-            .background(track)
-            .then(
-                if (onCheckedChange != null) {
-                    Modifier.toggleable(value = checked, enabled = enabled, role = Role.Switch, onValueChange = onCheckedChange)
-                } else {
-                    Modifier
-                },
-            ),
-    ) {
-        Box(
-            Modifier
-                .offset(x = knobOffset, y = 2.dp)
-                .size(27.dp)
-                .recentrShadow(KnobShadow, CircleShape)
-                .clip(CircleShape)
-                .background(Color.White),
-        )
-    }
+    Switch(
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        modifier = modifier,
+        enabled = enabled,
+        colors = SwitchDefaults.colors(
+            checkedThumbColor = colors.bgSurface,
+            checkedTrackColor = colors.feedbackSuccess,
+            checkedBorderColor = Color.Transparent,
+            uncheckedThumbColor = colors.textTertiary,
+            uncheckedTrackColor = colors.bgSunken,
+            uncheckedBorderColor = colors.borderDashed,
+            disabledCheckedThumbColor = colors.bgSurface,
+            disabledCheckedTrackColor = colors.feedbackSuccess.copy(alpha = 0.45f),
+            disabledCheckedBorderColor = Color.Transparent,
+        ),
+    )
 }
 
 /** Figma "Checkbox" — 24dp, radius 8, sky when checked. */
@@ -157,7 +147,11 @@ fun SettingRow(
     }
 }
 
-/** Figma "Setting Row" (Trailing = Toggle). */
+/**
+ * Figma "Setting Row" (Trailing = Toggle). [iconTint] / [iconBackground] recolour the icon tile
+ * (tangerine "Strict mode"); a [caption] shows under the label; a disabled row keeps its state
+ * but can't be switched.
+ */
 @Composable
 fun SettingToggleRow(
     label: String,
@@ -165,20 +159,29 @@ fun SettingToggleRow(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     icon: RecentrIcon? = null,
+    iconTint: Color = RecentrTheme.colors.textPrimary,
+    iconBackground: Color = RecentrTheme.colors.bgSunken,
+    caption: String? = null,
+    enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
             .background(colors.bgSurface)
-            .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
+            .toggleable(value = checked, enabled = enabled, role = Role.Switch, onValueChange = onCheckedChange)
             .padding(start = 16.dp, end = 14.dp, top = 14.dp, bottom = 14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (icon != null) SettingIcon(icon, colors.textPrimary, colors.bgSunken)
-        Text(label, style = RecentrTheme.typography.bodyMedium, color = colors.textPrimary, modifier = Modifier.weight(1f))
-        RecentrToggle(checked = checked, onCheckedChange = null)
+        if (icon != null) SettingIcon(icon, iconTint, iconBackground)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(label, style = RecentrTheme.typography.bodyMedium, color = colors.textPrimary)
+            if (caption != null) {
+                Text(caption, style = RecentrTheme.typography.captionRegular, color = colors.textSecondary)
+            }
+        }
+        RecentrToggle(checked = checked, onCheckedChange = null, enabled = enabled)
     }
 }
 

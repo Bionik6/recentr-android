@@ -9,7 +9,6 @@ import com.recentr.core.designsystem.illustration.BrandIcon
 import com.recentr.core.model.AppIconStyle
 import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.PlusPlan
-import com.recentr.core.model.StrictScope
 import com.recentr.core.model.ThemeMode
 import com.recentr.feature.profile.R
 import java.time.LocalTime
@@ -70,14 +69,6 @@ internal val AppIconStyle.label: Int
         AppIconStyle.Night -> R.string.icon_night
         AppIconStyle.Mint -> R.string.icon_mint
         AppIconStyle.Sunset -> R.string.icon_sunset
-    }
-
-@get:StringRes
-internal val StrictScope.label: Int
-    get() = when (this) {
-        StrictScope.Off -> R.string.strict_off
-        StrictScope.Sessions -> R.string.strict_sessions
-        StrictScope.Always -> R.string.strict_always
     }
 
 @get:StringRes

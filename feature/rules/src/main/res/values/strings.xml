@@ -152,14 +152,8 @@
     <string name="rules_start">Start</string>
 
     <!-- Strict mode -->
-    <string name="rules_strict_subtitle">Lock this rule so you can’t change it on impulse.</string>
-    <string name="rules_strict_start_time">Start time</string>
-    <string name="rules_strict_during">During</string>
-    <string name="rules_strict_always">Always</string>
-    <string name="rules_strict_desc_start">Locks only when you start the session.</string>
-    <string name="rules_strict_desc_during">No edits, no deletes and no unlocks while the session runs.</string>
-    <string name="rules_strict_desc_always">Keeps this rule locked until you manually turn it off.</string>
-    <string name="rules_strict_turn_on">Turn on Strict mode</string>
+    <string name="rules_strict_caption">Can’t be turned off until the session ends.</string>
+    <string name="rules_strict_locked_caption">On until this session ends.</string>
     <string name="rules_strict_confirm_title">Turn on Strict mode?</string>
     <string name="rules_strict_confirm_body">You won’t be able to edit, delete or unlock this session until it ends.</string>
     <string name="rules_turn_on">Turn on</string>

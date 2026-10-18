@@ -50,8 +50,8 @@ import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
-import com.recentr.core.designsystem.component.RecentrToggle
 import com.recentr.core.designsystem.component.TemplateColor
+import com.recentr.core.designsystem.component.SettingToggleRow
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Sticker
@@ -77,37 +77,28 @@ internal fun SettingsGroup(modifier: Modifier = Modifier, content: @Composable C
 }
 
 /**
- * Setting row with the tangerine shield tile and a toggle ("Strict mode"). The design-system
- * [com.recentr.core.designsystem.component.SettingToggleRow] only has the neutral icon tile.
+ * "Strict mode" row: tangerine shield tile and the toggle. Once the strict rule blocks
+ * ([locked]) the toggle stays on until the session ends.
  */
 @Composable
 internal fun StrictToggleRow(
-    label: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
+    locked: Boolean = false,
 ) {
     val colors = RecentrTheme.colors
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
-            .background(colors.bgSurface)
-            .toggleable(value = checked, enabled = enabled, role = Role.Switch, onValueChange = onCheckedChange)
-            .padding(start = 16.dp, end = 14.dp, top = 14.dp, bottom = 14.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(
-            Modifier.size(32.dp).clip(RoundedCornerShape(10.dp)).background(colors.alphaTangerine14),
-            contentAlignment = Alignment.Center,
-        ) {
-            RecentrIconImage(RecentrIcon.Shield, tint = colors.accentTangerine, size = 19.2.dp)
-        }
-        Text(label, style = RecentrTheme.typography.bodyMedium, color = colors.textPrimary, modifier = Modifier.weight(1f))
-        RecentrToggle(checked = checked, onCheckedChange = null)
-    }
+    SettingToggleRow(
+        label = stringResource(R.string.rules_strict_mode),
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        icon = RecentrIcon.Shield,
+        iconTint = colors.accentTangerine,
+        iconBackground = colors.alphaTangerine14,
+        caption = stringResource(if (locked) R.string.rules_strict_locked_caption else R.string.rules_strict_caption),
+        enabled = !locked,
+        modifier = modifier.fillMaxWidth(),
+    )
 }
 
 /** Sheet hero: 84dp sticker, editable title with pencil, centered subtitle. */
