@@ -38,6 +38,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -53,6 +54,7 @@ import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.BackdropBox
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
@@ -306,7 +308,10 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
     return stringResource(R.string.rules_detail_sub, rule.type.label(), state)
 }
 
-/** Tilted collage: time card, blocked apps, "Why" note and streak (positions from Figma 44). */
+/**
+ * Tilted collage: time card, blocked apps, "Why" note and streak (positions from Figma 44). The
+ * pieces drop into place one after the other when the page opens.
+ */
 @Composable
 private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
     val schedule = rule.schedule
@@ -325,12 +330,17 @@ private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
             caption = caption,
             rotation = 4f,
             onClick = if (timeTarget != null) ({ actions.onOpen(timeTarget) }) else actions.onEditSettings,
-            modifier = Modifier.offset(x = (-120.3).dp, y = (-54.7).dp),
+            modifier = Modifier
+                .offset(x = (-120.3).dp, y = (-54.7).dp)
+                .entrance(50, from = DpOffset((-20).dp, 10.dp), blur = false),
         )
         AppsTile(
             rule = rule,
             onClick = { actions.onOpen(if (rule.type == RuleType.Bedtime && rule.blockAllApps) RuleSheet.AllowedApps else RuleSheet.Apps) },
-            modifier = Modifier.offset(x = 92.15.dp, y = (-69.16).dp).graphicsLayer { rotationZ = -5f },
+            modifier = Modifier
+                .offset(x = 92.15.dp, y = (-69.16).dp)
+                .entrance(120, from = DpOffset(20.dp, 10.dp), blur = false)
+                .graphicsLayer { rotationZ = -5f },
         )
         StickyNote(
             title = stringResource(R.string.rules_why),
@@ -338,6 +348,7 @@ private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
             onClick = { actions.onOpen(RuleSheet.Note) },
             modifier = Modifier
                 .offset(x = 86.dp, y = 56.6.dp)
+                .entrance(200, blur = false)
                 .width(180.dp)
                 .graphicsLayer { rotationZ = 3f },
         )
@@ -347,6 +358,7 @@ private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
             sticker = Sticker.Flame,
             modifier = Modifier
                 .offset(x = (-80.38).dp, y = 71.6.dp)
+                .entrance(280, blur = false)
                 .width(171.dp)
                 .graphicsLayer { rotationZ = -2f },
         )

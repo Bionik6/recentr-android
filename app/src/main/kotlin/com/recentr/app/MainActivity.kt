@@ -12,8 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import com.recentr.app.navigation.RecentrNavHost
 import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.component.RecentrTab
+import com.recentr.core.designsystem.motion.ProvideRecentrMotion
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AppIconStyle
+import com.recentr.core.model.AppSettings
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -43,14 +45,18 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RecentrTheme {
-                val start = viewModel.startState.collectAsStateWithLifecycle().value
-                if (start != StartState.Loading) {
-                    val showOnboarding = when (forcedStart) {
-                        "main" -> false
-                        "onboarding" -> true
-                        else -> start == StartState.Onboarding
+                // Settings › Appearance: Reduce motion and Haptics apply to every screen.
+                val settings = RecentrData.settings.settings.collectAsStateWithLifecycle(AppSettings()).value
+                ProvideRecentrMotion(reduceMotion = settings.reduceMotion, hapticsEnabled = settings.haptics) {
+                    val start = viewModel.startState.collectAsStateWithLifecycle().value
+                    if (start != StartState.Loading) {
+                        val showOnboarding = when (forcedStart) {
+                            "main" -> false
+                            "onboarding" -> true
+                            else -> start == StartState.Onboarding
+                        }
+                        RecentrNavHost(showOnboarding = showOnboarding, initialTab = initialTab, debugTools = debuggable)
                     }
-                    RecentrNavHost(showOnboarding = showOnboarding, initialTab = initialTab, debugTools = debuggable)
                 }
             }
         }

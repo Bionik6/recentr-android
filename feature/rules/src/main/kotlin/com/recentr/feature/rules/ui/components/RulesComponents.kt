@@ -1,6 +1,14 @@
 package com.recentr.feature.rules.ui.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,6 +30,9 @@ import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,18 +55,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
-import com.recentr.core.designsystem.component.TemplateColor
 import com.recentr.core.designsystem.component.SettingToggleRow
+import com.recentr.core.designsystem.component.TemplateColor
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.MotionSpecs
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -314,7 +328,10 @@ internal fun RulesPillButton(
 
 internal enum class RulesPillStyle { Danger }
 
-/** "− value +" stepper with round icon buttons (session length, wait time, daily budget). */
+/**
+ * "− value +" stepper with round icon buttons (session length, wait time, daily budget). Each step
+ * ticks, and the value rolls up or down like the iOS numeric text.
+ */
 @Composable
 internal fun ValueStepper(
     value: String,
@@ -326,6 +343,8 @@ internal fun ValueStepper(
     decreaseEnabled: Boolean = true,
     increaseEnabled: Boolean = true,
 ) {
+    val haptics = LocalRecentrHaptics.current
+    var risingStep by remember { mutableStateOf(true) }
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -334,16 +353,37 @@ internal fun ValueStepper(
         RecentrIconButton(
             icon = RecentrIcon.Minus,
             contentDescription = stringResource(R.string.rules_decrease),
-            onClick = onDecrease,
+            onClick = {
+                risingStep = false
+                haptics.selection()
+                onDecrease()
+            },
             style = buttonStyle,
             size = buttonSize,
             enabled = decreaseEnabled,
         )
-        HeroValueText(value, Modifier.weight(1f))
+        AnimatedContent(
+            targetState = value,
+            transitionSpec = {
+                val roll = MotionSpecs.snappy(0.3f, IntOffset.VisibilityThreshold)
+                val up = risingStep
+                (slideInVertically(roll) { if (up) it / 3 else -it / 3 } + fadeIn(MotionSpecs.smooth(0.25f))) togetherWith
+                    (slideOutVertically(roll) { if (up) -it / 3 else it / 3 } + fadeOut(MotionSpecs.smooth(0.2f)))
+            },
+            contentAlignment = Alignment.Center,
+            label = "stepperValue",
+            modifier = Modifier.weight(1f),
+        ) { shown ->
+            HeroValueText(shown, Modifier.fillMaxWidth())
+        }
         RecentrIconButton(
             icon = RecentrIcon.Plus,
             contentDescription = stringResource(R.string.rules_increase),
-            onClick = onIncrease,
+            onClick = {
+                risingStep = true
+                haptics.selection()
+                onIncrease()
+            },
             style = buttonStyle,
             size = buttonSize,
             enabled = increaseEnabled,
@@ -371,12 +411,16 @@ internal fun PresetChips(
     onSelect: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val haptics = LocalRecentrHaptics.current
     Row(modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         labels.forEachIndexed { index, label ->
             RecentrChip(
                 label = label,
                 style = if (index == selectedIndex) RecentrChipStyle.Selected else RecentrChipStyle.Outline,
-                onClick = { onSelect(index) },
+                onClick = {
+                    if (index != selectedIndex) haptics.selection()
+                    onSelect(index)
+                },
             )
         }
     }
@@ -410,7 +454,7 @@ internal fun TimeCard(
     }
 }
 
-/** M T W T F S S day toggles (42dp discs). */
+/** M T W T F S S day toggles (42dp discs), easing between states (`.snappy(duration: 0.2)`) with a tick. */
 @Composable
 internal fun DayDots(
     days: Set<Int>,
@@ -420,22 +464,36 @@ internal fun DayDots(
     val colors = RecentrTheme.colors
     val letters = androidx.compose.ui.platform.LocalContext.current.resources.getStringArray(R.array.rules_day_letters)
     val names = androidx.compose.ui.platform.LocalContext.current.resources.getStringArray(R.array.rules_day_long)
+    val haptics = LocalRecentrHaptics.current
     Row(modifier, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         (1..7).forEach { day ->
             val selected = day in days
+            val fill by animateColorAsState(
+                if (selected) colors.actionPrimary else colors.bgSunken,
+                MotionSpecs.smooth(0.2f),
+                label = "dayFill",
+            )
+            val ink by animateColorAsState(
+                if (selected) colors.textOnAction else colors.textSecondary,
+                MotionSpecs.smooth(0.2f),
+                label = "dayInk",
+            )
             Box(
                 modifier = Modifier
                     .size(42.dp)
                     .clip(RecentrShapes.full)
-                    .background(if (selected) colors.actionPrimary else colors.bgSunken)
-                    .toggleable(value = selected, role = Role.Checkbox, onValueChange = { onToggle(day) })
+                    .background(fill)
+                    .toggleable(value = selected, role = Role.Checkbox, onValueChange = {
+                        haptics.selection()
+                        onToggle(day)
+                    })
                     .semantics { contentDescription = names[day - 1] },
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     letters[day - 1],
                     style = RecentrTheme.typography.captionMedium,
-                    color = if (selected) colors.textOnAction else colors.textSecondary,
+                    color = ink,
                 )
             }
         }

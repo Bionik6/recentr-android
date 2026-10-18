@@ -164,6 +164,8 @@
     <string name="icon_sunset">Sunset</string>
     <string name="appearance_mascot">Show mascot on Home</string>
     <string name="appearance_reduce_motion">Reduce motion</string>
+    <string name="appearance_haptics">Haptics</string>
+    <string name="appearance_haptics_caption">Little taps when you choose, toggle or celebrate</string>
 
     <!-- 69 · Settings — Notifications -->
     <string name="notifications_title">Notifications</string>

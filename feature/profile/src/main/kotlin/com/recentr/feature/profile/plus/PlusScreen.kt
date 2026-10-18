@@ -1,8 +1,11 @@
 package com.recentr.feature.profile.plus
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,6 +42,7 @@ import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.BackdropBox
@@ -45,6 +50,8 @@ import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.MotionSpecs
+import com.recentr.core.designsystem.motion.pressScale
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
@@ -180,14 +187,28 @@ private fun PlanCard(
     modifier: Modifier = Modifier,
 ) {
     val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
     val shape = RoundedCornerShape(22.dp)
     val border = if (selected) 2.dp else 1.dp
+    // The choice eases over (iOS `.snappy`), with a tick.
+    val fill by animateColorAsState(if (selected) colors.alphaSky12 else colors.bgSurface, MotionSpecs.smooth(0.3f), label = "planFill")
+    val outline by animateColorAsState(if (selected) colors.brandSky else colors.borderSubtle, MotionSpecs.smooth(0.3f), label = "planOutline")
+    val interactionSource = remember { MutableInteractionSource() }
     Column(
         modifier = modifier
+            .pressScale(interactionSource, pressedScale = 0.98f)
             .clip(shape)
-            .background(if (selected) colors.alphaSky12 else colors.bgSurface)
-            .border(border, if (selected) colors.brandSky else colors.borderSubtle, shape)
-            .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
+            .background(fill)
+            .border(border, outline, shape)
+            .selectable(
+                selected = selected,
+                interactionSource = interactionSource,
+                indication = LocalIndication.current,
+                role = Role.RadioButton,
+            ) {
+                if (!selected) haptics.selection()
+                onClick()
+            }
             .padding(horizontal = 16.dp + border, vertical = 14.dp + border),
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {

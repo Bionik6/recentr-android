@@ -39,6 +39,7 @@ import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Backdrop
@@ -80,6 +81,7 @@ internal fun FocusSetupScreen(
     onOpenLog: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val haptics = LocalRecentrHaptics.current
     SystemBarsAppearance(lightIcons = false)
     val colors = RecentrTheme.colors
     var sheet by rememberSaveable { mutableStateOf<SetupSheet?>(null) }
@@ -147,7 +149,10 @@ internal fun FocusSetupScreen(
                         RecentrChip(
                             label = stringResource(R.string.focus_minutes_preset, minutes),
                             style = if (config.focusMinutes == minutes) RecentrChipStyle.Selected else RecentrChipStyle.Outline,
-                            onClick = { onUpdate { it.copy(focusMinutes = minutes) } },
+                            onClick = {
+                                if (config.focusMinutes != minutes) haptics.selection()
+                                onUpdate { it.copy(focusMinutes = minutes) }
+                            },
                         )
                     }
                 }

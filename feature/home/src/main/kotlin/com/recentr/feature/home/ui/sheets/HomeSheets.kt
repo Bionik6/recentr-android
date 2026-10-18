@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.OptionTrailing
@@ -27,6 +28,7 @@ import com.recentr.core.designsystem.component.StickyNote
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.UsagePeriod
 import com.recentr.feature.home.R
@@ -133,7 +135,7 @@ private fun OfflineInfoContent(value: String, period: UsagePeriod, onGotIt: () -
     }
 }
 
-/** Shared layout of the info sheets: mascot, title, "Hints to reflect" note, "Got it". */
+/** Shared layout of the info sheets: mascot, title, "Hints to reflect" note, "Got it". The mascot and note rise in. */
 @Composable
 private fun InfoSheetContent(
     mood: MascotMood,
@@ -146,14 +148,16 @@ private fun InfoSheetContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.height(12.dp))
-        Mascot(mood, width = 128.dp)
+        Mascot(mood, width = 128.dp, modifier = Modifier.entrance(from = DpOffset(0.dp, 30.dp)))
         Spacer(Modifier.height(10.dp))
         title()
         Spacer(Modifier.height(16.dp))
         StickyNote(
             title = stringResource(R.string.home_info_hints_title),
             body = note,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .entrance(150, blur = false),
         )
         Spacer(Modifier.height(20.dp))
         RecentrButton(

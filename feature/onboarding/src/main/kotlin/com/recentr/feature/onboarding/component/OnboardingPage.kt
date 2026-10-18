@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -34,13 +32,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import com.recentr.core.designsystem.R as DsR
 import com.recentr.core.designsystem.component.OnboardingProgress
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.BackdropBox
+import com.recentr.core.designsystem.motion.motionSpring
 import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.core.designsystem.R as DsR
 
 /** Progress shown by the header of a step plus the value it animates from. */
 data class HeaderProgress(val value: Float, val from: Float = value)
@@ -95,7 +94,7 @@ internal fun OnboardingPage(
 internal fun OnboardingTopBar(progress: HeaderProgress, onBack: (() -> Unit)?, modifier: Modifier = Modifier) {
     val animated = remember { Animatable(progress.from) }
     LaunchedEffect(progress.value) {
-        animated.animateTo(progress.value, tween(durationMillis = 500, easing = FastOutSlowInEasing))
+        animated.animateTo(progress.value, motionSpring(0.8f, 0.25f))
     }
     Row(
         modifier = modifier

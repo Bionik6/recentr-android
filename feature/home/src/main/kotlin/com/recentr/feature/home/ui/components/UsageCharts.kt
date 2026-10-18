@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.motion.rememberBarsGrowth
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.home.R
 
@@ -44,6 +45,7 @@ internal fun HourlyBarsChart(
         animatedFraction(minutes.coerceIn(0, 60) / 60f, index)
     }
     val barColors = minutesPerHour.indices.map { hour -> if (minutesPerHour[hour] <= 0) colors.bgSunken else barColor(hour) }
+    val growth = rememberBarsGrowth(minutesPerHour.size, staggerMillis = 20)
     BoxWithConstraints(modifier.fillMaxWidth().height(112.dp)) {
         val scale = maxWidth / ChartReferenceWidth
         Canvas(Modifier.fillMaxWidth().height(88.dp)) {
@@ -52,7 +54,7 @@ internal fun HourlyBarsChart(
             val stub = 4.dp.toPx()
             val maxHeight = 72.dp.toPx()
             heights.forEachIndexed { index, fraction ->
-                val h = (maxHeight * fraction.value).coerceAtLeast(stub)
+                val h = (maxHeight * fraction.value).coerceAtLeast(stub) * growth(index)
                 drawRoundRect(
                     color = barColors[index],
                     topLeft = Offset(index * pitch, size.height - h),
@@ -97,6 +99,7 @@ internal fun WeekBarsChart(
     val fractions = dailyMinutes.mapIndexed { index, minutes -> animatedFraction(minutes / max.toFloat(), index) }
     val average = animatedFraction((averageMinutes / max.toFloat()).coerceIn(0f, 1.3f), 7)
     val letters = stringArrayResource(R.array.home_day_letters)
+    val growth = rememberBarsGrowth(dailyMinutes.size, staggerMillis = 50)
     BoxWithConstraints(modifier.fillMaxWidth().height(130.dp)) {
         val scale = maxWidth / ChartReferenceWidth
         Canvas(Modifier.fillMaxWidth().height(100.dp)) {
@@ -104,7 +107,7 @@ internal fun WeekBarsChart(
             val barWidth = 28 * unit
             val maxHeight = 76.dp.toPx()
             fractions.forEachIndexed { index, fraction ->
-                val h = (maxHeight * fraction.value).coerceAtLeast(10.dp.toPx())
+                val h = (maxHeight * fraction.value).coerceAtLeast(10.dp.toPx()) * growth(index)
                 drawRoundRect(
                     color = if (index == bestIndex) colors.feedbackSuccess else colors.brandSky,
                     topLeft = Offset((8 + index * 44) * unit, size.height - h),

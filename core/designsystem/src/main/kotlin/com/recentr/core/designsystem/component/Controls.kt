@@ -1,17 +1,23 @@
 package com.recentr.core.designsystem.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
@@ -24,6 +30,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,12 +39,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.AppIcon
 import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.MotionSpecs
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrGradients
 import com.recentr.core.designsystem.theme.RecentrShapes
@@ -57,9 +66,15 @@ fun RecentrToggle(
     enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
     Switch(
         checked = checked,
-        onCheckedChange = onCheckedChange,
+        onCheckedChange = onCheckedChange?.let { change ->
+            { value: Boolean ->
+                haptics.toggle(value)
+                change(value)
+            }
+        },
         modifier = modifier,
         enabled = enabled,
         colors = SwitchDefaults.colors(
@@ -89,9 +104,15 @@ fun RecentrCheckbox(
     enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
     Checkbox(
         checked = checked,
-        onCheckedChange = onCheckedChange,
+        onCheckedChange = onCheckedChange?.let { change ->
+            { value: Boolean ->
+                haptics.selection()
+                change(value)
+            }
+        },
         modifier = modifier,
         enabled = enabled,
         colors = CheckboxDefaults.colors(
@@ -115,9 +136,15 @@ fun RecentrRadioButton(
     enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
     RadioButton(
         selected = selected,
-        onClick = onClick,
+        onClick = onClick?.let { click ->
+            {
+                haptics.selection()
+                click()
+            }
+        },
         modifier = modifier,
         enabled = enabled,
         colors = RadioButtonDefaults.colors(
@@ -192,11 +219,15 @@ fun SettingToggleRow(
     enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
             .background(colors.bgSurface)
-            .toggleable(value = checked, enabled = enabled, role = Role.Switch, onValueChange = onCheckedChange)
+            .toggleable(value = checked, enabled = enabled, role = Role.Switch) { value ->
+                haptics.toggle(value)
+                onCheckedChange(value)
+            }
             .padding(start = 16.dp, end = 14.dp, top = 14.dp, bottom = 14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -237,7 +268,10 @@ fun SettingsSectionLabel(text: String, modifier: Modifier = Modifier) {
     )
 }
 
-/** Figma "Segmented" — N-option segmented control (3 in the design). */
+/**
+ * Figma "Segmented" — N-option segmented control (3 in the design). The white thumb slides to the
+ * chosen option (the iOS `matchedGeometryEffect`, `.snappy(duration: 0.3)`), with a selection tick.
+ */
 @Composable
 fun RecentrSegmented(
     options: List<String>,
@@ -246,32 +280,55 @@ fun RecentrSegmented(
     modifier: Modifier = Modifier,
 ) {
     val colors = RecentrTheme.colors
-    Row(
+    val haptics = LocalRecentrHaptics.current
+    BoxWithConstraints(
         modifier = modifier
             .clip(RecentrShapes.full)
             .background(colors.bgSunken)
-            .padding(4.dp)
-            .selectableGroup(),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+            .padding(4.dp),
     ) {
-        options.forEachIndexed { index, label ->
-            val selected = index == selectedIndex
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .then(if (selected) Modifier.recentrShadow(RecentrElevation.card, RecentrShapes.full) else Modifier)
-                    .clip(RecentrShapes.full)
-                    .background(if (selected) colors.bgSurface else Color.Transparent)
-                    .selectable(selected = selected, role = Role.Tab, onClick = { onSelect(index) })
-                    .padding(vertical = 10.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    label,
-                    style = RecentrTheme.typography.captionMedium,
-                    color = if (selected) colors.textPrimary else colors.textSecondary,
-                    maxLines = 1,
+        val gap = 4.dp
+        val count = options.size.coerceAtLeast(1)
+        val segment = (maxWidth - gap * (count - 1)) / count
+        val thumbOffset by animateDpAsState(
+            targetValue = (segment + gap) * selectedIndex.coerceIn(0, count - 1),
+            animationSpec = MotionSpecs.snappy(0.3f),
+            label = "segmentedThumb",
+        )
+        Box(Modifier.matchParentSize()) {
+            if (selectedIndex in options.indices) {
+                Box(
+                    Modifier
+                        .offset(x = thumbOffset)
+                        .width(segment)
+                        .fillMaxHeight()
+                        .recentrShadow(RecentrElevation.card, RecentrShapes.full)
+                        .clip(RecentrShapes.full)
+                        .background(colors.bgSurface),
                 )
+            }
+        }
+        Row(Modifier.fillMaxWidth().selectableGroup(), horizontalArrangement = Arrangement.spacedBy(gap)) {
+            options.forEachIndexed { index, label ->
+                val selected = index == selectedIndex
+                val labelColor by animateColorAsState(
+                    if (selected) colors.textPrimary else colors.textSecondary,
+                    MotionSpecs.smooth(0.3f),
+                    label = "segmentedLabel",
+                )
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(RecentrShapes.full)
+                        .selectable(selected = selected, role = Role.Tab) {
+                            if (!selected) haptics.selection()
+                            onSelect(index)
+                        }
+                        .padding(vertical = 10.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(label, style = RecentrTheme.typography.captionMedium, color = labelColor, maxLines = 1)
+                }
             }
         }
     }
@@ -286,10 +343,14 @@ fun AppRow(
     modifier: Modifier = Modifier,
     name: String = app.displayName,
 ) {
+    val haptics = LocalRecentrHaptics.current
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .toggleable(value = checked, role = Role.Checkbox, onValueChange = onCheckedChange)
+            .toggleable(value = checked, role = Role.Checkbox) { value ->
+                haptics.selection()
+                onCheckedChange(value)
+            }
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,

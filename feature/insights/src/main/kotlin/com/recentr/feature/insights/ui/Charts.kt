@@ -1,8 +1,5 @@
 package com.recentr.feature.insights.ui
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,8 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,19 +35,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.motion.rememberBarsGrowth
+import com.recentr.core.designsystem.motion.rememberFill
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.DayStats
 import com.recentr.feature.insights.R
 import java.time.LocalDate
 import java.time.YearMonth
-
-/** Grows a chart in from 0 to 1 once, when it first appears. */
-@Composable
-private fun rememberGrowth(key: Any?): () -> Float {
-    val growth = remember(key) { Animatable(0f) }
-    LaunchedEffect(key) { growth.animateTo(1f, tween(700, easing = FastOutSlowInEasing)) }
-    return { growth.value }
-}
 
 /**
  * Figma 99 "Chart" (118dp): seven 30dp bars, Monday → Sunday, rising from a 100dp baseline with
@@ -68,7 +57,7 @@ internal fun WeekGoalChart(
     modifier: Modifier = Modifier,
 ) {
     val colors = RecentrTheme.colors
-    val growth = rememberGrowth(minutes)
+    val growth = rememberBarsGrowth(minutes.size, staggerMillis = 50, key = minutes)
     val scale = maxOf(minutes.maxOf { it ?: 0 }, goalMinutes, 1).toFloat()
     val plotHeight = 100.dp
     val top = 96.dp
@@ -88,7 +77,7 @@ internal fun WeekGoalChart(
                     val stub = 4.dp.toPx()
                     drawRoundRect(colors.bgSunken, Offset(x, size.height - stub), Size(barWidth, stub), CornerRadius(stub / 2))
                 } else {
-                    val height = (maxHeight * value / scale * growth()).coerceAtLeast(4.dp.toPx())
+                    val height = (maxHeight * value / scale).coerceAtLeast(4.dp.toPx()) * growth(index)
                     drawRoundRect(
                         color = if (value > goalMinutes) colors.brandSky else colors.brandSkyLight,
                         topLeft = Offset(x, size.height - height),
@@ -138,7 +127,7 @@ internal fun WeekGoalChart(
 @Composable
 internal fun HourBarsChart(hourly: List<Int>, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
-    val growth = rememberGrowth(hourly)
+    val growth = rememberBarsGrowth(hourly.size, staggerMillis = 20, key = hourly)
     val max = hourly.maxOrNull()?.coerceAtLeast(1) ?: 1
     val peak = hourly.maxOrNull() ?: 0
     val busiest = hourly.indices.maxByOrNull { hourly[it] }
@@ -156,7 +145,7 @@ internal fun HourBarsChart(hourly: List<Int>, modifier: Modifier = Modifier) {
                     val stub = 3.dp.toPx()
                     drawRoundRect(colors.bgSunken, Offset(x, size.height - stub), Size(bar, stub), radius)
                 } else {
-                    val height = (80.dp.toPx() * minutes / max * growth()).coerceAtLeast(4.dp.toPx())
+                    val height = (80.dp.toPx() * minutes / max).coerceAtLeast(4.dp.toPx()) * growth(hour)
                     drawRoundRect(
                         color = if (minutes * 4 >= peak * 3) colors.brandSky else colors.brandSkyLight,
                         topLeft = Offset(x, size.height - height),
@@ -322,12 +311,12 @@ private fun CalendarDay(date: LocalDate, day: DayStats?, goalMinutes: Int, today
 
 /**
  * Figma 104 "Ring" (190dp): a 16dp `bg/sunken` track and the green progress arc from 12 o'clock,
- * sweeping in on first show.
+ * sweeping in on first show (`.spring(duration: 1.1, bounce: 0.2).delay(0.2)`).
  */
 @Composable
 internal fun GoalRing(fraction: Float, modifier: Modifier = Modifier, size: Dp = 190.dp, stroke: Dp = 16.dp) {
     val colors = RecentrTheme.colors
-    val growth = rememberGrowth(fraction)
+    val sweep = rememberFill(fraction.coerceIn(0f, 1f), delayMillis = 200, duration = 1.1f)
     Canvas(modifier.size(size)) {
         val width = stroke.toPx()
         val inset = width / 2f
@@ -337,7 +326,7 @@ internal fun GoalRing(fraction: Float, modifier: Modifier = Modifier, size: Dp =
             drawArc(
                 color = colors.feedbackSuccess,
                 startAngle = -90f,
-                sweepAngle = 360f * fraction.coerceIn(0f, 1f) * growth(),
+                sweepAngle = 360f * sweep.value.coerceIn(0f, 1f),
                 useCenter = false,
                 topLeft = Offset(inset, inset),
                 size = arcSize,

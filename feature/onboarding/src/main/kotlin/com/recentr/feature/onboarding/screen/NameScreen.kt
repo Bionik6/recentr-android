@@ -20,12 +20,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrTextField
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.onboarding.R
 import com.recentr.feature.onboarding.component.ContinueButton
 import com.recentr.feature.onboarding.component.HeaderProgress
 import com.recentr.feature.onboarding.component.OnboardingHeading
 import com.recentr.feature.onboarding.component.OnboardingPage
+import kotlinx.coroutines.delay
 
 /**
  * 09 · Onboarding — Name (Figma 2023:901). The iOS keyboard mock-up is the Android IME: the field
@@ -42,7 +44,11 @@ internal fun NameScreen(
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboard = LocalSoftwareKeyboardController.current
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) {
+        // The keyboard rises once the field has settled in (iOS waits 450ms too).
+        delay(450)
+        focusRequester.requestFocus()
+    }
     val submit = {
         if (isValid) {
             keyboard?.hide()
@@ -74,6 +80,7 @@ internal fun NameScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = RecentrTheme.spacing.screenGutter)
+                .entrance(200)
                 .focusRequester(focusRequester),
         )
     }

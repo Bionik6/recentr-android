@@ -1,5 +1,6 @@
 package com.recentr.feature.focus.ui
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -28,6 +29,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.setProgress
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
+import com.recentr.core.designsystem.motion.MotionSpecs
 import com.recentr.core.designsystem.theme.RecentrTheme
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -86,8 +89,9 @@ private fun dialBrush(sizePx: Float, light: Color, deep: Color): Brush = Brush.l
 
 /**
  * 91 · Focus — Set up "Dial": 250dp, 18dp sunken track, sky gradient progress (one lap = 60
- * minutes) and a draggable 24dp knob. Dragging snaps to 5 minutes between [min] and [max]; past
- * 60 minutes a second, deeper lap is drawn.
+ * minutes) and a draggable 24dp knob. Dragging snaps to 5 minutes between [min] and [max], with a
+ * tick for each step; past 60 minutes a second, deeper lap is drawn. The arc and knob glide to
+ * a new value (`.snappy(duration: 0.2)`).
  */
 @Composable
 internal fun FocusDial(
@@ -100,8 +104,13 @@ internal fun FocusDial(
 ) {
     val colors = RecentrTheme.colors
     val currentMinutes by rememberUpdatedState(minutes)
-    val onChange by rememberUpdatedState(onMinutesChange)
+    val haptics = LocalRecentrHaptics.current
+    val onChange by rememberUpdatedState<(Int) -> Unit> { value ->
+        if (value != minutes) haptics.selection()
+        onMinutesChange(value)
+    }
     val drag = remember { DialDrag() }
+    val shownMinutes by animateFloatAsState(minutes.toFloat(), MotionSpecs.snappy(0.2f), label = "dialMinutes")
     Canvas(
         modifier
             .size(250.dp)
@@ -149,7 +158,7 @@ internal fun FocusDial(
     ) {
         val brush = dialBrush(size.width, colors.brandSkyLight, colors.brandSkyDeep)
         drawFocusRing(
-            fraction = minutes / 60f,
+            fraction = shownMinutes / 60f,
             strokeWidth = 18.dp,
             track = SolidColor(colors.bgSunken),
             progress = brush,

@@ -26,11 +26,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -87,11 +89,13 @@ internal fun NotificationsScreen(
         progress = progress,
         onBack = onBack,
         bottomBar = {
-            RecentrButton(stringResource(R.string.onb_notif_turn_on), onTurnOn, Modifier.fillMaxWidth())
+            RecentrButton(stringResource(R.string.onb_notif_turn_on), onTurnOn, Modifier.fillMaxWidth().entrance(500))
             RecentrButton(
                 text = stringResource(R.string.onb_notif_not_now),
                 onClick = onNotNow,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .entrance(600, blur = false),
                 style = RecentrButtonStyle.Secondary,
             )
         },
@@ -102,29 +106,32 @@ internal fun NotificationsScreen(
             subtitle = stringResource(R.string.onb_notif_subtitle),
         )
         Spacer(Modifier.height(57.dp))
-        // Three tilted, overlapping notification banners (354×300 group).
+        // Three tilted, overlapping notification banners (354×300 group), dropping in one by one.
         Box(Modifier.size(width = 354.dp, height = 316.dp)) {
             NotificationBanner(
                 sticker = Sticker.Moon,
                 title = stringResource(R.string.onb_notif_banner1_title),
                 body = stringResource(R.string.onb_notif_banner1_body),
-                modifier = Modifier.offset(x = 1.3.dp, y = 8.8.dp).rotate(3f),
+                modifier = Modifier.offset(x = 1.3.dp, y = 8.8.dp).dropIn(0).rotate(3f),
             )
             NotificationBanner(
                 sticker = Sticker.Timer,
                 title = stringResource(R.string.onb_notif_banner2_title),
                 body = stringResource(R.string.onb_notif_banner2_body),
-                modifier = Modifier.offset(x = 8.4.dp, y = 98.dp).rotate(-2f),
+                modifier = Modifier.offset(x = 8.4.dp, y = 98.dp).dropIn(1).rotate(-2f),
             )
             NotificationBanner(
                 sticker = Sticker.Flame,
                 title = stringResource(R.string.onb_notif_banner3_title),
                 body = stringResource(R.string.onb_notif_banner3_body, compactDuration(dailyGoalMinutes)),
-                modifier = Modifier.offset(x = 4.2.dp, y = 212.4.dp).rotate(1.5f),
+                modifier = Modifier.offset(x = 4.2.dp, y = 212.4.dp).dropIn(2).rotate(1.5f),
             )
         }
     }
 }
+
+/** The [index]th banner drops in from above, 350ms after the previous one. */
+private fun Modifier.dropIn(index: Int) = entrance(350 + index * 350, from = DpOffset(0.dp, (-70).dp), blur = false)
 
 /** Frosted notification banner (alpha/white-80, radius 24, Elevation/Float). */
 @Composable

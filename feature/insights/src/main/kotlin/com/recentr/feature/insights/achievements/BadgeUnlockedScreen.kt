@@ -1,8 +1,6 @@
 package com.recentr.feature.insights.achievements
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,9 +35,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.LocalReduceMotion
+import com.recentr.core.designsystem.motion.entrance
+import com.recentr.core.designsystem.motion.floating
+import com.recentr.core.designsystem.motion.motionSpring
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.Achievement
@@ -67,7 +70,8 @@ private val ArtStars = listOf(
 /**
  * 106 · Achievements — Unlocked: the badge sticker among four stars on the deep sky, "New badge"
  * (or the day it was earned when opened from the grid), its celebration line, "Nice!" and
- * "Share badge". The sticker pops in, then the stars.
+ * "Share badge". With a success tap, the sticker pops in from 40%, then the stars one by one
+ * (which keep bobbing), then the text and the buttons rise in (iOS `BadgeUnlockedView`).
  */
 @Composable
 internal fun BadgeUnlockedScreen(
@@ -81,13 +85,18 @@ internal fun BadgeUnlockedScreen(
     SystemBarsAppearance(lightIcons = true)
     val colors = RecentrTheme.colors
     val copy = achievement.copy
-    val pop = remember { Animatable(0.6f) }
-    val stars = remember { ArtStars.map { Animatable(0f) } }
+    val reduceMotion = LocalReduceMotion.current
+    val haptics = LocalRecentrHaptics.current
+    val pop = remember { Animatable(if (reduceMotion) 1f else 0.4f) }
+    val stars = remember { ArtStars.map { Animatable(if (reduceMotion) 1f else 0f) } }
     LaunchedEffect(Unit) {
-        launch { pop.animateTo(1f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow)) }
-        stars.forEach { star ->
-            delay(90)
-            launch { star.animateTo(1f, spring(dampingRatio = Spring.DampingRatioMediumBouncy)) }
+        haptics.success()
+        launch { pop.animateTo(1f, motionSpring(0.8f, 0.45f)) }
+        stars.forEachIndexed { index, star ->
+            launch {
+                delay(150L + index * 80L)
+                star.animateTo(1f, motionSpring(0.6f, 0.5f))
+            }
         }
     }
     Box(modifier.fillMaxSize().background(UnlockedBackground)) {
@@ -125,6 +134,7 @@ internal fun BadgeUnlockedScreen(
                             size = star.size,
                             modifier = Modifier
                                 .offset(x = star.centerX - star.size / 2, y = star.centerY - star.size / 2)
+                                .floating(amplitude = 4.dp, periodMillis = 3200 + index * 400, phase = index / 4f)
                                 .graphicsLayer {
                                     val value = stars[index].value
                                     alpha = value.coerceIn(0f, 1f)
@@ -136,24 +146,29 @@ internal fun BadgeUnlockedScreen(
                     }
                 }
                 Spacer(Modifier.height(26.dp))
-                IconChip(
-                    label = if (fresh || earnedOn == null) {
-                        stringResource(R.string.achievements_new_badge)
-                    } else {
-                        stringResource(R.string.achievements_earned_on, shortDate(earnedOn))
-                    },
-                    icon = RecentrIcon.Sparkle,
-                    iconTint = colors.textOnDark,
-                    background = colors.alphaWhite24,
-                    contentColor = colors.textOnDark,
-                )
-                Spacer(Modifier.height(8.dp))
-                Text(stringResource(copy.title), style = RecentrTheme.typography.displayLarge, color = colors.textOnDark, textAlign = TextAlign.Center)
-                Spacer(Modifier.height(8.dp))
-                Text(stringResource(copy.cheer), style = RecentrTheme.typography.bodyRegular, color = colors.textOnDarkMuted, textAlign = TextAlign.Center)
+                Column(Modifier.entrance(250), horizontalAlignment = Alignment.CenterHorizontally) {
+                    IconChip(
+                        label = if (fresh || earnedOn == null) {
+                            stringResource(R.string.achievements_new_badge)
+                        } else {
+                            stringResource(R.string.achievements_earned_on, shortDate(earnedOn))
+                        },
+                        icon = RecentrIcon.Sparkle,
+                        iconTint = colors.textOnDark,
+                        background = colors.alphaWhite24,
+                        contentColor = colors.textOnDark,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(stringResource(copy.title), style = RecentrTheme.typography.displayLarge, color = colors.textOnDark, textAlign = TextAlign.Center)
+                    Spacer(Modifier.height(8.dp))
+                    Text(stringResource(copy.cheer), style = RecentrTheme.typography.bodyRegular, color = colors.textOnDarkMuted, textAlign = TextAlign.Center)
+                }
                 Spacer(Modifier.height(24.dp))
             }
-            Column(Modifier.padding(start = 24.dp, end = 24.dp, bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(
+                Modifier.padding(start = 24.dp, end = 24.dp, bottom = 14.dp).entrance(400, blur = false),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
                 RecentrButton(text = stringResource(R.string.achievements_nice), onClick = onNice, modifier = Modifier.fillMaxWidth())
                 RecentrButton(
                     text = stringResource(R.string.achievements_share_badge),

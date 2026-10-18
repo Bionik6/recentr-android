@@ -75,28 +75,13 @@ fun StickerImage(
 
 /**
  * Offly/Recentr mascot moods. Calm = default / under goal; Impatient = near limit / unlock
- * countdown; Dozing = night routines, offline, log out.
+ * countdown; Dozing = night routines, offline, log out. [drawable] is the static export (launcher
+ * icon, splash); screens draw the animated [Mascot].
  */
 enum class MascotMood(@param:DrawableRes val drawable: Int) {
     Calm(R.drawable.mascot_calm),
     Impatient(R.drawable.mascot_impatient),
     Dozing(R.drawable.mascot_dozing),
-}
-
-/** The hourglass mascot. Artboard is 160×200; pass the instance [width] used in the screen. */
-@Composable
-fun Mascot(
-    mood: MascotMood,
-    width: Dp,
-    modifier: Modifier = Modifier,
-    contentDescription: String? = null,
-) {
-    OverflowingImage(
-        drawable = mood.drawable,
-        exportHeightRatio = 840f / 640f,
-        contentDescription = contentDescription,
-        modifier = modifier.size(width = width, height = width * (200f / 160f)),
-    )
 }
 
 /**

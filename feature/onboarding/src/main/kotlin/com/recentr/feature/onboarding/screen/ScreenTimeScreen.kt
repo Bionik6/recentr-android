@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
@@ -19,6 +20,8 @@ import com.recentr.core.designsystem.component.RecentrAlertDialog
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
+import com.recentr.core.designsystem.motion.entrance
+import com.recentr.core.designsystem.motion.floating
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.onboarding.R
 import com.recentr.feature.onboarding.component.HeaderProgress
@@ -87,15 +90,24 @@ internal fun ScreenTimeScreen(
     OnboardingPage(
         progress = progress,
         onBack = onBack,
-        bottomBar = { RecentrButton(stringResource(R.string.onb_screen_time_cta), onConnect, Modifier.fillMaxWidth()) },
+        bottomBar = {
+            RecentrButton(stringResource(R.string.onb_screen_time_cta), onConnect, Modifier.fillMaxWidth().entrance(500))
+        },
     ) {
         Spacer(Modifier.height(60.dp))
-        Mascot(MascotMood.Calm, width = 144.dp)
+        Mascot(
+            mood = MascotMood.Calm,
+            width = 144.dp,
+            modifier = Modifier
+                .entrance(100, from = DpOffset(0.dp, (-40).dp))
+                .floating(amplitude = 4.dp, periodMillis = 3800),
+        )
         Spacer(Modifier.height(50.dp))
         OnboardingHeading(
             title = stringResource(R.string.onb_screen_time_title),
             subtitle = stringResource(R.string.onb_screen_time_subtitle),
             centered = true,
+            delayMillis = 300,
         )
     }
     if (showAlert) {

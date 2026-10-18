@@ -1,6 +1,15 @@
 package com.recentr.core.designsystem.component
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -46,8 +55,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import com.recentr.core.designsystem.R
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
+import com.recentr.core.designsystem.motion.MotionSpecs
+import com.recentr.core.designsystem.motion.motionSpring
+import com.recentr.core.designsystem.motion.pressScale
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -60,7 +73,11 @@ fun OnboardingProgress(
     modifier: Modifier = Modifier,
     width: Dp = 220.dp,
 ) {
-    val animated by animateFloatAsState(progress.coerceIn(0f, 1f), label = "onboardingProgress")
+    val animated by animateFloatAsState(
+        targetValue = progress.coerceIn(0f, 1f),
+        animationSpec = motionSpring(0.8f, 0.25f),
+        label = "onboardingProgress",
+    )
     Box(
         modifier
             .width(width)
@@ -146,19 +163,44 @@ fun OptionRow(
     role: Role = if (trailing == OptionTrailing.Radio) Role.RadioButton else Role.Checkbox,
 ) {
     val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
     val shape = RoundedCornerShape(20.dp)
     // Figma includes the stroke in the row size: 62dp by default, 64dp when selected.
-    val border = if (selected) 2.dp else 1.dp
+    val selection = motionSpring<Dp>(0.35f, 0.3f)
+    val border by animateDpAsState(if (selected) 2.dp else 1.dp, selection, label = "optionBorder")
+    val borderColor by animateColorAsState(
+        if (selected) colors.brandSky else colors.borderSubtle,
+        MotionSpecs.smooth(0.3f),
+        label = "optionBorderColor",
+    )
+    val interactionSource = remember { MutableInteractionSource() }
+    val click = {
+        haptics.selection()
+        onClick()
+    }
     Row(
         modifier = modifier
+            .pressScale(interactionSource, pressedScale = 0.98f)
             .clip(shape)
             .background(colors.bgSurface)
-            .border(border, if (selected) colors.brandSky else colors.borderSubtle, shape)
+            .border(border, borderColor, shape)
             .then(
                 if (role == Role.Checkbox) {
-                    Modifier.toggleable(value = selected, role = role, onValueChange = { onClick() })
+                    Modifier.toggleable(
+                        value = selected,
+                        interactionSource = interactionSource,
+                        indication = LocalIndication.current,
+                        role = role,
+                        onValueChange = { click() },
+                    )
                 } else {
-                    Modifier.selectable(selected = selected, role = role, onClick = onClick)
+                    Modifier.selectable(
+                        selected = selected,
+                        interactionSource = interactionSource,
+                        indication = LocalIndication.current,
+                        role = role,
+                        onClick = click,
+                    )
                 },
             )
             .padding(start = 14.dp + border, end = 16.dp + border, top = 12.dp + border, bottom = 12.dp + border),
@@ -166,14 +208,24 @@ fun OptionRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (icon != null) {
+            val tile by animateColorAsState(
+                if (selected) colors.auroraBlue else colors.bgSunken,
+                MotionSpecs.smooth(0.3f),
+                label = "optionTile",
+            )
+            val iconTint by animateColorAsState(
+                if (selected) colors.brandSky else colors.textPrimary,
+                MotionSpecs.smooth(0.3f),
+                label = "optionIcon",
+            )
             Box(
                 Modifier
                     .size(36.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(if (selected) colors.auroraBlue else colors.bgSunken),
+                    .background(tile),
                 contentAlignment = Alignment.Center,
             ) {
-                RecentrIconImage(icon, tint = if (selected) colors.brandSky else colors.textPrimary)
+                RecentrIconImage(icon, tint = iconTint)
             }
         }
         Text(
@@ -184,10 +236,20 @@ fun OptionRow(
         )
         // The row carries the click and semantics: the controls are drawn only (null callbacks).
         when (trailing) {
-            OptionTrailing.Check -> RecentrIconImage(
-                if (selected) RecentrIcon.Check else RecentrIcon.ChevronRight,
-                tint = if (selected) colors.brandSky else colors.textTertiary,
-            )
+            // The SF Symbol "replace" effect: the chevron shrinks away as the check pops in.
+            OptionTrailing.Check -> AnimatedContent(
+                targetState = selected,
+                transitionSpec = {
+                    (scaleIn(MotionSpecs.pop(), initialScale = 0.4f) + fadeIn(MotionSpecs.smooth(0.2f))) togetherWith
+                        (scaleOut(MotionSpecs.smooth(0.2f), targetScale = 0.4f) + fadeOut(MotionSpecs.smooth(0.15f)))
+                },
+                label = "optionTrailing",
+            ) { isSelected ->
+                RecentrIconImage(
+                    if (isSelected) RecentrIcon.Check else RecentrIcon.ChevronRight,
+                    tint = if (isSelected) colors.brandSky else colors.textTertiary,
+                )
+            }
             OptionTrailing.Checkbox -> RecentrCheckbox(checked = selected, onCheckedChange = null)
             OptionTrailing.Radio -> RecentrRadioButton(selected = selected, onClick = null)
             OptionTrailing.None -> Unit
@@ -211,6 +273,16 @@ fun RecentrTextField(
     val colors = RecentrTheme.colors
     val interactionSource = remember { MutableInteractionSource() }
     val focused by interactionSource.collectIsFocusedAsState()
+    val fieldBackground by animateColorAsState(
+        if (focused) colors.bgSurface else colors.bgSunken,
+        MotionSpecs.smooth(0.2f),
+        label = "fieldBackground",
+    )
+    val fieldBorder by animateColorAsState(
+        if (focused) colors.brandSky else colors.brandSky.copy(alpha = 0f),
+        MotionSpecs.smooth(0.2f),
+        label = "fieldBorder",
+    )
     val shape = RoundedCornerShape(18.dp)
     // Text set from outside (pre-filled answers, clear button) puts the caret at the end.
     var fieldValue by remember { mutableStateOf(TextFieldValue(value, TextRange(value.length))) }
@@ -236,8 +308,8 @@ fun RecentrTextField(
                     .fillMaxWidth()
                     .height(56.dp)
                     .clip(shape)
-                    .background(if (focused) colors.bgSurface else colors.bgSunken)
-                    .then(if (focused) Modifier.border(2.dp, colors.brandSky, shape) else Modifier)
+                    .background(fieldBackground)
+                    .border(2.dp, fieldBorder, shape)
                     .padding(start = 18.dp, end = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {

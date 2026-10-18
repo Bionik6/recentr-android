@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.feature.onboarding.component.HeaderProgress
 import com.recentr.feature.onboarding.screen.AllSetScreen
 import com.recentr.feature.onboarding.screen.DailyGoalScreen
@@ -223,13 +224,18 @@ private inline fun <reified T : OnboardingStep> NavGraphBuilder.step(
             step.progress?.let { HeaderProgress(value = it, from = viewModel.lastShownProgress ?: 0f) }
         }
         LaunchedEffect(Unit) { step.progress?.let { viewModel.lastShownProgress = it } }
-        val back = dropUnlessResumed { navController.popBackStack() }
+        // A light tap on every step change, forward or back (iOS: `.impact(weight: .light)`).
+        val haptics = LocalRecentrHaptics.current
+        val back = dropUnlessResumed {
+            if (navController.popBackStack()) haptics.lightImpact()
+        }
         val scope = OnboardingFlowScope(
             viewModel = viewModel,
             state = state,
             progress = progress ?: HeaderProgress(0f),
             back = back,
             navigate = { target, replace ->
+                haptics.lightImpact()
                 navController.navigate(target) {
                     launchSingleTop = true
                     if (replace) popUpTo(entry.destination.id) { inclusive = true }

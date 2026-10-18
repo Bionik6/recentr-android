@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.OptionTrailing
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.onboarding.PainPoint
 import com.recentr.feature.onboarding.R
@@ -47,14 +48,16 @@ internal fun PainPointsScreen(
                 .padding(horizontal = RecentrTheme.spacing.screenGutter),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            PainPoint.entries.forEach { point ->
+            PainPoint.entries.forEachIndexed { index, point ->
                 OptionRow(
                     label = stringResource(point.label),
                     selected = point in selected,
                     onClick = { onToggle(point) },
                     icon = point.icon,
                     trailing = OptionTrailing.Checkbox,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .entrance(200 + index * 60),
                 )
             }
         }

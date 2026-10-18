@@ -1,7 +1,7 @@
 package com.recentr.feature.onboarding.screen
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,12 +24,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.MiniTile
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.illustration.Sticker
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.onboarding.R
 import com.recentr.feature.onboarding.component.OnboardingPage
@@ -50,11 +52,14 @@ internal fun YearsScreen(
 ) {
     val colors = RecentrTheme.colors
     val counter = remember { Animatable(0f) }
-    LaunchedEffect(years) { counter.animateTo(years.toFloat(), tween(1200, delayMillis = 200, easing = FastOutSlowInEasing)) }
+    // The years tick up from 0 (`.easeOut(duration: 1.4).delay(0.3)`).
+    LaunchedEffect(years) { counter.animateTo(years.toFloat(), tween(1400, delayMillis = 300, easing = EaseOut)) }
     val shown = counter.value.roundToInt()
     val yearsText = pluralStringResource(R.plurals.onb_years_number, years, years)
     OnboardingPage(
-        bottomBar = { RecentrButton(stringResource(R.string.onb_continue), onContinue, Modifier.fillMaxWidth()) },
+        bottomBar = {
+            RecentrButton(stringResource(R.string.onb_continue), onContinue, Modifier.fillMaxWidth().entrance(600))
+        },
     ) {
         Spacer(Modifier.height(116.dp))
         Column(
@@ -62,17 +67,28 @@ internal fun YearsScreen(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(stringResource(R.string.onb_years_lead), style = RecentrTheme.typography.title2, color = colors.textSecondary)
+            Text(
+                stringResource(R.string.onb_years_lead),
+                style = RecentrTheme.typography.title2,
+                color = colors.textSecondary,
+                modifier = Modifier.entrance(50),
+            )
             Text(
                 text = pluralStringResource(R.plurals.onb_years_number, shown, shown),
-                style = RecentrTheme.typography.displayHero,
+                style = RecentrTheme.typography.displayHero.copy(fontFeatureSettings = "tnum"),
                 color = colors.brandSky,
                 maxLines = 1,
                 modifier = Modifier
                     .figmaLineBox(72.dp)
+                    .entrance(150)
                     .semantics { contentDescription = yearsText },
             )
-            Text(stringResource(R.string.onb_years_tail), style = RecentrTheme.typography.title2, color = colors.textPrimary)
+            Text(
+                stringResource(R.string.onb_years_tail),
+                style = RecentrTheme.typography.title2,
+                color = colors.textPrimary,
+                modifier = Modifier.entrance(250),
+            )
         }
         Spacer(Modifier.height(126.dp))
         Box(Modifier.size(width = 354.dp, height = 250.dp)) {
@@ -82,6 +98,7 @@ internal fun YearsScreen(
                 sticker = Sticker.Timer,
                 modifier = Modifier
                     .offset(x = 12.6.dp, y = 12.4.dp)
+                    .entrance(900, from = DpOffset((-140).dp, 0.dp), blur = false)
                     .rotate(-5f)
                     .width(171.dp),
             )
@@ -91,10 +108,17 @@ internal fun YearsScreen(
                 sticker = Sticker.Moon,
                 modifier = Modifier
                     .offset(x = 169.4.dp, y = 75.9.dp)
+                    .entrance(1100, from = DpOffset(140.dp, 0.dp), blur = false)
                     .rotate(4f)
                     .width(171.dp),
             )
-            Mascot(MascotMood.Dozing, width = 96.dp, modifier = Modifier.offset(x = 126.dp, y = 130.dp))
+            Mascot(
+                mood = MascotMood.Dozing,
+                width = 96.dp,
+                modifier = Modifier
+                    .offset(x = 126.dp, y = 130.dp)
+                    .entrance(1300, from = DpOffset(0.dp, 30.dp)),
+            )
         }
     }
 }

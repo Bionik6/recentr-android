@@ -52,6 +52,7 @@ import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrCheckbox
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
@@ -352,6 +353,7 @@ private val BreakIdeaList = listOf(
 @Composable
 private fun BreakIdeas(done: Set<Int>, onToggle: (Int) -> Unit) {
     val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
     val shape = RoundedCornerShape(24.dp)
     Column(
         Modifier
@@ -366,7 +368,10 @@ private fun BreakIdeas(done: Set<Int>, onToggle: (Int) -> Unit) {
         Text(stringResource(R.string.break_ideas_title), style = RecentrTheme.typography.headline, color = colors.textPrimary)
         BreakIdeaList.forEachIndexed { index, (sticker, title, hint) ->
             Row(
-                Modifier.fillMaxWidth().clickable(role = Role.Checkbox) { onToggle(index) },
+                Modifier.fillMaxWidth().clickable(role = Role.Checkbox) {
+                    haptics.selection()
+                    onToggle(index)
+                },
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {

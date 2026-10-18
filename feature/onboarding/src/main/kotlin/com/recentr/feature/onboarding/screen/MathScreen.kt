@@ -4,7 +4,9 @@ import android.graphics.BlurMaskFilter
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -22,8 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +37,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -43,15 +48,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.recentr.core.designsystem.haptics.SensoryFeedback
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
+import com.recentr.core.designsystem.motion.MotionSpecs
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.onboarding.R
 import com.recentr.feature.onboarding.component.OnboardingHeading
 import com.recentr.feature.onboarding.component.OnboardingPage
+import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 private val MathSteps = listOf(
     R.string.onb_math_step_habits,
@@ -60,37 +70,43 @@ private val MathSteps = listOf(
 )
 
 /**
- * 13 · Onboarding — Doing the math (Figma 2024:1020). The ring fills to 100% while the three
- * checks tick, then the flow moves on by itself ([onFinished]).
+ * 13 · Onboarding — Doing the math (Figma 2024:1020). Every second the ring fills another third
+ * (`.easeInOut(duration: 0.9)`) and the next check pops in with a success tap; a second after the
+ * last one the flow moves on by itself ([onFinished]).
  */
 @Composable
 internal fun MathScreen(onFinished: () -> Unit) {
     val progress = remember { Animatable(0f) }
+    var completed by remember { mutableIntStateOf(0) }
     val currentOnFinished by rememberUpdatedState(onFinished)
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     LaunchedEffect(Unit) {
-        delay(250)
-        progress.animateTo(1f, tween(durationMillis = 2400, easing = LinearEasing))
-        delay(600)
+        for (checkpoint in 1..MathSteps.size) {
+            delay(1000)
+            completed = checkpoint
+            launch { progress.animateTo(checkpoint / MathSteps.size.toFloat(), tween(900, easing = EaseInOut)) }
+        }
+        delay(1000)
         // If the app went to the background meanwhile, move on once the user is back.
         lifecycle.currentStateFlow.first { it.isAtLeast(Lifecycle.State.RESUMED) }
         currentOnFinished()
     }
-    MathContent(progress = progress.value)
+    SensoryFeedback(trigger = completed) { success() }
+    MathContent(progress = progress.value, completed = completed)
 }
 
 @Composable
-private fun MathContent(progress: Float) {
+private fun MathContent(progress: Float, completed: Int) {
     OnboardingPage {
         Spacer(Modifier.height(136.dp))
-        ProgressRing(progress)
+        ProgressRing(progress, Modifier.entrance(100))
         Spacer(Modifier.height(40.dp))
-        OnboardingHeading(title = stringResource(R.string.onb_math_title), centered = true)
+        OnboardingHeading(title = stringResource(R.string.onb_math_title), centered = true, delayMillis = 250)
         Spacer(Modifier.height(37.dp))
         Box(Modifier.fillMaxWidth().padding(horizontal = 72.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 MathSteps.forEachIndexed { index, label ->
-                    MathStep(label, done = progress >= (index + 1) / MathSteps.size.toFloat() - 0.001f)
+                    MathStep(label, done = index < completed, modifier = Modifier.entrance(350 + index * 80))
                 }
             }
         }
@@ -99,11 +115,11 @@ private fun MathContent(progress: Float) {
 
 /** 200dp ring: 14dp sunken track + sky arc with the Glow/Sky shadow, percentage in the middle. */
 @Composable
-private fun ProgressRing(progress: Float) {
+private fun ProgressRing(progress: Float, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
     val glow = colors.brandSky.copy(alpha = 0.35f)
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(200.dp)
             .clipToBounds()
             .semantics { progressBarRangeInfo = ProgressBarRangeInfo(progress, 0f..1f) },
@@ -136,19 +152,21 @@ private fun ProgressRing(progress: Float) {
             }
         }
         Text(
-            text = stringResource(R.string.onb_math_percent, (progress * 100).toInt()),
-            style = RecentrTheme.typography.title1,
+            text = stringResource(R.string.onb_math_percent, (progress * 100).roundToInt()),
+            style = RecentrTheme.typography.title1.copy(fontFeatureSettings = "tnum"),
             color = colors.textPrimary,
         )
     }
 }
 
 @Composable
-private fun MathStep(@StringRes label: Int, done: Boolean) {
+private fun MathStep(@StringRes label: Int, done: Boolean, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
-    val circle by animateColorAsState(if (done) colors.feedbackSuccess else colors.bgSunken, label = "stepCircle")
-    val text by animateColorAsState(if (done) colors.textPrimary else colors.textTertiary, label = "stepText")
-    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+    val circle by animateColorAsState(if (done) colors.feedbackSuccess else colors.bgSunken, MotionSpecs.smooth(0.3f), label = "stepCircle")
+    val text by animateColorAsState(if (done) colors.textPrimary else colors.textTertiary, tween(300, easing = EaseOut), label = "stepText")
+    // The check pops in: `.spring(duration: 0.45, bounce: 0.55)` from 20%.
+    val check by animateFloatAsState(if (done) 1f else 0f, MotionSpecs.pop(), label = "stepCheck")
+    Row(modifier, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(
             Modifier
                 .size(24.dp)
@@ -156,7 +174,17 @@ private fun MathStep(@StringRes label: Int, done: Boolean) {
                 .background(circle),
             contentAlignment = Alignment.Center,
         ) {
-            if (done) RecentrIconImage(RecentrIcon.Check, tint = colors.textOnDark, size = 16.08.dp)
+            RecentrIconImage(
+                RecentrIcon.Check,
+                tint = colors.textOnDark,
+                size = 16.08.dp,
+                modifier = Modifier.graphicsLayer {
+                    val scale = 0.2f + 0.8f * check
+                    scaleX = scale
+                    scaleY = scale
+                    alpha = check.coerceIn(0f, 1f)
+                },
+            )
         }
         Text(stringResource(label), style = RecentrTheme.typography.bodyMedium, color = text)
     }
@@ -165,5 +193,5 @@ private fun MathStep(@StringRes label: Int, done: Boolean) {
 @Preview(widthDp = 402, heightDp = 874)
 @Composable
 private fun MathScreenPreview() {
-    RecentrTheme { MathContent(progress = 1f) }
+    RecentrTheme { MathContent(progress = 1f, completed = 3) }
 }

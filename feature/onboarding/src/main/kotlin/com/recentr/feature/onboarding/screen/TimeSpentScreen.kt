@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.OptionTrailing
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.onboarding.R
 import com.recentr.feature.onboarding.UsageBucket
@@ -49,13 +50,15 @@ internal fun TimeSpentScreen(
                 .selectableGroup(),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            UsageBucket.entries.forEach { bucket ->
+            UsageBucket.entries.forEachIndexed { index, bucket ->
                 OptionRow(
                     label = stringResource(bucket.label),
                     selected = bucket == selected,
                     onClick = { onSelect(bucket) },
                     trailing = OptionTrailing.Radio,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .entrance(200 + index * 60),
                 )
             }
         }

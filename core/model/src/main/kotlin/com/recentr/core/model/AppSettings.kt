@@ -31,6 +31,8 @@ data class AppSettings(
     val appIcon: AppIconStyle = AppIconStyle.Sky,
     val showMascotOnHome: Boolean = true,
     val reduceMotion: Boolean = false,
+    /** Haptic feedback on choices, toggles and celebrations (Settings › Appearance). */
+    val haptics: Boolean = true,
     /** Null = follow the system language. */
     val language: AppLanguage? = null,
     // Notifications

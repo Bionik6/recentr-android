@@ -13,7 +13,7 @@ import com.recentr.feature.onboarding.R
 /**
  * Full-width "Continue" CTA. Until the step is answered it is drawn as the Figma *Soft* button
  * (name screen, empty state) and ignores taps; the design-system `enabled = false` state would
- * fade it to 40% instead, which the design never shows.
+ * fade it to 40% instead, which the design never shows. [RecentrButton] eases between the two.
  */
 @Composable
 internal fun ContinueButton(

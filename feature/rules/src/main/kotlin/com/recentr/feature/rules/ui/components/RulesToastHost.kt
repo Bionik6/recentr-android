@@ -2,6 +2,7 @@ package com.recentr.feature.rules.ui.components
 
 import android.os.SystemClock
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -11,16 +12,19 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.recentr.core.designsystem.motion.MotionSpecs
+import com.recentr.core.designsystem.motion.motionSpring
 import com.recentr.feature.rules.model.RulesMessages
 import kotlinx.coroutines.delay
 
@@ -55,8 +59,13 @@ internal fun RulesToastHost(modifier: Modifier = Modifier) {
     AnimatedVisibility(
         visible = visible,
         modifier = modifier,
-        enter = fadeIn() + slideInVertically { it / 2 } + scaleIn(initialScale = 0.9f),
-        exit = fadeOut() + slideOutVertically { it / 2 } + scaleOut(targetScale = 0.9f),
+        // In with `.spring(duration: 0.4, bounce: 0.3)`, out with `.smooth`.
+        enter = fadeIn(MotionSpecs.smooth(0.3f)) +
+            slideInVertically(motionSpring(0.4f, 0.3f, IntOffset.VisibilityThreshold)) { it / 2 } +
+            scaleIn(motionSpring(0.4f, 0.3f), initialScale = 0.9f),
+        exit = fadeOut(MotionSpecs.smooth(0.3f)) +
+            slideOutVertically(MotionSpecs.smooth(0.4f, IntOffset.VisibilityThreshold)) { it / 2 } +
+            scaleOut(MotionSpecs.smooth(0.4f), targetScale = 0.9f),
     ) {
         RulesToastPill(text, Modifier.semantics { liveRegion = LiveRegionMode.Polite })
     }

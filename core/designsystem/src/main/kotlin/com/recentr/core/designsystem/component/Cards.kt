@@ -43,6 +43,7 @@ import com.recentr.core.designsystem.illustration.AppIcon
 import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.rememberBarsGrowth
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -200,6 +201,7 @@ fun HourlyUsageChart(
     barColor: Color = RecentrTheme.colors.brandSky,
 ) {
     val colors = RecentrTheme.colors
+    val growth = rememberBarsGrowth(minutesPerHour.size, staggerMillis = 20)
     BoxWithConstraints(modifier.fillMaxWidth().height(112.dp)) {
         val barWidth = 7.dp
         val count = minutesPerHour.size.coerceAtLeast(1)
@@ -213,7 +215,8 @@ fun HourlyUsageChart(
                     val stepPx = step.toPx()
                     val radius = CornerRadius(3.5.dp.toPx())
                     minutesPerHour.forEachIndexed { index, minutes ->
-                        val h = if (minutes <= 0) 4.dp.toPx() else (72.dp.toPx() * (minutes.coerceAtMost(60) / 60f)).coerceAtLeast(4.dp.toPx())
+                        val full = if (minutes <= 0) 4.dp.toPx() else (72.dp.toPx() * (minutes.coerceAtMost(60) / 60f)).coerceAtLeast(4.dp.toPx())
+                        val h = full * growth(index)
                         drawRoundRect(
                             color = if (minutes <= 0) colors.bgSunken else barColor,
                             topLeft = Offset(index * stepPx, size.height - h),

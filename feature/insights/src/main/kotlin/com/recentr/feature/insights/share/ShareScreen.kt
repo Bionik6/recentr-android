@@ -55,6 +55,7 @@ import com.recentr.core.designsystem.illustration.LogoMark
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.Figtree
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -124,6 +125,8 @@ internal fun ShareScreen(subject: ShareSubject?, onClose: () -> Unit, modifier: 
             if (subject != null) {
                 Column(
                     Modifier
+                        // Rises in (iOS `.entrance(from: (0, 40))`); outside the layer recorded for sharing.
+                        .entrance(from = DpOffset(0.dp, 40.dp), blur = false)
                         .graphicsLayer { rotationZ = 3f }
                         .width(300.dp)
                         .recentrShadow(CardShadow, CardShape)

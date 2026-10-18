@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.SettingToggleRow
 import com.recentr.core.designsystem.component.SettingsGroup
 import com.recentr.core.designsystem.component.SettingsSectionLabel
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.BrandIconImage
 import com.recentr.core.designsystem.theme.RecentrElevation
@@ -50,7 +51,7 @@ private val PreviewLight = Color(0xFFF6F7FB)
 private val PreviewDark = Color(0xFF0B1020)
 private val PreviewDarkCard = Color(0xFF1A2136)
 
-/** 68 · Settings — Appearance: theme, app icon, mascot and motion toggles. */
+/** 68 · Settings — Appearance: theme, app icon, mascot, motion and haptics toggles. */
 @Composable
 internal fun AppearanceScreen(
     settings: AppSettings,
@@ -58,6 +59,7 @@ internal fun AppearanceScreen(
     onUpdate: ((AppSettings) -> AppSettings) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val haptics = LocalRecentrHaptics.current
     SettingsPage(title = stringResource(R.string.appearance_title), onBack = onBack, modifier = modifier) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             SettingsSectionLabel(stringResource(R.string.appearance_theme))
@@ -66,7 +68,10 @@ internal fun AppearanceScreen(
                     ThemeCard(
                         mode = mode,
                         selected = settings.theme == mode,
-                        onClick = { onUpdate { it.copy(theme = mode) } },
+                        onClick = {
+                            if (settings.theme != mode) haptics.selection()
+                            onUpdate { it.copy(theme = mode) }
+                        },
                         modifier = Modifier.weight(1f),
                     )
                 }
@@ -78,7 +83,10 @@ internal fun AppearanceScreen(
                     AppIconChoice(
                         icon = icon,
                         selected = settings.appIcon == icon,
-                        onClick = { onUpdate { it.copy(appIcon = icon) } },
+                        onClick = {
+                            if (settings.appIcon != icon) haptics.selection()
+                            onUpdate { it.copy(appIcon = icon) }
+                        },
                         modifier = Modifier.weight(1f),
                     )
                 }
@@ -97,6 +105,14 @@ internal fun AppearanceScreen(
                     checked = settings.reduceMotion,
                     onCheckedChange = { checked -> onUpdate { it.copy(reduceMotion = checked) } },
                     icon = RecentrIcon.Refresh,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                SettingToggleRow(
+                    label = stringResource(R.string.appearance_haptics),
+                    checked = settings.haptics,
+                    onCheckedChange = { checked -> onUpdate { it.copy(haptics = checked) } },
+                    icon = RecentrIcon.Zap,
+                    caption = stringResource(R.string.appearance_haptics_caption),
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

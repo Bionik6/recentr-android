@@ -1,7 +1,5 @@
 package com.recentr.feature.insights.ui
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,10 +28,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,6 +50,7 @@ import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.BackdropBox
+import com.recentr.core.designsystem.motion.rememberFill
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -246,7 +243,7 @@ internal fun CardTitle(text: String, modifier: Modifier = Modifier) {
     )
 }
 
-/** Rounded progress track: [color] fill over [trackColor], growing in on first show. */
+/** Rounded progress track: [color] fill over [trackColor], springing in on first show (iOS `ProgressBar`). */
 @Composable
 internal fun ProgressTrack(
     fraction: Float,
@@ -255,13 +252,11 @@ internal fun ProgressTrack(
     color: Color = RecentrTheme.colors.brandSky,
     trackColor: Color = RecentrTheme.colors.bgSunken,
 ) {
-    var shown by remember { mutableStateOf(false) }
-    val animated by animateFloatAsState(if (shown) fraction.coerceIn(0f, 1f) else 0f, tween(600), label = "track")
-    LaunchedEffect(Unit) { shown = true }
+    val animated by rememberFill(fraction.coerceIn(0f, 1f))
     val shape = RoundedCornerShape(height / 2)
     Box(modifier.fillMaxWidth().height(height).clip(shape).background(trackColor)) {
         if (animated > 0f) {
-            Box(Modifier.fillMaxWidth(animated).height(height).clip(shape).background(color))
+            Box(Modifier.fillMaxWidth(animated.coerceAtMost(1f)).height(height).clip(shape).background(color))
         }
     }
 }

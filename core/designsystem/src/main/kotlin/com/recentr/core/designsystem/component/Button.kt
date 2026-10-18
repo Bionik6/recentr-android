@@ -1,7 +1,10 @@
 package com.recentr.core.designsystem.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -24,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
+import com.recentr.core.designsystem.motion.MotionSpecs
+import com.recentr.core.designsystem.motion.pressScale
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrGradients
 import com.recentr.core.designsystem.theme.RecentrShapes
@@ -88,15 +95,32 @@ fun RecentrButton(
         RecentrButtonStyle.Secondary -> Modifier.recentrShadow(RecentrElevation.control, RecentrShapes.full)
         else -> Modifier
     }
+    val animatedSolid by animateColorAsState(
+        targetValue = (background as? SolidColor)?.value ?: Color.Transparent,
+        animationSpec = MotionSpecs.smooth(0.3f),
+        label = "buttonBackground",
+    )
+    val animatedContent by animateColorAsState(contentColor, MotionSpecs.smooth(0.3f), label = "buttonContent")
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
+            .pressScale(interactionSource, pressedScale = 0.97f)
             .alpha(if (enabled) 1f else if (style == RecentrButtonStyle.Danger) 0.5f else 0.4f)
             .then(if (enabled) shadowModifier else Modifier)
             .height(RecentrTheme.sizes.button)
             .defaultMinSize(minWidth = 120.dp)
             .clip(RecentrShapes.full)
-            .background(background)
-            .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
+            .then(
+                // Solid styles ease into each other (Soft → Primary once a step is answered).
+                if (background is SolidColor) Modifier.background(animatedSolid) else Modifier.background(background),
+            )
+            .clickable(
+                interactionSource = interactionSource,
+                indication = LocalIndication.current,
+                enabled = enabled,
+                role = Role.Button,
+                onClick = onClick,
+            )
             .padding(horizontal = 24.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -105,12 +129,12 @@ fun RecentrButton(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (icon != null) {
-                RecentrIconImage(icon, tint = contentColor, modifier = Modifier.size(24.dp))
+                RecentrIconImage(icon, tint = animatedContent, modifier = Modifier.size(24.dp))
             }
             Text(
                 text = text,
                 style = RecentrTheme.typography.headline,
-                color = contentColor,
+                color = animatedContent,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

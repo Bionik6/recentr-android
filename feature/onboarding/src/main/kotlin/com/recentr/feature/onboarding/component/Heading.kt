@@ -15,11 +15,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.motion.entrance
 import com.recentr.core.designsystem.theme.RecentrTheme
 
 /**
  * Figma "Heading" frame of the onboarding screens: optional sky overline (Body/Medium), Title/1
- * and optional Body/Regular subtitle, inside the 24dp gutters.
+ * and optional Body/Regular subtitle, inside the 24dp gutters. They stagger in one after the
+ * other from [delayMillis], 80ms apart (iOS `StepHeading`).
  */
 @Composable
 internal fun OnboardingHeading(
@@ -29,6 +31,7 @@ internal fun OnboardingHeading(
     subtitle: String? = null,
     centered: Boolean = false,
     spacing: Dp = 8.dp,
+    delayMillis: Int = 50,
 ) {
     val colors = RecentrTheme.colors
     val align = if (centered) TextAlign.Center else TextAlign.Start
@@ -40,7 +43,13 @@ internal fun OnboardingHeading(
         horizontalAlignment = if (centered) Alignment.CenterHorizontally else Alignment.Start,
     ) {
         if (overline != null) {
-            Text(overline, style = RecentrTheme.typography.bodyMedium, color = colors.brandSky, textAlign = align)
+            Text(
+                overline,
+                style = RecentrTheme.typography.bodyMedium,
+                color = colors.brandSky,
+                textAlign = align,
+                modifier = Modifier.entrance(delayMillis),
+            )
         }
         Text(
             text = title,
@@ -49,6 +58,7 @@ internal fun OnboardingHeading(
             textAlign = align,
             modifier = Modifier
                 .fillMaxWidth()
+                .entrance(delayMillis + 80)
                 .semantics { heading() },
         )
         if (subtitle != null) {
@@ -57,7 +67,9 @@ internal fun OnboardingHeading(
                 style = RecentrTheme.typography.bodyRegular,
                 color = colors.textSecondary,
                 textAlign = align,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .entrance(delayMillis + 160),
             )
         }
     }

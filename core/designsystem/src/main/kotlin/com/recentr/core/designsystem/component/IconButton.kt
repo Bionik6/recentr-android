@@ -1,11 +1,14 @@
 package com.recentr.core.designsystem.component
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -15,6 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
+import com.recentr.core.designsystem.motion.pressScale
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -57,11 +61,19 @@ fun RecentrIconButton(
             .background(colors.alphaWhite24)
             .border(1.dp, colors.alphaWhite24, RecentrShapes.full)
     }
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
+            .pressScale(interactionSource, pressedScale = 0.92f)
             .size(size)
             .then(styled)
-            .clickable(enabled = enabled, role = Role.Button, onClick = onClick),
+            .clickable(
+                interactionSource = interactionSource,
+                indication = LocalIndication.current,
+                enabled = enabled,
+                role = Role.Button,
+                onClick = onClick,
+            ),
         contentAlignment = Alignment.Center,
     ) {
         RecentrIconImage(icon, contentDescription = contentDescription, tint = tint, size = iconSize)

@@ -38,6 +38,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
             appIcon = enumOr(this[Keys.appIcon], defaults.appIcon),
             showMascotOnHome = this[Keys.showMascot] ?: defaults.showMascotOnHome,
             reduceMotion = this[Keys.reduceMotion] ?: defaults.reduceMotion,
+            haptics = this[Keys.haptics] ?: defaults.haptics,
             language = AppLanguage.fromTag(this[Keys.language]),
             notifyBeforeRoutine = this[Keys.notifyRoutine] ?: defaults.notifyBeforeRoutine,
             notifyLimitAlmostReached = this[Keys.notifyLimit] ?: defaults.notifyLimitAlmostReached,
@@ -59,6 +60,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         this[Keys.appIcon] = s.appIcon.name
         this[Keys.showMascot] = s.showMascotOnHome
         this[Keys.reduceMotion] = s.reduceMotion
+        this[Keys.haptics] = s.haptics
         s.language?.let { this[Keys.language] = it.tag } ?: remove(Keys.language)
         this[Keys.notifyRoutine] = s.notifyBeforeRoutine
         this[Keys.notifyLimit] = s.notifyLimitAlmostReached
@@ -82,6 +84,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         val appIcon = stringPreferencesKey("app_icon")
         val showMascot = booleanPreferencesKey("show_mascot_on_home")
         val reduceMotion = booleanPreferencesKey("reduce_motion")
+        val haptics = booleanPreferencesKey("haptics")
         val language = stringPreferencesKey("language")
         val notifyRoutine = booleanPreferencesKey("notify_before_routine")
         val notifyLimit = booleanPreferencesKey("notify_limit")
