@@ -9,18 +9,22 @@ import com.recentr.core.data.RulesRepository
 import com.recentr.core.data.ScreenTimeRepository
 import com.recentr.core.data.ScreenTimeState
 import com.recentr.core.data.UserPreferencesRepository
+import com.recentr.core.data.heldUntil
 import com.recentr.core.model.Rule
+import com.recentr.core.model.RuleType
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsagePeriod
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -29,7 +33,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Home & Insight state holder: screen-time summary for the selected period (with the Syncing
- * state of the repository), the daily goal from the user preferences and the next rule.
+ * state of the repository), the daily goal from the user preferences, and the next rule or the
+ * session or routine blocking apps now.
  */
 class HomeViewModel(
     private val screenTime: ScreenTimeRepository,
@@ -37,6 +42,7 @@ class HomeViewModel(
     rules: RulesRepository,
     private val now: () -> LocalDateTime = LocalDateTime::now,
     showMascot: Flow<Boolean> = flowOf(true),
+    clockTicks: Flow<Unit> = minuteTicks(),
 ) : ViewModel() {
 
     private data class LocalState(
@@ -57,7 +63,8 @@ class HomeViewModel(
         userPreferences.profile.map { it.dailyGoalMinutes },
         rules.rules,
         showMascot,
-    ) { local, goal, ruleList, mascot ->
+        clockTicks,
+    ) { local, goal, ruleList, mascot, _ ->
         val clock = now()
         HomeUiState(
             period = local.period,
@@ -120,6 +127,17 @@ class HomeViewModel(
     }
 
     companion object {
+        /**
+         * Ticks now and on every minute boundary, so a routine's window that opens or closes
+         * while Home is on screen shows up (windows start and end on the minute).
+         */
+        private fun minuteTicks(): Flow<Unit> = flow {
+            while (true) {
+                emit(Unit)
+                delay(60_000 - System.currentTimeMillis() % 60_000)
+            }
+        }
+
         val Factory = viewModelFactory {
             initializer {
                 HomeViewModel(
@@ -131,13 +149,29 @@ class HomeViewModel(
             }
         }
 
-        /** The running session that ends first, if any. */
-        internal fun activeSession(rules: List<Rule>, now: LocalDateTime): ActiveSessionUi? {
-            val nowMillis = now.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        /**
+         * What blocks apps right now and ends first, if anything: a running session, or a
+         * scheduled session or routine inside its window.
+         */
+        internal fun activeSession(
+            rules: List<Rule>,
+            now: LocalDateTime,
+            zone: ZoneId = ZoneId.systemDefault(),
+        ): ActiveSessionUi? {
+            val nowMillis = now.atZone(zone).toInstant().toEpochMilli()
             return rules
-                .filter { it.isRunning(nowMillis) }
-                .mapNotNull { rule -> rule.sessionEndsAt?.let { end -> ActiveSessionUi(rule.id, rule.name, rule.type, end) } }
+                .mapNotNull { rule -> rule.blockingUntil(nowMillis, zone)?.let { end -> ActiveSessionUi(rule.id, rule.name, rule.type, end) } }
                 .minByOrNull { it.endsAt }
+        }
+
+        /**
+         * When the rule's countdown ends, as on the Rules list: the running session, or the
+         * scheduled window a session or routine is in. Null for locks, limits and habits.
+         */
+        private fun Rule.blockingUntil(now: Long, zone: ZoneId): Long? = when {
+            isRunning(now) -> sessionEndsAt
+            (type == RuleType.Session || type == RuleType.Bedtime) && isEnforcing(now, zone) -> heldUntil(now, zone)
+            else -> null
         }
 
         /** Earliest upcoming start among the enabled, scheduled, not paused rules. */
