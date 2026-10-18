@@ -58,7 +58,7 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Icon Button (Surface / Sunken / On Sky) | `RecentrIconButton(icon, contentDescription, onClick, style)` |
 | Chip (Neutral / Selected / Success / On Sky / Outline) | `RecentrChip(label, style, icon, onClick)` |
 | Status Bar / Home Indicator | Android system bars (edge-to-edge) + `SystemBarsAppearance(lightIcons)` |
-| Tab Bar | `RecentrTabBar(selected, onSelect)` — `RecentrTab.Home / Rules / Squads / Profile` |
+| Tab Bar | `RecentrTabBar(selected, onSelect)` — `RecentrTab.Home / Rules / Timer / Profile` (the kit has no filled hourglass: the Timer keeps its line icon) |
 | Rule Card | `RuleCard(title, sticker, streak, apps, value, onClick) { chips }` |
 | Today Card | `TodayCard(stats, onClick) { HourlyUsageChart(minutesPerHour) }` |
 | Add Card | `AddCard(title, hint, onClick)` |

@@ -3,6 +3,7 @@ package com.recentr.feature.focus
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -20,7 +21,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.FocusPhase
 import com.recentr.feature.focus.complete.FocusCompleteScreen
@@ -36,35 +36,43 @@ import com.recentr.feature.focus.ui.demoApp
 import com.recentr.feature.focus.ui.formatClock
 import kotlinx.serialization.Serializable
 
-@Serializable internal data object FocusSetupRoute
-
 @Serializable internal data object FocusSessionRoute
 
 @Serializable internal data object FocusCompleteRoute
 
 @Serializable internal data object FocusHistoryRoute
 
-/** Opens the focus timer: the running session if there is one, the set-up otherwise. */
-fun NavHostController.navigateToFocus() {
-    val route: Any = if (RecentrData.focus.run.value != null) FocusSessionRoute else FocusSetupRoute
-    navigate(route) { launchSingleTop = true }
+/**
+ * Timer tab content (Figma "Focus timer" 91 · Set up): starting a session — or going back to the
+ * running one — pushes the session screens above the tab bar. [contentPadding] (bottom) is kept
+ * clear for the floating tab bar.
+ */
+@Composable
+fun FocusTab(
+    navController: NavHostController,
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel: FocusSetupViewModel = viewModel(factory = FocusSetupViewModel.Factory)
+    val config by viewModel.config.collectAsStateWithLifecycle()
+    val run by viewModel.run.collectAsStateWithLifecycle()
+    FocusSetupScreen(
+        config = config,
+        run = run,
+        contentPadding = contentPadding,
+        onUpdate = viewModel::update,
+        onStart = {
+            viewModel.start()
+            navController.navigate(FocusSessionRoute) { launchSingleTop = true }
+        },
+        onResume = { navController.navigate(FocusSessionRoute) { launchSingleTop = true } },
+        onOpenLog = { navController.navigate(FocusHistoryRoute) { launchSingleTop = true } },
+        modifier = modifier,
+    )
 }
 
-/** Focus timer destinations (Figma "Focus timer" 91–98), drawn above the tab bar. */
+/** Focus timer destinations (Figma "Focus timer" 92–98), drawn above the tab bar. */
 fun NavGraphBuilder.focusDestinations(navController: NavHostController) {
-    composable<FocusSetupRoute> {
-        val viewModel: FocusSetupViewModel = viewModel(factory = FocusSetupViewModel.Factory)
-        val config by viewModel.config.collectAsStateWithLifecycle()
-        FocusSetupScreen(
-            config = config,
-            onUpdate = viewModel::update,
-            onStart = {
-                viewModel.start()
-                navController.navigate(FocusSessionRoute) { launchSingleTop = true }
-            },
-            onOpenLog = { navController.navigate(FocusHistoryRoute) { launchSingleTop = true } },
-        )
-    }
     composable<FocusSessionRoute> { FocusSessionDestination(navController) }
     composable<FocusCompleteRoute> {
         val viewModel: FocusCompleteViewModel = viewModel(factory = FocusCompleteViewModel.Factory)

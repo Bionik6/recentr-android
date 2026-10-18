@@ -26,6 +26,9 @@ import kotlinx.coroutines.flow.stateIn
 internal class FocusSetupViewModel(private val repository: FocusRepository) : ViewModel() {
     val config: StateFlow<FocusConfig> = repository.config
 
+    /** The running session, if any (the Timer tab offers to go back to it). */
+    val run: StateFlow<FocusRun?> = repository.run
+
     fun update(transform: (FocusConfig) -> FocusConfig) = repository.updateConfig(transform)
 
     fun start() = repository.start(System.currentTimeMillis())

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.max
 import androidx.navigation.NavHostController
 import com.recentr.core.designsystem.component.RecentrTab
 import com.recentr.core.designsystem.component.RecentrTabBar
-import com.recentr.feature.focus.navigateToFocus
+import com.recentr.feature.focus.FocusTab
 import com.recentr.feature.home.HomeTab
 import com.recentr.feature.insights.navigateToAppInsights
 import com.recentr.feature.insights.navigateToInsights
@@ -65,9 +65,9 @@ fun MainScreen(
                     RecentrTab.Rules -> RulesTab(
                         navController = navController,
                         contentPadding = tabBarPadding,
-                        onOpenFocus = { navController.navigateToFocus() },
+                        onOpenFocus = { selected = RecentrTab.Timer },
                     )
-                    RecentrTab.Squads -> ComingSoonScreen(tab = tab, contentPadding = tabBarPadding)
+                    RecentrTab.Timer -> FocusTab(navController = navController, contentPadding = tabBarPadding)
                     RecentrTab.Profile -> ProfileTab(navController = navController, contentPadding = tabBarPadding)
                 }
             }

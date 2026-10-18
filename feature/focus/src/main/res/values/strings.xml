@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="focus_title">Focus</string>
+    <string name="focus_title">Timer</string>
     <string name="focus_more">More options</string>
     <string name="focus_close">Close</string>
     <string name="focus_back">Back</string>
@@ -15,6 +15,8 @@
     <string name="focus_rounds">Rounds</string>
     <string name="focus_rounds_value">%1$d × %2$d min</string>
     <string name="focus_start">Start focus</string>
+    <string name="focus_back_to_focus">Back to focus</string>
+    <string name="focus_back_to_focus_left">Back to focus · %1$s</string>
     <string name="focus_rename">Rename</string>
     <string name="focus_rename_title">Name this session</string>
     <string name="focus_rename_save">Save</string>

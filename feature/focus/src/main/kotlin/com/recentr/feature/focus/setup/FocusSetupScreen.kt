@@ -1,15 +1,16 @@
 package com.recentr.feature.focus.setup
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -18,10 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
@@ -45,6 +48,7 @@ import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.FocusConfig
+import com.recentr.core.model.FocusRun
 import com.recentr.feature.focus.R
 import com.recentr.feature.focus.ui.CardDivider
 import com.recentr.feature.focus.ui.FocusCard
@@ -54,17 +58,25 @@ import com.recentr.feature.focus.ui.RowLabel
 import com.recentr.feature.focus.ui.demoApp
 import com.recentr.feature.focus.ui.formatCountdown
 import com.recentr.feature.focus.ui.label
+import kotlinx.coroutines.delay
 
 private val Presets = listOf(25, 45, 60, 90)
 
 private enum class SetupSheet { Sounds, Block, Rounds, Rename }
 
-/** 91 · Focus — Set up: dial, presets, sound / block / rounds rows and "Start focus". */
+/**
+ * 91 · Focus — Set up, as the Timer tab: dial, presets, sound / block / rounds rows and "Start
+ * focus" right above the floating tab bar ([contentPadding] bottom). While a session runs ([run])
+ * the CTA goes back to it with the time left.
+ */
 @Composable
 internal fun FocusSetupScreen(
     config: FocusConfig,
+    run: FocusRun?,
+    contentPadding: PaddingValues,
     onUpdate: ((FocusConfig) -> FocusConfig) -> Unit,
     onStart: () -> Unit,
+    onResume: () -> Unit,
     onOpenLog: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -72,8 +84,9 @@ internal fun FocusSetupScreen(
     val colors = RecentrTheme.colors
     var sheet by rememberSaveable { mutableStateOf<SetupSheet?>(null) }
     var menu by rememberSaveable { mutableStateOf(false) }
+    val bottomInset = contentPadding.calculateBottomPadding()
     BackdropBox(Backdrop.Aurora, modifier) {
-        Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
+        Column(Modifier.fillMaxSize().statusBarsPadding()) {
             Column(
                 Modifier
                     .weight(1f)
@@ -168,15 +181,32 @@ internal fun FocusSetupScreen(
                         )
                     }
                 }
-                Spacer(Modifier.height(24.dp))
+                // Room for the CTA (8 + 54) and a breathing gap above it, like the Rules tab.
+                Spacer(Modifier.height(bottomInset + 8.dp + 54.dp + 28.dp))
             }
-            RecentrButton(
-                text = stringResource(R.string.focus_start),
-                onClick = onStart,
-                style = RecentrButtonStyle.Brand,
-                modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, bottom = 26.dp),
-            )
         }
+        Box(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(bottomInset + 96.dp)
+                .background(
+                    Brush.verticalGradient(
+                        0f to colors.bgPage.copy(alpha = 0f),
+                        0.45f to colors.bgPage.copy(alpha = 0.92f),
+                        1f to colors.bgPage,
+                    ),
+                ),
+        )
+        StartButton(
+            run = run,
+            onStart = onStart,
+            onResume = onResume,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(start = 24.dp, end = 24.dp, bottom = bottomInset + 8.dp)
+                .fillMaxWidth(),
+        )
     }
     when (sheet) {
         SetupSheet.Sounds -> SoundsSheet(
@@ -195,6 +225,29 @@ internal fun FocusSetupScreen(
         SetupSheet.Rename -> RenameSheet(label = config.label, onSave = { label -> onUpdate { it.copy(label = label) } }, onDismissRequest = { sheet = null })
         null -> Unit
     }
+}
+
+/** "Start focus", or "Back to focus · 24:18" (ticking) while a session runs. */
+@Composable
+private fun StartButton(run: FocusRun?, onStart: () -> Unit, onResume: () -> Unit, modifier: Modifier = Modifier) {
+    if (run == null) {
+        RecentrButton(text = stringResource(R.string.focus_start), onClick = onStart, style = RecentrButtonStyle.Brand, modifier = modifier)
+        return
+    }
+    val now by produceState(System.currentTimeMillis(), run) {
+        while (true) {
+            value = System.currentTimeMillis()
+            delay(1_000)
+        }
+    }
+    val left = run.remainingMillis(now)
+    RecentrButton(
+        text = if (left > 0) stringResource(R.string.focus_back_to_focus_left, formatCountdown(left)) else stringResource(R.string.focus_back_to_focus),
+        onClick = onResume,
+        style = RecentrButtonStyle.Brand,
+        icon = RecentrIcon.Hourglass,
+        modifier = modifier,
+    )
 }
 
 /** Row of the set-up card: 32dp sticker, label, trailing value and an 18dp chevron. */

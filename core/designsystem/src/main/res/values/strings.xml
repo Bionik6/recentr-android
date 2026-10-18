@@ -2,7 +2,7 @@
 <resources>
     <string name="ds_tab_home">Home</string>
     <string name="ds_tab_rules">Rules</string>
-    <string name="ds_tab_squads">Squads</string>
+    <string name="ds_tab_timer">Timer</string>
     <string name="ds_tab_profile">Profile</string>
     <string name="ds_skip">Skip</string>
     <string name="ds_back">Back</string>
