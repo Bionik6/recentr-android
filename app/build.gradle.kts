@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":feature:rules"))
     implementation(project(":feature:profile"))
     implementation(project(":feature:focus"))
+    implementation(project(":feature:insights"))
 
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.navigation.compose)

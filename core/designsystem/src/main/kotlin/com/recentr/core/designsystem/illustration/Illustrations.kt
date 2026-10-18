@@ -45,8 +45,16 @@ enum class Sticker(@param:DrawableRes val drawable: Int, val exportHeightRatio: 
     Target(R.drawable.sticker_target, 1f),
     /** Break idea — stretch. */
     Heart(R.drawable.sticker_heart, 1f),
-    /** Celebration — session complete. */
+    /** Celebration — session complete, badges. */
     Star(R.drawable.sticker_star, 1f),
+    /** Badges — streak milestones ("Two calm weeks"). */
+    Medal(R.drawable.sticker_medal, 1f),
+    /** Badges — the big milestones. */
+    Trophy(R.drawable.sticker_trophy, 1f),
+    /** Streak saver. */
+    Shield(R.drawable.sticker_shield, 1f),
+    /** Monthly report, screen-free days. */
+    Calendar(R.drawable.sticker_calendar, 1f),
 }
 
 /** Draws a [Sticker] in a square slot of [size] (the Figma instance size). */
@@ -142,6 +150,24 @@ fun BackdropBox(
         )
         content()
     }
+}
+
+/**
+ * Figma "Logo/Mark" — the hourglass mascot standing on its OFF toggle (34.5×41.4 artboard at the
+ * share-card size). The toggle's shadow overflows at the bottom like the mascot's.
+ */
+@Composable
+fun LogoMark(
+    width: Dp,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    OverflowingImage(
+        drawable = R.drawable.logo_mark,
+        exportHeightRatio = 43.4256f / 34.4648f,
+        contentDescription = contentDescription,
+        modifier = modifier.size(width = width, height = width * (41.358f / 34.4648f)),
+    )
 }
 
 /**

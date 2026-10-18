@@ -1,4 +1,4 @@
-package com.recentr.feature.home.ui.sheets
+package com.recentr.core.designsystem.component
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -19,10 +19,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -36,15 +39,12 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.recentr.core.designsystem.component.RecentrButton
-import com.recentr.core.designsystem.component.RecentrChip
-import com.recentr.core.designsystem.component.RecentrChipStyle
+import com.recentr.core.designsystem.R
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.feature.home.R
-import com.recentr.feature.home.ui.formatDuration
+import kotlinx.coroutines.launch
 
 /** Preset goals of the Figma 28 sheet: 2h · 3h · 3h45 · 4h20 · 5h. */
 private val GoalPresets = listOf(120, 180, 225, 260, 300)
@@ -61,23 +61,30 @@ internal fun stepGoal(minutes: Int, increase: Boolean): Int {
 internal fun nudgeGoal(minutes: Int, increase: Boolean): Int =
     (minutes + if (increase) 5 else -5).coerceIn(MinGoal, MaxGoal)
 
-/** Figma 28 · "Daily goal" — −/+ stepper (±15 min, long-press ±5 min), presets, "Save goal". */
+/**
+ * Figma 28 · "Daily goal" (Home and Insights) — −/+ stepper (±15 min, long-press ±5 min),
+ * presets, "Save goal", which slides the sheet down. [formatMinutes] writes the goal ("3h45").
+ */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GoalSheet(
+fun DailyGoalSheet(
     currentGoalMinutes: Int,
     onSave: (Int) -> Unit,
     onDismissRequest: () -> Unit,
+    formatMinutes: @Composable (Int) -> String,
 ) {
-    HomeBottomSheet(onDismissRequest) { hide ->
-        GoalSheetContent(currentGoalMinutes) { minutes ->
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
+    RecentrBottomSheet(onDismissRequest = onDismissRequest, sheetState = sheetState) {
+        GoalSheetContent(currentGoalMinutes, formatMinutes) { minutes ->
             onSave(minutes)
-            hide()
+            scope.launch { sheetState.hide() }.invokeOnCompletion { onDismissRequest() }
         }
     }
 }
 
 @Composable
-private fun GoalSheetContent(currentGoalMinutes: Int, onSave: (Int) -> Unit) {
+private fun GoalSheetContent(currentGoalMinutes: Int, formatMinutes: @Composable (Int) -> String, onSave: (Int) -> Unit) {
     val colors = RecentrTheme.colors
     var goal by rememberSaveable { mutableIntStateOf(currentGoalMinutes) }
     val haptics = LocalHapticFeedback.current
@@ -91,8 +98,8 @@ private fun GoalSheetContent(currentGoalMinutes: Int, onSave: (Int) -> Unit) {
     ) {
         Spacer(Modifier.height(16.dp))
         Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(stringResource(R.string.home_goal_title), style = RecentrTheme.typography.title1, color = colors.textPrimary)
-            Text(stringResource(R.string.home_goal_subtitle), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary)
+            Text(stringResource(R.string.ds_goal_title), style = RecentrTheme.typography.title1, color = colors.textPrimary)
+            Text(stringResource(R.string.ds_goal_subtitle), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary)
         }
         Spacer(Modifier.height(22.dp))
         Row(
@@ -102,7 +109,7 @@ private fun GoalSheetContent(currentGoalMinutes: Int, onSave: (Int) -> Unit) {
         ) {
             StepperButton(
                 icon = RecentrIcon.Minus,
-                contentDescription = stringResource(R.string.home_goal_decrease),
+                contentDescription = stringResource(R.string.ds_goal_decrease),
                 onClick = { change(stepGoal(goal, increase = false)) },
                 onLongClick = { change(nudgeGoal(goal, increase = false)) },
             )
@@ -116,7 +123,7 @@ private fun GoalSheetContent(currentGoalMinutes: Int, onSave: (Int) -> Unit) {
                 label = "goalValue",
             ) { minutes ->
                 Text(
-                    text = formatDuration(minutes),
+                    text = formatMinutes(minutes),
                     style = RecentrTheme.typography.displayHero,
                     color = colors.textPrimary,
                     maxLines = 1,
@@ -124,7 +131,7 @@ private fun GoalSheetContent(currentGoalMinutes: Int, onSave: (Int) -> Unit) {
             }
             StepperButton(
                 icon = RecentrIcon.Plus,
-                contentDescription = stringResource(R.string.home_goal_increase),
+                contentDescription = stringResource(R.string.ds_goal_increase),
                 onClick = { change(stepGoal(goal, increase = true)) },
                 onLongClick = { change(nudgeGoal(goal, increase = true)) },
             )
@@ -133,7 +140,7 @@ private fun GoalSheetContent(currentGoalMinutes: Int, onSave: (Int) -> Unit) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             GoalPresets.forEach { preset ->
                 RecentrChip(
-                    label = formatDuration(preset),
+                    label = formatMinutes(preset),
                     style = if (preset == goal) RecentrChipStyle.Selected else RecentrChipStyle.Outline,
                     onClick = { change(preset) },
                     modifier = Modifier.height(32.dp),
@@ -142,7 +149,7 @@ private fun GoalSheetContent(currentGoalMinutes: Int, onSave: (Int) -> Unit) {
         }
         Spacer(Modifier.height(24.dp))
         RecentrButton(
-            text = stringResource(R.string.home_goal_save),
+            text = stringResource(R.string.ds_goal_save),
             onClick = { onSave(goal) },
             modifier = Modifier.fillMaxWidth(),
         )
@@ -176,6 +183,6 @@ private fun StepperButton(
 @Composable
 private fun GoalSheetPreview() {
     RecentrTheme {
-        Column(Modifier.fillMaxWidth()) { GoalSheetContent(225, onSave = {}) }
+        Column(Modifier.fillMaxWidth()) { GoalSheetContent(225, { "${it / 60}h${"%02d".format(it % 60)}" }, onSave = {}) }
     }
 }

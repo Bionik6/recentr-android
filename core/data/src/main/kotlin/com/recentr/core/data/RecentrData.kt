@@ -1,6 +1,7 @@
 package com.recentr.core.data
 
 import android.content.Context
+import kotlinx.coroutines.flow.map
 
 /**
  * Minimal service locator for the shared repositories. Initialised once from
@@ -19,12 +20,17 @@ object RecentrData {
         UsageAccessScreenTimeRepository(
             hasUsageAccess = { UsageAccess.isGranted(appContext) },
             device = UsageStatsScreenTimeRepository(appContext, userPreferences.profile),
-            demo = DemoScreenTimeRepository(),
+            demo = DemoScreenTimeRepository(goalMinutes = userPreferences.profile.map { it.dailyGoalMinutes }),
         )
     }
 
     /** Device screen time when usage access is granted, the Figma demo numbers otherwise. */
     val screenTime: ScreenTimeRepository by screenTimeDelegate
+
+    /** Badges, calm points and streak savers of the Achievements flow. */
+    val achievements: AchievementsRepository by lazy {
+        AchievementsRepository(appContext, screenTime, userPreferences.profile, focus, rules) { installedAtMillis }
+    }
 
     /** When the app was first installed: fallback for "Recentr-ing for N days". */
     val installedAtMillis: Long by lazy {
@@ -45,11 +51,12 @@ object RecentrData {
         if (screenTimeDelegate.isInitialized()) screenTimeDelegate.value.recheckUsageAccess()
     }
 
-    /** "Delete account": erases the profile, preferences, rules and focus log on this device. */
+    /** "Delete account": erases the profile, preferences, rules, focus log and badges on this device. */
     suspend fun eraseAll() {
         userPreferences.reset()
         settings.reset()
         rules.reset()
         focus.reset()
+        achievements.reset()
     }
 }

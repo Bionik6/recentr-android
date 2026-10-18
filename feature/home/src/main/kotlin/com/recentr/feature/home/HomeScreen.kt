@@ -50,6 +50,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.data.DemoScreenTimeRepository
+import com.recentr.core.designsystem.component.DailyGoalSheet
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrChip
@@ -73,7 +74,6 @@ import com.recentr.feature.home.ui.components.SkeletonCard
 import com.recentr.feature.home.ui.components.WeekCard
 import com.recentr.feature.home.ui.formatDuration
 import com.recentr.feature.home.ui.labelRes
-import com.recentr.feature.home.ui.sheets.GoalSheet
 import com.recentr.feature.home.ui.sheets.OfflineInfoSheet
 import com.recentr.feature.home.ui.sheets.PeriodSheet
 import com.recentr.feature.home.ui.sheets.ScreenTimeInfoSheet
@@ -113,6 +113,9 @@ internal fun HomeScreen(
     onStartBlocking: () -> Unit,
     onOpenRules: () -> Unit,
     modifier: Modifier = Modifier,
+    onOpenInsights: () -> Unit = {},
+    onOpenStreak: () -> Unit = onOpenRules,
+    onOpenApp: (packageName: String) -> Unit = {},
     initialSheet: HomeSheet? = null,
     pagerState: PagerState = rememberPagerState { HeroPage.entries.size },
 ) {
@@ -188,6 +191,7 @@ internal fun HomeScreen(
                     UsageCard(
                         state = state,
                         focusHighlight = 1f - qualityDistance,
+                        onClick = onOpenInsights,
                     )
                     if (state.showMascot) {
                         Mascot(
@@ -215,6 +219,7 @@ internal fun HomeScreen(
                     activeSession = state.activeSession,
                     loading = showSkeleton,
                     onOpenRules = onOpenRules,
+                    onOpenStreak = onOpenStreak,
                     modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
                 )
             }
@@ -228,6 +233,7 @@ internal fun HomeScreen(
                     wellSpent = state.wellSpent,
                     onToggleWellSpent = onToggleWellSpent,
                     onSelectGrouping = onSelectGrouping,
+                    onOpenApp = onOpenApp,
                     modifier = Modifier
                         .padding(horizontal = RecentrTheme.spacing.screenGutter)
                         .graphicsLayer { alpha = listAlpha },
@@ -296,10 +302,11 @@ internal fun HomeScreen(
             onSelect = onSelectPeriod,
             onDismissRequest = { sheet = null },
         )
-        HomeSheet.Goal -> GoalSheet(
+        HomeSheet.Goal -> DailyGoalSheet(
             currentGoalMinutes = state.dailyGoalMinutes,
             onSave = onSaveGoal,
             onDismissRequest = { sheet = null },
+            formatMinutes = { formatDuration(it) },
         )
         null -> Unit
     }
@@ -362,9 +369,9 @@ private fun HomeHeader(
     }
 }
 
-/** Today card (single day), Week card (week / month) or the syncing skeleton. */
+/** Today card (single day), Week card (week / month) or the syncing skeleton; tapping opens Insights. */
 @Composable
-private fun UsageCard(state: HomeUiState, focusHighlight: Float) {
+private fun UsageCard(state: HomeUiState, focusHighlight: Float, onClick: () -> Unit) {
     val summary = state.summary
     val kind = when {
         state.showSkeleton || summary == null -> 0
@@ -378,8 +385,8 @@ private fun UsageCard(state: HomeUiState, focusHighlight: Float) {
     ) { target ->
         when {
             target == 0 || summary == null -> SkeletonCard(Modifier.fillMaxWidth())
-            target == 2 -> WeekCard(summary, todayIndex = state.todayIndex, modifier = Modifier.fillMaxWidth())
-            else -> HomeTodayCard(summary, focusHighlight, Modifier.fillMaxWidth())
+            target == 2 -> WeekCard(summary, todayIndex = state.todayIndex, modifier = Modifier.fillMaxWidth(), onClick = onClick)
+            else -> HomeTodayCard(summary, focusHighlight, Modifier.fillMaxWidth(), onClick = onClick)
         }
     }
 }

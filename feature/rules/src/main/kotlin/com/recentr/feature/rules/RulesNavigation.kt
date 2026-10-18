@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -16,11 +15,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import com.recentr.core.data.RecentrData
-import com.recentr.core.designsystem.component.RecentrAlertDialog
+import com.recentr.core.model.AppId
 import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.detail.RuleDetailDestination
 import com.recentr.feature.rules.editor.RuleEditorDestination
 import com.recentr.feature.rules.list.NewRuleSheet
+import com.recentr.feature.rules.list.RulesHelpSheet
 import com.recentr.feature.rules.list.RulesListActions
 import com.recentr.feature.rules.list.RulesScreen
 import com.recentr.feature.rules.list.RulesViewModel
@@ -29,10 +29,16 @@ import kotlinx.serialization.Serializable
 
 /**
  * Rule editor sheet (create / edit). A `dialog` destination hosting a bottom sheet, so it can be
- * opened from Home ("Start blocking") as well as from the Rules tab and the rule detail.
+ * opened from Home ("Start blocking") and Insights as well as from the Rules tab and the rule
+ * detail. [apps] preselects the apps of a new rule (comma-separated [AppId] names).
  */
 @Serializable
-internal data class RuleEditorRoute(val type: String, val ruleId: String? = null, val templateId: String? = null)
+internal data class RuleEditorRoute(
+    val type: String,
+    val ruleId: String? = null,
+    val templateId: String? = null,
+    val apps: String? = null,
+)
 
 /** Full-screen rule detail (drawn above the tab bar). */
 @Serializable
@@ -79,13 +85,7 @@ fun RulesTab(
         )
     }
     if (help) {
-        RecentrAlertDialog(
-            title = stringResource(R.string.rules_help_title),
-            body = stringResource(R.string.rules_help_body),
-            primaryText = stringResource(R.string.rules_help_ok),
-            onPrimary = { help = false },
-            onDismissRequest = { help = false },
-        )
+        RulesHelpSheet(onDismissRequest = { help = false })
     }
 }
 
@@ -105,8 +105,16 @@ fun NavGraphBuilder.rulesDestinations(navController: NavHostController) {
 /** Entry used by Home's "Start blocking" CTA: opens the new Session rule flow. */
 fun NavHostController.navigateToStartSession() = navigateToNewRule(RuleType.Session)
 
-private fun NavHostController.navigateToNewRule(type: RuleType) {
-    navigate(RuleEditorRoute(type = type.name)) { launchSingleTop = true }
+/** Opens the editor of a new [type] rule, with [apps] already chosen (Insights "Set a daily limit"). */
+fun NavHostController.navigateToNewRule(type: RuleType, apps: List<AppId> = emptyList()) {
+    val chosen = apps.takeIf { it.isNotEmpty() }?.joinToString(",") { it.name }
+    navigate(RuleEditorRoute(type = type.name, apps = chosen)) { launchSingleTop = true }
+}
+
+/** Opens the editor of an existing rule. */
+fun NavHostController.navigateToRuleEditor(ruleId: String) {
+    val type = RecentrData.rules.rule(ruleId)?.type ?: RuleType.Session
+    navigate(RuleEditorRoute(type = type.name, ruleId = ruleId)) { launchSingleTop = true }
 }
 
 private fun NavHostController.navigateToTemplate(templateId: String) {

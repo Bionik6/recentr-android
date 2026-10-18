@@ -37,11 +37,13 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 * **Icons** — `RecentrIcon` enum (36 icons, vector drawables converted from the Figma SVGs) drawn
   with `RecentrIconImage(icon, tint = …, size = 24.dp)`.
 * **Stickers** — `Sticker.Lock / Bolt / Timer / Moon / Leaf / Note / Flame / Headphones / Target /
-  Heart / Star`, `StickerImage(sticker, size)`.
+  Heart / Star / Medal / Trophy / Shield / Calendar`, `StickerImage(sticker, size)`.
   Bitmaps rendered at 4× with transparency; the soft contact shadow overflows the slot like in Figma.
 * **Mascot** — `Mascot(MascotMood.Calm | Impatient | Dozing, width)` (160×200 artboard).
 * **Backdrops** — `BackdropBox(Backdrop.Sky | Backdrop.Aurora) { content }`: full-screen, anchored
   top, page grey below.
+* **Logo mark** — `LogoMark(width)` (Figma "Logo/Mark", the hourglass on its OFF toggle; with the
+  `recentr` wordmark it makes the share card's "Logo/Lockup · On blue").
 * **Brand icon** — `BrandIconImage(BrandIcon.Sky | Night | Mint | Sunset, size)` (Figma "Logo/App
   Icon" colourways, transparent 4× bitmaps rendered from the Figma SVG).
 * **App icons** — `AppIcon(DemoApp.X, size = 32.dp)`; `DemoApp` ↔ `core.model.AppId` by name.
@@ -58,7 +60,7 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Status Bar / Home Indicator | Android system bars (edge-to-edge) + `SystemBarsAppearance(lightIcons)` |
 | Tab Bar | `RecentrTabBar(selected, onSelect)` — `RecentrTab.Home / Rules / Squads / Profile` |
 | Rule Card | `RuleCard(title, sticker, streak, apps, value, onClick) { chips }` |
-| Today Card | `TodayCard(stats) { HourlyUsageChart(minutesPerHour) }` |
+| Today Card | `TodayCard(stats, onClick) { HourlyUsageChart(minutesPerHour) }` |
 | Add Card | `AddCard(title, hint, onClick)` |
 | Mini Tile | `MiniTile(label, value, sticker)` |
 | Rule Tile | `RuleTile(label, sticker, onClick)` |
@@ -78,6 +80,7 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Template Card (Sky / Night / Mint / Sunset) | `TemplateCard(title, body, duration, sticker, color, onClick)` |
 | Sheets (grabber + 36dp corners + scrim) | `RecentrBottomSheet(onDismissRequest) { … }` · `RecentrSheet(onDismissRequest) { controller -> … }` (animated `controller.close { then }`) · `SheetGrabber()` |
 | Surface card | `SurfaceCard(cornerRadius, onClick) { … }` |
+| Daily goal sheet (Figma 28, Home and Insights) | `DailyGoalSheet(currentGoalMinutes, onSave, onDismissRequest, formatMinutes)` |
 
 A living catalogue of everything above: `DesignSystemCatalog()` (Profile tab → *Design system*).
 
@@ -112,4 +115,8 @@ Local components the feature flows had to add, to fold back into `:core:designsy
   move the rules sheets to `RecentrSheet` (same controller as their local `RulesSheet`), and the
   rules `SettingsGroup` / `SectionCaption` to the design-system ones.
 * **Focus rings** — the set-up dial and the session rings (`FocusDial`, `drawFocusRing` in
-  `:feature:focus`) could become a design-system progress ring.
+  `:feature:focus`) could become a design-system progress ring, with the Insights goal ring
+  (`GoalRing`).
+* **Insights pieces** — the centred header and 24dp cards shared with Focus (`InsightsTopBar` /
+  `FocusTopBar`, `InsightsCard` / `FocusCard`), the rounded `ProgressTrack`, a tangerine chip style
+  (`ChangeChip`) and the badge disc (`BadgeDisc`).

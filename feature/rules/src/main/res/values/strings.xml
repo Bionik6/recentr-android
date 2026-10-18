@@ -26,7 +26,13 @@
     <string name="rules_help">Help</string>
     <string name="rules_more">More options</string>
     <string name="rules_help_title">How rules work</string>
-    <string name="rules_help_body">Locks keep apps closed, Sessions block for a while, Limits set a daily budget, Routines run on a schedule and Habits unlock apps once you finish a small task.</string>
+    <string name="rules_help_routine">Routine</string>
+    <string name="rules_help_routine_body">Blocks apps on a schedule, like bedtime or work hours.</string>
+    <string name="rules_help_lock">Lock</string>
+    <string name="rules_help_lock_body">Keeps apps closed until you unlock them on purpose.</string>
+    <string name="rules_help_limit">Limit</string>
+    <string name="rules_help_limit_body">A daily time budget. When it’s spent, the apps lock.</string>
+    <string name="rules_help_focus">To block apps right now, start a session in Focus.</string>
     <string name="rules_help_ok">Got it</string>
     <string name="rules_empty_title">No rules yet</string>
     <string name="rules_empty_body">Start a session or pick a template to begin.</string>

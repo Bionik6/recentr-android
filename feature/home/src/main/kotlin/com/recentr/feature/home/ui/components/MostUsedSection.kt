@@ -18,6 +18,8 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.semantics.Role
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,6 +65,7 @@ internal fun MostUsedSection(
     onToggleWellSpent: (String) -> Unit,
     onSelectGrouping: (UsageGrouping) -> Unit,
     modifier: Modifier = Modifier,
+    onOpenApp: (packageName: String) -> Unit = {},
 ) {
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -90,6 +93,7 @@ internal fun MostUsedSection(
                                 showReflection = index < ReflectionPrompts,
                                 answered = item.app.packageName in wellSpent,
                                 onToggleWellSpent = { onToggleWellSpent(item.app.packageName) },
+                                onOpen = { onOpenApp(item.app.packageName) },
                             )
                         }
                     }
@@ -153,8 +157,12 @@ private fun AppUsageRow(
     showReflection: Boolean,
     answered: Boolean,
     onToggleWellSpent: () -> Unit,
+    onOpen: () -> Unit,
 ) {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    Row(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button, onClick = onOpen),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
         val catalogue = usage.app.catalogue
         if (catalogue != null) {
             AppIcon(catalogue.demoApp, size = 36.dp, contentDescription = null)

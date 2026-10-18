@@ -1,6 +1,10 @@
 package com.recentr.core.data
 
+import com.recentr.core.model.AppUsageDetail
+import com.recentr.core.model.DayStats
+import com.recentr.core.model.PickupStats
 import com.recentr.core.model.UsagePeriod
+import java.time.LocalDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,6 +44,24 @@ class UsageAccessScreenTimeRepository(
             )
         } else {
             emitAll(demo.summary(period))
+        }
+    }
+
+    override suspend fun dailyStats(from: LocalDate, to: LocalDate): List<DayStats> = fromSource { it.dailyStats(from, to) }
+
+    override suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? =
+        fromSource { it.appDetail(packageName, period) }
+
+    override suspend fun pickups(period: UsagePeriod): PickupStats = fromSource { it.pickups(period) }
+
+    /** Runs [read] on the current source, falling back to the demo when access was just revoked. */
+    private suspend fun <T> fromSource(read: suspend (ScreenTimeRepository) -> T): T {
+        if (current.value != ScreenTimeSource.Device) return read(demo)
+        return try {
+            read(device)
+        } catch (_: SecurityException) {
+            recheckUsageAccess()
+            read(demo)
         }
     }
 

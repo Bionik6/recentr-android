@@ -11,6 +11,9 @@ import android.content.pm.ResolveInfo
 import android.os.Build
 import com.recentr.core.model.AppCategory
 import com.recentr.core.model.AppId
+import com.recentr.core.model.AppUsageDetail
+import com.recentr.core.model.DayStats
+import com.recentr.core.model.PickupStats
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
@@ -76,28 +79,15 @@ class UsageStatsScreenTimeRepository(
         val now = Instant.ofEpochMilli(clock()).atZone(zone)
         val today = now.toLocalDate()
         val todayUsage = day(today, zone, until = now)
+        val days = periodDays(period, zone, now, todayUsage)
 
-        val days: List<DayUsage>
-        val previousTotal: Int?
-        when (period) {
-            UsagePeriod.Today -> {
-                days = listOf(todayUsage)
-                previousTotal = completedDay(today.minusDays(1), zone).takeIf { it.hasData }?.screenMillis?.roundedMinutes()
-            }
-            UsagePeriod.Yesterday -> {
-                days = listOf(completedDay(today.minusDays(1), zone))
-                previousTotal = null
-            }
-            UsagePeriod.ThisWeek -> {
-                val monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-                days = currentDays(monday, todayUsage, zone)
-                previousTotal = spanMinutes(monday.minusWeeks(1), now.minusWeeks(1), zone)
-            }
-            UsagePeriod.ThisMonth -> {
-                val first = today.withDayOfMonth(1)
-                days = currentDays(first, todayUsage, zone)
-                previousTotal = spanMinutes(first.minusMonths(1), now.minusMonths(1), zone)
-            }
+        val previousTotal: Int? = when (period) {
+            UsagePeriod.Today ->
+                completedDay(today.minusDays(1), zone).takeIf { it.hasData }?.screenMillis?.roundedMinutes()
+            UsagePeriod.Yesterday -> null
+            UsagePeriod.ThisWeek ->
+                spanMinutes(today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).minusWeeks(1), now.minusWeeks(1), zone)
+            UsagePeriod.ThisMonth -> spanMinutes(today.withDayOfMonth(1).minusMonths(1), now.minusMonths(1), zone)
         }
 
         val streak = ScreenTimeAggregation.streakDays(
@@ -105,6 +95,7 @@ class UsageStatsScreenTimeRepository(
             previousDays = generateSequence(today.minusDays(1)) { it.minusDays(1) }.map { completedDay(it, zone) },
             goalMinutes = user.dailyGoalMinutes,
             maxDays = STREAK_MAX_DAYS,
+            saversPerMonth = Streaks.SAVERS_PER_MONTH,
         )
         return ScreenTimeAggregation.summarize(
             period = period,
@@ -115,6 +106,51 @@ class UsageStatsScreenTimeRepository(
             streakDays = streak,
             previousTotalMinutes = previousTotal,
         )
+    }
+
+    override suspend fun dailyStats(from: LocalDate, to: LocalDate): List<DayStats> = runInterruptible(Dispatchers.IO) {
+        val zone = ZoneId.systemDefault()
+        val now = Instant.ofEpochMilli(clock()).atZone(zone)
+        val today = now.toLocalDate()
+        generateSequence(from) { it.plusDays(1) }
+            .takeWhile { !it.isAfter(to) }
+            .map { date ->
+                when {
+                    date.isAfter(today) -> DayStats(date, hasData = false, minutes = 0, pickups = 0)
+                    date == today -> ScreenTimeAggregation.dayStats(day(today, zone, until = now), zone)
+                    else -> ScreenTimeAggregation.dayStats(completedDay(date, zone), zone)
+                }
+            }
+            .toList()
+    }
+
+    override suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? = runInterruptible(Dispatchers.IO) {
+        val app = resolveApp(packageName) ?: return@runInterruptible null
+        val zone = ZoneId.systemDefault()
+        val now = Instant.ofEpochMilli(clock()).atZone(zone)
+        ScreenTimeAggregation.appDetail(app, period, periodDays(period, zone, now), zone)
+    }
+
+    override suspend fun pickups(period: UsagePeriod): PickupStats = runInterruptible(Dispatchers.IO) {
+        val zone = ZoneId.systemDefault()
+        val now = Instant.ofEpochMilli(clock()).atZone(zone)
+        ScreenTimeAggregation.pickupStats(period, periodDays(period, zone, now), zone, ::resolveApp)
+    }
+
+    /** The days of [period] in order (today's partial day last for the current periods). */
+    private fun periodDays(
+        period: UsagePeriod,
+        zone: ZoneId,
+        now: ZonedDateTime,
+        todayUsage: DayUsage = day(now.toLocalDate(), zone, until = now),
+    ): List<DayUsage> {
+        val today = now.toLocalDate()
+        return when (period) {
+            UsagePeriod.Today -> listOf(todayUsage)
+            UsagePeriod.Yesterday -> listOf(completedDay(today.minusDays(1), zone))
+            UsagePeriod.ThisWeek -> currentDays(today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)), todayUsage, zone)
+            UsagePeriod.ThisMonth -> currentDays(today.withDayOfMonth(1), todayUsage, zone)
+        }
     }
 
     /** Days from [first] to today (today's partial day last). */

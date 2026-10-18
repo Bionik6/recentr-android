@@ -1,13 +1,22 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.AppId
+import com.recentr.core.model.AppOpenCount
 import com.recentr.core.model.AppUsage
+import com.recentr.core.model.AppUsageDetail
+import com.recentr.core.model.DayStats
+import com.recentr.core.model.PickupStats
 import com.recentr.core.model.ScreenTimeSummary
+import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.temporal.TemporalAdjusters
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 /** Loading state of the screen-time aggregation ("Syncing screen time…" on Home). */
@@ -34,6 +43,15 @@ interface ScreenTimeRepository {
      * re-sync (the Home refresh button does).
      */
     fun summary(period: UsagePeriod): Flow<ScreenTimeState>
+
+    /** Totals of each day from [from] to [to] (inclusive); days to come have no data. */
+    suspend fun dailyStats(from: LocalDate, to: LocalDate): List<DayStats>
+
+    /** [packageName] over [period], or null when the app is unknown. */
+    suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail?
+
+    /** Pickups over [period] and the apps opened first after them. */
+    suspend fun pickups(period: UsagePeriod): PickupStats
 }
 
 /**
@@ -42,6 +60,8 @@ interface ScreenTimeRepository {
  */
 class DemoScreenTimeRepository(
     private val syncDelayMillis: Long = 1_200,
+    /** The daily goal: the streak then follows the demo days, like the streak screen. */
+    private val goalMinutes: Flow<Int>? = null,
 ) : ScreenTimeRepository {
 
     override val source: StateFlow<ScreenTimeSource> = MutableStateFlow(ScreenTimeSource.Demo)
@@ -49,11 +69,106 @@ class DemoScreenTimeRepository(
     override fun summary(period: UsagePeriod): Flow<ScreenTimeState> = flow {
         emit(ScreenTimeState.Syncing)
         delay(syncDelayMillis)
-        emit(ScreenTimeState.Ready(snapshot(period)))
+        val goal = goalMinutes?.first()
+        val summary = snapshot(period)
+        emit(ScreenTimeState.Ready(if (goal == null) summary else summary.copy(streakDays = streak(goal))))
+    }
+
+    /** Streak of the demo days against [goal] (savers included). */
+    private fun streak(goal: Int, today: LocalDate = LocalDate.now()): Int {
+        val days = dailySnapshot(today.minusDays(31), today, today)
+        return Streaks.current(days.asReversed().asSequence().map { StreakDay(it.date, it.hasData, it.minutes) }, goal).days
     }
 
     /** The demo numbers for [period], without the sync delay (previews, tests). */
     fun snapshot(period: UsagePeriod): ScreenTimeSummary = demo(period)
+
+    override suspend fun dailyStats(from: LocalDate, to: LocalDate): List<DayStats> {
+        delay(syncDelayMillis / 2)
+        return dailySnapshot(from, to)
+    }
+
+    /**
+     * Demo days relative to [today]: today and yesterday match the Today / Yesterday numbers,
+     * the rest of this week the Week card bars, older days a repeating pattern (six weeks of
+     * history), with an evening-heavy hourly profile.
+     */
+    fun dailySnapshot(from: LocalDate, to: LocalDate, today: LocalDate = LocalDate.now()): List<DayStats> {
+        val monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+        return generateSequence(from) { it.plusDays(1) }.takeWhile { !it.isAfter(to) }.map { date ->
+            val index = Math.floorMod(date.toEpochDay(), 1_000L).toInt()
+            when {
+                date.isAfter(today) || date.isBefore(today.minusDays(HISTORY_DAYS)) ->
+                    DayStats(date, hasData = false, minutes = 0, pickups = 0)
+                date == today -> demo(UsagePeriod.Today).let {
+                    DayStats(date, true, it.totalMinutes, it.pickups, spread(it.totalMinutes, DAY_PROFILE), 7 * 60 + 2)
+                }
+                date == today.minusDays(1) -> demo(UsagePeriod.Yesterday).let {
+                    DayStats(date, true, it.totalMinutes, it.pickups, spread(it.totalMinutes, DAY_PROFILE), 8 * 60 + 5)
+                }
+                else -> {
+                    val minutes = if (!date.isBefore(monday)) WEEK[date.dayOfWeek.value - 1] else MONTH[index % MONTH.size]
+                    DayStats(
+                        date = date,
+                        hasData = true,
+                        minutes = minutes,
+                        pickups = PICKUPS[index % PICKUPS.size],
+                        hourlyMinutes = spread(minutes, DAY_PROFILE),
+                        firstPickupMinute = 6 * 60 + 40 + (index % 5) * 11,
+                    )
+                }
+            }
+        }.toList()
+    }
+
+    override suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? {
+        delay(syncDelayMillis / 2)
+        val summary = demo(period)
+        val usage = summary.mostUsed.firstOrNull { it.app.packageName == packageName }
+        val app = usage?.app ?: AppId.fromPackageName(packageName)?.let { UsageApp.of(it, packageName) } ?: return null
+        val minutes = usage?.minutes ?: 0
+        return AppUsageDetail(
+            app = app,
+            period = period,
+            minutes = minutes,
+            opens = if (minutes == 0) 0 else minutes / (2 * summary.days) + 3 * summary.days,
+            hourlyMinutes = spread(minutes, APP_PROFILE),
+            longestSessionMinutes = (minutes / (3 * summary.days)).coerceAtLeast(if (minutes > 0) 3 else 0),
+            firstOpenMinute = if (minutes == 0) null else 7 * 60 + 12,
+            days = summary.days,
+        )
+    }
+
+    override suspend fun pickups(period: UsagePeriod): PickupStats {
+        delay(syncDelayMillis / 2)
+        val summary = demo(period)
+        val firstOpens = listOf(AppId.Instagram to 14, AppId.X to 9, AppId.Gmail to 6).map { (app, share) ->
+            AppOpenCount(UsageApp.of(app), (summary.pickups * share / 38).coerceAtLeast(1))
+        }
+        return PickupStats(
+            period = period,
+            pickups = summary.pickups,
+            days = summary.days,
+            firstPickupMinute = 7 * 60 + 2,
+            hourlyPickups = spread(summary.pickups, PICKUP_PROFILE),
+            firstOpens = firstOpens,
+        )
+    }
+
+    /** Splits [total] over the 24 hours along [weights] (rounding leftovers go to the busiest hours). */
+    private fun spread(total: Int, weights: List<Int>): List<Int> {
+        val sum = weights.sum()
+        val exact = weights.map { it * total.toDouble() / sum }
+        val values = exact.map { it.toInt() }.toMutableList()
+        var left = total - values.sum()
+        exact.withIndex().sortedByDescending { it.value - it.value.toInt() }.forEach { (hour, _) ->
+            if (left > 0) {
+                values[hour]++
+                left--
+            }
+        }
+        return values
+    }
 
     private fun hourly(vararg values: Pair<Int, Int>): List<Int> =
         MutableList(24) { 0 }.apply { values.forEach { (hour, minutes) -> this[hour] = minutes } }
@@ -158,5 +273,22 @@ class DemoScreenTimeRepository(
     private companion object {
         /** Monday → Sunday, 9h40 in total (bars of the "This week" card). */
         val WEEK = listOf(116, 86, 98, 73, 92, 36, 79)
+
+        /** Older days (Insights calendar): 48m best day and 5h10 toughest day, as in the design. */
+        val MONTH = listOf(150, 205, 112, 48, 190, 310, 95, 168, 130, 250, 72, 184, 140, 225, 88, 160, 118, 205, 60, 175, 138)
+
+        val PICKUPS = listOf(38, 24, 31, 45, 19, 28, 52, 33, 27, 41, 22, 36)
+
+        /** Days of demo history before today. */
+        const val HISTORY_DAYS = 45L
+
+        /** Screen time through a demo day: none at night, busiest in the evening. */
+        val DAY_PROFILE = listOf(0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 3, 2, 4, 3, 2, 2, 3, 4, 5, 6, 7, 6, 3, 0)
+
+        /** The design's "By hour" bars of an app (TikTok, mostly after 10 PM). */
+        val APP_PROFILE = listOf(0, 0, 0, 4, 10, 6, 8, 14, 6, 4, 18, 30, 12, 8, 10, 20, 24, 16, 28, 40, 62, 80, 48, 10)
+
+        /** The design's "When you pick up" heat (two hours per cell). */
+        val PICKUP_PROFILE = listOf(0, 0, 0, 0, 0, 0, 2, 2, 4, 4, 1, 1, 2, 2, 1, 1, 4, 4, 6, 6, 6, 6, 2, 2)
     }
 }

@@ -157,6 +157,7 @@ data class TodayStat(val label: String, val value: String, val valueColor: Color
 fun TodayCard(
     stats: List<TodayStat>,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     chart: @Composable () -> Unit,
 ) {
     val colors = RecentrTheme.colors
@@ -166,6 +167,7 @@ fun TodayCard(
             .recentrShadow(RecentrElevation.raised, shape)
             .clip(shape)
             .background(colors.bgSurface)
+            .clickableIf(onClick)
             .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp),
     ) {

@@ -17,9 +17,12 @@ import com.recentr.core.designsystem.catalog.DesignSystemCatalog
 import com.recentr.core.designsystem.component.RecentrTab
 import com.recentr.feature.focus.focusDestinations
 import com.recentr.feature.home.homeDestinations
+import com.recentr.feature.insights.insightsDestinations
 import com.recentr.feature.onboarding.OnboardingGraphRoute
 import com.recentr.feature.onboarding.onboardingGraph
 import com.recentr.feature.profile.profileDestinations
+import com.recentr.feature.rules.navigateToNewRule
+import com.recentr.feature.rules.navigateToRuleEditor
 import com.recentr.feature.rules.navigateToStartSession
 import com.recentr.feature.rules.rulesDestinations
 import kotlinx.coroutines.launch
@@ -67,6 +70,11 @@ fun RecentrNavHost(showOnboarding: Boolean, initialTab: RecentrTab = RecentrTab.
         homeDestinations(navController)
         rulesDestinations(navController)
         focusDestinations(navController)
+        insightsDestinations(
+            navController = navController,
+            onCreateRule = { type, apps -> navController.navigateToNewRule(type, apps) },
+            onEditRule = { navController.navigateToRuleEditor(it) },
+        )
         profileDestinations(
             navController = navController,
             onSignedOut = { navController.restartOnboarding() },

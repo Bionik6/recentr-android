@@ -53,21 +53,25 @@ internal class RuleEditorViewModel(
             saved != null -> factory.fromSavedTemplate(saved)
             else -> factory.newRule(RuleType.valueOf(route.type))
         }
-        return RuleEditorUiState(draft, isNew = true, customTitle = builtIn != null || saved != null)
+        val state = RuleEditorUiState(draft, isNew = true, customTitle = builtIn != null || saved != null)
+        val apps = route.apps?.split(',')?.mapNotNull { name -> AppId.entries.firstOrNull { it.name == name } }.orEmpty()
+        return if (apps.isEmpty()) state else state.withApps(apps)
     }
 
     fun update(transform: (Rule) -> Rule) = _state.update { it.copy(draft = transform(it.draft)) }
 
     /** New apps; rules that are still unnamed take a name built from them ("Instagram & X"). */
-    fun setApps(apps: List<AppId>) = _state.update { state ->
-        val draft = state.draft.copy(apps = apps)
-        val named = if (state.customTitle) draft else when (draft.type) {
+    fun setApps(apps: List<AppId>) = _state.update { it.withApps(apps) }
+
+    private fun RuleEditorUiState.withApps(apps: List<AppId>): RuleEditorUiState {
+        val draft = draft.copy(apps = apps)
+        val named = if (customTitle) draft else when (draft.type) {
             RuleType.Lock -> draft.copy(name = factory.lockName(apps))
             RuleType.Limit -> draft.copy(name = factory.limitName(apps))
             RuleType.Habit -> draft.copy(name = factory.habitName(apps))
             else -> draft
         }
-        state.copy(draft = named)
+        return copy(draft = named)
     }
 
     fun rename(name: String, sticker: RuleSticker) = _state.update {

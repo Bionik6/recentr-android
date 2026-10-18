@@ -6,6 +6,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -58,6 +60,7 @@ internal fun HomeTodayCard(
     summary: ScreenTimeSummary,
     focusHighlight: Float,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
     val colors = RecentrTheme.colors
     val focusColor = lerp(colors.brandSky, colors.feedbackSuccess, focusHighlight.coerceIn(0f, 1f))
@@ -72,6 +75,7 @@ internal fun HomeTodayCard(
             TodayStat(stringResource(R.string.home_stat_notifications), summary.notifications.toString()),
         ),
         modifier = modifier,
+        onClick = onClick,
     ) {
         HourlyBarsChart(summary.hourlyMinutes) { hour ->
             if (hour in summary.focusHours) focusColor else colors.brandSky
@@ -85,6 +89,7 @@ internal fun WeekCard(
     summary: ScreenTimeSummary,
     todayIndex: Int,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
     val colors = RecentrTheme.colors
     // Days still to come (this week) or not reached yet (this month) are no best day.
@@ -96,6 +101,7 @@ internal fun WeekCard(
             .recentrShadow(RecentrElevation.float, RecentrShapes.card)
             .clip(RecentrShapes.card)
             .background(colors.bgSurface)
+            .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
             .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -173,6 +179,7 @@ internal fun HomeTiles(
     onOpenRules: () -> Unit,
     modifier: Modifier = Modifier,
     activeSession: ActiveSessionUi? = null,
+    onOpenStreak: () -> Unit = onOpenRules,
 ) {
     val dayNames = stringArrayResource(R.array.home_day_short)
     // Live countdown of the running session (ticks every second while it runs).
@@ -206,7 +213,7 @@ internal fun HomeTiles(
                 label = stringResource(R.string.home_tile_streak),
                 value = pluralStringResource(R.plurals.home_streak_days, streakDays, streakDays),
                 sticker = Sticker.Flame,
-                onClick = onOpenRules,
+                onClick = onOpenStreak,
                 modifier = Modifier.weight(1f),
             )
             if (activeSession != null && remainingMillis > 0) {

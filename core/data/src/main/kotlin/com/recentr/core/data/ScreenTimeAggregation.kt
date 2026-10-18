@@ -1,7 +1,11 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.AppCategory
+import com.recentr.core.model.AppOpenCount
 import com.recentr.core.model.AppUsage
+import com.recentr.core.model.AppUsageDetail
+import com.recentr.core.model.DayStats
+import com.recentr.core.model.PickupStats
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
@@ -56,6 +60,10 @@ internal data class DayUsage(
     val awake: List<TimeSpan>,
     val pickups: Int,
     val notifications: Int,
+    /** When each of the [pickups] happened. */
+    val pickupTimes: List<Long> = emptyList(),
+    /** Package opened first after each pickup (pickups that opened no app are left out). */
+    val firstAppsAfterPickup: List<String> = emptyList(),
 ) {
     /** Screen time: union of the app sessions (split screen / PiP is not counted twice). */
     val screenMillis: Long = mergeSpans(sessions.map { TimeSpan(it.start, it.end) }).sumOf { it.millis }
@@ -145,8 +153,9 @@ internal object ScreenTimeAggregation {
         val awake = ArrayList<TimeSpan>()
         var screenOnSince: Long? = if (screenOnAtStart) start else null
         var keyguardSeen = false
-        var unlocks = 0
-        var screenOns = 0
+        // Pickup candidates of both kinds (unlocks / screen-ons) and the app each one led to.
+        val unlocks = PickupLog()
+        val screenOns = PickupLog()
         var notifications = 0
 
         for (event in window) {
@@ -155,6 +164,8 @@ internal object ScreenTimeAggregation {
                 UsageEventType.ActivityResumed -> if (pkg !in ignoredPackages) {
                     resumed.getOrPut(pkg) { HashSet() } += event.className
                     openSince.putIfAbsent(pkg, event.timeMillis)
+                    unlocks.opened(pkg)
+                    screenOns.opened(pkg)
                 }
                 UsageEventType.ActivityPaused, UsageEventType.ActivityStopped -> {
                     val activities = resumed[pkg]
@@ -163,7 +174,7 @@ internal object ScreenTimeAggregation {
                     }
                 }
                 UsageEventType.ScreenInteractive -> {
-                    screenOns++
+                    screenOns.pickedUp(event.timeMillis)
                     if (screenOnSince == null) screenOnSince = event.timeMillis
                 }
                 UsageEventType.ScreenNonInteractive, UsageEventType.DeviceShutdown -> {
@@ -171,11 +182,13 @@ internal object ScreenTimeAggregation {
                     screenOnSince = null
                     // Nothing is on screen once it is off, whatever pause events follow.
                     closeAll(event.timeMillis)
+                    unlocks.screenOff()
+                    screenOns.screenOff()
                 }
                 UsageEventType.KeyguardShown -> keyguardSeen = true
                 UsageEventType.KeyguardHidden -> {
                     keyguardSeen = true
-                    unlocks++
+                    unlocks.pickedUp(event.timeMillis)
                 }
                 UsageEventType.NotificationInterruption -> notifications++
             }
@@ -183,6 +196,8 @@ internal object ScreenTimeAggregation {
         closeAll(end)
         screenOnSince?.let { awake += TimeSpan(it, end) }
 
+        // With a lock screen, a pickup is an unlock; without one, every screen-on.
+        val pickups = if (keyguardSeen) unlocks else screenOns
         return DayUsage(
             date = date,
             start = start,
@@ -190,11 +205,120 @@ internal object ScreenTimeAggregation {
             hasData = hasData,
             sessions = sessions.sortedBy { it.start },
             awake = mergeSpans(awake + sessions.map { TimeSpan(it.start, it.end) }),
-            // With a lock screen, a pickup is an unlock; without one, every screen-on.
-            pickups = if (keyguardSeen) unlocks else screenOns,
+            pickups = pickups.times.size,
             notifications = notifications,
+            pickupTimes = pickups.times,
+            firstAppsAfterPickup = pickups.firstApps,
         )
     }
+
+    /** Pickups of one kind and the first app opened after each, until the screen goes off. */
+    private class PickupLog {
+        val times = ArrayList<Long>()
+        val firstApps = ArrayList<String>()
+        private var waiting = false
+
+        fun pickedUp(at: Long) {
+            times += at
+            waiting = true
+        }
+
+        fun opened(packageName: String) {
+            if (!waiting) return
+            firstApps += packageName
+            waiting = false
+        }
+
+        fun screenOff() {
+            waiting = false
+        }
+    }
+
+    /** [day] reduced to its totals and hourly minutes (Insights calendar, goal, achievements). */
+    fun dayStats(day: DayUsage, zone: ZoneId): DayStats = DayStats(
+        date = day.date,
+        hasData = day.hasData,
+        minutes = day.screenMillis.roundedMinutes(),
+        pickups = day.pickups,
+        hourlyMinutes = hourlyMinutes(day, zone),
+        firstPickupMinute = day.pickupTimes.minOrNull()?.let { minuteOfDay(it, zone) },
+    )
+
+    /**
+     * [packageName] over [days] (the days of [period]): its foreground time, opens, hourly
+     * minutes, longest session (sessions less than [MERGE_GAP_MILLIS] apart are one) and first
+     * open of the day — the median one over several days.
+     */
+    fun appDetail(
+        app: UsageApp,
+        period: UsagePeriod,
+        days: List<DayUsage>,
+        zone: ZoneId,
+    ): AppUsageDetail {
+        val covered = days.filter { it.hasData }
+        val perDay = covered.map { day -> day.sessions.filter { it.packageName == app.packageName } }
+        val sessions = perDay.flatMap { joinSessions(it) }
+        val spans = sessions.map { TimeSpan(it.start, it.end) }
+        return AppUsageDetail(
+            app = app,
+            period = period,
+            minutes = mergeSpans(spans).sumOf { it.millis }.roundedMinutes(),
+            opens = sessions.size,
+            hourlyMinutes = hourlyMillis(mergeSpans(spans), zone).map { it.roundedMinutes() },
+            longestSessionMinutes = (sessions.maxOfOrNull { it.millis } ?: 0L).roundedMinutes(),
+            firstOpenMinute = perDay.mapNotNull { day -> day.minOfOrNull { it.start }?.let { minuteOfDay(it, zone) } }.median(),
+            days = covered.size,
+        )
+    }
+
+    /** Pickups over [days] (the days of [period]), with the apps opened first after them. */
+    fun pickupStats(
+        period: UsagePeriod,
+        days: List<DayUsage>,
+        zone: ZoneId,
+        resolveApp: (String) -> UsageApp?,
+    ): PickupStats {
+        val covered = days.filter { it.hasData }
+        val hourly = IntArray(24)
+        covered.forEach { day -> day.pickupTimes.forEach { hourly[Instant.ofEpochMilli(it).atZone(zone).hour]++ } }
+        val firstOpens = covered.flatMap { it.firstAppsAfterPickup }
+            .groupingBy { it }
+            .eachCount()
+            .mapNotNull { (pkg, count) -> resolveApp(pkg)?.let { AppOpenCount(it, count) } }
+            .sortedWith(compareByDescending<AppOpenCount> { it.count }.thenBy { it.app.label })
+        return PickupStats(
+            period = period,
+            pickups = covered.sumOf { it.pickups },
+            days = covered.size,
+            firstPickupMinute = covered.mapNotNull { day -> day.pickupTimes.minOrNull()?.let { minuteOfDay(it, zone) } }.median(),
+            hourlyPickups = hourly.toList(),
+            firstOpens = firstOpens,
+        )
+    }
+
+    /** Sessions of one app joined when the gap between them is under [MERGE_GAP_MILLIS]. */
+    private fun joinSessions(sessions: List<AppSession>): List<AppSession> {
+        val joined = ArrayList<AppSession>()
+        for (session in sessions.sortedBy { it.start }) {
+            val last = joined.lastOrNull()
+            if (last != null && session.start - last.end < MERGE_GAP_MILLIS) {
+                joined[joined.lastIndex] = last.copy(end = maxOf(last.end, session.end))
+            } else {
+                joined += session
+            }
+        }
+        return joined
+    }
+
+    private fun minuteOfDay(millis: Long, zone: ZoneId): Int {
+        val time = Instant.ofEpochMilli(millis).atZone(zone)
+        return time.hour * 60 + time.minute
+    }
+
+    private fun List<Int>.median(): Int? = if (isEmpty()) null else sorted()[size / 2]
+
+    /** Two sessions of the same app closer than this are one open (app switcher, rotation…). */
+    private const val MERGE_GAP_MILLIS = 15_000L
 
     /** Millis of [spans] falling in each local hour (0–23) of the day. */
     fun hourlyMillis(spans: List<TimeSpan>, zone: ZoneId): LongArray {
@@ -260,15 +384,20 @@ internal object ScreenTimeAggregation {
     /**
      * Consecutive days within [goalMinutes], counting today (when still within the goal) and then
      * [previousDays] (newest first, evaluated lazily) until one is over the goal or has no data.
+     * With [saversPerMonth], days over the goal use the month's streak savers first ([Streaks]).
      */
-    fun streakDays(today: DayUsage, previousDays: Sequence<DayUsage>, goalMinutes: Int, maxDays: Int = 31): Int {
-        if (today.screenMillis.roundedMinutes() > goalMinutes) return 0
-        val previous = previousDays
-            .take(maxDays - 1)
-            .takeWhile { it.hasData && it.screenMillis.roundedMinutes() <= goalMinutes }
-            .count()
-        return 1 + previous
-    }
+    fun streakDays(
+        today: DayUsage,
+        previousDays: Sequence<DayUsage>,
+        goalMinutes: Int,
+        maxDays: Int = 31,
+        saversPerMonth: Int = 0,
+    ): Int = Streaks.current(
+        newestFirst = (sequenceOf(today) + previousDays).map { StreakDay(it.date, it.hasData, it.screenMillis.roundedMinutes()) },
+        goalMinutes = goalMinutes,
+        saversPerMonth = saversPerMonth,
+        maxDays = maxDays,
+    ).days
 
     /** Integer percentages of [values] summing to 100 (largest remainder). */
     fun percentages(values: List<Long>): List<Int> {

@@ -129,9 +129,4 @@
     <string name="home_period_title">Show screen time for</string>
 
     <!-- Goal sheet -->
-    <string name="home_goal_title">Daily goal</string>
-    <string name="home_goal_subtitle">Recentr nudges you when you get close.</string>
-    <string name="home_goal_decrease">Decrease daily goal</string>
-    <string name="home_goal_increase">Increase daily goal</string>
-    <string name="home_goal_save">Save goal</string>
 </resources>

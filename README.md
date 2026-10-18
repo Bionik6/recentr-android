@@ -2,7 +2,7 @@
 
 Screen-time & focus app. Native Android port (Kotlin, Jetpack Compose, Material 3) of the iOS
 Figma design *Offly · Screen time App UI Kit* — design system, Onboarding, Home & Insight, Rules,
-Profile & Settings and Focus timer flows.
+Profile & Settings, Focus timer and Insights & Achievements flows.
 
 ## Requirements
 
@@ -27,7 +27,9 @@ adb shell am start -S -n com.recentr.app/.MainActivity --es start onboarding
 
 In debug builds, **Profile › Settings › Developer** has *Replay onboarding* and *Design system*
 (living catalogue of every token and component). The focus timer opens from **Rules › ⋯ › New
-rule › Focus**.
+rule › Focus**. Insights open from the usage card on **Home** (Day / Week / Month follows the
+Home period); Pickups, Daily goal, Streak and Achievements are in its **⋯** menu, the streak
+also from the Home streak tile.
 
 ## Modules
 
@@ -35,13 +37,14 @@ rule › Focus**.
 |---|---|
 | `:app` | `MainActivity` (splash, edge-to-edge, launcher icon aliases), root `NavHost`, tab shell with the floating tab bar, Squads placeholder |
 | `:core:designsystem` | Figma foundations (colour, Figtree typography, spacing, radius, effects, gradients), icons, stickers, mascot, backdrops and all components — see [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) |
-| `:core:model` | Domain models (`UserProfile`, `Rule`, `ScreenTimeSummary`, `AppUsage` / `UsageApp`, `AppId`) |
-| `:core:data` | Repositories: `UserPreferencesRepository` and `SettingsRepository` (DataStore), `RulesRepository`, `FocusRepository`, `ScreenTimeRepository` (device usage events or demo data) and the `RecentrData` locator |
+| `:core:model` | Domain models (`UserProfile`, `Rule`, `ScreenTimeSummary`, `AppUsage` / `UsageApp`, `AppId`, `DayStats`, `AppUsageDetail`, `PickupStats`, `Achievement`, `CalmLevel`) |
+| `:core:data` | Repositories: `UserPreferencesRepository` and `SettingsRepository` (DataStore), `RulesRepository`, `FocusRepository`, `ScreenTimeRepository` (device usage events or demo data), `AchievementsRepository` (badges, DataStore) and the `RecentrData` locator; `Streaks` (streak savers) and `AchievementEngine` are pure and unit-tested |
 | `:feature:onboarding` | 17-screen onboarding (Figma `2023:578`) |
 | `:feature:home` | Home & Insight (Figma `2025:1422`) |
 | `:feature:rules` | Rules list, editors, sheets and templates (Figma `2027:2433`) |
 | `:feature:profile` | Profile tab, edit sheet, weekly recap, Recentr Plus & subscription, Settings with Help, Appearance, Notifications, Language, log out and delete account (Figma `2033:6330`) |
 | `:feature:focus` | Focus timer: set-up dial, sounds / rounds / apps sheets, running session, break, app on hold, session complete and focus log (Figma `2114:15883`) |
+| `:feature:insights` | Insights & Achievements (Figma `2119:16391`): overview (Day / Week / Month calendar), app detail, pickups, monthly report, daily goal, badges, new badge, badge sheet, streak, milestones and share card |
 
 ## Status / known limits
 
@@ -60,6 +63,20 @@ rule › Focus**.
     (*How much time do you spend…*), the streak with the current daily goal.
   - QA: `adb shell appops set com.recentr.app GET_USAGE_STATS allow|default`, then bring the app
     back to the foreground.
+- Streaks: consecutive days under the daily goal; a day over the goal uses one of the month's 3
+  streak savers instead of breaking it (`Streaks`, shared by Home and the Streak screen). A streak
+  never starts on a saved day.
+- Insights & Achievements read the same usage events: per-day totals, per-app hourly use, opens
+  (sessions less than 15 s apart are one), longest session and first open, pickup times and the
+  first app opened after each pickup. "Won back" is the time under the habit reported in the
+  onboarding. The 16 badges are evaluated by `AchievementEngine` against two months of history,
+  the focus log and the rules; with device numbers their earned days are kept (DataStore), demo
+  numbers are evaluated on the fly. A badge already met before the user started counts from the
+  first day; each new badge is celebrated once (the newest one when several arrive together).
+  Rules only target the catalogue apps, so *Set a daily limit* shows for those apps only.
+- Share cards are rendered to a PNG (`FileProvider`, cache): Stories / Post / Facebook open the app
+  when it is installed, the share sheet otherwise; *Save* writes to Pictures/Recentr (Android 10+,
+  the share sheet before).
 - Rules are kept in memory (`RulesRepository`) and do not block apps at OS level yet (that needs
   an accessibility / device-policy service).
 - No account backend: "Save your progress" and "I already have an account" only move the flow on.

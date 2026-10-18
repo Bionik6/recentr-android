@@ -23,6 +23,9 @@ import com.recentr.core.designsystem.component.RecentrTab
 import com.recentr.core.designsystem.component.RecentrTabBar
 import com.recentr.feature.focus.navigateToFocus
 import com.recentr.feature.home.HomeTab
+import com.recentr.feature.insights.navigateToAppInsights
+import com.recentr.feature.insights.navigateToInsights
+import com.recentr.feature.insights.navigateToStreak
 import com.recentr.feature.profile.ProfileTab
 import com.recentr.feature.rules.RulesTab
 import com.recentr.feature.rules.navigateToStartSession
@@ -55,6 +58,9 @@ fun MainScreen(
                         contentPadding = tabBarPadding,
                         onStartBlocking = { navController.navigateToStartSession() },
                         onOpenRules = { selected = RecentrTab.Rules },
+                        onOpenInsights = { navController.navigateToInsights(it) },
+                        onOpenStreak = { navController.navigateToStreak() },
+                        onOpenApp = { packageName, period -> navController.navigateToAppInsights(packageName, period) },
                     )
                     RecentrTab.Rules -> RulesTab(
                         navController = navController,
