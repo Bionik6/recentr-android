@@ -42,6 +42,8 @@ enum class RecentrButtonStyle {
     Soft,
     /** Danger red — "Delete account". */
     Danger,
+    /** Tangerine gradient with its glow — "Turn on Strict mode". */
+    Strict,
 }
 
 /**
@@ -76,9 +78,13 @@ fun RecentrButton(
         RecentrButtonStyle.Danger -> {
             background = SolidColor(colors.feedbackDanger); contentColor = colors.textOnAction
         }
+        RecentrButtonStyle.Strict -> {
+            background = RecentrGradients.strict; contentColor = colors.textOnDark
+        }
     }
     val shadowModifier = when (style) {
         RecentrButtonStyle.Brand -> Modifier.recentrShadow(RecentrElevation.glowButton, RecentrShapes.full)
+        RecentrButtonStyle.Strict -> Modifier.recentrShadow(RecentrElevation.glowStrict, RecentrShapes.full)
         RecentrButtonStyle.Secondary -> Modifier.recentrShadow(RecentrElevation.control, RecentrShapes.full)
         else -> Modifier
     }

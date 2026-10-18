@@ -32,6 +32,9 @@ object RecentrElevation {
 
     /** Brand button glow (0 10 12 · sky 35%). */
     val glowButton = Shadow(radius = 12.dp, color = Color(0x592E7AF5), offset = DpOffset(0.dp, 10.dp))
+
+    /** Strict button glow (0 10 12 · tangerine 35%). */
+    val glowStrict = Shadow(radius = 12.dp, color = Color(0x59FF661A), offset = DpOffset(0.dp, 10.dp))
 }
 
 /** Applies a design-system shadow behind [shape]. */

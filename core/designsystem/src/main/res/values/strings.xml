@@ -8,6 +8,7 @@
     <string name="ds_back">Back</string>
     <string name="ds_clear">Clear</string>
     <string name="ds_more_options">More options</string>
+    <string name="ds_strict_title">Strict mode</string>
     <string name="ds_goal_title">Daily goal</string>
     <string name="ds_goal_subtitle">Recentr nudges you when you get close.</string>
     <string name="ds_goal_decrease">Decrease daily goal</string>

@@ -2,14 +2,11 @@ package com.recentr.feature.profile.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -29,14 +26,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
-import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrSheet
+import com.recentr.core.designsystem.component.StrictModeSheet as DesignSystemStrictModeSheet
+import com.recentr.core.designsystem.component.StrictOption
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -144,35 +141,34 @@ private fun ConfirmWordField(value: String, onValueChange: (String) -> Unit, pla
     )
 }
 
-/** Strict mode scope: Never / During sessions / Always (radio rows, saved on tap). */
+/**
+ * Settings › Strict mode, with the rules' Figma 32 sheet: Never / During sessions / Always as
+ * option rows, saved with the CTA ("Turn on Strict mode", or turning it off).
+ */
 @Composable
 internal fun StrictModeSheet(selected: StrictScope, onSelect: (StrictScope) -> Unit, onDismissRequest: () -> Unit) {
-    RecentrSheet(onDismissRequest = onDismissRequest) { controller ->
-        SheetContent(topGap = 22.dp, horizontalAlignment = Alignment.Start) {
-            Text(stringResource(R.string.strict_sheet_title), style = RecentrTheme.typography.title2, color = RecentrTheme.colors.textPrimary)
-            Spacer(Modifier.height(4.dp))
-            Text(stringResource(R.string.strict_sheet_subtitle), style = RecentrTheme.typography.bodyRegular, color = RecentrTheme.colors.textSecondary)
-            Spacer(Modifier.height(18.dp))
-            Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                listOf(
-                    StrictScope.Off to R.string.strict_option_off,
-                    StrictScope.Sessions to R.string.strict_option_sessions,
-                    StrictScope.Always to R.string.strict_option_always,
-                ).forEach { (scope, label) ->
-                    OptionRow(
-                        label = stringResource(label),
-                        selected = scope == selected,
-                        onClick = {
-                            onSelect(scope)
-                            controller.close()
-                        },
-                        role = Role.RadioButton,
-                        radio = true,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
+    val scopes = StrictScope.entries
+    DesignSystemStrictModeSheet(
+        subtitle = stringResource(R.string.strict_sheet_subtitle),
+        options = scopes.map { scope ->
+            when (scope) {
+                StrictScope.Off -> StrictOption(stringResource(R.string.strict_option_off), stringResource(R.string.strict_option_off_desc))
+                StrictScope.Sessions -> StrictOption(stringResource(R.string.strict_option_sessions), stringResource(R.string.strict_option_sessions_desc))
+                StrictScope.Always -> StrictOption(stringResource(R.string.strict_option_always), stringResource(R.string.strict_option_always_desc))
             }
-            Spacer(Modifier.height(14.dp))
-        }
-    }
+        },
+        initialIndex = selected.ordinal,
+        confirmText = { index ->
+            stringResource(
+                when {
+                    scopes[index] != StrictScope.Off -> R.string.strict_turn_on
+                    selected == StrictScope.Off -> R.string.strict_keep_off
+                    else -> R.string.strict_turn_off
+                },
+            )
+        },
+        confirmStyle = { index -> if (scopes[index] == StrictScope.Off) RecentrButtonStyle.Primary else RecentrButtonStyle.Strict },
+        onConfirm = { index -> onSelect(scopes[index]) },
+        onDismissRequest = onDismissRequest,
+    )
 }

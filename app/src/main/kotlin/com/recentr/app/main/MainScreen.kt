@@ -56,7 +56,7 @@ fun MainScreen(
                     RecentrTab.Home -> HomeTab(
                         navController = navController,
                         contentPadding = tabBarPadding,
-                        onStartBlocking = { navController.navigateToStartSession() },
+                        onStartBlocking = { navController.navigateToStartSession(offerTemplate = false) },
                         onOpenRules = { selected = RecentrTab.Rules },
                         onOpenInsights = { navController.navigateToInsights(it) },
                         onOpenStreak = { navController.navigateToStreak() },

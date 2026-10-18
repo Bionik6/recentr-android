@@ -54,7 +54,7 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 
 | Figma component | Composable |
 |---|---|
-| Button (Primary / Brand / Secondary / Soft / Danger) | `RecentrButton(text, onClick, style, icon)` · `RecentrTextButton` |
+| Button (Primary / Brand / Secondary / Soft / Danger / Strict) | `RecentrButton(text, onClick, style, icon)` · `RecentrTextButton` |
 | Icon Button (Surface / Sunken / On Sky) | `RecentrIconButton(icon, contentDescription, onClick, style)` |
 | Chip (Neutral / Selected / Success / On Sky / Outline) | `RecentrChip(label, style, icon, onClick)` |
 | Status Bar / Home Indicator | Android system bars (edge-to-edge) + `SystemBarsAppearance(lightIcons)` |
@@ -81,6 +81,7 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Sheets (grabber + 36dp corners + scrim) | `RecentrBottomSheet(onDismissRequest) { … }` · `RecentrSheet(onDismissRequest) { controller -> … }` (animated `controller.close { then }`) · `SheetGrabber()` |
 | Surface card | `SurfaceCard(cornerRadius, onClick) { … }` |
 | Daily goal sheet (Figma 28, Home and Insights) | `DailyGoalSheet(currentGoalMinutes, onSave, onDismissRequest, formatMinutes)` |
+| Strict mode sheet (Figma 32, rules and Settings) | `StrictModeSheet(subtitle, options, initialIndex, confirmText, onConfirm, onDismissRequest, confirmStyle)` with `StrictOption(title, description)` |
 
 A living catalogue of everything above: `DesignSystemCatalog()` (Profile tab → *Design system*).
 
@@ -103,8 +104,7 @@ Local components the feature flows had to add, to fold back into `:core:designsy
 * **Display text box** — Android pads text whose line height is smaller than the font's
   (Display styles use 1.0): a 72sp `displayHero` measures ~86dp. Onboarding uses a local
   `Modifier.figmaLineBox(72.dp)`; promote it (e.g. `Modifier.figmaLineHeight(style)`).
-* **Buttons** — Strict (tangerine gradient) style (`RulesPillButton`; Danger is now
-  `RecentrButtonStyle.Danger`), a "Soft but
+* **Buttons** — the rules' danger pill (`RulesPillButton`, now `RecentrButtonStyle.Danger`), a "Soft but
   inactive" state for unanswered steps (`ContinueButton`), and a visual disabled state for
   `RecentrIconButton`; long-press repeat for steppers (`StepperButton`).
 * **Charts** — per-bar colours and the Figma 13.2dp pitch for `HourlyUsageChart`

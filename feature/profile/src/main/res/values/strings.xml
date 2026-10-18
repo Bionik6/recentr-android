@@ -129,11 +129,16 @@
     <string name="strict_off">Off</string>
     <string name="strict_sessions">Sessions</string>
     <string name="strict_always">Always</string>
-    <string name="strict_sheet_title">Strict mode</string>
     <string name="strict_sheet_subtitle">When it’s on, rules can’t be edited, paused or unlocked.</string>
     <string name="strict_option_off">Never</string>
     <string name="strict_option_sessions">During sessions</string>
     <string name="strict_option_always">Always</string>
+    <string name="strict_option_off_desc">Rules can be edited, paused and unlocked any time.</string>
+    <string name="strict_option_sessions_desc">No edits, pauses or unlocks while a rule or session blocks.</string>
+    <string name="strict_option_always_desc">No edits, pauses or unlocks, ever. Only emergency unlocks.</string>
+    <string name="strict_turn_on">Turn on Strict mode</string>
+    <string name="strict_turn_off">Turn off Strict mode</string>
+    <string name="strict_keep_off">Keep Strict mode off</string>
     <string name="emergency_title">Emergency unlocks</string>
     <string name="emergency_body">You have %d emergency unlocks left this week. Each one opens a blocked app for 5 minutes, even in Strict mode.</string>
     <string name="unlock_pass_title">Unlock pass</string>

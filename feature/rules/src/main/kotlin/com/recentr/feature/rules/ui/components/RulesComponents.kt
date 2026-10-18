@@ -295,9 +295,7 @@ internal fun Modifier.overlayBorder(color: Color, width: Dp, cornerRadius: Dp): 
     )
 }
 
-private val StrictGlow = Shadow(radius = 12.dp, color = Color(0x59FF661A), offset = DpOffset(0.dp, 10.dp))
-
-/** Pill CTA with a custom fill: strict-mode gradient or danger red (not in the DS button styles). */
+/** Pill CTA with a custom fill: danger red (not in the DS button styles). */
 @Composable
 internal fun RulesPillButton(
     text: String,
@@ -307,13 +305,11 @@ internal fun RulesPillButton(
 ) {
     val colors = RecentrTheme.colors
     val brush: Brush = when (style) {
-        RulesPillStyle.Strict -> com.recentr.core.designsystem.theme.RecentrGradients.strict
         RulesPillStyle.Danger -> SolidColor(colors.feedbackDanger)
     }
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .then(if (style == RulesPillStyle.Strict) Modifier.recentrShadow(StrictGlow, RecentrShapes.full) else Modifier)
             .height(RecentrTheme.sizes.button)
             .clip(RecentrShapes.full)
             .background(brush)
@@ -325,7 +321,7 @@ internal fun RulesPillButton(
     }
 }
 
-internal enum class RulesPillStyle { Strict, Danger }
+internal enum class RulesPillStyle { Danger }
 
 /** "− value +" stepper with round icon buttons (session length, wait time, daily budget). */
 @Composable

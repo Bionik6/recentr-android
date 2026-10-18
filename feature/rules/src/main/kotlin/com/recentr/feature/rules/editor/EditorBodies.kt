@@ -100,11 +100,11 @@ private fun EditorRow(label: Int, value: String, icon: RecentrIcon, onClick: () 
     )
 }
 
-/** Primary CTA, or "Save as template" + "Start" for a new session. */
+/** Primary CTA, or "Save as template" + "Start" for a new session (just "Start" from Home). */
 @Composable
 internal fun ColumnScope.EditorCta(state: RuleEditorUiState, createLabel: Int, actions: EditorActions) {
     val oneShot = state.isNew && state.draft.type == com.recentr.core.model.RuleType.Session && state.draft.schedule == null
-    if (oneShot) {
+    if (oneShot && state.offerTemplate) {
         androidx.compose.foundation.layout.Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             RecentrButton(
                 text = stringResource(R.string.rules_save_template),
