@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -111,24 +112,31 @@ fun RecentrCheckbox(
 
 /** Leading 32dp icon tile shared by setting rows. */
 @Composable
-private fun SettingIcon(icon: RecentrIcon) {
+private fun SettingIcon(icon: RecentrIcon, tint: Color, background: Color) {
     Box(
-        Modifier.size(32.dp).clip(RoundedCornerShape(10.dp)).background(RecentrTheme.colors.bgSunken),
+        Modifier.size(32.dp).clip(RoundedCornerShape(10.dp)).background(background),
         contentAlignment = Alignment.Center,
     ) {
-        RecentrIconImage(icon, tint = RecentrTheme.colors.textPrimary, size = 19.2.dp)
+        RecentrIconImage(icon, tint = tint, size = 19.2.dp)
     }
 }
 
-/** Figma "Setting Row" (Trailing = Value) — label, value and chevron. */
+/**
+ * Figma "Setting Row" (Trailing = Value) — label, value and chevron. A null or empty [value] only
+ * keeps the chevron. [iconTint] / [iconBackground] recolour the icon tile (tangerine "Strict
+ * mode"), [labelColor] the label (danger "Cancel subscription").
+ */
 @Composable
 fun SettingRow(
     label: String,
-    value: String,
+    value: String?,
     onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
     icon: RecentrIcon? = null,
     valueColor: Color = RecentrTheme.colors.textSecondary,
+    iconTint: Color = RecentrTheme.colors.textPrimary,
+    iconBackground: Color = RecentrTheme.colors.bgSunken,
+    labelColor: Color = RecentrTheme.colors.textPrimary,
 ) {
     val colors = RecentrTheme.colors
     Row(
@@ -140,9 +148,11 @@ fun SettingRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (icon != null) SettingIcon(icon)
-        Text(label, style = RecentrTheme.typography.bodyMedium, color = colors.textPrimary, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-        Text(value, style = RecentrTheme.typography.bodyRegular, color = valueColor, maxLines = 1)
+        if (icon != null) SettingIcon(icon, iconTint, iconBackground)
+        Text(label, style = RecentrTheme.typography.bodyMedium, color = labelColor, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+        if (!value.isNullOrEmpty()) {
+            Text(value, style = RecentrTheme.typography.bodyRegular, color = valueColor, maxLines = 1)
+        }
         RecentrIconImage(RecentrIcon.ChevronRight, tint = colors.textTertiary, size = 19.2.dp)
     }
 }
@@ -166,10 +176,35 @@ fun SettingToggleRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (icon != null) SettingIcon(icon)
+        if (icon != null) SettingIcon(icon, colors.textPrimary, colors.bgSunken)
         Text(label, style = RecentrTheme.typography.bodyMedium, color = colors.textPrimary, modifier = Modifier.weight(1f))
         RecentrToggle(checked = checked, onCheckedChange = null)
     }
+}
+
+/** Figma settings "Group": sunken 24dp container stacking setting rows (4dp padding and gap). */
+@Composable
+fun SettingsGroup(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .background(RecentrTheme.colors.bgSunken)
+            .padding(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        content = content,
+    )
+}
+
+/** Upper-case section caption above a settings group ("GENERAL", "THEME"). */
+@Composable
+fun SettingsSectionLabel(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text.uppercase(),
+        style = RecentrTheme.typography.captionMedium,
+        color = RecentrTheme.colors.textTertiary,
+        modifier = modifier,
+    )
 }
 
 /** Figma "Segmented" — N-option segmented control (3 in the design). */

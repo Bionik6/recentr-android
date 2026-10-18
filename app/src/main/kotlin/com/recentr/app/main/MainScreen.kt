@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.max
 import androidx.navigation.NavHostController
 import com.recentr.core.designsystem.component.RecentrTab
 import com.recentr.core.designsystem.component.RecentrTabBar
+import com.recentr.feature.focus.navigateToFocus
 import com.recentr.feature.home.HomeTab
+import com.recentr.feature.profile.ProfileTab
 import com.recentr.feature.rules.RulesTab
 import com.recentr.feature.rules.navigateToStartSession
 
@@ -33,8 +35,6 @@ import com.recentr.feature.rules.navigateToStartSession
 fun MainScreen(
     navController: NavHostController,
     initialTab: RecentrTab,
-    onReplayOnboarding: () -> Unit,
-    onOpenDesignSystem: () -> Unit,
 ) {
     var selected by rememberSaveable { mutableStateOf(initialTab) }
     BackHandler(enabled = selected != RecentrTab.Home) { selected = RecentrTab.Home }
@@ -56,13 +56,13 @@ fun MainScreen(
                         onStartBlocking = { navController.navigateToStartSession() },
                         onOpenRules = { selected = RecentrTab.Rules },
                     )
-                    RecentrTab.Rules -> RulesTab(navController = navController, contentPadding = tabBarPadding)
-                    RecentrTab.Squads -> ComingSoonScreen(tab = tab, contentPadding = tabBarPadding)
-                    RecentrTab.Profile -> ProfilePlaceholderScreen(
+                    RecentrTab.Rules -> RulesTab(
+                        navController = navController,
                         contentPadding = tabBarPadding,
-                        onReplayOnboarding = onReplayOnboarding,
-                        onOpenDesignSystem = onOpenDesignSystem,
+                        onOpenFocus = { navController.navigateToFocus() },
                     )
+                    RecentrTab.Squads -> ComingSoonScreen(tab = tab, contentPadding = tabBarPadding)
+                    RecentrTab.Profile -> ProfileTab(navController = navController, contentPadding = tabBarPadding)
                 }
             }
         }

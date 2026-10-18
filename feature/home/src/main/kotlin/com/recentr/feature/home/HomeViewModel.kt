@@ -12,18 +12,20 @@ import com.recentr.core.data.UserPreferencesRepository
 import com.recentr.core.model.Rule
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsagePeriod
+import java.time.LocalDateTime
+import java.time.ZoneId
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 /**
  * Home & Insight state holder: screen-time summary for the selected period (with the Syncing
@@ -34,6 +36,7 @@ class HomeViewModel(
     private val userPreferences: UserPreferencesRepository,
     rules: RulesRepository,
     private val now: () -> LocalDateTime = LocalDateTime::now,
+    showMascot: Flow<Boolean> = flowOf(true),
 ) : ViewModel() {
 
     private data class LocalState(
@@ -53,7 +56,8 @@ class HomeViewModel(
         local,
         userPreferences.profile.map { it.dailyGoalMinutes },
         rules.rules,
-    ) { local, goal, ruleList ->
+        showMascot,
+    ) { local, goal, ruleList, mascot ->
         val clock = now()
         HomeUiState(
             period = local.period,
@@ -65,6 +69,7 @@ class HomeViewModel(
             wellSpent = local.wellSpent,
             grouping = local.grouping,
             todayIndex = clock.dayOfWeek.value - 1,
+            showMascot = mascot,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
@@ -121,6 +126,7 @@ class HomeViewModel(
                     screenTime = RecentrData.screenTime,
                     userPreferences = RecentrData.userPreferences,
                     rules = RecentrData.rules,
+                    showMascot = RecentrData.settings.settings.map { it.showMascotOnHome },
                 )
             }
         }

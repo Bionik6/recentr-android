@@ -36,11 +36,14 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 
 * **Icons** — `RecentrIcon` enum (36 icons, vector drawables converted from the Figma SVGs) drawn
   with `RecentrIconImage(icon, tint = …, size = 24.dp)`.
-* **Stickers** — `Sticker.Lock / Bolt / Timer / Moon / Leaf / Note / Flame`, `StickerImage(sticker, size)`.
+* **Stickers** — `Sticker.Lock / Bolt / Timer / Moon / Leaf / Note / Flame / Headphones / Target /
+  Heart / Star`, `StickerImage(sticker, size)`.
   Bitmaps rendered at 4× with transparency; the soft contact shadow overflows the slot like in Figma.
 * **Mascot** — `Mascot(MascotMood.Calm | Impatient | Dozing, width)` (160×200 artboard).
 * **Backdrops** — `BackdropBox(Backdrop.Sky | Backdrop.Aurora) { content }`: full-screen, anchored
   top, page grey below.
+* **Brand icon** — `BrandIconImage(BrandIcon.Sky | Night | Mint | Sunset, size)` (Figma "Logo/App
+  Icon" colourways, transparent 4× bitmaps rendered from the Figma SVG).
 * **App icons** — `AppIcon(DemoApp.X, size = 32.dp)`; `DemoApp` ↔ `core.model.AppId` by name.
   Other installed apps: `InstalledAppIcon(packageName, size = 36.dp)` (launcher icon, adaptive
   icons drawn full-bleed in the same rounded square, loaded off the main thread).
@@ -49,7 +52,7 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 
 | Figma component | Composable |
 |---|---|
-| Button (Primary / Brand / Secondary / Soft) | `RecentrButton(text, onClick, style, icon)` · `RecentrTextButton` |
+| Button (Primary / Brand / Secondary / Soft / Danger) | `RecentrButton(text, onClick, style, icon)` · `RecentrTextButton` |
 | Icon Button (Surface / Sunken / On Sky) | `RecentrIconButton(icon, contentDescription, onClick, style)` |
 | Chip (Neutral / Selected / Success / On Sky / Outline) | `RecentrChip(label, style, icon, onClick)` |
 | Status Bar / Home Indicator | Android system bars (edge-to-edge) + `SystemBarsAppearance(lightIcons)` |
@@ -59,19 +62,21 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Add Card | `AddCard(title, hint, onClick)` |
 | Mini Tile | `MiniTile(label, value, sticker)` |
 | Rule Tile | `RuleTile(label, sticker, onClick)` |
-| Sticky Note | `StickyNote(title, body)` |
+| Sticky Note | `StickyNote(title, body)` · editable `StickyNoteField(title, value, onValueChange, placeholder)` |
+| Avatar (Sky / Mint / Pink / Tangerine / Night + Profile's Sunset) | `RecentrAvatar(initial, style, size)` |
 | Progress / Onboarding Header | `OnboardingProgress(progress)` · `OnboardingHeader(progress, onBack, onSkip)` |
-| Option Row | `OptionRow(label, selected, onClick, icon)` |
+| Option Row | `OptionRow(label, selected, onClick, icon, radio)` (`radio = true`: trailing radio ring) |
 | Text Field | `RecentrTextField(value, onValueChange, placeholder)` |
 | Keyboard | Android IME (not drawn) |
 | Review Card | `ReviewCard(title, body, name, initial)` |
 | Alert | `RecentrAlertDialog(title, body, primaryText, onPrimary, onDismissRequest, secondaryText)` |
 | Toggle / Checkbox | `RecentrToggle(checked, onCheckedChange)` · `RecentrCheckbox(checked, onCheckedChange)` |
-| Setting Row (Value / Toggle) | `SettingRow(label, value, onClick, icon)` · `SettingToggleRow(label, checked, onCheckedChange, icon)` |
+| Setting Row (Value / Toggle) | `SettingRow(label, value, onClick, icon, iconTint, iconBackground, labelColor)` · `SettingToggleRow(label, checked, onCheckedChange, icon)` |
+| Settings "Group" + section caption | `SettingsGroup { rows }` · `SettingsSectionLabel(text)` |
 | Segmented | `RecentrSegmented(options, selectedIndex, onSelect)` |
 | App Row | `AppRow(app, checked, onCheckedChange)` |
 | Template Card (Sky / Night / Mint / Sunset) | `TemplateCard(title, body, duration, sticker, color, onClick)` |
-| Sheets (grabber + 36dp corners + scrim) | `RecentrBottomSheet(onDismissRequest) { … }` · `SheetGrabber()` |
+| Sheets (grabber + 36dp corners + scrim) | `RecentrBottomSheet(onDismissRequest) { … }` · `RecentrSheet(onDismissRequest) { controller -> … }` (animated `controller.close { then }`) · `SheetGrabber()` |
 | Surface card | `SurfaceCard(cornerRadius, onClick) { … }` |
 
 A living catalogue of everything above: `DesignSystemCatalog()` (Profile tab → *Design system*).
@@ -95,11 +100,16 @@ Local components the feature flows had to add, to fold back into `:core:designsy
 * **Display text box** — Android pads text whose line height is smaller than the font's
   (Display styles use 1.0): a 72sp `displayHero` measures ~86dp. Onboarding uses a local
   `Modifier.figmaLineBox(72.dp)`; promote it (e.g. `Modifier.figmaLineHeight(style)`).
-* **Buttons** — Strict (tangerine gradient) and Danger styles (`RulesPillButton`), a "Soft but
+* **Buttons** — Strict (tangerine gradient) style (`RulesPillButton`; Danger is now
+  `RecentrButtonStyle.Danger`), a "Soft but
   inactive" state for unanswered steps (`ContinueButton`), and a visual disabled state for
   `RecentrIconButton`; long-press repeat for steppers (`StepperButton`).
 * **Charts** — per-bar colours and the Figma 13.2dp pitch for `HourlyUsageChart`
   (`HourlyBarsChart`), plus a weekly chart (`WeekBarsChart`).
 * **Rules pieces** — tangerine strict `SettingToggleRow`, icon-tinted chip, small template card,
   active-border state on `RuleCard`, auto-shrinking hero value text.
-* **Sheets** — let `RecentrBottomSheet` take window insets for full-height sheets (`SheetBody`).
+* **Sheets** — let `RecentrBottomSheet` take window insets for full-height sheets (`SheetBody`);
+  move the rules sheets to `RecentrSheet` (same controller as their local `RulesSheet`), and the
+  rules `SettingsGroup` / `SectionCaption` to the design-system ones.
+* **Focus rings** — the set-up dial and the session rings (`FocusDial`, `drawFocusRing` in
+  `:feature:focus`) could become a design-system progress ring.

@@ -358,4 +358,5 @@
     <string name="rules_rule_created">%1$s created</string>
     <string name="rules_rule_saved">Changes saved</string>
     <string name="rules_session_ended">Session ended</string>
+    <string name="rules_new_focus">Focus</string>
 </resources>

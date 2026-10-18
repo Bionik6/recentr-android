@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -30,6 +31,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
@@ -351,6 +353,49 @@ fun StickyNote(
     ) {
         Text(title, style = RecentrTheme.typography.headline, color = colors.accentNoteInk)
         Text(body, style = RecentrTheme.typography.noteHandwritten, color = colors.accentNoteInk)
+    }
+}
+
+/**
+ * Editable [StickyNote] ("Send us a note", "What did you finish?"): the body is a text field in
+ * the handwritten note style, [placeholder] shown while empty.
+ */
+@Composable
+fun StickyNoteField(
+    title: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    modifier: Modifier = Modifier,
+    minLines: Int = 2,
+) {
+    val colors = RecentrTheme.colors
+    val shape = RoundedCornerShape(20.dp)
+    Column(
+        modifier = modifier
+            .recentrShadow(RecentrElevation.raised, shape)
+            .clip(shape)
+            .background(colors.accentNote)
+            .padding(start = 18.dp, end = 18.dp, top = 18.dp, bottom = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(title, style = RecentrTheme.typography.headline, color = colors.accentNoteInk)
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            textStyle = RecentrTheme.typography.noteHandwritten.copy(color = colors.accentNoteInk),
+            cursorBrush = SolidColor(colors.accentNoteInk),
+            minLines = minLines,
+            modifier = Modifier.fillMaxWidth(),
+            decorationBox = { inner ->
+                Box {
+                    if (value.isEmpty()) {
+                        Text(placeholder, style = RecentrTheme.typography.noteHandwritten, color = colors.accentNoteInk.copy(alpha = 0.45f))
+                    }
+                    inner()
+                }
+            },
+        )
     }
 }
 

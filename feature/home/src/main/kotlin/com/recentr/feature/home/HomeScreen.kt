@@ -189,22 +189,24 @@ internal fun HomeScreen(
                         state = state,
                         focusHighlight = 1f - qualityDistance,
                     )
-                    Mascot(
-                        mood = when {
-                            showSkeleton -> MascotMood.Dozing
-                            pagerState.currentPage == HeroPage.Offline.ordinal -> MascotMood.Dozing
-                            summary != null && !summary.isMultiDay && summary.totalMinutes > state.dailyGoalMinutes -> MascotMood.Impatient
-                            else -> MascotMood.Calm
-                        },
-                        width = HomeMetrics.mascotWidth,
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .offset(
-                                x = -HomeMetrics.mascotEndInset,
-                                y = -(HomeMetrics.mascotWidth * 1.25f) + HomeMetrics.mascotOverlap,
-                            )
-                            .graphicsLayer { alpha = qualityDistance },
-                    )
+                    if (state.showMascot) {
+                        Mascot(
+                            mood = when {
+                                showSkeleton -> MascotMood.Dozing
+                                pagerState.currentPage == HeroPage.Offline.ordinal -> MascotMood.Dozing
+                                summary != null && !summary.isMultiDay && summary.totalMinutes > state.dailyGoalMinutes -> MascotMood.Impatient
+                                else -> MascotMood.Calm
+                            },
+                            width = HomeMetrics.mascotWidth,
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .offset(
+                                    x = -HomeMetrics.mascotEndInset,
+                                    y = -(HomeMetrics.mascotWidth * 1.25f) + HomeMetrics.mascotOverlap,
+                                )
+                                .graphicsLayer { alpha = qualityDistance },
+                        )
+                    }
                 }
                 Spacer(Modifier.height(HomeMetrics.cardToTiles))
                 HomeTiles(

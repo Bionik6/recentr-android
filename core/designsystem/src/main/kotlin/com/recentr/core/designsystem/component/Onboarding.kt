@@ -1,6 +1,7 @@
 package com.recentr.core.designsystem.component
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,14 +18,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextRange
@@ -43,8 +48,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.runtime.SideEffect
 import com.recentr.core.designsystem.R
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
@@ -130,6 +133,8 @@ fun OptionRow(
     showTrailing: Boolean = true,
     /** [Role.Checkbox] for multi-select lists, [Role.RadioButton] for single choice. */
     role: Role = Role.Checkbox,
+    /** Trailing radio ring (Settings › Language) instead of the chevron / check. */
+    radio: Boolean = false,
 ) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(20.dp)
@@ -168,12 +173,30 @@ fun OptionRow(
             color = colors.textPrimary,
             modifier = Modifier.weight(1f),
         )
-        if (showTrailing) {
+        if (radio) {
+            RadioRing(selected)
+        } else if (showTrailing) {
             RecentrIconImage(
                 if (selected) RecentrIcon.Check else RecentrIcon.ChevronRight,
                 tint = if (selected) colors.brandSky else colors.textTertiary,
             )
         }
+    }
+}
+
+/** 24dp radio: 2dp ring (sky when selected, tertiary otherwise) and a 10dp sky dot. */
+@Composable
+private fun RadioRing(selected: Boolean) {
+    val colors = RecentrTheme.colors
+    Canvas(Modifier.size(24.dp)) {
+        val center = Offset(size.width / 2, size.height / 2)
+        drawCircle(
+            color = if (selected) colors.brandSky else colors.textTertiary,
+            radius = 9.dp.toPx(),
+            center = center,
+            style = Stroke(2.dp.toPx()),
+        )
+        if (selected) drawCircle(colors.brandSky, radius = 5.dp.toPx(), center = center)
     }
 }
 

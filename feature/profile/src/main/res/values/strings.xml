@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_edit">Edit profile</string>
+    <string name="profile_add_name">Add your name</string>
+    <string name="profile_open_settings">Settings</string>
+    <plurals name="profile_member_days">
+        <item quantity="one">Recentr-ing for %d day</item>
+        <item quantity="other">Recentr-ing for %d days</item>
+    </plurals>
+    <string name="profile_before">Before</string>
+    <string name="profile_now">Now</string>
+    <string name="profile_daily_average">daily average</string>
+    <string name="profile_today">today</string>
+    <plurals name="profile_last_days">
+        <item quantity="one">last %d day</item>
+        <item quantity="other">last %d days</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">At this pace</string>
+    <plurals name="profile_life_years">
+        <item quantity="one">You’re winning back %d year of your life</item>
+        <item quantity="other">You’re winning back %d years of your life</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="one">You’re winning back %d month of your life</item>
+        <item quantity="other">You’re winning back %d months of your life</item>
+    </plurals>
+    <string name="profile_life_none">Every hour off your phone is yours again</string>
+    <string name="profile_best_streak">Best streak</string>
+    <plurals name="profile_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <string name="profile_urges">Urges resisted</string>
+    <string name="profile_recap_ready">Your weekly recap is ready</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">Edit profile</string>
+    <string name="edit_name">Name</string>
+    <string name="edit_email">Email</string>
+    <string name="edit_name_placeholder">Your first name</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">Save changes</string>
+    <string name="edit_avatar_colour">Change avatar colour</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_wordmark" translatable="false">recentr</string>
+    <string name="recap_close">Close</string>
+    <string name="recap_over_name">Your week, %s</string>
+    <string name="recap_over">Your week</string>
+    <string name="recap_less">less screen time than last week</string>
+    <string name="recap_more">more screen time than last week</string>
+    <string name="recap_same">as much screen time as last week</string>
+    <string name="recap_saved">Saved</string>
+    <string name="recap_best_day">Best day</string>
+    <string name="recap_streak">Streak</string>
+    <string name="recap_share">Share my week</string>
+    <string name="recap_share_text">My week on Recentr: %1$s screen time vs last week, %2$s saved and my best day was %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">Every tool for calmer days</string>
+    <string name="plus_benefit_rules">Unlimited rules &amp; routines</string>
+    <string name="plus_benefit_strict">Strict mode &amp; emergency passes</string>
+    <string name="plus_benefit_habits">Habits that unlock apps</string>
+    <string name="plus_benefit_recaps">Weekly recaps &amp; reflections</string>
+    <string name="plus_yearly">Yearly</string>
+    <string name="plus_monthly">Monthly</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_price" translatable="false">$29.99</string>
+    <string name="plus_yearly_per_month">$2.50 / month</string>
+    <string name="plus_monthly_price" translatable="false">$4.99</string>
+    <string name="plus_billed_monthly">billed monthly</string>
+    <string name="plus_start_trial">Start 7-day free trial</string>
+    <string name="plus_cancel_anytime">Cancel anytime ·\u0020</string>
+    <string name="plus_restore">Restore purchase</string>
+    <string name="plus_restore_none_title">Nothing to restore</string>
+    <string name="plus_restore_none_body">No Recentr Plus purchase was found for this account.</string>
+    <string name="plus_restore_ok_title">Purchase restored</string>
+    <string name="plus_restore_ok_body">Recentr Plus is active on this phone.</string>
+    <string name="plus_trial_started">Recentr Plus is on — enjoy your free week</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">Subscription</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">Renews on %s</string>
+    <string name="sub_change_plan">Change plan</string>
+    <string name="sub_restore">Restore purchase</string>
+    <string name="sub_invoices">Invoices</string>
+    <string name="sub_cancel">Cancel subscription</string>
+    <string name="sub_change_title">Switch to %s?</string>
+    <string name="sub_change_body">Your new plan starts when the current period ends.</string>
+    <string name="sub_change_confirm">Switch</string>
+    <string name="sub_cancel_title">Cancel Recentr Plus?</string>
+    <string name="sub_cancel_body">You keep Plus until the end of the current period, then go back to the free plan.</string>
+    <string name="sub_cancel_confirm">Cancel plan</string>
+    <string name="sub_keep">Keep Plus</string>
+    <string name="sub_not_now">Not now</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_general">General</string>
+    <string name="settings_protection">Protection</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_developer">Developer</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_on">On</string>
+    <string name="settings_off">Off</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_app_icon">App icon</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_strict_mode">Strict mode</string>
+    <string name="settings_emergency_unlocks">Emergency unlocks</string>
+    <string name="settings_unlocks_left">%d left</string>
+    <string name="settings_unlock_pass">Unlock pass</string>
+    <string name="settings_pass_printed">Printed</string>
+    <string name="settings_pass_not_printed">Not printed</string>
+    <string name="settings_help">Help &amp; feedback</string>
+    <string name="settings_rate">Rate Recentr</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">Free</string>
+    <string name="settings_log_out">Log out</string>
+    <string name="settings_delete_account">Delete account</string>
+    <string name="settings_replay_onboarding">Replay onboarding</string>
+    <string name="settings_design_system">Design system</string>
+    <string name="strict_off">Off</string>
+    <string name="strict_sessions">Sessions</string>
+    <string name="strict_always">Always</string>
+    <string name="strict_sheet_title">Strict mode</string>
+    <string name="strict_sheet_subtitle">When it’s on, rules can’t be edited, paused or unlocked.</string>
+    <string name="strict_option_off">Never</string>
+    <string name="strict_option_sessions">During sessions</string>
+    <string name="strict_option_always">Always</string>
+    <string name="emergency_title">Emergency unlocks</string>
+    <string name="emergency_body">You have %d emergency unlocks left this week. Each one opens a blocked app for 5 minutes, even in Strict mode.</string>
+    <string name="unlock_pass_title">Unlock pass</string>
+    <string name="unlock_pass_body">Scanning your printed QR pass unlocks rules that use “Scan a code”. Keep it somewhere out of reach.</string>
+    <string name="unlock_pass_printed">I’ve printed it</string>
+    <string name="unlock_pass_not_printed">Not printed yet</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">Help &amp; feedback</string>
+    <string name="help_subtitle">We read every message.</string>
+    <string name="help_not_blocking">Recentr isn’t blocking an app</string>
+    <string name="help_not_blocking_body">Blocking needs Usage access and Recentr running in the background. Check Settings › Apps › Recentr and turn off battery optimisation.</string>
+    <string name="help_strict">Questions about Strict mode</string>
+    <string name="help_strict_body">Strict mode locks your rules while they run: no edits, no pauses, no unlocks. Choose when it applies in Settings › Strict mode.</string>
+    <string name="help_billing">Billing &amp; Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus is billed through Google Play. You can cancel anytime from Settings › Recentr Plus or your Play subscriptions.</string>
+    <string name="help_note_section">Send us a note</string>
+    <string name="help_note_title">Idea for Recentr</string>
+    <string name="help_note_placeholder">Would love a “study with friends” session where we all lock together.</string>
+    <string name="help_send">Send feedback</string>
+    <string name="help_feedback_subject">Recentr feedback</string>
+    <string name="help_feedback_email" translatable="false">feedback@recentr.app</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">Appearance</string>
+    <string name="appearance_theme">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_auto">Auto</string>
+    <string name="appearance_app_icon">App icon</string>
+    <string name="icon_sky">Sky</string>
+    <string name="icon_night">Night</string>
+    <string name="icon_mint">Mint</string>
+    <string name="icon_sunset">Sunset</string>
+    <string name="appearance_mascot">Show mascot on Home</string>
+    <string name="appearance_reduce_motion">Reduce motion</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">Notifications</string>
+    <string name="notifications_subtitle">Gentle nudges, never noise.</string>
+    <string name="notifications_reminders">Reminders</string>
+    <string name="notifications_routine">Before a routine starts</string>
+    <string name="notifications_limit">Limit almost reached</string>
+    <string name="notifications_goal">Daily goal check-in</string>
+    <string name="notifications_celebrations">Celebrations</string>
+    <string name="notifications_streaks">Streaks &amp; milestones</string>
+    <string name="notifications_recap">Weekly recap</string>
+    <string name="notifications_quiet_hours">Quiet hours</string>
+    <string name="notifications_dont_notify">Don’t notify me</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">Notifications are off for Recentr on this phone.</string>
+    <string name="notifications_turn_on">Turn on</string>
+    <string name="quiet_title">Quiet hours</string>
+    <string name="quiet_subtitle">No nudges between these times.</string>
+    <string name="quiet_from">Starts</string>
+    <string name="quiet_to">Ends</string>
+    <string name="quiet_save">Save</string>
+    <string name="time_dialog_cancel">Cancel</string>
+    <string name="time_dialog_ok">OK</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">Language</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Log out of Recentr?</string>
+    <string name="logout_body">Your rules keep running on this phone. Sign back in anytime to sync them.</string>
+    <string name="logout_confirm">Log out</string>
+    <string name="logout_stay">Stay</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">Delete your account?</string>
+    <string name="delete_body">All rules, streaks and reflections will be erased. Type DELETE to confirm.</string>
+    <string name="delete_word" translatable="false">DELETE</string>
+    <string name="delete_placeholder">Type DELETE</string>
+    <string name="delete_confirm">Delete account</string>
+    <string name="delete_cancel">Cancel</string>
+
+    <string name="back">Back</string>
+    <string name="duration_h">%1$dh</string>
+    <string name="duration_m">%1$dm</string>
+    <string name="duration_h_m_compact">%1$dh%2$02d</string>
+    <string name="duration_h_m">%1$dh %2$dm</string>
+</resources>

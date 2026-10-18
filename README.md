@@ -1,8 +1,8 @@
 # Recentr — Android
 
 Screen-time & focus app. Native Android port (Kotlin, Jetpack Compose, Material 3) of the iOS
-Figma design *Offly · Screen time App UI Kit* — design system, Onboarding, Home & Insight and
-Rules flows.
+Figma design *Offly · Screen time App UI Kit* — design system, Onboarding, Home & Insight, Rules,
+Profile & Settings and Focus timer flows.
 
 ## Requirements
 
@@ -25,20 +25,23 @@ adb shell am start -S -n com.recentr.app/.MainActivity --es start main --es tab 
 adb shell am start -S -n com.recentr.app/.MainActivity --es start onboarding
 ```
 
-In the app, **Profile** (placeholder tab) has *Replay onboarding* and *Design system* (living
-catalogue of every token and component).
+In debug builds, **Profile › Settings › Developer** has *Replay onboarding* and *Design system*
+(living catalogue of every token and component). The focus timer opens from **Rules › ⋯ › New
+rule › Focus**.
 
 ## Modules
 
 | Module | Content |
 |---|---|
-| `:app` | `MainActivity` (splash, edge-to-edge), root `NavHost`, tab shell with the floating tab bar, Squads/Profile placeholders |
+| `:app` | `MainActivity` (splash, edge-to-edge, launcher icon aliases), root `NavHost`, tab shell with the floating tab bar, Squads placeholder |
 | `:core:designsystem` | Figma foundations (colour, Figtree typography, spacing, radius, effects, gradients), icons, stickers, mascot, backdrops and all components — see [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) |
 | `:core:model` | Domain models (`UserProfile`, `Rule`, `ScreenTimeSummary`, `AppUsage` / `UsageApp`, `AppId`) |
-| `:core:data` | Repositories: `UserPreferencesRepository` (DataStore), `RulesRepository`, `ScreenTimeRepository` (device usage events or demo data) and the `RecentrData` locator |
+| `:core:data` | Repositories: `UserPreferencesRepository` and `SettingsRepository` (DataStore), `RulesRepository`, `FocusRepository`, `ScreenTimeRepository` (device usage events or demo data) and the `RecentrData` locator |
 | `:feature:onboarding` | 17-screen onboarding (Figma `2023:578`) |
 | `:feature:home` | Home & Insight (Figma `2025:1422`) |
 | `:feature:rules` | Rules list, editors, sheets and templates (Figma `2027:2433`) |
+| `:feature:profile` | Profile tab, edit sheet, weekly recap, Recentr Plus & subscription, Settings with Help, Appearance, Notifications, Language, log out and delete account (Figma `2033:6330`) |
+| `:feature:focus` | Focus timer: set-up dial, sounds / rounds / apps sheets, running session, break, app on hold, session complete and focus log (Figma `2114:15883`) |
 
 ## Status / known limits
 
@@ -60,4 +63,17 @@ catalogue of every token and component).
 - Rules are kept in memory (`RulesRepository`) and do not block apps at OS level yet (that needs
   an accessibility / device-policy service).
 - No account backend: "Save your progress" and "I already have an account" only move the flow on.
-- Squads and Profile tabs are placeholders (not part of the delivered flows).
+- Squads is a placeholder tab (not part of the delivered flows).
+- Profile & Settings: no billing or account backend. *Start 7-day free trial* keeps the Recentr Plus
+  plan on the device (`AppSettings.plusPlan`), *Invoices* opens the Play subscriptions page, *Log
+  out* clears the email and replays the onboarding (rules stay), *Delete account* erases every
+  local store. Settings are persisted (`SettingsRepository`): *Show mascot on Home* hides the Home
+  mascot, *App icon* switches the launcher `activity-alias` when the app goes to the background,
+  *Language* sets the per-app locale on Android 13+ (no translations ship yet). *Dark* / *Auto*
+  themes are saved but the app stays light until a dark palette exists. Notification preferences
+  and quiet hours are stored; no reminder is scheduled yet.
+- Focus timer: the session runs on the wall clock in memory (`FocusRepository`, like the rules), so
+  it survives leaving the screen but not the process. The focus sounds are synthesised
+  (`AmbientSoundPlayer`) and play while a round runs with the screen in front. Apps are not blocked
+  at OS level: the *App on hold* dialog opens from the "N apps on hold" row (and the ✕ guard).
+  The focus log is seeded with two weeks of sessions, including the four of the design.

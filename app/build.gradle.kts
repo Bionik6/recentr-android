@@ -41,6 +41,8 @@ dependencies {
     implementation(project(":feature:onboarding"))
     implementation(project(":feature:home"))
     implementation(project(":feature:rules"))
+    implementation(project(":feature:profile"))
+    implementation(project(":feature:focus"))
 
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.navigation.compose)

@@ -39,6 +39,14 @@ enum class Sticker(@param:DrawableRes val drawable: Int, val exportHeightRatio: 
     Note(R.drawable.sticker_note, 492f / 480f),
     /** Streak — days in a row. */
     Flame(R.drawable.sticker_flame, 496f / 480f),
+    /** Focus timer — sounds, deep work. */
+    Headphones(R.drawable.sticker_headphones, 1f),
+    /** Break idea — drink water. */
+    Target(R.drawable.sticker_target, 1f),
+    /** Break idea — stretch. */
+    Heart(R.drawable.sticker_heart, 1f),
+    /** Celebration — session complete. */
+    Star(R.drawable.sticker_star, 1f),
 }
 
 /** Draws a [Sticker] in a square slot of [size] (the Figma instance size). */
@@ -134,6 +142,31 @@ fun BackdropBox(
         )
         content()
     }
+}
+
+/**
+ * Figma "Logo/App Icon" colourways (Settings › Appearance › App icon): the hourglass on its OFF
+ * toggle over the Sky / Night / Mint / Sunset gradient, rounded 18/70 like the launcher squircle.
+ */
+enum class BrandIcon(@param:DrawableRes val drawable: Int) {
+    Sky(R.drawable.app_icon_sky),
+    Night(R.drawable.app_icon_night),
+    Mint(R.drawable.app_icon_mint),
+    Sunset(R.drawable.app_icon_sunset),
+}
+
+@Composable
+fun BrandIconImage(
+    icon: BrandIcon,
+    size: Dp,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+) {
+    Image(
+        painter = painterResource(icon.drawable),
+        contentDescription = contentDescription,
+        modifier = modifier.size(size),
+    )
 }
 
 /** Demo app icons from the Figma "App Icon" component (32px artboard, 9px corner radius). */

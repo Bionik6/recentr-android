@@ -82,6 +82,12 @@ class RulesRepository {
         }
     }
 
+    /** Back to the seeded rules ("Delete account"). */
+    fun reset() {
+        _rules.value = seed()
+        _savedTemplates.value = emptyList()
+    }
+
     private fun seed(): List<Rule> = listOf(
         Rule(
             id = "instagram-x",

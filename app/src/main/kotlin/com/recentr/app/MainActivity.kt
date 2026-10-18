@@ -8,10 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.recentr.app.navigation.RecentrNavHost
 import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.component.RecentrTab
 import com.recentr.core.designsystem.theme.RecentrTheme
+import com.recentr.core.model.AppIconStyle
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -22,6 +27,9 @@ class MainActivity : ComponentActivity() {
         splash.setKeepOnScreenCondition { viewModel.startState.value == StartState.Loading }
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            RecentrData.settings.settings.map { it.appIcon }.distinctUntilChanged().collect { launcherIcon = it }
+        }
 
         // Debug-only QA shortcuts:
         //   adb shell am start -n com.recentr.app/.MainActivity --es start main|onboarding --es tab rules
@@ -42,10 +50,19 @@ class MainActivity : ComponentActivity() {
                         "onboarding" -> true
                         else -> start == StartState.Onboarding
                     }
-                    RecentrNavHost(showOnboarding = showOnboarding, initialTab = initialTab)
+                    RecentrNavHost(showOnboarding = showOnboarding, initialTab = initialTab, debugTools = debuggable)
                 }
             }
         }
+    }
+
+    /** Latest Settings › Appearance › App icon choice, applied when the app goes to the background. */
+    private var launcherIcon: AppIconStyle? = null
+
+    override fun onStop() {
+        super.onStop()
+        // Switching the launcher alias while the task is in front can close it on some launchers.
+        launcherIcon?.let { LauncherIcons.apply(this, it) }
     }
 
     override fun onResume() {

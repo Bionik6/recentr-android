@@ -88,7 +88,12 @@ class OnboardingViewModel(
         completing = true
         val state = _uiState.value
         viewModelScope.launch {
-            preferences.update { it.withAnswers(state).copy(onboardingCompleted = true) }
+            preferences.update {
+                it.withAnswers(state).copy(
+                    onboardingCompleted = true,
+                    joinedAtMillis = it.joinedAtMillis ?: System.currentTimeMillis(),
+                )
+            }
             onDone()
         }
     }

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="focus_title">Focus</string>
+    <string name="focus_more">More options</string>
+    <string name="focus_close">Close</string>
+    <string name="focus_back">Back</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d min</string>
+    <string name="focus_dial_description">Focus length: %d minutes. Drag to change.</string>
+    <string name="focus_sound">Sound</string>
+    <string name="focus_block">Block</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">None</string>
+    <string name="focus_rounds">Rounds</string>
+    <string name="focus_rounds_value">%1$d × %2$d min</string>
+    <string name="focus_start">Start focus</string>
+    <string name="focus_rename">Rename</string>
+    <string name="focus_rename_title">Name this session</string>
+    <string name="focus_rename_save">Save</string>
+    <string name="focus_log">Focus log</string>
+    <string name="focus_change_sound">Change sound</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">Round %1$d of %2$d</string>
+    <string name="focus_left_ends">left · ends %s</string>
+    <string name="focus_paused">paused</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="one">%d app on hold</item>
+        <item quantity="other">%d apps on hold</item>
+    </plurals>
+    <string name="focus_pause">Pause</string>
+    <string name="focus_resume">Resume</string>
+    <string name="focus_start_round">Start round</string>
+    <string name="focus_end">End</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">Focus sounds</string>
+    <string name="sounds_subtitle">Plays only while a session runs.</string>
+    <string name="sound_rain">Rain on window</string>
+    <string name="sound_rain_hint">Soft &amp; steady</string>
+    <string name="sound_forest">Forest</string>
+    <string name="sound_forest_hint">Birds, wind</string>
+    <string name="sound_night">Night</string>
+    <string name="sound_night_hint">Crickets</string>
+    <string name="sound_fireplace">Fireplace</string>
+    <string name="sound_fireplace_hint">Warm crackle</string>
+    <string name="sound_clock">Clock</string>
+    <string name="sound_clock_hint">Slow tick</string>
+    <string name="sound_silence">Silence</string>
+    <string name="sound_silence_hint">Just you</string>
+    <string name="sounds_volume">Volume</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sounds_done">Done</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">Break</string>
+    <string name="break_round_done">Round %1$d done · %2$d to go</string>
+    <string name="break_until">until round %d</string>
+    <string name="break_ideas_title">Try this instead of scrolling</string>
+    <string name="break_idea_window">Look out a window</string>
+    <string name="break_idea_window_hint">20 seconds, 20 metres away</string>
+    <string name="break_idea_water">Drink a glass of water</string>
+    <string name="break_idea_water_hint">Your brain will thank you</string>
+    <string name="break_idea_stretch">Stretch your shoulders</string>
+    <string name="break_idea_stretch_hint">Roll back 5 times</string>
+    <string name="break_skip">Skip break</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="one">%1$d minute of %2$s</item>
+        <item quantity="other">%1$d minutes of %2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="one">%d round</item>
+        <item quantity="other">%d rounds</item>
+    </plurals>
+    <string name="complete_zero_unlocks">zero unlocks</string>
+    <plurals name="complete_unlocks">
+        <item quantity="one">%d unlock</item>
+        <item quantity="other">%d unlocks</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. That’s your longest this week.</string>
+    <string name="complete_focus_streak">Focus streak</string>
+    <plurals name="complete_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <string name="complete_urges">Urges resisted</string>
+    <string name="complete_urges_today">%d today</string>
+    <string name="complete_note_title">What did you finish?</string>
+    <string name="complete_note_placeholder">Chapter 3 outline + two pages. Phone stayed face down.</string>
+    <string name="complete_another">Start another round</string>
+    <string name="complete_done">Done</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">You’re %d min into focus</string>
+    <string name="hold_body">%1$s is on hold until %2$s. It’ll still be there — promise.</string>
+    <string name="hold_leave_body">Your apps stay on hold until %s. Stick with it — you’re doing great.</string>
+    <string name="hold_back">Back to focus</string>
+    <string name="hold_end">End session early</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">Focus log</string>
+    <string name="history_this_week">This week</string>
+    <string name="history_sessions">Sessions</string>
+    <string name="history_today">Today, %s</string>
+    <string name="history_yesterday">Yesterday, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">No sessions yet. Your focus sessions will show up here.</string>
+    <string name="history_clear">Clear the log</string>
+    <string-array name="focus_day_letters">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">Rounds</string>
+    <string name="rounds_subtitle">Work in rounds with short breaks in between.</string>
+    <string name="rounds_focus">Focus</string>
+    <string name="rounds_short_break">Short break</string>
+    <string name="rounds_count">Rounds</string>
+    <string name="rounds_long_break">Long break</string>
+    <string name="rounds_minutes">%d min</string>
+    <string name="rounds_auto_start">Auto-start next round</string>
+    <string name="rounds_total">Total: %s with breaks</string>
+    <string name="rounds_save">Save rounds</string>
+    <string name="rounds_decrease">Decrease %s</string>
+    <string name="rounds_increase">Increase %s</string>
+
+    <!-- Block apps -->
+    <string name="block_title">Block during focus</string>
+    <string name="block_subtitle">These apps stay on hold until the session ends.</string>
+    <string name="block_done">Done</string>
+
+    <string name="duration_h">%1$dh</string>
+    <string name="duration_m">%1$dm</string>
+    <string name="duration_h_m">%1$dh %2$dm</string>
+</resources>

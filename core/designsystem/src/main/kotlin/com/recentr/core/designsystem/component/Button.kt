@@ -40,6 +40,8 @@ enum class RecentrButtonStyle {
     Secondary,
     /** Sunken grey — "Nevermind". */
     Soft,
+    /** Danger red — "Delete account". */
+    Danger,
 }
 
 /**
@@ -71,6 +73,9 @@ fun RecentrButton(
         RecentrButtonStyle.Soft -> {
             background = SolidColor(colors.bgSunken); contentColor = colors.textPrimary
         }
+        RecentrButtonStyle.Danger -> {
+            background = SolidColor(colors.feedbackDanger); contentColor = colors.textOnAction
+        }
     }
     val shadowModifier = when (style) {
         RecentrButtonStyle.Brand -> Modifier.recentrShadow(RecentrElevation.glowButton, RecentrShapes.full)
@@ -79,7 +84,7 @@ fun RecentrButton(
     }
     Box(
         modifier = modifier
-            .alpha(if (enabled) 1f else 0.4f)
+            .alpha(if (enabled) 1f else if (style == RecentrButtonStyle.Danger) 0.5f else 0.4f)
             .then(if (enabled) shadowModifier else Modifier)
             .height(RecentrTheme.sizes.button)
             .defaultMinSize(minWidth = 120.dp)

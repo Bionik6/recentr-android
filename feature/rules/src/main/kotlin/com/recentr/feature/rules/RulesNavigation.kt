@@ -40,13 +40,14 @@ internal data class RuleDetailRoute(val ruleId: String)
 
 /**
  * Rules tab content (rules list). Drawn under the floating tab bar: keep [contentPadding]
- * (bottom) clear of interactive content.
+ * (bottom) clear of interactive content. [onOpenFocus] opens the focus timer ("New rule" sheet).
  */
 @Composable
 fun RulesTab(
     navController: NavHostController,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
+    onOpenFocus: () -> Unit = {},
 ) {
     val viewModel: RulesViewModel = viewModel(factory = RulesViewModel.Factory)
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -73,6 +74,7 @@ fun RulesTab(
         NewRuleSheet(
             onCreate = { navController.navigateToNewRule(it) },
             onBrowseTemplates = { viewModel.showTemplates(true) },
+            onOpenFocus = onOpenFocus,
             onDismiss = { newRule = false },
         )
     }

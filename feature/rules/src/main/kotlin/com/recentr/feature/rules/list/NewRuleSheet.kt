@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrTextButton
 import com.recentr.core.designsystem.component.RuleTile
+import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.defaultSticker
@@ -24,13 +25,14 @@ import com.recentr.feature.rules.ui.label
 
 /**
  * "New rule" grid of [RuleTile]s (the Figma Rule Tile component; the kit has no screen for this
- * sheet, so it follows the other rules sheets' layout).
+ * sheet, so it follows the other rules sheets' layout). The last slot opens the focus timer.
  */
 @Composable
 internal fun NewRuleSheet(
     onCreate: (RuleType) -> Unit,
     onBrowseTemplates: () -> Unit,
     onDismiss: () -> Unit,
+    onOpenFocus: () -> Unit = {},
 ) {
     RulesSheet(onDismissRequest = onDismiss) { closer ->
         SheetBody(
@@ -66,7 +68,15 @@ internal fun NewRuleSheet(
                             modifier = Modifier.weight(1f),
                         )
                     }
-                    repeat(3 - row.size) { Box(Modifier.weight(1f)) }
+                    if (row.size < 3) {
+                        RuleTile(
+                            label = stringResource(R.string.rules_new_focus),
+                            sticker = Sticker.Headphones,
+                            onClick = { closer.close(onOpenFocus) },
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                    repeat(2 - row.size) { Box(Modifier.weight(1f)) }
                 }
             }
         }

@@ -48,6 +48,8 @@ data class HomeUiState(
     val grouping: UsageGrouping = UsageGrouping.Apps,
     /** Monday = 0 … Sunday = 6, used to highlight today in the week chart. */
     val todayIndex: Int = 6,
+    /** Settings › Appearance › "Show mascot on Home". */
+    val showMascot: Boolean = true,
 ) {
     /** Skeleton shown while syncing (no stale numbers on screen). */
     val showSkeleton: Boolean get() = isSyncing || summary == null

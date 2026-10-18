@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App icon colourway "Sunset" (Settings › Appearance › App icon). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="315"
+        android:endColor="#F0507A"
+        android:startColor="#FFB37A" />
+</shape>
