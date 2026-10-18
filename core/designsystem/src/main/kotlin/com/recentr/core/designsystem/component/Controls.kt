@@ -16,6 +16,10 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -72,32 +76,55 @@ fun RecentrToggle(
     )
 }
 
-/** Figma "Checkbox" — 24dp, radius 8, sky when checked. */
+/**
+ * The native Android checkbox (Material 3 [Checkbox]) in the Figma "Checkbox" colours: sky with a
+ * white check when checked, dashed-border outline otherwise. 24dp when [onCheckedChange] is null
+ * (the whole row toggles and carries the [Role.Checkbox] semantics), 48dp touch target otherwise.
+ */
 @Composable
 fun RecentrCheckbox(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
-    val shape = RoundedCornerShape(8.dp)
-    Box(
-        modifier = modifier
-            .size(24.dp)
-            .clip(shape)
-            .background(if (checked) colors.brandSky else colors.bgSurface)
-            .then(if (!checked) Modifier.border(1.5.dp, colors.borderDashed, shape) else Modifier)
-            .then(
-                if (onCheckedChange != null) {
-                    Modifier.toggleable(value = checked, role = Role.Checkbox, onValueChange = onCheckedChange)
-                } else {
-                    Modifier
-                },
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (checked) RecentrIconImage(RecentrIcon.Check, tint = Color.White, size = 18.dp)
-    }
+    Checkbox(
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        modifier = modifier,
+        enabled = enabled,
+        colors = CheckboxDefaults.colors(
+            checkedColor = colors.brandSky,
+            uncheckedColor = colors.borderDashed,
+            checkmarkColor = Color.White,
+        ),
+    )
+}
+
+/**
+ * The native Android radio button (Material 3 [RadioButton]) in the Figma "Radio" colours: sky ring
+ * and dot when selected, tertiary ring otherwise. 24dp when [onClick] is null (the whole row is
+ * selectable and carries the [Role.RadioButton] semantics), 48dp touch target otherwise.
+ */
+@Composable
+fun RecentrRadioButton(
+    selected: Boolean,
+    onClick: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
+    val colors = RecentrTheme.colors
+    RadioButton(
+        selected = selected,
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        colors = RadioButtonDefaults.colors(
+            selectedColor = colors.brandSky,
+            unselectedColor = colors.textTertiary,
+        ),
+    )
 }
 
 /** Leading 32dp icon tile shared by setting rows. */

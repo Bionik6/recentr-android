@@ -10,13 +10,10 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.selected
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.OptionRow
+import com.recentr.core.designsystem.component.OptionTrailing
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.onboarding.R
 import com.recentr.feature.onboarding.UsageBucket
@@ -53,17 +50,12 @@ internal fun TimeSpentScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             UsageBucket.entries.forEach { bucket ->
-                val isSelected = bucket == selected
                 OptionRow(
                     label = stringResource(bucket.label),
-                    selected = isSelected,
+                    selected = bucket == selected,
                     onClick = { onSelect(bucket) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .semantics {
-                            role = Role.RadioButton
-                            this.selected = isSelected
-                        },
+                    trailing = OptionTrailing.Radio,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }

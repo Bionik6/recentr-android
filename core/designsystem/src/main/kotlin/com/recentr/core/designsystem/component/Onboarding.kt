@@ -1,7 +1,6 @@
 package com.recentr.core.designsystem.component
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,9 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -122,7 +119,21 @@ fun OnboardingHeader(
     }
 }
 
-/** Figma "Option Row" — quiz / choice row with leading icon tile and chevron / check. */
+/** What [OptionRow] shows on its trailing edge. */
+enum class OptionTrailing {
+    /** A chevron, replaced by a sky check once selected. */
+    Check,
+
+    /** A checkbox: multi-select lists (onboarding "What's wrong"). */
+    Checkbox,
+
+    /** A radio button: single choice (onboarding "Time spent", Home period, Language). */
+    Radio,
+
+    None,
+}
+
+/** Figma "Option Row" — quiz / choice row with leading icon tile and a trailing [OptionTrailing]. */
 @Composable
 fun OptionRow(
     label: String,
@@ -130,11 +141,9 @@ fun OptionRow(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     icon: RecentrIcon? = null,
-    showTrailing: Boolean = true,
+    trailing: OptionTrailing = OptionTrailing.Check,
     /** [Role.Checkbox] for multi-select lists, [Role.RadioButton] for single choice. */
-    role: Role = Role.Checkbox,
-    /** Trailing radio ring (Settings › Language) instead of the chevron / check. */
-    radio: Boolean = false,
+    role: Role = if (trailing == OptionTrailing.Radio) Role.RadioButton else Role.Checkbox,
 ) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(20.dp)
@@ -173,30 +182,16 @@ fun OptionRow(
             color = colors.textPrimary,
             modifier = Modifier.weight(1f),
         )
-        if (radio) {
-            RadioRing(selected)
-        } else if (showTrailing) {
-            RecentrIconImage(
+        // The row carries the click and semantics: the controls are drawn only (null callbacks).
+        when (trailing) {
+            OptionTrailing.Check -> RecentrIconImage(
                 if (selected) RecentrIcon.Check else RecentrIcon.ChevronRight,
                 tint = if (selected) colors.brandSky else colors.textTertiary,
             )
+            OptionTrailing.Checkbox -> RecentrCheckbox(checked = selected, onCheckedChange = null)
+            OptionTrailing.Radio -> RecentrRadioButton(selected = selected, onClick = null)
+            OptionTrailing.None -> Unit
         }
-    }
-}
-
-/** 24dp radio: 2dp ring (sky when selected, tertiary otherwise) and a 10dp sky dot. */
-@Composable
-private fun RadioRing(selected: Boolean) {
-    val colors = RecentrTheme.colors
-    Canvas(Modifier.size(24.dp)) {
-        val center = Offset(size.width / 2, size.height / 2)
-        drawCircle(
-            color = if (selected) colors.brandSky else colors.textTertiary,
-            radius = 9.dp.toPx(),
-            center = center,
-            style = Stroke(2.dp.toPx()),
-        )
-        if (selected) drawCircle(colors.brandSky, radius = 5.dp.toPx(), center = center)
     }
 }
 

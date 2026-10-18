@@ -35,6 +35,7 @@ import com.recentr.core.designsystem.component.HourlyUsageChart
 import com.recentr.core.designsystem.component.MiniTile
 import com.recentr.core.designsystem.component.OnboardingHeader
 import com.recentr.core.designsystem.component.OptionRow
+import com.recentr.core.designsystem.component.OptionTrailing
 import com.recentr.core.designsystem.component.RecentrAlertDialog
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
@@ -43,6 +44,7 @@ import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
+import com.recentr.core.designsystem.component.RecentrRadioButton
 import com.recentr.core.designsystem.component.RecentrSegmented
 import com.recentr.core.designsystem.component.RecentrTab
 import com.recentr.core.designsystem.component.RecentrTabBar
@@ -195,6 +197,8 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
             OnboardingHeader(progress = 0.35f, onBack = {}, onSkip = {})
             OptionRow("It affects my sleep", selected = false, onClick = {}, icon = RecentrIcon.Moon, modifier = Modifier.fillMaxWidth())
             OptionRow("It affects my sleep", selected = option, onClick = { option = !option }, icon = RecentrIcon.Moon, modifier = Modifier.fillMaxWidth())
+            OptionRow("It affects my sleep", selected = option, onClick = { option = !option }, icon = RecentrIcon.Moon, trailing = OptionTrailing.Checkbox, modifier = Modifier.fillMaxWidth())
+            OptionRow("5 – 7 hours", selected = option, onClick = { option = !option }, trailing = OptionTrailing.Radio, modifier = Modifier.fillMaxWidth())
             RecentrTextField(name, { name = it }, placeholder = "Your first name", modifier = Modifier.fillMaxWidth())
             ReviewCard("Got my evenings back", "I went from 7 hours a day to under 3. The little pause before opening X is genius.", "Jonah R.", "J", Modifier.width(250.dp))
 
@@ -203,6 +207,8 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
                 RecentrToggle(toggle, { toggle = it })
                 RecentrCheckbox(checked, { checked = it })
                 RecentrCheckbox(!checked, { checked = !it })
+                RecentrRadioButton(checked, { checked = true })
+                RecentrRadioButton(!checked, { checked = false })
             }
             SettingRow("Block", "3 apps", onClick = {}, icon = RecentrIcon.Apps, modifier = Modifier.fillMaxWidth())
             SettingToggleRow("Block", toggle, { toggle = it }, icon = RecentrIcon.Apps, modifier = Modifier.fillMaxWidth())

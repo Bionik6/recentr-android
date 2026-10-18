@@ -12,9 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.OptionRow
+import com.recentr.core.designsystem.component.OptionTrailing
 import com.recentr.core.model.AppLanguage
 import com.recentr.feature.profile.R
 import com.recentr.feature.profile.ui.SettingsPage
@@ -41,8 +41,7 @@ internal fun LanguageScreen(
                             applyAppLanguage(context, language)
                         }
                     },
-                    role = Role.RadioButton,
-                    radio = true,
+                    trailing = OptionTrailing.Radio,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

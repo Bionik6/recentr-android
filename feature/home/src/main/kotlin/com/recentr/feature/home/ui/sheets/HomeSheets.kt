@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.OptionRow
+import com.recentr.core.designsystem.component.OptionTrailing
 import com.recentr.core.designsystem.component.RecentrBottomSheet
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.StickyNote
@@ -201,6 +202,7 @@ private fun PeriodSheetContent(selected: UsagePeriod, onSelect: (UsagePeriod) ->
                         UsagePeriod.ThisWeek -> RecentrIcon.Chart
                         UsagePeriod.ThisMonth -> RecentrIcon.Apps
                     },
+                    trailing = OptionTrailing.Radio,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
