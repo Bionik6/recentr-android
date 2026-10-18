@@ -77,7 +77,6 @@ internal class RulesListActions(
     val onCreate: (RuleType) -> Unit = {},
     val onTemplate: (String) -> Unit = {},
     val onStartBlocking: () -> Unit = {},
-    val onHelp: () -> Unit = {},
     /** The header "+": the "New rule" sheet. */
     val onNewRule: () -> Unit = {},
 )
@@ -313,7 +312,7 @@ private fun TemplateFilters(selected: TemplateCategory?, onSelect: (TemplateCate
     }
 }
 
-/** "Rules  Templates" switch title with help / more buttons (Figma Header). */
+/** "Rules  Templates" switch title with the "+" (New rule) button (Figma Header). */
 @Composable
 private fun RulesHeader(showTemplates: Boolean, subtitle: String, actions: RulesListActions, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
@@ -347,7 +346,6 @@ private fun RulesHeader(showTemplates: Boolean, subtitle: String, actions: Rules
             }
             Text(subtitle, style = RecentrTheme.typography.captionRegular, color = colors.textSecondary, maxLines = 1)
         }
-        RecentrIconButton(RecentrIcon.Help, contentDescription = stringResource(R.string.rules_help), onClick = actions.onHelp)
         RecentrIconButton(RecentrIcon.Plus, contentDescription = stringResource(R.string.rules_new_rule), onClick = actions.onNewRule)
     }
 }

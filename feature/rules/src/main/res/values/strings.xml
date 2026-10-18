@@ -23,17 +23,7 @@
     <string name="rules_add_habit">Add a habit</string>
     <string name="rules_add_habit_hint">E.g. “Read 10 pages before X opens”</string>
     <string name="rules_start_blocking">Start blocking</string>
-    <string name="rules_help">Help</string>
     <string name="rules_more">More options</string>
-    <string name="rules_help_title">How rules work</string>
-    <string name="rules_help_routine">Routine</string>
-    <string name="rules_help_routine_body">Blocks apps on a schedule, like bedtime or work hours.</string>
-    <string name="rules_help_lock">Lock</string>
-    <string name="rules_help_lock_body">Keeps apps closed until you unlock them on purpose.</string>
-    <string name="rules_help_limit">Limit</string>
-    <string name="rules_help_limit_body">A daily time budget. When it’s spent, the apps lock.</string>
-    <string name="rules_help_focus">To block apps right now, start a session in Focus.</string>
-    <string name="rules_help_ok">Got it</string>
     <string name="rules_empty_title">No rules yet</string>
     <string name="rules_empty_body">Start a session or pick a template to begin.</string>
 
@@ -299,6 +289,10 @@
     <string name="rules_new_rule">New rule</string>
     <string name="rules_new_rule_subtitle">What do you want to set up?</string>
     <string name="rules_browse_templates">Browse templates</string>
+    <string name="rules_kind_routine_body">Blocks apps on a schedule, like bedtime or work hours.</string>
+    <string name="rules_kind_session_body">Blocks apps right now, for as long as you choose.</string>
+    <string name="rules_kind_lock_body">Keeps apps closed until you unlock them on purpose.</string>
+    <string name="rules_kind_limit_body">A daily time budget. When it’s spent, the apps lock.</string>
 
     <!-- Detail -->
     <string name="rules_detail_sub">%1$s · %2$s</string>
@@ -358,5 +352,4 @@
     <string name="rules_rule_created">%1$s created</string>
     <string name="rules_rule_saved">Changes saved</string>
     <string name="rules_session_ended">Session ended</string>
-    <string name="rules_new_focus">Focus</string>
 </resources>

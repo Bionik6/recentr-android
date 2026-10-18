@@ -26,8 +26,7 @@ adb shell am start -S -n com.recentr.app/.MainActivity --es start onboarding
 ```
 
 In debug builds, **Profile › Settings › Developer** has *Replay onboarding* and *Design system*
-(living catalogue of every token and component). The focus timer is the **Timer** tab (also
-reached from **Rules › + › Focus**). Insights open from the usage card on **Home** (Day / Week / Month follows the
+(living catalogue of every token and component). The focus timer is the **Timer** tab. Insights open from the usage card on **Home** (Day / Week / Month follows the
 Home period); Pickups, Daily goal, Streak and Achievements are in its **⋯** menu, the streak
 also from the Home streak tile.
 

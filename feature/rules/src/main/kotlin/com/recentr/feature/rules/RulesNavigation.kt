@@ -20,7 +20,6 @@ import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.detail.RuleDetailDestination
 import com.recentr.feature.rules.editor.RuleEditorDestination
 import com.recentr.feature.rules.list.NewRuleSheet
-import com.recentr.feature.rules.list.RulesHelpSheet
 import com.recentr.feature.rules.list.RulesListActions
 import com.recentr.feature.rules.list.RulesScreen
 import com.recentr.feature.rules.list.RulesViewModel
@@ -48,19 +47,17 @@ internal data class RuleDetailRoute(val ruleId: String)
 
 /**
  * Rules tab content (rules list). Drawn under the floating tab bar: keep [contentPadding]
- * (bottom) clear of interactive content. [onOpenFocus] opens the focus timer ("New rule" sheet).
+ * (bottom) clear of interactive content. The header "+" opens the "New rule" sheet.
  */
 @Composable
 fun RulesTab(
     navController: NavHostController,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
-    onOpenFocus: () -> Unit = {},
 ) {
     val viewModel: RulesViewModel = viewModel(factory = RulesViewModel.Factory)
     val state by viewModel.state.collectAsStateWithLifecycle()
     var newRule by rememberSaveable { mutableStateOf(false) }
-    var help by rememberSaveable { mutableStateOf(false) }
     RulesScreen(
         state = state,
         contentPadding = contentPadding,
@@ -74,7 +71,6 @@ fun RulesTab(
             onCreate = { navController.navigateToNewRule(it) },
             onTemplate = { navController.navigateToTemplate(it) },
             onStartBlocking = { navController.navigateToStartSession() },
-            onHelp = { help = true },
             onNewRule = { newRule = true },
         ),
     )
@@ -82,12 +78,8 @@ fun RulesTab(
         NewRuleSheet(
             onCreate = { navController.navigateToNewRule(it) },
             onBrowseTemplates = { viewModel.showTemplates(true) },
-            onOpenFocus = onOpenFocus,
             onDismiss = { newRule = false },
         )
-    }
-    if (help) {
-        RulesHelpSheet(onDismissRequest = { help = false })
     }
 }
 
