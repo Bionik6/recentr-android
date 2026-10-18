@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Header -->
+    <string name="home_wordmark" translatable="false">Recentr</string>
+    <string name="home_refresh">Refresh screen time</string>
+    <string name="home_more">Edit daily goal</string>
+    <string name="home_choose_period">Choose period, %1$s</string>
+
+    <!-- Periods -->
+    <string name="home_period_today">Today</string>
+    <string name="home_period_yesterday">Yesterday</string>
+    <string name="home_period_this_week">This week</string>
+    <string name="home_period_this_month">This month</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$dh%2$02d</string>
+    <string name="home_duration_hours">%1$dh</string>
+    <string name="home_duration_minutes">%1$dm</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">Screen time today</string>
+    <string name="home_hero_screen_time_yesterday">Screen time yesterday</string>
+    <string name="home_hero_average_week">Daily average · this week</string>
+    <string name="home_hero_average_month">Daily average · this month</string>
+    <string name="home_goal_under">Under your %1$s goal</string>
+    <string name="home_goal_over">Over your %1$s goal</string>
+    <string name="home_compare_less_week">%1$d%% less than last week</string>
+    <string name="home_compare_more_week">%1$d%% more than last week</string>
+    <string name="home_compare_less_month">%1$d%% less than last month</string>
+    <string name="home_compare_more_month">%1$d%% more than last month</string>
+    <string name="home_syncing">Syncing screen time…</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">Quality today</string>
+    <string name="home_hero_quality_yesterday">Quality yesterday</string>
+    <string name="home_hero_quality_week">Quality · this week</string>
+    <string name="home_hero_quality_month">Quality · this month</string>
+    <string name="home_quality_focused">Focused</string>
+    <string name="home_quality_balanced">Balanced</string>
+    <string name="home_quality_distracted">Distracted</string>
+    <string name="home_split_focus">Focus %1$d%%</string>
+    <string name="home_split_social">Social %1$d%%</string>
+    <string name="home_split_fun">Fun %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">Longest offline today</string>
+    <string name="home_hero_offline_yesterday">Longest offline yesterday</string>
+    <string name="home_hero_offline_week">Longest offline · this week</string>
+    <string name="home_hero_offline_month">Longest offline · this month</string>
+    <string name="home_offline_chip">Phone-free stretch</string>
+    <string name="home_hero_details">Show details</string>
+    <string name="home_hero_page">Page %1$d of %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">Decrease</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">Pickups</string>
+    <string name="home_stat_notifications">Notifications</string>
+    <string name="home_stat_total">Total</string>
+    <string name="home_stat_best_day">Best day</string>
+    <string name="home_axis_12am">12 AM</string>
+    <string name="home_axis_6am">6 AM</string>
+    <string name="home_axis_12pm">12 PM</string>
+    <string name="home_axis_6pm">6 PM</string>
+    <string-array name="home_day_letters">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">Streak</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <string name="home_tile_next">Next · %1$s</string>
+    <string name="home_tile_ongoing">Ongoing</string>
+    <string name="home_tile_left">%1$s left</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">Next</string>
+    <string name="home_tile_no_rule">No rule planned</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">Loading…</string>
+
+    <!-- CTA -->
+    <string name="home_start_blocking">Start blocking</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">Most used</string>
+    <string name="home_filter_apps">Apps</string>
+    <string name="home_filter_categories">Categories</string>
+    <string name="home_time_well_spent">Time well spent?</string>
+    <string name="home_time_well_spent_yes">Time well spent</string>
+    <string name="home_category_social">Social</string>
+    <string name="home_category_entertainment">Entertainment</string>
+    <string name="home_category_games">Games</string>
+    <string name="home_category_productivity">Productivity</string>
+    <string name="home_category_music">Music</string>
+    <string name="home_category_other">Other</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s spent glued to your screen</string>
+    <string name="home_info_glued_average">%1$s a day glued to your screen</string>
+    <string name="home_info_hints_title">Hints to reflect</string>
+    <string name="home_info_glued_hints">How often did you get interrupted? Why do you reach for your phone? Was it really important?</string>
+    <string name="home_info_offline">%1$s offline</string>
+    <string name="home_info_offline_today">Your longest stretch without the phone today.</string>
+    <string name="home_info_offline_yesterday">Your longest stretch without the phone yesterday.</string>
+    <string name="home_info_offline_week">Your longest stretch without the phone this week.</string>
+    <string name="home_info_offline_month">Your longest stretch without the phone this month.</string>
+    <string name="home_info_offline_hints">What did you get done during this time? How did it make you feel?</string>
+    <string name="home_info_got_it">Got it</string>
+
+    <!-- Period sheet -->
+    <string name="home_period_title">Show screen time for</string>
+
+    <!-- Goal sheet -->
+    <string name="home_goal_title">Daily goal</string>
+    <string name="home_goal_subtitle">Recentr nudges you when you get close.</string>
+    <string name="home_goal_decrease">Decrease daily goal</string>
+    <string name="home_goal_increase">Increase daily goal</string>
+    <string name="home_goal_save">Save goal</string>
+</resources>

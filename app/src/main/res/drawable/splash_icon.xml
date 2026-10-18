@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 288dp splash icon area; the mascot (160×210 export ratio) fits the 192dp safe circle. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/mascot_calm"
+    android:insetLeft="86dp"
+    android:insetRight="86dp"
+    android:insetTop="68dp"
+    android:insetBottom="68dp" />

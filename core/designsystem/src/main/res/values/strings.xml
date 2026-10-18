@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ds_tab_home">Home</string>
+    <string name="ds_tab_rules">Rules</string>
+    <string name="ds_tab_squads">Squads</string>
+    <string name="ds_tab_profile">Profile</string>
+    <string name="ds_skip">Skip</string>
+    <string name="ds_back">Back</string>
+    <string name="ds_clear">Clear</string>
+    <string name="ds_more_options">More options</string>
+</resources>

@@ -1,0 +1,74 @@
+package com.recentr.core.designsystem.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.icon.RecentrIcon
+import com.recentr.core.designsystem.icon.RecentrIconImage
+import com.recentr.core.designsystem.theme.RecentrShapes
+import com.recentr.core.designsystem.theme.RecentrTheme
+
+/** Figma "Chip" · Style. */
+enum class RecentrChipStyle { Neutral, Selected, Success, OnSky, Outline }
+
+/** Small status / filter chip (Ongoing, All day, 5min…). */
+@Composable
+fun RecentrChip(
+    label: String,
+    modifier: Modifier = Modifier,
+    style: RecentrChipStyle = RecentrChipStyle.Neutral,
+    icon: RecentrIcon? = null,
+    onClick: (() -> Unit)? = null,
+) {
+    val colors = RecentrTheme.colors
+    val (background, content) = when (style) {
+        RecentrChipStyle.Neutral -> colors.bgSunken to colors.textSecondary
+        RecentrChipStyle.Selected -> colors.actionPrimary to colors.textOnAction
+        RecentrChipStyle.Success -> colors.feedbackSuccess to colors.textOnDark
+        RecentrChipStyle.OnSky -> colors.alphaWhite24 to colors.textOnDark
+        RecentrChipStyle.Outline -> colors.bgSurface to colors.textSecondary
+    }
+    val border = if (style == RecentrChipStyle.Outline) 1.dp else 0.dp
+    Row(
+        modifier = modifier
+            .clip(RecentrShapes.full)
+            .background(background)
+            .then(
+                if (style == RecentrChipStyle.Outline) {
+                    Modifier.border(1.dp, colors.borderSubtle, RecentrShapes.full)
+                } else {
+                    Modifier
+                },
+            )
+            .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
+            // Figma includes the outline stroke in the auto-layout size (Outline chip = 32dp high).
+            .padding(
+                start = 10.dp + border,
+                end = 12.dp + border,
+                top = 6.dp + border,
+                bottom = 6.dp + border,
+            ),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (icon != null) RecentrIconImage(icon, tint = content, size = 16.08.dp)
+        Text(text = label, style = RecentrTheme.typography.captionMedium, color = content, maxLines = 1)
+    }
+}
+
+/** Convenience to colour a chip label explicitly (e.g. tangerine streak counters). */
+@Composable
+fun ChipText(text: String, color: Color) {
+    Text(text = text, style = RecentrTheme.typography.captionMedium, color = color, maxLines = 1)
+}

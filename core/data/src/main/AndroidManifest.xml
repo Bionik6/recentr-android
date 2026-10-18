@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Screen time (UsageStatsScreenTimeRepository); granted from Settings › Usage access. -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!--
+        Package visibility (API 30+) for the "Most used" labels and icons: apps with a launcher
+        entry, and the launchers themselves (home-screen time is not screen time). This replaces
+        QUERY_ALL_PACKAGES, which Play restricts; apps without a launcher entry stay hidden from
+        the list but still count in the totals.
+    -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.HOME" />
+        </intent>
+    </queries>
+
+</manifest>

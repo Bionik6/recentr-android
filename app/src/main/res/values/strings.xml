@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Recentr</string>
+    <string name="coming_soon_body">Coming soon. Your squads and challenges will live here.</string>
+    <string name="profile_title">Profile</string>
+    <string name="profile_replay_onboarding">Replay onboarding</string>
+    <string name="profile_design_system">Design system</string>
+</resources>

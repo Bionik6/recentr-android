@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">Rules</string>
+    <string name="rules_templates_title">Templates</string>
+    <string name="rules_subtitle_active">%1$d active</string>
+    <string name="rules_subtitle_active_paused">%1$d active · %2$d paused</string>
+    <string name="rules_templates_subtitle">Ready-made rules · tap to start</string>
+    <string name="rules_group_locks">Locks</string>
+    <string name="rules_group_sessions">Sessions</string>
+    <string name="rules_group_limits">Limits</string>
+    <string name="rules_group_routines">Routines</string>
+    <string name="rules_group_habits">Habits</string>
+    <string name="rules_group_templates">Templates</string>
+    <string name="rules_add_session">Add a session</string>
+    <string name="rules_add_session_hint">E.g. “Block apps from 11 pm to 7 am”</string>
+    <string name="rules_add_routine">Add a routine</string>
+    <string name="rules_add_routine_hint">E.g. “No phone during dinner”</string>
+    <string name="rules_add_lock">Add a lock</string>
+    <string name="rules_add_lock_hint">E.g. “Keep TikTok closed all day”</string>
+    <string name="rules_add_limit">Add a limit</string>
+    <string name="rules_add_limit_hint">E.g. “1 hour of YouTube a day”</string>
+    <string name="rules_add_habit">Add a habit</string>
+    <string name="rules_add_habit_hint">E.g. “Read 10 pages before X opens”</string>
+    <string name="rules_start_blocking">Start blocking</string>
+    <string name="rules_help">Help</string>
+    <string name="rules_more">More options</string>
+    <string name="rules_help_title">How rules work</string>
+    <string name="rules_help_body">Locks keep apps closed, Sessions block for a while, Limits set a daily budget, Routines run on a schedule and Habits unlock apps once you finish a small task.</string>
+    <string name="rules_help_ok">Got it</string>
+    <string name="rules_empty_title">No rules yet</string>
+    <string name="rules_empty_body">Start a session or pick a template to begin.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">Ongoing</string>
+    <string name="rules_status_upcoming">Upcoming</string>
+    <string name="rules_status_blocking">Blocking</string>
+    <string name="rules_status_paused">Paused</string>
+    <string name="rules_status_times_up">Time’s up</string>
+    <string name="rules_status_unlocks">Unlocks %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">Unlimited unlocks</string>
+    <string name="rules_status_tasks">%1$d/%2$d done</string>
+    <string name="rules_all_day">All day</string>
+    <string name="rules_strict_mode">Strict mode</string>
+    <string name="rules_value_locked">Locked</string>
+    <string name="rules_value_left">%1$s left</string>
+    <string name="rules_value_paused">Paused</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">Every day</string>
+    <string name="rules_days_weekdays">Weekdays</string>
+    <string name="rules_days_weekends">Weekends</string>
+    <string-array name="rules_day_short">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
+    <string name="rules_time_am">%1$d AM</string>
+    <string name="rules_time_pm">%1$d PM</string>
+    <string name="rules_time_am_min">%1$d:%2$02d AM</string>
+    <string name="rules_time_pm_min">%1$d:%2$02d PM</string>
+    <string name="rules_am">AM</string>
+    <string name="rules_pm">PM</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d min</string>
+    <string name="rules_hours_short">%1$d h</string>
+    <string name="rules_hours_minutes">%1$d h %2$d min</string>
+    <string name="rules_compact_seconds">%1$ds</string>
+    <string name="rules_compact_minutes">%1$dm</string>
+    <string name="rules_compact_hours">%1$dh</string>
+    <string name="rules_compact_hours_minutes">%1$dh%2$02d</string>
+    <string name="rules_preset_custom">Custom</string>
+
+    <!-- Common -->
+    <string name="rules_none">None</string>
+    <string name="rules_save">Save</string>
+    <string name="rules_done">Done</string>
+    <string name="rules_continue">Continue</string>
+    <string name="rules_cancel">Cancel</string>
+    <string name="rules_back">Back</string>
+    <string name="rules_edit_name">Edit name and sticker</string>
+    <string name="rules_decrease">Decrease</string>
+    <string name="rules_increase">Increase</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d apps</item>
+    </plurals>
+    <string name="rules_name_two">%1$s &amp; %2$s</string>
+    <string name="rules_name_more">%1$s &amp; %2$d more</string>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">Session</string>
+    <string name="rules_type_lock">Lock</string>
+    <string name="rules_type_limit">Limit</string>
+    <string name="rules_type_routine">Routine</string>
+    <string name="rules_type_habit">Habit</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">Block</string>
+    <string name="rules_row_active">Active</string>
+    <string name="rules_row_unlocks">Unlocks</string>
+    <string name="rules_row_unlock_method">Unlock method</string>
+    <string name="rules_row_unlocks_per_day">Unlocks per day</string>
+    <string name="rules_row_apps">Apps</string>
+    <string name="rules_row_resets">Resets</string>
+    <string name="rules_row_when_time_up">When time is up</string>
+    <string name="rules_row_always_allowed">Always allowed</string>
+    <string name="rules_row_repeats">Repeats</string>
+    <string name="rules_row_reminders">Reminders</string>
+    <string name="rules_row_each_unlock">Each unlock lasts</string>
+    <string name="rules_row_tasks">Tasks</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">Session</string>
+    <string name="rules_session_subtitle">Block apps for %1$s, starting now.</string>
+    <string name="rules_session_subtitle_scheduled">Block apps %1$s.</string>
+    <string name="rules_session_default_name">Focus session</string>
+    <string name="rules_suggestions">SUGGESTIONS</string>
+    <string name="rules_save_template">Save as template</string>
+    <string name="rules_start">Start</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_subtitle">Lock this rule so you can’t change it on impulse.</string>
+    <string name="rules_strict_start_time">Start time</string>
+    <string name="rules_strict_during">During</string>
+    <string name="rules_strict_always">Always</string>
+    <string name="rules_strict_explain_start">No edits and no deletes once the start time hits.</string>
+    <string name="rules_strict_explain_during">No edits, no deletes and no unlocks while the session runs.</string>
+    <string name="rules_strict_explain_always">No edits, no deletes and no unlocks — even between sessions.</string>
+    <string name="rules_strict_turn_on">Turn on Strict mode</string>
+    <string name="rules_strict_confirm_title">Turn on Strict mode?</string>
+    <string name="rules_strict_confirm_body">You won’t be able to edit, delete or unlock this session until it ends.</string>
+    <string name="rules_turn_on">Turn on</string>
+    <string name="rules_strict_locked_toast">Strict mode is on · no changes for now</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">Lock</string>
+    <string name="rules_lock_subtitle">Keep chosen apps closed until you unlock them on purpose.</string>
+    <string name="rules_lock_note_title">Why this lock?</string>
+    <string name="rules_lock_default_note">Doomscrolling before bed. I want my nights back.</string>
+    <string name="rules_create_lock">Create lock</string>
+    <string name="rules_unlock_none">None</string>
+    <string name="rules_unlock_wait">Wait %1$d s</string>
+    <string name="rules_unlock_reason">Reason</string>
+    <string name="rules_unlock_retype">Re-type</string>
+    <string name="rules_unlock_scan">Scan code</string>
+    <string name="rules_unlimited">Unlimited</string>
+    <string name="rules_lock_default_name">Lock</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">Choose apps</string>
+    <string name="rules_selected">%1$d selected</string>
+    <string name="rules_search_apps">Search apps</string>
+    <string name="rules_cat_social">SOCIAL</string>
+    <string name="rules_cat_entertainment">ENTERTAINMENT</string>
+    <string name="rules_cat_productivity">PRODUCTIVITY</string>
+    <string name="rules_category_social">Social</string>
+    <string name="rules_category_entertainment">Entertainment</string>
+    <string name="rules_category_productivity">Productivity</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_done_apps">
+        <item quantity="one">Done · %d app</item>
+        <item quantity="other">Done · %d apps</item>
+    </plurals>
+    <string name="rules_no_apps_found">No apps match “%1$s”.</string>
+    <string name="rules_always_allowed_title">Always allowed</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">Active for</string>
+    <string name="rules_ends_at">Ends at %1$s</string>
+    <string name="rules_custom_length">Custom length</string>
+    <string name="rules_hours_label">Hours</string>
+    <string name="rules_minutes_label">Minutes</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">Limit</string>
+    <string name="rules_limit_subtitle">A daily time budget for apps that eat your day.</string>
+    <string name="rules_daily_budget">Daily budget</string>
+    <string name="rules_create_limit">Create limit</string>
+    <string name="rules_limit_default_name">Daily limit</string>
+    <string name="rules_limit_social_name">Social time</string>
+    <string name="rules_reset_midnight">Midnight</string>
+    <string name="rules_reset_four_am">4 AM</string>
+    <string name="rules_reset_monday">Every Monday</string>
+    <string name="rules_action_lock">Lock</string>
+    <string name="rules_action_remind">Remind me</string>
+    <string name="rules_action_ask">Ask why</string>
+    <string name="rules_resets_title">When does it reset?</string>
+    <string name="rules_time_up_title">When time is up</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">Bedtime</string>
+    <string name="rules_bedtime_subtitle">Block apps on a schedule, every night.</string>
+    <string name="rules_from">FROM</string>
+    <string name="rules_until">UNTIL</string>
+    <string name="rules_tonight">%1$s · tonight</string>
+    <string name="rules_today">%1$s · today</string>
+    <string name="rules_tomorrow">%1$s · tomorrow</string>
+    <string name="rules_all_except">All except %1$d</string>
+    <string name="rules_calls_maps">Calls, Maps</string>
+    <string name="rules_create_routine">Create routine</string>
+    <string name="rules_block_mode_title">What to block</string>
+    <string name="rules_block_all_except">All apps except allowed ones</string>
+    <string name="rules_block_only_selected">Only the apps I pick</string>
+    <string name="rules_starts_at">Starts at</string>
+    <string name="rules_ends_at_title">Ends at</string>
+
+    <!-- Habit sheet -->
+    <string name="rules_habit_title">Habit</string>
+    <string name="rules_habit_subtitle">Earn your scroll — finish a small task to unlock.</string>
+    <string name="rules_habit_before">Before %1$s opens</string>
+    <string name="rules_habit_default_name">Habit</string>
+    <string name="rules_add_task">Add task</string>
+    <string name="rules_task_read">Read 10 pages</string>
+    <string name="rules_task_water">Drink a glass of water</string>
+    <string name="rules_task_stretch">Stretch for 2 minutes</string>
+    <string name="rules_create_habit">Create habit</string>
+    <string name="rules_task_menu">Task options</string>
+    <string name="rules_reset_tasks">Uncheck all</string>
+    <string name="rules_remove_done">Remove done tasks</string>
+    <string name="rules_new_task_title">New task</string>
+    <string name="rules_new_task_placeholder">E.g. Make my bed</string>
+    <string name="rules_repeats_title">Repeats</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">How do you unlock?</string>
+    <string name="rules_unlock_subtitle">Pick the kind of friction that works for you.</string>
+    <string name="rules_unlock_option_wait">Wait a few seconds</string>
+    <string name="rules_unlock_option_reason">Give a good reason</string>
+    <string name="rules_unlock_option_retype">Re-type a painful text</string>
+    <string name="rules_unlock_option_scan">Scan a code you keep elsewhere</string>
+    <string name="rules_unlock_option_none">No unlocks at all</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">Wait before unlocking</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 minute</string>
+    <string name="rules_seconds_chip">%1$d s</string>
+    <string name="rules_one_min_chip">1 min</string>
+    <string name="rules_unlocks_per_day_title">Unlocks per day</string>
+    <string name="rules_each_unlock_title">Each unlock lasts</string>
+
+    <!-- Templates -->
+    <string name="rules_filter_all">All</string>
+    <string name="rules_filter_focus">Focus</string>
+    <string name="rules_filter_sleep">Sleep</string>
+    <string name="rules_filter_family">Family</string>
+    <string name="rules_filter_weekend">Weekend</string>
+    <string name="rules_tpl_deep_work">Deep Work</string>
+    <string name="rules_tpl_deep_work_body">Silence everything for focused time.</string>
+    <string name="rules_tpl_wind_down">Wind down</string>
+    <string name="rules_tpl_wind_down_body">No feeds after 10 PM.</string>
+    <string name="rules_tpl_morning_calm">Morning calm</string>
+    <string name="rules_tpl_morning_calm_body">Phone stays dark until 8.</string>
+    <string name="rules_tpl_dinner">Phone-free dinner</string>
+    <string name="rules_tpl_dinner_body">Share the table, not the feed.</string>
+    <string name="rules_tpl_me_time">Me time</string>
+    <string name="rules_tpl_me_time_body">45 quiet minutes, just for you.</string>
+    <string name="rules_tpl_study">Study</string>
+    <string name="rules_tpl_study_body">Notes open, feeds closed.</string>
+    <string name="rules_tpl_weekend">Weekend detox</string>
+    <string name="rules_tpl_weekend_body">Socials stay locked all weekend.</string>
+    <string name="rules_badge_daily">Daily</string>
+    <string name="rules_badge_weekend">Sat–Sun</string>
+    <string name="rules_template_saved">Saved to templates</string>
+    <string name="rules_templates_empty">No templates in this category yet.</string>
+    <string name="rules_saved_template_body">Your template</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">New rule</string>
+    <string name="rules_new_rule_subtitle">What do you want to set up?</string>
+    <string name="rules_browse_templates">Browse templates</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">Active %1$s</string>
+    <string name="rules_detail_running">Running now</string>
+    <string name="rules_detail_paused">Paused</string>
+    <string name="rules_detail_paused_until">Paused until %1$s</string>
+    <string name="rules_detail_daily">Daily budget</string>
+    <string name="rules_blocked">Blocked</string>
+    <string name="rules_unlocks_label">Unlocks</string>
+    <string name="rules_streak">Streak</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <string name="rules_why">Why</string>
+    <string name="rules_why_placeholder">Tap to write down why this matters.</string>
+    <string name="rules_tile_to">%1$s to %2$s</string>
+    <string name="rules_tile_now">NOW</string>
+    <string name="rules_tile_left_of">left of %1$s</string>
+    <string name="rules_tile_daily">DAILY</string>
+    <string name="rules_tile_used">%1$s used</string>
+    <string name="rules_tile_tasks_done">tasks done</string>
+    <string name="rules_tile_all_day_caption">Unlocks %1$s / day</string>
+    <string name="rules_reminder_off">Off</string>
+    <string name="rules_reminder_before">%1$d min before</string>
+    <string name="rules_reminders_title">Remind me before it starts</string>
+    <string name="rules_pause">Pause</string>
+    <string name="rules_resume">Resume</string>
+    <string name="rules_edit_rule">Edit rule</string>
+    <string name="rules_menu_edit_settings">Edit schedule &amp; apps</string>
+    <string name="rules_menu_delete">Delete rule</string>
+    <string name="rules_pause_title">Pause %1$s?</string>
+    <string name="rules_pause_hour">For 1 hour</string>
+    <string name="rules_pause_tomorrow">Until tomorrow</string>
+    <string name="rules_pause_manual">Until I turn it back on</string>
+    <string name="rules_pause_rule">Pause rule</string>
+    <string name="rules_paused_toast">%1$s paused</string>
+    <string name="rules_resumed_toast">%1$s is back on</string>
+    <string name="rules_edit_title">Edit rule</string>
+    <string name="rules_sticker">STICKER</string>
+    <string name="rules_name_placeholder">Rule name</string>
+    <string name="rules_more_stickers">More stickers</string>
+    <string name="rules_more_stickers_soon">More stickers are on the way</string>
+    <string name="rules_delete_title">Delete %1$s?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">Your %d-day streak on this rule will be lost. This can’t be undone.</item>
+        <item quantity="other">Your %d-day streak on this rule will be lost. This can’t be undone.</item>
+    </plurals>
+    <string name="rules_delete_body">This rule and its history will be removed. This can’t be undone.</string>
+    <string name="rules_delete_rule">Delete rule</string>
+    <string name="rules_keep_it">Keep it</string>
+    <string name="rules_deleted_toast">%1$s deleted</string>
+    <string name="rules_note_title">Why this rule?</string>
+    <string name="rules_note_placeholder">Write it down…</string>
+    <string name="rules_session_started">Session started · %1$s</string>
+    <string name="rules_rule_created">%1$s created</string>
+    <string name="rules_rule_saved">Changes saved</string>
+    <string name="rules_session_ended">Session ended</string>
+</resources>

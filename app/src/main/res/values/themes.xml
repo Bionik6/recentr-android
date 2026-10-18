@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="recentr_bg_page">#F6F7FB</color>
+    <color name="recentr_brand_sky">#2F7BF6</color>
+
+    <style name="Theme.Recentr" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/recentr_bg_page</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Recentr.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/recentr_bg_page</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.Recentr</item>
+    </style>
+</resources>

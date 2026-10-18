@@ -1,0 +1,105 @@
+# Recentr — Design system (Android)
+
+Port of the Figma file **"Offly · Screen time App UI Kit"** (`PKRDsYvhW5Ntdzwq9giTv3`), pages
+*Foundations* (`2045:2`) and *Components* (`2043:9403`). Module: `:core:designsystem`,
+package `com.recentr.core.designsystem`.
+
+> The Figma kit is branded "Offly"; the Android app is **Recentr**. Every user-facing "Offly"
+> becomes "Recentr" (wordmark, copy, permission texts).
+
+## Usage
+
+Wrap the UI in `RecentrTheme { … }` (done in `MainActivity`). Tokens are read through the
+`RecentrTheme` object:
+
+```kotlin
+Text("1h12", style = RecentrTheme.typography.displayHero, color = RecentrTheme.colors.textOnDark)
+Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter) // 24dp
+Modifier.recentrShadow(RecentrElevation.card, RecentrShapes.card)
+```
+
+Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
+
+## Foundations
+
+| Figma | Kotlin |
+|---|---|
+| Colour variables (`bg/page`, `text/secondary`, `alpha/white-24`, …) | `RecentrTheme.colors.bgPage`, `.textSecondary`, `.alphaWhite24`, … (`theme/Color.kt`) |
+| Text styles (Display/Hero … Note/Handwritten) | `RecentrTheme.typography.displayHero`, `.displayNumber`, `.displayLarge`, `.title1`, `.title2`, `.headline`, `.bodyRegular`, `.bodyMedium`, `.captionRegular`, `.captionMedium`, `.labelSmall`, `.brandWordmark`, `.noteHandwritten` — Figtree, letter-spacing in % converted to `em` |
+| Spacing `space/2…48` | `RecentrTheme.spacing.space2 … space48`, `screenGutter` (24) |
+| Radius `xs 8 · sm 12 · md 16 · lg 20 · xl 24 · card 28 · sheet 36 · screen 48 · full` | `RecentrTheme.radius.*`, shapes in `RecentrShapes.*` |
+| Sizes `icon 24 · control 44 · button 54 · tab-bar 64 · avatar 40` | `RecentrTheme.sizes.*` |
+| Effects `Elevation/Card`, `Elevation/Float`, `Glow/Sky` | `RecentrElevation.card / float / glowSky` (+ `control` 0·4·8 6%, `raised` 0·12·16 12%, `glowButton`) via `Modifier.recentrShadow(shadow, shape)` |
+| Gradients Brand CTA / Brand deep / Success / Strict / Shield | `RecentrGradients.brandCta / brandDeep / success / strict / shield` (+ `template*`). `CssLinearGradient(angle, stops)` reproduces any Figma `linear-gradient(<deg>)` |
+
+## Assets
+
+* **Icons** — `RecentrIcon` enum (36 icons, vector drawables converted from the Figma SVGs) drawn
+  with `RecentrIconImage(icon, tint = …, size = 24.dp)`.
+* **Stickers** — `Sticker.Lock / Bolt / Timer / Moon / Leaf / Note / Flame`, `StickerImage(sticker, size)`.
+  Bitmaps rendered at 4× with transparency; the soft contact shadow overflows the slot like in Figma.
+* **Mascot** — `Mascot(MascotMood.Calm | Impatient | Dozing, width)` (160×200 artboard).
+* **Backdrops** — `BackdropBox(Backdrop.Sky | Backdrop.Aurora) { content }`: full-screen, anchored
+  top, page grey below.
+* **App icons** — `AppIcon(DemoApp.X, size = 32.dp)`; `DemoApp` ↔ `core.model.AppId` by name.
+  Other installed apps: `InstalledAppIcon(packageName, size = 36.dp)` (launcher icon, adaptive
+  icons drawn full-bleed in the same rounded square, loaded off the main thread).
+
+## Components
+
+| Figma component | Composable |
+|---|---|
+| Button (Primary / Brand / Secondary / Soft) | `RecentrButton(text, onClick, style, icon)` · `RecentrTextButton` |
+| Icon Button (Surface / Sunken / On Sky) | `RecentrIconButton(icon, contentDescription, onClick, style)` |
+| Chip (Neutral / Selected / Success / On Sky / Outline) | `RecentrChip(label, style, icon, onClick)` |
+| Status Bar / Home Indicator | Android system bars (edge-to-edge) + `SystemBarsAppearance(lightIcons)` |
+| Tab Bar | `RecentrTabBar(selected, onSelect)` — `RecentrTab.Home / Rules / Squads / Profile` |
+| Rule Card | `RuleCard(title, sticker, streak, apps, value, onClick) { chips }` |
+| Today Card | `TodayCard(stats) { HourlyUsageChart(minutesPerHour) }` |
+| Add Card | `AddCard(title, hint, onClick)` |
+| Mini Tile | `MiniTile(label, value, sticker)` |
+| Rule Tile | `RuleTile(label, sticker, onClick)` |
+| Sticky Note | `StickyNote(title, body)` |
+| Progress / Onboarding Header | `OnboardingProgress(progress)` · `OnboardingHeader(progress, onBack, onSkip)` |
+| Option Row | `OptionRow(label, selected, onClick, icon)` |
+| Text Field | `RecentrTextField(value, onValueChange, placeholder)` |
+| Keyboard | Android IME (not drawn) |
+| Review Card | `ReviewCard(title, body, name, initial)` |
+| Alert | `RecentrAlertDialog(title, body, primaryText, onPrimary, onDismissRequest, secondaryText)` |
+| Toggle / Checkbox | `RecentrToggle(checked, onCheckedChange)` · `RecentrCheckbox(checked, onCheckedChange)` |
+| Setting Row (Value / Toggle) | `SettingRow(label, value, onClick, icon)` · `SettingToggleRow(label, checked, onCheckedChange, icon)` |
+| Segmented | `RecentrSegmented(options, selectedIndex, onSelect)` |
+| App Row | `AppRow(app, checked, onCheckedChange)` |
+| Template Card (Sky / Night / Mint / Sunset) | `TemplateCard(title, body, duration, sticker, color, onClick)` |
+| Sheets (grabber + 36dp corners + scrim) | `RecentrBottomSheet(onDismissRequest) { … }` · `SheetGrabber()` |
+| Surface card | `SurfaceCard(cornerRadius, onClick) { … }` |
+
+A living catalogue of everything above: `DesignSystemCatalog()` (Profile tab → *Design system*).
+
+## Android adaptations (iOS → Android)
+
+* iOS status bar / home indicator mock-ups are **not drawn**: the app is edge-to-edge and pads
+  content with `WindowInsets` (`statusBarsPadding()`, `navigationBarsPadding()`).
+* The iOS keyboard mock-up is replaced by the system IME (`imePadding()`), with IME actions.
+* iOS sheets → `RecentrBottomSheet` (Material 3 `ModalBottomSheet`: drag, back gesture, scrim).
+* iOS alerts → `RecentrAlertDialog`; system permissions use the Android flows
+  (`POST_NOTIFICATIONS` runtime permission, Usage Access settings screen for screen time).
+* System back (gesture / button) is supported everywhere; the chevron back buttons stay as drawn.
+* Touch feedback uses Material ripples; toggles/checkboxes expose `Role.Switch` / `Role.Checkbox`.
+* All copy lives in `strings.xml` resources.
+
+## Backlog — next design-system iteration
+
+Local components the feature flows had to add, to fold back into `:core:designsystem`:
+
+* **Display text box** — Android pads text whose line height is smaller than the font's
+  (Display styles use 1.0): a 72sp `displayHero` measures ~86dp. Onboarding uses a local
+  `Modifier.figmaLineBox(72.dp)`; promote it (e.g. `Modifier.figmaLineHeight(style)`).
+* **Buttons** — Strict (tangerine gradient) and Danger styles (`RulesPillButton`), a "Soft but
+  inactive" state for unanswered steps (`ContinueButton`), and a visual disabled state for
+  `RecentrIconButton`; long-press repeat for steppers (`StepperButton`).
+* **Charts** — per-bar colours and the Figma 13.2dp pitch for `HourlyUsageChart`
+  (`HourlyBarsChart`), plus a weekly chart (`WeekBarsChart`).
+* **Rules pieces** — tangerine strict `SettingToggleRow`, icon-tinted chip, small template card,
+  active-border state on `RuleCard`, auto-shrinking hero value text.
+* **Sheets** — let `RecentrBottomSheet` take window insets for full-height sheets (`SheetBody`).
