@@ -31,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
@@ -121,7 +120,6 @@ private fun ProgressRing(progress: Float, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .size(200.dp)
-            .clipToBounds()
             .semantics { progressBarRangeInfo = ProgressBarRangeInfo(progress, 0f..1f) },
         contentAlignment = Alignment.Center,
     ) {
