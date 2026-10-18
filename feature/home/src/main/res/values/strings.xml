@@ -58,10 +58,6 @@
     <string name="home_stat_notifications">Notifications</string>
     <string name="home_stat_total">Total</string>
     <string name="home_stat_best_day">Best day</string>
-    <string name="home_axis_12am">12 AM</string>
-    <string name="home_axis_6am">6 AM</string>
-    <string name="home_axis_12pm">12 PM</string>
-    <string name="home_axis_6pm">6 PM</string>
     <string-array name="home_day_letters">
         <item>M</item>
         <item>T</item>

@@ -200,13 +200,13 @@ private fun HeroChips(page: HeroPage, summary: ScreenTimeSummary, goalMinutes: I
 @Composable
 private fun heroValue(page: HeroPage, summary: ScreenTimeSummary): String = when (page) {
     HeroPage.ScreenTime -> formatDuration(summary.dailyAverageMinutes)
-    HeroPage.Quality -> stringResource(
-        when {
-            summary.focusPercent >= 60 -> R.string.home_quality_focused
-            summary.focusPercent >= 40 -> R.string.home_quality_balanced
-            else -> R.string.home_quality_distracted
-        },
-    )
+    HeroPage.Quality -> when {
+        // No split without usage data (no usage access).
+        summary.focusPercent + summary.socialPercent + summary.funPercent == 0 -> "–"
+        summary.focusPercent >= 60 -> stringResource(R.string.home_quality_focused)
+        summary.focusPercent >= 40 -> stringResource(R.string.home_quality_balanced)
+        else -> stringResource(R.string.home_quality_distracted)
+    }
     HeroPage.Offline -> formatDuration(summary.longestOfflineMinutes)
 }
 

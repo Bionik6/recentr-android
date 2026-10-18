@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.update
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
@@ -20,14 +19,13 @@ import java.util.UUID
 
 /**
  * Focus timer (Figma "Focus timer" 91–98). In-memory like [RulesRepository]: the set-up, the
- * running session and the focus log (seeded with the sessions shown in the design).
+ * running session and the focus log (empty until the first session ends).
  *
  * The session runs on the wall clock ([FocusRun.phaseEndsAt]), so it keeps going while the
  * screen is off; [advance] settles finished phases and is called by the screens' clock.
  */
 class FocusRepository(
     private val zone: () -> ZoneId = { ZoneId.systemDefault() },
-    now: Long = System.currentTimeMillis(),
 ) {
     private val _config = MutableStateFlow(FocusConfig())
     val config: StateFlow<FocusConfig> = _config.asStateFlow()
@@ -35,7 +33,7 @@ class FocusRepository(
     private val _run = MutableStateFlow<FocusRun?>(null)
     val run: StateFlow<FocusRun?> = _run.asStateFlow()
 
-    private val _history = MutableStateFlow(seed(now))
+    private val _history = MutableStateFlow<List<FocusSessionRecord>>(emptyList())
     /** Most recent first. */
     val history: StateFlow<List<FocusSessionRecord>> = _history.asStateFlow()
 
@@ -145,11 +143,11 @@ class FocusRepository(
 
     fun weekStart(now: Long): LocalDate = now.toDate().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
 
-    fun reset(now: Long = System.currentTimeMillis()) {
+    fun reset() {
         _config.value = FocusConfig()
         _run.value = null
         _lastCompleted.value = null
-        _history.value = seed(now)
+        _history.value = emptyList()
     }
 
     private fun FocusRun.nextRound(startAt: Long, autoStart: Boolean): FocusRun {
@@ -182,47 +180,4 @@ class FocusRepository(
     }
 
     private fun Long.toDate(): LocalDate = Instant.ofEpochMilli(this).atZone(zone()).toLocalDate()
-
-    /** The four sessions of the design (today 9:57 / 8:00, yesterday 9:10 PM, Thursday) + two weeks of history. */
-    private fun seed(now: Long): List<FocusSessionRecord> {
-        val today = now.toDate()
-        fun at(date: LocalDate, hour: Int, minute: Int): Long {
-            var millis = date.atTime(LocalTime.of(hour, minute)).atZone(zone()).toInstant().toEpochMilli()
-            // Seeded "today" sessions that would start in the future move to the day before.
-            if (millis > now) millis -= 24 * 3_600_000L
-            return millis
-        }
-        fun record(id: String, title: String, kind: FocusRecordKind, startedAt: Long, minutes: Int, rounds: Int = 1, urges: Int = 0) =
-            FocusSessionRecord(
-                id = id,
-                title = title,
-                kind = kind,
-                startedAt = startedAt,
-                focusedMinutes = minutes,
-                rounds = rounds,
-                urgesResisted = urges,
-            )
-
-        val lastThursday = today.minusDays(1).with(TemporalAdjusters.previousOrSame(DayOfWeek.THURSDAY))
-        val designed = listOf(
-            record("seed-thesis", "Deep work · Thesis", FocusRecordKind.Timer, at(today, 9, 57), 45, urges = 2),
-            record("seed-work", "Work Hours", FocusRecordKind.RuleSession, at(today, 8, 0), 90, urges = 2),
-            record("seed-reading", "Reading, no phone", FocusRecordKind.Habit, at(today.minusDays(1), 21, 10), 30, urges = 1),
-            record("seed-slides", "Deep work · Slides", FocusRecordKind.Timer, at(lastThursday, 14, 0), 75, rounds = 2, urges = 2),
-        )
-        val pattern = listOf(50, 25, 60, 40, 20, 55, 35, 70, 30, 45, 25, 65, 40)
-        val older = pattern.mapIndexed { index, minutes ->
-            val date = today.minusDays(index + 2L)
-            record(
-                id = "seed-$index",
-                title = if (index % 3 == 1) "Reading, no phone" else "Deep work",
-                kind = if (index % 3 == 1) FocusRecordKind.Habit else FocusRecordKind.Timer,
-                startedAt = at(date, 9 + index % 4 * 3, if (index % 2 == 0) 0 else 30),
-                minutes = minutes,
-                // 31 urges over the two weeks: 38 with the designed sessions ("Urges resisted 38").
-                urges = index % 4 + 1,
-            )
-        }
-        return (designed + older).sortedByDescending { it.startedAt }
-    }
 }

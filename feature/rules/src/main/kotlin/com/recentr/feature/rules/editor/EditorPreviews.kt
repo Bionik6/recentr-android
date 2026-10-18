@@ -15,6 +15,7 @@ import com.recentr.core.model.HabitTask
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 
 private val previewActions = EditorActions(
     open = {},
@@ -41,7 +42,7 @@ private fun SheetPreview(content: @Composable ColumnScope.() -> Unit) {
 private fun SessionEditorPreview() = SheetPreview {
     SessionEditor(
         state = RuleEditorUiState(
-            Rule("1", RuleType.Session, "Focus session", apps = listOf(AppId.Instagram, AppId.X, AppId.TikTok), durationMinutes = 30),
+            Rule("1", RuleType.Session, "Focus session", apps = listOf(AppId.Instagram, AppId.X, AppId.TikTok).map { UsageApp.of(it) }, durationMinutes = 30),
             isNew = true,
             customTitle = false,
         ),
@@ -58,8 +59,7 @@ private fun BedtimeEditorPreview() = SheetPreview {
             Rule(
                 "2", RuleType.Bedtime, "Bedtime",
                 schedule = RuleSchedule(23 * 60, 7 * 60, (1..5).toSet()),
-                blockAllApps = true,
-                allowedApps = listOf(AppId.Gmail),
+                apps = listOf(AppId.Instagram, AppId.TikTok).map { UsageApp.of(it) },
                 strictMode = true,
             ),
             isNew = true,
@@ -77,7 +77,7 @@ private fun HabitEditorPreview() = SheetPreview {
         state = RuleEditorUiState(
             Rule(
                 "3", RuleType.Habit, "Before X opens",
-                apps = listOf(AppId.X, AppId.TikTok),
+                apps = listOf(AppId.X, AppId.TikTok).map { UsageApp.of(it) },
                 habitTasks = listOf(HabitTask("a", "Read 10 pages", done = true), HabitTask("b", "Drink a glass of water")),
             ),
             isNew = true,

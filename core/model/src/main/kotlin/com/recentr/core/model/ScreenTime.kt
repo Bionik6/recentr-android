@@ -1,12 +1,16 @@
 package com.recentr.core.model
 
+import kotlinx.serialization.Serializable
+
 /** Category of an app, for the "Categories" grouping and the Quality split. */
 enum class AppCategory { Social, Entertainment, Music, Games, Productivity, Other }
 
 /**
- * An app in the usage lists: one of the catalogue apps ([catalogue] set, Figma icon) or any other
- * installed app (label from the launcher, icon loaded from the package).
+ * An installed app, identified by its [packageName]: in the usage lists one of the catalogue apps
+ * ([catalogue] set, Figma icon) or any other app (label from the launcher, icon loaded from the
+ * package); in rules and focus sessions, an app picked from the device's launcher apps.
  */
+@Serializable
 data class UsageApp(
     val packageName: String,
     val label: String,

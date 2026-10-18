@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.AddCard
+import com.recentr.core.designsystem.component.BlockingOffBanner
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
@@ -57,6 +58,7 @@ import com.recentr.core.model.AppId
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.model.BuiltInTemplate
 import com.recentr.feature.rules.model.TemplateCardUi
@@ -64,6 +66,7 @@ import com.recentr.feature.rules.model.TemplateCategory
 import com.recentr.feature.rules.model.toCard
 import com.recentr.feature.rules.model.toSavedTemplateCard
 import com.recentr.feature.rules.ui.asSticker
+import com.recentr.feature.rules.ui.clockLabel
 import com.recentr.feature.rules.ui.components.RuleGroupHeader
 import com.recentr.feature.rules.ui.components.RulesToastHost
 
@@ -79,6 +82,8 @@ internal class RulesListActions(
     val onStartBlocking: () -> Unit = {},
     /** The header "+": the "New rule" sheet. */
     val onNewRule: () -> Unit = {},
+    /** "Blocking is off" banner: explains app blocking, then opens Settings. */
+    val onTurnOnBlocking: () -> Unit = {},
 )
 
 /**
@@ -163,6 +168,14 @@ private fun RulesList(state: RulesUiState, listState: LazyListState, bottom: and
                 modifier = Modifier.padding(bottom = 9.dp),
             )
         }
+        if (!state.blockingOn) {
+            item(key = "blocking-off") {
+                BlockingOffBanner(
+                    onClick = actions.onTurnOnBlocking,
+                    modifier = Modifier.padding(horizontal = 24.dp).animateItem(),
+                )
+            }
+        }
         state.sections.forEach { section ->
             val expanded = section.group !in state.collapsed
             item(key = "group-${section.group}") {
@@ -187,7 +200,7 @@ private fun RulesList(state: RulesUiState, listState: LazyListState, bottom: and
                     item(key = "add-${section.group}") {
                         AddCard(
                             title = stringResource(section.group.addTitle),
-                            hint = stringResource(section.group.addHint),
+                            hint = stringResource(section.group.addHint, clockLabel(23 * 60), clockLabel(7 * 60)),
                             onClick = { actions.onCreate(section.group.type) },
                             modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth().animateItem(),
                         )
@@ -384,14 +397,14 @@ private fun RulesScreenPreview() {
                 sections = listOf(
                     RuleSection(
                         RuleGroup.Locks,
-                        listOf(Rule("1", RuleType.Lock, "Instagram & X", apps = listOf(AppId.Instagram, AppId.X), unlocksUsedToday = 2)),
+                        listOf(Rule("1", RuleType.Lock, "Instagram & X", apps = listOf(AppId.Instagram, AppId.X).map { UsageApp.of(it) }, unlocksUsedToday = 2)),
                     ),
                     RuleSection(
                         RuleGroup.Sessions,
                         listOf(
                             Rule(
                                 "2", RuleType.Session, "Work Hours",
-                                apps = listOf(AppId.X, AppId.Instagram, AppId.TikTok),
+                                apps = listOf(AppId.X, AppId.Instagram, AppId.TikTok).map { UsageApp.of(it) },
                                 schedule = RuleSchedule(540, 1020, (1..5).toSet()),
                                 streakDays = 3,
                             ),

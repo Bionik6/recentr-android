@@ -41,6 +41,7 @@ import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.AppIcon
 import com.recentr.core.designsystem.illustration.DemoApp
+import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.motion.rememberBarsGrowth
@@ -75,7 +76,8 @@ fun SurfaceCard(
  * Figma "Rule Card" — Lock / Session / Limit / Routine rule summary.
  *
  * @param chips status + schedule chips (use [RecentrChip]).
- * @param apps overlapping app icons shown after the [leadingIcon].
+ * @param apps overlapping app icons shown after the [leadingIcon] ([OverlappingAppIcons],
+ *   [OverlappingInstalledAppIcons]).
  */
 @Composable
 fun RuleCard(
@@ -83,7 +85,7 @@ fun RuleCard(
     sticker: Sticker,
     modifier: Modifier = Modifier,
     streak: Int? = null,
-    apps: List<DemoApp> = emptyList(),
+    apps: @Composable () -> Unit = {},
     value: String? = null,
     leadingIcon: RecentrIcon = RecentrIcon.Lock,
     onClick: (() -> Unit)? = null,
@@ -129,7 +131,7 @@ fun RuleCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             RecentrIconImage(leadingIcon, tint = colors.textTertiary, size = 16.08.dp)
-            OverlappingAppIcons(apps, size = 24.dp, overlap = 6.dp)
+            apps()
             Spacer(Modifier.weight(1f))
             if (value != null) {
                 Text(text = value, style = RecentrTheme.typography.title2, color = colors.textPrimary, maxLines = 1)
@@ -143,6 +145,14 @@ fun RuleCard(
 fun OverlappingAppIcons(apps: List<DemoApp>, size: Dp = 24.dp, overlap: Dp = 6.dp, modifier: Modifier = Modifier) {
     Row(modifier, horizontalArrangement = Arrangement.spacedBy(-overlap)) {
         apps.forEach { AppIcon(it, size = size) }
+    }
+}
+
+/** [OverlappingAppIcons] of installed apps: their launcher icons, by package name. */
+@Composable
+fun OverlappingInstalledAppIcons(packageNames: List<String>, size: Dp = 24.dp, overlap: Dp = 6.dp, modifier: Modifier = Modifier) {
+    Row(modifier, horizontalArrangement = Arrangement.spacedBy(-overlap)) {
+        packageNames.forEach { InstalledAppIcon(it, size = size) }
     }
 }
 

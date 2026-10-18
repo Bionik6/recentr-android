@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.format.clockTimeShort
 import com.recentr.core.designsystem.motion.rememberBarsGrowth
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.home.R
@@ -64,10 +65,10 @@ internal fun HourlyBarsChart(
             }
         }
         val labels = listOf(
-            stringResource(R.string.home_axis_12am) to 0f,
-            stringResource(R.string.home_axis_6am) to 76f,
-            stringResource(R.string.home_axis_12pm) to 156f,
-            stringResource(R.string.home_axis_6pm) to 236f,
+            clockTimeShort(0) to 0f,
+            clockTimeShort(6 * 60) to 76f,
+            clockTimeShort(12 * 60) to 156f,
+            clockTimeShort(18 * 60) to 236f,
         )
         labels.forEach { (label, x) ->
             Text(

@@ -4,15 +4,13 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.stringResource
+import com.recentr.core.designsystem.format.clockTime
 import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.model.AppId
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsagePeriod
 import com.recentr.feature.home.R
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 /** Formats minutes like the design: "1h12", "4h", "38m". */
 @Composable
@@ -27,11 +25,10 @@ internal fun formatDuration(minutes: Int): String {
     }
 }
 
-private val TimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
-
-/** "9:00 AM" for a minute-of-day. */
-internal fun formatClock(minuteOfDay: Int): String =
-    LocalTime.of((minuteOfDay / 60) % 24, minuteOfDay % 60).format(TimeFormatter)
+/** "9:00 AM" (or "09:00") for a minute-of-day. */
+@Composable
+@ReadOnlyComposable
+internal fun formatClock(minuteOfDay: Int): String = clockTime(minuteOfDay)
 
 @get:StringRes
 internal val UsagePeriod.labelRes: Int

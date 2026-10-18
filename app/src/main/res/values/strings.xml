@@ -1,4 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">Recentr app blocking</string>
+    <string name="hold_service_summary">Puts the apps your rules and focus sessions block on hold.</string>
+    <string name="hold_service_description">Recentr puts the apps blocked by your rules and focus sessions on hold. It only sees which app you open — never what’s on your screen — and nothing leaves your phone.</string>
+
+    <!-- App on hold -->
+    <string name="hold_rule_title">%1$s is on hold</string>
+    <string name="hold_rule_until">%1$s keeps it closed until %2$s.</string>
+    <string name="hold_rule_for_now">%1$s keeps it closed for now.</string>
+    <string name="hold_limit_body">You’ve used today’s %1$s on %2$s.</string>
+    <string name="hold_habit_body">Finish your “%1$s” tasks in Recentr to open it.</string>
+    <string name="hold_focus_title">You’re %1$d min into focus</string>
+    <string name="hold_focus_body">%1$s is on hold until %2$s. It’ll still be there — promise.</string>
+    <string name="hold_note">“%1$s”</string>
+    <string name="hold_close">Close %1$s</string>
+    <string name="hold_open_anyway">Open anyway</string>
+    <string name="hold_open_in">Open in %1$d s</string>
+    <string name="hold_open_for">Open for %1$d min</string>
+    <plurals name="hold_unlocks_left">
+        <item quantity="one">%d unlock left today</item>
+        <item quantity="other">%d unlocks left today</item>
+    </plurals>
+    <string name="hold_reason_hint">Why do you need it now?</string>
+    <string name="hold_retype_prompt">Type “%1$s” to open it.</string>
+    <string name="hold_retype_phrase">I choose to open %1$s now</string>
+    <string name="hold_retype_hint">Type the sentence</string>
+    <string name="hold_open_recentr">Open Recentr</string>
+    <string name="hold_back_to_focus">Back to focus</string>
+    <string name="hold_end_focus">End session early</string>
+    <string name="hold_duration_h">%1$dh</string>
+    <string name="hold_duration_m">%1$dm</string>
+    <string name="hold_duration_h_m">%1$dh %2$dm</string>
 </resources>

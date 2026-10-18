@@ -45,8 +45,8 @@ internal class AppDetailViewModel(
     private val local = MutableStateFlow(AppDetailUiState(period))
 
     val state: StateFlow<AppDetailUiState> = combine(local, rules.rules) { state, ruleList ->
-        val app = state.detail?.app?.catalogue
-        state.copy(limitRule = ruleList.firstOrNull { it.type == RuleType.Limit && it.enabled && app != null && app in it.apps })
+        val app = state.detail?.app
+        state.copy(limitRule = ruleList.firstOrNull { it.type == RuleType.Limit && it.enabled && app != null && it.targets(app.packageName) })
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), local.value)
 
     init {
@@ -54,13 +54,13 @@ internal class AppDetailViewModel(
             val detail = screenTime.appDetail(packageName, period)
             local.update { it.copy(detail = detail, loading = false) }
             // Today's use of the limit's apps, for "14m over your limit".
-            if (period == UsagePeriod.Today && detail?.app?.catalogue != null) {
+            if (period == UsagePeriod.Today && detail != null) {
                 val today = screenTime.summary(UsagePeriod.Today).filterIsInstance<ScreenTimeState.Ready>().first().summary
                 val rule = state.value.limitRule ?: rules.rules.value.firstOrNull { rule ->
-                    rule.type == RuleType.Limit && rule.enabled && detail.app.catalogue in rule.apps
+                    rule.type == RuleType.Limit && rule.enabled && rule.targets(detail.app.packageName)
                 }
                 if (rule != null) {
-                    val used = today.mostUsed.filter { it.app.catalogue in rule.apps }.sumOf { it.minutes }
+                    val used = today.mostUsed.filter { rule.targets(it.app.packageName) }.sumOf { it.minutes }
                     local.update { it.copy(limitUsedMinutes = used) }
                 }
             }

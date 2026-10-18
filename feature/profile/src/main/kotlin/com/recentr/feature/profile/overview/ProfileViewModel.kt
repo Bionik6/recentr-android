@@ -32,8 +32,10 @@ internal data class ProfileUiState(
     val memberDays: Int = 1,
     /** Onboarding answer ("Before · 6h · daily average"). */
     val beforeMinutes: Int = 6 * 60,
-    /** This week's daily average, or null while screen time syncs. */
+    /** This week's daily average, or null while screen time syncs or without usage data. */
     val nowMinutes: Int? = null,
+    /** False while screen time syncs. */
+    val nowSynced: Boolean = false,
     /** Days behind [nowMinutes] ("last 5 days"). */
     val nowDays: Int = 1,
     val streakDays: Int = 0,
@@ -79,7 +81,9 @@ internal class ProfileViewModel(
             avatar = profile.avatarColor,
             memberDays = ((System.currentTimeMillis() - joinedAt) / DAY_MILLIS + 1).toInt().coerceAtLeast(1),
             beforeMinutes = profile.reportedDailyMinutes,
-            nowMinutes = summary?.dailyAverageMinutes,
+            // No day with data (no usage access): nothing won back yet.
+            nowMinutes = summary?.takeIf { it.measuredDays.isNotEmpty() }?.dailyAverageMinutes,
+            nowSynced = summary != null,
             nowDays = summary?.days?.coerceAtLeast(1) ?: 1,
             streakDays = summary?.streakDays ?: 0,
             urgesResisted = history.sumOf { it.urgesResisted },

@@ -2,20 +2,25 @@ package com.recentr.app
 
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
+import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.recentr.app.navigation.RecentrNavHost
 import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.component.RecentrTab
+import com.recentr.core.designsystem.format.LocalUse24HourClock
 import com.recentr.core.designsystem.motion.ProvideRecentrMotion
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AppIconStyle
 import com.recentr.core.model.AppSettings
+import com.recentr.core.model.TimeFormat
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -55,7 +60,12 @@ class MainActivity : ComponentActivity() {
                             "onboarding" -> true
                             else -> start == StartState.Onboarding
                         }
-                        RecentrNavHost(showOnboarding = showOnboarding, initialTab = initialTab, debugTools = debuggable)
+                        // Settings › Time format, else the device's 24-hour setting.
+                        val use24Hour = settings.timeFormat?.let { it == TimeFormat.TwentyFourHour }
+                            ?: DateFormat.is24HourFormat(LocalContext.current)
+                        CompositionLocalProvider(LocalUse24HourClock provides use24Hour) {
+                            RecentrNavHost(showOnboarding = showOnboarding, initialTab = initialTab, debugTools = debuggable)
+                        }
                     }
                 }
             }
@@ -73,7 +83,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Back from Settings › Usage access (onboarding "Connect"): switch demo ↔ device numbers.
+        // Back from Settings › Usage access (onboarding "Connect"): switch empty ↔ device numbers.
         RecentrData.recheckUsageAccess()
+        // Back from Settings › Accessibility: app blocking may have been turned on or off.
+        RecentrData.recheckBlockingAccess()
     }
 }

@@ -50,6 +50,7 @@ import com.recentr.feature.insights.R
 import com.recentr.feature.insights.ui.IconChip
 import com.recentr.feature.insights.ui.copy
 import com.recentr.feature.insights.ui.shortDate
+import com.recentr.feature.insights.ui.text
 import java.time.LocalDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -161,7 +162,7 @@ internal fun BadgeUnlockedScreen(
                     Spacer(Modifier.height(8.dp))
                     Text(stringResource(copy.title), style = RecentrTheme.typography.displayLarge, color = colors.textOnDark, textAlign = TextAlign.Center)
                     Spacer(Modifier.height(8.dp))
-                    Text(stringResource(copy.cheer), style = RecentrTheme.typography.bodyRegular, color = colors.textOnDarkMuted, textAlign = TextAlign.Center)
+                    Text(copy.text(copy.cheer), style = RecentrTheme.typography.bodyRegular, color = colors.textOnDarkMuted, textAlign = TextAlign.Center)
                 }
                 Spacer(Modifier.height(24.dp))
             }

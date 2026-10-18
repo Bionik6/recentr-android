@@ -11,6 +11,7 @@ import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.temporal.TemporalAdjusters
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 /** Loading state of the screen-time aggregation ("Syncing screen time…" on Home). */
 sealed interface ScreenTimeState {
@@ -27,8 +29,8 @@ sealed interface ScreenTimeState {
 
 /** Where the screen-time numbers come from. */
 enum class ScreenTimeSource {
-    /** Figma demo numbers (no usage access). */
-    Demo,
+    /** No usage access: nothing to show yet (the Figma demo numbers in previews). */
+    NoAccess,
     /** This device's usage events (usage access granted). */
     Device,
 }
@@ -55,6 +57,40 @@ interface ScreenTimeRepository {
 }
 
 /**
+ * Screen time before usage access is granted: every period is empty (no minutes, apps or pickups,
+ * no day with data, no quality split), so the screens show their empty states instead of
+ * made-up numbers.
+ */
+class EmptyScreenTimeRepository(private val zone: () -> ZoneId = ZoneId::systemDefault) : ScreenTimeRepository {
+
+    override val source: StateFlow<ScreenTimeSource> = MutableStateFlow(ScreenTimeSource.NoAccess)
+
+    override fun summary(period: UsagePeriod): Flow<ScreenTimeState> = flowOf(
+        ScreenTimeState.Ready(
+            ScreenTimeAggregation.summarize(
+                period = period,
+                days = emptyList(),
+                zone = zone(),
+                resolveApp = { null },
+                baselineDailyMinutes = 0,
+                streakDays = 0,
+                previousTotalMinutes = null,
+            ).copy(focusPercent = 0, socialPercent = 0, funPercent = 0),
+        ),
+    )
+
+    override suspend fun dailyStats(from: LocalDate, to: LocalDate): List<DayStats> =
+        generateSequence(from) { it.plusDays(1) }.takeWhile { !it.isAfter(to) }
+            .map { DayStats(it, hasData = false, minutes = 0, pickups = 0) }
+            .toList()
+
+    override suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? = null
+
+    override suspend fun pickups(period: UsagePeriod): PickupStats =
+        ScreenTimeAggregation.pickupStats(period, emptyList(), zone(), resolveApp = { null })
+}
+
+/**
  * Demo data matching the Figma screens ("Home & Insight": 1h12 today, 6h48 decrease, 4 pickups,
  * 5 notifications, X 38m / Instagram 17m…, this week 9h40 with a 1h23 daily average…).
  */
@@ -64,7 +100,7 @@ class DemoScreenTimeRepository(
     private val goalMinutes: Flow<Int>? = null,
 ) : ScreenTimeRepository {
 
-    override val source: StateFlow<ScreenTimeSource> = MutableStateFlow(ScreenTimeSource.Demo)
+    override val source: StateFlow<ScreenTimeSource> = MutableStateFlow(ScreenTimeSource.NoAccess)
 
     override fun summary(period: UsagePeriod): Flow<ScreenTimeState> = flow {
         emit(ScreenTimeState.Syncing)

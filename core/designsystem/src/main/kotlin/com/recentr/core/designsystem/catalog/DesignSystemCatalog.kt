@@ -51,6 +51,7 @@ import com.recentr.core.designsystem.component.RecentrTabBar
 import com.recentr.core.designsystem.component.RecentrTextField
 import com.recentr.core.designsystem.component.RecentrToggle
 import com.recentr.core.designsystem.component.ReviewCard
+import com.recentr.core.designsystem.component.OverlappingAppIcons
 import com.recentr.core.designsystem.component.RuleCard
 import com.recentr.core.designsystem.component.RuleTile
 import com.recentr.core.designsystem.component.SettingRow
@@ -165,7 +166,7 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
                 title = "Work Hours",
                 sticker = Sticker.Bolt,
                 streak = 3,
-                apps = listOf(DemoApp.Instagram, DemoApp.TikTok, DemoApp.X),
+                apps = { OverlappingAppIcons(listOf(DemoApp.Instagram, DemoApp.TikTok, DemoApp.X)) },
                 value = "0s / 2h15",
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),

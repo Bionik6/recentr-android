@@ -140,6 +140,14 @@
     <string name="block_title">Block during focus</string>
     <string name="block_subtitle">These apps stay on hold until the session ends.</string>
     <string name="block_done">Done</string>
+    <string name="block_search">Search apps</string>
+    <string name="block_no_apps">No apps match “%1$s”.</string>
+    <string name="block_cat_social">SOCIAL</string>
+    <string name="block_cat_entertainment">ENTERTAINMENT</string>
+    <string name="block_cat_music">MUSIC</string>
+    <string name="block_cat_games">GAMES</string>
+    <string name="block_cat_productivity">PRODUCTIVITY</string>
+    <string name="block_cat_other">OTHER APPS</string>
 
     <string name="duration_h">%1$dh</string>
     <string name="duration_m">%1$dm</string>

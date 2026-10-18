@@ -22,6 +22,9 @@ enum class AppLanguage(val tag: String, val endonym: String) {
     }
 }
 
+/** Clock of Settings › Time format: "9:00 PM" or "21:00". */
+enum class TimeFormat { AmPm, TwentyFourHour }
+
 /** Recentr Plus billing period (Profile › Recentr Plus). */
 enum class PlusPlan { Yearly, Monthly }
 
@@ -35,6 +38,8 @@ data class AppSettings(
     val haptics: Boolean = true,
     /** Null = follow the system language. */
     val language: AppLanguage? = null,
+    /** Null = follow the device's 24-hour setting. */
+    val timeFormat: TimeFormat? = null,
     // Notifications
     val notifyBeforeRoutine: Boolean = true,
     val notifyLimitAlmostReached: Boolean = true,
@@ -48,7 +53,7 @@ data class AppSettings(
     /** Settings › Strict mode: new sessions and routines start strict. */
     val strictByDefault: Boolean = false,
     val emergencyUnlocksLeft: Int = 2,
-    val unlockPassPrinted: Boolean = true,
+    val unlockPassPrinted: Boolean = false,
     // Recentr Plus (no billing backend: kept on this device)
     val plusPlan: PlusPlan? = null,
     val plusRenewsAtMillis: Long? = null,

@@ -8,9 +8,9 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.recentr.core.model.Achievement
 import com.recentr.core.model.AchievementProgress
-import com.recentr.core.model.AppId
 import com.recentr.core.model.CalmLevel
 import com.recentr.core.model.DayStats
+import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UserProfile
 import java.time.Instant
 import java.time.LocalDate
@@ -37,14 +37,14 @@ data class AchievementsSnapshot(
     /** When the user started ("Since you started · 23 days"). */
     val startedOn: LocalDate,
     /** Apps of the first blocking rule ("You blocked Instagram & X for the first time"). */
-    val firstLockApps: List<AppId>,
+    val firstLockApps: List<UsageApp>,
 )
 
 /**
  * Badges, calm points and streak savers (Figma 105–110). Badges are evaluated by
  * [AchievementEngine] against the screen-time history, the focus log and the rules. With device
  * numbers, earned days are kept (DataStore), so a badge stays earned once its days leave the
- * system's retained history; the demo numbers are evaluated on the fly. Which badges were
+ * system's retained history; without usage access the (empty) numbers are evaluated on the fly. Which badges were
  * celebrated ("New badge" screen) is kept for both.
  */
 class AchievementsRepository internal constructor(

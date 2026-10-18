@@ -27,13 +27,13 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
-import com.recentr.core.designsystem.illustration.AppIcon
-import com.recentr.core.designsystem.illustration.DemoApp
+import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
+import com.recentr.core.model.UsageApp
 
 /**
  * 96 · Focus — App on hold: impatient mascot (+ the held app, tilted 10°), "You’re 32 min into
@@ -45,7 +45,7 @@ internal fun AppOnHoldDialog(
     body: String,
     backText: String,
     endText: String,
-    app: DemoApp?,
+    app: UsageApp?,
     onBack: () -> Unit,
     onEnd: () -> Unit,
     onDismissRequest: () -> Unit,
@@ -71,10 +71,9 @@ internal fun AppOnHoldDialog(
             Box(Modifier.size(width = 160.dp, height = 110.dp)) {
                 Mascot(MascotMood.Impatient, width = 88.dp, modifier = Modifier.offset(x = if (app != null) 20.dp else 36.dp))
                 if (app != null) {
-                    AppIcon(
-                        app,
+                    InstalledAppIcon(
+                        app.packageName,
                         size = 52.dp,
-                        contentDescription = null,
                         modifier = Modifier
                             .offset(x = 95.dp, y = 56.dp)
                             .graphicsLayer { rotationZ = 10f },

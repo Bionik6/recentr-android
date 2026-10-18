@@ -1,5 +1,6 @@
 package com.recentr.feature.rules.sheets
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +40,8 @@ import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrTextField
 import com.recentr.core.designsystem.component.SettingToggleRow
+import com.recentr.core.designsystem.format.LocalUse24HourClock
+import com.recentr.core.designsystem.format.clockDigits
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.StickerImage
@@ -47,9 +51,9 @@ import com.recentr.core.model.RuleSticker
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.model.RulesMessages
 import com.recentr.feature.rules.ui.asSticker
-import com.recentr.feature.rules.ui.clockDigits
 import com.recentr.feature.rules.ui.components.DayDots
 import com.recentr.feature.rules.ui.components.Gap
+import com.recentr.feature.rules.ui.components.HGap
 import com.recentr.feature.rules.ui.components.RulesSheet
 import com.recentr.feature.rules.ui.components.SectionCaption
 import com.recentr.feature.rules.ui.components.SettingsGroup
@@ -203,8 +207,8 @@ internal fun EditNameStickerSheet(
 }
 
 /**
- * FROM → UNTIL tilted time cards (Figma 39 "Times", 120dp tall). Positions are the Figma card
- * centres relative to the 354dp row centre.
+ * FROM → UNTIL tilted time cards (Figma 39 "Times", 120dp tall): the arrow stays centred and each
+ * card hugs it, whatever its width.
  */
 @Composable
 internal fun TimesRow(
@@ -214,43 +218,55 @@ internal fun TimesRow(
     onEnd: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
-    val am = stringResource(R.string.rules_am)
-    val pm = stringResource(R.string.rules_pm)
-    val startMeridiem = if (isPm(startMinute)) pm else am
-    val endMeridiem = if (isPm(endMinute)) pm else am
-    val startCaption = if (startMinute >= 18 * 60) {
-        stringResource(R.string.rules_tonight, startMeridiem)
-    } else {
-        stringResource(R.string.rules_today, startMeridiem)
+    val startCaption = cardCaption(startMinute, if (startMinute >= 18 * 60) CardDay.Tonight else CardDay.Today)
+    val endCaption = cardCaption(
+        endMinute,
+        when {
+            endMinute <= startMinute -> CardDay.Tomorrow
+            endMinute >= 18 * 60 -> CardDay.Tonight
+            else -> CardDay.Today
+        },
+    )
+    Row(modifier.fillMaxWidth().height(120.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
+            TimeCard(
+                label = stringResource(R.string.rules_from),
+                value = clockDigits(startMinute),
+                caption = startCaption,
+                rotation = -4f,
+                onClick = onStart,
+                modifier = Modifier.offset(y = 0.4.dp),
+            )
+        }
+        HGap(10.5.dp)
+        RecentrIconImage(RecentrIcon.ArrowRight, tint = RecentrTheme.colors.textTertiary)
+        HGap(9.2.dp)
+        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+            TimeCard(
+                label = stringResource(R.string.rules_until),
+                value = clockDigits(endMinute),
+                caption = endCaption,
+                rotation = 4f,
+                onClick = onEnd,
+                modifier = Modifier.offset(y = 0.6.dp),
+            )
+        }
     }
-    val endCaption = when {
-        endMinute <= startMinute -> stringResource(R.string.rules_tomorrow, endMeridiem)
-        endMinute >= 18 * 60 -> stringResource(R.string.rules_tonight, endMeridiem)
-        else -> stringResource(R.string.rules_today, endMeridiem)
-    }
-    Box(modifier.fillMaxWidth().height(120.dp), contentAlignment = Alignment.Center) {
-        TimeCard(
-            label = stringResource(R.string.rules_from),
-            value = clockDigits(startMinute),
-            caption = startCaption,
-            rotation = -4f,
-            onClick = onStart,
-            modifier = Modifier.offset(x = (-98).dp, y = 0.4.dp),
-        )
-        RecentrIconImage(
-            RecentrIcon.ArrowRight,
-            tint = RecentrTheme.colors.textTertiary,
-            modifier = Modifier.offset(y = 2.dp),
-        )
-        TimeCard(
-            label = stringResource(R.string.rules_until),
-            value = clockDigits(endMinute),
-            caption = endCaption,
-            rotation = 4f,
-            onClick = onEnd,
-            modifier = Modifier.offset(x = 75.7.dp, y = 4.6.dp),
-        )
-    }
+}
+
+private enum class CardDay(@param:StringRes val withMeridiem: Int, @param:StringRes val alone: Int) {
+    Today(R.string.rules_today, R.string.rules_today_alone),
+    Tonight(R.string.rules_tonight, R.string.rules_tonight_alone),
+    Tomorrow(R.string.rules_tomorrow, R.string.rules_tomorrow_alone),
+}
+
+/** Time card caption: "PM · tonight", or "Tonight" on the 24-hour clock. */
+@Composable
+@ReadOnlyComposable
+private fun cardCaption(minuteOfDay: Int, day: CardDay): String = if (LocalUse24HourClock.current) {
+    stringResource(day.alone)
+} else {
+    stringResource(day.withMeridiem, stringResource(if (isPm(minuteOfDay)) R.string.rules_pm else R.string.rules_am))
 }
 
 /** "Active" schedule editor: optional all-day toggle, FROM/UNTIL cards and day dots. */

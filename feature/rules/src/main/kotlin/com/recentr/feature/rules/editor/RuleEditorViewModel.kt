@@ -8,12 +8,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.toRoute
+import com.recentr.core.data.InstalledAppsRepository
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.RulesRepository
-import com.recentr.core.model.AppId
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.RuleEditorRoute
 import com.recentr.feature.rules.model.BuiltInTemplate
@@ -45,6 +46,7 @@ internal data class RuleEditorUiState(
 internal class RuleEditorViewModel(
     route: RuleEditorRoute,
     private val repository: RulesRepository,
+    private val installedApps: InstalledAppsRepository,
     private val factory: RuleFactory,
     private val string: (Int, Array<out Any>) -> String,
     /** Settings › Strict mode: new sessions and routines start strict. */
@@ -61,6 +63,14 @@ internal class RuleEditorViewModel(
                 if (strictByDefault.first()) _state.update { it.copy(draft = it.draft.copy(strictMode = true)) }
             }
         }
+        // A built-in template blocks the device's feeds: fill them in once the apps are read.
+        val template = route.templateId?.let(BuiltInTemplate::byId)
+        if (initial.isNew && template != null && installedApps.apps.value == null) {
+            viewModelScope.launch {
+                val apps = factory.fromTemplate(template, installedApps.load()).apps
+                _state.update { if (it.draft.apps.isEmpty()) it.copy(draft = it.draft.copy(apps = apps)) else it }
+            }
+        }
     }
 
     private fun initialState(route: RuleEditorRoute): RuleEditorUiState {
@@ -68,21 +78,21 @@ internal class RuleEditorViewModel(
         val builtIn = route.templateId?.let(BuiltInTemplate::byId)
         val saved = route.templateId?.let(repository::savedTemplate)
         val draft = when {
-            builtIn != null -> factory.fromTemplate(builtIn)
+            builtIn != null -> factory.fromTemplate(builtIn, installedApps.apps.value.orEmpty())
             saved != null -> factory.fromSavedTemplate(saved)
             else -> factory.newRule(RuleType.valueOf(route.type))
         }
         val state = RuleEditorUiState(draft, isNew = true, customTitle = builtIn != null || saved != null, offerTemplate = route.offerTemplate)
-        val apps = route.apps?.split(',')?.mapNotNull { name -> AppId.entries.firstOrNull { it.name == name } }.orEmpty()
+        val apps = route.apps?.split(',')?.mapNotNull(installedApps::app).orEmpty()
         return if (apps.isEmpty()) state else state.withApps(apps)
     }
 
     fun update(transform: (Rule) -> Rule) = _state.update { it.copy(draft = transform(it.draft)) }
 
     /** New apps; rules that are still unnamed take a name built from them ("Instagram & X"). */
-    fun setApps(apps: List<AppId>) = _state.update { it.withApps(apps) }
+    fun setApps(apps: List<UsageApp>) = _state.update { it.withApps(apps) }
 
-    private fun RuleEditorUiState.withApps(apps: List<AppId>): RuleEditorUiState {
+    private fun RuleEditorUiState.withApps(apps: List<UsageApp>): RuleEditorUiState {
         val draft = draft.copy(apps = apps)
         val named = if (customTitle) draft else when (draft.type) {
             RuleType.Lock -> draft.copy(name = factory.lockName(apps))
@@ -102,7 +112,7 @@ internal class RuleEditorViewModel(
         it.copy(
             draft = it.draft.copy(
                 name = string(template.title, emptyArray()),
-                durationMinutes = template.badgeMinutes ?: it.draft.durationMinutes,
+                durationMinutes = template.schedule.lengthMinutes,
                 sticker = template.sticker,
             ),
             customTitle = true,
@@ -144,6 +154,7 @@ internal class RuleEditorViewModel(
                 RuleEditorViewModel(
                     route = createSavedStateHandle().toRoute<RuleEditorRoute>(),
                     repository = repository,
+                    installedApps = RecentrData.installedApps,
                     factory = RuleFactory(string, repository::newId),
                     string = string,
                     strictByDefault = RecentrData.settings.settings.map { it.strictByDefault },

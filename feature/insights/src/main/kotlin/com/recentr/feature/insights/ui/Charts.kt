@@ -155,10 +155,10 @@ internal fun HourBarsChart(hourly: List<Int>, modifier: Modifier = Modifier) {
                 }
             }
         }
-        listOf(R.string.insights_hour_12am, R.string.insights_hour_6am, R.string.insights_hour_12pm, R.string.insights_hour_6pm)
-            .forEachIndexed { index, label ->
+        listOf(0, 6, 12, 18)
+            .forEachIndexed { index, hour ->
                 Text(
-                    stringResource(label),
+                    hourLabel(hour),
                     style = RecentrTheme.typography.labelSmall,
                     color = colors.textTertiary,
                     maxLines = 1,
@@ -203,8 +203,8 @@ internal fun PickupHeatStrip(hourlyPickups: List<Int>, modifier: Modifier = Modi
             }
         }
         Row(Modifier.fillMaxWidth().clearAndSetSemantics { }, horizontalArrangement = Arrangement.SpaceBetween) {
-            listOf(R.string.insights_hour_12am, R.string.insights_hour_6am, R.string.insights_hour_12pm, R.string.insights_hour_6pm, R.string.insights_hour_12am)
-                .forEach { Text(stringResource(it), style = RecentrTheme.typography.labelSmall, color = colors.textTertiary) }
+            listOf(0, 6, 12, 18, 0)
+                .forEach { Text(hourLabel(it), style = RecentrTheme.typography.labelSmall, color = colors.textTertiary) }
         }
     }
 }

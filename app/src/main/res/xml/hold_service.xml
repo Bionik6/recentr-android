@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    App blocker (HoldService): only told which window comes to the front, never what it shows
+    (no window content, no key events, no gestures).
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowStateChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:canRetrieveWindowContent="false"
+    android:description="@string/hold_service_description"
+    android:isAccessibilityTool="false"
+    android:notificationTimeout="0"
+    android:summary="@string/hold_service_summary" />

@@ -1,7 +1,10 @@
 package com.recentr.core.data
 
 import android.content.Context
-import kotlinx.coroutines.flow.map
+import java.io.File
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * Minimal service locator for the shared repositories. Initialised once from
@@ -13,19 +16,30 @@ object RecentrData {
         private set
     lateinit var settings: SettingsRepository
         private set
-    val rules: RulesRepository by lazy { RulesRepository() }
+    val rules: RulesRepository by lazy { RulesRepository(File(appContext.filesDir, "rules.json")) }
     val focus: FocusRepository by lazy { FocusRepository() }
+
+    /** The device's launcher apps, offered by the Rules and Focus app pickers. */
+    val installedApps: InstalledAppsRepository by lazy { InstalledAppsRepository(appContext) }
 
     private val screenTimeDelegate = lazy {
         UsageAccessScreenTimeRepository(
             hasUsageAccess = { UsageAccess.isGranted(appContext) },
             device = UsageStatsScreenTimeRepository(appContext, userPreferences.profile),
-            demo = DemoScreenTimeRepository(goalMinutes = userPreferences.profile.map { it.dailyGoalMinutes }),
+            noAccess = EmptyScreenTimeRepository(),
         )
     }
 
-    /** Device screen time when usage access is granted, the Figma demo numbers otherwise. */
+    /** Device screen time when usage access is granted, empty numbers otherwise. */
     val screenTime: ScreenTimeRepository by screenTimeDelegate
+
+    /** What the app blocker puts on hold, and the apps opened anyway. */
+    val holds: AppHoldRepository by lazy { AppHoldRepository(rules, focus, installedApps, screenTime) }
+
+    private val _blockingEnabled = MutableStateFlow(false)
+
+    /** Whether Recentr's accessibility service (the app blocker) is on. */
+    val blockingEnabled: StateFlow<Boolean> = _blockingEnabled.asStateFlow()
 
     /** Badges, calm points and streak savers of the Achievements flow. */
     val achievements: AchievementsRepository by lazy {
@@ -44,11 +58,17 @@ object RecentrData {
             userPreferences = UserPreferencesRepository(context.applicationContext)
         }
         if (!::settings.isInitialized) settings = SettingsRepository(context.applicationContext)
+        recheckBlockingAccess()
     }
 
     /** Call on every resume: usage access may have been granted or revoked in Settings. */
     fun recheckUsageAccess() {
         if (screenTimeDelegate.isInitialized()) screenTimeDelegate.value.recheckUsageAccess()
+    }
+
+    /** Call on every resume, and when the service starts or stops: blocking may have been turned on or off. */
+    fun recheckBlockingAccess() {
+        _blockingEnabled.value = BlockingAccess.isEnabled(appContext)
     }
 
     /** "Delete account": erases the profile, preferences, rules, focus log and badges on this device. */

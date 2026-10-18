@@ -5,15 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.stringResource
 import com.recentr.core.designsystem.component.AvatarStyle
+import com.recentr.core.designsystem.format.clockTimeShort
 import com.recentr.core.designsystem.illustration.BrandIcon
 import com.recentr.core.model.AppIconStyle
 import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.PlusPlan
 import com.recentr.core.model.ThemeMode
+import com.recentr.core.model.TimeFormat
 import com.recentr.feature.profile.R
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 /** Compact duration of the Profile cards: "6h", "2h10", "45m". */
 @Composable
@@ -41,14 +40,10 @@ internal fun spacedDuration(minutes: Int): String {
     }
 }
 
-private val HourFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h a", Locale.US)
-private val HourMinuteFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
-
-/** "10 PM", "7:30 AM" for a minute of the day. */
-internal fun formatShortClock(minuteOfDay: Int): String {
-    val time = LocalTime.of((minuteOfDay / 60) % 24, minuteOfDay % 60)
-    return time.format(if (time.minute == 0) HourFormatter else HourMinuteFormatter)
-}
+/** "10 PM", "7:30 AM" (or "22:00", "07:30") for a minute of the day. */
+@Composable
+@ReadOnlyComposable
+internal fun formatShortClock(minuteOfDay: Int): String = clockTimeShort(minuteOfDay)
 
 internal val AvatarColor.style: AvatarStyle get() = AvatarStyle.valueOf(name)
 
@@ -69,6 +64,13 @@ internal val AppIconStyle.label: Int
         AppIconStyle.Night -> R.string.icon_night
         AppIconStyle.Mint -> R.string.icon_mint
         AppIconStyle.Sunset -> R.string.icon_sunset
+    }
+
+@get:StringRes
+internal val TimeFormat.label: Int
+    get() = when (this) {
+        TimeFormat.AmPm -> R.string.time_format_am_pm
+        TimeFormat.TwentyFourHour -> R.string.time_format_24h
     }
 
 @get:StringRes

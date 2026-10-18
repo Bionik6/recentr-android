@@ -13,10 +13,6 @@
     <string name="insights_percent">%1$d%%</string>
     <string name="insights_date">%1$s %2$d</string>
     <string name="insights_no_value">—</string>
-    <string name="insights_hour_12am">12 AM</string>
-    <string name="insights_hour_6am">6 AM</string>
-    <string name="insights_hour_12pm">12 PM</string>
-    <string name="insights_hour_6pm">6 PM</string>
     <string-array name="insights_weekday_initials">
         <item>M</item>
         <item>T</item>
@@ -131,8 +127,8 @@
     <string name="insights_noticed">Recentr noticed</string>
     <string name="insights_noticed_idle">You barely opened %1$s. Keep it that way.</string>
     <string name="insights_noticed_checks">You open %1$s %2$d times a day for short visits. A few seconds of pause before it opens breaks the reflex.</string>
-    <string name="insights_noticed_night">Most of your %1$s time is after 10 PM. A bedtime routine could win it back.</string>
-    <string name="insights_noticed_morning">Most of your %1$s time is before 9 AM. A calm morning routine could win it back.</string>
+    <string name="insights_noticed_night">Most of your %1$s time is after %2$s. A bedtime routine could win it back.</string>
+    <string name="insights_noticed_morning">Most of your %1$s time is before %2$s. A calm morning routine could win it back.</string>
     <string name="insights_noticed_work">Most of your %1$s time is during the workday. A focus session could win it back.</string>
     <string name="insights_noticed_evening">Most of your %1$s time is in the evening. A daily limit could win it back.</string>
     <string name="insights_noticed_spread">Your %1$s time is spread through the day. A daily limit keeps it in check.</string>
@@ -274,13 +270,13 @@
     <string name="badge_calm_month_cheer">A whole month of calm. Legendary.</string>
     <string name="badge_calm_month_milestone">30 days in a row under your goal.</string>
     <string name="badge_night_owl">Night owl, retired</string>
-    <string name="badge_night_owl_goal">7 nights in a row with no screens after 11 PM.</string>
-    <string name="badge_night_owl_cheer">7 nights in a row with no screens after 11 PM. Your sleep says thanks.</string>
-    <string name="badge_night_owl_milestone">No screens after 11 PM for 7 nights.</string>
+    <string name="badge_night_owl_goal">7 nights in a row with no screens after %1$s.</string>
+    <string name="badge_night_owl_cheer">7 nights in a row with no screens after %1$s. Your sleep says thanks.</string>
+    <string name="badge_night_owl_milestone">No screens after %1$s for 7 nights.</string>
     <string name="badge_slow_mornings">Slow mornings</string>
-    <string name="badge_slow_mornings_goal">5 mornings in a row with no screens before 8 AM.</string>
+    <string name="badge_slow_mornings_goal">5 mornings in a row with no screens before %1$s.</string>
     <string name="badge_slow_mornings_cheer">Five slow mornings. Your day starts with you, not your feed.</string>
-    <string name="badge_slow_mornings_milestone">No screens before 8 AM for 5 mornings.</string>
+    <string name="badge_slow_mornings_milestone">No screens before %1$s for 5 mornings.</string>
     <string name="badge_screen_free_sunday">Screen-free Sunday</string>
     <string name="badge_screen_free_sunday_goal">Spend a Sunday under 30 minutes of screen time.</string>
     <string name="badge_screen_free_sunday_cheer">A Sunday almost off the grid. Doesn’t it feel lighter?</string>

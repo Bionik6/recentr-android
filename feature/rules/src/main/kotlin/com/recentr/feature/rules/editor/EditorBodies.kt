@@ -46,11 +46,9 @@ import com.recentr.feature.rules.model.BuiltInTemplate
 import com.recentr.feature.rules.model.toCard
 import com.recentr.feature.rules.sheets.RuleSheet
 import com.recentr.feature.rules.sheets.TimesRow
-import com.recentr.feature.rules.ui.allowedAppsLabel
 import com.recentr.feature.rules.ui.appsCategoryLabel
 import com.recentr.feature.rules.ui.appsLabel
 import com.recentr.feature.rules.ui.asSticker
-import com.recentr.feature.rules.ui.bedtimeBlockLabel
 import com.recentr.feature.rules.ui.compactDuration
 import com.recentr.feature.rules.ui.components.DayDots
 import com.recentr.feature.rules.ui.components.Gap
@@ -102,7 +100,13 @@ private fun EditorRow(label: Int, value: String, icon: RecentrIcon, onClick: () 
     )
 }
 
-/** Primary CTA, or "Save as template" + "Start" for a new session (just "Start" from Home). */
+/** A rule needs apps to block before it can be created or saved. */
+private val Rule.blocksApps: Boolean get() = apps.isNotEmpty()
+
+/**
+ * Primary CTA, or "Save as template" + "Start" for a new session (just "Start" from Home).
+ * Disabled until the rule has apps to block.
+ */
 @Composable
 internal fun ColumnScope.EditorCta(state: RuleEditorUiState, createLabel: Int, actions: EditorActions) {
     val oneShot = state.isNew && state.draft.type == com.recentr.core.model.RuleType.Session && state.draft.schedule == null
@@ -118,6 +122,7 @@ internal fun ColumnScope.EditorCta(state: RuleEditorUiState, createLabel: Int, a
             RecentrButton(
                 text = stringResource(R.string.rules_start),
                 onClick = actions.onCommit,
+                enabled = state.draft.blocksApps,
                 modifier = Modifier.weight(0.92f),
             )
         }
@@ -125,6 +130,7 @@ internal fun ColumnScope.EditorCta(state: RuleEditorUiState, createLabel: Int, a
         RecentrButton(
             text = stringResource(if (state.isNew) createLabel else R.string.rules_save),
             onClick = actions.onCommit,
+            enabled = state.draft.blocksApps,
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -239,7 +245,7 @@ internal fun ColumnScope.LimitEditor(state: RuleEditorUiState, title: String, ac
     }
 }
 
-/** Figma 39 "Bedtime": FROM / UNTIL cards, weekday dots, Block / Always allowed / Strict mode. */
+/** Figma 39 "Bedtime": FROM / UNTIL cards, weekday dots, Block / Strict mode. */
 @Composable
 internal fun ColumnScope.BedtimeEditor(state: RuleEditorUiState, title: String, actions: EditorActions) {
     val rule = state.draft
@@ -265,8 +271,7 @@ internal fun ColumnScope.BedtimeEditor(state: RuleEditorUiState, title: String, 
     )
     Gap(16.dp)
     SettingsGroup {
-        EditorRow(R.string.rules_row_block, bedtimeBlockLabel(rule), RecentrIcon.Apps) { actions.open(RuleSheet.BlockMode) }
-        EditorRow(R.string.rules_row_always_allowed, allowedAppsLabel(rule), RecentrIcon.Check) { actions.open(RuleSheet.AllowedApps) }
+        EditorRow(R.string.rules_row_block, appsLabel(rule.apps), RecentrIcon.Apps) { actions.open(RuleSheet.Apps) }
         StrictToggleRow(rule.strictMode, actions.onStrictChange, locked = actions.strictLocked)
     }
 }

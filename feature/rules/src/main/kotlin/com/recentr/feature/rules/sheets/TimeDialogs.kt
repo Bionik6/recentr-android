@@ -28,6 +28,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.recentr.core.designsystem.format.LocalUse24HourClock
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
@@ -112,7 +113,7 @@ internal fun TimeOfDayDialog(
     val state = rememberTimePickerState(
         initialHour = (initialMinuteOfDay / 60) % 24,
         initialMinute = initialMinuteOfDay % 60,
-        is24Hour = false,
+        is24Hour = LocalUse24HourClock.current,
     )
     RulesDialog(title = title, onConfirm = { onConfirm(state.hour * 60 + state.minute) }, onDismiss = onDismiss) {
         TimePicker(state = state, colors = recentrTimePickerColors())

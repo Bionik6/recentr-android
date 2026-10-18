@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -17,4 +18,6 @@ android {
 }
 
 dependencies {
+    // Rules are saved as JSON (RulesRepository).
+    api(libs.kotlinx.serialization.json)
 }

@@ -45,6 +45,7 @@ import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.SettingToggleRow
 import com.recentr.core.designsystem.component.SettingsGroup
 import com.recentr.core.designsystem.component.SettingsSectionLabel
+import com.recentr.core.designsystem.format.LocalUse24HourClock
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -224,7 +225,11 @@ private fun QuietHoursSheet(
 @Composable
 private fun TimeDialog(title: String, minuteOfDay: Int, onConfirm: (Int) -> Unit, onDismiss: () -> Unit) {
     val colors = RecentrTheme.colors
-    val state = rememberTimePickerState(initialHour = minuteOfDay / 60, initialMinute = minuteOfDay % 60, is24Hour = false)
+    val state = rememberTimePickerState(
+        initialHour = minuteOfDay / 60,
+        initialMinute = minuteOfDay % 60,
+        is24Hour = LocalUse24HourClock.current,
+    )
     Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Column(
             Modifier

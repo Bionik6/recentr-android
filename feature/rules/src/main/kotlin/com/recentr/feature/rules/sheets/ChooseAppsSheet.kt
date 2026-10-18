@@ -2,14 +2,18 @@ package com.recentr.feature.rules.sheets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,27 +29,31 @@ import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.AppRow
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrTextField
+import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.core.model.AppId
+import com.recentr.core.model.AppCategory
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
-import com.recentr.feature.rules.ui.AppCategory
-import com.recentr.feature.rules.ui.asDemoApp
+import com.recentr.feature.rules.ui.rememberInstalledApps
+import com.recentr.feature.rules.ui.sectionLabel
 import com.recentr.feature.rules.ui.components.Gap
 import com.recentr.feature.rules.ui.components.RulesSheet
 import com.recentr.feature.rules.ui.components.SectionCaption
 import com.recentr.feature.rules.ui.components.SheetBody
 
-/** Figma 36 "Choose apps": search, categorised app rows with checkboxes, "Done · N apps". */
+/**
+ * Figma 36 "Choose apps": search, the device's launcher apps by category with checkboxes,
+ * "Done · N apps". Chosen apps that are no longer installed stay listed so they can be removed.
+ */
 @Composable
 internal fun ChooseAppsSheet(
-    initial: List<AppId>,
-    onDone: (List<AppId>) -> Unit,
+    initial: List<UsageApp>,
+    onDone: (List<UsageApp>) -> Unit,
     onDismiss: () -> Unit,
-    title: String = stringResource(R.string.rules_choose_apps),
-    allowEmpty: Boolean = false,
 ) {
-    val selected = remember { mutableStateListOf<AppId>().apply { addAll(initial) } }
+    val selected = remember { mutableStateListOf<UsageApp>().apply { addAll(initial) } }
     var query by rememberSaveable { mutableStateOf("") }
+    val installed = rememberInstalledApps(refresh = true)
     RulesSheet(onDismissRequest = onDismiss) { closer ->
         SheetBody(
             figmaHeight = null,
@@ -60,13 +68,13 @@ internal fun ChooseAppsSheet(
                         val apps = selected.toList()
                         closer.close { onDone(apps) }
                     },
-                    enabled = allowEmpty || selected.isNotEmpty(),
+                    enabled = selected.isNotEmpty(),
                     modifier = Modifier.fillMaxWidth(),
                 )
             },
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(title, style = RecentrTheme.typography.title1, color = RecentrTheme.colors.textPrimary, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.rules_choose_apps), style = RecentrTheme.typography.title1, color = RecentrTheme.colors.textPrimary, modifier = Modifier.weight(1f))
                 Text(
                     stringResource(R.string.rules_selected, selected.size),
                     style = RecentrTheme.typography.bodyMedium,
@@ -82,33 +90,61 @@ internal fun ChooseAppsSheet(
                 modifier = Modifier.fillMaxWidth(),
             )
             Gap(16.dp)
-            val matches = AppCategory.entries.map { category ->
-                category to category.apps.filter { query.isBlank() || it.displayName.contains(query.trim(), ignoreCase = true) }
-            }.filter { it.second.isNotEmpty() }
-            if (matches.isEmpty()) {
-                Text(
-                    stringResource(R.string.rules_no_apps_found, query.trim()),
-                    style = RecentrTheme.typography.bodyRegular,
-                    color = RecentrTheme.colors.textSecondary,
+            if (installed == null) {
+                CircularProgressIndicator(
+                    color = RecentrTheme.colors.brandSky,
+                    strokeWidth = 3.dp,
+                    modifier = Modifier.padding(vertical = 24.dp).size(28.dp).align(Alignment.CenterHorizontally),
+                )
+            } else {
+                AppSections(
+                    apps = remember(installed) {
+                        installed + initial.filter { chosen -> installed.none { it.packageName == chosen.packageName } }
+                    },
+                    query = query.trim(),
+                    isSelected = { app -> selected.any { it.packageName == app.packageName } },
+                    onToggle = { app, checked ->
+                        if (checked) selected.add(app) else selected.removeAll { it.packageName == app.packageName }
+                    },
                 )
             }
-            matches.forEachIndexed { index, (category, apps) ->
-                if (index > 0) Gap(14.dp)
-                SectionCaption(stringResource(category.label))
-                Gap(8.dp)
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(22.dp))
-                        .background(RecentrTheme.colors.bgSunken)
-                        .padding(horizontal = 16.dp, vertical = 6.dp),
-                ) {
-                    apps.forEach { app ->
-                        AppRow(
-                            app = app.asDemoApp,
-                            checked = app in selected,
-                            onCheckedChange = { checked -> if (checked) selected.add(app) else selected.remove(app) },
-                        )
+        }
+    }
+}
+
+/** The [apps] matching [query], one sunken group per category ("SOCIAL", "ENTERTAINMENT"…). */
+@Composable
+private fun ColumnScope.AppSections(
+    apps: List<UsageApp>,
+    query: String,
+    isSelected: (UsageApp) -> Boolean,
+    onToggle: (UsageApp, Boolean) -> Unit,
+) {
+    val matches = AppCategory.entries.map { category ->
+        category to apps.filter { it.category == category && (query.isEmpty() || it.label.contains(query, ignoreCase = true)) }
+    }.filter { it.second.isNotEmpty() }
+    if (matches.isEmpty()) {
+        Text(
+            stringResource(R.string.rules_no_apps_found, query),
+            style = RecentrTheme.typography.bodyRegular,
+            color = RecentrTheme.colors.textSecondary,
+        )
+    }
+    matches.forEachIndexed { index, (category, categoryApps) ->
+        if (index > 0) Gap(14.dp)
+        SectionCaption(stringResource(category.sectionLabel))
+        Gap(8.dp)
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(22.dp))
+                .background(RecentrTheme.colors.bgSunken)
+                .padding(horizontal = 16.dp, vertical = 6.dp),
+        ) {
+            categoryApps.forEach { app ->
+                key(app.packageName) {
+                    AppRow(name = app.label, checked = isSelected(app), onCheckedChange = { onToggle(app, it) }) {
+                        InstalledAppIcon(app.packageName, size = 32.dp)
                     }
                 }
             }

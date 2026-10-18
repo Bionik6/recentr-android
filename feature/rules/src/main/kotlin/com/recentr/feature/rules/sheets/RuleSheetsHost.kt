@@ -2,7 +2,6 @@ package com.recentr.feature.rules.sheets
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.recentr.core.model.AppId
 import com.recentr.core.model.HabitRepeat
 import com.recentr.core.model.HabitTask
 import com.recentr.core.model.LimitAction
@@ -11,6 +10,7 @@ import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UnlockMethod
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.ui.habitRepeatLabel
 import com.recentr.feature.rules.ui.limitActionLabel
@@ -20,7 +20,7 @@ import java.util.UUID
 
 /** Sub-sheets a rule editor (or the rule detail) can open. */
 internal enum class RuleSheet {
-    None, Name, Apps, AllowedApps, BlockMode, Duration, Schedule, BedtimeStart, BedtimeEnd, Unlock, Wait,
+    None, Name, Apps, Duration, Schedule, BedtimeStart, BedtimeEnd, Unlock, Wait,
     UnlocksPerDay, Resets, TimeUp, Repeats, Reminders, Note, AddTask,
 }
 
@@ -38,7 +38,7 @@ internal fun RuleSheetsHost(
     onSheet: (RuleSheet) -> Unit,
     onUpdate: ((Rule) -> Rule) -> Unit,
     onRename: (String, RuleSticker) -> Unit,
-    onApps: (List<AppId>) -> Unit,
+    onApps: (List<UsageApp>) -> Unit,
     noteTitle: String = stringResource(R.string.rules_note_title),
 ) {
     val close = { onSheet(RuleSheet.None) }
@@ -51,23 +51,6 @@ internal fun RuleSheetsHost(
             onDismiss = close,
         )
         RuleSheet.Apps -> ChooseAppsSheet(initial = rule.apps, onDone = onApps, onDismiss = close)
-        RuleSheet.AllowedApps -> ChooseAppsSheet(
-            initial = rule.allowedApps,
-            onDone = { allowed -> onUpdate { it.copy(allowedApps = allowed) } },
-            onDismiss = close,
-            title = stringResource(R.string.rules_always_allowed_title),
-            allowEmpty = true,
-        )
-        RuleSheet.BlockMode -> OptionPickerSheet(
-            title = stringResource(R.string.rules_block_mode_title),
-            options = listOf(stringResource(R.string.rules_block_all_except), stringResource(R.string.rules_block_only_selected)),
-            selectedIndex = if (rule.blockAllApps) 0 else 1,
-            onSelect = { index ->
-                onUpdate { it.copy(blockAllApps = index == 0) }
-                if (index == 1) onSheet(RuleSheet.Apps)
-            },
-            onDismiss = close,
-        )
         RuleSheet.Duration -> DurationSheet(
             initialMinutes = rule.durationMinutes ?: 30,
             now = rule.activeSince ?: now,

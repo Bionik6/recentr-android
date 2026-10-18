@@ -7,10 +7,14 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.recentr.core.data.BlockingAccess
+import com.recentr.core.data.RecentrData
+import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.sheets.RuleSheet
@@ -18,6 +22,7 @@ import com.recentr.feature.rules.sheets.RuleSheetsHost
 import com.recentr.feature.rules.ui.components.ClearDialogDim
 import com.recentr.feature.rules.ui.components.RulesSheet
 import com.recentr.feature.rules.ui.components.SheetBody
+import com.recentr.feature.rules.ui.components.SheetCloser
 import kotlinx.coroutines.delay
 
 /**
@@ -40,6 +45,9 @@ internal fun RuleEditorDestination(
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
     var sheet by rememberSaveable { mutableStateOf(RuleSheet.None) }
+    val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
+    var explainBlocking by rememberSaveable { mutableStateOf(false) }
+    var editorCloser by remember { mutableStateOf<SheetCloser?>(null) }
     val now by produceState(System.currentTimeMillis()) {
         while (true) {
             delay(1_000)
@@ -47,6 +55,7 @@ internal fun RuleEditorDestination(
         }
     }
     RulesSheet(onDismissRequest = close) { closer ->
+        editorCloser = closer
         val actions = EditorActions(
             open = { sheet = it },
             update = viewModel::update,
@@ -60,7 +69,8 @@ internal fun RuleEditorDestination(
             },
             onCommit = {
                 viewModel.commit()
-                closer.close()
+                // The rule can't put apps on hold yet: explain blocking first, then close.
+                if (blockingOn) closer.close() else explainBlocking = true
             },
         )
         val draft = state.draft
@@ -94,7 +104,7 @@ internal fun RuleEditorDestination(
                 RuleType.Habit -> HabitEditor(
                     state = state,
                     title = title,
-                    habitTitle = draft.apps.firstOrNull()?.let { stringResource(R.string.rules_habit_before, it.displayName) }
+                    habitTitle = draft.apps.firstOrNull()?.let { stringResource(R.string.rules_habit_before, it.label) }
                         ?: stringResource(R.string.rules_habit_default_name),
                     actions = actions,
                 )
@@ -111,4 +121,14 @@ internal fun RuleEditorDestination(
         onApps = viewModel::setApps,
         noteTitle = stringResource(if (state.draft.type == RuleType.Lock) R.string.rules_lock_note_title else R.string.rules_note_title),
     )
+    if (explainBlocking) {
+        val context = LocalContext.current
+        BlockingAccessSheet(
+            onOpenSettings = { BlockingAccess.openSettings(context) },
+            onDismissRequest = {
+                explainBlocking = false
+                editorCloser?.close() ?: close()
+            },
+        )
+    }
 }

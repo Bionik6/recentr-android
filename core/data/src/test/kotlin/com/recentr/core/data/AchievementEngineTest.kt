@@ -8,6 +8,7 @@ import com.recentr.core.model.FocusRecordKind
 import com.recentr.core.model.FocusSessionRecord
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import java.time.LocalDateTime
 import java.time.ZoneId
 import org.junit.Assert.assertEquals
@@ -132,7 +133,7 @@ class AchievementEngineTest {
 
     @Test
     fun `rule badges date from the start`() {
-        val rules = listOf(Rule("r", RuleType.Lock, "Instagram & X", apps = listOf(AppId.Instagram, AppId.X), note = "Sleep"))
+        val rules = listOf(Rule("r", RuleType.Lock, "Instagram & X", apps = listOf(UsageApp.of(AppId.Instagram), UsageApp.of(AppId.X)), note = "Sleep"))
 
         val badges = evaluate(days(60), rules = rules)
 

@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 
 /**
- * [RecentrData.screenTime]: the [device] numbers while usage access is granted, the [demo] ones
- * otherwise. [recheckUsageAccess] runs on every resume (the onboarding sends the user to Settings,
+ * [RecentrData.screenTime]: the [device] numbers while usage access is granted, the [noAccess]
+ * ones (empty) otherwise. [recheckUsageAccess] runs on every resume (the onboarding sends the user to Settings,
  * who can also revoke the access there); a change updates [source] so Home re-syncs.
  */
 class UsageAccessScreenTimeRepository(
     private val hasUsageAccess: () -> Boolean,
     private val device: ScreenTimeRepository,
-    private val demo: ScreenTimeRepository,
+    private val noAccess: ScreenTimeRepository,
 ) : ScreenTimeRepository {
 
     private val current = MutableStateFlow(currentSource())
@@ -36,14 +36,14 @@ class UsageAccessScreenTimeRepository(
         if (current.value == ScreenTimeSource.Device) {
             emitAll(
                 device.summary(period).catch { error ->
-                    // Access revoked while the app was in the foreground: fall back to the demo.
+                    // Access revoked while the app was in the foreground: nothing to show any more.
                     if (error !is SecurityException) throw error
                     recheckUsageAccess()
-                    emitAll(demo.summary(period))
+                    emitAll(noAccess.summary(period))
                 },
             )
         } else {
-            emitAll(demo.summary(period))
+            emitAll(noAccess.summary(period))
         }
     }
 
@@ -54,17 +54,17 @@ class UsageAccessScreenTimeRepository(
 
     override suspend fun pickups(period: UsagePeriod): PickupStats = fromSource { it.pickups(period) }
 
-    /** Runs [read] on the current source, falling back to the demo when access was just revoked. */
+    /** Runs [read] on the current source, falling back to [noAccess] when access was just revoked. */
     private suspend fun <T> fromSource(read: suspend (ScreenTimeRepository) -> T): T {
-        if (current.value != ScreenTimeSource.Device) return read(demo)
+        if (current.value != ScreenTimeSource.Device) return read(noAccess)
         return try {
             read(device)
         } catch (_: SecurityException) {
             recheckUsageAccess()
-            read(demo)
+            read(noAccess)
         }
     }
 
     private fun currentSource(): ScreenTimeSource =
-        if (hasUsageAccess()) ScreenTimeSource.Device else ScreenTimeSource.Demo
+        if (hasUsageAccess()) ScreenTimeSource.Device else ScreenTimeSource.NoAccess
 }

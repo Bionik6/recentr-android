@@ -33,7 +33,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.recentr.core.designsystem.component.OverlappingAppIcons
+import com.recentr.core.designsystem.component.BlockingOffBanner
+import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrChip
@@ -56,7 +57,6 @@ import com.recentr.feature.focus.ui.FocusCard
 import com.recentr.feature.focus.ui.FocusDial
 import com.recentr.feature.focus.ui.FocusMenu
 import com.recentr.feature.focus.ui.RowLabel
-import com.recentr.feature.focus.ui.demoApp
 import com.recentr.feature.focus.ui.formatCountdown
 import com.recentr.feature.focus.ui.label
 import kotlinx.coroutines.delay
@@ -80,6 +80,9 @@ internal fun FocusSetupScreen(
     onResume: () -> Unit,
     onOpenLog: () -> Unit,
     modifier: Modifier = Modifier,
+    /** Whether app blocking (the accessibility service) is on: blocked apps need it. */
+    blockingOn: Boolean = true,
+    onTurnOnBlocking: () -> Unit = {},
 ) {
     val haptics = LocalRecentrHaptics.current
     SystemBarsAppearance(lightIcons = false)
@@ -166,7 +169,7 @@ internal fun FocusSetupScreen(
                         if (config.blockedApps.isEmpty()) {
                             Text(stringResource(R.string.focus_block_none), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary)
                         } else {
-                            OverlappingAppIcons(config.blockedApps.take(4).map { it.demoApp }, size = 24.dp, overlap = 6.dp)
+                            OverlappingInstalledAppIcons(config.blockedApps.take(4).map { it.packageName }, size = 24.dp, overlap = 6.dp)
                             if (config.blockedApps.size > 4) {
                                 Text(
                                     stringResource(R.string.focus_block_more, config.blockedApps.size - 4),
@@ -185,6 +188,10 @@ internal fun FocusSetupScreen(
                             maxLines = 1,
                         )
                     }
+                }
+                if (config.blockedApps.isNotEmpty() && !blockingOn) {
+                    Spacer(Modifier.height(12.dp))
+                    BlockingOffBanner(onClick = onTurnOnBlocking)
                 }
                 // Room for the CTA (8 + 54) and a breathing gap above it, like the Rules tab.
                 Spacer(Modifier.height(bottomInset + 8.dp + 54.dp + 28.dp))

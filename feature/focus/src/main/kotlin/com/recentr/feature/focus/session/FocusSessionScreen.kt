@@ -46,7 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.recentr.core.designsystem.component.OverlappingAppIcons
+import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrCheckbox
@@ -68,7 +68,6 @@ import com.recentr.core.model.FocusSound
 import com.recentr.feature.focus.R
 import com.recentr.feature.focus.ui.FocusMenu
 import com.recentr.feature.focus.ui.FocusTopBar
-import com.recentr.feature.focus.ui.demoApp
 import com.recentr.feature.focus.ui.drawFocusRing
 import com.recentr.feature.focus.ui.formatClock
 import com.recentr.feature.focus.ui.formatCountdown
@@ -199,7 +198,7 @@ internal fun FocusRunningContent(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    OverlappingAppIcons(run.config.blockedApps.take(3).map { it.demoApp }, size = 22.dp, overlap = 6.dp)
+                    OverlappingInstalledAppIcons(run.config.blockedApps.take(3).map { it.packageName }, size = 22.dp, overlap = 6.dp)
                     Text(
                         pluralStringResource(R.plurals.focus_apps_on_hold, run.config.blockedApps.size, run.config.blockedApps.size),
                         style = RecentrTheme.typography.captionMedium,

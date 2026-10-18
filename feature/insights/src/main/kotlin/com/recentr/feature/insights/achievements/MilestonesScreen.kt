@@ -40,6 +40,7 @@ import com.recentr.core.model.Achievement
 import com.recentr.core.model.AchievementProgress
 import com.recentr.core.model.AppId
 import com.recentr.core.model.CalmLevel
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.insights.R
 import com.recentr.feature.insights.ui.InsightsCardShape
 import com.recentr.feature.insights.ui.InsightsScaffold
@@ -97,7 +98,7 @@ internal fun MilestonesScreen(
 }
 
 @Composable
-private fun MilestoneRow(badge: AchievementProgress, isNext: Boolean, last: Boolean, firstLockApps: List<AppId>) {
+private fun MilestoneRow(badge: AchievementProgress, isNext: Boolean, last: Boolean, firstLockApps: List<UsageApp>) {
     val colors = RecentrTheme.colors
     Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         // Node column: the timeline line runs from this node's centre to the next one.
@@ -133,7 +134,7 @@ private fun MilestoneRow(badge: AchievementProgress, isNext: Boolean, last: Bool
 }
 
 @Composable
-private fun EarnedCard(badge: AchievementProgress, firstLockApps: List<AppId>, modifier: Modifier) {
+private fun EarnedCard(badge: AchievementProgress, firstLockApps: List<UsageApp>, modifier: Modifier) {
     val colors = RecentrTheme.colors
     Column(
         modifier
@@ -202,7 +203,7 @@ private fun MilestonesPreview() {
                 days = emptyList(),
                 goalMinutes = 150,
                 startedOn = today.minusDays(22),
-                firstLockApps = listOf(AppId.Instagram, AppId.X),
+                firstLockApps = listOf(AppId.Instagram, AppId.X).map { UsageApp.of(it) },
             ),
             onBack = {},
             today = today,

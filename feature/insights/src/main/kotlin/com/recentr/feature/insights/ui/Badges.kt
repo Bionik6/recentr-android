@@ -5,11 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import com.recentr.core.designsystem.format.clockTimeShort
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.model.Achievement
 import com.recentr.core.model.AchievementProgress
-import com.recentr.core.model.AppId
 import com.recentr.core.model.CalmLevel
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.insights.R
 
 /** What a badge's progress counts. */
@@ -23,7 +24,15 @@ internal data class BadgeCopy(
     @param:StringRes val cheer: Int,
     @param:StringRes val milestone: Int,
     val unit: BadgeUnit,
+    /** Clock time named in the goal ("after 11 PM"), minutes from midnight. */
+    val clockMinute: Int? = null,
 )
+
+/** One of the badge lines, with its clock time when it names one ("after 11 PM" / "after 23:00"). */
+@Composable
+@ReadOnlyComposable
+internal fun BadgeCopy.text(@StringRes line: Int): String =
+    clockMinute?.let { stringResource(line, clockTimeShort(it)) } ?: stringResource(line)
 
 internal val Achievement.copy: BadgeCopy
     get() = when (this) {
@@ -61,11 +70,11 @@ internal val Achievement.copy: BadgeCopy
         )
         Achievement.NightOwlRetired -> BadgeCopy(
             Sticker.Moon, R.string.badge_night_owl, R.string.badge_night_owl_goal,
-            R.string.badge_night_owl_cheer, R.string.badge_night_owl_milestone, BadgeUnit.Nights,
+            R.string.badge_night_owl_cheer, R.string.badge_night_owl_milestone, BadgeUnit.Nights, clockMinute = 23 * 60,
         )
         Achievement.SlowMornings -> BadgeCopy(
             Sticker.Leaf, R.string.badge_slow_mornings, R.string.badge_slow_mornings_goal,
-            R.string.badge_slow_mornings_cheer, R.string.badge_slow_mornings_milestone, BadgeUnit.Mornings,
+            R.string.badge_slow_mornings_cheer, R.string.badge_slow_mornings_milestone, BadgeUnit.Mornings, clockMinute = 8 * 60,
         )
         Achievement.ScreenFreeSunday -> BadgeCopy(
             Sticker.Calendar, R.string.badge_screen_free_sunday, R.string.badge_screen_free_sunday_goal,
@@ -125,16 +134,16 @@ internal fun AchievementProgress.longProgress(): String {
 /** Milestone line: the first lock names its apps ("You blocked Instagram & X for the first time"). */
 @Composable
 @ReadOnlyComposable
-internal fun Achievement.milestoneText(firstLockApps: List<AppId>): String =
+internal fun Achievement.milestoneText(firstLockApps: List<UsageApp>): String =
     if (this == Achievement.FirstLock && firstLockApps.isNotEmpty()) {
         stringResource(R.string.badge_first_lock_milestone, appList(firstLockApps))
     } else {
-        stringResource(copy.milestone)
+        copy.text(copy.milestone)
     }
 
 /** "Instagram", "Instagram & X", "Instagram, X & TikTok". */
-internal fun appList(apps: List<AppId>): String {
-    val names = apps.map { it.displayName }
+internal fun appList(apps: List<UsageApp>): String {
+    val names = apps.map { it.label }
     return if (names.size <= 1) names.joinToString() else names.dropLast(1).joinToString(", ") + " & " + names.last()
 }
 

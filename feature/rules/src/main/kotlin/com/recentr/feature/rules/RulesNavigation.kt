@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -14,9 +15,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
+import com.recentr.core.data.BlockingAccess
 import com.recentr.core.data.RecentrData
-import com.recentr.core.model.AppId
+import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.detail.RuleDetailDestination
 import com.recentr.feature.rules.editor.RuleEditorDestination
 import com.recentr.feature.rules.list.NewRuleSheet
@@ -29,7 +32,7 @@ import kotlinx.serialization.Serializable
 /**
  * Rule editor sheet (create / edit). A `dialog` destination hosting a bottom sheet, so it can be
  * opened from Home ("Start blocking") and Insights as well as from the Rules tab and the rule
- * detail. [apps] preselects the apps of a new rule (comma-separated [AppId] names);
+ * detail. [apps] preselects the apps of a new rule (comma-separated package names);
  * [offerTemplate] shows "Save as template" next to "Start" for a new session.
  */
 @Serializable
@@ -58,6 +61,7 @@ fun RulesTab(
     val viewModel: RulesViewModel = viewModel(factory = RulesViewModel.Factory)
     val state by viewModel.state.collectAsStateWithLifecycle()
     var newRule by rememberSaveable { mutableStateOf(false) }
+    var explainBlocking by rememberSaveable { mutableStateOf(false) }
     RulesScreen(
         state = state,
         contentPadding = contentPadding,
@@ -72,8 +76,13 @@ fun RulesTab(
             onTemplate = { navController.navigateToTemplate(it) },
             onStartBlocking = { navController.navigateToStartSession() },
             onNewRule = { newRule = true },
+            onTurnOnBlocking = { explainBlocking = true },
         ),
     )
+    if (explainBlocking) {
+        val context = LocalContext.current
+        BlockingAccessSheet(onOpenSettings = { BlockingAccess.openSettings(context) }, onDismissRequest = { explainBlocking = false })
+    }
     if (newRule) {
         NewRuleSheet(
             onCreate = { navController.navigateToNewRule(it) },
@@ -105,8 +114,8 @@ fun NavHostController.navigateToStartSession(offerTemplate: Boolean = true) {
 }
 
 /** Opens the editor of a new [type] rule, with [apps] already chosen (Insights "Set a daily limit"). */
-fun NavHostController.navigateToNewRule(type: RuleType, apps: List<AppId> = emptyList()) {
-    val chosen = apps.takeIf { it.isNotEmpty() }?.joinToString(",") { it.name }
+fun NavHostController.navigateToNewRule(type: RuleType, apps: List<UsageApp> = emptyList()) {
+    val chosen = apps.takeIf { it.isNotEmpty() }?.joinToString(",") { it.packageName }
     navigate(RuleEditorRoute(type = type.name, apps = chosen)) { launchSingleTop = true }
 }
 

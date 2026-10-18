@@ -20,15 +20,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
+import com.recentr.core.data.BlockingAccess
+import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.designsystem.component.RecentrAlertDialog
 import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.SettingToggleRow
 import com.recentr.core.designsystem.component.SettingsGroup
 import com.recentr.core.designsystem.component.SettingsSectionLabel
+import com.recentr.core.designsystem.format.LocalUse24HourClock
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AppLanguage
 import com.recentr.core.model.AppSettings
+import com.recentr.core.model.TimeFormat
 import com.recentr.feature.profile.R
 import com.recentr.feature.profile.ui.SettingsPage
 import com.recentr.feature.profile.ui.label
@@ -49,7 +53,7 @@ internal class SettingsActions(
     val onOpenDesignSystem: (() -> Unit)? = null,
 )
 
-private enum class SettingsOverlay { Emergency, UnlockPass, LogOut, Delete }
+private enum class SettingsOverlay { TimeFormat, Blocking, Emergency, UnlockPass, LogOut, Delete }
 
 /** 66 · Settings (+ 71 / 72 sheets): General, Protection, Support and Account groups. */
 @Composable
@@ -57,11 +61,14 @@ internal fun SettingsScreen(
     state: SettingsUiState,
     actions: SettingsActions,
     modifier: Modifier = Modifier,
+    /** Whether app blocking (the accessibility service) is on. */
+    blockingOn: Boolean = true,
 ) {
     val context = LocalContext.current
     val settings = state.settings
     var overlay by rememberSaveable { mutableStateOf<SettingsOverlay?>(null) }
     val notificationsOn = settings.anyNotification && NotificationManagerCompat.from(context).areNotificationsEnabled()
+    val timeFormat = settings.timeFormat ?: if (LocalUse24HourClock.current) TimeFormat.TwentyFourHour else TimeFormat.AmPm
 
     SettingsPage(
         title = stringResource(R.string.settings_title),
@@ -76,9 +83,16 @@ internal fun SettingsScreen(
                 ValueRow(R.string.settings_appearance, stringResource(settings.theme.label), RecentrIcon.Sun, actions.onOpenAppearance)
                 ValueRow(R.string.settings_app_icon, stringResource(settings.appIcon.label), RecentrIcon.Apps, actions.onOpenAppearance)
                 ValueRow(R.string.settings_language, (settings.language ?: systemLanguage()).endonym, RecentrIcon.Sparkle, actions.onOpenLanguage)
+                ValueRow(R.string.settings_time_format, stringResource(timeFormat.label), RecentrIcon.Clock) {
+                    overlay = SettingsOverlay.TimeFormat
+                }
             }
             Spacer(Modifier.height(6.dp))
             Section(R.string.settings_protection) {
+                ValueRow(R.string.settings_app_blocking, stringResource(if (blockingOn) R.string.settings_on else R.string.settings_off), RecentrIcon.Lock) {
+                    // Off: explain it first. On: straight to Settings, where it can be turned off.
+                    if (blockingOn) BlockingAccess.openSettings(context) else overlay = SettingsOverlay.Blocking
+                }
                 SettingToggleRow(
                     label = stringResource(R.string.settings_strict_mode),
                     checked = settings.strictByDefault,
@@ -133,6 +147,15 @@ internal fun SettingsScreen(
     }
 
     when (overlay) {
+        SettingsOverlay.TimeFormat -> TimeFormatSheet(
+            selected = timeFormat,
+            onSelect = { format -> actions.onUpdate { it.copy(timeFormat = format) } },
+            onDismissRequest = { overlay = null },
+        )
+        SettingsOverlay.Blocking -> BlockingAccessSheet(
+            onOpenSettings = { BlockingAccess.openSettings(context) },
+            onDismissRequest = { overlay = null },
+        )
         SettingsOverlay.Emergency -> RecentrAlertDialog(
             title = stringResource(R.string.emergency_title),
             body = stringResource(R.string.emergency_body, settings.emergencyUnlocksLeft),

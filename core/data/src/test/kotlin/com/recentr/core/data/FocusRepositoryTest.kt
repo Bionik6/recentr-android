@@ -20,10 +20,7 @@ class FocusRepositoryTest {
     private val minute = 60_000L
 
     private fun repository(config: FocusConfig = FocusConfig(focusMinutes = 25, shortBreakMinutes = 5, rounds = 2)) =
-        FocusRepository(zone = { zone }, now = now).apply {
-            updateConfig { config }
-            clearHistory()
-        }
+        FocusRepository(zone = { zone }).apply { updateConfig { config } }
 
     @Test
     fun `focus round turns into a break, then the next round starts`() {
@@ -129,13 +126,10 @@ class FocusRepositoryTest {
     }
 
     @Test
-    fun `seeded log carries the designed sessions`() {
-        val repo = FocusRepository(zone = { zone }, now = now)
-        val titles = repo.history.value.map { it.title }
-        assertTrue("Deep work · Thesis" in titles)
-        assertTrue("Work Hours" in titles)
-        assertEquals(38, repo.history.value.sumOf { it.urgesResisted })
-        // Nothing seeded in the future.
-        assertTrue(repo.history.value.all { it.startedAt <= now })
+    fun `starts with an empty log and no blocked apps`() {
+        val repo = FocusRepository(zone = { zone })
+        assertTrue(repo.history.value.isEmpty())
+        assertTrue(repo.config.value.blockedApps.isEmpty())
+        assertEquals(0, repo.streakDays(now))
     }
 }

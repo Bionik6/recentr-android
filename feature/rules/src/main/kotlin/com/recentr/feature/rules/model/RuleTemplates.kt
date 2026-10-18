@@ -5,12 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.res.stringResource
 import com.recentr.core.designsystem.component.TemplateColor
-import com.recentr.core.model.AppId
+import com.recentr.core.model.AppCategory
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
+import com.recentr.feature.rules.ui.clockLabel
 import com.recentr.feature.rules.ui.durationLabel
 
 /** Template filters of the Templates view ("All" = null). */
@@ -21,55 +23,47 @@ internal enum class TemplateCategory(@param:StringRes val label: Int) {
     Weekend(R.string.rules_filter_weekend),
 }
 
-/** Built-in rule templates (Figma Template Cards + session suggestions). */
+/** Built-in rule templates (Figma Template Cards + session suggestions). Every one is a Routine. */
 internal enum class BuiltInTemplate(
     val id: String,
     @param:StringRes val title: Int,
     @param:StringRes val body: Int,
-    /** Badge: a duration in minutes, or a fixed label. */
-    val badgeMinutes: Int?,
+    /** Badge: a fixed label, or the routine's length when null. */
     @param:StringRes val badgeLabel: Int?,
     val color: TemplateColor,
     val sticker: RuleSticker,
     val category: TemplateCategory,
-    val type: RuleType,
+    /** When the routine blocks. */
+    val schedule: RuleSchedule,
 ) {
-    DeepWork("tpl-deep-work", R.string.rules_tpl_deep_work, R.string.rules_tpl_deep_work_body, 30, null, TemplateColor.Sky, RuleSticker.Bolt, TemplateCategory.Focus, RuleType.Session),
-    WindDown("tpl-wind-down", R.string.rules_tpl_wind_down, R.string.rules_tpl_wind_down_body, 60, null, TemplateColor.Night, RuleSticker.Moon, TemplateCategory.Sleep, RuleType.Bedtime),
-    MorningCalm("tpl-morning-calm", R.string.rules_tpl_morning_calm, R.string.rules_tpl_morning_calm_body, null, R.string.rules_badge_daily, TemplateColor.Mint, RuleSticker.Leaf, TemplateCategory.Sleep, RuleType.Bedtime),
-    Dinner("tpl-dinner", R.string.rules_tpl_dinner, R.string.rules_tpl_dinner_body, 45, null, TemplateColor.Sunset, RuleSticker.Note, TemplateCategory.Family, RuleType.Session),
-    Study("tpl-study", R.string.rules_tpl_study, R.string.rules_tpl_study_body, 60, null, TemplateColor.Mint, RuleSticker.Note, TemplateCategory.Focus, RuleType.Session),
-    MeTime("tpl-me-time", R.string.rules_tpl_me_time, R.string.rules_tpl_me_time_body, 45, null, TemplateColor.Sunset, RuleSticker.Leaf, TemplateCategory.Weekend, RuleType.Session),
-    Weekend("tpl-weekend", R.string.rules_tpl_weekend, R.string.rules_tpl_weekend_body, null, R.string.rules_badge_weekend, TemplateColor.Night, RuleSticker.Lock, TemplateCategory.Weekend, RuleType.Lock),
+    DeepWork("tpl-deep-work", R.string.rules_tpl_deep_work, R.string.rules_tpl_deep_work_body, null, TemplateColor.Sky, RuleSticker.Bolt, TemplateCategory.Focus, RuleSchedule(9 * 60, 9 * 60 + 30, (1..5).toSet())),
+    WindDown("tpl-wind-down", R.string.rules_tpl_wind_down, R.string.rules_tpl_wind_down_body, null, TemplateColor.Night, RuleSticker.Moon, TemplateCategory.Sleep, RuleSchedule(22 * 60, 23 * 60)),
+    MorningCalm("tpl-morning-calm", R.string.rules_tpl_morning_calm, R.string.rules_tpl_morning_calm_body, R.string.rules_badge_daily, TemplateColor.Mint, RuleSticker.Leaf, TemplateCategory.Sleep, RuleSchedule(6 * 60, 8 * 60)),
+    Dinner("tpl-dinner", R.string.rules_tpl_dinner, R.string.rules_tpl_dinner_body, null, TemplateColor.Sunset, RuleSticker.Note, TemplateCategory.Family, RuleSchedule(19 * 60, 19 * 60 + 45)),
+    Study("tpl-study", R.string.rules_tpl_study, R.string.rules_tpl_study_body, null, TemplateColor.Mint, RuleSticker.Note, TemplateCategory.Focus, RuleSchedule(17 * 60, 18 * 60, (1..5).toSet())),
+    MeTime("tpl-me-time", R.string.rules_tpl_me_time, R.string.rules_tpl_me_time_body, null, TemplateColor.Sunset, RuleSticker.Leaf, TemplateCategory.Weekend, RuleSchedule(10 * 60, 10 * 60 + 45, setOf(6, 7))),
+    Weekend("tpl-weekend", R.string.rules_tpl_weekend, R.string.rules_tpl_weekend_body, R.string.rules_badge_weekend, TemplateColor.Night, RuleSticker.Lock, TemplateCategory.Weekend, RuleSchedule(0, 0, setOf(6, 7))),
     ;
 
-    /** Rule prototype created from this template (id and name filled by the caller). */
-    fun prototype(id: String, name: String): Rule {
-        val social = listOf(AppId.Instagram, AppId.X, AppId.TikTok)
-        return when (this) {
-            DeepWork, Study -> Rule(id, RuleType.Session, name, apps = social + AppId.YouTube, durationMinutes = badgeMinutes, sticker = sticker)
-            Dinner, MeTime -> Rule(id, RuleType.Session, name, apps = social, durationMinutes = badgeMinutes, sticker = sticker)
-            WindDown -> Rule(
-                id, RuleType.Bedtime, name,
-                apps = social + AppId.YouTube,
-                schedule = RuleSchedule(22 * 60, 23 * 60),
-                sticker = sticker,
-            )
-            MorningCalm -> Rule(
-                id, RuleType.Bedtime, name,
-                schedule = RuleSchedule(6 * 60, 8 * 60),
-                blockAllApps = true,
-                allowedApps = listOf(AppId.Gmail),
-                sticker = sticker,
-            )
-            Weekend -> Rule(
-                id, RuleType.Lock, name,
-                apps = social + AppId.Facebook,
-                schedule = RuleSchedule(0, 0, setOf(6, 7)),
-                sticker = sticker,
-                unlocksPerDay = 1,
-            )
+    /** Routine. */
+    val type: RuleType get() = RuleType.Bedtime
+
+    /**
+     * Rule prototype created from this template (id and name filled by the caller): it blocks the
+     * feeds among the [installed] apps — social apps, plus video and news ones for focus and sleep.
+     */
+    fun prototype(id: String, name: String, installed: List<UsageApp>): Rule {
+        val social = installed.filter { it.category == AppCategory.Social }
+        val apps = when (this) {
+            DeepWork, Study, WindDown, MorningCalm -> social + installed.filter { it.category == AppCategory.Entertainment }
+            Dinner, MeTime, Weekend -> social
         }
+        return Rule(
+            id, type, name,
+            apps = apps,
+            schedule = schedule,
+            sticker = sticker,
+        )
     }
 
     companion object {
@@ -96,8 +90,12 @@ internal data class TemplateCardUi(
 internal fun BuiltInTemplate.toCard(): TemplateCardUi = TemplateCardUi(
     id = id,
     title = stringResource(title),
-    body = stringResource(body),
-    badge = badgeMinutes?.let { durationLabel(it) } ?: stringResource(badgeLabel!!),
+    body = when (this) {
+        BuiltInTemplate.WindDown -> stringResource(body, clockLabel(schedule.startMinute))
+        BuiltInTemplate.MorningCalm -> stringResource(body, clockLabel(schedule.endMinute))
+        else -> stringResource(body)
+    },
+    badge = badgeLabel?.let { stringResource(it) } ?: durationLabel(schedule.lengthMinutes),
     sticker = sticker,
     color = color,
     category = category,

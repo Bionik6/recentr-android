@@ -343,6 +343,18 @@ fun AppRow(
     modifier: Modifier = Modifier,
     name: String = app.displayName,
 ) {
+    AppRow(name, checked, onCheckedChange, modifier) { AppIcon(app, size = 32.dp, contentDescription = null) }
+}
+
+/** [AppRow] with any 32dp [icon] (an installed app's launcher icon: [InstalledAppIcon]). */
+@Composable
+fun AppRow(
+    name: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    icon: @Composable () -> Unit,
+) {
     val haptics = LocalRecentrHaptics.current
     Row(
         modifier = modifier
@@ -355,8 +367,15 @@ fun AppRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        AppIcon(app, size = 32.dp, contentDescription = null)
-        Text(name, style = RecentrTheme.typography.bodyMedium, color = RecentrTheme.colors.textPrimary, modifier = Modifier.weight(1f))
+        icon()
+        Text(
+            name,
+            style = RecentrTheme.typography.bodyMedium,
+            color = RecentrTheme.colors.textPrimary,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+        )
         RecentrCheckbox(checked = checked, onCheckedChange = null)
     }
 }

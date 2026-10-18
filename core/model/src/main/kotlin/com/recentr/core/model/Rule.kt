@@ -3,6 +3,7 @@ package com.recentr.core.model
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import kotlinx.serialization.Serializable
 
 /** Kind of blocking rule — each maps to a sticker in the UI. Owned by the rules flow. */
 enum class RuleType {
@@ -31,6 +32,7 @@ val RuleType.defaultSticker: RuleSticker
     }
 
 /** A weekly time window, minutes from midnight. `days` uses ISO numbering (1 = Monday). */
+@Serializable
 data class RuleSchedule(
     val startMinute: Int,
     val endMinute: Int,
@@ -88,13 +90,16 @@ enum class LimitAction { Lock, Remind, AskReason }
 enum class HabitRepeat { EveryDay, Weekdays, Weekends }
 
 /** One task of a habit rule ("Read 10 pages"). */
+@Serializable
 data class HabitTask(val id: String, val title: String, val done: Boolean = false)
 
+@Serializable
 data class Rule(
     val id: String,
     val type: RuleType,
     val name: String,
-    val apps: List<AppId> = emptyList(),
+    /** Apps the rule blocks (habits: the apps the tasks unlock). */
+    val apps: List<UsageApp> = emptyList(),
     /** Weekly window, or null when the rule is active all day / is a one-shot session. */
     val schedule: RuleSchedule? = null,
     /** Limit rules: daily budget in minutes. */
@@ -123,9 +128,6 @@ data class Rule(
     val note: String? = null,
     /** Reminder before the window starts, in minutes, or null for none. */
     val reminderMinutesBefore: Int? = null,
-    /** Bedtime: block every app except [allowedApps] (plus calls & maps). */
-    val blockAllApps: Boolean = false,
-    val allowedApps: List<AppId> = emptyList(),
     val limitReset: LimitReset = LimitReset.Midnight,
     val limitAction: LimitAction = LimitAction.Lock,
     val habitTasks: List<HabitTask> = emptyList(),
@@ -134,6 +136,9 @@ data class Rule(
     val oneShot: Boolean = false,
 ) {
     fun isPaused(now: Long): Boolean = pausedUntil != null && pausedUntil > now
+
+    /** Whether the app published under [packageName] is one of [apps]. */
+    fun targets(packageName: String): Boolean = apps.any { it.packageName == packageName }
 
     /** End of the running session, or null when no session is running. */
     val sessionEndsAt: Long?
@@ -145,12 +150,12 @@ data class Rule(
     }
 
     /** True while the rule is enforcing (running session, scheduled window or all-day rule). */
-    fun isEnforcing(now: Long): Boolean = when {
+    fun isEnforcing(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean = when {
         !enabled || isPaused(now) -> false
         activeSince != null -> isRunning(now)
         type == RuleType.Limit || type == RuleType.Habit -> true
         schedule == null -> type == RuleType.Lock
-        else -> schedule.isActiveAt(now)
+        else -> schedule.isActiveAt(now, zone)
     }
 
     /**

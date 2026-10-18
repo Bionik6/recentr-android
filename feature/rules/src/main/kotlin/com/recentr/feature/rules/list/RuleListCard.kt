@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RuleCard
@@ -14,10 +15,9 @@ import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AppId
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
-import com.recentr.feature.rules.ui.asDemoApp
 import com.recentr.feature.rules.ui.asSticker
-import com.recentr.feature.rules.ui.blockedApps
 import com.recentr.feature.rules.ui.compactDuration
 import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.durationLabel
@@ -55,7 +55,7 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
         title = rule.name,
         sticker = rule.sticker.asSticker,
         streak = rule.streakDays.takeIf { it > 0 },
-        apps = rule.blockedApps().take(3).map(AppId::asDemoApp),
+        apps = { OverlappingInstalledAppIcons(rule.apps.take(3).map { it.packageName }, size = 24.dp, overlap = 6.dp) },
         value = value,
         onClick = onClick,
         modifier = modifier
@@ -116,7 +116,7 @@ private fun RuleListCardPreview() {
                 id = "1",
                 type = RuleType.Limit,
                 name = "Social time",
-                apps = listOf(AppId.Instagram, AppId.X, AppId.TikTok),
+                apps = listOf(AppId.Instagram, AppId.X, AppId.TikTok).map { UsageApp.of(it) },
                 limitMinutes = 135,
                 usedMinutes = 10,
                 streakDays = 3,

@@ -43,12 +43,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.recentr.core.designsystem.component.MiniTile
-import com.recentr.core.designsystem.component.OverlappingAppIcons
+import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.StickyNote
+import com.recentr.core.designsystem.format.clockHours
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.BackdropBox
@@ -63,17 +64,13 @@ import com.recentr.core.model.AppId
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.sheets.RuleSheet
 import com.recentr.feature.rules.sheets.RuleSheetsHost
 import com.recentr.feature.rules.sheets.StrictConfirmDialog
-import com.recentr.feature.rules.ui.ESSENTIAL_APPS
-import com.recentr.feature.rules.ui.allowedAppsLabel
-import com.recentr.feature.rules.ui.asDemoApp
 import com.recentr.feature.rules.ui.asSticker
-import com.recentr.feature.rules.ui.blockedApps
 import com.recentr.feature.rules.ui.clockLabel
-import com.recentr.feature.rules.ui.clockShort
 import com.recentr.feature.rules.ui.compactDuration
 import com.recentr.feature.rules.ui.components.Gap
 import com.recentr.feature.rules.ui.components.RulesToastHost
@@ -336,7 +333,7 @@ private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
         )
         AppsTile(
             rule = rule,
-            onClick = { actions.onOpen(if (rule.type == RuleType.Bedtime && rule.blockAllApps) RuleSheet.AllowedApps else RuleSheet.Apps) },
+            onClick = { actions.onOpen(RuleSheet.Apps) },
             modifier = Modifier
                 .offset(x = 92.15.dp, y = (-69.16).dp)
                 .entrance(120, from = DpOffset(20.dp, 10.dp), blur = false)
@@ -396,7 +393,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> {
         )
         else -> Triple(
             daysLabel(schedule.days).uppercase(),
-            stringResource(R.string.rules_time_range, clockShort(schedule.startMinute), clockShort(schedule.endMinute)),
+            stringResource(R.string.rules_time_range, clockHours(schedule.startMinute), clockHours(schedule.endMinute)),
             stringResource(R.string.rules_tile_to, clockLabel(schedule.startMinute), clockLabel(schedule.endMinute)),
         )
     }
@@ -406,7 +403,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> {
 private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(24.dp)
-    val apps = rule.blockedApps()
+    val apps = rule.apps
     Column(
         modifier = modifier
             .recentrShadow(RecentrElevation.float, shape)
@@ -421,13 +418,9 @@ private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modif
             style = RecentrTheme.typography.captionMedium,
             color = colors.textTertiary,
         )
-        OverlappingAppIcons(apps.take(3).map(AppId::asDemoApp), size = 40.dp, overlap = 8.dp)
+        OverlappingInstalledAppIcons(apps.take(3).map { it.packageName }, size = 40.dp, overlap = 8.dp)
         Text(
-            if (rule.type == RuleType.Bedtime && rule.blockAllApps) {
-                stringResource(R.string.rules_all_except, ESSENTIAL_APPS + rule.allowedApps.size)
-            } else {
-                pluralStringResource(R.plurals.rules_apps_count, apps.size, apps.size)
-            },
+            pluralStringResource(R.plurals.rules_apps_count, apps.size, apps.size),
             style = RecentrTheme.typography.headline,
             color = colors.textPrimary,
         )
@@ -463,7 +456,6 @@ private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
                 row(R.string.rules_row_when_time_up, limitActionLabel(rule.limitAction), RecentrIcon.Lock, RuleSheet.TimeUp)
             }
             RuleType.Bedtime -> {
-                row(R.string.rules_row_always_allowed, allowedAppsLabel(rule), RecentrIcon.Check, RuleSheet.AllowedApps)
                 row(R.string.rules_row_reminders, reminderLabel(rule.reminderMinutesBefore), RecentrIcon.Bell, RuleSheet.Reminders)
             }
             RuleType.Habit -> {
@@ -491,7 +483,7 @@ private fun RuleDetailPreview() {
                 id = "work-hours",
                 type = RuleType.Session,
                 name = "Work Hours",
-                apps = listOf(AppId.X, AppId.Instagram, AppId.TikTok),
+                apps = listOf(AppId.X, AppId.Instagram, AppId.TikTok).map { UsageApp.of(it) },
                 schedule = RuleSchedule(9 * 60, 17 * 60, (1..5).toSet()),
                 reminderMinutesBefore = 10,
                 note = "Deep work beats busy work.",

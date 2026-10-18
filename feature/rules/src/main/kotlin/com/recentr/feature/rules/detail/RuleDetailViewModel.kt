@@ -10,9 +10,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.toRoute
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.RulesRepository
-import com.recentr.core.model.AppId
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSticker
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.RuleDetailRoute
 import com.recentr.feature.rules.model.RulesMessages
@@ -68,7 +68,7 @@ internal class RuleDetailViewModel(
         it.copy(name = name.ifBlank { it.name }, sticker = sticker)
     }
 
-    fun setApps(apps: List<AppId>) = repository.update(ruleId) { it.copy(apps = apps) }
+    fun setApps(apps: List<UsageApp>) = repository.update(ruleId) { it.copy(apps = apps) }
 
     fun pause(option: PauseOption) {
         val now = System.currentTimeMillis()

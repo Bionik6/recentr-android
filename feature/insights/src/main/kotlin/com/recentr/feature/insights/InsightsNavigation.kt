@@ -13,8 +13,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.recentr.core.model.Achievement
-import com.recentr.core.model.AppId
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
 import com.recentr.feature.insights.achievements.AchievementsScreen
 import com.recentr.feature.insights.achievements.AchievementsViewModel
@@ -100,7 +100,7 @@ fun NavHostController.navigateToStreak() {
  */
 fun NavGraphBuilder.insightsDestinations(
     navController: NavHostController,
-    onCreateRule: (RuleType, List<AppId>) -> Unit,
+    onCreateRule: (RuleType, List<UsageApp>) -> Unit,
     onEditRule: (ruleId: String) -> Unit,
 ) {
     val back: () -> Unit = { navController.popBackStack() }

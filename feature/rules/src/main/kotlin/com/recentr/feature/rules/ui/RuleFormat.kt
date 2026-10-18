@@ -1,13 +1,19 @@
 package com.recentr.feature.rules.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import com.recentr.core.designsystem.illustration.DemoApp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.recentr.core.data.RecentrData
+import com.recentr.core.designsystem.format.clockTimeShort
+import com.recentr.core.designsystem.format.wallClockTime
 import com.recentr.core.designsystem.illustration.Sticker
-import com.recentr.core.model.AppId
+import com.recentr.core.model.AppCategory
 import com.recentr.core.model.HabitRepeat
 import com.recentr.core.model.LimitAction
 import com.recentr.core.model.LimitReset
@@ -16,10 +22,8 @@ import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UnlockMethod
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import kotlin.math.max
 
 /* Mappings between the shared model and the design system. */
@@ -35,20 +39,40 @@ internal val RuleSticker.asSticker: Sticker
         RuleSticker.Flame -> Sticker.Flame
     }
 
-internal val AppId.asDemoApp: DemoApp get() = DemoApp.valueOf(name)
+/** Section caption of the "Choose apps" sheet ("SOCIAL"). */
+internal val AppCategory.sectionLabel: Int
+    get() = when (this) {
+        AppCategory.Social -> R.string.rules_cat_social
+        AppCategory.Entertainment -> R.string.rules_cat_entertainment
+        AppCategory.Music -> R.string.rules_cat_music
+        AppCategory.Games -> R.string.rules_cat_games
+        AppCategory.Productivity -> R.string.rules_cat_productivity
+        AppCategory.Other -> R.string.rules_cat_other
+    }
 
-/** Category of the demo app catalogue (Figma "Choose apps" sections). */
-internal enum class AppCategory(val label: Int, val title: Int, val apps: List<AppId>) {
-    Social(R.string.rules_cat_social, R.string.rules_category_social, listOf(AppId.X, AppId.Instagram, AppId.TikTok, AppId.Facebook)),
-    Entertainment(R.string.rules_cat_entertainment, R.string.rules_category_entertainment, listOf(AppId.YouTube, AppId.Roblox, AppId.Spotify)),
-    Productivity(R.string.rules_cat_productivity, R.string.rules_category_productivity, listOf(AppId.Gmail)),
+/** Category name in values ("Social · 3"). */
+internal val AppCategory.title: Int
+    get() = when (this) {
+        AppCategory.Social -> R.string.rules_category_social
+        AppCategory.Entertainment -> R.string.rules_category_entertainment
+        AppCategory.Music -> R.string.rules_category_music
+        AppCategory.Games -> R.string.rules_category_games
+        AppCategory.Productivity -> R.string.rules_category_productivity
+        AppCategory.Other -> R.string.rules_category_other
+    }
+
+/**
+ * The device's launcher apps, read once (empty while loading, and in previews). The app pickers
+ * re-read them when they open: apps may have been installed or removed since.
+ */
+@Composable
+internal fun rememberInstalledApps(refresh: Boolean = false): List<UsageApp>? {
+    if (LocalInspectionMode.current) return emptyList()
+    val repository = RecentrData.installedApps
+    val apps by repository.apps.collectAsStateWithLifecycle()
+    LaunchedEffect(repository, refresh) { if (refresh) repository.refresh() else repository.load() }
+    return apps
 }
-
-internal val AppId.category: AppCategory get() = AppCategory.entries.first { this in it.apps }
-
-/** Apps a Bedtime "all except" rule ends up blocking (for icons). */
-internal fun Rule.blockedApps(): List<AppId> =
-    if (blockAllApps) AppCategory.entries.flatMap { it.apps }.filterNot { it in allowedApps } else apps
 
 @Composable
 @ReadOnlyComposable
@@ -113,40 +137,12 @@ internal fun countdown(millis: Long): String {
 
 /* Times & days. */
 
-/** "9 AM", "9:30 PM". */
+/** "9 AM", "9:30 PM" (or "09:00", "21:30" on the 24-hour clock). */
 @Composable
 @ReadOnlyComposable
-internal fun clockLabel(minuteOfDay: Int): String {
-    val hour24 = (minuteOfDay / 60) % 24
-    val minute = minuteOfDay % 60
-    val hour = hour12(hour24)
-    val pm = hour24 >= 12
-    return when {
-        minute == 0 && pm -> stringResource(R.string.rules_time_pm, hour)
-        minute == 0 -> stringResource(R.string.rules_time_am, hour)
-        pm -> stringResource(R.string.rules_time_pm_min, hour, minute)
-        else -> stringResource(R.string.rules_time_am_min, hour, minute)
-    }
-}
-
-/** "11:00" — 12-hour clock without the AM/PM suffix (time cards). */
-internal fun clockDigits(minuteOfDay: Int): String =
-    "%d:%02d".format(hour12((minuteOfDay / 60) % 24), minuteOfDay % 60)
-
-/** "9" or "9:30" — 12-hour clock, minutes only when needed (detail tile "9 – 5"). */
-internal fun clockShort(minuteOfDay: Int): String {
-    val hour = hour12((minuteOfDay / 60) % 24)
-    val minute = minuteOfDay % 60
-    return if (minute == 0) hour.toString() else "%d:%02d".format(hour, minute)
-}
+internal fun clockLabel(minuteOfDay: Int): String = clockTimeShort(minuteOfDay)
 
 internal fun isPm(minuteOfDay: Int): Boolean = (minuteOfDay / 60) % 24 >= 12
-
-private fun hour12(hour24: Int): Int = when {
-    hour24 == 0 -> 12
-    hour24 > 12 -> hour24 - 12
-    else -> hour24
-}
 
 /** "Every day", "Weekdays", "Weekends", "Mon, Wed". */
 @Composable
@@ -177,56 +173,40 @@ internal fun scheduleLabel(schedule: RuleSchedule?): String = when {
     else -> stringResource(R.string.rules_schedule_format, timeRangeLabel(schedule), daysLabel(schedule.days))
 }
 
-/** "3:45 PM" for an epoch time. */
+/** "3:45 PM" (or "15:45") for an epoch time. */
 @Composable
 @ReadOnlyComposable
-internal fun wallClock(epochMillis: Long): String {
-    val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), ZoneId.systemDefault())
-    return clockLabelWithMinutes(time.hour * 60 + time.minute)
-}
-
-/** "3:45 PM" / "3:00 PM" (always with minutes). */
-@Composable
-@ReadOnlyComposable
-internal fun clockLabelWithMinutes(minuteOfDay: Int): String {
-    val hour24 = (minuteOfDay / 60) % 24
-    val hour = hour12(hour24)
-    return if (hour24 >= 12) {
-        stringResource(R.string.rules_time_pm_min, hour, minuteOfDay % 60)
-    } else {
-        stringResource(R.string.rules_time_am_min, hour, minuteOfDay % 60)
-    }
-}
+internal fun wallClock(epochMillis: Long): String = wallClockTime(epochMillis)
 
 /* Apps. */
 
 /** "Instagram, X" for up to two apps, else "3 apps". */
 @Composable
 @ReadOnlyComposable
-internal fun appsLabel(apps: List<AppId>): String = when {
+internal fun appsLabel(apps: List<UsageApp>): String = when {
     apps.isEmpty() -> stringResource(R.string.rules_none)
-    apps.size <= 2 -> apps.joinToString(", ") { it.displayName }
+    apps.size <= 2 -> apps.joinToString(", ") { it.label }
     else -> pluralStringResource(R.plurals.rules_apps_count, apps.size, apps.size)
 }
 
-/** "Social · 3" when all apps share a category, else "3 apps". */
+/** "Social · 3" when all apps share a category (other than Other), else "3 apps". */
 @Composable
 @ReadOnlyComposable
-internal fun appsCategoryLabel(apps: List<AppId>): String {
-    val categories = apps.map { it.category }.distinct()
-    return if (apps.isNotEmpty() && categories.size == 1) {
-        stringResource(R.string.rules_category_count, stringResource(categories.single().title), apps.size)
+internal fun appsCategoryLabel(apps: List<UsageApp>): String {
+    val category = apps.map { it.category }.distinct().singleOrNull()
+    return if (apps.size > 1 && category != null && category != AppCategory.Other) {
+        stringResource(R.string.rules_category_count, stringResource(category.title), apps.size)
     } else {
         appsLabel(apps)
     }
 }
 
 /** Default rule name built from the blocked apps: "Instagram & X", "Instagram & 2 more". */
-internal fun appsName(apps: List<AppId>, two: (String, String) -> String, more: (String, Int) -> String): String? = when {
+internal fun appsName(apps: List<UsageApp>, two: (String, String) -> String, more: (String, Int) -> String): String? = when {
     apps.isEmpty() -> null
-    apps.size == 1 -> apps.single().displayName
-    apps.size == 2 -> two(apps[0].displayName, apps[1].displayName)
-    else -> more(apps[0].displayName, apps.size - 1)
+    apps.size == 1 -> apps.single().label
+    apps.size == 2 -> two(apps[0].label, apps[1].label)
+    else -> more(apps[0].label, apps.size - 1)
 }
 
 /* Rule options. */
@@ -248,13 +228,11 @@ internal fun unlocksPerDayLabel(perDay: Int?): String =
 
 @Composable
 @ReadOnlyComposable
-internal fun limitResetLabel(reset: LimitReset): String = stringResource(
-    when (reset) {
-        LimitReset.Midnight -> R.string.rules_reset_midnight
-        LimitReset.FourAm -> R.string.rules_reset_four_am
-        LimitReset.Monday -> R.string.rules_reset_monday
-    },
-)
+internal fun limitResetLabel(reset: LimitReset): String = when (reset) {
+    LimitReset.Midnight -> stringResource(R.string.rules_reset_midnight)
+    LimitReset.FourAm -> clockLabel(4 * 60)
+    LimitReset.Monday -> stringResource(R.string.rules_reset_monday)
+}
 
 @Composable
 @ReadOnlyComposable
@@ -280,20 +258,3 @@ internal fun habitRepeatLabel(repeat: HabitRepeat): String = stringResource(
 @ReadOnlyComposable
 internal fun reminderLabel(minutes: Int?): String =
     if (minutes == null) stringResource(R.string.rules_reminder_off) else stringResource(R.string.rules_reminder_before, minutes)
-
-/** Value of the Bedtime "Block" row: "All except 3" or the chosen apps. */
-@Composable
-@ReadOnlyComposable
-internal fun bedtimeBlockLabel(rule: Rule): String =
-    if (rule.blockAllApps) stringResource(R.string.rules_all_except, ESSENTIAL_APPS + rule.allowedApps.size) else appsLabel(rule.apps)
-
-/** Value of the Bedtime "Always allowed" row: "Calls, Maps, Gmail". */
-@Composable
-@ReadOnlyComposable
-internal fun allowedAppsLabel(rule: Rule): String {
-    val essentials = stringResource(R.string.rules_calls_maps)
-    return (listOf(essentials) + rule.allowedApps.map { it.displayName }).joinToString(", ")
-}
-
-/** Calls and Maps are always allowed during routines (not part of the app catalogue). */
-internal const val ESSENTIAL_APPS = 2

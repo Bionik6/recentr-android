@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
+import com.recentr.core.designsystem.format.clockTime
+import com.recentr.core.designsystem.format.clockTimeShort
 import com.recentr.core.designsystem.illustration.AppIcon
 import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.InstalledAppIcon
@@ -15,10 +17,7 @@ import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
 import com.recentr.feature.insights.R
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
@@ -72,15 +71,15 @@ internal fun signedPercent(percent: Int): String {
 internal fun percentChange(current: Int, previous: Int?): Int? =
     previous?.takeIf { it > 0 }?.let { ((current - it) * 100f / it).roundToInt() }
 
-private val ClockFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
-private val HourFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h a", Locale.US)
+/** "7:12 AM" (or "07:12") for a minute of the day. */
+@Composable
+@ReadOnlyComposable
+internal fun clock(minuteOfDay: Int): String = clockTime(minuteOfDay)
 
-/** "7:12 AM" for a minute of the day. */
-internal fun clock(minuteOfDay: Int): String =
-    LocalTime.of((minuteOfDay / 60) % 24, minuteOfDay % 60).format(ClockFormatter)
-
-/** "7 AM" for an hour of the day. */
-internal fun hourLabel(hour: Int): String = LocalTime.of(hour % 24, 0).format(HourFormatter)
+/** "7 AM" (or "07:00") for an hour of the day. */
+@Composable
+@ReadOnlyComposable
+internal fun hourLabel(hour: Int): String = clockTimeShort(hour * 60)
 
 @Composable
 @ReadOnlyComposable

@@ -10,6 +10,35 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Recentr.Starting">
+        <!--
+            App blocker: an accessibility service told which app comes to the front, so the apps
+            blocked by rules and focus sessions can be put on hold (HoldActivity). Turned on by
+            the user in Settings › Accessibility.
+        -->
+        <service
+            android:name=".blocking.HoldService"
+            android:exported="true"
+            android:label="@string/hold_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/hold_service" />
+        </service>
+
+        <!-- "App on hold" screen, drawn over a blocked app in its own task (not in Recents). -->
+        <activity
+            android:name=".blocking.HoldActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity="com.recentr.app.hold"
+            android:theme="@style/Theme.Recentr"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Launched through one of the aliases below (exported for the adb QA shortcuts). -->
         <activity
             android:name=".MainActivity"

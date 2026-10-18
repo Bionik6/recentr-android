@@ -52,6 +52,8 @@ internal data class RulesUiState(
     val collapsed: Set<RuleGroup> = emptySet(),
     val templatesCollapsed: Boolean = false,
     val filter: TemplateCategory? = null,
+    /** Whether app blocking (the accessibility service) is on. */
+    val blockingOn: Boolean = true,
 )
 
 private data class ListFlags(
@@ -61,7 +63,10 @@ private data class ListFlags(
     val filter: TemplateCategory? = null,
 )
 
-internal class RulesViewModel(private val repository: RulesRepository) : ViewModel() {
+internal class RulesViewModel(
+    private val repository: RulesRepository,
+    blockingEnabled: StateFlow<Boolean>,
+) : ViewModel() {
 
     private val flags = MutableStateFlow(ListFlags())
 
@@ -78,7 +83,8 @@ internal class RulesViewModel(private val repository: RulesRepository) : ViewMod
         repository.savedTemplates,
         clock,
         flags,
-    ) { rules, saved, now, flags ->
+        blockingEnabled,
+    ) { rules, saved, now, flags, blockingOn ->
         val sections = RuleGroup.entries.mapNotNull { group ->
             val inGroup = rules.filter { it.type == group.type }.sortedByDescending { it.isRunning(now) }
             if (inGroup.isEmpty() && !group.alwaysShown) null else RuleSection(group, inGroup)
@@ -94,6 +100,7 @@ internal class RulesViewModel(private val repository: RulesRepository) : ViewMod
             collapsed = flags.collapsed,
             templatesCollapsed = flags.templatesCollapsed,
             filter = flags.filter,
+            blockingOn = blockingOn,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), RulesUiState())
 
@@ -109,7 +116,7 @@ internal class RulesViewModel(private val repository: RulesRepository) : ViewMod
 
     companion object {
         val Factory = viewModelFactory {
-            initializer { RulesViewModel(RecentrData.rules) }
+            initializer { RulesViewModel(RecentrData.rules, RecentrData.blockingEnabled) }
         }
     }
 }

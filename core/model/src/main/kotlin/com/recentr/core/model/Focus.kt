@@ -14,9 +14,8 @@ data class FocusConfig(
     val sound: FocusSound = FocusSound.Rain,
     /** 0 – 1. */
     val volume: Float = 0.6f,
-    val blockedApps: List<AppId> = listOf(
-        AppId.Instagram, AppId.TikTok, AppId.YouTube, AppId.Facebook, AppId.X, AppId.Roblox, AppId.Spotify,
-    ),
+    /** Apps put on hold during the session, picked from the device's apps (none at first). */
+    val blockedApps: List<UsageApp> = emptyList(),
 ) {
     /** Break after [round] (1-based): a long break every [LONG_BREAK_EVERY] rounds, short otherwise. */
     fun breakMinutesAfter(round: Int): Int =

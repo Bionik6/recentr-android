@@ -13,6 +13,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.recentr.core.model.AppLanguage
 import com.recentr.core.model.AppSettings
 import com.recentr.core.model.PlusPlan
+import com.recentr.core.model.TimeFormat
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -40,6 +41,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
             reduceMotion = this[Keys.reduceMotion] ?: defaults.reduceMotion,
             haptics = this[Keys.haptics] ?: defaults.haptics,
             language = AppLanguage.fromTag(this[Keys.language]),
+            timeFormat = TimeFormat.entries.firstOrNull { it.name == this[Keys.timeFormat] },
             notifyBeforeRoutine = this[Keys.notifyRoutine] ?: defaults.notifyBeforeRoutine,
             notifyLimitAlmostReached = this[Keys.notifyLimit] ?: defaults.notifyLimitAlmostReached,
             notifyDailyGoal = this[Keys.notifyGoal] ?: defaults.notifyDailyGoal,
@@ -62,6 +64,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         this[Keys.reduceMotion] = s.reduceMotion
         this[Keys.haptics] = s.haptics
         s.language?.let { this[Keys.language] = it.tag } ?: remove(Keys.language)
+        s.timeFormat?.let { this[Keys.timeFormat] = it.name } ?: remove(Keys.timeFormat)
         this[Keys.notifyRoutine] = s.notifyBeforeRoutine
         this[Keys.notifyLimit] = s.notifyLimitAlmostReached
         this[Keys.notifyGoal] = s.notifyDailyGoal
@@ -86,6 +89,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         val reduceMotion = booleanPreferencesKey("reduce_motion")
         val haptics = booleanPreferencesKey("haptics")
         val language = stringPreferencesKey("language")
+        val timeFormat = stringPreferencesKey("time_format")
         val notifyRoutine = booleanPreferencesKey("notify_before_routine")
         val notifyLimit = booleanPreferencesKey("notify_limit")
         val notifyGoal = booleanPreferencesKey("notify_daily_goal")

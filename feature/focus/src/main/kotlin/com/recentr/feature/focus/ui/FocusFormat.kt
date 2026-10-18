@@ -2,18 +2,20 @@ package com.recentr.feature.focus.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
-import com.recentr.core.designsystem.illustration.DemoApp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.recentr.core.data.RecentrData
+import com.recentr.core.designsystem.format.wallClockTime
 import com.recentr.core.designsystem.illustration.Sticker
-import com.recentr.core.model.AppId
+import com.recentr.core.model.AppCategory
 import com.recentr.core.model.FocusRecordKind
 import com.recentr.core.model.FocusSound
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.focus.R
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 /** Countdown "45:00", "3:00", "1:30:00" (seconds rounded up so 0:00 only shows at the end). */
 internal fun formatCountdown(millis: Long): String {
@@ -24,11 +26,10 @@ internal fun formatCountdown(millis: Long): String {
     return if (h > 0) "%d:%02d:%02d".format(h, m, s) else "%d:%02d".format(m, s)
 }
 
-private val ClockFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
-
-/** "10:42 AM". */
-internal fun formatClock(epochMillis: Long): String =
-    Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()).toLocalTime().format(ClockFormatter)
+/** "10:42 AM" (or "10:42"). */
+@Composable
+@ReadOnlyComposable
+internal fun formatClock(epochMillis: Long): String = wallClockTime(epochMillis)
 
 /** "6h 40m", "45m", "2h". */
 @Composable
@@ -43,7 +44,29 @@ internal fun formatDuration(minutes: Int): String {
     }
 }
 
-internal val AppId.demoApp: DemoApp get() = DemoApp.valueOf(name)
+/** Section caption of the "Block during focus" sheet ("SOCIAL"). */
+internal val AppCategory.sectionLabel: Int
+    get() = when (this) {
+        AppCategory.Social -> R.string.block_cat_social
+        AppCategory.Entertainment -> R.string.block_cat_entertainment
+        AppCategory.Music -> R.string.block_cat_music
+        AppCategory.Games -> R.string.block_cat_games
+        AppCategory.Productivity -> R.string.block_cat_productivity
+        AppCategory.Other -> R.string.block_cat_other
+    }
+
+/**
+ * The device's launcher apps, read once (null while loading, empty in previews); [refresh]
+ * re-reads them, for the app picker: apps may have been installed or removed since.
+ */
+@Composable
+internal fun rememberInstalledApps(refresh: Boolean = false): List<UsageApp>? {
+    if (LocalInspectionMode.current) return emptyList()
+    val repository = RecentrData.installedApps
+    val apps by repository.apps.collectAsStateWithLifecycle()
+    LaunchedEffect(repository, refresh) { if (refresh) repository.refresh() else repository.load() }
+    return apps
+}
 
 internal val FocusRecordKind.sticker: Sticker
     get() = when (this) {

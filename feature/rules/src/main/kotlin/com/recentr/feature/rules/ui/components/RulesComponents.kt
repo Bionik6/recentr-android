@@ -18,11 +18,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
@@ -465,7 +467,8 @@ internal fun DayDots(
     val letters = androidx.compose.ui.platform.LocalContext.current.resources.getStringArray(R.array.rules_day_letters)
     val names = androidx.compose.ui.platform.LocalContext.current.resources.getStringArray(R.array.rules_day_long)
     val haptics = LocalRecentrHaptics.current
-    Row(modifier, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+    // The seven chips share the row (42dp at most), so narrow screens never clip Sunday.
+    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally)) {
         (1..7).forEach { day ->
             val selected = day in days
             val fill by animateColorAsState(
@@ -480,7 +483,9 @@ internal fun DayDots(
             )
             Box(
                 modifier = Modifier
-                    .size(42.dp)
+                    .weight(1f, fill = false)
+                    .widthIn(max = 42.dp)
+                    .aspectRatio(1f)
                     .clip(RecentrShapes.full)
                     .background(fill)
                     .toggleable(value = selected, role = Role.Checkbox, onValueChange = {

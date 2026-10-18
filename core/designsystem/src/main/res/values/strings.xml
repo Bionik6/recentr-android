@@ -13,4 +13,13 @@
     <string name="ds_goal_decrease">Decrease daily goal</string>
     <string name="ds_goal_increase">Increase daily goal</string>
     <string name="ds_goal_save">Save goal</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Turn on app blocking</string>
+    <string name="ds_blocking_body">To put the apps you block on hold, Recentr uses Android’s Accessibility service. It only sees which app you open — never what’s on your screen — and nothing leaves your phone.</string>
+    <string name="ds_blocking_steps">In Settings › Accessibility, open “Recentr app blocking” (under Installed or Downloaded apps) and turn it on.</string>
+    <string name="ds_blocking_open_settings">Open Settings</string>
+    <string name="ds_blocking_not_now">Not now</string>
+    <string name="ds_blocking_off_title">Blocking is off</string>
+    <string name="ds_blocking_off_body">Turn it on so your rules and focus sessions put apps on hold.</string>
 </resources>

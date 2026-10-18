@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
@@ -45,8 +48,10 @@ fun InstalledAppIcon(
     val context = LocalContext.current
     val sizePx = with(LocalDensity.current) { size.roundToPx() }
     val shape = RoundedCornerShape(size * (9f / 32f))
-    val icon by produceState(InstalledAppIcons.cached(packageName, sizePx), packageName, sizePx) {
-        if (value == null) value = withContext(Dispatchers.IO) { InstalledAppIcons.load(context, packageName, sizePx) }
+    // Keyed state: a slot reused for another app (filtered lists) must not keep the previous icon.
+    var icon by remember(packageName, sizePx) { mutableStateOf(InstalledAppIcons.cached(packageName, sizePx)) }
+    LaunchedEffect(packageName, sizePx) {
+        if (icon == null) icon = withContext(Dispatchers.IO) { InstalledAppIcons.load(context, packageName, sizePx) }
     }
     val described = if (contentDescription != null) {
         Modifier.semantics { this.contentDescription = contentDescription }
@@ -62,10 +67,13 @@ fun InstalledAppIcon(
     }
 }
 
-private class LoadedIcon(val bitmap: ImageBitmap, val adaptive: Boolean)
+private class LoadedIcon(val bitmap: ImageBitmap, val adaptive: Boolean, val bytes: Int)
 
 private object InstalledAppIcons {
-    private val cache = LruCache<String, LoadedIcon>(64)
+    /** Sized in bytes: the app pickers list every launcher app (~50 KB per 32dp icon). */
+    private val cache = object : LruCache<String, LoadedIcon>(16 * 1024 * 1024) {
+        override fun sizeOf(key: String, value: LoadedIcon): Int = value.bytes
+    }
 
     fun cached(packageName: String, sizePx: Int): LoadedIcon? = cache.get("$packageName@$sizePx")
 
@@ -89,6 +97,6 @@ private object InstalledAppIcons {
             drawable.setBounds(0, 0, sizePx, sizePx)
             drawable.draw(canvas)
         }
-        return LoadedIcon(bitmap.asImageBitmap(), adaptive).also { cache.put("$packageName@$sizePx", it) }
+        return LoadedIcon(bitmap.asImageBitmap(), adaptive, bitmap.byteCount).also { cache.put("$packageName@$sizePx", it) }
     }
 }

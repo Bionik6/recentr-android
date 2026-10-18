@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -21,6 +22,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.recentr.core.data.BlockingAccess
+import com.recentr.core.data.RecentrData
+import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.FocusPhase
 import com.recentr.feature.focus.complete.FocusCompleteScreen
@@ -32,7 +36,6 @@ import com.recentr.feature.focus.session.FocusSessionActions
 import com.recentr.feature.focus.setup.FocusSetupScreen
 import com.recentr.feature.focus.setup.SoundsSheet
 import com.recentr.feature.focus.sound.AmbientSoundPlayer
-import com.recentr.feature.focus.ui.demoApp
 import com.recentr.feature.focus.ui.formatClock
 import kotlinx.serialization.Serializable
 
@@ -56,6 +59,8 @@ fun FocusTab(
     val viewModel: FocusSetupViewModel = viewModel(factory = FocusSetupViewModel.Factory)
     val config by viewModel.config.collectAsStateWithLifecycle()
     val run by viewModel.run.collectAsStateWithLifecycle()
+    val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
+    var explainBlocking by rememberSaveable { mutableStateOf(false) }
     FocusSetupScreen(
         config = config,
         run = run,
@@ -68,7 +73,13 @@ fun FocusTab(
         onResume = { navController.navigate(FocusSessionRoute) { launchSingleTop = true } },
         onOpenLog = { navController.navigate(FocusHistoryRoute) { launchSingleTop = true } },
         modifier = modifier,
+        blockingOn = blockingOn,
+        onTurnOnBlocking = { explainBlocking = true },
     )
+    if (explainBlocking) {
+        val context = LocalContext.current
+        BlockingAccessSheet(onOpenSettings = { BlockingAccess.openSettings(context) }, onDismissRequest = { explainBlocking = false })
+    }
 }
 
 /** Focus timer destinations (Figma "Focus timer" 92–98), drawn above the tab bar. */
@@ -154,11 +165,11 @@ private fun FocusSessionDestination(navController: NavHostController) {
     val endsAt = formatClock(state.now + run.remainingMillis(state.now))
     when (overlay) {
         SessionOverlay.AppOnHold, SessionOverlay.Leave -> {
-            val app = if (overlay == SessionOverlay.AppOnHold) run.config.blockedApps.firstOrNull()?.demoApp else null
+            val app = if (overlay == SessionOverlay.AppOnHold) run.config.blockedApps.firstOrNull() else null
             AppOnHoldDialog(
                 title = stringResource(R.string.hold_title, focusedMinutes),
                 body = if (app != null) {
-                    stringResource(R.string.hold_body, app.displayName, endsAt)
+                    stringResource(R.string.hold_body, app.label, endsAt)
                 } else {
                     stringResource(R.string.hold_leave_body, endsAt)
                 },

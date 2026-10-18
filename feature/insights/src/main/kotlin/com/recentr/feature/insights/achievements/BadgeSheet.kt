@@ -41,6 +41,7 @@ import com.recentr.feature.insights.ui.IconChip
 import com.recentr.feature.insights.ui.ProgressTrack
 import com.recentr.feature.insights.ui.copy
 import com.recentr.feature.insights.ui.longProgress
+import com.recentr.feature.insights.ui.text
 
 /** Targets up to this many steps are drawn as dots ("5 of 7 days"), longer ones as a bar. */
 private const val MAX_DOTS = 10
@@ -70,7 +71,7 @@ private fun BadgeSheetContent(badge: AchievementProgress, onGotIt: () -> Unit) {
         Spacer(Modifier.height(14.dp))
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(stringResource(copy.title), style = RecentrTheme.typography.title2, color = colors.textPrimary, textAlign = TextAlign.Center)
-            Text(stringResource(copy.goal), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary, textAlign = TextAlign.Center)
+            Text(copy.text(copy.goal), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary, textAlign = TextAlign.Center)
         }
         Spacer(Modifier.height(18.dp))
         Column(

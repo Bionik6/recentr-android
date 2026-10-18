@@ -184,7 +184,11 @@ private fun BeforeNowCards(state: ProfileUiState) {
         TiltedStatCard(
             label = stringResource(R.string.profile_now),
             labelColor = colors.brandSky,
-            value = if (now != null) compactDuration(now) else stringResource(R.string.profile_now_loading),
+            value = when {
+                now != null -> compactDuration(now)
+                state.nowSynced -> "–"
+                else -> stringResource(R.string.profile_now_loading)
+            },
             caption = if (state.nowDays <= 1) {
                 stringResource(R.string.profile_today)
             } else {

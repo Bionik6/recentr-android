@@ -14,17 +14,23 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -51,20 +57,23 @@ import com.recentr.core.designsystem.component.RecentrSheet
 import com.recentr.core.designsystem.component.RecentrTextField
 import com.recentr.core.designsystem.component.RecentrToggle
 import com.recentr.core.designsystem.icon.RecentrIcon
+import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.core.model.AppId
+import com.recentr.core.model.AppCategory
 import com.recentr.core.model.FocusConfig
 import com.recentr.core.model.FocusSound
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.focus.R
 import com.recentr.feature.focus.ui.CardDivider
 import com.recentr.feature.focus.ui.FocusSheetContent
 import com.recentr.feature.focus.ui.FocusSheetHeading
-import com.recentr.feature.focus.ui.demoApp
 import com.recentr.feature.focus.ui.formatDuration
 import com.recentr.feature.focus.ui.hint
 import com.recentr.feature.focus.ui.label
+import com.recentr.feature.focus.ui.rememberInstalledApps
+import com.recentr.feature.focus.ui.sectionLabel
 import com.recentr.feature.focus.ui.sticker
 import kotlin.math.roundToInt
 
@@ -159,25 +168,68 @@ private fun VolumeSlider(value: Float, onValueChange: (Float) -> Unit, modifier:
     }
 }
 
-/** Apps put on hold during focus (design-system App Row list). */
+/**
+ * Apps put on hold during focus: the device's launcher apps by category, with a search field.
+ * Chosen apps that are no longer installed stay listed so they can be removed.
+ */
 @Composable
 internal fun BlockAppsSheet(
-    selected: List<AppId>,
-    onChange: (List<AppId>) -> Unit,
+    selected: List<UsageApp>,
+    onChange: (List<UsageApp>) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
+    val colors = RecentrTheme.colors
+    val installed = rememberInstalledApps(refresh = true)
+    var query by rememberSaveable { mutableStateOf("") }
     RecentrSheet(onDismissRequest = onDismissRequest) { controller ->
-        FocusSheetContent(topGap = 22.dp) {
+        Column(Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 16.dp, bottom = 10.dp)) {
             FocusSheetHeading(stringResource(R.string.block_title), stringResource(R.string.block_subtitle))
-            Spacer(Modifier.height(12.dp))
-            AppId.entries.forEach { app ->
-                AppRow(
-                    app = app.demoApp,
-                    checked = app in selected,
-                    onCheckedChange = { checked ->
-                        onChange(if (checked) AppId.entries.filter { it in selected || it == app } else selected - app)
-                    },
-                )
+            Spacer(Modifier.height(14.dp))
+            RecentrTextField(
+                value = query,
+                onValueChange = { query = it },
+                placeholder = stringResource(R.string.block_search),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
+                if (installed == null) {
+                    CircularProgressIndicator(
+                        color = colors.brandSky,
+                        strokeWidth = 3.dp,
+                        modifier = Modifier.padding(vertical = 24.dp).size(28.dp).align(Alignment.CenterHorizontally),
+                    )
+                } else {
+                    val apps = remember(installed) {
+                        installed + selected.filter { chosen -> installed.none { it.packageName == chosen.packageName } }
+                    }
+                    val search = query.trim()
+                    val matches = AppCategory.entries.map { category ->
+                        category to apps.filter { it.category == category && (search.isEmpty() || it.label.contains(search, ignoreCase = true)) }
+                    }.filter { it.second.isNotEmpty() }
+                    if (matches.isEmpty()) {
+                        Spacer(Modifier.height(16.dp))
+                        Text(stringResource(R.string.block_no_apps, search), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary)
+                    }
+                    matches.forEach { (category, categoryApps) ->
+                        Spacer(Modifier.height(16.dp))
+                        Text(stringResource(category.sectionLabel), style = RecentrTheme.typography.captionMedium, color = colors.textTertiary)
+                        Spacer(Modifier.height(4.dp))
+                        categoryApps.forEach { app ->
+                            key(app.packageName) {
+                                AppRow(
+                                    name = app.label,
+                                    checked = selected.any { it.packageName == app.packageName },
+                                    onCheckedChange = { checked ->
+                                        onChange(if (checked) selected + app else selected.filterNot { it.packageName == app.packageName })
+                                    },
+                                ) {
+                                    InstalledAppIcon(app.packageName, size = 32.dp)
+                                }
+                            }
+                        }
+                    }
+                }
             }
             Spacer(Modifier.height(18.dp))
             RecentrButton(text = stringResource(R.string.block_done), onClick = { controller.close() }, modifier = Modifier.fillMaxWidth())

@@ -39,6 +39,7 @@ import com.recentr.feature.insights.ui.MoreMenuButton
 import com.recentr.feature.insights.ui.UsageAppIcon
 import com.recentr.feature.insights.ui.clock
 import com.recentr.feature.insights.ui.duration
+import com.recentr.feature.insights.ui.hourLabel
 import com.recentr.feature.insights.ui.labelRes
 
 /**
@@ -52,13 +53,13 @@ import com.recentr.feature.insights.ui.labelRes
 internal fun AppDetailScreen(
     state: AppDetailUiState,
     onBack: () -> Unit,
-    onLimit: (app: AppId, existingRuleId: String?) -> Unit,
-    onBlock: (AppId) -> Unit,
+    onLimit: (app: UsageApp, existingRuleId: String?) -> Unit,
+    onBlock: (UsageApp) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val colors = RecentrTheme.colors
     val detail = state.detail
-    val catalogue = detail?.app?.catalogue
+    val app = detail?.app
     InsightsScaffold(
         modifier = modifier,
         topBar = {
@@ -68,18 +69,18 @@ internal fun AppDetailScreen(
                     stringResource(R.string.insights_app_subtitle, stringResource(it.app.category.labelRes), stringResource(state.period.labelRes))
                 },
                 onBack = onBack,
-                trailing = if (catalogue != null) {
-                    { MoreMenuButton(listOf(stringResource(R.string.insights_block_app, catalogue.displayName) to { onBlock(catalogue) })) }
+                trailing = if (app != null) {
+                    { MoreMenuButton(listOf(stringResource(R.string.insights_block_app, app.label) to { onBlock(app) })) }
                 } else {
                     null
                 },
             )
         },
-        bottomBar = if (catalogue != null) {
+        bottomBar = if (app != null) {
             {
                 RecentrButton(
                     text = stringResource(if (state.limitRule != null) R.string.insights_edit_limit else R.string.insights_set_limit),
-                    onClick = { onLimit(catalogue, state.limitRule?.id) },
+                    onClick = { onLimit(app, state.limitRule?.id) },
                     style = RecentrButtonStyle.Brand,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -171,15 +172,12 @@ private fun noticedText(detail: AppUsageDetail): String {
     val total = detail.hourlyMinutes.sum().coerceAtLeast(1)
     val (part, minutes) = DayPart.entries.map { part -> part to part.hours.sumOf { detail.hourlyMinutes[it] } }.maxBy { it.second }
     if (minutes * 2 < total) return stringResource(R.string.insights_noticed_spread, app)
-    return stringResource(
-        when (part) {
-            DayPart.Night -> R.string.insights_noticed_night
-            DayPart.Morning -> R.string.insights_noticed_morning
-            DayPart.Work -> R.string.insights_noticed_work
-            DayPart.Evening -> R.string.insights_noticed_evening
-        },
-        app,
-    )
+    return when (part) {
+        DayPart.Night -> stringResource(R.string.insights_noticed_night, app, hourLabel(22))
+        DayPart.Morning -> stringResource(R.string.insights_noticed_morning, app, hourLabel(9))
+        DayPart.Work -> stringResource(R.string.insights_noticed_work, app)
+        DayPart.Evening -> stringResource(R.string.insights_noticed_evening, app)
+    }
 }
 
 @Preview(widthDp = 402, heightDp = 874)
@@ -192,7 +190,7 @@ private fun AppDetailPreview() {
                 period = UsagePeriod.Today,
                 detail = AppUsageDetail(UsageApp.of(AppId.TikTok), UsagePeriod.Today, 54, 23, hourly, 22, 7 * 60 + 12, 1),
                 loading = false,
-                limitRule = Rule("social", RuleType.Limit, "Social time", apps = listOf(AppId.TikTok), limitMinutes = 40),
+                limitRule = Rule("social", RuleType.Limit, "Social time", apps = listOf(AppId.TikTok).map { UsageApp.of(it) }, limitMinutes = 40),
                 limitUsedMinutes = 54,
             ),
             onBack = {},

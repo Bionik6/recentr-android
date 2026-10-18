@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.recentr.core.data.RecentrData
 import com.recentr.feature.profile.overview.EditProfileSheet
 import com.recentr.feature.profile.overview.ProfileScreen
 import com.recentr.feature.profile.overview.ProfileViewModel
@@ -91,8 +92,10 @@ fun NavGraphBuilder.profileDestinations(
     composable<SettingsRoute> {
         val viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
         val state by viewModel.state.collectAsStateWithLifecycle()
+        val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
         SettingsScreen(
             state = state,
+            blockingOn = blockingOn,
             actions = SettingsActions(
                 onBack = back,
                 onOpenNotifications = { navController.navigate(SettingsNotificationsRoute) { launchSingleTop = true } },

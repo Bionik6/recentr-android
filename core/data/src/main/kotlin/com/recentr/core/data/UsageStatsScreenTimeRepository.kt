@@ -5,11 +5,9 @@ import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.os.Build
-import com.recentr.core.model.AppCategory
 import com.recentr.core.model.AppId
 import com.recentr.core.model.AppUsageDetail
 import com.recentr.core.model.DayStats
@@ -40,7 +38,8 @@ import kotlin.time.TimeSource
  * [UsageAccess]). Events are read one local day at a time and reduced by [ScreenTimeAggregation];
  * completed days are cached, so only today is re-read on a refresh.
  *
- * Apps: catalogue packages map to [AppId] (Figma icon); other apps keep their launcher label.
+ * Apps: catalogue packages map to [AppId] (Figma icon); other apps keep their launcher label
+ * ([describeApp]).
  * Package visibility comes from the `<queries>` of this module's manifest (launcher and home
  * intents), so only apps with a launcher entry get a label — the others still count in the total.
  *
@@ -208,21 +207,8 @@ class UsageStatsScreenTimeRepository(
     private fun resolveApp(packageName: String): UsageApp? =
         apps.getOrPut(packageName) { ResolvedApp(lookUpApp(packageName)) }.app
 
-    private fun lookUpApp(packageName: String): UsageApp? {
-        AppId.fromPackageName(packageName)?.let { return UsageApp.of(it, packageName) }
-        val info = try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getApplicationInfo(packageName, PackageManager.ApplicationInfoFlags.of(0))
-            } else {
-                packageManager.getApplicationInfo(packageName, 0)
-            }
-        } catch (_: PackageManager.NameNotFoundException) {
-            // Not installed any more, or not visible to this app (no launcher entry).
-            return null
-        }
-        val label = info.loadLabel(packageManager).toString().takeIf { it.isNotBlank() } ?: return null
-        return UsageApp(packageName, label, info.usageCategory)
-    }
+    /** Not installed any more, or not visible to this app (no launcher entry): null. */
+    private fun lookUpApp(packageName: String): UsageApp? = packageManager.describeApp(packageName)
 
     /** Launchers (time on the home screen is not screen time), without the Settings fallback home. */
     private fun homePackages(): Set<String> {
@@ -260,17 +246,6 @@ class UsageStatsScreenTimeRepository(
             NOTIFICATION_INTERRUPTION -> UsageEventType.NotificationInterruption
             else -> null
         }
-
-        /** Category declared by the app (`android:appCategory`). */
-        val ApplicationInfo.usageCategory: AppCategory
-            get() = when (category) {
-                ApplicationInfo.CATEGORY_SOCIAL -> AppCategory.Social
-                ApplicationInfo.CATEGORY_VIDEO, ApplicationInfo.CATEGORY_NEWS -> AppCategory.Entertainment
-                ApplicationInfo.CATEGORY_AUDIO -> AppCategory.Music
-                ApplicationInfo.CATEGORY_GAME -> AppCategory.Games
-                ApplicationInfo.CATEGORY_PRODUCTIVITY, ApplicationInfo.CATEGORY_MAPS -> AppCategory.Productivity
-                else -> AppCategory.Other
-            }
     }
 }
 

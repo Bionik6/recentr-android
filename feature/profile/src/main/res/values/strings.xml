@@ -112,10 +112,16 @@
     <string name="settings_appearance">Appearance</string>
     <string name="settings_app_icon">App icon</string>
     <string name="settings_language">Language</string>
+    <string name="settings_time_format">Time format</string>
+    <string name="time_format_am_pm">AM/PM</string>
+    <string name="time_format_24h">24H</string>
+    <string name="time_format_body">How times show across Recentr.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
     <string name="settings_strict_mode">Strict mode</string>
     <string name="settings_strict_caption">New sessions and routines start strict.</string>
     <string name="settings_emergency_unlocks">Emergency unlocks</string>
     <string name="settings_unlocks_left">%d left</string>
+    <string name="settings_app_blocking">App blocking</string>
     <string name="settings_unlock_pass">Unlock pass</string>
     <string name="settings_pass_printed">Printed</string>
     <string name="settings_pass_not_printed">Not printed</string>
