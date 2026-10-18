@@ -78,7 +78,8 @@ internal class RulesListActions(
     val onTemplate: (String) -> Unit = {},
     val onStartBlocking: () -> Unit = {},
     val onHelp: () -> Unit = {},
-    val onMore: () -> Unit = {},
+    /** The header "+": the "New rule" sheet. */
+    val onNewRule: () -> Unit = {},
 )
 
 /**
@@ -347,7 +348,7 @@ private fun RulesHeader(showTemplates: Boolean, subtitle: String, actions: Rules
             Text(subtitle, style = RecentrTheme.typography.captionRegular, color = colors.textSecondary, maxLines = 1)
         }
         RecentrIconButton(RecentrIcon.Help, contentDescription = stringResource(R.string.rules_help), onClick = actions.onHelp)
-        RecentrIconButton(RecentrIcon.More, contentDescription = stringResource(R.string.rules_more), onClick = actions.onMore)
+        RecentrIconButton(RecentrIcon.Plus, contentDescription = stringResource(R.string.rules_new_rule), onClick = actions.onNewRule)
     }
 }
 

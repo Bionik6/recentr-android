@@ -75,7 +75,7 @@ fun RulesTab(
             onTemplate = { navController.navigateToTemplate(it) },
             onStartBlocking = { navController.navigateToStartSession() },
             onHelp = { help = true },
-            onMore = { newRule = true },
+            onNewRule = { newRule = true },
         ),
     )
     if (newRule) {
