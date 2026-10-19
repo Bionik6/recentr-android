@@ -19,9 +19,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +39,8 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -383,6 +390,9 @@ fun StickyNoteField(
     placeholder: String,
     modifier: Modifier = Modifier,
     minLines: Int = 2,
+    /** Applied to the text field itself, e.g. a focus requester. */
+    fieldModifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(20.dp)
@@ -395,13 +405,22 @@ fun StickyNoteField(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(title, style = RecentrTheme.typography.headline, color = colors.accentNoteInk)
+        // Text set from outside (a suggestion chip) puts the caret at the end.
+        var fieldValue by remember { mutableStateOf(TextFieldValue(value, TextRange(value.length))) }
+        if (fieldValue.text != value) {
+            fieldValue = TextFieldValue(value, TextRange(value.length))
+        }
         BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
+            value = fieldValue,
+            onValueChange = {
+                fieldValue = it
+                if (it.text != value) onValueChange(it.text)
+            },
             textStyle = RecentrTheme.typography.noteHandwritten.copy(color = colors.accentNoteInk),
             cursorBrush = SolidColor(colors.accentNoteInk),
             minLines = minLines,
-            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = keyboardOptions,
+            modifier = Modifier.fillMaxWidth().then(fieldModifier),
             decorationBox = { inner ->
                 Box {
                     if (value.isEmpty()) {

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -327,8 +328,12 @@ private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
             caption = caption,
             rotation = 4f,
             onClick = if (timeTarget != null) ({ actions.onOpen(timeTarget) }) else actions.onEditSettings,
+            // Anchored to the left edge (not centred) so a wide value like "21:16 – 21:30" grows
+            // to the right instead of off-screen, and capped before the apps tile.
             modifier = Modifier
-                .offset(x = (-120.3).dp, y = (-54.7).dp)
+                .align(Alignment.CenterStart)
+                .offset(y = (-54.7).dp)
+                .widthIn(max = 200.dp)
                 .entrance(50, from = DpOffset((-20).dp, 10.dp), blur = false),
         )
         AppsTile(

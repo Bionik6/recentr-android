@@ -46,6 +46,9 @@ dependencies {
     implementation(project(":feature:insights"))
 
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

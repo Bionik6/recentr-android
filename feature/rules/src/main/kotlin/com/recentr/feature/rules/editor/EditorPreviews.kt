@@ -22,7 +22,6 @@ private val previewActions = EditorActions(
     update = {},
     onStrictChange = {},
     onSuggestion = {},
-    onSaveTemplate = {},
     onCommit = {},
 )
 

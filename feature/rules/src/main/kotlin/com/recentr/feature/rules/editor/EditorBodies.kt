@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
-import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrCheckbox
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
 import com.recentr.core.designsystem.component.SettingRow
@@ -73,7 +72,6 @@ internal class EditorActions(
     /** Strict mode toggle. */
     val onStrictChange: (Boolean) -> Unit,
     val onSuggestion: (BuiltInTemplate) -> Unit,
-    val onSaveTemplate: () -> Unit,
     val onCommit: () -> Unit,
     /** The rule is strict and blocking now: Strict mode can't be turned off until it ends. */
     val strictLocked: Boolean = false,
@@ -103,37 +101,15 @@ private fun EditorRow(label: Int, value: String, icon: RecentrIcon, onClick: () 
 /** A rule needs apps to block before it can be created or saved. */
 private val Rule.blocksApps: Boolean get() = apps.isNotEmpty()
 
-/**
- * Primary CTA, or "Save as template" + "Start" for a new session (just "Start" from Home).
- * Disabled until the rule has apps to block.
- */
+/** Primary CTA ("Start" for a new session). Disabled until the rule has apps to block. */
 @Composable
 internal fun ColumnScope.EditorCta(state: RuleEditorUiState, createLabel: Int, actions: EditorActions) {
-    val oneShot = state.isNew && state.draft.type == com.recentr.core.model.RuleType.Session && state.draft.schedule == null
-    if (oneShot && state.offerTemplate) {
-        androidx.compose.foundation.layout.Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            RecentrButton(
-                text = stringResource(R.string.rules_save_template),
-                onClick = actions.onSaveTemplate,
-                style = RecentrButtonStyle.Soft,
-                // Slightly wider than half: the label needs ~131dp inside the 24dp paddings.
-                modifier = Modifier.weight(1.08f),
-            )
-            RecentrButton(
-                text = stringResource(R.string.rules_start),
-                onClick = actions.onCommit,
-                enabled = state.draft.blocksApps,
-                modifier = Modifier.weight(0.92f),
-            )
-        }
-    } else {
-        RecentrButton(
-            text = stringResource(if (state.isNew) createLabel else R.string.rules_save),
-            onClick = actions.onCommit,
-            enabled = state.draft.blocksApps,
-            modifier = Modifier.fillMaxWidth(),
-        )
-    }
+    RecentrButton(
+        text = stringResource(if (state.isNew) createLabel else R.string.rules_save),
+        onClick = actions.onCommit,
+        enabled = state.draft.blocksApps,
+        modifier = Modifier.fillMaxWidth(),
+    )
 }
 
 /** Figma 31 "Session": suggestions, Block / Active / Unlocks, Strict mode. */
@@ -164,6 +140,7 @@ internal fun ColumnScope.SessionEditor(state: RuleEditorUiState, title: String, 
                     sticker = card.sticker.asSticker,
                     color = card.color,
                     onClick = { actions.onSuggestion(template) },
+                    modifier = Modifier.weight(1f),
                 )
             }
         }

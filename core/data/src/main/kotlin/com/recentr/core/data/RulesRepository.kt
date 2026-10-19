@@ -1,6 +1,7 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.Rule
+import com.recentr.core.model.RuleType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,7 @@ import java.time.ZoneId
 import java.util.UUID
 
 /**
- * Blocking rules and saved templates (none until the user creates one). They are kept in memory
+ * Blocking rules (none until the user creates one). They are kept in memory
  * for the screens and the app blocker, and saved to [file] as JSON after every change, so they
  * survive the app being closed or the phone restarting.
  *
@@ -35,10 +36,6 @@ class RulesRepository(
 
     private val _rules = MutableStateFlow(saved?.rules.orEmpty())
     val rules: StateFlow<List<Rule>> = _rules.asStateFlow()
-
-    /** Rule prototypes saved with "Save as template" (ids are template ids). */
-    private val _savedTemplates = MutableStateFlow(saved?.templates.orEmpty())
-    val savedTemplates: StateFlow<List<Rule>> = _savedTemplates.asStateFlow()
 
     /** Local day (epoch day) the daily counters belong to. */
     @Volatile
@@ -74,15 +71,19 @@ class RulesRepository(
 
     fun resume(id: String) = update(id) { it.copy(pausedUntil = null) }
 
-    /** Stores [rule] as a reusable template and returns the template id. */
-    fun saveTemplate(rule: Rule): String {
-        val id = "saved-" + newId()
-        _savedTemplates.update { it + rule.copy(id = id, activeSince = null, pausedUntil = null) }
-        persist()
-        return id
+    /**
+     * Today's minutes per package ([AppHoldRepository.refreshUsage]) become each daily limit's
+     * [Rule.usedMinutes], for its card and detail. Saved only when a limit's minutes changed.
+     */
+    fun recordUsage(usedToday: Map<String, Int>) {
+        var changed = false
+        _rules.update { list ->
+            val updated = list.map { rule -> if (rule.type == RuleType.Limit) rule.copy(usedMinutes = rule.usedOf(usedToday)) else rule }
+            changed = updated != list
+            updated
+        }
+        if (changed) persist()
     }
-
-    fun savedTemplate(id: String): Rule? = _savedTemplates.value.firstOrNull { it.id == id }
 
     /**
      * Ends sessions whose time is up: one-shot sessions are removed, others just stop running.
@@ -111,10 +112,9 @@ class RulesRepository(
         persist()
     }
 
-    /** Removes every rule and saved template ("Delete account"). */
+    /** Removes every rule ("Delete account"). */
     fun reset() {
         _rules.value = emptyList()
-        _savedTemplates.value = emptyList()
         persist()
     }
 
@@ -128,13 +128,13 @@ class RulesRepository(
 
     private fun persist() {
         val target = file ?: return
-        writes.launch { write(target, SavedRules(_rules.value, _savedTemplates.value, countersDay)) }
+        writes.launch { write(target, SavedRules(_rules.value, countersDay)) }
     }
 
+    /** Files written before templates went away still have a "templates" list: it's ignored. */
     @Serializable
     private data class SavedRules(
         val rules: List<Rule> = emptyList(),
-        val templates: List<Rule> = emptyList(),
         val countersDay: Long? = null,
     )
 

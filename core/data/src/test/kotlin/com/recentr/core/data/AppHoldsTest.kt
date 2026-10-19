@@ -33,13 +33,13 @@ class AppHoldsTest {
     private fun state(
         rules: List<Rule> = emptyList(),
         focus: FocusRun? = null,
-        openUntil: Map<String, Long> = emptyMap(),
+        unlocks: AppUnlocks = AppUnlocks(),
         usedToday: Map<String, Int>? = null,
     ) = HoldState(
         rules = rules,
         focus = focus,
         protectedApps = setOf("com.recentr.app", settings),
-        openUntil = openUntil,
+        unlocks = unlocks,
         usedToday = usedToday,
     )
 
@@ -99,6 +99,17 @@ class AppHoldsTest {
     }
 
     @Test
+    fun `a limit's budget is spent by all its apps together`() {
+        val limit = Rule("m", RuleType.Limit, "Social time", apps = listOf(whatsApp, tiktok), limitMinutes = 60)
+        assertEquals(50, limit.usedOf(mapOf(whatsApp.packageName to 20, tiktok.packageName to 30, "com.other" to 90)))
+        assertEquals(0, limit.usedOf(emptyMap()))
+        // Same numbers as the card: the limit holds once they reach the budget, whichever app is opened.
+        val used = mapOf(whatsApp.packageName to 59, tiktok.packageName to 1)
+        assertEquals(60, limit.usedOf(used))
+        assertTrue(state(listOf(limit), usedToday = used).reason(whatsApp.packageName) is HoldReason.ByRule)
+    }
+
+    @Test
     fun `a habit holds until its tasks are done`() {
         val habit = Rule("h", RuleType.Habit, "Before TikTok", apps = listOf(tiktok), habitTasks = listOf(HabitTask("t", "Read")))
         assertTrue(state(listOf(habit)).reason(tiktok.packageName) is HoldReason.ByRule)
@@ -109,9 +120,9 @@ class AppHoldsTest {
     @Test
     fun `open anyway lifts the rules until it runs out`() {
         val lock = Rule("l", RuleType.Lock, "WhatsApp", apps = listOf(whatsApp))
-        val open = mapOf(whatsApp.packageName to now + 5 * minute)
-        assertNull(state(listOf(lock), openUntil = open).reason(whatsApp.packageName))
-        assertTrue(state(listOf(lock), openUntil = open).reason(whatsApp.packageName, now + 6 * minute) is HoldReason.ByRule)
+        val open = AppUnlocks().open(whatsApp.packageName, listOf(lock), now + 5 * minute)
+        assertNull(state(listOf(lock), unlocks = open).reason(whatsApp.packageName))
+        assertTrue(state(listOf(lock), unlocks = open).reason(whatsApp.packageName, now + 6 * minute) is HoldReason.ByRule)
     }
 
     @Test
@@ -126,7 +137,7 @@ class AppHoldsTest {
         )
         assertEquals(HoldReason.Focus(run), state(focus = run).reason(tiktok.packageName))
         // Opening anyway is for rules only.
-        assertEquals(HoldReason.Focus(run), state(focus = run, openUntil = mapOf(tiktok.packageName to now + minute)).reason(tiktok.packageName))
+        assertEquals(HoldReason.Focus(run), state(focus = run, unlocks = AppUnlocks().open(tiktok.packageName, emptyList(), now + minute)).reason(tiktok.packageName))
         assertNull(state(focus = run.copy(phase = FocusPhase.Break)).reason(tiktok.packageName))
         assertNull(state(focus = run).reason(whatsApp.packageName))
     }
@@ -138,7 +149,9 @@ class AppHoldsTest {
         assertFalse(wait.copy(unlocksUsedToday = 2).canOpenAnyway(now))
         assertTrue(wait.copy(unlocksPerDay = null, unlocksUsedToday = 9).canOpenAnyway(now))
         assertFalse(wait.copy(unlockMethod = UnlockMethod.None).canOpenAnyway(now))
-        assertFalse(wait.copy(unlockMethod = UnlockMethod.ScanCode).canOpenAnyway(now))
+        assertTrue(wait.copy(unlockMethod = UnlockMethod.ScanCode).canOpenAnyway(now))
+        val askReason = Rule("m", RuleType.Limit, "M", apps = listOf(whatsApp), unlockMethod = UnlockMethod.None, limitAction = LimitAction.AskReason)
+        assertTrue(askReason.canOpenAnyway(now))
         val strictSession = Rule("s", RuleType.Session, "S", apps = listOf(whatsApp), durationMinutes = 30, activeSince = now, strictMode = true)
         assertFalse(strictSession.copy(unlockMethod = UnlockMethod.Wait).canOpenAnyway(now))
     }

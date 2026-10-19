@@ -133,7 +133,6 @@
     <string name="rules_session_subtitle_scheduled">Block apps %1$s.</string>
     <string name="rules_session_default_name">Focus session</string>
     <string name="rules_suggestions">SUGGESTIONS</string>
-    <string name="rules_save_template">Save as template</string>
     <string name="rules_start">Start</string>
 
     <!-- Strict mode -->
@@ -277,9 +276,7 @@
     <string name="rules_tpl_weekend_body">Socials stay locked all weekend.</string>
     <string name="rules_badge_daily">Daily</string>
     <string name="rules_badge_weekend">Sat–Sun</string>
-    <string name="rules_template_saved">Saved to templates</string>
     <string name="rules_templates_empty">No templates in this category yet.</string>
-    <string name="rules_saved_template_body">Your template</string>
 
     <!-- New rule -->
     <string name="rules_new_rule">New rule</string>

@@ -100,20 +100,3 @@ internal fun BuiltInTemplate.toCard(): TemplateCardUi = TemplateCardUi(
     color = color,
     category = category,
 )
-
-/** Card for a template saved with "Save as template". */
-@Composable
-internal fun Rule.toSavedTemplateCard(): TemplateCardUi = TemplateCardUi(
-    id = id,
-    title = name,
-    body = stringResource(R.string.rules_saved_template_body),
-    badge = durationMinutes?.let { durationLabel(it) } ?: stringResource(R.string.rules_badge_daily),
-    sticker = sticker,
-    color = when (type) {
-        RuleType.Session -> TemplateColor.Sky
-        RuleType.Bedtime, RuleType.Lock -> TemplateColor.Night
-        RuleType.Habit -> TemplateColor.Mint
-        RuleType.Limit -> TemplateColor.Sunset
-    },
-    category = null,
-)

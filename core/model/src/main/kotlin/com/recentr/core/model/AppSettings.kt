@@ -52,8 +52,10 @@ data class AppSettings(
     // Protection
     /** Settings › Strict mode: new sessions and routines start strict. */
     val strictByDefault: Boolean = false,
-    val emergencyUnlocksLeft: Int = 2,
-    val unlockPassPrinted: Boolean = false,
+    /** Emergency unlocks spent in [emergencyUnlocksMonth] (they come back every month). */
+    val emergencyUnlocksUsed: Int = 0,
+    /** The month of [emergencyUnlocksUsed], as `year * 12 + month - 1`, or null when none were spent. */
+    val emergencyUnlocksMonth: Int? = null,
     // Recentr Plus (no billing backend: kept on this device)
     val plusPlan: PlusPlan? = null,
     val plusRenewsAtMillis: Long? = null,

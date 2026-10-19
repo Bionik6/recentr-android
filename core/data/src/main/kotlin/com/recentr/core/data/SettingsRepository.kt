@@ -14,6 +14,7 @@ import com.recentr.core.model.AppLanguage
 import com.recentr.core.model.AppSettings
 import com.recentr.core.model.PlusPlan
 import com.recentr.core.model.TimeFormat
+import java.time.ZoneId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -28,6 +29,22 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
 
     suspend fun update(transform: (AppSettings) -> AppSettings) {
         dataStore.edit { prefs -> prefs.write(transform(prefs.toSettings())) }
+    }
+
+    /**
+     * Spends one of this month's emergency unlocks ([EmergencyUnlocks]). Returns false, spending
+     * nothing, when none are left.
+     */
+    suspend fun spendEmergencyUnlock(now: Long, zone: ZoneId): Boolean {
+        var spent = false
+        dataStore.edit { prefs ->
+            val settings = prefs.toSettings()
+            if (EmergencyUnlocks.left(settings, now, zone) > 0) {
+                prefs.write(EmergencyUnlocks.spend(settings, now, zone))
+                spent = true
+            }
+        }
+        return spent
     }
 
     suspend fun reset() = dataStore.edit { it.clear() }
@@ -50,8 +67,8 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
             quietHoursStartMinute = this[Keys.quietStart] ?: defaults.quietHoursStartMinute,
             quietHoursEndMinute = this[Keys.quietEnd] ?: defaults.quietHoursEndMinute,
             strictByDefault = this[Keys.strictByDefault] ?: defaults.strictByDefault,
-            emergencyUnlocksLeft = this[Keys.emergencyUnlocks] ?: defaults.emergencyUnlocksLeft,
-            unlockPassPrinted = this[Keys.unlockPassPrinted] ?: defaults.unlockPassPrinted,
+            emergencyUnlocksUsed = this[Keys.emergencyUnlocksUsed] ?: defaults.emergencyUnlocksUsed,
+            emergencyUnlocksMonth = this[Keys.emergencyUnlocksMonth],
             plusPlan = PlusPlan.entries.firstOrNull { it.name == this[Keys.plusPlan] },
             plusRenewsAtMillis = this[Keys.plusRenewsAt],
         )
@@ -73,8 +90,8 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         this[Keys.quietStart] = s.quietHoursStartMinute
         this[Keys.quietEnd] = s.quietHoursEndMinute
         this[Keys.strictByDefault] = s.strictByDefault
-        this[Keys.emergencyUnlocks] = s.emergencyUnlocksLeft
-        this[Keys.unlockPassPrinted] = s.unlockPassPrinted
+        this[Keys.emergencyUnlocksUsed] = s.emergencyUnlocksUsed
+        s.emergencyUnlocksMonth?.let { this[Keys.emergencyUnlocksMonth] = it } ?: remove(Keys.emergencyUnlocksMonth)
         s.plusPlan?.let { this[Keys.plusPlan] = it.name } ?: remove(Keys.plusPlan)
         s.plusRenewsAtMillis?.let { this[Keys.plusRenewsAt] = it } ?: remove(Keys.plusRenewsAt)
     }
@@ -98,8 +115,8 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         val quietStart = intPreferencesKey("quiet_start")
         val quietEnd = intPreferencesKey("quiet_end")
         val strictByDefault = booleanPreferencesKey("strict_by_default")
-        val emergencyUnlocks = intPreferencesKey("emergency_unlocks_left")
-        val unlockPassPrinted = booleanPreferencesKey("unlock_pass_printed")
+        val emergencyUnlocksUsed = intPreferencesKey("emergency_unlocks_used")
+        val emergencyUnlocksMonth = intPreferencesKey("emergency_unlocks_month")
         val plusPlan = stringPreferencesKey("plus_plan")
         val plusRenewsAt = longPreferencesKey("plus_renews_at")
     }

@@ -76,8 +76,6 @@ internal class RuleFactory(
         )
     }
 
-    fun fromSavedTemplate(saved: Rule): Rule = saved.copy(id = newId(), activeSince = null, pausedUntil = null, streakDays = 0)
-
     /** "Instagram & X", "Instagram & 2 more". */
     fun lockName(apps: List<UsageApp>): String = appsName(
         apps,

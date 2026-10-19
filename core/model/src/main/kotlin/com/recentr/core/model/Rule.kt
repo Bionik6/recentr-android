@@ -162,7 +162,7 @@ data class Rule(
      * Strict mode holds while the rule blocks (the running session, the scheduled window): no
      * edits, deletes, pauses or unlocks, and it can't be turned off until the session ends.
      */
-    fun isStrictLocked(now: Long): Boolean = strictMode && isEnforcing(now)
+    fun isStrictLocked(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean = strictMode && isEnforcing(now, zone)
 
     /** Rules that end (sessions, routines) can be made strict: the lock lifts when they end. */
     val canBeStrict: Boolean

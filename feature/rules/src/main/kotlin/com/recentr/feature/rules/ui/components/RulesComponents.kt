@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.selection.toggleable
@@ -175,7 +174,8 @@ internal fun SectionCaption(text: String, modifier: Modifier = Modifier) {
 private val MiniCardShadow = Shadow(radius = 19.84.dp, color = Color(0x1F0E1220), offset = DpOffset(0.dp, 7.44.dp))
 
 /**
- * Template card scaled to 62% (session "Suggestions" row, 102.3×130.2 in the design). The
+ * Template card scaled to 62% (session "Suggestions" row, 102.3×130.2 in the design). Its width
+ * comes from [modifier] (the row shares it out), its height keeps the design's proportions. The
  * design-system [com.recentr.core.designsystem.component.TemplateCard] has fixed 16dp paddings.
  */
 @Composable
@@ -191,7 +191,7 @@ internal fun MiniTemplateCard(
     val type = RecentrTheme.typography
     Column(
         modifier = modifier
-            .size(width = 102.3.dp, height = 130.2.dp)
+            .aspectRatio(102.3f / 130.2f)
             .recentrShadow(MiniCardShadow, RecentrShapes.card)
             .clip(RecentrShapes.card)
             .background(color.brush)
@@ -450,9 +450,15 @@ internal fun TimeCard(
             .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
             .padding(horizontal = 16.dp, vertical = 14.dp),
     ) {
-        Text(label, style = RecentrTheme.typography.captionMedium, color = colors.feedbackDanger, maxLines = 1)
-        Text(value, style = RecentrTheme.typography.displayLarge, color = colors.textPrimary, maxLines = 1)
-        Text(caption, style = RecentrTheme.typography.captionRegular, color = colors.textTertiary, maxLines = 1)
+        Text(label, style = RecentrTheme.typography.captionMedium, color = colors.feedbackDanger, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        // Shrinks rather than clips when the card is held narrower than its value ("21:16 – 21:30").
+        BasicText(
+            value,
+            style = RecentrTheme.typography.displayLarge.copy(color = colors.textPrimary),
+            maxLines = 1,
+            autoSize = TextAutoSize.StepBased(minFontSize = 22.sp, maxFontSize = RecentrTheme.typography.displayLarge.fontSize, stepSize = 1.sp),
+        )
+        Text(caption, style = RecentrTheme.typography.captionRegular, color = colors.textTertiary, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
 }
 

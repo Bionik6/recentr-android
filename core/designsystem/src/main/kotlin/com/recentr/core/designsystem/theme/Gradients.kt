@@ -64,6 +64,9 @@ object RecentrGradients {
         listOf(0f to Color(0xFF1F5CDB), 0.71429f to Color(0xFF0D1740)),
     )
 
+    /** Full-screen "App blocked shield" (Unlock friction 56): sky at the top, night at the bottom. */
+    val shieldScreen: Brush = Brush.verticalGradient(listOf(Color(0xFF1F5CDB), Color(0xFF0A1233)))
+
     // Template card colours (Rules · Template Card · Color)
     val templateSky: Brush = CssLinearGradient(
         136.33f,

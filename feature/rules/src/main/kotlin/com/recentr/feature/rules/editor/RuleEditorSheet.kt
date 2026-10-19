@@ -62,11 +62,6 @@ internal fun RuleEditorDestination(
             onStrictChange = { on -> viewModel.update { it.copy(strictMode = on) } },
             strictLocked = !state.isNew && state.draft.isStrictLocked(now),
             onSuggestion = viewModel::applySuggestion,
-            onSaveTemplate = {
-                // Saving closes the sheet so the confirmation toast is visible on the list.
-                viewModel.saveAsTemplate()
-                closer.close()
-            },
             onCommit = {
                 viewModel.commit()
                 // The rule can't put apps on hold yet: explain blocking first, then close.

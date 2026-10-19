@@ -2,6 +2,7 @@ package com.recentr.feature.profile
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -12,7 +13,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.recentr.core.data.RecentrData
+import com.recentr.core.model.UnlockMethod
 import com.recentr.feature.profile.overview.EditProfileSheet
 import com.recentr.feature.profile.overview.ProfileScreen
 import com.recentr.feature.profile.overview.ProfileViewModel
@@ -26,6 +29,7 @@ import com.recentr.feature.profile.settings.NotificationsScreen
 import com.recentr.feature.profile.settings.SettingsActions
 import com.recentr.feature.profile.settings.SettingsScreen
 import com.recentr.feature.profile.settings.SettingsViewModel
+import com.recentr.feature.profile.settings.UnlockPassScreen
 import kotlinx.serialization.Serializable
 
 @Serializable internal data object SettingsRoute
@@ -43,6 +47,9 @@ import kotlinx.serialization.Serializable
 @Serializable internal data object PlusRoute
 
 @Serializable internal data object SubscriptionRoute
+
+/** 53 · Your unlock pass, of the rule [ruleId]. */
+@Serializable internal data class UnlockPassRoute(val ruleId: String)
 
 /**
  * Profile tab content (Figma 61 · Overview + 62 · Edit sheet). Drawn under the floating tab bar:
@@ -93,9 +100,11 @@ fun NavGraphBuilder.profileDestinations(
         val viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
         val state by viewModel.state.collectAsStateWithLifecycle()
         val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
+        val rules by RecentrData.rules.rules.collectAsStateWithLifecycle()
         SettingsScreen(
             state = state,
             blockingOn = blockingOn,
+            passRules = rules.filter { it.unlockMethod == UnlockMethod.ScanCode },
             actions = SettingsActions(
                 onBack = back,
                 onOpenNotifications = { navController.navigate(SettingsNotificationsRoute) { launchSingleTop = true } },
@@ -109,6 +118,7 @@ fun NavGraphBuilder.profileDestinations(
                 onUpdate = viewModel::update,
                 onLogOut = { viewModel.logOut(onSignedOut) },
                 onDeleteAccount = { viewModel.deleteAccount(onSignedOut) },
+                onOpenUnlockPass = { id -> navController.navigate(UnlockPassRoute(id)) { launchSingleTop = true } },
                 onReplayOnboarding = onReplayOnboarding,
                 onOpenDesignSystem = onOpenDesignSystem,
             ),
@@ -134,6 +144,12 @@ fun NavGraphBuilder.profileDestinations(
         )
     }
     composable<SettingsHelpRoute> { HelpScreen(onBack = back) }
+    composable<UnlockPassRoute> { entry ->
+        val ruleId = entry.toRoute<UnlockPassRoute>().ruleId
+        val rules by RecentrData.rules.rules.collectAsStateWithLifecycle()
+        val rule = rules.firstOrNull { it.id == ruleId }
+        if (rule != null) UnlockPassScreen(rule = rule, onBack = back) else LaunchedEffect(Unit) { back() }
+    }
     composable<WeeklyRecapRoute> { WeeklyRecapDestination(onClose = back) }
     composable<PlusRoute> {
         val viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)

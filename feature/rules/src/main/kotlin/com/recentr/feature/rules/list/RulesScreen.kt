@@ -64,7 +64,6 @@ import com.recentr.feature.rules.model.BuiltInTemplate
 import com.recentr.feature.rules.model.TemplateCardUi
 import com.recentr.feature.rules.model.TemplateCategory
 import com.recentr.feature.rules.model.toCard
-import com.recentr.feature.rules.model.toSavedTemplateCard
 import com.recentr.feature.rules.ui.asSticker
 import com.recentr.feature.rules.ui.clockLabel
 import com.recentr.feature.rules.ui.components.RuleGroupHeader
@@ -219,7 +218,7 @@ private fun RulesList(state: RulesUiState, listState: LazyListState, bottom: and
         }
         if (!state.templatesCollapsed) {
             item(key = "templates-row") {
-                val cards = allTemplateCards(state.savedTemplates)
+                val cards = templateCards()
                 LazyRow(
                     contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 28.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -245,7 +244,7 @@ private fun RulesList(state: RulesUiState, listState: LazyListState, bottom: and
 @Composable
 private fun TemplatesList(state: RulesUiState, listState: LazyListState, bottom: androidx.compose.ui.unit.Dp, actions: RulesListActions) {
     val statusBar = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val cards = allTemplateCards(state.savedTemplates).filter { state.filter == null || it.category == state.filter }
+    val cards = templateCards().filter { state.filter == null || it.category == state.filter }
     LazyColumn(
         state = listState,
         modifier = Modifier.fillMaxSize(),
@@ -300,8 +299,7 @@ private fun TemplatesList(state: RulesUiState, listState: LazyListState, bottom:
 }
 
 @Composable
-private fun allTemplateCards(saved: List<Rule>): List<TemplateCardUi> =
-    BuiltInTemplate.entries.map { it.toCard() } + saved.map { it.toSavedTemplateCard() }
+private fun templateCards(): List<TemplateCardUi> = BuiltInTemplate.entries.map { it.toCard() }
 
 @Composable
 private fun TemplateFilters(selected: TemplateCategory?, onSelect: (TemplateCategory?) -> Unit, modifier: Modifier = Modifier) {

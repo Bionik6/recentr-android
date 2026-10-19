@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.recentr.core.data.heldUntil
 import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
@@ -25,16 +26,28 @@ import com.recentr.feature.rules.ui.habitRepeatLabel
 import com.recentr.feature.rules.ui.scheduleLabel
 import com.recentr.feature.rules.ui.components.IconTintChip
 import com.recentr.feature.rules.ui.components.overlayBorder
+import java.time.ZoneId
+
+/**
+ * When the card's countdown ends: the running session, or the scheduled window a session or
+ * routine is in. Null when nothing counts down (locks, limits and habits hold without one).
+ */
+internal fun Rule.runsUntil(now: Long): Long? = when {
+    isRunning(now) -> sessionEndsAt
+    (type == RuleType.Session || type == RuleType.Bedtime) && isEnforcing(now) -> heldUntil(now, ZoneId.systemDefault())
+    else -> null
+}
 
 /** Figma "Rule Card" filled from a [Rule] at time [now] (status chip, schedule chip, value). */
 @Composable
 internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
-    val running = rule.isRunning(now)
+    val runsUntil = rule.runsUntil(now)
+    val running = runsUntil != null
     val paused = rule.isPaused(now)
     val value = when {
         paused -> stringResource(R.string.rules_value_paused)
-        running -> stringResource(R.string.rules_value_left, countdown((rule.sessionEndsAt ?: now) - now))
+        runsUntil != null -> stringResource(R.string.rules_value_left, countdown(runsUntil - now))
         else -> when (rule.type) {
             RuleType.Lock -> stringResource(R.string.rules_value_locked)
             RuleType.Session -> stringResource(
@@ -68,7 +81,10 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
                 RecentrChip(scheduleChip(rule), style = RecentrChipStyle.Outline)
             }
             running -> {
-                RecentrChip(stringResource(R.string.rules_status_ongoing), style = RecentrChipStyle.Success)
+                RecentrChip(
+                    stringResource(if (rule.type == RuleType.Bedtime) R.string.rules_status_blocking else R.string.rules_status_ongoing),
+                    style = RecentrChipStyle.Success,
+                )
                 if (rule.strictMode) {
                     IconTintChip(stringResource(R.string.rules_strict_mode), RecentrIcon.Shield, colors.accentTangerine)
                 } else {

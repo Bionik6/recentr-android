@@ -1,70 +1,74 @@
 package com.recentr.app.blocking
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.recentr.app.R
+import com.recentr.core.data.EmergencyUnlocks
 import com.recentr.core.data.HoldReason
 import com.recentr.core.data.RecentrData
-import com.recentr.core.data.canOpenAnyway
+import com.recentr.core.data.UnlockStep
 import com.recentr.core.data.heldUntil
+import com.recentr.core.data.unlockStep
 import com.recentr.core.data.unlocksLeft
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
-import com.recentr.core.designsystem.component.RecentrTextField
 import com.recentr.core.designsystem.format.wallClockTime
-import com.recentr.core.designsystem.illustration.InstalledAppIcon
-import com.recentr.core.designsystem.illustration.Mascot
-import com.recentr.core.designsystem.illustration.MascotMood
-import com.recentr.core.designsystem.theme.RecentrElevation
+import com.recentr.core.designsystem.haptics.SensoryFeedback
+import com.recentr.core.designsystem.icon.RecentrIcon
+import com.recentr.core.designsystem.icon.RecentrIconImage
+import com.recentr.core.designsystem.illustration.Sticker
+import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.entrance
+import com.recentr.core.designsystem.motion.floating
+import com.recentr.core.designsystem.theme.RecentrGradients
+import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.core.designsystem.theme.recentrShadow
+import com.recentr.core.designsystem.util.SystemBarsAppearance
+import com.recentr.core.model.AppSettings
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
-import com.recentr.core.model.UnlockMethod
+import java.time.Instant
 import java.time.ZoneId
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
- * The hold screen of [packageName] (Figma 96 "App on hold": impatient mascot and the held app,
- * tilted): why it is on hold, "Close", and — when the rule allows it — "Open anyway" after its
- * unlock (wait, reason or retype). [onReleased] runs once the app may be used again.
+ * The hold screen of [packageName]: the shield (Figma 56 "App blocked shield") over an app a rule
+ * or the focus session keeps closed, then — when the rule allows it — the unlock friction behind
+ * "Unlock anyway" (48–54) and the Unlocked card (55). [onReleased] runs once the app may be used
+ * again; "Open <app>" on the Unlocked card is that moment too.
  */
 @Composable
 internal fun HoldScreen(
@@ -82,211 +86,232 @@ internal fun HoldScreen(
     val holds = RecentrData.holds
     val rules by RecentrData.rules.rules.collectAsStateWithLifecycle()
     val run by RecentrData.focus.run.collectAsStateWithLifecycle()
-    val openUntil by holds.openUntil.collectAsStateWithLifecycle()
-    val reason = remember(packageName, now, rules, run, openUntil) { holds.reason(packageName, now) }
+    val unlocks by holds.unlocks.collectAsStateWithLifecycle()
+    val settings by RecentrData.settings.settings.collectAsStateWithLifecycle(AppSettings())
+    val reason = remember(packageName, now, rules, run, unlocks) { holds.reason(packageName, now) }
+    val label = remember(packageName) { RecentrData.installedApps.app(packageName)?.label ?: packageName }
+    val zone = ZoneId.systemDefault()
+    val emergencyLeft = EmergencyUnlocks.left(settings, now, zone)
+    val scope = rememberCoroutineScope()
+
+    var step by rememberSaveable(packageName) { mutableStateOf<UnlockStep?>(null) }
+    /** On the scan step: typing the pass's code instead. */
+    var typingPasscode by rememberSaveable(packageName) { mutableStateOf(false) }
+    /** Until when the app was just unlocked, while the Unlocked card shows. */
+    var unlockedUntil by rememberSaveable(packageName) { mutableStateOf<Long?>(null) }
+    /** An emergency unlock being spent: one at a time. */
+    var spendingEmergency by remember { mutableStateOf(false) }
+
+    val unlocked = unlockedUntil?.let { now < it } == true
+    SensoryFeedback(unlocked) { if (unlocked) success() }
+
+    if (unlocked) {
+        UnlockedStep(
+            packageName = packageName,
+            label = label,
+            until = unlockedUntil ?: now,
+            now = now,
+            onOpen = onReleased,
+            onLockAgain = {
+                holds.lockAgain(packageName, System.currentTimeMillis())
+                unlockedUntil = null
+                onClose()
+            },
+        )
+        return
+    }
     if (reason == null) {
         LaunchedEffect(Unit) { onReleased() }
         return
     }
-    val label = remember(packageName) { RecentrData.installedApps.app(packageName)?.label ?: packageName }
-    HoldCard(packageName) {
-        when (reason) {
-            is HoldReason.Focus -> {
-                val focusRun = reason.run
-                val endsAt = now + focusRun.remainingMillis(now)
-                Heading(
-                    title = stringResource(R.string.hold_focus_title, (focusRun.focusedMillis(now) / 60_000L).toInt()),
-                    body = stringResource(R.string.hold_focus_body, label, wallClockTime(endsAt)),
-                )
-                RecentrButton(
-                    text = stringResource(R.string.hold_back_to_focus),
-                    onClick = {
-                        RecentrData.focus.resistUrge()
-                        onOpenRecentr()
-                    },
-                    style = RecentrButtonStyle.Brand,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                RecentrButton(
-                    text = stringResource(R.string.hold_end_focus),
-                    onClick = { RecentrData.focus.end(System.currentTimeMillis()) },
-                    style = RecentrButtonStyle.Soft,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-            is HoldReason.ByRule -> RuleHold(reason.rule, packageName, label, now, onClose, onOpenRecentr)
+    val rule = (reason as? HoldReason.ByRule)?.rule
+    val currentStep = step.takeIf { rule != null && it != null && rule.unlockStep(now, emergencyLeft) == it }
+    BackHandler(enabled = currentStep != null) {
+        if (typingPasscode) typingPasscode = false else step = null
+    }
+
+    fun unlock(through: Rule, minutes: Int) {
+        val at = System.currentTimeMillis()
+        holds.openAnyway(through, packageName, at, minutes)
+        unlockedUntil = at + minutes * 60_000L
+        step = null
+        typingPasscode = false
+    }
+
+    if (rule == null || currentStep == null) {
+        Shield(reason, packageName, label, now, emergencyLeft, onClose, onOpenRecentr, onUnlock = { step = it })
+        return
+    }
+    when (currentStep) {
+        UnlockStep.Wait -> WaitStep(rule, packageName, label, onNevermind = onClose, onUnlock = { minutes -> unlock(rule, minutes) })
+        UnlockStep.Reason -> ReasonStep(rule, packageName, label, onUnlock = { unlock(rule, rule.unlockDurationMinutes) })
+        UnlockStep.Retype -> RetypeStep(rule, packageName, label, onUnlock = { unlock(rule, rule.unlockDurationMinutes) })
+        UnlockStep.Scan -> if (typingPasscode) {
+            PasscodeStep(rule, packageName, label, onUnlock = { unlock(rule, rule.unlockDurationMinutes) })
+        } else {
+            ScanStep(
+                rule = rule,
+                onClose = onClose,
+                onUsePasscode = { typingPasscode = true },
+                onUnlock = { unlock(rule, rule.unlockDurationMinutes) },
+            )
         }
+        UnlockStep.Emergency -> EmergencyStep(
+            packageName = packageName,
+            label = label,
+            unlocksLeft = emergencyLeft,
+            onCancel = onClose,
+            onUnlock = {
+                if (!spendingEmergency) {
+                    spendingEmergency = true
+                    scope.launch {
+                        val at = System.currentTimeMillis()
+                        if (holds.emergencyUnlock(packageName, at)) {
+                            unlockedUntil = at + EmergencyUnlocks.MINUTES * 60_000L
+                            step = null
+                        }
+                        spendingEmergency = false
+                    }
+                }
+            },
+        )
     }
 }
 
+/** 56 · App blocked shield: why the app is closed, "I've got this", and the way past it, if any. */
 @Composable
-private fun ColumnScope.RuleHold(
-    rule: Rule,
+private fun Shield(
+    reason: HoldReason,
     packageName: String,
     label: String,
     now: Long,
+    emergencyLeft: Int,
     onClose: () -> Unit,
     onOpenRecentr: () -> Unit,
+    onUnlock: (UnlockStep) -> Unit,
 ) {
-    val until = rule.heldUntil(now, ZoneId.systemDefault())
-    Heading(
-        title = stringResource(R.string.hold_rule_title, label),
-        body = when {
-            rule.type == RuleType.Limit -> stringResource(R.string.hold_limit_body, duration(rule.limitMinutes ?: 0), rule.name)
-            rule.type == RuleType.Habit -> stringResource(R.string.hold_habit_body, rule.name)
-            until != null -> stringResource(R.string.hold_rule_until, rule.name, wallClockTime(until))
-            else -> stringResource(R.string.hold_rule_for_now, rule.name)
-        },
-    )
-    rule.note?.takeIf { it.isNotBlank() }?.let { note ->
-        Text(
-            stringResource(R.string.hold_note, note),
-            style = RecentrTheme.typography.captionRegular,
-            color = RecentrTheme.colors.textTertiary,
-            textAlign = TextAlign.Center,
-        )
+    val title: String
+    val subtitle: String
+    val stat: String?
+    val primary: String
+    val onPrimary: () -> Unit
+    val links = mutableListOf<Pair<String, () -> Unit>>()
+    when (reason) {
+        is HoldReason.Focus -> {
+            val focusRun = reason.run
+            val focused = (focusRun.focusedMillis(now) / 60_000L).toInt()
+            title = stringResource(R.string.shield_on_hold, label)
+            subtitle = stringResource(R.string.shield_until, focusRun.config.label, wallClockTime(now + focusRun.remainingMillis(now)))
+            stat = if (focused < 1) stringResource(R.string.shield_focus_started) else stringResource(R.string.shield_focus_minutes, focused)
+            primary = stringResource(R.string.shield_back_to_focus)
+            onPrimary = {
+                RecentrData.focus.resistUrge()
+                onOpenRecentr()
+            }
+            links += stringResource(R.string.shield_end_focus) to { RecentrData.focus.end(System.currentTimeMillis()) }
+        }
+        is HoldReason.ByRule -> {
+            val rule = reason.rule
+            val zone = ZoneId.systemDefault()
+            title = stringResource(R.string.shield_resting, label)
+            subtitle = ruleSubtitle(rule, now, zone)
+            stat = RecentrData.holds.stayedOffSince(rule, packageName, now)
+                ?.let { now - it }
+                ?.takeIf { it >= 60_000L }
+                ?.let { stringResource(R.string.shield_stayed_off, stayedOff(it)) }
+            primary = stringResource(R.string.shield_got_this)
+            onPrimary = onClose
+            if (rule.type == RuleType.Habit) links += stringResource(R.string.shield_open_recentr) to onOpenRecentr
+            rule.unlockStep(now, emergencyLeft)?.let { step ->
+                val text = when {
+                    step == UnlockStep.Emergency -> stringResource(R.string.shield_emergency)
+                    rule.unlocksPerDay != null ->
+                        stringResource(R.string.shield_unlock_anyway_left, rule.unlocksLeft ?: 0, rule.unlocksPerDay ?: 0)
+                    else -> stringResource(R.string.shield_unlock_anyway)
+                }
+                links += text to { onUnlock(step) }
+            }
+        }
     }
-    RecentrButton(text = stringResource(R.string.hold_close, label), onClick = onClose, modifier = Modifier.fillMaxWidth())
-    if (rule.type == RuleType.Habit) {
-        RecentrButton(
-            text = stringResource(R.string.hold_open_recentr),
-            onClick = onOpenRecentr,
-            style = RecentrButtonStyle.Soft,
-            modifier = Modifier.fillMaxWidth(),
-        )
-    }
-    if (rule.canOpenAnyway(now)) {
-        OpenAnyway(rule, label) { RecentrData.holds.openAnyway(rule, packageName, System.currentTimeMillis()) }
-    }
-}
 
-/** "Open anyway", then the rule's unlock: wait the countdown, give a reason or retype a sentence. */
-@Composable
-private fun ColumnScope.OpenAnyway(rule: Rule, label: String, onOpen: () -> Unit) {
-    var unlocking by rememberSaveable { mutableStateOf(false) }
-    val openText = stringResource(R.string.hold_open_for, rule.unlockDurationMinutes)
-    if (!unlocking) {
-        RecentrButton(
-            text = stringResource(R.string.hold_open_anyway),
-            onClick = { unlocking = true },
-            style = RecentrButtonStyle.Soft,
-            modifier = Modifier.fillMaxWidth(),
-        )
-    } else {
-        when (rule.unlockMethod) {
-            UnlockMethod.Reason -> {
-                var reason by rememberSaveable { mutableStateOf("") }
-                RecentrTextField(
-                    value = reason,
-                    onValueChange = { reason = it },
-                    placeholder = stringResource(R.string.hold_reason_hint),
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                RecentrButton(
-                    text = openText,
-                    onClick = onOpen,
-                    style = RecentrButtonStyle.Soft,
-                    enabled = reason.trim().length >= MIN_REASON_LENGTH,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-            UnlockMethod.Retype -> {
-                val sentence = stringResource(R.string.hold_retype_phrase, label)
-                var typed by rememberSaveable { mutableStateOf("") }
+    val colors = RecentrTheme.colors
+    SystemBarsAppearance(lightIcons = true)
+    Box(Modifier.fillMaxSize().background(RecentrGradients.shieldScreen)) {
+        Column(
+            Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Column(
+                Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(Modifier.height(126.dp))
+                StickerImage(Sticker.Lock, size = 168.dp, modifier = Modifier.entrance(blur = false).floating())
+                Spacer(Modifier.height(23.dp))
                 Text(
-                    stringResource(R.string.hold_retype_prompt, sentence),
-                    style = RecentrTheme.typography.captionMedium,
-                    color = RecentrTheme.colors.textSecondary,
+                    title,
+                    style = RecentrTheme.typography.title1,
+                    color = colors.textOnDark,
                     textAlign = TextAlign.Center,
+                    modifier = Modifier.entrance(80),
                 )
-                RecentrTextField(
-                    value = typed,
-                    onValueChange = { typed = it },
-                    placeholder = stringResource(R.string.hold_retype_hint),
-                    modifier = Modifier.fillMaxWidth(),
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    subtitle,
+                    style = RecentrTheme.typography.bodyMedium,
+                    color = colors.textOnDarkMuted,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.entrance(140),
                 )
-                RecentrButton(
-                    text = openText,
-                    onClick = onOpen,
-                    style = RecentrButtonStyle.Soft,
-                    enabled = typed.trim().equals(sentence, ignoreCase = true),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-            else -> {
-                var left by rememberSaveable { mutableIntStateOf(rule.waitSeconds) }
-                LaunchedEffect(Unit) {
-                    while (left > 0) {
-                        delay(1_000)
-                        left--
+                if (stat != null) {
+                    Spacer(Modifier.height(29.dp))
+                    Row(
+                        Modifier
+                            .entrance(200)
+                            .clip(RecentrShapes.full)
+                            .background(colors.alphaWhite24)
+                            .padding(horizontal = 16.dp, vertical = 10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RecentrIconImage(RecentrIcon.Flame, tint = colors.textOnDark)
+                        Text(stat, style = RecentrTheme.typography.captionMedium, color = colors.textOnDark)
                     }
                 }
-                RecentrButton(
-                    text = if (left > 0) stringResource(R.string.hold_open_in, left) else openText,
-                    onClick = onOpen,
-                    style = RecentrButtonStyle.Soft,
-                    enabled = left == 0,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                Spacer(Modifier.height(24.dp))
             }
-        }
-    }
-    rule.unlocksLeft?.let { left ->
-        Text(
-            pluralStringResource(R.plurals.hold_unlocks_left, left, left),
-            style = RecentrTheme.typography.captionRegular,
-            color = RecentrTheme.colors.textTertiary,
-        )
-    }
-}
-
-/** The page and its card: mascot with the held app, then [content]. */
-@Composable
-private fun HoldCard(packageName: String, content: @Composable ColumnScope.() -> Unit) {
-    val colors = RecentrTheme.colors
-    val shape = RoundedCornerShape(32.dp)
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(colors.bgPage)
-            .systemBarsPadding()
-            .imePadding(),
-    ) {
-        Column(
-            Modifier
-                .align(Alignment.Center)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 31.dp, vertical = 24.dp)
-                .widthIn(max = 340.dp)
-                .fillMaxWidth()
-                .recentrShadow(RecentrElevation.card, shape)
-                .clip(shape)
-                .background(colors.bgSurface)
-                .padding(start = 22.dp, end = 22.dp, top = 24.dp, bottom = 22.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-            Box(Modifier.size(width = 160.dp, height = 110.dp)) {
-                Mascot(MascotMood.Impatient, width = 88.dp, modifier = Modifier.offset(x = 20.dp))
-                InstalledAppIcon(
-                    packageName,
-                    size = 52.dp,
+            RecentrButton(
+                text = primary,
+                onClick = onPrimary,
+                style = RecentrButtonStyle.Secondary,
+                modifier = Modifier.fillMaxWidth().entrance(260, blur = false),
+            )
+            links.forEach { (text, onClick) ->
+                Text(
+                    text,
+                    style = RecentrTheme.typography.bodyMedium,
+                    color = colors.textOnDarkMuted,
+                    textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .offset(x = 95.dp, y = 56.dp)
-                        .graphicsLayer { rotationZ = 10f },
+                        .padding(top = 14.dp)
+                        .clip(RecentrShapes.full)
+                        .clickable(role = Role.Button, onClick = onClick)
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
                 )
             }
-            content()
+            Spacer(Modifier.height(if (links.isEmpty()) 14.dp else 20.dp))
         }
     }
 }
 
+/** "Night Routine · until 7:00 AM", "Social time · today’s 1h used"… */
 @Composable
-private fun ColumnScope.Heading(title: String, body: String) {
-    Text(title, style = RecentrTheme.typography.title2, color = RecentrTheme.colors.textPrimary, textAlign = TextAlign.Center)
-    Text(body, style = RecentrTheme.typography.bodyRegular, color = RecentrTheme.colors.textSecondary, textAlign = TextAlign.Center)
-    Spacer(Modifier.height(4.dp))
+private fun ruleSubtitle(rule: Rule, now: Long, zone: ZoneId): String {
+    if (rule.type == RuleType.Limit) return stringResource(R.string.shield_limit, rule.name, duration(rule.limitMinutes ?: 0))
+    if (rule.type == RuleType.Habit) return stringResource(R.string.shield_habit, rule.name)
+    val until = rule.heldUntil(now, zone) ?: return rule.name
+    val sameDay = Instant.ofEpochMilli(until).atZone(zone).toLocalDate() == Instant.ofEpochMilli(now).atZone(zone).toLocalDate()
+    return stringResource(if (sameDay) R.string.shield_until else R.string.shield_until_tomorrow, rule.name, wallClockTime(until))
 }
 
 /** "2h 15m", "45m", "2h". */
@@ -295,10 +320,21 @@ private fun duration(minutes: Int): String {
     val h = minutes / 60
     val m = minutes % 60
     return when {
-        h == 0 -> stringResource(R.string.hold_duration_m, m)
-        m == 0 -> stringResource(R.string.hold_duration_h, h)
-        else -> stringResource(R.string.hold_duration_h_m, h, m)
+        h == 0 -> stringResource(R.string.duration_m, m)
+        m == 0 -> stringResource(R.string.duration_h, h)
+        else -> stringResource(R.string.duration_h_m, h, m)
     }
 }
 
-private const val MIN_REASON_LENGTH = 3
+/** "6h15", "38m", "2h". */
+@Composable
+private fun stayedOff(millis: Long): String {
+    val minutes = (millis / 60_000L).toInt()
+    val h = minutes / 60
+    val m = minutes % 60
+    return when {
+        h == 0 -> stringResource(R.string.duration_m, m)
+        m == 0 -> stringResource(R.string.duration_h, h)
+        else -> stringResource(R.string.stayed_off_h_m, h, m)
+    }
+}

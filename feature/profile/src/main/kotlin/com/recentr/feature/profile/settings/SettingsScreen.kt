@@ -3,6 +3,7 @@ package com.recentr.feature.profile.settings
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.text.format.DateFormat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import com.recentr.core.data.BlockingAccess
+import com.recentr.core.data.EmergencyUnlocks
 import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.designsystem.component.RecentrAlertDialog
 import com.recentr.core.designsystem.component.SettingRow
@@ -32,10 +34,14 @@ import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AppLanguage
 import com.recentr.core.model.AppSettings
+import com.recentr.core.model.Rule
 import com.recentr.core.model.TimeFormat
 import com.recentr.feature.profile.R
 import com.recentr.feature.profile.ui.SettingsPage
 import com.recentr.feature.profile.ui.label
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 /** Callbacks of the Settings screen. Developer actions are only passed in debug builds. */
@@ -49,6 +55,8 @@ internal class SettingsActions(
     val onUpdate: ((AppSettings) -> AppSettings) -> Unit,
     val onLogOut: () -> Unit,
     val onDeleteAccount: () -> Unit,
+    /** Opens a rule's unlock pass (53). */
+    val onOpenUnlockPass: (ruleId: String) -> Unit = {},
     val onReplayOnboarding: (() -> Unit)? = null,
     val onOpenDesignSystem: (() -> Unit)? = null,
 )
@@ -63,12 +71,17 @@ internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     /** Whether app blocking (the accessibility service) is on. */
     blockingOn: Boolean = true,
+    /** The rules unlocked by scanning a printed pass. */
+    passRules: List<Rule> = emptyList(),
 ) {
     val context = LocalContext.current
     val settings = state.settings
     var overlay by rememberSaveable { mutableStateOf<SettingsOverlay?>(null) }
     val notificationsOn = settings.anyNotification && NotificationManagerCompat.from(context).areNotificationsEnabled()
     val timeFormat = settings.timeFormat ?: if (LocalUse24HourClock.current) TimeFormat.TwentyFourHour else TimeFormat.AmPm
+    val now = System.currentTimeMillis()
+    val zone = ZoneId.systemDefault()
+    val emergencyLeft = EmergencyUnlocks.left(settings, now, zone)
 
     SettingsPage(
         title = stringResource(R.string.settings_title),
@@ -103,14 +116,20 @@ internal fun SettingsScreen(
                     caption = stringResource(R.string.settings_strict_caption),
                     modifier = Modifier.fillMaxWidth(),
                 )
-                ValueRow(R.string.settings_emergency_unlocks, stringResource(R.string.settings_unlocks_left, settings.emergencyUnlocksLeft), RecentrIcon.Lock) {
+                ValueRow(R.string.settings_emergency_unlocks, stringResource(R.string.settings_unlocks_left, emergencyLeft), RecentrIcon.Lock) {
                     overlay = SettingsOverlay.Emergency
                 }
                 ValueRow(
                     R.string.settings_unlock_pass,
-                    stringResource(if (settings.unlockPassPrinted) R.string.settings_pass_printed else R.string.settings_pass_not_printed),
+                    when (passRules.size) {
+                        0 -> stringResource(R.string.settings_pass_none)
+                        1 -> passRules.first().name
+                        else -> stringResource(R.string.settings_pass_rules, passRules.size)
+                    },
                     RecentrIcon.Qr,
-                ) { overlay = SettingsOverlay.UnlockPass }
+                ) {
+                    passRules.singleOrNull()?.let { actions.onOpenUnlockPass(it.id) } ?: run { overlay = SettingsOverlay.UnlockPass }
+                }
             }
             Spacer(Modifier.height(6.dp))
             Section(R.string.settings_support) {
@@ -158,25 +177,15 @@ internal fun SettingsScreen(
         )
         SettingsOverlay.Emergency -> RecentrAlertDialog(
             title = stringResource(R.string.emergency_title),
-            body = stringResource(R.string.emergency_body, settings.emergencyUnlocksLeft),
+            body = stringResource(R.string.emergency_body, emergencyLeft, EmergencyUnlocks.PER_MONTH, monthDay(EmergencyUnlocks.resetAt(now, zone))),
             primaryText = stringResource(R.string.dialog_ok),
             onPrimary = { overlay = null },
             onDismissRequest = { overlay = null },
         )
-        SettingsOverlay.UnlockPass -> RecentrAlertDialog(
-            title = stringResource(R.string.unlock_pass_title),
-            body = stringResource(R.string.unlock_pass_body),
-            primaryText = stringResource(R.string.unlock_pass_printed),
-            onPrimary = {
-                overlay = null
-                actions.onUpdate { it.copy(unlockPassPrinted = true) }
-            },
+        SettingsOverlay.UnlockPass -> UnlockPassSheet(
+            rules = passRules,
+            onOpen = actions.onOpenUnlockPass,
             onDismissRequest = { overlay = null },
-            secondaryText = stringResource(R.string.unlock_pass_not_printed),
-            onSecondary = {
-                overlay = null
-                actions.onUpdate { it.copy(unlockPassPrinted = false) }
-            },
         )
         SettingsOverlay.LogOut -> LogOutSheet(onLogOut = actions.onLogOut, onDismissRequest = { overlay = null })
         SettingsOverlay.Delete -> DeleteAccountSheet(onDelete = actions.onDeleteAccount, onDismissRequest = { overlay = null })
@@ -193,6 +202,13 @@ private fun Section(title: Int, rows: @Composable ColumnScope.() -> Unit) {
 @Composable
 private fun ValueRow(label: Int, value: String?, icon: RecentrIcon, onClick: () -> Unit) {
     SettingRow(label = stringResource(label), value = value, icon = icon, onClick = onClick, modifier = Modifier.fillMaxWidth())
+}
+
+/** "November 1", in the device's language. */
+private fun monthDay(epochMillis: Long): String {
+    val locale = Locale.getDefault()
+    val pattern = DateFormat.getBestDateTimePattern(locale, "MMMMd")
+    return DateTimeFormatter.ofPattern(pattern, locale).format(Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()))
 }
 
 /** The language shown when the app follows the system: the system one if offered, else English. */

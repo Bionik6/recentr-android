@@ -35,11 +35,10 @@ class RulesRepositoryTest {
     fun `starts empty without a saved file`() {
         val repo = repository()
         assertTrue(repo.rules.value.isEmpty())
-        assertTrue(repo.savedTemplates.value.isEmpty())
     }
 
     @Test
-    fun `rules and templates survive a restart`() {
+    fun `rules survive a restart`() {
         val rule = Rule(
             id = "r",
             type = RuleType.Session,
@@ -49,15 +48,19 @@ class RulesRepositoryTest {
             pausedUntil = Long.MAX_VALUE,
             habitTasks = listOf(HabitTask("t", "Read")),
         )
-        repository().apply {
-            upsert(rule)
-            saveTemplate(rule)
-        }
+        repository().upsert(rule)
 
         val reopened = repository()
         assertEquals(listOf(rule), reopened.rules.value)
-        assertEquals(1, reopened.savedTemplates.value.size)
         assertTrue(reopened.rule("r")!!.targets("com.whatsapp"))
+    }
+
+    @Test
+    fun `a file saved with templates still opens`() {
+        folder.root.resolve("rules.json").writeText(
+            """{"rules":[{"id":"r","type":"Lock","name":"WhatsApp"}],"templates":[{"id":"saved-1","type":"Session","name":"Old"}]}""",
+        )
+        assertEquals(listOf("r"), repository().rules.value.map { it.id })
     }
 
     @Test
@@ -92,6 +95,33 @@ class RulesRepositoryTest {
         val reset = repository(now + day).rule("h")!!
         assertEquals(0, reset.unlocksUsedToday)
         assertFalse(reset.habitTasks.single().done)
+    }
+
+    @Test
+    fun `today's use of a daily limit's apps is shown on the limit and saved`() {
+        val youTube = UsageApp("com.google.android.youtube", "YouTube", AppCategory.Entertainment)
+        val repo = repository()
+        repo.upsert(Rule("m", RuleType.Limit, "Daily limit", apps = listOf(youTube, whatsApp), limitMinutes = 60))
+        repo.upsert(Rule("l", RuleType.Lock, "WhatsApp", apps = listOf(whatsApp)))
+
+        repo.recordUsage(mapOf(youTube.packageName to 4, whatsApp.packageName to 3, "com.other" to 50))
+        assertEquals(7, repo.rule("m")!!.usedMinutes)
+        // Only limits count their apps' use.
+        assertEquals(0, repo.rule("l")!!.usedMinutes)
+        assertEquals(7, repository().rule("m")!!.usedMinutes)
+
+        // An app not used today counts for nothing, and the next reading replaces the last one.
+        repo.recordUsage(mapOf(youTube.packageName to 12))
+        assertEquals(12, repository().rule("m")!!.usedMinutes)
+    }
+
+    @Test
+    fun `a limit's use starts over on a new day`() {
+        val repo = repository()
+        repo.upsert(Rule("m", RuleType.Limit, "Daily limit", apps = listOf(whatsApp), limitMinutes = 60))
+        repo.recordUsage(mapOf(whatsApp.packageName to 45))
+        repo.settle(now + day)
+        assertEquals(0, repo.rule("m")!!.usedMinutes)
     }
 
     @Test

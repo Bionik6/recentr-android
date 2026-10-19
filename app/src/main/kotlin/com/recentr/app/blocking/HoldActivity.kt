@@ -22,9 +22,10 @@ import com.recentr.core.model.AppSettings
 import com.recentr.core.model.TimeFormat
 
 /**
- * "App on hold": opened by [HoldService] over an app blocked by a rule or the focus session.
- * It closes itself once the app may be used again (session over, opened anyway…); "Close" goes
- * back to the home screen, never to the held app.
+ * The shield ([HoldScreen]): opened by [HoldService] over an app blocked by a rule or the focus
+ * session, with the unlock friction behind "Unlock anyway". It closes itself once the app may be
+ * used again (session over, unlocked…); "I've got this" goes back to the home screen, never to
+ * the held app.
  */
 class HoldActivity : ComponentActivity() {
 
@@ -62,13 +63,15 @@ class HoldActivity : ComponentActivity() {
         showing = held
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         showing = held
     }
 
-    override fun onPause() {
-        super.onPause()
+    // Not onPause: a system dialog over the hold screen (the camera permission) pauses it while it
+    // stays on screen, and the blocker would put the app on hold again over the dialog.
+    override fun onStop() {
+        super.onStop()
         if (showing == held) showing = null
     }
 
@@ -91,9 +94,13 @@ class HoldActivity : ComponentActivity() {
         var showing: String? = null
             private set
 
+        /**
+         * Opens the hold screen over [packageName]. Not a user action: the held app isn't told the
+         * user is leaving it, so a playing video doesn't go picture-in-picture over the shield.
+         */
         fun intent(context: Context, packageName: String): Intent =
             Intent(context, HoldActivity::class.java)
                 .putExtra(EXTRA_PACKAGE, packageName)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_USER_ACTION)
     }
 }

@@ -32,8 +32,7 @@ import kotlinx.serialization.Serializable
 /**
  * Rule editor sheet (create / edit). A `dialog` destination hosting a bottom sheet, so it can be
  * opened from Home ("Start blocking") and Insights as well as from the Rules tab and the rule
- * detail. [apps] preselects the apps of a new rule (comma-separated package names);
- * [offerTemplate] shows "Save as template" next to "Start" for a new session.
+ * detail. [apps] preselects the apps of a new rule (comma-separated package names).
  */
 @Serializable
 internal data class RuleEditorRoute(
@@ -41,7 +40,6 @@ internal data class RuleEditorRoute(
     val ruleId: String? = null,
     val templateId: String? = null,
     val apps: String? = null,
-    val offerTemplate: Boolean = true,
 )
 
 /** Full-screen rule detail (drawn above the tab bar). */
@@ -105,12 +103,9 @@ fun NavGraphBuilder.rulesDestinations(navController: NavHostController) {
     }
 }
 
-/**
- * "Start blocking": opens the new Session rule flow. Home's quick start passes
- * [offerTemplate] = false — a session started from there is not saved as a template.
- */
-fun NavHostController.navigateToStartSession(offerTemplate: Boolean = true) {
-    navigate(RuleEditorRoute(type = RuleType.Session.name, offerTemplate = offerTemplate)) { launchSingleTop = true }
+/** "Start blocking": opens the new Session rule flow. */
+fun NavHostController.navigateToStartSession() {
+    navigate(RuleEditorRoute(type = RuleType.Session.name)) { launchSingleTop = true }
 }
 
 /** Opens the editor of a new [type] rule, with [apps] already chosen (Insights "Set a daily limit"). */
@@ -126,8 +121,6 @@ fun NavHostController.navigateToRuleEditor(ruleId: String) {
 }
 
 private fun NavHostController.navigateToTemplate(templateId: String) {
-    val type = BuiltInTemplate.byId(templateId)?.type
-        ?: RecentrData.rules.savedTemplate(templateId)?.type
-        ?: RuleType.Session
+    val type = BuiltInTemplate.byId(templateId)?.type ?: RuleType.Session
     navigate(RuleEditorRoute(type = type.name, templateId = templateId)) { launchSingleTop = true }
 }

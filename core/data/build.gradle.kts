@@ -22,5 +22,6 @@ dependencies {
     api(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.zxing.core)
     testImplementation(libs.junit)
 }

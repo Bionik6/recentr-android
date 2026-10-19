@@ -17,10 +17,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 /** Sections of the rules list, in display order. */
 internal enum class RuleGroup(
@@ -47,7 +48,6 @@ internal data class RulesUiState(
     val sections: List<RuleSection> = emptyList(),
     val activeCount: Int = 0,
     val pausedCount: Int = 0,
-    val savedTemplates: List<Rule> = emptyList(),
     val showTemplates: Boolean = false,
     val collapsed: Set<RuleGroup> = emptySet(),
     val templatesCollapsed: Boolean = false,
@@ -66,27 +66,38 @@ private data class ListFlags(
 internal class RulesViewModel(
     private val repository: RulesRepository,
     blockingEnabled: StateFlow<Boolean>,
+    /** Re-reads today's use of the daily limits' apps ([com.recentr.core.data.AppHoldRepository.refreshUsage]). */
+    private val refreshUsage: suspend () -> Unit = {},
 ) : ViewModel() {
 
     private val flags = MutableStateFlow(ListFlags())
 
-    /** Wall clock ticking every second: drives session countdowns and settles ended sessions. */
-    private val clock = flow {
+    /**
+     * Wall clock ticking every second: drives the cards' countdowns and settles ended sessions.
+     * While the list shows, the limits' use is also re-read, at once (back from the limited app)
+     * then every [USAGE_REFRESH_MILLIS].
+     */
+    private val clock = channelFlow {
+        launch {
+            while (true) {
+                runCatching { refreshUsage() }
+                delay(USAGE_REFRESH_MILLIS)
+            }
+        }
         while (true) {
-            emit(System.currentTimeMillis())
+            send(System.currentTimeMillis())
             delay(1_000)
         }
     }.onEach { repository.settle(it) }
 
     val state: StateFlow<RulesUiState> = combine(
         repository.rules,
-        repository.savedTemplates,
         clock,
         flags,
         blockingEnabled,
-    ) { rules, saved, now, flags, blockingOn ->
+    ) { rules, now, flags, blockingOn ->
         val sections = RuleGroup.entries.mapNotNull { group ->
-            val inGroup = rules.filter { it.type == group.type }.sortedByDescending { it.isRunning(now) }
+            val inGroup = rules.filter { it.type == group.type }.sortedByDescending { it.runsUntil(now) != null }
             if (inGroup.isEmpty() && !group.alwaysShown) null else RuleSection(group, inGroup)
         }
         val paused = rules.count { it.isPaused(now) }
@@ -95,7 +106,6 @@ internal class RulesViewModel(
             sections = sections,
             activeCount = rules.size - paused,
             pausedCount = paused,
-            savedTemplates = saved,
             showTemplates = flags.showTemplates,
             collapsed = flags.collapsed,
             templatesCollapsed = flags.templatesCollapsed,
@@ -116,7 +126,9 @@ internal class RulesViewModel(
 
     companion object {
         val Factory = viewModelFactory {
-            initializer { RulesViewModel(RecentrData.rules, RecentrData.blockingEnabled) }
+            initializer { RulesViewModel(RecentrData.rules, RecentrData.blockingEnabled, RecentrData.holds::refreshUsage) }
         }
+
+        private const val USAGE_REFRESH_MILLIS = 30_000L
     }
 }

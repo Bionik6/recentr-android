@@ -34,7 +34,7 @@ object RecentrData {
     val screenTime: ScreenTimeRepository by screenTimeDelegate
 
     /** What the app blocker puts on hold, and the apps opened anyway. */
-    val holds: AppHoldRepository by lazy { AppHoldRepository(rules, focus, installedApps, screenTime) }
+    val holds: AppHoldRepository by lazy { AppHoldRepository(rules, focus, installedApps, screenTime, settings) }
 
     private val _blockingEnabled = MutableStateFlow(false)
 

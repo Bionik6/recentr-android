@@ -123,8 +123,8 @@
     <string name="settings_unlocks_left">%d left</string>
     <string name="settings_app_blocking">App blocking</string>
     <string name="settings_unlock_pass">Unlock pass</string>
-    <string name="settings_pass_printed">Printed</string>
-    <string name="settings_pass_not_printed">Not printed</string>
+    <string name="settings_pass_none">None</string>
+    <string name="settings_pass_rules">%d rules</string>
     <string name="settings_help">Help &amp; feedback</string>
     <string name="settings_rate">Rate Recentr</string>
     <string name="settings_plus">Recentr Plus</string>
@@ -134,11 +134,17 @@
     <string name="settings_replay_onboarding">Replay onboarding</string>
     <string name="settings_design_system">Design system</string>
     <string name="emergency_title">Emergency unlocks</string>
-    <string name="emergency_body">You have %d emergency unlocks left this week. Each one opens a blocked app for 5 minutes, even in Strict mode.</string>
+    <string name="emergency_body">You have %1$d of %2$d emergency unlocks left this month. When Strict mode holds an app, each one opens it for 5 minutes anyway. They come back on %3$s.</string>
     <string name="unlock_pass_title">Unlock pass</string>
-    <string name="unlock_pass_body">Scanning your printed QR pass unlocks rules that use “Scan a code”. Keep it somewhere out of reach.</string>
-    <string name="unlock_pass_printed">I’ve printed it</string>
-    <string name="unlock_pass_not_printed">Not printed yet</string>
+    <string name="unlock_pass_none">No rule asks for a pass yet. Pick “Scan a code you keep elsewhere” as a rule’s unlock, then print its pass here.</string>
+    <string name="unlock_pass_body">Print a rule’s pass and keep it far from your phone. Scanning it is the way in.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">Your unlock pass</string>
+    <string name="unlock_pass_screen_body">Print it and keep it far from your bed. Scanning it is the only way to unlock.</string>
+    <string name="unlock_pass_caption">Recentr · pass #%1$s</string>
+    <string name="unlock_pass_share">Share</string>
+    <string name="unlock_pass_print">Print pass</string>
+    <string name="unlock_pass_document">Recentr unlock pass</string>
     <string name="dialog_ok">OK</string>
 
     <!-- 67 · Settings — Help & feedback -->

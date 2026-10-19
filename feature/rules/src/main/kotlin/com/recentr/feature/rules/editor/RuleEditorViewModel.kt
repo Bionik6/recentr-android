@@ -38,8 +38,6 @@ internal data class RuleEditorUiState(
     val isNew: Boolean,
     /** The sheet title shows the rule name (renamed / template / existing) instead of the type. */
     val customTitle: Boolean,
-    /** A new session offers "Save as template" (not when started from Home). */
-    val offerTemplate: Boolean = true,
 )
 
 /** Create / edit sheet of a rule (Figma 31, 35, 38, 39, 40) — works on an in-memory draft. */
@@ -76,13 +74,8 @@ internal class RuleEditorViewModel(
     private fun initialState(route: RuleEditorRoute): RuleEditorUiState {
         route.ruleId?.let(repository::rule)?.let { return RuleEditorUiState(it, isNew = false, customTitle = true) }
         val builtIn = route.templateId?.let(BuiltInTemplate::byId)
-        val saved = route.templateId?.let(repository::savedTemplate)
-        val draft = when {
-            builtIn != null -> factory.fromTemplate(builtIn, installedApps.apps.value.orEmpty())
-            saved != null -> factory.fromSavedTemplate(saved)
-            else -> factory.newRule(RuleType.valueOf(route.type))
-        }
-        val state = RuleEditorUiState(draft, isNew = true, customTitle = builtIn != null || saved != null, offerTemplate = route.offerTemplate)
+        val draft = builtIn?.let { factory.fromTemplate(it, installedApps.apps.value.orEmpty()) } ?: factory.newRule(RuleType.valueOf(route.type))
+        val state = RuleEditorUiState(draft, isNew = true, customTitle = builtIn != null)
         val apps = route.apps?.split(',')?.mapNotNull(installedApps::app).orEmpty()
         return if (apps.isEmpty()) state else state.withApps(apps)
     }
@@ -117,11 +110,6 @@ internal class RuleEditorViewModel(
             ),
             customTitle = true,
         )
-    }
-
-    fun saveAsTemplate() {
-        repository.saveTemplate(_state.value.draft)
-        RulesMessages.show(string(R.string.rules_template_saved, emptyArray()))
     }
 
     /** Creates / saves the rule. A new unscheduled session starts right away. */
