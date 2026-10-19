@@ -49,7 +49,6 @@ class HomeViewModel(
         val period: UsagePeriod = UsagePeriod.Today,
         val summary: ScreenTimeSummary? = null,
         val isSyncing: Boolean = true,
-        val wellSpent: Set<String> = emptySet(),
         val grouping: UsageGrouping = UsageGrouping.Apps,
         /** Bumped on each sync so the "next rule" is recomputed against the clock. */
         val syncCount: Int = 0,
@@ -73,7 +72,6 @@ class HomeViewModel(
             dailyGoalMinutes = profile.dailyGoalMinutes,
             nextRule = nextRule(ruleList, clock),
             activeSession = activeSession(ruleList, clock),
-            wellSpent = local.wellSpent,
             grouping = local.grouping,
             todayIndex = clock.dayOfWeek.value - 1,
             showMascot = mascot,
@@ -90,14 +88,6 @@ class HomeViewModel(
 
     fun saveDailyGoal(minutes: Int) {
         viewModelScope.launch { userPreferences.setDailyGoal(minutes) }
-    }
-
-    fun toggleWellSpent(packageName: String) {
-        local.update { state ->
-            state.copy(
-                wellSpent = if (packageName in state.wellSpent) state.wellSpent - packageName else state.wellSpent + packageName,
-            )
-        }
     }
 
     fun selectGrouping(grouping: UsageGrouping) {

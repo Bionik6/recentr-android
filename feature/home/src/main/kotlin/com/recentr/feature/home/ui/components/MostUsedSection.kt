@@ -46,22 +46,17 @@ import com.recentr.feature.home.ui.demoApp
 import com.recentr.feature.home.ui.formatDuration
 
 /** Number of top apps that get the "Time well spent?" prompt (Figma 23). */
-private const val ReflectionPrompts = 2
-
 /** Rows of the "Apps" grouping (the "Categories" grouping sums every app). */
 private const val MostUsedApps = 5
 
 /**
  * Figma 23 "Most used": title + "Apps ▾" grouping chip, then a white list card with one row per
- * app (icon, name, time, usage track and — for the top apps — the "Time well spent?" chip).
- * [usage] is sorted, most used first; [wellSpent] holds package names.
+ * app (icon, name, time and usage track). [usage] is sorted, most used first.
  */
 @Composable
 internal fun MostUsedSection(
     usage: List<AppUsage>,
     grouping: UsageGrouping,
-    wellSpent: Set<String>,
-    onToggleWellSpent: (String) -> Unit,
     onSelectGrouping: (UsageGrouping) -> Unit,
     modifier: Modifier = Modifier,
     onOpenApp: (packageName: String) -> Unit = {},
@@ -85,13 +80,10 @@ internal fun MostUsedSection(
                     UsageGrouping.Apps -> {
                         val top = usage.take(MostUsedApps)
                         val max = top.maxOfOrNull { it.minutes }?.coerceAtLeast(1) ?: 1
-                        top.forEachIndexed { index, item ->
+                        top.forEach { item ->
                             AppUsageRow(
                                 usage = item,
                                 fraction = item.minutes / max.toFloat(),
-                                showReflection = index < ReflectionPrompts,
-                                answered = item.app.packageName in wellSpent,
-                                onToggleWellSpent = { onToggleWellSpent(item.app.packageName) },
                                 onOpen = { onOpenApp(item.app.packageName) },
                             )
                         }
@@ -153,9 +145,6 @@ private fun GroupingChip(grouping: UsageGrouping, onSelect: (UsageGrouping) -> U
 private fun AppUsageRow(
     usage: AppUsage,
     fraction: Float,
-    showReflection: Boolean,
-    answered: Boolean,
-    onToggleWellSpent: () -> Unit,
     onOpen: () -> Unit,
 ) {
     Row(
@@ -171,14 +160,6 @@ private fun AppUsageRow(
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             UsageHeader(usage.app.label, usage.minutes)
             UsageTrack(fraction)
-            if (showReflection) {
-                RecentrChip(
-                    label = stringResource(if (answered) R.string.home_time_well_spent_yes else R.string.home_time_well_spent),
-                    style = if (answered) RecentrChipStyle.Success else RecentrChipStyle.Neutral,
-                    icon = if (answered) RecentrIcon.Check else RecentrIcon.Plus,
-                    onClick = onToggleWellSpent,
-                )
-            }
         }
     }
 }

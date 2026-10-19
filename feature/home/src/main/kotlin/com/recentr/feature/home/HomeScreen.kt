@@ -110,7 +110,6 @@ internal fun HomeScreen(
     state: HomeUiState,
     contentPadding: PaddingValues,
     onSaveGoal: (Int) -> Unit,
-    onToggleWellSpent: (String) -> Unit,
     onSelectGrouping: (UsageGrouping) -> Unit,
     onStartBlocking: () -> Unit,
     onOpenRules: () -> Unit,
@@ -242,8 +241,6 @@ internal fun HomeScreen(
                 MostUsedSection(
                     usage = summary.mostUsed,
                     grouping = state.grouping,
-                    wellSpent = state.wellSpent,
-                    onToggleWellSpent = onToggleWellSpent,
                     onSelectGrouping = onSelectGrouping,
                     onOpenApp = onOpenApp,
                     modifier = Modifier
@@ -427,7 +424,6 @@ private fun HomePreviewHost(state: HomeUiState, page: HeroPage = HeroPage.Screen
             state = state,
             contentPadding = PaddingValues(bottom = 96.dp),
             onSaveGoal = {},
-            onToggleWellSpent = {},
             onSelectGrouping = {},
             onStartBlocking = {},
             onOpenRules = {},

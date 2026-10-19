@@ -45,7 +45,6 @@ fun HomeTab(
         state = state,
         contentPadding = contentPadding,
         onSaveGoal = viewModel::saveDailyGoal,
-        onToggleWellSpent = viewModel::toggleWellSpent,
         onSelectGrouping = viewModel::selectGrouping,
         onStartBlocking = onStartBlocking,
         onOpenRules = onOpenRules,

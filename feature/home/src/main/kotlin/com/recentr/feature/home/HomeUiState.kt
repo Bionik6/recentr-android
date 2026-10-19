@@ -47,8 +47,6 @@ data class HomeUiState(
     val nextRule: NextRuleUi? = null,
     /** Running session or routine, shown in place of the next rule in the tile. */
     val activeSession: ActiveSessionUi? = null,
-    /** Package names answered "Time well spent?" on the Most used list (local only). */
-    val wellSpent: Set<String> = emptySet(),
     val grouping: UsageGrouping = UsageGrouping.Apps,
     /** Monday = 0 … Sunday = 6, used to highlight today in the week chart. */
     val todayIndex: Int = 6,
