@@ -7,6 +7,10 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <!-- Rule reminders: on time when the user allows exact alarms, set again after a reboot. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".RecentrApplication"
         android:allowBackup="true"
@@ -33,6 +37,22 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/hold_service" />
         </service>
+
+        <!-- Rule reminders: the alarm of the next one, and what sets it again (RuleReminderAlarms). -->
+        <receiver
+            android:name=".reminders.RuleReminderReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".reminders.RuleReminderRescheduleReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <!-- "App on hold" screen, drawn over a blocked app in its own task (not in Recents). -->
         <activity
