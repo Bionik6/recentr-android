@@ -153,7 +153,7 @@ internal fun ColumnScope.SessionEditor(state: RuleEditorUiState, title: String, 
         } else {
             EditorRow(R.string.rules_row_active, scheduleLabel(schedule), RecentrIcon.Clock) { actions.open(RuleSheet.Schedule) }
         }
-        EditorRow(R.string.rules_row_unlocks, unlockLabel(rule), RecentrIcon.Lock) { actions.open(RuleSheet.Unlock) }
+        EditorRow(R.string.rules_row_unlock_reason, unlockLabel(rule), RecentrIcon.Lock) { actions.open(RuleSheet.Unlock) }
     }
     Gap(10.dp)
     SettingsGroup {

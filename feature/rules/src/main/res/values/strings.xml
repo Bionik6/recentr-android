@@ -117,6 +117,8 @@
     <string name="rules_row_block">Block</string>
     <string name="rules_row_active">Active</string>
     <string name="rules_row_unlocks">Unlocks</string>
+    <!-- Session: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_reason">Unlock reason</string>
     <string name="rules_row_unlock_method">Unlock method</string>
     <string name="rules_row_unlocks_per_day">Unlocks per day</string>
     <string name="rules_row_apps">Apps</string>
