@@ -30,6 +30,13 @@
     <!-- Card chips & values -->
     <string name="rules_status_ongoing">Ongoing</string>
     <string name="rules_status_upcoming">Upcoming</string>
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Ready</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d app</item>
+        <item quantity="other">+ %d apps</item>
+    </plurals>
+    <string name="rules_tile_ready">READY</string>
     <string name="rules_status_blocking">Blocking</string>
     <string name="rules_status_paused">Paused</string>
     <string name="rules_status_times_up">Time’s up</string>

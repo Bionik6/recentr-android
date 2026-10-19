@@ -223,12 +223,42 @@ class RulesRepositoryTest {
     }
 
     @Test
-    fun `ended one-shot sessions are removed and kept removed`() {
+    fun `a session started with Start blocking stays saved once it ends`() {
         val repo = repository()
         repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, activeSince = now, oneShot = true))
         repo.settle(now + 31 * 60_000)
-        assertNull(repo.rule("s"))
-        assertNull(repository().rule("s"))
+        val ended = repo.rule("s")!!
+        assertNull(ended.activeSince)
+        assertFalse(ended.oneShot)
+        assertFalse(ended.isRunning(now + 31 * 60_000))
+        // Its run counts for its streak, and it's still there after a restart.
+        assertEquals(1, ended.streakDays)
+        assertEquals("Focus", repository(now + 32 * 60_000).rule("s")!!.name)
+    }
+
+    @Test
+    fun `a saved session runs again for its length`() {
+        val repo = repository()
+        repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, activeSince = now, oneShot = true))
+        repo.settle(now + 31 * 60_000)
+
+        val later = now + 3 * 3_600_000L
+        repo.startSession("s", now = later)
+        assertTrue(repo.rule("s")!!.isRunning(later + 60_000))
+        assertEquals(later + 30 * 60_000, repo.rule("s")!!.sessionEndsAt)
+        repo.settle(later + 30 * 60_000)
+        assertFalse(repo.rule("s")!!.isRunning(later + 30 * 60_000))
+        // A second run the same day doesn't add a day to the streak.
+        assertEquals(1, repo.rule("s")!!.streakDays)
+    }
+
+    @Test
+    fun `starting a paused session lifts the pause`() {
+        val repo = repository()
+        repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, pausedUntil = Long.MAX_VALUE))
+        repo.startSession("s", now = now)
+        assertNull(repo.rule("s")!!.pausedUntil)
+        assertTrue(repo.rule("s")!!.isRunning(now + 1))
     }
 
     // Streaks

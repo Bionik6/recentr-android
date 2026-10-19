@@ -1,9 +1,11 @@
 package com.recentr.feature.rules.list
 
+import com.recentr.core.model.AppCategory
 import com.recentr.core.model.HabitTask
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -75,10 +77,22 @@ class RuleCardStateTest {
         val session = Rule("s", RuleType.Session, "Deep work", durationMinutes = 30, activeSince = at(10))
         assertEquals(CardStatus.Ongoing, session.cardStatus(at(10, 10), zone))
         assertEquals(CardValue.Left(20 * 60_000L), session.cardValue(at(10, 10), zone))
-        // Not running: its minutes of the duration.
+        // Ended: a saved session, ready to run again, its length on its chip (no "0s / 30m").
         val idle = session.copy(activeSince = null)
-        assertEquals(CardStatus.Upcoming, idle.cardStatus(at(10, 10), zone))
-        assertEquals(CardValue.UsedOf(0, 30), idle.cardValue(at(10, 10), zone))
+        assertEquals(CardStatus.Ready, idle.cardStatus(at(10, 40), zone))
+        assertFalse(idle.cardStatus(at(10, 40), zone).active)
+        assertNull(idle.cardValue(at(10, 40), zone))
+    }
+
+    @Test
+    fun `a card shows five app icons, then how many more`() {
+        val apps = (1..8).map { UsageApp("app.$it", "App $it", AppCategory.Other) }
+        val (shown, more) = limit.copy(apps = apps).cardApps()
+        assertEquals(apps.take(5), shown)
+        assertEquals(3, more)
+        val (few, none) = limit.copy(apps = apps.take(4)).cardApps()
+        assertEquals(4, few.size)
+        assertEquals(0, none)
     }
 
     @Test

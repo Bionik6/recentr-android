@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
@@ -41,6 +42,9 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.recentr.core.data.BlockingAccess
+import com.recentr.core.data.RecentrData
+import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.designsystem.component.MiniTile
 import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrButton
@@ -109,6 +113,8 @@ internal fun RuleDetailDestination(
     var pause by rememberSaveable { mutableStateOf(false) }
     var delete by rememberSaveable { mutableStateOf(false) }
     var confirmStrict by rememberSaveable { mutableStateOf(false) }
+    var explainBlocking by rememberSaveable { mutableStateOf(false) }
+    val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
     val locked = rule.isStrictLocked(state.now)
     fun guarded(action: () -> Unit) = if (locked) viewModel.strictLockedNotice() else action()
 
@@ -130,6 +136,11 @@ internal fun RuleDetailDestination(
                 if (rule.isPaused(state.now)) viewModel.resume() else guarded { pause = true }
             },
             onEditRule = { guarded { onEditSettings(rule.id) } },
+            onStart = {
+                viewModel.start()
+                // Started, but nothing is held until the app blocker is on: say how.
+                if (!blockingOn) explainBlocking = true
+            },
             onEditSettings = { guarded { onEditSettings(rule.id) } },
             onDelete = { guarded { delete = true } },
         ),
@@ -155,6 +166,10 @@ internal fun RuleDetailDestination(
             onDismiss = { confirmStrict = false },
         )
     }
+    if (explainBlocking) {
+        val context = LocalContext.current
+        BlockingAccessSheet(onOpenSettings = { BlockingAccess.openSettings(context) }, onDismissRequest = { explainBlocking = false })
+    }
     if (delete) {
         DeleteRuleSheet(
             ruleName = rule.name,
@@ -165,12 +180,16 @@ internal fun RuleDetailDestination(
     }
 }
 
+/** A saved session not running: it can be started again (a pause in the way is lifted). */
+internal fun Rule.startable(now: Long): Boolean = type == RuleType.Session && schedule == null && !isRunning(now)
+
 internal class DetailActions(
     val onBack: () -> Unit = {},
     val onOpen: (RuleSheet) -> Unit = {},
     val onStrictChange: (Boolean) -> Unit = {},
     val onPause: () -> Unit = {},
     val onEditRule: () -> Unit = {},
+    val onStart: () -> Unit = {},
     val onEditSettings: () -> Unit = {},
     val onDelete: () -> Unit = {},
 )
@@ -217,17 +236,32 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                     .padding(start = 24.dp, end = 24.dp, top = 8.dp, bottom = 14.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                RecentrButton(
-                    text = stringResource(if (rule.isPaused(now)) R.string.rules_resume else R.string.rules_pause),
-                    onClick = actions.onPause,
-                    style = RecentrButtonStyle.Soft,
-                    modifier = Modifier.weight(1f),
-                )
-                RecentrButton(
-                    text = stringResource(R.string.rules_edit_rule),
-                    onClick = actions.onEditRule,
-                    modifier = Modifier.weight(1f),
-                )
+                if (rule.startable(now)) {
+                    // A saved session: Start is what it's here for.
+                    RecentrButton(
+                        text = stringResource(R.string.rules_edit_rule),
+                        onClick = actions.onEditRule,
+                        style = RecentrButtonStyle.Soft,
+                        modifier = Modifier.weight(1f),
+                    )
+                    RecentrButton(
+                        text = stringResource(R.string.rules_start),
+                        onClick = actions.onStart,
+                        modifier = Modifier.weight(1f),
+                    )
+                } else {
+                    RecentrButton(
+                        text = stringResource(if (rule.isPaused(now)) R.string.rules_resume else R.string.rules_pause),
+                        onClick = actions.onPause,
+                        style = RecentrButtonStyle.Soft,
+                        modifier = Modifier.weight(1f),
+                    )
+                    RecentrButton(
+                        text = stringResource(R.string.rules_edit_rule),
+                        onClick = actions.onEditRule,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
             }
         }
         RulesToastHost(
@@ -291,6 +325,7 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
             stringResource(R.string.rules_detail_paused_until, wallClock(rule.pausedUntil!!))
         }
         rule.isRunning(now) -> stringResource(R.string.rules_detail_running)
+        rule.type == RuleType.Session && rule.schedule == null -> durationLabel(rule.durationMinutes ?: 30)
         rule.type == RuleType.Limit -> stringResource(
             if (rule.limitReset == LimitReset.Monday) R.string.rules_detail_weekly else R.string.rules_detail_daily,
         )
@@ -382,7 +417,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> {
             stringResource(R.string.rules_tile_tasks_done),
         )
         rule.type == RuleType.Session && schedule == null -> Triple(
-            stringResource(R.string.rules_tile_now),
+            stringResource(R.string.rules_tile_ready),
             durationLabel(rule.durationMinutes ?: 0),
             stringResource(R.string.rules_session_title),
         )

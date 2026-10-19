@@ -138,7 +138,7 @@ data class Rule(
     val limitAction: LimitAction = LimitAction.Lock,
     val habitTasks: List<HabitTask> = emptyList(),
     val habitRepeat: HabitRepeat = HabitRepeat.EveryDay,
-    /** One-shot session started with "Start blocking": removed once it ends. */
+    /** Session started with "Start blocking", while it runs; once it ends it is a saved session like any other. */
     val oneShot: Boolean = false,
 ) {
     fun isPaused(now: Long): Boolean = pausedUntil != null && pausedUntil > now

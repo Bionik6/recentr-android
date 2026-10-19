@@ -85,6 +85,9 @@ class RulesRepository(
 
     fun resume(id: String, now: Long = clock()) = update(id) { RuleStreaks.resumed(it.copy(pausedUntil = null), now) }
 
+    /** Runs a saved session again from [now], for its length (a pause in the way is lifted). */
+    fun startSession(id: String, now: Long = clock()) = update(id) { it.copy(activeSince = now, pausedUntil = null) }
+
     /** The rules [ids] were broken at [now] (an emergency unlock past them): their streaks start over. */
     fun breakStreaks(ids: Collection<String>, now: Long) {
         if (ids.isEmpty()) return
@@ -111,7 +114,8 @@ class RulesRepository(
     }
 
     /**
-     * Ends sessions whose time is up: one-shot sessions are removed, others just stop running.
+     * Ends sessions whose time is up: they stop running and stay saved, a one-shot session
+     * ("Start blocking") too, so it can be started again.
      * Expired pauses are cleared, the daily counters start over on a new day, and a limit's
      * minutes when its period starts over. Streaks count the windows that ended first, while the
      * day's tasks and the period's minutes are still those of the window. Call periodically (the
@@ -139,7 +143,7 @@ class RulesRepository(
                 if (result.pausedUntil?.let { it <= now } == true) result = result.copy(pausedUntil = null)
                 val end = result.sessionEndsAt
                 if (end != null && end <= now) {
-                    result = if (result.oneShot) return@mapNotNull null else RuleStreaks.runEnded(result, end, zone).copy(activeSince = null)
+                    result = RuleStreaks.runEnded(result.copy(oneShot = false), end, zone).copy(activeSince = null)
                 }
                 result
             }

@@ -1,8 +1,13 @@
 package com.recentr.feature.rules.list
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,9 +43,12 @@ internal fun Rule.runsUntil(now: Long, zone: ZoneId = ZoneId.systemDefault()): L
     else -> null
 }
 
-/** The status chip of a rule card. [Ongoing] and [Blocking] read green: the rule is on now. */
+/**
+ * The status chip of a rule card. [Ongoing] and [Blocking] read green: the rule is on now. [Ready]:
+ * a saved session waiting to be started again.
+ */
 internal enum class CardStatus {
-    Paused, Ongoing, Blocking, Upcoming, TimesUp, Unlocks, Tasks;
+    Paused, Ongoing, Blocking, Upcoming, Ready, TimesUp, Unlocks, Tasks;
 
     val active: Boolean get() = this == Ongoing || this == Blocking
 }
@@ -50,7 +58,14 @@ internal fun Rule.cardStatus(now: Long, zone: ZoneId = ZoneId.systemDefault()): 
     runsUntil(now, zone) != null -> if (type == RuleType.Bedtime) CardStatus.Blocking else CardStatus.Ongoing
     else -> when (type) {
         RuleType.Lock -> CardStatus.Unlocks
-        RuleType.Session -> if (schedule?.isActiveAt(now, zone) == true) CardStatus.Ongoing else CardStatus.Upcoming
+        RuleType.Session -> {
+            val window = schedule
+            when {
+                window == null -> CardStatus.Ready
+                window.isActiveAt(now, zone) -> CardStatus.Ongoing
+                else -> CardStatus.Upcoming
+            }
+        }
         RuleType.Limit -> if (usedMinutes >= (limitMinutes ?: Int.MAX_VALUE)) CardStatus.TimesUp else CardStatus.Ongoing
         RuleType.Bedtime -> if (schedule?.isActiveAt(now, zone) == true) CardStatus.Blocking else CardStatus.Upcoming
         RuleType.Habit -> CardStatus.Tasks
@@ -70,19 +85,26 @@ internal sealed interface CardValue {
 
 /**
  * The card's value, or null for nothing: a routine shows the minutes it held apps only once there
- * is a whole one (no "0s" while it waits for its window, nor in its first minute).
+ * is a whole one (no "0s" while it waits for its window, nor in its first minute); a saved
+ * session waiting to run again has its length on its chip already.
  */
 internal fun Rule.cardValue(now: Long, zone: ZoneId = ZoneId.systemDefault()): CardValue? {
     if (isPaused(now)) return CardValue.Paused
     runsUntil(now, zone)?.let { return CardValue.Left(it - now) }
     return when (type) {
         RuleType.Lock -> CardValue.Locked
-        RuleType.Session -> CardValue.UsedOf(usedMinutes, schedule?.lengthMinutes ?: durationMinutes ?: 0)
+        RuleType.Session -> schedule?.let { CardValue.UsedOf(usedMinutes, it.lengthMinutes) }
         RuleType.Limit -> CardValue.UsedOf(usedMinutes, limitMinutes ?: 0)
         RuleType.Bedtime -> if (usedMinutes >= 1) CardValue.Minutes(usedMinutes) else null
         RuleType.Habit -> CardValue.Tasks(habitTasks.count { it.done }, habitTasks.size)
     }
 }
+
+/** App icons a rule card shows; the others read "+ N apps". */
+internal const val CARD_APPS = 5
+
+/** The apps whose icons a card shows, and how many more it has. */
+internal fun Rule.cardApps(): Pair<List<UsageApp>, Int> = apps.take(CARD_APPS) to (apps.size - CARD_APPS).coerceAtLeast(0)
 
 /** Figma "Rule Card" filled from a [Rule] at time [now] (status chip, schedule chip, value). */
 @Composable
@@ -103,7 +125,7 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
         title = rule.name,
         sticker = rule.sticker.asSticker,
         streak = rule.streakDays.takeIf { it > 0 },
-        apps = { OverlappingInstalledAppIcons(rule.apps.take(3).map { it.packageName }, size = 24.dp, overlap = 6.dp) },
+        apps = { CardApps(rule) },
         value = value,
         onClick = onClick,
         modifier = modifier
@@ -125,10 +147,28 @@ private fun statusLabel(rule: Rule, status: CardStatus): String = when (status) 
     CardStatus.Ongoing -> stringResource(R.string.rules_status_ongoing)
     CardStatus.Blocking -> stringResource(R.string.rules_status_blocking)
     CardStatus.Upcoming -> stringResource(R.string.rules_status_upcoming)
+    CardStatus.Ready -> stringResource(R.string.rules_status_ready)
     CardStatus.TimesUp -> stringResource(R.string.rules_status_times_up)
     CardStatus.Unlocks -> rule.unlocksPerDay?.let { stringResource(R.string.rules_status_unlocks, rule.unlocksUsedToday, it) }
         ?: stringResource(R.string.rules_status_unlocks_unlimited)
     CardStatus.Tasks -> stringResource(R.string.rules_status_tasks, rule.habitTasks.count { it.done }, rule.habitTasks.size)
+}
+
+/** Up to [CARD_APPS] overlapping icons, then "+ N apps". */
+@Composable
+private fun CardApps(rule: Rule) {
+    val (shown, more) = rule.cardApps()
+    Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+        OverlappingInstalledAppIcons(shown.map { it.packageName }, size = 24.dp, overlap = 6.dp)
+        if (more > 0) {
+            Text(
+                pluralStringResource(R.plurals.rules_more_apps, more, more),
+                style = RecentrTheme.typography.captionMedium,
+                color = RecentrTheme.colors.textSecondary,
+                maxLines = 1,
+            )
+        }
+    }
 }
 
 @Composable
