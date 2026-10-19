@@ -30,6 +30,9 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -120,6 +123,7 @@ internal fun HomeScreen(
     onOpenApp: (packageName: String) -> Unit = {},
     blockingOn: Boolean = true,
     onTurnOnBlocking: () -> Unit = {},
+    onRefresh: () -> Unit = {},
     initialSheet: HomeSheet? = null,
     pagerState: PagerState = rememberPagerState { HeroPage.entries.size },
 ) {
@@ -148,147 +152,165 @@ internal fun HomeScreen(
         }
     }
 
-    BoxWithConstraints(modifier.fillMaxSize().background(colors.bgPage)) {
-        val ctaReserve = contentPadding.calculateBottomPadding() + HomeMetrics.ctaToTabBar + RecentrTheme.sizes.button
-        val firstScreenMinHeight = maxHeight - ctaReserve - HomeMetrics.tilesToCta
-        Column(
-            Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .paint(
-                    painter = painterResource(Backdrop.Sky.drawable),
-                    sizeToIntrinsics = false,
-                    alignment = Alignment.TopCenter,
-                    contentScale = ContentScale.FillWidth,
-                ),
-        ) {
+    // Pull to refresh: the spinner drops in under the status bar, over the sky.
+    val pullState = rememberPullToRefreshState()
+    PullToRefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = onRefresh,
+        state = pullState,
+        modifier = modifier.fillMaxSize().background(colors.bgPage),
+        indicator = {
+            PullToRefreshDefaults.Indicator(
+                state = pullState,
+                isRefreshing = state.isRefreshing,
+                containerColor = colors.bgSurface,
+                color = colors.brandSky,
+                modifier = Modifier.align(Alignment.TopCenter).statusBarsPadding(),
+            )
+        },
+    ) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val ctaReserve = contentPadding.calculateBottomPadding() + HomeMetrics.ctaToTabBar + RecentrTheme.sizes.button
+            val firstScreenMinHeight = maxHeight - ctaReserve - HomeMetrics.tilesToCta
             Column(
                 Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = firstScreenMinHeight)
-                    .statusBarsPadding()
-                    .padding(top = HomeMetrics.headerTop),
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .paint(
+                        painter = painterResource(Backdrop.Sky.drawable),
+                        sizeToIntrinsics = false,
+                        alignment = Alignment.TopCenter,
+                        contentScale = ContentScale.FillWidth,
+                    ),
             ) {
-                HomeHeader(
-                    streakDays = summary?.streakDays,
-                    avatarInitial = state.avatarInitial,
-                    avatarColor = state.avatarColor,
-                    onOpenStreak = onOpenStreak,
-                    onOpenProfile = onOpenProfile,
-                    modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
-                )
-                Spacer(Modifier.height(HomeMetrics.headerToHero))
-                Spacer(Modifier.weight(1f))
-                HomeHero(
-                    pagerState = pagerState,
-                    period = state.period,
-                    summary = summary,
-                    syncing = showSkeleton,
-                    dailyGoalMinutes = state.dailyGoalMinutes,
-                    onScreenTimeInfo = { sheet = HomeSheet.ScreenTimeInfo },
-                    onOfflineInfo = { sheet = HomeSheet.OfflineInfo },
-                    onEditGoal = { sheet = HomeSheet.Goal },
-                )
-                Spacer(Modifier.height(HomeMetrics.heroToCard))
-                Spacer(Modifier.weight(1f))
-                Box(Modifier.fillMaxWidth().padding(horizontal = RecentrTheme.spacing.screenGutter)) {
-                    UsageCard(
-                        state = state,
-                        focusHighlight = 1f - qualityDistance,
-                        onClick = onOpenInsights,
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = firstScreenMinHeight)
+                        .statusBarsPadding()
+                        .padding(top = HomeMetrics.headerTop),
+                ) {
+                    HomeHeader(
+                        streakDays = summary?.streakDays,
+                        avatarInitial = state.avatarInitial,
+                        avatarColor = state.avatarColor,
+                        onOpenStreak = onOpenStreak,
+                        onOpenProfile = onOpenProfile,
+                        modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
                     )
-                    if (state.showMascot) {
-                        Mascot(
-                            mood = when {
-                                showSkeleton -> MascotMood.Dozing
-                                pagerState.currentPage == HeroPage.Offline.ordinal -> MascotMood.Dozing
-                                summary != null && !summary.isMultiDay && summary.totalMinutes > state.dailyGoalMinutes -> MascotMood.Impatient
-                                else -> MascotMood.Calm
-                            },
-                            width = HomeMetrics.mascotWidth,
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .offset(
-                                    x = -HomeMetrics.mascotEndInset,
-                                    y = -(HomeMetrics.mascotWidth * 1.25f) + HomeMetrics.mascotOverlap,
-                                )
-                                .graphicsLayer { alpha = qualityDistance },
+                    Spacer(Modifier.height(HomeMetrics.headerToHero))
+                    Spacer(Modifier.weight(1f))
+                    HomeHero(
+                        pagerState = pagerState,
+                        period = state.period,
+                        summary = summary,
+                        syncing = showSkeleton,
+                        dailyGoalMinutes = state.dailyGoalMinutes,
+                        onScreenTimeInfo = { sheet = HomeSheet.ScreenTimeInfo },
+                        onOfflineInfo = { sheet = HomeSheet.OfflineInfo },
+                        onEditGoal = { sheet = HomeSheet.Goal },
+                    )
+                    Spacer(Modifier.height(HomeMetrics.heroToCard))
+                    Spacer(Modifier.weight(1f))
+                    Box(Modifier.fillMaxWidth().padding(horizontal = RecentrTheme.spacing.screenGutter)) {
+                        UsageCard(
+                            state = state,
+                            focusHighlight = 1f - qualityDistance,
+                            onClick = onOpenInsights,
+                        )
+                        if (state.showMascot) {
+                            Mascot(
+                                mood = when {
+                                    showSkeleton -> MascotMood.Dozing
+                                    pagerState.currentPage == HeroPage.Offline.ordinal -> MascotMood.Dozing
+                                    summary != null && !summary.isMultiDay && summary.totalMinutes > state.dailyGoalMinutes -> MascotMood.Impatient
+                                    else -> MascotMood.Calm
+                                },
+                                width = HomeMetrics.mascotWidth,
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .offset(
+                                        x = -HomeMetrics.mascotEndInset,
+                                        y = -(HomeMetrics.mascotWidth * 1.25f) + HomeMetrics.mascotOverlap,
+                                    )
+                                    .graphicsLayer { alpha = qualityDistance },
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(HomeMetrics.cardToTiles))
+                    // Until the app blocker is on no rule holds an app, so the next one doesn't matter:
+                    // its slot shows the same "Blocking is off" card as Rules.
+                    if (blockingOn) {
+                        NextRuleTile(
+                            nextRule = state.nextRule,
+                            activeSession = state.activeSession,
+                            loading = showSkeleton,
+                            onOpenRules = onOpenRules,
+                            modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
+                        )
+                    } else {
+                        BlockingOffBanner(
+                            onClick = onTurnOnBlocking,
+                            modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
                         )
                     }
                 }
-                Spacer(Modifier.height(HomeMetrics.cardToTiles))
-                // Until the app blocker is on no rule holds an app, so the next one doesn't matter:
-                // its slot shows the same "Blocking is off" card as Rules.
-                if (blockingOn) {
-                    NextRuleTile(
-                        nextRule = state.nextRule,
-                        activeSession = state.activeSession,
-                        loading = showSkeleton,
-                        onOpenRules = onOpenRules,
-                        modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
-                    )
-                } else {
-                    BlockingOffBanner(
-                        onClick = onTurnOnBlocking,
-                        modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
+                if (summary != null) {
+                    // Previous numbers stay readable but dimmed while a re-sync runs.
+                    val listAlpha by animateFloatAsState(if (showSkeleton) 0.4f else 1f, label = "mostUsedAlpha")
+                    Spacer(Modifier.height(HomeMetrics.tilesToMostUsed))
+                    MostUsedSection(
+                        usage = summary.mostUsed,
+                        grouping = state.grouping,
+                        onSelectGrouping = onSelectGrouping,
+                        onOpenApp = onOpenApp,
+                        modifier = Modifier
+                            .padding(horizontal = RecentrTheme.spacing.screenGutter)
+                            .graphicsLayer { alpha = listAlpha },
                     )
                 }
+                Spacer(Modifier.height(ctaReserve + HomeMetrics.tilesToMostUsed))
             }
-            if (summary != null) {
-                // Previous numbers stay readable but dimmed while a re-sync runs.
-                val listAlpha by animateFloatAsState(if (showSkeleton) 0.4f else 1f, label = "mostUsedAlpha")
-                Spacer(Modifier.height(HomeMetrics.tilesToMostUsed))
-                MostUsedSection(
-                    usage = summary.mostUsed,
-                    grouping = state.grouping,
-                    onSelectGrouping = onSelectGrouping,
-                    onOpenApp = onOpenApp,
-                    modifier = Modifier
-                        .padding(horizontal = RecentrTheme.spacing.screenGutter)
-                        .graphicsLayer { alpha = listAlpha },
-                )
-            }
-            Spacer(Modifier.height(ctaReserve + HomeMetrics.tilesToMostUsed))
-        }
 
-        // Figma 23 "Top blur": frosted strip behind the status bar once content scrolls under it.
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .graphicsLayer { alpha = topBlurAlpha }
-                .background(colors.alphaWhite80)
-                .statusBarsPadding()
-                .height(6.dp),
-        )
+            // Figma 23 "Top blur": frosted strip behind the status bar once content scrolls under it.
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .graphicsLayer { alpha = topBlurAlpha }
+                    .background(colors.alphaWhite80)
+                    .statusBarsPadding()
+                    .height(6.dp),
+            )
 
-        // Scrolled content fades into the page grey in the gap above the pinned CTA and stays
-        // hidden behind it and the floating tab bar (the first-screen tiles end above the fade).
-        val fadeHeight = HomeMetrics.tilesToCta - 1.dp
-        Box(
-            Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(ctaReserve + fadeHeight)
-                .background(
-                    Brush.verticalGradient(
-                        0f to colors.bgPage.copy(alpha = 0f),
-                        fadeHeight / (ctaReserve + fadeHeight) to colors.bgPage,
-                        1f to colors.bgPage,
+            // Scrolled content fades into the page grey in the gap above the pinned CTA and stays
+            // hidden behind it and the floating tab bar (the first-screen tiles end above the fade).
+            val fadeHeight = HomeMetrics.tilesToCta - 1.dp
+            Box(
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .height(ctaReserve + fadeHeight)
+                    .background(
+                        Brush.verticalGradient(
+                            0f to colors.bgPage.copy(alpha = 0f),
+                            fadeHeight / (ctaReserve + fadeHeight) to colors.bgPage,
+                            1f to colors.bgPage,
+                        ),
                     ),
-                ),
-        )
+            )
 
-        RecentrButton(
-            text = stringResource(R.string.home_start_blocking),
-            onClick = onStartBlocking,
-            style = RecentrButtonStyle.Brand,
-            icon = RecentrIcon.Plus,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = contentPadding.calculateBottomPadding() + HomeMetrics.ctaToTabBar)
-                .padding(horizontal = RecentrTheme.spacing.screenGutter)
-                .fillMaxWidth(),
-        )
+            RecentrButton(
+                text = stringResource(R.string.home_start_blocking),
+                onClick = onStartBlocking,
+                style = RecentrButtonStyle.Brand,
+                icon = RecentrIcon.Plus,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = contentPadding.calculateBottomPadding() + HomeMetrics.ctaToTabBar)
+                    .padding(horizontal = RecentrTheme.spacing.screenGutter)
+                    .fillMaxWidth(),
+            )
+        }
     }
 
     when (sheet) {

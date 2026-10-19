@@ -20,7 +20,8 @@ import com.recentr.core.model.UsagePeriod
 /**
  * Home tab content (Home & Insight flow, Figma 22–29). Drawn under the floating tab bar:
  * [contentPadding] (bottom) is kept clear for it; the "Start blocking" CTA sits right above.
- * While the app blocker is off, the "Blocking is off" card explains how to turn it on.
+ * While the app blocker is off, the "Blocking is off" card explains how to turn it on. Pull to
+ * refresh reads the screen time and the app blocker's state again.
  * The usage card opens Insights ([onOpenInsights], with the period shown), the header's flame the
  * streak ([onOpenStreak]) and its avatar the profile ([onOpenProfile]), a "Most used" app its
  * own insights ([onOpenApp]).
@@ -54,6 +55,11 @@ fun HomeTab(
         onOpenApp = { onOpenApp(it, state.period) },
         blockingOn = blockingOn,
         onTurnOnBlocking = { explainBlocking = true },
+        onRefresh = {
+            // App blocking may have been turned on or off meanwhile, too.
+            RecentrData.recheckBlockingAccess()
+            viewModel.refresh()
+        },
         modifier = modifier,
     )
     if (explainBlocking) {

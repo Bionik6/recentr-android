@@ -43,6 +43,8 @@ data class HomeUiState(
     val summary: ScreenTimeSummary? = null,
     /** True while the repository aggregates screen time (Figma 29 · Syncing skeleton). */
     val isSyncing: Boolean = true,
+    /** A pull to refresh is reading the numbers again (they stay on screen meanwhile). */
+    val isRefreshing: Boolean = false,
     val dailyGoalMinutes: Int = 4 * 60,
     val nextRule: NextRuleUi? = null,
     /** Running session or routine, shown in place of the next rule in the tile. */
