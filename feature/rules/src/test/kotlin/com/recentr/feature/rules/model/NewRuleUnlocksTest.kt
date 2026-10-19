@@ -17,19 +17,19 @@ class NewRuleUnlocksTest {
     private val factory = RuleFactory(string = { _, _ -> "Rule" }, newId = { "id-${ids++}" })
 
     @Test
-    fun `a new lock waits a few seconds`() {
+    fun `a new lock waits ten seconds`() {
         val lock = factory.newRule(RuleType.Lock)
         assertEquals(UnlockMethod.Wait, lock.unlockMethodInUse)
-        assertEquals(5, lock.waitSeconds)
+        assertEquals(10, lock.waitSeconds)
         assertTrue(lock.unlockMethodEnabled)
     }
 
     @Test
-    fun `a new session waits five seconds, and can change it`() {
+    fun `a new session waits ten seconds, and can change it`() {
         val session = factory.newRule(RuleType.Session)
         assertFalse(session.strictMode)
         assertEquals(UnlockMethod.Wait, session.unlockMethod)
-        assertEquals(5, session.waitSeconds)
+        assertEquals(10, session.waitSeconds)
         assertTrue(session.unlockMethodEnabled)
         // Turned strict, it has no unlocks; turned back, it waits again.
         assertFalse(session.copy(strictMode = true).unlockMethodEnabled)
@@ -44,7 +44,7 @@ class NewRuleUnlocksTest {
         val relaxed = routine.copy(strictMode = false)
         assertTrue(relaxed.unlockMethodEnabled)
         assertEquals(UnlockMethod.Wait, relaxed.unlockMethodInUse)
-        assertEquals(5, relaxed.waitSeconds)
+        assertEquals(10, relaxed.waitSeconds)
     }
 
     @Test

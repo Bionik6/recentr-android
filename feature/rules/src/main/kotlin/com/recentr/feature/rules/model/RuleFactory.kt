@@ -28,14 +28,14 @@ internal class RuleFactory(
             name = s(R.string.rules_session_default_name),
             durationMinutes = 30,
             unlockMethod = UnlockMethod.Wait,
-            waitSeconds = 5,
+            waitSeconds = 10,
         )
         RuleType.Lock -> Rule(
             id = newId(),
             type = RuleType.Lock,
             name = lockName(emptyList()),
             unlockMethod = UnlockMethod.Wait,
-            waitSeconds = 5,
+            waitSeconds = 10,
             unlocksPerDay = 5,
             unlockDurationMinutes = 5,
         )
@@ -53,7 +53,7 @@ internal class RuleFactory(
             strictMode = true,
             // Once Strict mode is turned off.
             unlockMethod = UnlockMethod.Wait,
-            waitSeconds = 5,
+            waitSeconds = 10,
         )
         RuleType.Habit -> Rule(
             id = newId(),

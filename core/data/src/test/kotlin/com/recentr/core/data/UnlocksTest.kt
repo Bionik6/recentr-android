@@ -33,9 +33,15 @@ class UnlocksTest {
     @Test
     fun `each unlock method has its step`() {
         assertEquals(UnlockStep.Wait, lock(UnlockMethod.Wait).unlockStep(now, emergencyUnlocksLeft = 3))
-        assertEquals(UnlockStep.Reason, lock(UnlockMethod.Reason).unlockStep(now, 3))
         assertEquals(UnlockStep.Retype, lock(UnlockMethod.Retype).unlockStep(now, 3))
         assertEquals(UnlockStep.Scan, lock(UnlockMethod.ScanCode).unlockStep(now, 3))
+    }
+
+    @Test
+    fun `a reason left over from before waits a few seconds`() {
+        // "Give a good reason" is gone from "How do you unlock?".
+        assertEquals(UnlockMethod.Wait, lock(UnlockMethod.Reason).unlockMethodInUse)
+        assertEquals(UnlockStep.Wait, lock(UnlockMethod.Reason).unlockStep(now, 3))
     }
 
     @Test
@@ -62,7 +68,7 @@ class UnlocksTest {
         assertEquals(5, MIN_WAIT_SECONDS)
         assertEquals(5, lock().copy(waitSeconds = 3).waitSecondsInUse)
         assertEquals(5, lock().copy(waitSeconds = 0).waitSecondsInUse)
-        assertEquals(5, lock().waitSecondsInUse)
+        assertEquals(10, lock().waitSecondsInUse)
         assertEquals(30, lock().copy(waitSeconds = 30).waitSecondsInUse)
     }
 

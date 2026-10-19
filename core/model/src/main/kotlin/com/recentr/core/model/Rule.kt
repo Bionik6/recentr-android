@@ -70,7 +70,10 @@ enum class UnlockMethod {
     None,
     /** Wait a few seconds ([Rule.waitSeconds]). */
     Wait,
-    /** Give a good reason. */
+    /**
+     * Give a good reason: what a limit asks for with "Ask for a reason". Gone from "How do you
+     * unlock?": locks, sessions and routines left with it wait instead.
+     */
     Reason,
     /** Kept for compatibility: same as [None]. */
     Strict,
@@ -124,7 +127,7 @@ data class Rule(
     val activeSince: Long? = null,
     val sticker: RuleSticker = type.defaultSticker,
     /** Unlock method [UnlockMethod.Wait]: seconds to wait. */
-    val waitSeconds: Int = 5,
+    val waitSeconds: Int = 10,
     /** Unlocks allowed per day, or null for unlimited. */
     val unlocksPerDay: Int? = 5,
     val unlocksUsedToday: Int = 0,

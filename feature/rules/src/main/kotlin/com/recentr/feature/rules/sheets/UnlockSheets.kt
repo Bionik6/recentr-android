@@ -17,6 +17,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.recentr.core.data.MIN_WAIT_SECONDS
+import com.recentr.core.data.UNLOCK_METHODS
 import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.OptionTrailing
 import com.recentr.core.designsystem.component.RecentrButton
@@ -36,9 +37,9 @@ import com.recentr.feature.rules.ui.unlocksPerDayLabel
 
 /**
  * The ways out of "How do you unlock?", lightest first. No "No unlocks": that's Strict mode, so a
- * rule without it can always be unlocked, waiting a few seconds by default.
+ * rule without it can always be unlocked, waiting 10 seconds by default.
  */
-internal val UnlockMethodOptions = listOf(UnlockMethod.Wait, UnlockMethod.Reason, UnlockMethod.Retype, UnlockMethod.ScanCode)
+internal val UnlockMethodOptions = UNLOCK_METHODS
 
 /** Figma 41 "How do you unlock?" — friction options as radio buttons, Continue. */
 @Composable
@@ -50,7 +51,6 @@ internal fun UnlockMethodSheet(
     var method by rememberSaveable { mutableStateOf(initial.takeIf { it in UnlockMethodOptions } ?: UnlockMethod.Wait) }
     val options = UnlockMethodOptions.map { option ->
         when (option) {
-            UnlockMethod.Reason -> Triple(option, R.string.rules_unlock_option_reason, RecentrIcon.Note)
             UnlockMethod.Retype -> Triple(option, R.string.rules_unlock_option_retype, RecentrIcon.Pencil)
             UnlockMethod.ScanCode -> Triple(option, R.string.rules_unlock_option_scan, RecentrIcon.Qr)
             else -> Triple(option, R.string.rules_unlock_option_wait, RecentrIcon.Hourglass)

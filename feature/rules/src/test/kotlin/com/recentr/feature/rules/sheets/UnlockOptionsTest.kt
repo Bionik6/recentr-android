@@ -14,7 +14,8 @@ class UnlockOptionsTest {
     fun `no unlocks is strict mode's, not an option`() {
         assertFalse(UnlockMethod.None in UnlockMethodOptions)
         assertFalse(UnlockMethod.Strict in UnlockMethodOptions)
-        assertEquals(listOf(UnlockMethod.Wait, UnlockMethod.Reason, UnlockMethod.Retype, UnlockMethod.ScanCode), UnlockMethodOptions)
+        assertFalse(UnlockMethod.Reason in UnlockMethodOptions)
+        assertEquals(listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode), UnlockMethodOptions)
     }
 
     @Test

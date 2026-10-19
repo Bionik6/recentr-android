@@ -243,7 +243,6 @@
     <string name="rules_unlock_title">How do you unlock?</string>
     <string name="rules_unlock_subtitle">Pick the kind of friction that works for you.</string>
     <string name="rules_unlock_option_wait">Wait a few seconds</string>
-    <string name="rules_unlock_option_reason">Give a good reason</string>
     <string name="rules_unlock_option_retype">Re-type a painful text</string>
     <string name="rules_unlock_option_scan">Scan a code you keep elsewhere</string>
 

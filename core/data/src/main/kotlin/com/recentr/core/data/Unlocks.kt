@@ -56,17 +56,20 @@ fun Rule.unlockStep(now: Long, emergencyUnlocksLeft: Int, zone: ZoneId = ZoneId.
 
 /**
  * How this rule's apps are opened anyway, Strict mode aside. Strict mode is the only "no unlocks":
- * locks, sessions and routines left with "No unlocks" (gone from "How do you unlock?") wait a few
- * seconds. A limit has no unlock method: "When time is up" decides — Ask for a reason, or Lock
- * until it resets. A habit opens with its tasks.
+ * locks, sessions and routines left with "No unlocks" or "Give a good reason" (both gone from
+ * "How do you unlock?") wait a few seconds. A limit has no unlock method: "When time is up"
+ * decides — Ask for a reason, or Lock until it resets. A habit opens with its tasks.
  */
 val Rule.unlockMethodInUse: UnlockMethod
     get() = when (type) {
         RuleType.Lock, RuleType.Session, RuleType.Bedtime ->
-            unlockMethod.takeUnless { it == UnlockMethod.None || it == UnlockMethod.Strict } ?: UnlockMethod.Wait
+            unlockMethod.takeIf { it in UNLOCK_METHODS } ?: UnlockMethod.Wait
         RuleType.Limit -> if (limitAction == LimitAction.AskReason) UnlockMethod.Reason else UnlockMethod.None
         RuleType.Habit -> unlockMethod
     }
+
+/** The ways out of "How do you unlock?", lightest first. */
+val UNLOCK_METHODS = listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode)
 
 /** The shortest wait before "Unlock anyway" opens an app. */
 const val MIN_WAIT_SECONDS = 5
