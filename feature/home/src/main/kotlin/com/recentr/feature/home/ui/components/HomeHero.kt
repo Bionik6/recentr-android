@@ -1,6 +1,7 @@
 package com.recentr.feature.home.ui.components
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -32,11 +33,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.LastBaseline
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
@@ -106,7 +111,7 @@ private fun HeroPageContent(
     Column(
         Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        verticalArrangement = Arrangement.spacedBy(HeroSpacing),
     ) {
         Text(overline, style = RecentrTheme.typography.bodyMedium, color = colors.textOnDarkMuted, maxLines = 1)
         if (syncing || value == null) {
@@ -126,7 +131,8 @@ private fun HeroPageContent(
         } else {
             AnimatedContent(
                 targetState = value,
-                transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(160)) },
+                // Unclipped: the figure's shadow and descenders reach below its shortened box.
+                transitionSpec = { (fadeIn(tween(220)) togetherWith fadeOut(tween(160))).using(SizeTransform(clip = false)) },
                 label = "heroValue",
             ) { text ->
                 Text(
@@ -135,6 +141,8 @@ private fun HeroPageContent(
                     color = colors.textOnDark,
                     maxLines = 1,
                     modifier = Modifier
+                        // The chips sit 16dp under the digits (the Column adds its 6dp).
+                        .endingBelowBaseline(16.dp - HeroSpacing)
                         .clip(RoundedCornerShape(RecentrTheme.radius.lg))
                         .then(
                             if (onValueClick != null) {
@@ -153,6 +161,21 @@ private fun HeroPageContent(
             Box(Modifier.height(30.dp), contentAlignment = Alignment.Center) { chips() }
         }
     }
+}
+
+/** Between the hero's overline, figure and chips. */
+private val HeroSpacing = 6.dp
+
+/**
+ * Ends the layout [gap] below the text's last baseline, whatever room its line box leaves under
+ * the digits, so what follows sits [gap] (plus the parent's spacing) under them. The text still
+ * draws in full.
+ */
+private fun Modifier.endingBelowBaseline(gap: Dp) = layout { measurable, constraints ->
+    val placeable = measurable.measure(constraints)
+    val baseline = placeable[LastBaseline]
+    val height = if (baseline == AlignmentLine.Unspecified) placeable.height else baseline + gap.roundToPx()
+    layout(placeable.width, height) { placeable.place(0, 0) }
 }
 
 @Composable
