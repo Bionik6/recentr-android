@@ -93,6 +93,22 @@ internal class InsightsOverviewViewModel(
         load()
     }
 
+    /**
+     * Shows the tab of a Home period (Home's usage card): Today / Yesterday → Day, this week →
+     * Week, this month → Month.
+     */
+    fun show(period: UsagePeriod) {
+        val tab = when (period) {
+            UsagePeriod.Today, UsagePeriod.Yesterday -> InsightsTab.Day
+            UsagePeriod.ThisWeek -> InsightsTab.Week
+            UsagePeriod.ThisMonth -> InsightsTab.Month
+        }
+        val day = if (period == UsagePeriod.Yesterday) UsagePeriod.Yesterday else UsagePeriod.Today
+        if (tab == local.value.tab && day == local.value.dayPeriod) return
+        local.update { it.copy(tab = tab, dayPeriod = day, summary = if (tab == InsightsTab.Month) it.summary else null) }
+        load()
+    }
+
     /** Re-reads the numbers (back from another screen, the day may have changed). */
     fun refresh() = load()
 

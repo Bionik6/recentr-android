@@ -45,7 +45,8 @@ enum class RecentrTab(
     Rules(R.string.ds_tab_rules, RecentrIcon.Lock, RecentrIcon.LockFill),
     /** Focus timer. The UI kit has no filled hourglass: the selected tab keeps the line icon. */
     Timer(R.string.ds_tab_timer, RecentrIcon.Hourglass, RecentrIcon.Hourglass),
-    Profile(R.string.ds_tab_profile, RecentrIcon.User, RecentrIcon.UserFill),
+    /** Insights overview. No filled chart either: the selected tab keeps the line icon. */
+    Insights(R.string.ds_tab_insights, RecentrIcon.Chart, RecentrIcon.Chart),
 }
 
 /**

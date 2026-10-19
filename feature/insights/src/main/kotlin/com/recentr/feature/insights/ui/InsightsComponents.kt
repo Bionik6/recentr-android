@@ -64,7 +64,7 @@ internal val InsightsCardShape = RoundedCornerShape(24.dp)
 /**
  * Frame of the Insights & Achievements screens (Figma 99–110): [backdrop] (Aurora by default),
  * the [topBar] 12dp under the status bar, then the scrolling [content]. [bottomBar] (a CTA)
- * stays pinned 14dp above the navigation bar.
+ * stays pinned 14dp above the navigation bar, or above [bottomInset] (the tab bar's space).
  */
 @Composable
 internal fun InsightsScaffold(
@@ -75,10 +75,12 @@ internal fun InsightsScaffold(
     lightStatusBarIcons: Boolean = false,
     scrollState: ScrollState = rememberScrollState(),
     bottomBar: (@Composable ColumnScope.() -> Unit)? = null,
+    bottomInset: Dp? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     SystemBarsAppearance(lightIcons = lightStatusBarIcons)
-    val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    // The tab bar's space on the Insights tab, else the navigation bar.
+    val navBottom = bottomInset ?: WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val body: @Composable () -> Unit = {
         Column(Modifier.fillMaxSize()) {
             Column(
@@ -98,7 +100,7 @@ internal fun InsightsScaffold(
                 Column(
                     Modifier
                         .fillMaxWidth()
-                        .navigationBarsPadding()
+                        .then(if (bottomInset != null) Modifier.padding(bottom = bottomInset) else Modifier.navigationBarsPadding())
                         .padding(start = 24.dp, end = 24.dp, bottom = 14.dp),
                     content = bottomBar,
                 )

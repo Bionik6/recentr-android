@@ -29,6 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,7 +51,6 @@ import com.recentr.feature.insights.ui.ChangeChip
 import com.recentr.feature.insights.ui.HourBarsChart
 import com.recentr.feature.insights.ui.InsightsCard
 import com.recentr.feature.insights.ui.InsightsScaffold
-import com.recentr.feature.insights.ui.InsightsTopBar
 import com.recentr.feature.insights.ui.LoadingBlock
 import com.recentr.feature.insights.ui.MonthCalendar
 import com.recentr.feature.insights.ui.MoreMenuButton
@@ -65,7 +66,6 @@ import com.recentr.feature.insights.ui.signedPercent
 
 /** What the overview can do. */
 internal class OverviewActions(
-    val onBack: () -> Unit,
     val onSelectTab: (InsightsTab) -> Unit,
     val onOpenApp: (packageName: String, period: UsagePeriod) -> Unit,
     val onOpenDailyGoal: () -> Unit,
@@ -76,33 +76,22 @@ internal class OverviewActions(
 )
 
 /**
- * 99 · Insights — Overview (Day / Week) and 102 · Month: segmented tabs, then the daily average
- * with the goal line, the category split and the top apps — or the month calendar.
+ * 99 · Insights — Overview (Day / Week) and 102 · Month, as the Insights tab: segmented tabs, then
+ * the daily average with the goal line, the category split and the top apps — or the month
+ * calendar. Drawn under the floating tab bar ([contentPadding] bottom).
  */
 @Composable
-internal fun InsightsOverviewScreen(state: OverviewUiState, actions: OverviewActions, modifier: Modifier = Modifier) {
+internal fun InsightsOverviewScreen(
+    state: OverviewUiState,
+    actions: OverviewActions,
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+) {
     val month = state.tab == InsightsTab.Month
     InsightsScaffold(
         modifier = modifier,
-        topBar = {
-            InsightsTopBar(
-                title = if (month) monthName(state.month) else stringResource(R.string.insights_title),
-                subtitle = if (month) stringResource(R.string.insights_month_subtitle) else null,
-                onBack = actions.onBack,
-                trailing = {
-                    MoreMenuButton(
-                        listOf(
-                            stringResource(R.string.insights_menu_pickups) to {
-                                actions.onOpenPickups(if (month) UsagePeriod.ThisMonth else state.period)
-                            },
-                            stringResource(R.string.insights_menu_daily_goal) to actions.onOpenDailyGoal,
-                            stringResource(R.string.insights_menu_streak) to actions.onOpenStreak,
-                            stringResource(R.string.insights_menu_achievements) to actions.onOpenAchievements,
-                        ),
-                    )
-                },
-            )
-        },
+        bottomInset = contentPadding.calculateBottomPadding(),
+        topBar = { OverviewHeader(state, actions) },
         bottomBar = if (month) {
             {
                 RecentrButton(
@@ -154,6 +143,43 @@ internal fun InsightsOverviewScreen(state: OverviewUiState, actions: OverviewAct
 }
 
 /** "Daily average" (Week) or "Screen time today" (Day) with its chart and the change chip. */
+/**
+ * Tab header, like Rules: Display/Large "Insights" over the period shown (the month on the Month
+ * tab), and the ⋯ menu.
+ */
+@Composable
+private fun OverviewHeader(state: OverviewUiState, actions: OverviewActions) {
+    val colors = RecentrTheme.colors
+    val month = state.tab == InsightsTab.Month
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(
+                stringResource(R.string.insights_title),
+                style = RecentrTheme.typography.displayLarge,
+                color = colors.textPrimary,
+                maxLines = 1,
+                modifier = Modifier.semantics { heading() },
+            )
+            Text(
+                if (month) monthName(state.month) else stringResource(state.period.labelRes),
+                style = RecentrTheme.typography.captionRegular,
+                color = colors.textSecondary,
+                maxLines = 1,
+            )
+        }
+        MoreMenuButton(
+            listOf(
+                stringResource(R.string.insights_menu_pickups) to {
+                    actions.onOpenPickups(if (month) UsagePeriod.ThisMonth else state.period)
+                },
+                stringResource(R.string.insights_menu_daily_goal) to actions.onOpenDailyGoal,
+                stringResource(R.string.insights_menu_streak) to actions.onOpenStreak,
+                stringResource(R.string.insights_menu_achievements) to actions.onOpenAchievements,
+            ),
+        )
+    }
+}
+
 @Composable
 private fun UsageCard(state: OverviewUiState, summary: ScreenTimeSummary, onClick: () -> Unit) {
     val colors = RecentrTheme.colors
@@ -297,7 +323,7 @@ private fun MonthContent(state: OverviewUiState) {
     }
 }
 
-private val NoActions = OverviewActions({}, {}, { _, _ -> }, {}, {}, {}, {}, {})
+private val NoActions = OverviewActions({}, { _, _ -> }, {}, {}, {}, {}, {})
 
 @Preview(widthDp = 402, heightDp = 874)
 @Composable
@@ -306,6 +332,7 @@ private fun OverviewWeekPreview() {
         InsightsOverviewScreen(
             state = OverviewUiState(summary = DemoScreenTimeRepository().snapshot(UsagePeriod.ThisWeek), loading = false, goalMinutes = 90),
             actions = NoActions,
+            contentPadding = PaddingValues(bottom = 96.dp),
         )
     }
 }
@@ -326,6 +353,7 @@ private fun OverviewMonthPreview() {
                 today = today,
             ),
             actions = NoActions,
+            contentPadding = PaddingValues(bottom = 96.dp),
         )
     }
 }

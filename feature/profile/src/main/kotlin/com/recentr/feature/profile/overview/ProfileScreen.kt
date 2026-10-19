@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -55,12 +55,13 @@ import com.recentr.feature.profile.ui.style
 
 /**
  * 61 · Profile — Overview: identity, before / now cards, the life-back banner, two tiles and the
- * weekly recap entry. Drawn under the floating tab bar ([contentPadding] bottom).
+ * weekly recap entry. Opened from Home's avatar: back button 8dp under the status bar, then the
+ * title 16dp lower, like the settings pages.
  */
 @Composable
 internal fun ProfileScreen(
     state: ProfileUiState,
-    contentPadding: PaddingValues,
+    onBack: () -> Unit,
     onEdit: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenRecap: () -> Unit,
@@ -74,20 +75,23 @@ internal fun ProfileScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .statusBarsPadding()
-                .padding(contentPadding)
+                .navigationBarsPadding()
                 .padding(horizontal = RecentrTheme.spacing.screenGutter),
         ) {
-            Spacer(Modifier.height(12.dp))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
-                Text(
-                    stringResource(R.string.profile_title),
-                    style = RecentrTheme.typography.displayLarge,
-                    color = colors.textPrimary,
-                    modifier = Modifier.weight(1f).semantics { heading() },
-                )
+            Spacer(Modifier.height(8.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                RecentrIconButton(icon = RecentrIcon.ChevronLeft, contentDescription = stringResource(R.string.back), onClick = onBack)
+                Spacer(Modifier.weight(1f))
                 RecentrIconButton(icon = RecentrIcon.Pencil, contentDescription = stringResource(R.string.profile_edit), onClick = onEdit)
                 RecentrIconButton(icon = RecentrIcon.Settings, contentDescription = stringResource(R.string.profile_open_settings), onClick = onOpenSettings)
             }
+            Spacer(Modifier.height(16.dp))
+            Text(
+                stringResource(R.string.profile_title),
+                style = RecentrTheme.typography.displayLarge,
+                color = colors.textPrimary,
+                modifier = Modifier.semantics { heading() },
+            )
             Spacer(Modifier.height(22.dp))
             Identity(state, onEdit = onEdit)
             Spacer(Modifier.height(26.dp))
@@ -293,7 +297,7 @@ private fun ProfileScreenPreview() {
         Box(Modifier.background(RecentrTheme.colors.bgPage)) {
             ProfileScreen(
                 state = ProfileUiState(name = "Mia", initial = "M", memberDays = 12, nowMinutes = 130, nowDays = 5, streakDays = 5, urgesResisted = 38),
-                contentPadding = PaddingValues(bottom = 94.dp),
+                onBack = {},
                 onEdit = {},
                 onOpenSettings = {},
                 onOpenRecap = {},

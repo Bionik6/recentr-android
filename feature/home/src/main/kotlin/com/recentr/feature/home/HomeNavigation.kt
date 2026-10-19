@@ -14,7 +14,7 @@ import com.recentr.core.model.UsagePeriod
  * Home tab content (Home & Insight flow, Figma 22–29). Drawn under the floating tab bar:
  * [contentPadding] (bottom) is kept clear for it; the "Start blocking" CTA sits right above.
  * The usage card opens Insights ([onOpenInsights], with the period shown), the header's flame the
- * streak ([onOpenStreak]) and its avatar the Profile tab ([onOpenProfile]), a "Most used" app its
+ * streak ([onOpenStreak]) and its avatar the profile ([onOpenProfile]), a "Most used" app its
  * own insights ([onOpenApp]).
  */
 @Composable

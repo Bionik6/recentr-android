@@ -98,7 +98,6 @@
     <string name="insights_chart_cd">%1$s: %2$s</string>
 
     <!-- 102 · Month -->
-    <string name="insights_month_subtitle">Screen time per day</string>
     <string name="insights_under_goal">Under goal</string>
     <string name="insights_less">Less</string>
     <string name="insights_more_legend">More</string>

@@ -21,12 +21,13 @@ import androidx.compose.ui.unit.max
 import androidx.navigation.NavHostController
 import com.recentr.core.designsystem.component.RecentrTab
 import com.recentr.core.designsystem.component.RecentrTabBar
+import com.recentr.core.model.UsagePeriod
 import com.recentr.feature.focus.FocusTab
 import com.recentr.feature.home.HomeTab
+import com.recentr.feature.insights.InsightsOverviewTab
 import com.recentr.feature.insights.navigateToAppInsights
-import com.recentr.feature.insights.navigateToInsights
 import com.recentr.feature.insights.navigateToStreak
-import com.recentr.feature.profile.ProfileTab
+import com.recentr.feature.profile.navigateToProfile
 import com.recentr.feature.rules.RulesTab
 import com.recentr.feature.rules.navigateToStartSession
 
@@ -40,6 +41,8 @@ fun MainScreen(
     initialTab: RecentrTab,
 ) {
     var selected by rememberSaveable { mutableStateOf(initialTab) }
+    // Home's usage card: the Insights tab opens on the tab of that period.
+    var insightsPeriod by rememberSaveable { mutableStateOf<UsagePeriod?>(null) }
     BackHandler(enabled = selected != RecentrTab.Home) { selected = RecentrTab.Home }
 
     val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
@@ -58,14 +61,22 @@ fun MainScreen(
                         contentPadding = tabBarPadding,
                         onStartBlocking = { navController.navigateToStartSession() },
                         onOpenRules = { selected = RecentrTab.Rules },
-                        onOpenInsights = { navController.navigateToInsights(it) },
+                        onOpenInsights = {
+                            insightsPeriod = it
+                            selected = RecentrTab.Insights
+                        },
                         onOpenStreak = { navController.navigateToStreak() },
-                        onOpenProfile = { selected = RecentrTab.Profile },
+                        onOpenProfile = { navController.navigateToProfile() },
                         onOpenApp = { packageName, period -> navController.navigateToAppInsights(packageName, period) },
                     )
                     RecentrTab.Rules -> RulesTab(navController = navController, contentPadding = tabBarPadding)
                     RecentrTab.Timer -> FocusTab(navController = navController, contentPadding = tabBarPadding)
-                    RecentrTab.Profile -> ProfileTab(navController = navController, contentPadding = tabBarPadding)
+                    RecentrTab.Insights -> InsightsOverviewTab(
+                        navController = navController,
+                        contentPadding = tabBarPadding,
+                        openPeriod = insightsPeriod,
+                        onPeriodOpened = { insightsPeriod = null },
+                    )
                 }
             }
         }
