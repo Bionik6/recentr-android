@@ -119,7 +119,8 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
     val colors = RecentrTheme.colors
     val status = rule.cardStatus(now)
     val running = rule.runsUntil(now) != null
-    val value = when (val v = rule.cardValue(now)) {
+    val cardValue = rule.cardValue(now)
+    val value = when (val v = cardValue) {
         null -> null
         CardValue.Paused -> stringResource(R.string.rules_value_paused)
         is CardValue.Left -> stringResource(R.string.rules_value_left, countdown(v.millis))
@@ -135,6 +136,8 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
         streak = rule.streakDays.takeIf { it > 0 },
         apps = { CardApps(rule) },
         value = value,
+        // A routine waiting for its window: its countdown in secondary.
+        valueColor = colors.textSecondary.takeIf { cardValue is CardValue.StartsIn },
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()

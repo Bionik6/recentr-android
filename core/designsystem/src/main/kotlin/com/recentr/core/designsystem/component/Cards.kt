@@ -82,6 +82,7 @@ fun SurfaceCard(
  *
  * @param chips status + schedule chips (use [RecentrChip]).
  * @param apps overlapping app icons shown after the [leadingIcon] ([OverlappingInstalledAppIcons]).
+ * @param valueColor the [value]'s colour, primary text by default.
  */
 @Composable
 fun RuleCard(
@@ -91,6 +92,7 @@ fun RuleCard(
     streak: Int? = null,
     apps: @Composable () -> Unit = {},
     value: String? = null,
+    valueColor: Color? = null,
     leadingIcon: RecentrIcon = RecentrIcon.Lock,
     onClick: (() -> Unit)? = null,
     chips: @Composable RowScope.() -> Unit = {},
@@ -138,7 +140,7 @@ fun RuleCard(
             apps()
             Spacer(Modifier.weight(1f))
             if (value != null) {
-                Text(text = value, style = RecentrTheme.typography.title2, color = colors.textPrimary, maxLines = 1)
+                Text(text = value, style = RecentrTheme.typography.title2, color = valueColor ?: colors.textPrimary, maxLines = 1)
             }
         }
     }
