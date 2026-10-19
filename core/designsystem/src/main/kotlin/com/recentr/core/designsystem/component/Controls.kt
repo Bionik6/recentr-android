@@ -320,7 +320,8 @@ fun RecentrSegmented(
                     modifier = Modifier
                         .weight(1f)
                         .clip(RecentrShapes.full)
-                        .selectable(selected = selected, role = Role.Tab) {
+                        // The sliding thumb is the feedback: a ripple would grey it while it moves.
+                        .selectable(selected = selected, interactionSource = null, indication = null, role = Role.Tab) {
                             if (!selected) haptics.selection()
                             onSelect(index)
                         }

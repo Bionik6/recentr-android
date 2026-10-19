@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -163,8 +164,9 @@ private fun ShieldPreview() {
 /** The padlock rests, then shakes from its top for a moment, on a loop (iOS keyframes). */
 @Composable
 private fun WigglingLock() {
+    // Read while drawing, so the lock isn't recomposed every frame.
     val angle = if (LocalReduceMotion.current) {
-        0f
+        rememberUpdatedState(0f)
     } else {
         val transition = rememberInfiniteTransition(label = "lockWiggle")
         transition.animateFloat(
@@ -181,13 +183,13 @@ private fun WigglingLock() {
                 },
             ),
             label = "lockAngle",
-        ).value
+        )
     }
     StickerImage(
         sticker = Sticker.Lock,
         size = 108.dp,
         modifier = Modifier.graphicsLayer {
-            rotationZ = angle
+            rotationZ = angle.value
             transformOrigin = TransformOrigin(0.5f, 0f)
         },
     )

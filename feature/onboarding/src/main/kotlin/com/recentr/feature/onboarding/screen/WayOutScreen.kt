@@ -5,21 +5,23 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
-import com.recentr.core.designsystem.icon.RecentrIcon
-import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
@@ -73,29 +75,53 @@ private val SparkleStars = listOf(
     Sparkle(70, 120, 12, 1000),
 )
 
-/** Little stars twinkling around the mascot, each on its own beat. */
+/**
+ * Little stars twinkling around the mascot, each on its own beat: the iOS bold "sparkle" symbol,
+ * [Sparkle.size] tall, in white with a white glow spreading 6dp around it.
+ */
 @Composable
 private fun Sparkles() {
     SparkleStars.forEach { star ->
         val twinkle by rememberPingPong(from = 0.3f, to = 1f, durationMillis = 1200, delayMillis = star.delayMillis)
-        Box(
-            modifier = Modifier
+        Spacer(
+            Modifier
                 .offset(x = star.x.dp, y = star.y.dp)
+                .size((star.size + 12).dp)
                 .graphicsLayer {
                     val scale = 0.6f + 0.4f * twinkle
                     scaleX = scale
                     scaleY = scale
                     alpha = twinkle
                 }
-                .drawBehind {
-                    drawCircle(
-                        Brush.radialGradient(listOf(Color.White.copy(alpha = 0.7f), Color.Transparent)),
-                        radius = size.minDimension,
-                    )
+                .drawWithCache {
+                    val sparkle = sparklePath(size.center, radius = star.size.dp.toPx() / 2)
+                    val glowRadius = size.minDimension / 2
+                    val glow = Brush.radialGradient(listOf(Color.White.copy(alpha = 0.7f), Color.Transparent), size.center, glowRadius)
+                    onDrawBehind {
+                        drawCircle(glow, radius = glowRadius)
+                        drawPath(sparkle, Color.White)
+                    }
                 },
-        ) {
-            RecentrIconImage(RecentrIcon.Sparkle, tint = Color.White, size = (star.size * 1.2f).dp)
-        }
+        )
+    }
+}
+
+/** A filled four-point star with concave sides, its tips [radius] from [center]. */
+private fun sparklePath(center: Offset, radius: Float): Path {
+    // In a 7-unit radius, from the top tip clockwise; each side bows in towards the centre.
+    val unit = radius / 7f
+    fun Path.side(c1x: Float, c1y: Float, c2x: Float, c2y: Float, x: Float, y: Float) = cubicTo(
+        center.x + c1x * unit, center.y + c1y * unit,
+        center.x + c2x * unit, center.y + c2y * unit,
+        center.x + x * unit, center.y + y * unit,
+    )
+    return Path().apply {
+        moveTo(center.x, center.y - 7 * unit)
+        side(0.9f, -2.4f, 2.4f, -0.9f, 7f, 0f)
+        side(2.4f, 0.9f, 0.9f, 2.4f, 0f, 7f)
+        side(-0.9f, 2.4f, -2.4f, 0.9f, -7f, 0f)
+        side(-2.4f, -0.9f, -0.9f, -2.4f, 0f, -7f)
+        close()
     }
 }
 
