@@ -75,6 +75,8 @@ data class ScreenTimeSummary(
      * reached this month) are left out of the best day and the average line.
      */
     val measuredDays: Set<Int> = ALL_DAYS,
+    /** The day, week or month it covers when read for one (Insights); [period] gives its layout. */
+    val range: UsageRange? = null,
 ) {
     /** Average minutes per day over the period (equals [totalMinutes] for single days). */
     val dailyAverageMinutes: Int

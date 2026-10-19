@@ -9,6 +9,7 @@ import com.recentr.core.model.PickupStats
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneId
@@ -41,22 +42,36 @@ interface ScreenTimeRepository {
     val source: StateFlow<ScreenTimeSource>
 
     /**
-     * Emits [ScreenTimeState.Syncing] first, then the summary for [period]. Collect it again to
-     * re-sync (the Home refresh button does).
+     * Emits [ScreenTimeState.Syncing] first, then the summary of [range] (a day, week or month,
+     * up to today; [ScreenTimeSummary.range] is set). Collect it again to re-sync.
      */
-    fun summary(period: UsagePeriod): Flow<ScreenTimeState>
+    fun summary(range: UsageRange): Flow<ScreenTimeState>
+
+    /** Home's [period], on today's calendar. */
+    fun summary(period: UsagePeriod): Flow<ScreenTimeState> = summary(UsageRange.of(period, LocalDate.now()))
 
     /** Totals of each day from [from] to [to] (inclusive); days to come have no data. */
     suspend fun dailyStats(from: LocalDate, to: LocalDate): List<DayStats>
 
-    /** [packageName] over [period], or null when the app is unknown. */
-    suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail?
+    /** [packageName] over [range], or null when the app is unknown. */
+    suspend fun appDetail(packageName: String, range: UsageRange): AppUsageDetail?
 
-    /** Pickups over [period] and the apps opened first after them. */
-    suspend fun pickups(period: UsagePeriod): PickupStats
+    suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? =
+        appDetail(packageName, UsageRange.of(period, LocalDate.now()))
+
+    /** Pickups over [range] and the apps opened first after them. */
+    suspend fun pickups(range: UsageRange): PickupStats
+
+    suspend fun pickups(period: UsagePeriod): PickupStats = pickups(UsageRange.of(period, LocalDate.now()))
 
     /** Minutes per package from [start] (epoch millis) until now: a daily limit's period ([periodStart]). */
     suspend fun appMinutesSince(start: Long): Map<String, Int>
+
+    /**
+     * The first day this device has screen time for, or null when it has none: Insights' date
+     * selector goes no further back.
+     */
+    suspend fun firstDataDay(): LocalDate?
 }
 
 /**
@@ -68,16 +83,17 @@ class EmptyScreenTimeRepository(private val zone: () -> ZoneId = ZoneId::systemD
 
     override val source: StateFlow<ScreenTimeSource> = MutableStateFlow(ScreenTimeSource.NoAccess)
 
-    override fun summary(period: UsagePeriod): Flow<ScreenTimeState> = flowOf(
+    override fun summary(range: UsageRange): Flow<ScreenTimeState> = flowOf(
         ScreenTimeState.Ready(
             ScreenTimeAggregation.summarize(
-                period = period,
+                period = range.period(LocalDate.now(zone())),
                 days = emptyList(),
                 zone = zone(),
                 resolveApp = { null },
                 baselineDailyMinutes = 0,
                 streakDays = 0,
                 previousTotalMinutes = null,
+                range = range,
             ).copy(focusPercent = 0, socialPercent = 0, funPercent = 0),
         ),
     )
@@ -87,12 +103,14 @@ class EmptyScreenTimeRepository(private val zone: () -> ZoneId = ZoneId::systemD
             .map { DayStats(it, hasData = false, minutes = 0, pickups = 0) }
             .toList()
 
-    override suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? = null
+    override suspend fun appDetail(packageName: String, range: UsageRange): AppUsageDetail? = null
 
-    override suspend fun pickups(period: UsagePeriod): PickupStats =
-        ScreenTimeAggregation.pickupStats(period, emptyList(), zone(), resolveApp = { null })
+    override suspend fun pickups(range: UsageRange): PickupStats =
+        ScreenTimeAggregation.pickupStats(range.period(LocalDate.now(zone())), emptyList(), zone(), resolveApp = { null })
 
     override suspend fun appMinutesSince(start: Long): Map<String, Int> = emptyMap()
+
+    override suspend fun firstDataDay(): LocalDate? = null
 }
 
 /**
@@ -107,13 +125,17 @@ class DemoScreenTimeRepository(
 
     override val source: StateFlow<ScreenTimeSource> = MutableStateFlow(ScreenTimeSource.NoAccess)
 
-    override fun summary(period: UsagePeriod): Flow<ScreenTimeState> = flow {
+    /** Any day, week or month reads like today's, this week's or this month's demo numbers. */
+    override fun summary(range: UsageRange): Flow<ScreenTimeState> = flow {
         emit(ScreenTimeState.Syncing)
         delay(syncDelayMillis)
         val goal = goalMinutes?.first()
-        val summary = snapshot(period)
+        val summary = snapshot(range.period(LocalDate.now())).copy(range = range)
         emit(ScreenTimeState.Ready(if (goal == null) summary else summary.copy(streakDays = streak(goal))))
     }
+
+    /** The first of the demo days. */
+    override suspend fun firstDataDay(): LocalDate? = LocalDate.now().minusDays(HISTORY_DAYS)
 
     /** Streak of the demo days against [goal] (savers included). */
     private fun streak(goal: Int, today: LocalDate = LocalDate.now()): Int {
@@ -162,8 +184,9 @@ class DemoScreenTimeRepository(
         }.toList()
     }
 
-    override suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? {
+    override suspend fun appDetail(packageName: String, range: UsageRange): AppUsageDetail? {
         delay(syncDelayMillis / 2)
+        val period = range.period(LocalDate.now())
         val summary = demo(period)
         val usage = summary.mostUsed.firstOrNull { it.app.packageName == packageName }
         val app = usage?.app ?: AppId.fromPackageName(packageName)?.let { UsageApp.of(it, packageName) } ?: return null
@@ -180,8 +203,9 @@ class DemoScreenTimeRepository(
         )
     }
 
-    override suspend fun pickups(period: UsagePeriod): PickupStats {
+    override suspend fun pickups(range: UsageRange): PickupStats {
         delay(syncDelayMillis / 2)
+        val period = range.period(LocalDate.now())
         val summary = demo(period)
         val firstOpens = listOf(AppId.Instagram to 14, AppId.X to 9, AppId.Gmail to 6).map { (app, share) ->
             AppOpenCount(UsageApp.of(app), (summary.pickups * share / 38).coerceAtLeast(1))

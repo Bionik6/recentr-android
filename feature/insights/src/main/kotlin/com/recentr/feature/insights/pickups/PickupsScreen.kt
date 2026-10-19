@@ -35,6 +35,11 @@ import com.recentr.core.model.AppOpenCount
 import com.recentr.core.model.PickupStats
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
+import com.recentr.feature.insights.ui.RangeName
+import com.recentr.feature.insights.ui.name
+import com.recentr.feature.insights.ui.rangeLabel
+import java.time.LocalDate
 import com.recentr.feature.insights.R
 import com.recentr.feature.insights.ui.CardTitle
 import com.recentr.feature.insights.ui.IconChip
@@ -53,20 +58,27 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @Immutable
-internal data class PickupsUiState(val period: UsagePeriod, val stats: PickupStats? = null)
+internal data class PickupsUiState(
+    /** The day, week or month chosen in the overview. */
+    val range: UsageRange,
+    val stats: PickupStats? = null,
+    val today: LocalDate = LocalDate.now(),
+) {
+    val period: UsagePeriod get() = range.period(today)
+}
 
-/** 101 · Pickups over the period chosen in the overview. */
-internal class PickupsViewModel(period: UsagePeriod, screenTime: ScreenTimeRepository) : ViewModel() {
-    private val _state = MutableStateFlow(PickupsUiState(period))
+/** 101 · Pickups over the day, week or month chosen in the overview. */
+internal class PickupsViewModel(range: UsageRange, screenTime: ScreenTimeRepository) : ViewModel() {
+    private val _state = MutableStateFlow(PickupsUiState(range))
     val state: StateFlow<PickupsUiState> = _state.asStateFlow()
 
     init {
-        viewModelScope.launch { _state.value = PickupsUiState(period, screenTime.pickups(period)) }
+        viewModelScope.launch { _state.value = PickupsUiState(range, screenTime.pickups(range)) }
     }
 
     companion object {
-        fun factory(period: UsagePeriod) = viewModelFactory {
-            initializer { PickupsViewModel(period, RecentrData.screenTime) }
+        fun factory(range: UsageRange) = viewModelFactory {
+            initializer { PickupsViewModel(range, RecentrData.screenTime) }
         }
     }
 }
@@ -89,6 +101,7 @@ internal fun PickupsScreen(
         topBar = {
             InsightsTopBar(
                 title = stringResource(R.string.insights_pickups),
+                subtitle = rangeLabel(state.range, state.today),
                 onBack = onBack,
                 trailing = { MoreMenuButton(listOf(stringResource(R.string.insights_start_bedtime) to onStartBedtime)) },
             )
@@ -108,9 +121,10 @@ internal fun PickupsScreen(
             Text(count.toString(), style = RecentrTheme.typography.displayNumber, color = colors.textPrimary, maxLines = 1)
             Text(
                 pluralStringResource(
-                    when (state.period) {
-                        UsagePeriod.Today -> R.plurals.insights_pickups_today
-                        UsagePeriod.Yesterday -> R.plurals.insights_pickups_yesterday
+                    when (state.range.name(state.today)) {
+                        RangeName.Today -> R.plurals.insights_pickups_today
+                        RangeName.Yesterday -> R.plurals.insights_pickups_yesterday
+                        is RangeName.Day -> R.plurals.insights_pickups_that_day
                         else -> R.plurals.insights_pickups_a_day
                     },
                     count,
@@ -194,7 +208,7 @@ private fun PickupsPreview() {
     RecentrTheme {
         PickupsScreen(
             state = PickupsUiState(
-                period = UsagePeriod.Today,
+                range = UsageRange.of(UsagePeriod.Today, LocalDate.now()),
                 stats = PickupStats(
                     period = UsagePeriod.Today,
                     pickups = 38,

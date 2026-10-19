@@ -20,4 +20,5 @@ android {
 dependencies {
     // Rules are saved as JSON (RulesRepository).
     api(libs.kotlinx.serialization.json)
+    testImplementation(libs.junit)
 }

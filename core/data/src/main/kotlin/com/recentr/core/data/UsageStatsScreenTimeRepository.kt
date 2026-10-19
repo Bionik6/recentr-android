@@ -12,9 +12,11 @@ import com.recentr.core.model.AppId
 import com.recentr.core.model.AppUsageDetail
 import com.recentr.core.model.DayStats
 import com.recentr.core.model.PickupStats
+import com.recentr.core.model.RangeUnit
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import com.recentr.core.model.UserProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -24,12 +26,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runInterruptible
-import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.time.temporal.TemporalAdjusters
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.TimeSource
 
@@ -63,31 +63,26 @@ class UsageStatsScreenTimeRepository(
     private val apps = ConcurrentHashMap<String, ResolvedApp>()
     private val ignoredPackages: Set<String> by lazy { homePackages() + SYSTEM_UI }
 
-    override fun summary(period: UsagePeriod): Flow<ScreenTimeState> = flow {
+    override fun summary(range: UsageRange): Flow<ScreenTimeState> = flow {
         emit(ScreenTimeState.Syncing)
         val started = TimeSource.Monotonic.markNow()
         val user = profile.first()
-        val summary = runInterruptible(Dispatchers.IO) { load(period, user) }
+        val summary = runInterruptible(Dispatchers.IO) { load(range, user) }
         val remaining = minSyncMillis - started.elapsedNow().inWholeMilliseconds
         if (remaining > 0) delay(remaining)
         emit(ScreenTimeState.Ready(summary))
     }
 
-    private fun load(period: UsagePeriod, user: UserProfile): ScreenTimeSummary {
+    /** Home's periods follow [clock]. */
+    override fun summary(period: UsagePeriod): Flow<ScreenTimeState> = summary(UsageRange.of(period, today()))
+
+    private fun load(range: UsageRange, user: UserProfile): ScreenTimeSummary {
         val zone = ZoneId.systemDefault()
         val now = Instant.ofEpochMilli(clock()).atZone(zone)
         val today = now.toLocalDate()
         val todayUsage = day(today, zone, until = now)
-        val days = periodDays(period, zone, now, todayUsage)
-
-        val previousTotal: Int? = when (period) {
-            UsagePeriod.Today ->
-                completedDay(today.minusDays(1), zone).takeIf { it.hasData }?.screenMillis?.roundedMinutes()
-            UsagePeriod.Yesterday -> null
-            UsagePeriod.ThisWeek ->
-                spanMinutes(today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).minusWeeks(1), now.minusWeeks(1), zone)
-            UsagePeriod.ThisMonth -> spanMinutes(today.withDayOfMonth(1).minusMonths(1), now.minusMonths(1), zone)
-        }
+        val days = rangeDays(range, zone, now, todayUsage)
+        val previousTotal = previousTotalMinutes(range, zone, now)
 
         val streak = ScreenTimeAggregation.streakDays(
             today = todayUsage,
@@ -97,15 +92,48 @@ class UsageStatsScreenTimeRepository(
             saversPerMonth = Streaks.SAVERS_PER_MONTH,
         )
         return ScreenTimeAggregation.summarize(
-            period = period,
+            period = range.period(today),
             days = days,
             zone = zone,
             resolveApp = ::resolveApp,
             baselineDailyMinutes = ReportedUsage.dailyMinutes(user.reportedUsageBucket),
             streakDays = streak,
             previousTotalMinutes = previousTotal,
+            range = range,
         )
     }
+
+    /**
+     * The range before [range], for "38% less than last week": as far into it as now is into
+     * [range] for the current day, week or month, whole for a past one. Null without data.
+     */
+    private fun previousTotalMinutes(range: UsageRange, zone: ZoneId, now: ZonedDateTime): Int? {
+        val previous = range.previous()
+        val today = now.toLocalDate()
+        if (today !in range) {
+            val days = previous.daysUntil(today).map { completedDay(it, zone) }.filter { it.hasData }
+            return days.takeIf { it.isNotEmpty() }?.sumOf { it.screenMillis }?.roundedMinutes()
+        }
+        return when (range.unit) {
+            RangeUnit.Day -> completedDay(previous.start, zone).takeIf { it.hasData }?.screenMillis?.roundedMinutes()
+            RangeUnit.Week -> spanMinutes(previous.start, now.minusWeeks(1), zone)
+            RangeUnit.Month -> spanMinutes(previous.start, now.minusMonths(1), zone)
+        }
+    }
+
+    /**
+     * The oldest daily bucket the system keeps (`queryUsageStats`, daily interval): a day's
+     * events are kept with it, so the days before have nothing to read.
+     */
+    override suspend fun firstDataDay(): LocalDate? = runInterruptible(Dispatchers.IO) {
+        val now = clock()
+        val first = usageStats?.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, 0, now)
+            ?.mapNotNull { stats -> stats.firstTimeStamp.takeIf { it in 1..now } }
+            ?.minOrNull()
+        first?.let { Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate() }
+    }
+
+    private fun today(): LocalDate = Instant.ofEpochMilli(clock()).atZone(ZoneId.systemDefault()).toLocalDate()
 
     override suspend fun dailyStats(from: LocalDate, to: LocalDate): List<DayStats> = runInterruptible(Dispatchers.IO) {
         val zone = ZoneId.systemDefault()
@@ -123,17 +151,17 @@ class UsageStatsScreenTimeRepository(
             .toList()
     }
 
-    override suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? = runInterruptible(Dispatchers.IO) {
+    override suspend fun appDetail(packageName: String, range: UsageRange): AppUsageDetail? = runInterruptible(Dispatchers.IO) {
         val app = resolveApp(packageName) ?: return@runInterruptible null
         val zone = ZoneId.systemDefault()
         val now = Instant.ofEpochMilli(clock()).atZone(zone)
-        ScreenTimeAggregation.appDetail(app, period, periodDays(period, zone, now), zone)
+        ScreenTimeAggregation.appDetail(app, range.period(now.toLocalDate()), rangeDays(range, zone, now), zone)
     }
 
-    override suspend fun pickups(period: UsagePeriod): PickupStats = runInterruptible(Dispatchers.IO) {
+    override suspend fun pickups(range: UsageRange): PickupStats = runInterruptible(Dispatchers.IO) {
         val zone = ZoneId.systemDefault()
         val now = Instant.ofEpochMilli(clock()).atZone(zone)
-        ScreenTimeAggregation.pickupStats(period, periodDays(period, zone, now), zone, ::resolveApp)
+        ScreenTimeAggregation.pickupStats(range.period(now.toLocalDate()), rangeDays(range, zone, now), zone, ::resolveApp)
     }
 
     override suspend fun appMinutesSince(start: Long): Map<String, Int> = runInterruptible(Dispatchers.IO) {
@@ -143,19 +171,16 @@ class UsageStatsScreenTimeRepository(
         ScreenTimeAggregation.appMinutes(currentDays(first, day(now.toLocalDate(), zone, until = now), zone), since = start)
     }
 
-    /** The days of [period] in order (today's partial day last for the current periods). */
-    private fun periodDays(
-        period: UsagePeriod,
+    /** The days of [range] up to now, in order (today's partial day last for a current range). */
+    private fun rangeDays(
+        range: UsageRange,
         zone: ZoneId,
         now: ZonedDateTime,
-        todayUsage: DayUsage = day(now.toLocalDate(), zone, until = now),
+        todayUsage: DayUsage? = null,
     ): List<DayUsage> {
         val today = now.toLocalDate()
-        return when (period) {
-            UsagePeriod.Today -> listOf(todayUsage)
-            UsagePeriod.Yesterday -> listOf(completedDay(today.minusDays(1), zone))
-            UsagePeriod.ThisWeek -> currentDays(today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)), todayUsage, zone)
-            UsagePeriod.ThisMonth -> currentDays(today.withDayOfMonth(1), todayUsage, zone)
+        return range.daysUntil(today).map { date ->
+            if (date == today) todayUsage ?: day(today, zone, until = now) else completedDay(date, zone)
         }
     }
 

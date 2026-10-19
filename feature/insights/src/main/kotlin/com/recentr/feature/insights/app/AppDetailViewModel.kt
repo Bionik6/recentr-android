@@ -14,6 +14,8 @@ import com.recentr.core.model.AppUsageDetail
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
+import java.time.LocalDate
 import java.time.ZoneId
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,24 +27,29 @@ import kotlinx.coroutines.launch
 
 @Immutable
 internal data class AppDetailUiState(
-    val period: UsagePeriod,
+    /** The day, week or month chosen in the overview. */
+    val range: UsageRange,
+    val today: LocalDate = LocalDate.now(),
     val detail: AppUsageDetail? = null,
     val loading: Boolean = true,
     /** The daily limit covering this app, if any. */
     val limitRule: Rule? = null,
     /** Minutes the apps of [limitRule] used in its current period (the limit is shared by its apps). */
     val limitUsedMinutes: Int? = null,
-)
+) {
+    /** One day's hours or several days' (today only shows the daily limit). */
+    val period: UsagePeriod get() = range.period(today)
+}
 
-/** 100 · App detail: one app over the period chosen in the overview, and its daily limit. */
+/** 100 · App detail: one app over the day, week or month chosen in the overview, and its daily limit. */
 internal class AppDetailViewModel(
     private val packageName: String,
-    private val period: UsagePeriod,
+    private val range: UsageRange,
     private val screenTime: ScreenTimeRepository,
     rules: RulesRepository,
 ) : ViewModel() {
 
-    private val local = MutableStateFlow(AppDetailUiState(period))
+    private val local = MutableStateFlow(AppDetailUiState(range))
 
     val state: StateFlow<AppDetailUiState> = combine(local, rules.rules) { state, ruleList ->
         val app = state.detail?.app
@@ -51,10 +58,10 @@ internal class AppDetailViewModel(
 
     init {
         viewModelScope.launch {
-            val detail = screenTime.appDetail(packageName, period)
+            val detail = screenTime.appDetail(packageName, range)
             local.update { it.copy(detail = detail, loading = false) }
             // The limit's apps' use since it last reset (midnight, 4:00 or Monday), for "14m over your limit".
-            if (period == UsagePeriod.Today && detail != null) {
+            if (state.value.period == UsagePeriod.Today && detail != null) {
                 val rule = state.value.limitRule ?: rules.rules.value.firstOrNull { rule ->
                     rule.type == RuleType.Limit && rule.enabled && rule.targets(detail.app.packageName)
                 }
@@ -68,8 +75,8 @@ internal class AppDetailViewModel(
     }
 
     companion object {
-        fun factory(packageName: String, period: UsagePeriod) = viewModelFactory {
-            initializer { AppDetailViewModel(packageName, period, RecentrData.screenTime, RecentrData.rules) }
+        fun factory(packageName: String, range: UsageRange) = viewModelFactory {
+            initializer { AppDetailViewModel(packageName, range, RecentrData.screenTime, RecentrData.rules) }
         }
     }
 }

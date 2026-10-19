@@ -15,9 +15,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.recentr.core.model.Achievement
+import com.recentr.core.model.RangeUnit
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import com.recentr.feature.insights.achievements.AchievementsScreen
 import com.recentr.feature.insights.achievements.AchievementsViewModel
 import com.recentr.feature.insights.achievements.BadgeSheet
@@ -30,7 +32,6 @@ import com.recentr.feature.insights.goal.DailyGoalScreen
 import com.recentr.feature.insights.goal.DailyGoalViewModel
 import com.recentr.feature.insights.overview.InsightsOverviewScreen
 import com.recentr.feature.insights.overview.InsightsOverviewViewModel
-import com.recentr.feature.insights.overview.InsightsTab
 import com.recentr.feature.insights.overview.OverviewActions
 import com.recentr.feature.insights.pickups.PickupsScreen
 import com.recentr.feature.insights.pickups.PickupsViewModel
@@ -38,13 +39,22 @@ import com.recentr.feature.insights.report.MonthlyReportScreen
 import com.recentr.feature.insights.report.MonthlyReportViewModel
 import com.recentr.feature.insights.share.ShareScreen
 import com.recentr.feature.insights.share.ShareSubject
+import java.time.LocalDate
 import kotlinx.serialization.Serializable
 
-/** 100 · App detail over [period] (a [UsagePeriod] name). */
-@Serializable internal data class AppDetailRoute(val packageName: String, val period: String)
+/** 100 · App detail over a day, week or month: a [RangeUnit] name and its first day (ISO). */
+@Serializable internal data class AppDetailRoute(val packageName: String, val unit: String, val start: String) {
+    constructor(packageName: String, range: UsageRange) : this(packageName, range.unit.name, range.start.toString())
 
-/** 101 · Pickups over [period]. */
-@Serializable internal data class PickupsRoute(val period: String)
+    val range: UsageRange get() = UsageRange.of(RangeUnit.valueOf(unit), LocalDate.parse(start))
+}
+
+/** 101 · Pickups over a day, week or month. */
+@Serializable internal data class PickupsRoute(val unit: String, val start: String) {
+    constructor(range: UsageRange) : this(range.unit.name, range.start.toString())
+
+    val range: UsageRange get() = UsageRange.of(RangeUnit.valueOf(unit), LocalDate.parse(start))
+}
 
 /** 104 · Daily goal. */
 @Serializable internal data object DailyGoalRoute
@@ -68,9 +78,9 @@ import kotlinx.serialization.Serializable
 @Serializable internal data class ShareRoute(val achievement: String? = null)
 
 /**
- * Insights tab content (Figma 99 / 102 under a tab header), on the Week tab at first. Drawn under
- * the floating tab bar: [contentPadding] (bottom) is kept clear for it. [openPeriod] (Home's usage
- * card) switches to the tab of that period, then [onPeriodOpened] clears it.
+ * Insights tab content (Figma 99 / 102 under a tab header), on today's Day tab at first. Drawn
+ * under the floating tab bar: [contentPadding] (bottom) is kept clear for it. [openPeriod] (Home's
+ * usage card) switches to that period, then [onPeriodOpened] clears it.
  */
 @Composable
 fun InsightsOverviewTab(
@@ -81,7 +91,7 @@ fun InsightsOverviewTab(
     onPeriodOpened: () -> Unit = {},
 ) {
     val viewModel: InsightsOverviewViewModel = viewModel(
-        factory = InsightsOverviewViewModel.factory(InsightsTab.Week, UsagePeriod.Today),
+        factory = InsightsOverviewViewModel.factory(UsageRange.of(RangeUnit.Day, LocalDate.now())),
     )
     val state by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(openPeriod) {
@@ -95,9 +105,11 @@ fun InsightsOverviewTab(
         state = state,
         actions = OverviewActions(
             onSelectTab = viewModel::selectTab,
-            onOpenApp = { packageName, period -> open(AppDetailRoute(packageName, period.name)) },
+            onPrevious = viewModel::previous,
+            onNext = viewModel::next,
+            onOpenApp = { packageName, range -> open(AppDetailRoute(packageName, range)) },
             onOpenDailyGoal = { open(DailyGoalRoute) },
-            onOpenPickups = { open(PickupsRoute(it.name)) },
+            onOpenPickups = { open(PickupsRoute(it)) },
             onOpenStreak = { open(StreakRoute) },
             onOpenAchievements = { open(AchievementsRoute) },
             onOpenReport = { open(MonthlyReportRoute) },
@@ -109,7 +121,7 @@ fun InsightsOverviewTab(
 
 /** Opens one app's insights over [period] (Home "Most used"). */
 fun NavHostController.navigateToAppInsights(packageName: String, period: UsagePeriod) {
-    navigate(AppDetailRoute(packageName, period.name)) { launchSingleTop = true }
+    navigate(AppDetailRoute(packageName, UsageRange.of(period, LocalDate.now()))) { launchSingleTop = true }
 }
 
 /** Opens the streak screen (Home's streak flame). */
@@ -133,7 +145,7 @@ fun NavGraphBuilder.insightsDestinations(
 
     composable<AppDetailRoute> { entry ->
         val route = entry.toRoute<AppDetailRoute>()
-        val viewModel: AppDetailViewModel = viewModel(factory = AppDetailViewModel.factory(route.packageName, UsagePeriod.valueOf(route.period)))
+        val viewModel: AppDetailViewModel = viewModel(factory = AppDetailViewModel.factory(route.packageName, route.range))
         val state by viewModel.state.collectAsStateWithLifecycle()
         AppDetailScreen(
             state = state,
@@ -144,7 +156,7 @@ fun NavGraphBuilder.insightsDestinations(
     }
     composable<PickupsRoute> { entry ->
         val route = entry.toRoute<PickupsRoute>()
-        val viewModel: PickupsViewModel = viewModel(factory = PickupsViewModel.factory(UsagePeriod.valueOf(route.period)))
+        val viewModel: PickupsViewModel = viewModel(factory = PickupsViewModel.factory(route.range))
         val state by viewModel.state.collectAsStateWithLifecycle()
         PickupsScreen(state = state, onBack = back, onStartBedtime = { onCreateRule(RuleType.Bedtime, emptyList()) })
     }

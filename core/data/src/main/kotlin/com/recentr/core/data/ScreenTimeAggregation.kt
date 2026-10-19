@@ -9,6 +9,7 @@ import com.recentr.core.model.PickupStats
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -433,8 +434,9 @@ internal object ScreenTimeAggregation {
     }
 
     /**
-     * Builds the summary of [period] from its [days] (in order; today's partial day last for the
-     * current periods). Days without data are left out of the totals and averages.
+     * Builds the summary of [period] (or of [range], laid out as [period]) from its [days] (in
+     * order; today's partial day last for the current periods). Days without data are left out of
+     * the totals and averages.
      *
      * @param resolveApp label / category of a package; null hides it from the Most used list
      *   (its time still counts).
@@ -448,6 +450,7 @@ internal object ScreenTimeAggregation {
         baselineDailyMinutes: Int,
         streakDays: Int,
         previousTotalMinutes: Int?,
+        range: UsageRange? = null,
     ): ScreenTimeSummary {
         val covered = days.filter { it.hasData }
         val dayCount = covered.size.coerceAtLeast(1)
@@ -499,6 +502,7 @@ internal object ScreenTimeAggregation {
             days = dayCount,
             previousTotalMinutes = previousTotalMinutes,
             measuredDays = weekdayMinutes.keys.toSet(),
+            range = range,
         )
     }
 

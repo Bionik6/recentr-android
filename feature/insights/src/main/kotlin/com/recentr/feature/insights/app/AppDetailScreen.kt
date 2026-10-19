@@ -28,6 +28,7 @@ import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import com.recentr.feature.insights.R
 import com.recentr.feature.insights.ui.CardTitle
 import com.recentr.feature.insights.ui.HourBarsChart
@@ -39,6 +40,7 @@ import com.recentr.feature.insights.ui.MoreMenuButton
 import com.recentr.feature.insights.ui.UsageAppIcon
 import com.recentr.feature.insights.ui.clock
 import com.recentr.feature.insights.ui.duration
+import com.recentr.feature.insights.ui.rangeLabel
 import com.recentr.feature.insights.ui.hourLabel
 import com.recentr.feature.insights.ui.labelRes
 
@@ -66,7 +68,7 @@ internal fun AppDetailScreen(
             InsightsTopBar(
                 title = detail?.app?.label.orEmpty(),
                 subtitle = detail?.let {
-                    stringResource(R.string.insights_app_subtitle, stringResource(it.app.category.labelRes), stringResource(state.period.labelRes))
+                    stringResource(R.string.insights_app_subtitle, stringResource(it.app.category.labelRes), rangeLabel(state.range, state.today))
                 },
                 onBack = onBack,
                 trailing = if (app != null) {
@@ -187,7 +189,7 @@ private fun AppDetailPreview() {
     RecentrTheme {
         AppDetailScreen(
             state = AppDetailUiState(
-                period = UsagePeriod.Today,
+                range = UsageRange.of(UsagePeriod.Today, java.time.LocalDate.now()),
                 detail = AppUsageDetail(UsageApp.of(AppId.TikTok), UsagePeriod.Today, 54, 23, hourly, 22, 7 * 60 + 12, 1),
                 loading = false,
                 limitRule = Rule("social", RuleType.Limit, "Social time", apps = listOf(AppId.TikTok).map { UsageApp.of(it) }, limitMinutes = 40),

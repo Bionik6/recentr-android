@@ -3,7 +3,7 @@ package com.recentr.core.data
 import com.recentr.core.model.AppUsageDetail
 import com.recentr.core.model.DayStats
 import com.recentr.core.model.PickupStats
-import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import java.time.LocalDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,29 +32,31 @@ class UsageAccessScreenTimeRepository(
         current.value = currentSource()
     }
 
-    override fun summary(period: UsagePeriod): Flow<ScreenTimeState> = flow {
+    override fun summary(range: UsageRange): Flow<ScreenTimeState> = flow {
         if (current.value == ScreenTimeSource.Device) {
             emitAll(
-                device.summary(period).catch { error ->
+                device.summary(range).catch { error ->
                     // Access revoked while the app was in the foreground: nothing to show any more.
                     if (error !is SecurityException) throw error
                     recheckUsageAccess()
-                    emitAll(noAccess.summary(period))
+                    emitAll(noAccess.summary(range))
                 },
             )
         } else {
-            emitAll(noAccess.summary(period))
+            emitAll(noAccess.summary(range))
         }
     }
 
     override suspend fun dailyStats(from: LocalDate, to: LocalDate): List<DayStats> = fromSource { it.dailyStats(from, to) }
 
-    override suspend fun appDetail(packageName: String, period: UsagePeriod): AppUsageDetail? =
-        fromSource { it.appDetail(packageName, period) }
+    override suspend fun appDetail(packageName: String, range: UsageRange): AppUsageDetail? =
+        fromSource { it.appDetail(packageName, range) }
 
-    override suspend fun pickups(period: UsagePeriod): PickupStats = fromSource { it.pickups(period) }
+    override suspend fun pickups(range: UsageRange): PickupStats = fromSource { it.pickups(range) }
 
     override suspend fun appMinutesSince(start: Long): Map<String, Int> = fromSource { it.appMinutesSince(start) }
+
+    override suspend fun firstDataDay(): LocalDate? = fromSource { it.firstDataDay() }
 
     /** Runs [read] on the current source, falling back to [noAccess] when access was just revoked. */
     private suspend fun <T> fromSource(read: suspend (ScreenTimeRepository) -> T): T {

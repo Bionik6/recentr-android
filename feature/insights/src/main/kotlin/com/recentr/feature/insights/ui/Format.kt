@@ -13,8 +13,10 @@ import com.recentr.core.designsystem.illustration.AppIcon
 import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.model.AppCategory
+import com.recentr.core.model.RangeUnit
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import com.recentr.feature.insights.R
 import java.time.LocalDate
 import java.time.YearMonth
@@ -90,6 +92,56 @@ internal fun monthName(month: YearMonth): String = stringArrayResource(R.array.i
 @ReadOnlyComposable
 internal fun shortDate(date: LocalDate): String =
     stringResource(R.string.insights_date, stringArrayResource(R.array.insights_months_short)[date.monthValue - 1], date.dayOfMonth)
+
+/** How the date selector names a day, week or month. */
+internal sealed interface RangeName {
+    data object Today : RangeName
+    data object Yesterday : RangeName
+    data object ThisWeek : RangeName
+    data object LastWeek : RangeName
+    data class Day(val date: LocalDate, val withYear: Boolean) : RangeName
+    data class Week(val start: LocalDate, val end: LocalDate, val withYear: Boolean) : RangeName
+    data class Month(val month: YearMonth, val withYear: Boolean) : RangeName
+}
+
+/** Today, yesterday, this week and last week by name; other days and weeks by date, months by name (the year when not this one). */
+internal fun UsageRange.name(today: LocalDate): RangeName = when (unit) {
+    RangeUnit.Day -> when (start) {
+        today -> RangeName.Today
+        today.minusDays(1) -> RangeName.Yesterday
+        else -> RangeName.Day(start, withYear = start.year != today.year)
+    }
+    RangeUnit.Week -> {
+        val thisWeek = UsageRange.of(RangeUnit.Week, today)
+        when (this) {
+            thisWeek -> RangeName.ThisWeek
+            thisWeek.previous() -> RangeName.LastWeek
+            else -> RangeName.Week(start, end, withYear = start.year != today.year || end.year != today.year)
+        }
+    }
+    RangeUnit.Month -> RangeName.Month(month, withYear = month.year != today.year)
+}
+
+/** "Today", "Sun, Oct 18", "Last week", "Oct 5 – 11", "Sep 28 – Oct 4", "October", "December 2025". */
+@Composable
+@ReadOnlyComposable
+internal fun rangeLabel(range: UsageRange, today: LocalDate): String = when (val name = range.name(today)) {
+    RangeName.Today -> stringResource(R.string.insights_period_today)
+    RangeName.Yesterday -> stringResource(R.string.insights_period_yesterday)
+    RangeName.ThisWeek -> stringResource(R.string.insights_period_week)
+    RangeName.LastWeek -> stringResource(R.string.insights_period_last_week)
+    is RangeName.Day -> {
+        val day = stringResource(R.string.insights_range_day, stringArrayResource(R.array.insights_weekday_short)[name.date.dayOfWeek.value - 1], shortDate(name.date))
+        if (name.withYear) stringResource(R.string.insights_with_year, day, name.date.year) else day
+    }
+    is RangeName.Week -> {
+        val first = shortDate(name.start)
+        val last = if (name.end.month == name.start.month) name.end.dayOfMonth.toString() else shortDate(name.end)
+        val span = stringResource(R.string.insights_range_span, first, last)
+        if (name.withYear) stringResource(R.string.insights_with_year, span, name.end.year) else span
+    }
+    is RangeName.Month -> if (name.withYear) stringResource(R.string.insights_with_year, monthName(name.month), name.month.year) else monthName(name.month)
+}
 
 /** "Wednesday". */
 @Composable

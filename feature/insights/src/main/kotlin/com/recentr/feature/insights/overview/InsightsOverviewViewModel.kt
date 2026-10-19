@@ -8,15 +8,17 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.ScreenTimeRepository
 import com.recentr.core.data.ScreenTimeState
-import com.recentr.core.data.UserPreferencesRepository
 import com.recentr.core.model.AppCategory
 import com.recentr.core.model.DayStats
+import com.recentr.core.model.RangeUnit
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import com.recentr.core.model.UserProfile
 import java.time.LocalDate
 import java.time.YearMonth
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,30 +29,30 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/** Tabs of the Insights overview (Figma 99 · Day / Week / Month, Month = Figma 102). */
-internal enum class InsightsTab { Day, Week, Month }
-
 @Immutable
 internal data class OverviewUiState(
-    val tab: InsightsTab = InsightsTab.Week,
-    /** The day shown by the Day tab (Home's Today or Yesterday). */
-    val dayPeriod: UsagePeriod = UsagePeriod.Today,
-    /** Numbers of the Day / Week tab; null while the first sync runs. */
+    /** The day, week or month shown: the Day / Week / Month tab and the date selector. */
+    val range: UsageRange = UsageRange.of(RangeUnit.Day, LocalDate.now()),
+    /** The first day with screen time on the device: the selector stops there (null: no data). */
+    val firstDay: LocalDate? = null,
+    /** Numbers of the Day / Week tab ([ScreenTimeSummary.range] tells which); null while the first sync runs. */
     val summary: ScreenTimeSummary? = null,
     val loading: Boolean = true,
     val goalMinutes: Int = UserProfile().dailyGoalMinutes,
-    val month: YearMonth = YearMonth.now(),
-    /** Every day of [month] (Month tab); null while loading. */
+    /** Every day of the month shown (Month tab); null while loading. */
     val monthDays: List<DayStats>? = null,
     val today: LocalDate = LocalDate.now(),
 ) {
-    /** Period of the Day / Week tab. */
-    val period: UsagePeriod
-        get() = when (tab) {
-            InsightsTab.Day -> dayPeriod
-            InsightsTab.Week -> UsagePeriod.ThisWeek
-            InsightsTab.Month -> UsagePeriod.ThisMonth
-        }
+    val tab: RangeUnit get() = range.unit
+
+    val month: YearMonth get() = range.month
+
+    /** How the Day / Week numbers are laid out (one day's hours, or a week's days). */
+    val period: UsagePeriod get() = range.period(today)
+
+    val canGoBack: Boolean get() = range.hasPrevious(firstDay)
+
+    val canGoForward: Boolean get() = range.hasNext(today)
 
     /** Day with the least screen time so far (today only when it is the only day). */
     val bestDay: DayStats?
@@ -63,67 +65,89 @@ internal data class OverviewUiState(
 }
 
 /**
- * Insights overview: the Day / Week summaries of the screen-time repository (with its Syncing
- * state) and the days of the current month for the calendar.
+ * Insights overview: the summary of the day or week shown (with the repository's Syncing state),
+ * or the days of the month shown for the calendar. The date selector walks back to the first
+ * day the device has screen time for, and forward to today.
  */
 internal class InsightsOverviewViewModel(
-    initialTab: InsightsTab,
-    dayPeriod: UsagePeriod,
+    initialRange: UsageRange,
     private val screenTime: ScreenTimeRepository,
-    userPreferences: UserPreferencesRepository,
+    /** The user's daily goal (the goal line). */
+    goalMinutes: Flow<Int>,
     private val today: () -> LocalDate = LocalDate::now,
 ) : ViewModel() {
 
-    private val local = MutableStateFlow(OverviewUiState(tab = initialTab, dayPeriod = dayPeriod, today = today()))
+    private val local = MutableStateFlow(OverviewUiState(range = initialRange, today = today()))
     private var loadJob: Job? = null
 
-    val state: StateFlow<OverviewUiState> = combine(local, userPreferences.profile.map { it.dailyGoalMinutes }) { state, goal ->
+    val state: StateFlow<OverviewUiState> = combine(local, goalMinutes) { state, goal ->
         state.copy(goalMinutes = goal)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), local.value)
 
     init {
         load()
-        // Usage access granted (or revoked) in Settings: demo ↔ device numbers.
-        viewModelScope.launch { screenTime.source.drop(1).collect { load() } }
-    }
-
-    fun selectTab(tab: InsightsTab) {
-        if (tab == local.value.tab) return
-        local.update { it.copy(tab = tab, summary = if (tab == InsightsTab.Month) it.summary else null) }
-        load()
-    }
-
-    /**
-     * Shows the tab of a Home period (Home's usage card): Today / Yesterday → Day, this week →
-     * Week, this month → Month.
-     */
-    fun show(period: UsagePeriod) {
-        val tab = when (period) {
-            UsagePeriod.Today, UsagePeriod.Yesterday -> InsightsTab.Day
-            UsagePeriod.ThisWeek -> InsightsTab.Week
-            UsagePeriod.ThisMonth -> InsightsTab.Month
+        viewModelScope.launch {
+            readFirstDay()
+            // Usage access granted (or revoked) in Settings: device ↔ empty numbers.
+            screenTime.source.drop(1).collect {
+                readFirstDay()
+                load()
+            }
         }
-        val day = if (period == UsagePeriod.Yesterday) UsagePeriod.Yesterday else UsagePeriod.Today
-        if (tab == local.value.tab && day == local.value.dayPeriod) return
-        local.update { it.copy(tab = tab, dayPeriod = day, summary = if (tab == InsightsTab.Month) it.summary else null) }
-        load()
     }
+
+    /** Day / Week / Month: the range of that unit around the day looked at. */
+    fun selectTab(unit: RangeUnit) {
+        if (unit == local.value.range.unit) return
+        show(local.value.range.switchedTo(unit, today()))
+    }
+
+    /** The day, week or month before, down to the first day with data. */
+    fun previous() {
+        val current = local.value
+        if (current.canGoBack) show(current.range.previous())
+    }
+
+    /** The day, week or month after, up to the current one. */
+    fun next() {
+        val current = local.value.copy(today = today())
+        if (current.canGoForward) show(current.range.next())
+    }
+
+    /** Home's usage card: its period (today, this week…). */
+    fun show(period: UsagePeriod) = show(UsageRange.of(period, today()))
 
     /** Re-reads the numbers (back from another screen, the day may have changed). */
     fun refresh() = load()
 
+    private fun show(range: UsageRange) {
+        if (range == local.value.range) return
+        local.update {
+            it.copy(
+                range = range,
+                summary = null,
+                monthDays = if (range.unit == RangeUnit.Month && range.month == it.month) it.monthDays else null,
+            )
+        }
+        load()
+    }
+
+    private suspend fun readFirstDay() {
+        val first = screenTime.firstDataDay()
+        local.update { it.copy(firstDay = first) }
+    }
+
     private fun load() {
         loadJob?.cancel()
-        val tab = local.value.tab
+        val range = local.value.range
         val date = today()
         loadJob = viewModelScope.launch {
-            if (tab == InsightsTab.Month) {
-                val month = YearMonth.from(date)
-                local.update { it.copy(loading = it.monthDays == null, month = month, today = date) }
-                val days = screenTime.dailyStats(month.atDay(1), month.atEndOfMonth())
+            if (range.unit == RangeUnit.Month) {
+                local.update { it.copy(loading = it.monthDays == null, today = date) }
+                val days = screenTime.dailyStats(range.start, range.end)
                 local.update { it.copy(monthDays = days, loading = false) }
             } else {
-                screenTime.summary(local.value.period).collect { result ->
+                screenTime.summary(range).collect { result ->
                     when (result) {
                         ScreenTimeState.Syncing -> local.update { it.copy(loading = true, today = date) }
                         is ScreenTimeState.Ready -> local.update { it.copy(summary = result.summary, loading = false) }
@@ -134,9 +158,9 @@ internal class InsightsOverviewViewModel(
     }
 
     companion object {
-        fun factory(tab: InsightsTab, dayPeriod: UsagePeriod) = viewModelFactory {
+        fun factory(range: UsageRange) = viewModelFactory {
             initializer {
-                InsightsOverviewViewModel(tab, dayPeriod, RecentrData.screenTime, RecentrData.userPreferences)
+                InsightsOverviewViewModel(range, RecentrData.screenTime, RecentrData.userPreferences.profile.map { it.dailyGoalMinutes })
             }
         }
     }
