@@ -46,8 +46,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
-import com.recentr.core.designsystem.illustration.AppIcon
-import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
@@ -83,8 +81,7 @@ fun SurfaceCard(
  * Figma "Rule Card" — Lock / Session / Limit / Routine rule summary.
  *
  * @param chips status + schedule chips (use [RecentrChip]).
- * @param apps overlapping app icons shown after the [leadingIcon] ([OverlappingAppIcons],
- *   [OverlappingInstalledAppIcons]).
+ * @param apps overlapping app icons shown after the [leadingIcon] ([OverlappingInstalledAppIcons]).
  */
 @Composable
 fun RuleCard(
@@ -147,15 +144,10 @@ fun RuleCard(
     }
 }
 
-/** Row of app icons overlapping by [overlap] (Rule card, App picker summaries). */
-@Composable
-fun OverlappingAppIcons(apps: List<DemoApp>, size: Dp = 24.dp, overlap: Dp = 6.dp, modifier: Modifier = Modifier) {
-    Row(modifier, horizontalArrangement = Arrangement.spacedBy(-overlap)) {
-        apps.forEach { AppIcon(it, size = size) }
-    }
-}
-
-/** [OverlappingAppIcons] of installed apps: their launcher icons, by package name. */
+/**
+ * Installed apps' launcher icons, by package name, overlapping by [overlap] (Rule card, app picker
+ * summaries).
+ */
 @Composable
 fun OverlappingInstalledAppIcons(packageNames: List<String>, size: Dp = 24.dp, overlap: Dp = 6.dp, modifier: Modifier = Modifier) {
     Row(modifier, horizontalArrangement = Arrangement.spacedBy(-overlap)) {

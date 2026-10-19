@@ -33,7 +33,6 @@ import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.SurfaceCard
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
-import com.recentr.core.designsystem.illustration.AppIcon
 import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.motion.rememberFill
 import com.recentr.core.designsystem.theme.RecentrShapes
@@ -42,7 +41,6 @@ import com.recentr.core.model.AppCategory
 import com.recentr.core.model.AppUsage
 import com.recentr.feature.home.R
 import com.recentr.feature.home.UsageGrouping
-import com.recentr.feature.home.ui.demoApp
 import com.recentr.feature.home.ui.formatDuration
 
 /** Number of top apps that get the "Time well spent?" prompt (Figma 23). */
@@ -151,12 +149,7 @@ private fun AppUsageRow(
         Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button, onClick = onOpen),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        val catalogue = usage.app.catalogue
-        if (catalogue != null) {
-            AppIcon(catalogue.demoApp, size = 36.dp, contentDescription = null)
-        } else {
-            InstalledAppIcon(usage.app.packageName, size = 36.dp)
-        }
+        InstalledAppIcon(usage.app.packageName, size = 36.dp)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             UsageHeader(usage.app.label, usage.minutes)
             UsageTrack(fraction)

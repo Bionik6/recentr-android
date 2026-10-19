@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.R
 import com.recentr.core.designsystem.theme.RecentrTheme
 
@@ -186,28 +185,4 @@ fun BrandIconImage(
     )
 }
 
-/** Demo app icons from the Figma "App Icon" component (32px artboard, 9px corner radius). */
-enum class DemoApp(val displayName: String, @param:DrawableRes val drawable: Int) {
-    Instagram("Instagram", R.drawable.app_instagram),
-    X("X", R.drawable.app_x),
-    TikTok("TikTok", R.drawable.app_tiktok),
-    Spotify("Spotify", R.drawable.app_spotify),
-    Roblox("Roblox", R.drawable.app_roblox),
-    Gmail("Gmail", R.drawable.app_gmail),
-    Facebook("Facebook", R.drawable.app_facebook),
-    YouTube("YouTube", R.drawable.app_youtube),
-}
 
-@Composable
-fun AppIcon(
-    app: DemoApp,
-    modifier: Modifier = Modifier,
-    size: Dp = 32.dp,
-    contentDescription: String? = app.displayName,
-) {
-    Image(
-        painter = painterResource(app.drawable),
-        contentDescription = contentDescription,
-        modifier = modifier.size(size),
-    )
-}

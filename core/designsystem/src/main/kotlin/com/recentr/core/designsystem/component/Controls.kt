@@ -44,8 +44,6 @@ import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
-import com.recentr.core.designsystem.illustration.AppIcon
-import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.motion.MotionSpecs
@@ -368,19 +366,7 @@ fun RecentrSegmented(
     }
 }
 
-/** Figma "App Row" — app picker row: icon, name, checkbox. */
-@Composable
-fun AppRow(
-    app: DemoApp,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
-    name: String = app.displayName,
-) {
-    AppRow(name, checked, onCheckedChange, modifier) { AppIcon(app, size = 32.dp, contentDescription = null) }
-}
-
-/** [AppRow] with any 32dp [icon] (an installed app's launcher icon: [InstalledAppIcon]). */
+/** Figma "App Row" — app picker row: a 32dp [icon] (the app's launcher icon: [InstalledAppIcon]), name, checkbox. */
 @Composable
 fun AppRow(
     name: String,

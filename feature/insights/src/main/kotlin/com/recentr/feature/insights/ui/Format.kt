@@ -9,8 +9,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import com.recentr.core.designsystem.format.clockTime
 import com.recentr.core.designsystem.format.clockTimeShort
-import com.recentr.core.designsystem.illustration.AppIcon
-import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.model.AppCategory
 import com.recentr.core.model.RangeUnit
@@ -168,13 +166,8 @@ internal val UsagePeriod.labelRes: Int
         UsagePeriod.ThisMonth -> R.string.insights_period_month
     }
 
-/** Figma icon of a catalogue app, launcher icon of any other app. */
+/** The app's own launcher icon, as installed on the device. */
 @Composable
 internal fun UsageAppIcon(app: UsageApp, size: Dp, modifier: Modifier = Modifier) {
-    val catalogue = app.catalogue
-    if (catalogue != null) {
-        AppIcon(DemoApp.valueOf(catalogue.name), modifier = modifier, size = size, contentDescription = null)
-    } else {
-        InstalledAppIcon(app.packageName, size = size, modifier = modifier)
-    }
+    InstalledAppIcon(app.packageName, size = size, modifier = modifier)
 }

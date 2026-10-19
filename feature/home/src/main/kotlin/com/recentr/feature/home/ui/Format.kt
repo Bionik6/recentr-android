@@ -5,9 +5,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.stringResource
 import com.recentr.core.designsystem.component.AvatarStyle
 import com.recentr.core.designsystem.format.clockTime
-import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.Sticker
-import com.recentr.core.model.AppId
 import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.RuleType
 import com.recentr.feature.home.R
@@ -31,9 +29,6 @@ internal fun formatDuration(minutes: Int): String {
 internal fun formatClock(minuteOfDay: Int): String = clockTime(minuteOfDay)
 
 internal val AvatarColor.style: AvatarStyle get() = AvatarStyle.valueOf(name)
-
-/** `DemoApp` ↔ `AppId` by enum name. */
-internal val AppId.demoApp: DemoApp get() = DemoApp.valueOf(name)
 
 internal val RuleType.sticker: Sticker
     get() = when (this) {

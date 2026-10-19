@@ -51,7 +51,7 @@ import com.recentr.core.designsystem.component.RecentrTabBar
 import com.recentr.core.designsystem.component.RecentrTextField
 import com.recentr.core.designsystem.component.RecentrToggle
 import com.recentr.core.designsystem.component.ReviewCard
-import com.recentr.core.designsystem.component.OverlappingAppIcons
+import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RuleCard
 import com.recentr.core.designsystem.component.RuleTile
 import com.recentr.core.designsystem.component.SettingRow
@@ -63,8 +63,7 @@ import com.recentr.core.designsystem.component.TodayCard
 import com.recentr.core.designsystem.component.TodayStat
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
-import com.recentr.core.designsystem.illustration.AppIcon
-import com.recentr.core.designsystem.illustration.DemoApp
+import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.illustration.Sticker
@@ -72,6 +71,14 @@ import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.theme.RecentrGradients
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
+
+/** Apps shown by the catalogue with their launcher icons (Google apps most devices have). */
+private val CatalogApps = listOf(
+    "com.android.chrome",
+    "com.google.android.youtube",
+    "com.google.android.gm",
+    "com.google.android.apps.maps",
+)
 
 /** Living catalogue of the design system — every token and component on one scrollable page. */
 @OptIn(ExperimentalLayoutApi::class)
@@ -140,7 +147,7 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 MascotMood.entries.forEach { Mascot(it, width = 90.dp) }
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { DemoApp.entries.forEach { AppIcon(it) } }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { CatalogApps.forEach { InstalledAppIcon(it) } }
 
             Section("Core")
             RecentrButtonStyle.entries.forEach {
@@ -166,7 +173,7 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
                 title = "Work Hours",
                 sticker = Sticker.Bolt,
                 streak = 3,
-                apps = { OverlappingAppIcons(listOf(DemoApp.Instagram, DemoApp.TikTok, DemoApp.X)) },
+                apps = { OverlappingInstalledAppIcons(CatalogApps.take(3)) },
                 value = "0s / 2h15",
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),
@@ -214,7 +221,7 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
             SettingRow("Block", "3 apps", onClick = {}, icon = RecentrIcon.Apps, modifier = Modifier.fillMaxWidth())
             SettingToggleRow("Block", toggle, { toggle = it }, icon = RecentrIcon.Apps, modifier = Modifier.fillMaxWidth())
             RecentrSegmented(listOf("Before", "During", "Always"), segment, { segment = it }, Modifier.fillMaxWidth())
-            AppRow(DemoApp.X, checked, { checked = it })
+            AppRow("Chrome", checked, { checked = it }) { InstalledAppIcon(CatalogApps.first()) }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 TemplateColor.entries.forEach {
                     TemplateCard("Deep Work", "Silence everything for focused time.", "All day", Sticker.Bolt, it, onClick = {}, modifier = Modifier.size(width = 165.dp, height = 210.dp))

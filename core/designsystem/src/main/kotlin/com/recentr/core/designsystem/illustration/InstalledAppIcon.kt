@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.util.LruCache
 import androidx.compose.foundation.Image
@@ -87,12 +89,19 @@ private object InstalledAppIcons {
         val canvas = Canvas(bitmap)
         val adaptive = drawable is AdaptiveIconDrawable
         if (drawable is AdaptiveIconDrawable) {
-            // Layers are 108dp with the 72dp safe zone in the middle: draw them 1.5× and centred.
-            val inset = (sizePx * 0.25f).roundToInt()
+            // Layers are 108dp with the 72dp shown in the middle. They are drawn at their own size
+            // first: a layer with insets in dp (Recentr's mascot) drawn straight at 32dp would have
+            // them eat it whole, leaving the background alone. Then the middle is scaled down.
+            val full = drawable.intrinsicWidth.takeIf { it > 0 } ?: (sizePx * 1.5f).roundToInt()
+            val layers = Bitmap.createBitmap(full, full, Bitmap.Config.ARGB_8888)
+            val layerCanvas = Canvas(layers)
             listOfNotNull(drawable.background, drawable.foreground).forEach { layer ->
-                layer.setBounds(-inset, -inset, sizePx + inset, sizePx + inset)
-                layer.draw(canvas)
+                layer.setBounds(0, 0, full, full)
+                layer.draw(layerCanvas)
             }
+            val inset = full / 6
+            canvas.drawBitmap(layers, Rect(inset, inset, full - inset, full - inset), Rect(0, 0, sizePx, sizePx), Paint(Paint.FILTER_BITMAP_FLAG))
+            layers.recycle()
         } else {
             drawable.setBounds(0, 0, sizePx, sizePx)
             drawable.draw(canvas)
