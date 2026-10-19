@@ -18,8 +18,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -41,9 +43,11 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.InstalledAppIcon
@@ -140,7 +144,19 @@ fun RuleCard(
             apps()
             Spacer(Modifier.weight(1f))
             if (value != null) {
-                Text(text = value, style = RecentrTheme.typography.title2, color = valueColor ?: colors.textPrimary, maxLines = 1)
+                // One line, flush right: it shrinks (to 70%, as on iOS) rather than losing its last
+                // word to a hidden second line when the apps leave it little room ("7:45:14 left").
+                // Tabular digits keep a countdown from shifting as it ticks.
+                BasicText(
+                    text = value,
+                    style = RecentrTheme.typography.title2.copy(
+                        color = valueColor ?: colors.textPrimary,
+                        textAlign = TextAlign.End,
+                        fontFeatureSettings = "tnum",
+                    ),
+                    maxLines = 1,
+                    autoSize = TextAutoSize.StepBased(minFontSize = 15.sp, maxFontSize = RecentrTheme.typography.title2.fontSize, stepSize = 1.sp),
+                )
             }
         }
     }
