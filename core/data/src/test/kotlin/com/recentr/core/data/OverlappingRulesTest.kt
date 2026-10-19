@@ -1,6 +1,7 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.AppCategory
+import com.recentr.core.model.LimitAction
 import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
@@ -46,16 +47,19 @@ class OverlappingRulesTest {
     /** The same routine without Strict mode: a 5-second wait unlocks it. */
     private val softBedtime = bedtime.copy(strictMode = false, unlockMethod = UnlockMethod.Wait)
 
-    /** One hour of YouTube a day; a 5-second wait unlocks it, five times a day. */
+    /** One hour of YouTube a day; once it's used, a good reason unlocks it ("Ask why"), five times a day. */
     private val dailyLimit = Rule(
         "limit",
         RuleType.Limit,
         "Daily limit",
         apps = listOf(youTube),
         limitMinutes = 60,
-        unlockMethod = UnlockMethod.Wait,
+        limitAction = LimitAction.AskReason,
         unlocksPerDay = 5,
     )
+
+    /** The same limit set to Lock when time is up: no unlocks until it resets. */
+    private val lockingLimit = dailyLimit.copy(limitAction = LimitAction.Lock, unlockMethod = UnlockMethod.Wait)
 
     private fun state(rules: List<Rule>, used: Int = 0, unlocks: AppUnlocks = AppUnlocks()) = HoldState(
         rules = rules,
@@ -96,8 +100,30 @@ class OverlappingRulesTest {
     fun `the used-up limit holds the app outside the routine`() {
         val holds = state(listOf(dailyLimit, bedtime), used = 75)
         assertEquals(HoldReason.ByRule(dailyLimit), holds.reason(at(20, 0)))
-        assertEquals(UnlockStep.Wait, dailyLimit.unlockStep(at(20, 0), emergencyUnlocksLeft = 3, zone))
+        assertEquals(UnlockStep.Reason, dailyLimit.unlockStep(at(20, 0), emergencyUnlocksLeft = 3, zone))
         assertNull(state(listOf(dailyLimit, bedtime), used = 30).reason(at(20, 0)))
+    }
+
+    @Test
+    fun `a used-up limit that locks can't be unlocked`() {
+        val holds = state(listOf(softBedtime, lockingLimit), used = 75)
+        assertEquals(HoldReason.ByRule(lockingLimit), holds.reason(at(20, 0)))
+        assertNull(lockingLimit.unlockStep(at(20, 0), emergencyUnlocksLeft = 3, zone))
+        // Inside the soft routine too: the limit is the one without "Unlock anyway", whatever the order.
+        assertEquals(HoldReason.ByRule(lockingLimit), holds.reason(at(22, 0)))
+        assertEquals(HoldReason.ByRule(lockingLimit), state(listOf(lockingLimit, softBedtime), used = 75).reason(at(22, 0)))
+        // Unlocking through the routine leaves it holding.
+        assertEquals(HoldReason.ByRule(lockingLimit), holds.unlockThrough(softBedtime, at(22, 0), minutes = 15).reason(at(22, 5)))
+    }
+
+    @Test
+    fun `the strict routine wins over a used-up limit that locks, whatever the order`() {
+        assertEquals(HoldReason.ByRule(bedtime), state(listOf(lockingLimit, bedtime), used = 75).reason(at(22, 50)))
+        assertEquals(HoldReason.ByRule(bedtime), state(listOf(bedtime, lockingLimit), used = 75).reason(at(22, 50)))
+        // Its emergency unlock gets past both, for five minutes.
+        val unlocked = state(listOf(lockingLimit, bedtime), used = 75).emergencyUnlock(at(22, 50))
+        assertNull(unlocked.reason(at(22, 51)))
+        assertEquals(HoldReason.ByRule(bedtime), unlocked.reason(at(22, 55)))
     }
 
     @Test
@@ -147,12 +173,7 @@ class OverlappingRulesTest {
             HoldReason.ByRule(bedtime),
             state(listOf(dailyLimit, bedtime), used = 75).unlockThrough(dailyLimit, now, minutes = 15).reason(now),
         )
-        // "No unlocks", and no unlocks left today.
-        val noUnlocks = softBedtime.copy(unlockMethod = UnlockMethod.None)
-        assertEquals(
-            HoldReason.ByRule(noUnlocks),
-            state(listOf(dailyLimit, noUnlocks), used = 75).unlockThrough(dailyLimit, now, minutes = 15).reason(now),
-        )
+        // No unlocks left today.
         val spent = softBedtime.copy(unlocksPerDay = 2, unlocksUsedToday = 2)
         assertEquals(
             HoldReason.ByRule(spent),

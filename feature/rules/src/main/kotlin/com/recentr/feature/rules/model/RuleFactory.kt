@@ -27,7 +27,8 @@ internal class RuleFactory(
             type = RuleType.Session,
             name = s(R.string.rules_session_default_name),
             durationMinutes = 30,
-            unlockMethod = UnlockMethod.None,
+            unlockMethod = UnlockMethod.Wait,
+            waitSeconds = 5,
         )
         RuleType.Lock -> Rule(
             id = newId(),
@@ -50,6 +51,9 @@ internal class RuleFactory(
             name = s(R.string.rules_bedtime_title),
             schedule = RuleSchedule(23 * 60, 7 * 60, (1..5).toSet()),
             strictMode = true,
+            // Once Strict mode is turned off.
+            unlockMethod = UnlockMethod.Wait,
+            waitSeconds = 5,
         )
         RuleType.Habit -> Rule(
             id = newId(),

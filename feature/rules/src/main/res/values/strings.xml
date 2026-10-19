@@ -124,8 +124,7 @@
     <string name="rules_row_block">Block</string>
     <string name="rules_row_active">Active</string>
     <string name="rules_row_unlocks">Unlocks</string>
-    <!-- Session: what it takes to open a blocked app ("How do you unlock?"). -->
-    <string name="rules_row_unlock_reason">Unlock reason</string>
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
     <string name="rules_row_unlock_method">Unlock method</string>
     <string name="rules_row_unlocks_per_day">Unlocks per day</string>
     <string name="rules_row_apps">Apps</string>
@@ -147,6 +146,7 @@
     <!-- Strict mode -->
     <string name="rules_strict_caption">Can’t be turned off until the session ends.</string>
     <string name="rules_strict_locked_caption">On until this session ends.</string>
+    <string name="rules_unlock_strict_caption">Unlocks are unavailable in strict mode.</string>
     <string name="rules_strict_confirm_title">Turn on Strict mode?</string>
     <string name="rules_strict_confirm_body">You won’t be able to edit, delete or unlock this session until it ends.</string>
     <string name="rules_turn_on">Turn on</string>
@@ -246,7 +246,6 @@
     <string name="rules_unlock_option_reason">Give a good reason</string>
     <string name="rules_unlock_option_retype">Re-type a painful text</string>
     <string name="rules_unlock_option_scan">Scan a code you keep elsewhere</string>
-    <string name="rules_unlock_option_none">No unlocks at all</string>
 
     <!-- Wait settings -->
     <string name="rules_wait_title">Wait before unlocking</string>

@@ -10,6 +10,8 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.recentr.core.data.RecentrData
+import com.recentr.core.data.unlockMethodInUse
+import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.designsystem.format.clockTimeShort
 import com.recentr.core.designsystem.format.wallClockTime
 import com.recentr.core.designsystem.illustration.Sticker
@@ -202,9 +204,9 @@ internal fun appsName(apps: List<UsageApp>, two: (String, String) -> String, mor
 
 @Composable
 @ReadOnlyComposable
-internal fun unlockLabel(rule: Rule): String = when (rule.unlockMethod) {
+internal fun unlockLabel(rule: Rule): String = when (rule.unlockMethodInUse) {
     UnlockMethod.None, UnlockMethod.Strict -> stringResource(R.string.rules_unlock_none)
-    UnlockMethod.Wait -> stringResource(R.string.rules_unlock_wait, rule.waitSeconds)
+    UnlockMethod.Wait -> stringResource(R.string.rules_unlock_wait, rule.waitSecondsInUse)
     UnlockMethod.Reason -> stringResource(R.string.rules_unlock_reason)
     UnlockMethod.Retype -> stringResource(R.string.rules_unlock_retype)
     UnlockMethod.ScanCode -> stringResource(R.string.rules_unlock_scan)

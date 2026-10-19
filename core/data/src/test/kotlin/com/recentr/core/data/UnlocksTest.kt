@@ -36,7 +36,34 @@ class UnlocksTest {
         assertEquals(UnlockStep.Reason, lock(UnlockMethod.Reason).unlockStep(now, 3))
         assertEquals(UnlockStep.Retype, lock(UnlockMethod.Retype).unlockStep(now, 3))
         assertEquals(UnlockStep.Scan, lock(UnlockMethod.ScanCode).unlockStep(now, 3))
-        assertNull(lock(UnlockMethod.None).unlockStep(now, 3))
+    }
+
+    @Test
+    fun `no unlocks left over from before waits a few seconds`() {
+        // "No unlocks at all" is gone from "How do you unlock?": Strict mode is the only way to have none.
+        assertEquals(UnlockMethod.Wait, lock(UnlockMethod.None).unlockMethodInUse)
+        assertEquals(UnlockStep.Wait, lock(UnlockMethod.None).unlockStep(now, 3))
+        assertEquals(UnlockStep.Wait, lock(UnlockMethod.Strict).unlockStep(now, 3))
+        val session = Rule(
+            "s", RuleType.Session, "Deep work", apps = listOf(tiktok),
+            durationMinutes = 60, activeSince = now - 10 * minute, unlockMethod = UnlockMethod.None,
+        )
+        assertEquals(UnlockStep.Wait, session.unlockStep(now, 3))
+        assertEquals(UnlockStep.Wait, routine(UnlockMethod.None).unlockStep(now, 3, zone))
+        // Strict mode still lets emergencies through only.
+        assertEquals(UnlockStep.Emergency, session.copy(strictMode = true).unlockStep(now, 3))
+        // A habit opens with its tasks, not a wait.
+        val habit = Rule("h", RuleType.Habit, "Before TikTok", apps = listOf(tiktok), unlockMethod = UnlockMethod.None)
+        assertEquals(UnlockMethod.None, habit.unlockMethodInUse)
+    }
+
+    @Test
+    fun `the wait lasts five seconds at least`() {
+        assertEquals(5, MIN_WAIT_SECONDS)
+        assertEquals(5, lock().copy(waitSeconds = 3).waitSecondsInUse)
+        assertEquals(5, lock().copy(waitSeconds = 0).waitSecondsInUse)
+        assertEquals(5, lock().waitSecondsInUse)
+        assertEquals(30, lock().copy(waitSeconds = 30).waitSecondsInUse)
     }
 
     @Test
@@ -49,6 +76,62 @@ class UnlocksTest {
     fun `a limit that asks for a reason asks for one`() {
         val limit = Rule("m", RuleType.Limit, "Social", apps = listOf(tiktok), limitMinutes = 60, limitAction = LimitAction.AskReason)
         assertEquals(UnlockStep.Reason, limit.unlockStep(now, 3))
+        // "When time is up" decides, not an unlock method the limit can't show.
+        assertEquals(UnlockMethod.Reason, limit.copy(unlockMethod = UnlockMethod.ScanCode).unlockMethodInUse)
+        assertEquals(UnlockStep.Reason, limit.copy(unlockMethod = UnlockMethod.ScanCode).unlockStep(now, 3))
+    }
+
+    @Test
+    fun `a limit that locks stays locked until it resets`() {
+        // Saved with the default unlock method (Wait), which a limit never shows.
+        val limit = Rule("m", RuleType.Limit, "Social", apps = listOf(tiktok), limitMinutes = 60, limitAction = LimitAction.Lock)
+        assertEquals(UnlockMethod.Wait, limit.unlockMethod)
+        assertEquals(UnlockMethod.None, limit.unlockMethodInUse)
+        assertFalse(limit.canOpenAnyway(now, zone))
+        assertNull(limit.unlockStep(now, emergencyUnlocksLeft = 3, zone = zone))
+        UnlockMethod.entries.forEach { method -> assertNull(limit.copy(unlockMethod = method).unlockStep(now, 3, zone)) }
+    }
+
+    /** A routine from 9 to 11 AM, so [now] is inside it. */
+    private fun routine(method: UnlockMethod, strict: Boolean = false) = Rule(
+        "r", RuleType.Bedtime, "Bedtime", apps = listOf(tiktok),
+        schedule = RuleSchedule(9 * 60, 11 * 60), strictMode = strict, unlockMethod = method, unlocksPerDay = 5,
+    )
+
+    @Test
+    fun `a routine opens with the unlock method it shows`() {
+        assertEquals(UnlockStep.Retype, routine(UnlockMethod.Retype).unlockStep(now, 3, zone))
+        assertEquals(UnlockStep.Scan, routine(UnlockMethod.ScanCode).unlockStep(now, 3, zone))
+        assertEquals(UnlockStep.Wait, routine(UnlockMethod.Wait).unlockStep(now, 3, zone))
+        assertNull(routine(UnlockMethod.Retype).copy(unlocksUsedToday = 5).unlockStep(now, 3, zone))
+    }
+
+    @Test
+    fun `a strict routine only lets emergencies through, inside its window`() {
+        val strict = routine(UnlockMethod.Retype, strict = true)
+        assertFalse(strict.canOpenAnyway(now, zone))
+        assertEquals(UnlockStep.Emergency, strict.unlockStep(now, emergencyUnlocksLeft = 1, zone = zone))
+        assertNull(strict.unlockStep(now, emergencyUnlocksLeft = 0, zone = zone))
+        // Turned off, its unlock method is back.
+        assertEquals(UnlockStep.Retype, strict.copy(strictMode = false).unlockStep(now, 0, zone))
+    }
+
+    @Test
+    fun `strict mode disables the unlock method and keeps it`() {
+        val session = Rule("s", RuleType.Session, "Deep work", apps = listOf(tiktok), durationMinutes = 60, unlockMethod = UnlockMethod.Retype)
+        assertTrue(session.unlockMethodEnabled)
+        assertTrue(routine(UnlockMethod.Wait).unlockMethodEnabled)
+        assertTrue(lock().unlockMethodEnabled)
+
+        val strict = session.copy(strictMode = true)
+        assertFalse(strict.unlockMethodEnabled)
+        assertFalse(routine(UnlockMethod.Wait, strict = true).unlockMethodEnabled)
+        // Running or not: Strict mode is on, so no unlock method would ever be asked for.
+        assertFalse(strict.copy(activeSince = now - 10 * minute).unlockMethodEnabled)
+        // The chosen method isn't lost.
+        assertEquals(UnlockMethod.Retype, strict.unlockMethod)
+        assertEquals(UnlockMethod.Retype, strict.copy(strictMode = false).unlockMethod)
+        assertTrue(strict.copy(strictMode = false).unlockMethodEnabled)
     }
 
     @Test

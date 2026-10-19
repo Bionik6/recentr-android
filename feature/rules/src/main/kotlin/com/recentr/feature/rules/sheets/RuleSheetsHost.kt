@@ -14,6 +14,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.recentr.core.data.unlockMethodInUse
+import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.model.HabitRepeat
 import com.recentr.core.model.HabitTask
 import com.recentr.core.model.LimitAction
@@ -119,8 +121,7 @@ internal fun RuleSheetsHost(
             )
         }
         RuleSheet.Unlock -> UnlockMethodSheet(
-            initial = rule.unlockMethod,
-            includeNone = rule.type != RuleType.Lock,
+            initial = rule.unlockMethodInUse,
             onContinue = { method ->
                 onUpdate { it.copy(unlockMethod = method) }
                 if (method == UnlockMethod.Wait) onSheet(RuleSheet.Wait)
@@ -128,7 +129,7 @@ internal fun RuleSheetsHost(
             onDismiss = close,
         )
         RuleSheet.Wait -> WaitSettingsSheet(
-            initialSeconds = rule.waitSeconds,
+            initialSeconds = rule.waitSecondsInUse,
             initialPerDay = rule.unlocksPerDay,
             initialLength = rule.unlockDurationMinutes,
             onSave = { seconds, perDay, length ->

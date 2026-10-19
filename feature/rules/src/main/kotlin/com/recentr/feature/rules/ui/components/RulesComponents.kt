@@ -59,10 +59,12 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.recentr.core.data.unlockMethodEnabled
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
+import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.SettingToggleRow
 import com.recentr.core.designsystem.component.TemplateColor
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
@@ -75,7 +77,9 @@ import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
+import com.recentr.core.model.Rule
 import com.recentr.feature.rules.R
+import com.recentr.feature.rules.ui.unlockLabel
 
 /** Sunken rounded container grouping setting rows (Figma "Settings", 4dp padding/gap). */
 @Composable
@@ -112,6 +116,29 @@ internal fun StrictToggleRow(
         iconBackground = colors.alphaTangerine14,
         caption = stringResource(if (locked) R.string.rules_strict_locked_caption else R.string.rules_strict_caption),
         enabled = !locked,
+        modifier = modifier.fillMaxWidth(),
+    )
+}
+
+/**
+ * "Unlock method" row of locks, sessions and routines (41 "How do you unlock?"). Strict mode
+ * disables unlocks: while it's on, the row keeps the method, dimmed, and says why.
+ */
+@Composable
+internal fun UnlockMethodRow(
+    rule: Rule,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    icon: RecentrIcon = RecentrIcon.Hourglass,
+) {
+    val enabled = rule.unlockMethodEnabled
+    SettingRow(
+        label = stringResource(R.string.rules_row_unlock_method),
+        value = unlockLabel(rule),
+        onClick = onClick,
+        icon = icon,
+        caption = if (enabled) null else stringResource(R.string.rules_unlock_strict_caption),
+        enabled = enabled,
         modifier = modifier.fillMaxWidth(),
     )
 }

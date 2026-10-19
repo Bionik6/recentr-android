@@ -168,18 +168,54 @@ class AppHoldsTest {
         assertTrue(wait.canOpenAnyway(now))
         assertFalse(wait.copy(unlocksUsedToday = 2).canOpenAnyway(now))
         assertTrue(wait.copy(unlocksPerDay = null, unlocksUsedToday = 9).canOpenAnyway(now))
-        assertFalse(wait.copy(unlockMethod = UnlockMethod.None).canOpenAnyway(now))
+        // "No unlocks" is Strict mode's: a lock left with it waits a few seconds.
+        assertTrue(wait.copy(unlockMethod = UnlockMethod.None).canOpenAnyway(now))
         assertTrue(wait.copy(unlockMethod = UnlockMethod.ScanCode).canOpenAnyway(now))
         val askReason = Rule("m", RuleType.Limit, "M", apps = listOf(whatsApp), unlockMethod = UnlockMethod.None, limitAction = LimitAction.AskReason)
         assertTrue(askReason.canOpenAnyway(now))
+        // A limit that locks can't be opened, whatever unlock method it was saved with.
+        assertFalse(askReason.copy(limitAction = LimitAction.Lock, unlockMethod = UnlockMethod.Wait).canOpenAnyway(now))
         val strictSession = Rule("s", RuleType.Session, "S", apps = listOf(whatsApp), durationMinutes = 30, activeSince = now, strictMode = true)
         assertFalse(strictSession.copy(unlockMethod = UnlockMethod.Wait).canOpenAnyway(now))
     }
 
     @Test
+    fun `unlocking through a lock doesn't open a spent limit that locks`() {
+        val lock = Rule("l", RuleType.Lock, "TikTok", apps = listOf(tiktok), unlockMethod = UnlockMethod.Wait)
+        val limit = Rule("m", RuleType.Limit, "Social time", apps = listOf(tiktok), limitMinutes = 30, limitAction = LimitAction.Lock)
+        val spent = mapOf(tiktok.packageName to 45)
+        val holds = state(listOf(lock, limit), usedToday = spent)
+        // The limit can't be opened anyway: it's the one shown.
+        assertEquals(HoldReason.ByRule(limit), holds.reason(tiktok.packageName))
+        assertEquals(listOf(lock), holds.liftedBy(lock, tiktok.packageName, now, zone))
+        val open = AppUnlocks().open(tiktok.packageName, holds.liftedBy(lock, tiktok.packageName, now, zone), now + 5 * minute)
+        assertEquals(HoldReason.ByRule(limit), state(listOf(lock, limit), unlocks = open, usedToday = spent).reason(tiktok.packageName))
+        // Asking why instead: both are lifted.
+        val asks = limit.copy(limitAction = LimitAction.AskReason)
+        val liftedWithReason = state(listOf(lock, asks), usedToday = spent).liftedBy(asks, tiktok.packageName, now, zone)
+        assertEquals(setOf("l", "m"), liftedWithReason.map { it.id }.toSet())
+    }
+
+    @Test
+    fun `a strict routine keeps its apps on hold past its unlock method`() {
+        val bedtime = Rule(
+            "b", RuleType.Bedtime, "Bedtime", apps = listOf(tiktok),
+            schedule = RuleSchedule(9 * 60, 11 * 60), strictMode = true, unlockMethod = UnlockMethod.Wait,
+        )
+        val lock = Rule("l", RuleType.Lock, "TikTok", apps = listOf(tiktok), unlockMethod = UnlockMethod.Wait)
+        val holds = state(listOf(lock, bedtime))
+        assertEquals(HoldReason.ByRule(bedtime), holds.reason(tiktok.packageName))
+        assertEquals(listOf(lock), holds.liftedBy(lock, tiktok.packageName, now, zone))
+        // Not strict: its unlock method opens it like the lock's.
+        val relaxed = bedtime.copy(strictMode = false)
+        assertTrue(relaxed.canOpenAnyway(now, zone))
+        assertEquals(setOf("l", "b"), state(listOf(lock, relaxed)).liftedBy(lock, tiktok.packageName, now, zone).map { it.id }.toSet())
+    }
+
+    @Test
     fun `the strictest rule wins`() {
         val openable = Rule("a", RuleType.Lock, "A", apps = listOf(whatsApp), unlockMethod = UnlockMethod.Wait)
-        val closed = Rule("b", RuleType.Lock, "B", apps = listOf(whatsApp), unlockMethod = UnlockMethod.None)
+        val closed = Rule("b", RuleType.Lock, "B", apps = listOf(whatsApp), unlockMethod = UnlockMethod.Wait, unlocksPerDay = 2, unlocksUsedToday = 2)
         assertEquals(HoldReason.ByRule(closed), state(listOf(openable, closed)).reason(whatsApp.packageName))
     }
 }

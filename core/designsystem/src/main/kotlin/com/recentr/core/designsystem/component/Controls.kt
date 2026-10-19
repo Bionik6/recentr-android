@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -199,7 +200,8 @@ private fun SettingIcon(icon: RecentrIcon, tint: Color, background: Color) {
 /**
  * Figma "Setting Row" (Trailing = Value) — label, value and chevron. A null or empty [value] only
  * keeps the chevron. [iconTint] / [iconBackground] recolour the icon tile (tangerine "Strict
- * mode"), [labelColor] the label (danger "Cancel subscription").
+ * mode"), [labelColor] the label (danger "Cancel subscription"). A [caption] shows under the label;
+ * a disabled row is dimmed and can't be opened, its caption saying why.
  */
 @Composable
 fun SettingRow(
@@ -212,25 +214,36 @@ fun SettingRow(
     iconTint: Color = RecentrTheme.colors.textPrimary,
     iconBackground: Color = RecentrTheme.colors.bgSunken,
     labelColor: Color = RecentrTheme.colors.textPrimary,
+    caption: String? = null,
+    enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
+    val dimmed = Modifier.alpha(if (enabled) 1f else DISABLED_ALPHA)
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
             .background(colors.bgSurface)
-            .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
+            .then(if (onClick != null) Modifier.clickable(enabled = enabled, role = Role.Button, onClick = onClick) else Modifier)
             .padding(start = 16.dp, end = 14.dp, top = 14.dp, bottom = 14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (icon != null) SettingIcon(icon, iconTint, iconBackground)
-        Text(label, style = RecentrTheme.typography.bodyMedium, color = labelColor, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-        if (!value.isNullOrEmpty()) {
-            Text(value, style = RecentrTheme.typography.bodyRegular, color = valueColor, maxLines = 1)
+        if (icon != null) Box(dimmed) { SettingIcon(icon, iconTint, iconBackground) }
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(label, style = RecentrTheme.typography.bodyMedium, color = labelColor, modifier = dimmed, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            if (caption != null) {
+                Text(caption, style = RecentrTheme.typography.captionRegular, color = colors.textSecondary)
+            }
         }
-        RecentrIconImage(RecentrIcon.ChevronRight, tint = colors.textTertiary, size = 19.2.dp)
+        if (!value.isNullOrEmpty()) {
+            Text(value, style = RecentrTheme.typography.bodyRegular, color = valueColor, modifier = dimmed, maxLines = 1)
+        }
+        RecentrIconImage(RecentrIcon.ChevronRight, tint = colors.textTertiary, size = 19.2.dp, modifier = dimmed)
     }
 }
+
+/** A disabled setting row's label, value and icons (the 0.4 of a disabled button). */
+private const val DISABLED_ALPHA = 0.4f
 
 /**
  * Figma "Setting Row" (Trailing = Toggle). [iconTint] / [iconBackground] recolour the icon tile

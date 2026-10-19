@@ -81,6 +81,7 @@ import com.recentr.feature.rules.ui.components.RulesToastHost
 import com.recentr.feature.rules.ui.components.SettingsGroup
 import com.recentr.feature.rules.ui.components.StrictToggleRow
 import com.recentr.feature.rules.ui.components.TimeCard
+import com.recentr.feature.rules.ui.components.UnlockMethodRow
 import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.daysLabel
 import com.recentr.feature.rules.ui.durationLabel
@@ -89,7 +90,6 @@ import com.recentr.feature.rules.ui.label
 import com.recentr.feature.rules.ui.limitActionLabel
 import com.recentr.feature.rules.ui.limitResetLabel
 import com.recentr.feature.rules.ui.reminderLabel
-import com.recentr.feature.rules.ui.unlockLabel
 import com.recentr.feature.rules.ui.unlocksPerDayLabel
 import com.recentr.feature.rules.ui.wallClock
 
@@ -474,7 +474,7 @@ private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
     SettingsGroup {
         when (rule.type) {
             RuleType.Session -> {
-                row(R.string.rules_row_unlock_method, unlockLabel(rule), RecentrIcon.Hourglass, RuleSheet.Unlock)
+                UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
                 if (rule.schedule != null) {
                     row(R.string.rules_row_reminders, reminderLabel(rule.reminderMinutesBefore), RecentrIcon.Bell, RuleSheet.Reminders)
                 } else {
@@ -482,7 +482,7 @@ private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
                 }
             }
             RuleType.Lock -> {
-                row(R.string.rules_row_unlock_method, unlockLabel(rule), RecentrIcon.Hourglass, RuleSheet.Unlock)
+                UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
                 row(R.string.rules_row_unlocks_per_day, unlocksPerDayLabel(rule.unlocksPerDay), RecentrIcon.Refresh, RuleSheet.UnlocksPerDay)
             }
             RuleType.Limit -> {
@@ -490,6 +490,7 @@ private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
                 row(R.string.rules_row_when_time_up, limitActionLabel(rule.limitAction), RecentrIcon.Lock, RuleSheet.TimeUp)
             }
             RuleType.Bedtime -> {
+                UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
                 row(R.string.rules_row_reminders, reminderLabel(rule.reminderMinutesBefore), RecentrIcon.Bell, RuleSheet.Reminders)
             }
             RuleType.Habit -> {
