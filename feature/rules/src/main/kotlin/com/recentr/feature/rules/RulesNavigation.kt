@@ -32,7 +32,8 @@ import kotlinx.serialization.Serializable
 /**
  * Rule editor sheet (create / edit). A `dialog` destination hosting a bottom sheet, so it can be
  * opened from Home ("Start blocking") and Insights as well as from the Rules tab and the rule
- * detail. [apps] preselects the apps of a new rule (comma-separated package names).
+ * detail. A rule it creates then opens on its [RuleDetailRoute]. [apps] preselects the apps of a
+ * new rule (comma-separated package names).
  */
 @Serializable
 internal data class RuleEditorRoute(
@@ -99,7 +100,13 @@ fun NavGraphBuilder.rulesDestinations(navController: NavHostController) {
         )
     }
     dialog<RuleEditorRoute>(dialogProperties = DialogProperties(usePlatformDefaultWidth = false)) {
-        RuleEditorDestination(onClose = { navController.popBackStack() })
+        RuleEditorDestination(
+            onClose = { navController.popBackStack() },
+            // A new rule opens on its page, wherever the editor was opened from.
+            onCreated = { id ->
+                navController.navigate(RuleDetailRoute(id)) { popUpTo<RuleEditorRoute> { inclusive = true } }
+            },
+        )
     }
 }
 

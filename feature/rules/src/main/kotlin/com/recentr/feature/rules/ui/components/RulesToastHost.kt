@@ -22,16 +22,21 @@ import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.IntOffset
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.recentr.core.designsystem.motion.MotionSpecs
 import com.recentr.core.designsystem.motion.motionSpring
 import com.recentr.feature.rules.model.RulesMessages
 import kotlinx.coroutines.delay
 
-/** Shows the pending [RulesMessages] toast for a couple of seconds (green success pill). */
+/**
+ * Shows the pending [RulesMessages] toast for a couple of seconds (green success pill), once its
+ * screen is the one in front: not under the editor sheet, nor while the screen is on its way out,
+ * so a toast lands where the editor leads (the screen underneath, or a new rule's page).
+ */
 @Composable
 internal fun RulesToastHost(modifier: Modifier = Modifier) {
-    val toast by RulesMessages.toast.collectAsStateWithLifecycle()
+    val toast by RulesMessages.toast.collectAsStateWithLifecycle(minActiveState = Lifecycle.State.RESUMED)
     var visible by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
     var shownAt by remember { mutableStateOf(0L) }
