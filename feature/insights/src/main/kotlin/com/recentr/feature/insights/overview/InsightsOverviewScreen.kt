@@ -145,11 +145,11 @@ internal fun InsightsOverviewScreen(
                     if (summary == null || summary.range != state.range) {
                         LoadingBlock(219.dp)
                         LoadingBlock(110.dp)
-                        LoadingBlock(160.dp)
+                        LoadingBlock(260.dp)
                     } else {
                         UsageCard(state, summary, onClick = actions.onOpenDailyGoal)
                         CategoryCard(summary)
-                        TopAppsCard(summary.mostUsed.take(3), onOpenApp = { actions.onOpenApp(it, state.range) })
+                        TopAppsCard(summary.mostUsed.take(TOP_APPS), onOpenApp = { actions.onOpenApp(it, state.range) })
                     }
                 }
             }
@@ -305,6 +305,9 @@ private fun CategoryCard(summary: ScreenTimeSummary) {
         }
     }
 }
+
+/** Apps listed under "Top apps", most used first. */
+private const val TOP_APPS = 5
 
 @Composable
 private fun TopAppsCard(apps: List<AppUsage>, onOpenApp: (String) -> Unit) {
