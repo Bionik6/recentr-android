@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
@@ -43,6 +44,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.icon.RecentrIcon
@@ -108,21 +110,29 @@ private fun HeroPageContent(
             Shadow(color = Color(0x400D3399), offset = androidx.compose.ui.geometry.Offset(0f, 6.dp.toPx()), blurRadius = 16.dp.toPx())
         },
     )
-    Column(
-        Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(HeroSpacing),
-    ) {
-        Text(overline, style = RecentrTheme.typography.bodyMedium, color = colors.textOnDarkMuted, maxLines = 1)
+    // Spaced from the glyphs rather than the line boxes: the figure's digits 20dp under the
+    // overline's baseline, the chips 16dp under the digits.
+    val digitsHeight = with(density) { (numberStyle.fontSize.value * FigtreeCapHeight).sp.roundToPx() }
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            overline,
+            style = RecentrTheme.typography.bodyMedium,
+            color = colors.textOnDarkMuted,
+            maxLines = 1,
+            modifier = Modifier.glyphBox(below = 0.dp),
+        )
+        Spacer(Modifier.height(20.dp))
         if (syncing || value == null) {
+            // Where the digits will be.
             val alpha = skeletonPulse()
             Box(
                 Modifier
-                    .size(width = 200.dp, height = 64.dp)
+                    .size(width = 200.dp, height = with(density) { digitsHeight.toDp() })
                     .graphicsLayer { this.alpha = alpha() }
                     .clip(RoundedCornerShape(RecentrTheme.radius.lg))
                     .background(colors.alphaWhite24),
             )
+            Spacer(Modifier.height(16.dp))
             RecentrChip(
                 label = stringResource(R.string.home_syncing),
                 style = RecentrChipStyle.OnSky,
@@ -141,8 +151,7 @@ private fun HeroPageContent(
                     color = colors.textOnDark,
                     maxLines = 1,
                     modifier = Modifier
-                        // The chips sit 16dp under the digits (the Column adds its 6dp).
-                        .endingBelowBaseline(16.dp - HeroSpacing)
+                        .glyphBox(capHeight = digitsHeight, below = 16.dp)
                         .clip(RoundedCornerShape(RecentrTheme.radius.lg))
                         .then(
                             if (onValueClick != null) {
@@ -163,19 +172,23 @@ private fun HeroPageContent(
     }
 }
 
-/** Between the hero's overline, figure and chips. */
-private val HeroSpacing = 6.dp
+/** Figtree's cap height, in ems: how high capitals and figures stand above the baseline. */
+private const val FigtreeCapHeight = 0.7f
 
 /**
- * Ends the layout [gap] below the text's last baseline, whatever room its line box leaves under
- * the digits, so what follows sits [gap] (plus the parent's spacing) under them. The text still
- * draws in full.
+ * Lays the text out from its glyphs rather than its line box: from the top of its capitals and
+ * figures ([capHeight] px above the first baseline; the line box's top when null) to [below]
+ * under its last baseline. It still draws in full.
  */
-private fun Modifier.endingBelowBaseline(gap: Dp) = layout { measurable, constraints ->
+private fun Modifier.glyphBox(capHeight: Int? = null, below: Dp) = layout { measurable, constraints ->
     val placeable = measurable.measure(constraints)
-    val baseline = placeable[LastBaseline]
-    val height = if (baseline == AlignmentLine.Unspecified) placeable.height else baseline + gap.roundToPx()
-    layout(placeable.width, height) { placeable.place(0, 0) }
+    val first = placeable[FirstBaseline]
+    val last = placeable[LastBaseline]
+    if (first == AlignmentLine.Unspecified || last == AlignmentLine.Unspecified) {
+        return@layout layout(placeable.width, placeable.height) { placeable.place(0, 0) }
+    }
+    val top = if (capHeight == null) 0 else (first - capHeight).coerceAtLeast(0)
+    layout(placeable.width, last + below.roundToPx() - top) { placeable.place(0, -top) }
 }
 
 @Composable
