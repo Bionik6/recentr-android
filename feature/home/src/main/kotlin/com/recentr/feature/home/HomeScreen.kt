@@ -51,6 +51,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.data.DemoScreenTimeRepository
+import com.recentr.core.designsystem.component.BlockingOffBanner
 import com.recentr.core.designsystem.component.DailyGoalSheet
 import com.recentr.core.designsystem.component.RecentrAvatar
 import com.recentr.core.designsystem.component.RecentrButton
@@ -118,6 +119,8 @@ internal fun HomeScreen(
     onOpenStreak: () -> Unit = onOpenRules,
     onOpenProfile: () -> Unit = {},
     onOpenApp: (packageName: String) -> Unit = {},
+    blockingOn: Boolean = true,
+    onTurnOnBlocking: () -> Unit = {},
     initialSheet: HomeSheet? = null,
     pagerState: PagerState = rememberPagerState { HeroPage.entries.size },
 ) {
@@ -215,13 +218,22 @@ internal fun HomeScreen(
                     }
                 }
                 Spacer(Modifier.height(HomeMetrics.cardToTiles))
-                NextRuleTile(
-                    nextRule = state.nextRule,
-                    activeSession = state.activeSession,
-                    loading = showSkeleton,
-                    onOpenRules = onOpenRules,
-                    modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
-                )
+                // Until the app blocker is on no rule holds an app, so the next one doesn't matter:
+                // its slot shows the same "Blocking is off" card as Rules.
+                if (blockingOn) {
+                    NextRuleTile(
+                        nextRule = state.nextRule,
+                        activeSession = state.activeSession,
+                        loading = showSkeleton,
+                        onOpenRules = onOpenRules,
+                        modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
+                    )
+                } else {
+                    BlockingOffBanner(
+                        onClick = onTurnOnBlocking,
+                        modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
+                    )
+                }
             }
             if (summary != null) {
                 // Previous numbers stay readable but dimmed while a re-sync runs.
