@@ -69,11 +69,15 @@
         <!--
             Launched through one of the aliases below (exported for the adb QA shortcuts). Both
             activities redraw themselves on a light / dark switch (uiMode) instead of restarting.
+            singleTask: the launcher, the hold screen's "Open Recentr" and notifications bring back
+            the one Recentr screen (onNewIntent) instead of stacking new ones over it; an old one
+            left on the onboarding resurfaced on Back after it had been finished.
         -->
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode"
             android:exported="true"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize" />
 
         <!--

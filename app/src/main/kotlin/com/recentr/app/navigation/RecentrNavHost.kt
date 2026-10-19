@@ -6,11 +6,15 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.recentr.app.leavesRestoredOnboarding
 import com.recentr.app.main.MainScreen
 import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.catalog.DesignSystemCatalog
@@ -102,6 +106,14 @@ fun RecentrNavHost(showOnboarding: Boolean, initialTab: RecentrTab = RecentrTab.
                 null
             },
         )
+    }
+    // A screen brought back on the onboarding (left there by a QA shortcut, or an older screen of
+    // the task) when the stored profile finished it since: straight to Home.
+    LaunchedEffect(navController) {
+        val onOnboarding = navController.currentDestination?.hierarchy?.any { it.hasRoute(OnboardingGraphRoute::class) } == true
+        if (leavesRestoredOnboarding(showOnboarding, onOnboarding)) {
+            navController.navigate(MainRoute) { popUpTo(navController.graph.id) { inclusive = true } }
+        }
     }
 }
 

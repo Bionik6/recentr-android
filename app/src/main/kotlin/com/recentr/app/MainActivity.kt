@@ -1,5 +1,6 @@
 package com.recentr.app
 
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -40,15 +41,16 @@ class MainActivity : ComponentActivity() {
             RecentrData.settings.settings.map { it.theme }.distinctUntilChanged().collect { applyNightMode(it) }
         }
 
-        // Debug-only QA shortcuts:
-        //   adb shell am start -n com.recentr.app/.MainActivity --es start main|onboarding --es tab rules
+        // Debug-only QA shortcuts (QaShortcuts), for the launch that carries them only: a task
+        // brought back after process death or from Recents is recreated with its first intent.
         val debuggable = applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
-        val forcedStart = if (debuggable) intent.getStringExtra("start") else null
-        val initialTab = if (debuggable) {
-            RecentrTab.entries.firstOrNull { it.name.equals(intent.getStringExtra("tab"), ignoreCase = true) }
-        } else {
-            null
-        } ?: RecentrTab.Home
+        val qa = QaShortcuts.of(
+            debuggable = debuggable,
+            freshLaunch = savedInstanceState == null && intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY == 0,
+            start = intent.getStringExtra("start"),
+            tab = intent.getStringExtra("tab"),
+        )
+        val initialTab = qa.tab ?: RecentrTab.Home
 
         setContent {
             // Settings › Appearance: Theme, Reduce motion and Haptics apply to every screen. Screens
@@ -60,11 +62,7 @@ class MainActivity : ComponentActivity() {
                 ProvideRecentrMotion(reduceMotion = settings.reduceMotion, hapticsEnabled = settings.haptics) {
                     val start = viewModel.startState.collectAsStateWithLifecycle().value
                     if (start != StartState.Loading && loadedSettings != null) {
-                        val showOnboarding = when (forcedStart) {
-                            "main" -> false
-                            "onboarding" -> true
-                            else -> start == StartState.Onboarding
-                        }
+                        val showOnboarding = showsOnboarding(start, qa.start)
                         // Settings › Time format, else the device's 24-hour setting.
                         val use24Hour = settings.timeFormat?.let { it == TimeFormat.TwentyFourHour }
                             ?: DateFormat.is24HourFormat(LocalContext.current)
