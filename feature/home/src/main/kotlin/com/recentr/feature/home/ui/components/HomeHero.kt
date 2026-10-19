@@ -177,9 +177,10 @@ private fun HeroChips(page: HeroPage, summary: ScreenTimeSummary, goalMinutes: I
             } else {
                 val under = summary.dailyAverageMinutes <= goalMinutes
                 val goal = formatDuration(goalMinutes)
+                // Over the goal reads red: a white glass chip disappears into the clouds.
                 RecentrChip(
                     label = stringResource(if (under) R.string.home_goal_under else R.string.home_goal_over, goal),
-                    style = if (under) RecentrChipStyle.Success else RecentrChipStyle.OnSky,
+                    style = if (under) RecentrChipStyle.Success else RecentrChipStyle.Danger,
                     icon = if (under) RecentrIcon.Check else RecentrIcon.Hourglass,
                     onClick = onEditGoal,
                 )

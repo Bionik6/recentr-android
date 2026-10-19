@@ -27,7 +27,7 @@ import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 
 /** Figma "Chip" · Style. */
-enum class RecentrChipStyle { Neutral, Selected, Success, OnSky, Outline }
+enum class RecentrChipStyle { Neutral, Selected, Success, Danger, OnSky, Outline }
 
 /**
  * Small status / filter chip (Ongoing, All day, 5min…). [contentColor] overrides the style's label
@@ -47,6 +47,7 @@ fun RecentrChip(
         RecentrChipStyle.Neutral -> colors.bgSunken to colors.textSecondary
         RecentrChipStyle.Selected -> colors.actionPrimary to colors.textOnAction
         RecentrChipStyle.Success -> colors.feedbackSuccess to colors.textOnDark
+        RecentrChipStyle.Danger -> colors.feedbackDanger to colors.textOnDark
         RecentrChipStyle.OnSky -> colors.alphaWhite24 to colors.textOnDark
         RecentrChipStyle.Outline -> colors.bgSurface to colors.textSecondary
     }
