@@ -41,6 +41,7 @@ import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
+import com.recentr.core.model.RuleType
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.feature.home.ActiveSessionUi
 import kotlinx.coroutines.delay
@@ -182,7 +183,7 @@ internal fun HomeTiles(
     onOpenStreak: () -> Unit = onOpenRules,
 ) {
     val dayNames = stringArrayResource(R.array.home_day_short)
-    // Live countdown of the running session (ticks every second while it runs).
+    // Live countdown of the running session or routine (ticks every second while it runs).
     val remainingMillis by produceState(
         initialValue = activeSession?.let { it.endsAt - System.currentTimeMillis() } ?: 0L,
         activeSession,
@@ -224,7 +225,8 @@ internal fun HomeTiles(
                     "%d:%02d".format(totalSeconds / 60, totalSeconds % 60)
                 }
                 MiniTile(
-                    label = stringResource(R.string.home_tile_ongoing),
+                    // Routines read "Blocking", like their chip on the Rules list.
+                    label = stringResource(if (activeSession.type == RuleType.Bedtime) R.string.home_tile_blocking else R.string.home_tile_ongoing),
                     value = stringResource(R.string.home_tile_left, left),
                     sticker = activeSession.type.sticker,
                     onClick = onOpenRules,

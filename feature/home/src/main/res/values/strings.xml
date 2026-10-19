@@ -85,6 +85,7 @@
     </plurals>
     <string name="home_tile_next">Next · %1$s</string>
     <string name="home_tile_ongoing">Ongoing</string>
+    <string name="home_tile_blocking">Blocking</string>
     <string name="home_tile_left">%1$s left</string>
     <string name="home_tile_next_day">%1$s %2$s</string>
     <string name="home_tile_next_none">Next</string>

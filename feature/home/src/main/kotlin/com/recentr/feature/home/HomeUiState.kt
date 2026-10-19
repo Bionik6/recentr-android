@@ -21,13 +21,16 @@ data class NextRuleUi(
     val day: DayOfWeek?,
 )
 
-/** A session currently blocking apps (started with "Start blocking"). */
+/**
+ * What blocks apps right now: a session started with "Start blocking", or a scheduled session or
+ * routine ([RuleType.Bedtime]) inside its window.
+ */
 @Immutable
 data class ActiveSessionUi(
     val ruleId: String,
     val name: String,
     val type: RuleType,
-    /** Epoch millis when the session ends. */
+    /** Epoch millis when the session or the scheduled window ends. */
     val endsAt: Long,
 )
 
@@ -41,7 +44,7 @@ data class HomeUiState(
     val isSyncing: Boolean = true,
     val dailyGoalMinutes: Int = 4 * 60,
     val nextRule: NextRuleUi? = null,
-    /** Running session, shown in place of the next rule in the tile. */
+    /** Running session or routine, shown in place of the next rule in the tile. */
     val activeSession: ActiveSessionUi? = null,
     /** Package names answered "Time well spent?" on the Most used list (local only). */
     val wellSpent: Set<String> = emptySet(),
