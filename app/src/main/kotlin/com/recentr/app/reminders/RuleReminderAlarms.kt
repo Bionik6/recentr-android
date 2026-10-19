@@ -1,6 +1,7 @@
 package com.recentr.app.reminders
 
 import android.Manifest
+import android.app.ActivityOptions
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -11,9 +12,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.text.format.DateFormat
+import android.window.SplashScreen
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.recentr.app.MainActivity
 import com.recentr.app.R
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.nextRuleReminder
@@ -83,9 +86,7 @@ object RuleReminderAlarms {
         val settings = RecentrData.settings.settings.first()
         if (!settings.notifyBeforeRoutine || !canPostNotifications(context)) return
         val use24Hour = settings.timeFormat?.let { it == TimeFormat.TwentyFourHour } ?: DateFormat.is24HourFormat(context)
-        val open = context.packageManager.getLaunchIntentForPackage(context.packageName)?.let {
-            PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        }
+        val open = openRecentr(context)
         val now = System.currentTimeMillis()
         ids.zip(startTimes.toList()).forEach { (id, start) ->
             val rule = RecentrData.rules.rule(id) ?: return@forEach
@@ -105,6 +106,25 @@ object RuleReminderAlarms {
             @Suppress("MissingPermission") // Checked by canPostNotifications above.
             NotificationManagerCompat.from(context).notify(id.hashCode(), notification)
         }
+    }
+
+    /**
+     * Opens Recentr from a notification. It names MainActivity rather than the launcher entry,
+     * which Settings › Appearance › App icon may have switched off by the time it's tapped. And it
+     * asks for the splash with the app's icon: launched from a notification, Android otherwise
+     * shows it plain, a blank page while the app starts.
+     */
+    private fun openRecentr(context: Context): PendingIntent {
+        val intent = Intent(context, MainActivity::class.java)
+            .setAction(Intent.ACTION_MAIN)
+            .addCategory(Intent.CATEGORY_LAUNCHER)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val options = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityOptions.makeBasic().setSplashScreenStyle(SplashScreen.SPLASH_SCREEN_STYLE_ICON).toBundle()
+        } else {
+            null
+        }
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT, options)
     }
 
     private fun canPostNotifications(context: Context): Boolean =
