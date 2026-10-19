@@ -478,12 +478,13 @@ internal fun TimeCard(
             .padding(horizontal = 16.dp, vertical = 14.dp),
     ) {
         Text(label, style = RecentrTheme.typography.captionMedium, color = colors.feedbackDanger, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        // Shrinks rather than clips when the card is held narrower than its value ("21:16 – 21:30").
+        // Shrinks rather than clips when the card is held narrower than its value ("21:16 – 21:30",
+        // a countdown of "14:56:36"). Tabular digits keep a countdown from shifting as it ticks.
         BasicText(
             value,
-            style = RecentrTheme.typography.displayLarge.copy(color = colors.textPrimary),
+            style = RecentrTheme.typography.displayLarge.copy(color = colors.textPrimary, fontFeatureSettings = "tnum"),
             maxLines = 1,
-            autoSize = TextAutoSize.StepBased(minFontSize = 22.sp, maxFontSize = RecentrTheme.typography.displayLarge.fontSize, stepSize = 1.sp),
+            autoSize = TextAutoSize.StepBased(minFontSize = 17.sp, maxFontSize = RecentrTheme.typography.displayLarge.fontSize, stepSize = 1.sp),
         )
         Text(caption, style = RecentrTheme.typography.captionRegular, color = colors.textTertiary, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }

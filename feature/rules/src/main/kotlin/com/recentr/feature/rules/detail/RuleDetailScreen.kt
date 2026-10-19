@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -351,23 +350,25 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
 private fun DetailCollage(rule: Rule, now: Long) {
     val (label, value, caption) = timeTile(rule, now)
     Box(Modifier.fillMaxWidth().height(250.dp), contentAlignment = Alignment.Center) {
+        // Fixed widths, the time card on the left edge and the apps tile on the right: a countdown
+        // doesn't make them grow and shrink, and a long value ("14:56:36") shrinks to fit.
         TimeCard(
             label = label,
             value = value,
             caption = caption,
             rotation = 4f,
-            // Anchored to the left edge (not centred) so a wide value like "21:16 – 21:30" grows
-            // to the right instead of off-screen, and capped before the apps tile.
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .offset(y = (-54.7).dp)
-                .widthIn(max = 200.dp)
+                .width(164.dp)
                 .entrance(50, from = DpOffset((-20).dp, 10.dp), blur = false),
         )
         AppsTile(
             rule = rule,
             modifier = Modifier
-                .offset(x = 92.15.dp, y = (-69.16).dp)
+                .align(Alignment.CenterEnd)
+                .offset(x = (-12).dp, y = (-69.16).dp)
+                .width(148.dp)
                 .entrance(120, from = DpOffset(20.dp, 10.dp), blur = false)
                 .graphicsLayer { rotationZ = -5f },
         )
@@ -457,6 +458,8 @@ private fun AppsTile(rule: Rule, modifier: Modifier = Modifier) {
             pluralStringResource(R.plurals.rules_apps_count, apps.size, apps.size),
             style = RecentrTheme.typography.headline,
             color = colors.textPrimary,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
