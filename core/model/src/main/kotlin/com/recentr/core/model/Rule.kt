@@ -114,6 +114,12 @@ data class Rule(
     /** Epoch millis until which the rule is paused, or null. [Long.MAX_VALUE] = until resumed. */
     val pausedUntil: Long? = null,
     val streakDays: Int = 0,
+    /**
+     * Windows starting before this (epoch millis) don't count toward [streakDays]: when the rule
+     * was created, the end of the last window counted, or when the streak broke. Null in rules
+     * saved before streaks were counted (they count from the start of the day they're read).
+     */
+    val streakFrom: Long? = null,
     /** Epoch millis when an active session started, or null. */
     val activeSince: Long? = null,
     val sticker: RuleSticker = type.defaultSticker,

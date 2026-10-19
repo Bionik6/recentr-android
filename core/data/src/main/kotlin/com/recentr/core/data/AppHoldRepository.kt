@@ -55,14 +55,15 @@ class AppHoldRepository(
 
     /**
      * Emergency unlock (54): [packageName] stays open for [EmergencyUnlocks.MINUTES] past every
-     * rule holding it now, Strict mode included, spending one of the month's emergency unlocks.
-     * False when none are left.
+     * rule holding it now, Strict mode included, spending one of the month's emergency unlocks;
+     * their streaks start over. False when none are left.
      */
     suspend fun emergencyUnlock(packageName: String, now: Long): Boolean = withContext(NonCancellable) {
         // Both or neither, even if the hold screen goes away meanwhile: never spent without opening.
         if (!settings.spendEmergencyUnlock(now, zone())) return@withContext false
         val held = state().holding(packageName, now, zone())
         _unlocks.update { it.open(packageName, held, now + EmergencyUnlocks.MINUTES * 60_000L) }
+        rules.breakStreaks(held.map { it.id }, now)
         true
     }
 
