@@ -32,6 +32,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable data object DesignSystemRoute
 
+/** Going back, whether from the back button or a back swipe. */
+private val PopEnter = slideInHorizontally(tween(300)) { -it / 6 } + fadeIn(tween(300))
+private val PopExit = slideOutHorizontally(tween(300)) { it / 3 } + fadeOut(tween(200))
+
 /**
  * Root navigation: onboarding graph → main tabs. Feature modules contribute their own full-screen
  * destinations (rule editors, settings, focus timer…) at this level so they are drawn above the
@@ -46,8 +50,12 @@ fun RecentrNavHost(showOnboarding: Boolean, initialTab: RecentrTab = RecentrTab.
         startDestination = if (showOnboarding) OnboardingGraphRoute else MainRoute,
         enterTransition = { slideInHorizontally(tween(300)) { it / 3 } + fadeIn(tween(300)) },
         exitTransition = { slideOutHorizontally(tween(300)) { -it / 6 } + fadeOut(tween(200)) },
-        popEnterTransition = { slideInHorizontally(tween(300)) { -it / 6 } + fadeIn(tween(300)) },
-        popExitTransition = { slideOutHorizontally(tween(300)) { it / 3 } + fadeOut(tween(200)) },
+        popEnterTransition = { PopEnter },
+        popExitTransition = { PopExit },
+        // A back swipe plays the back button's transition, following the finger, instead of
+        // Navigation's default predictive one (the screen shrinking, then vanishing).
+        predictivePopEnterTransition = { PopEnter },
+        predictivePopExitTransition = { PopExit },
     ) {
         onboardingGraph(
             navController = navController,
