@@ -45,6 +45,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrButton
@@ -54,6 +55,7 @@ import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
+import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.illustration.Sticker
@@ -207,28 +209,44 @@ internal fun FocusRunningContent(
                 }
             }
             Spacer(Modifier.height(30.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                RecentrButton(
-                    text = stringResource(
-                        when {
-                            waitingToStart -> R.string.focus_start_round
-                            run.isPaused -> R.string.focus_resume
-                            else -> R.string.focus_pause
-                        },
-                    ),
-                    onClick = if (run.isPaused) actions.onResume else actions.onPause,
-                    style = RecentrButtonStyle.Secondary,
-                    modifier = Modifier.width(170.dp),
-                )
-                RecentrButton(
-                    text = stringResource(R.string.focus_end),
-                    onClick = actions.onEnd,
-                    style = RecentrButtonStyle.Soft,
-                    modifier = Modifier.width(110.dp),
-                )
+            // Strict mode leaves no Pause or End: the round only runs out.
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                if (run.isStrict && !run.isPaused) {
+                    StrictNote(color = colors.textOnDarkMuted, modifier = Modifier.height(54.dp))
+                } else {
+                    RecentrButton(
+                        text = stringResource(
+                            when {
+                                waitingToStart -> R.string.focus_start_round
+                                run.isPaused -> R.string.focus_resume
+                                else -> R.string.focus_pause
+                            },
+                        ),
+                        onClick = if (run.isPaused) actions.onResume else actions.onPause,
+                        style = RecentrButtonStyle.Secondary,
+                        modifier = Modifier.width(170.dp),
+                    )
+                }
+                if (!run.isStrict) {
+                    RecentrButton(
+                        text = stringResource(R.string.focus_end),
+                        onClick = actions.onEnd,
+                        style = RecentrButtonStyle.Soft,
+                        modifier = Modifier.width(110.dp),
+                    )
+                }
             }
             Spacer(Modifier.height(30.dp))
         }
+    }
+}
+
+/** Where Pause and End would be on a strict session. */
+@Composable
+internal fun StrictNote(color: Color, modifier: Modifier = Modifier) {
+    Row(modifier, horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+        RecentrIconImage(RecentrIcon.Shield, tint = RecentrTheme.colors.accentTangerine, size = 16.dp)
+        Text(stringResource(R.string.focus_strict_note), style = RecentrTheme.typography.captionMedium, color = color, textAlign = TextAlign.Center)
     }
 }
 

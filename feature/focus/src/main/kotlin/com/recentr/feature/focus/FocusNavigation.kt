@@ -185,6 +185,7 @@ private fun FocusSessionDestination(navController: NavHostController) {
                     viewModel.end()
                 },
                 onDismissRequest = { overlay = null },
+                strict = run.isStrict,
             )
         }
         SessionOverlay.Sounds -> SoundsSheet(

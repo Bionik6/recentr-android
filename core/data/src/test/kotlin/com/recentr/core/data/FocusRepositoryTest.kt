@@ -90,6 +90,31 @@ class FocusRepositoryTest {
     }
 
     @Test
+    fun `a strict session can't be paused or ended early, and the next one isn't strict`() {
+        val repo = repository(FocusConfig(focusMinutes = 25, rounds = 2, strictMode = true))
+        repo.start(now)
+        assertTrue(repo.run.value!!.isStrict)
+        assertFalse(repo.config.value.strictMode)
+
+        repo.pause(now + minute)
+        assertFalse(repo.run.value!!.isPaused)
+        assertNull(repo.end(now + 10 * minute))
+        assertNotNull(repo.run.value)
+
+        // It still runs out on its own.
+        repo.advance(now + (25 + 5 + 25) * minute)
+        assertNull(repo.run.value)
+        assertEquals(50, repo.lastCompleted.value!!.focusedMinutes)
+    }
+
+    @Test
+    fun `the timer starts at 25 minutes and goes up to 3 hours`() {
+        assertEquals(25, FocusConfig().focusMinutes)
+        assertEquals(180, FocusConfig.MAX_FOCUS)
+        assertFalse(FocusConfig().strictMode)
+    }
+
+    @Test
     fun `ending early logs the focused time, or nothing under a minute`() {
         val repo = repository()
         repo.start(now)

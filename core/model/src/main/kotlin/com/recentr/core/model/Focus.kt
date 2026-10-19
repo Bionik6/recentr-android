@@ -6,7 +6,8 @@ enum class FocusSound { Rain, Forest, Night, Fireplace, Clock, Silence }
 /** How a focus session is set up (Figma 91 "Focus — Set up" + 98 "Rounds"). */
 data class FocusConfig(
     val label: String = "Deep work",
-    val focusMinutes: Int = 45,
+    /** 25-minute rounds at first. */
+    val focusMinutes: Int = 25,
     val shortBreakMinutes: Int = 5,
     val rounds: Int = 4,
     val longBreakMinutes: Int = 15,
@@ -16,6 +17,11 @@ data class FocusConfig(
     val volume: Float = 0.6f,
     /** Apps put on hold during the session, picked from the device's apps (none at first). */
     val blockedApps: List<UsageApp> = emptyList(),
+    /**
+     * Strict mode: the session can't be paused or ended early, only waited out. Breaks still
+     * come. Chosen for each session: it's off again once one starts.
+     */
+    val strictMode: Boolean = false,
 ) {
     /** Break after [round] (1-based): a long break every [LONG_BREAK_EVERY] rounds, short otherwise. */
     fun breakMinutesAfter(round: Int): Int =
@@ -28,7 +34,7 @@ data class FocusConfig(
     companion object {
         const val LONG_BREAK_EVERY = 4
         const val MIN_FOCUS = 5
-        const val MAX_FOCUS = 120
+        const val MAX_FOCUS = 180
         const val MAX_ROUNDS = 8
     }
 }
@@ -61,6 +67,9 @@ data class FocusRun(
             FocusPhase.Focus -> config.focusMinutes * 60_000L
             FocusPhase.Break -> config.breakMinutesAfter(round) * 60_000L
         }
+
+    /** Strict mode keeps the session from being paused or ended early. */
+    val isStrict: Boolean get() = config.strictMode
 
     fun remainingMillis(now: Long): Long =
         (phaseEndsAt?.let { it - now } ?: pausedRemainingMillis ?: phaseLengthMillis).coerceIn(0, phaseLengthMillis)

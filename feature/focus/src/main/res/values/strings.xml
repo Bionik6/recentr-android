@@ -15,6 +15,14 @@
     <string name="focus_rounds">Rounds</string>
     <string name="focus_rounds_value">%1$d × %2$d min</string>
     <string name="focus_start">Start focus</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">Strict mode</string>
+    <string name="focus_strict_caption">Strict mode: no pausing or ending early</string>
+    <string name="focus_strict_note">Strict mode: this focus ends on its own</string>
+    <string name="focus_strict_confirm_title">Turn on Strict mode?</string>
+    <string name="focus_strict_confirm_body">You won’t be able to pause or end this focus early. Breaks still come.</string>
+    <string name="focus_strict_turn_on">Turn on</string>
+    <string name="focus_cancel">Cancel</string>
     <string name="focus_back_to_focus">Back to focus</string>
     <string name="focus_back_to_focus_left">Back to focus · %1$s</string>
     <string name="focus_rename">Rename</string>

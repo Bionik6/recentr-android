@@ -37,7 +37,8 @@ import com.recentr.core.model.UsageApp
 
 /**
  * 96 · Focus — App on hold: impatient mascot (+ the held app, tilted 10°), "You’re 32 min into
- * focus", "Back to focus" / "End session early". Without [app] it guards leaving the session.
+ * focus", "Back to focus" / "End session early". Without [app] it guards leaving the session. A
+ * [strict] session can't be ended early: a note stands where the button would be.
  */
 @Composable
 internal fun AppOnHoldDialog(
@@ -49,6 +50,7 @@ internal fun AppOnHoldDialog(
     onBack: () -> Unit,
     onEnd: () -> Unit,
     onDismissRequest: () -> Unit,
+    strict: Boolean = false,
 ) {
     val colors = RecentrTheme.colors
     Dialog(onDismissRequest = onDismissRequest, properties = DialogProperties(usePlatformDefaultWidth = false)) {
@@ -84,7 +86,11 @@ internal fun AppOnHoldDialog(
             Text(body, style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary, textAlign = TextAlign.Center)
             Spacer(Modifier.height(4.dp))
             RecentrButton(text = backText, onClick = onBack, style = RecentrButtonStyle.Brand, modifier = Modifier.fillMaxWidth())
-            RecentrButton(text = endText, onClick = onEnd, style = RecentrButtonStyle.Soft, modifier = Modifier.fillMaxWidth())
+            if (strict) {
+                StrictNote(color = colors.textTertiary)
+            } else {
+                RecentrButton(text = endText, onClick = onEnd, style = RecentrButtonStyle.Soft, modifier = Modifier.fillMaxWidth())
+            }
         }
     }
 }
