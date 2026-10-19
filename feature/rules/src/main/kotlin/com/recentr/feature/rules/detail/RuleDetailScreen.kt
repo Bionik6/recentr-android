@@ -1,7 +1,6 @@
 package com.recentr.feature.rules.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +33,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -131,7 +129,7 @@ internal fun RuleDetailDestination(
             onPause = {
                 if (rule.isPaused(state.now)) viewModel.resume() else guarded { pause = true }
             },
-            onEditRule = { guarded { sheet = RuleSheet.Name } },
+            onEditRule = { guarded { onEditSettings(rule.id) } },
             onEditSettings = { guarded { onEditSettings(rule.id) } },
             onDelete = { guarded { delete = true } },
         ),
@@ -207,7 +205,7 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                     }
                 }
                 Gap(19.dp)
-                DetailCollage(rule, now, actions)
+                DetailCollage(rule, now)
                 Gap(24.dp)
                 DetailSettings(rule, now, actions)
                 Gap(16.dp)
@@ -311,26 +309,18 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
 
 /**
  * Tilted collage: time card, blocked apps, "Why" note and streak (positions from Figma 44). The
- * pieces drop into place one after the other when the page opens.
+ * pieces drop into place one after the other when the page opens. Read-only: "Edit rule" opens
+ * the editor.
  */
 @Composable
-private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
-    val schedule = rule.schedule
+private fun DetailCollage(rule: Rule, now: Long) {
     val (label, value, caption) = timeTile(rule, now)
-    val timeTarget = when {
-        rule.isRunning(now) || (rule.type == RuleType.Session && schedule == null) -> RuleSheet.Duration
-        rule.type == RuleType.Session || rule.type == RuleType.Lock -> RuleSheet.Schedule
-        rule.type == RuleType.Bedtime -> RuleSheet.BedtimeStart
-        rule.type == RuleType.Habit -> RuleSheet.Repeats
-        else -> null
-    }
     Box(Modifier.fillMaxWidth().height(250.dp), contentAlignment = Alignment.Center) {
         TimeCard(
             label = label,
             value = value,
             caption = caption,
             rotation = 4f,
-            onClick = if (timeTarget != null) ({ actions.onOpen(timeTarget) }) else actions.onEditSettings,
             // Anchored to the left edge (not centred) so a wide value like "21:16 – 21:30" grows
             // to the right instead of off-screen, and capped before the apps tile.
             modifier = Modifier
@@ -341,18 +331,20 @@ private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
         )
         AppsTile(
             rule = rule,
-            onClick = { actions.onOpen(RuleSheet.Apps) },
             modifier = Modifier
                 .offset(x = 92.15.dp, y = (-69.16).dp)
                 .entrance(120, from = DpOffset(20.dp, 10.dp), blur = false)
                 .graphicsLayer { rotationZ = -5f },
         )
+        // Pinned by its top just under the apps tile (where Figma's two-line note starts) and
+        // capped at three lines, so a long reason grows downwards instead of over the apps.
         StickyNote(
             title = stringResource(R.string.rules_why),
-            body = rule.note?.takeIf { it.isNotBlank() } ?: stringResource(R.string.rules_why_placeholder),
-            onClick = { actions.onOpen(RuleSheet.Note) },
+            body = rule.note?.takeIf { it.isNotBlank() } ?: stringResource(R.string.rules_why_empty),
+            maxBodyLines = 3,
             modifier = Modifier
-                .offset(x = 86.dp, y = 56.6.dp)
+                .align(Alignment.TopCenter)
+                .offset(x = 86.dp, y = 126.dp)
                 .entrance(200, blur = false)
                 .width(180.dp)
                 .graphicsLayer { rotationZ = 3f },
@@ -408,7 +400,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> {
 }
 
 @Composable
-private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun AppsTile(rule: Rule, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(24.dp)
     val apps = rule.apps
@@ -417,7 +409,6 @@ private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modif
             .recentrShadow(RecentrElevation.float, shape)
             .clip(shape)
             .background(colors.bgSurface)
-            .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {

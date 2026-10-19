@@ -361,6 +361,7 @@ fun StickyNote(
     body: String,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+    maxBodyLines: Int = Int.MAX_VALUE,
 ) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(20.dp)
@@ -374,7 +375,13 @@ fun StickyNote(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(title, style = RecentrTheme.typography.headline, color = colors.accentNoteInk)
-        Text(body, style = RecentrTheme.typography.noteHandwritten, color = colors.accentNoteInk)
+        Text(
+            body,
+            style = RecentrTheme.typography.noteHandwritten,
+            color = colors.accentNoteInk,
+            maxLines = maxBodyLines,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
