@@ -20,7 +20,6 @@ import com.recentr.feature.rules.RuleEditorRoute
 import com.recentr.feature.rules.model.BuiltInTemplate
 import com.recentr.feature.rules.model.RuleFactory
 import com.recentr.feature.rules.model.RulesMessages
-import com.recentr.feature.rules.ui.durationText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -112,25 +111,14 @@ internal class RuleEditorViewModel(
         )
     }
 
-    /** Creates / saves the rule. A new unscheduled session starts right away. */
+    /** Creates / saves the rule. Nothing starts on its own: a new session waits on its page for Start. */
     fun commit() {
         val state = _state.value
         val draft = state.draft
-        when {
-            state.isNew && draft.type == RuleType.Session && draft.schedule == null -> {
-                repository.upsert(draft.copy(activeSince = System.currentTimeMillis(), oneShot = true))
-                val length = durationText(draft.durationMinutes ?: 30, string)
-                RulesMessages.show(string(R.string.rules_session_started, arrayOf(length)))
-            }
-            state.isNew -> {
-                repository.upsert(draft)
-                RulesMessages.show(string(R.string.rules_rule_created, arrayOf(draft.name)))
-            }
-            else -> {
-                repository.upsert(draft)
-                RulesMessages.show(string(R.string.rules_rule_saved, emptyArray()))
-            }
-        }
+        repository.upsert(draft)
+        RulesMessages.show(
+            if (state.isNew) string(R.string.rules_rule_created, arrayOf(draft.name)) else string(R.string.rules_rule_saved, emptyArray()),
+        )
     }
 
     companion object {
