@@ -53,6 +53,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.recentr.core.data.DemoScreenTimeRepository
 import com.recentr.core.designsystem.component.BlockingOffBanner
 import com.recentr.core.designsystem.component.DailyGoalSheet
@@ -209,6 +210,8 @@ internal fun HomeScreen(
                         onScreenTimeInfo = { sheet = HomeSheet.ScreenTimeInfo },
                         onOfflineInfo = { sheet = HomeSheet.OfflineInfo },
                         onEditGoal = { sheet = HomeSheet.Goal },
+                        // In front of the mascot rising from the usage card: its chip stays whole.
+                        modifier = Modifier.zIndex(1f),
                     )
                     Spacer(Modifier.height(HomeMetrics.heroToCard))
                     Spacer(Modifier.weight(1f))
