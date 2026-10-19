@@ -126,6 +126,16 @@ internal fun countdown(millis: Long): String {
     return if (h > 0) "%d:%02d:%02d".format(h, m, s) else "%d:%02d".format(m, s)
 }
 
+/** "23m42s", "2h32m", "2d 3h": how long until a routine starts, to the second only in its last hour. */
+internal fun startCountdown(millis: Long): String {
+    val seconds = max(0L, (millis + 999) / 1000)
+    if (seconds < 3600) return if (seconds < 60) "${seconds}s" else "%dm%02ds".format(seconds / 60, seconds % 60)
+    val minutes = (seconds + 59) / 60
+    if (minutes < 24 * 60) return "%dh%02dm".format(minutes / 60, minutes % 60)
+    val hours = (minutes + 59) / 60
+    return if (hours % 24 == 0L) "${hours / 24}d" else "${hours / 24}d ${hours % 24}h"
+}
+
 /* Times & days. */
 
 /** "9 AM", "9:30 PM" (or "09:00", "21:30" on the 24-hour clock). */

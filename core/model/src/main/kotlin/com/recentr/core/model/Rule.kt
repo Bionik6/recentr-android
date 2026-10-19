@@ -59,6 +59,16 @@ data class RuleSchedule(
         }
     }
 
+    /** When the window next starts after [epochMillis], within a week; null without days. */
+    fun nextStartAfter(epochMillis: Long, zone: ZoneId = ZoneId.systemDefault()): Long? {
+        val today = Instant.ofEpochMilli(epochMillis).atZone(zone).toLocalDate()
+        return (0..7).asSequence()
+            .map { today.plusDays(it.toLong()) }
+            .filter { it.dayOfWeek.value in days }
+            .map { it.atStartOfDay(zone).plusMinutes(startMinute.toLong()).toInstant().toEpochMilli() }
+            .firstOrNull { it > epochMillis }
+    }
+
     companion object {
         const val MINUTES_PER_DAY = 24 * 60
     }

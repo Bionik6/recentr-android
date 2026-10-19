@@ -29,6 +29,7 @@ import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.durationLabel
 import com.recentr.feature.rules.ui.habitRepeatLabel
 import com.recentr.feature.rules.ui.scheduleLabel
+import com.recentr.feature.rules.ui.startCountdown
 import com.recentr.feature.rules.ui.components.IconTintChip
 import com.recentr.feature.rules.ui.components.overlayBorder
 import java.time.ZoneId
@@ -77,6 +78,8 @@ internal sealed interface CardValue {
     data object Paused : CardValue
     /** A running session or routine: the countdown to its end. */
     data class Left(val millis: Long) : CardValue
+    /** A routine waiting for its window: the countdown to its start. */
+    data class StartsIn(val millis: Long) : CardValue
     data object Locked : CardValue
     data class UsedOf(val usedMinutes: Int, val totalMinutes: Int) : CardValue
     data class Minutes(val minutes: Int) : CardValue
@@ -84,9 +87,9 @@ internal sealed interface CardValue {
 }
 
 /**
- * The card's value, or null for nothing: a routine shows the minutes it held apps only once there
- * is a whole one (no "0s" while it waits for its window, nor in its first minute); a saved
- * session waiting to run again has its length on its chip already.
+ * The card's value, or null for nothing: a routine waiting for its window counts down to its
+ * start; otherwise it shows the minutes it held apps only once there is a whole one (no "0s" in
+ * its first minute); a saved session waiting to run again has its length on its chip already.
  */
 internal fun Rule.cardValue(now: Long, zone: ZoneId = ZoneId.systemDefault()): CardValue? {
     if (isPaused(now)) return CardValue.Paused
@@ -95,7 +98,11 @@ internal fun Rule.cardValue(now: Long, zone: ZoneId = ZoneId.systemDefault()): C
         RuleType.Lock -> CardValue.Locked
         RuleType.Session -> schedule?.let { CardValue.UsedOf(usedMinutes, it.lengthMinutes) }
         RuleType.Limit -> CardValue.UsedOf(usedMinutes, limitMinutes ?: 0)
-        RuleType.Bedtime -> if (usedMinutes >= 1) CardValue.Minutes(usedMinutes) else null
+        RuleType.Bedtime -> schedule
+            ?.takeIf { enabled && !it.isActiveAt(now, zone) }
+            ?.nextStartAfter(now, zone)
+            ?.let { CardValue.StartsIn(it - now) }
+            ?: if (usedMinutes >= 1) CardValue.Minutes(usedMinutes) else null
         RuleType.Habit -> CardValue.Tasks(habitTasks.count { it.done }, habitTasks.size)
     }
 }
@@ -116,6 +123,7 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
         null -> null
         CardValue.Paused -> stringResource(R.string.rules_value_paused)
         is CardValue.Left -> stringResource(R.string.rules_value_left, countdown(v.millis))
+        is CardValue.StartsIn -> stringResource(R.string.rules_value_starts_in, startCountdown(v.millis))
         CardValue.Locked -> stringResource(R.string.rules_value_locked)
         is CardValue.UsedOf -> stringResource(R.string.rules_value_used_of, compactDuration(v.usedMinutes), compactDuration(v.totalMinutes))
         is CardValue.Minutes -> compactDuration(v.minutes)

@@ -6,6 +6,7 @@ import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
+import com.recentr.feature.rules.ui.startCountdown
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -16,6 +17,11 @@ import java.time.ZoneId
 
 /** What a rule card reads: its status chip (green while the rule is on) and its value. */
 class RuleCardStateTest {
+
+    private companion object {
+        const val MINUTE = 60_000L
+        const val HOUR = 60 * MINUTE
+    }
 
     private val zone = ZoneId.of("Europe/Paris")
 
@@ -44,16 +50,37 @@ class RuleCardStateTest {
     }
 
     @Test
-    fun `a routine waiting for its window shows no value`() {
+    fun `a routine waiting for its window counts down to its start`() {
         assertEquals(CardStatus.Upcoming, routine.cardStatus(at(13), zone))
         assertFalse(routine.cardStatus(at(13), zone).active)
-        assertNull(routine.cardValue(at(13), zone))
+        // 13:00 → 20:10 tonight.
+        assertEquals(CardValue.StartsIn(7 * HOUR + 10 * MINUTE), routine.cardValue(at(13), zone))
+        assertEquals(CardValue.StartsIn(7 * HOUR + 10 * MINUTE), routine.copy(usedMinutes = 12).cardValue(at(13), zone))
     }
 
     @Test
-    fun `a routine shows its minutes only from a whole one`() {
-        assertNull(routine.copy(usedMinutes = 0).cardValue(at(13), zone))
-        assertEquals(CardValue.Minutes(1), routine.copy(usedMinutes = 1).cardValue(at(13), zone))
+    fun `a routine counts down to its next day, past the weekend`() {
+        val saturdayNoon = LocalDate.of(2026, 10, 24).atTime(12, 0).atZone(zone).toInstant().toEpochMilli()
+        val monday = LocalDate.of(2026, 10, 26).atTime(20, 10).atZone(zone).toInstant().toEpochMilli()
+        // 57h10, not 56h10: the clocks go back an hour on Sunday.
+        assertEquals(CardValue.StartsIn(monday - saturdayNoon), routine.cardValue(saturdayNoon, zone))
+        assertEquals(57 * HOUR + 10 * MINUTE, monday - saturdayNoon)
+    }
+
+    @Test
+    fun `a routine turned off doesn't count down`() {
+        assertNull(routine.copy(enabled = false).cardValue(at(13), zone))
+    }
+
+    @Test
+    fun `the start countdown shows seconds only in the last hour`() {
+        assertEquals("42s", startCountdown(42_000))
+        assertEquals("23m42s", startCountdown(23 * MINUTE + 41_200))
+        assertEquals("59m59s", startCountdown(HOUR - 1_000))
+        assertEquals("1h00m", startCountdown(HOUR))
+        assertEquals("2h32m", startCountdown(2 * HOUR + 31 * MINUTE + 10_000))
+        assertEquals("2d 3h", startCountdown(51 * HOUR))
+        assertEquals("3d", startCountdown(72 * HOUR))
     }
 
     @Test

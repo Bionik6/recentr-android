@@ -47,6 +47,7 @@
     <string name="rules_strict_mode">Strict mode</string>
     <string name="rules_value_locked">Locked</string>
     <string name="rules_value_left">%1$s left</string>
+    <string name="rules_value_starts_in">in %1$s</string>
     <string name="rules_value_paused">Paused</string>
     <string name="rules_value_used_of">%1$s / %2$s</string>
     <string name="rules_schedule_format">%1$s · %2$s</string>
