@@ -160,12 +160,6 @@
     <string name="rules_choose_apps">Choose apps</string>
     <string name="rules_selected">%1$d selected</string>
     <string name="rules_search_apps">Search apps</string>
-    <string name="rules_cat_social">SOCIAL</string>
-    <string name="rules_cat_entertainment">ENTERTAINMENT</string>
-    <string name="rules_cat_music">MUSIC</string>
-    <string name="rules_cat_games">GAMES</string>
-    <string name="rules_cat_productivity">PRODUCTIVITY</string>
-    <string name="rules_cat_other">OTHER APPS</string>
     <string name="rules_category_social">Social</string>
     <string name="rules_category_entertainment">Entertainment</string>
     <string name="rules_category_music">Music</string>
@@ -173,10 +167,13 @@
     <string name="rules_category_productivity">Productivity</string>
     <string name="rules_category_other">Other</string>
     <string name="rules_category_count">%1$s · %2$d</string>
-    <plurals name="rules_done_apps">
-        <item quantity="one">Done · %d app</item>
-        <item quantity="other">Done · %d apps</item>
+    <plurals name="rules_block_apps">
+        <item quantity="one">Block · %d app</item>
+        <item quantity="other">Block · %d apps</item>
     </plurals>
+    <string name="rules_all_apps_and_categories">All apps &amp; categories</string>
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">All</string>
     <string name="rules_no_apps_found">No apps match “%1$s”.</string>
 
     <!-- Session length -->

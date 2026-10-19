@@ -39,17 +39,6 @@ internal val RuleSticker.asSticker: Sticker
         RuleSticker.Flame -> Sticker.Flame
     }
 
-/** Section caption of the "Choose apps" sheet ("SOCIAL"). */
-internal val AppCategory.sectionLabel: Int
-    get() = when (this) {
-        AppCategory.Social -> R.string.rules_cat_social
-        AppCategory.Entertainment -> R.string.rules_cat_entertainment
-        AppCategory.Music -> R.string.rules_cat_music
-        AppCategory.Games -> R.string.rules_cat_games
-        AppCategory.Productivity -> R.string.rules_cat_productivity
-        AppCategory.Other -> R.string.rules_cat_other
-    }
-
 /** Category name in values ("Social · 3"). */
 internal val AppCategory.title: Int
     get() = when (this) {

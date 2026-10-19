@@ -29,6 +29,7 @@ import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
@@ -111,6 +113,37 @@ fun RecentrCheckbox(
             { value: Boolean ->
                 haptics.selection()
                 change(value)
+            }
+        },
+        modifier = modifier,
+        enabled = enabled,
+        colors = CheckboxDefaults.colors(
+            checkedColor = colors.brandSky,
+            uncheckedColor = colors.borderDashed,
+            checkmarkColor = Color.White,
+        ),
+    )
+}
+
+/**
+ * [RecentrCheckbox] with a third, partial state (Material 3 [TriStateCheckbox]): a group whose
+ * items are only partly checked (some apps of a category). 24dp when [onClick] is null.
+ */
+@Composable
+fun RecentrTriStateCheckbox(
+    state: ToggleableState,
+    onClick: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
+    val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
+    TriStateCheckbox(
+        state = state,
+        onClick = onClick?.let { click ->
+            {
+                haptics.selection()
+                click()
             }
         },
         modifier = modifier,
