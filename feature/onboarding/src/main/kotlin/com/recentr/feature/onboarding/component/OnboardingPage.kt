@@ -124,12 +124,16 @@ internal fun OnboardingTopBar(progress: HeaderProgress, onBack: (() -> Unit)?, m
 internal fun OnboardingSystemBars(lightIcons: Boolean) {
     val view = LocalView.current
     if (view.isInEditMode) return
-    DisposableEffect(lightIcons) {
+    // Every onboarding page is dark under the dark palette. Keyed on the palette too: a theme
+    // switch resets the window's bar styles.
+    val dark = RecentrTheme.isDark
+    val tone = lightIcons || dark
+    DisposableEffect(lightIcons, dark) {
         val window = view.context.findActivity()?.window
         if (window != null) {
             val controller = WindowCompat.getInsetsController(window, view)
-            controller.isAppearanceLightStatusBars = !lightIcons
-            controller.isAppearanceLightNavigationBars = !lightIcons
+            controller.isAppearanceLightStatusBars = !tone
+            controller.isAppearanceLightNavigationBars = !tone
         }
         onDispose { }
     }

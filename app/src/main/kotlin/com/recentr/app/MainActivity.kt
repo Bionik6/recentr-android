@@ -17,7 +17,6 @@ import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.component.RecentrTab
 import com.recentr.core.designsystem.format.LocalUse24HourClock
 import com.recentr.core.designsystem.motion.ProvideRecentrMotion
-import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AppIconStyle
 import com.recentr.core.model.AppSettings
 import com.recentr.core.model.TimeFormat
@@ -37,6 +36,9 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             RecentrData.settings.settings.map { it.appIcon }.distinctUntilChanged().collect { launcherIcon = it }
         }
+        lifecycleScope.launch {
+            RecentrData.settings.settings.map { it.theme }.distinctUntilChanged().collect { applyNightMode(it) }
+        }
 
         // Debug-only QA shortcuts:
         //   adb shell am start -n com.recentr.app/.MainActivity --es start main|onboarding --es tab rules
@@ -49,11 +51,12 @@ class MainActivity : ComponentActivity() {
         } ?: RecentrTab.Home
 
         setContent {
-            RecentrTheme {
-                // Settings › Appearance: Reduce motion and Haptics apply to every screen. Screens wait
-                // until they are read, so each opens with the right motion, also when recreated.
-                val loadedSettings = viewModel.settings.collectAsStateWithLifecycle().value
-                val settings = loadedSettings ?: AppSettings()
+            // Settings › Appearance: Theme, Reduce motion and Haptics apply to every screen. Screens
+            // wait until they are read, so each opens with the right palette and motion, also when
+            // recreated.
+            val loadedSettings = viewModel.settings.collectAsStateWithLifecycle().value
+            val settings = loadedSettings ?: AppSettings()
+            RecentrAppTheme(settings.theme) {
                 ProvideRecentrMotion(reduceMotion = settings.reduceMotion, hapticsEnabled = settings.haptics) {
                     val start = viewModel.startState.collectAsStateWithLifecycle().value
                     if (start != StartState.Loading && loadedSettings != null) {

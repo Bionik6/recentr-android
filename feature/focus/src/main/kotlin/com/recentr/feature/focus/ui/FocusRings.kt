@@ -80,9 +80,13 @@ private fun DrawScope.drawKnob(center: Offset, radius: Float) {
     }
 }
 
+/** Ends of the set-up dial gradient: fixed sky values in Figma, the same in the dark palette. */
+private val DialLight = Color(0xFF7CB8FF)
+private val DialDeep = Color(0xFF1452D4)
+
 /** Gradient of the set-up dial: Figma `linear-gradient` from (20, −15) to (170, 185) on a 250 dial. */
-private fun dialBrush(sizePx: Float, light: Color, deep: Color): Brush = Brush.linearGradient(
-    colors = listOf(light, deep),
+private fun dialBrush(sizePx: Float): Brush = Brush.linearGradient(
+    colors = listOf(DialLight, DialDeep),
     start = Offset(20f / 250f * sizePx, -15f / 250f * sizePx),
     end = Offset(170f / 250f * sizePx, 185f / 250f * sizePx),
 )
@@ -156,14 +160,14 @@ internal fun FocusDial(
                 }
             },
     ) {
-        val brush = dialBrush(size.width, colors.brandSkyLight, colors.brandSkyDeep)
+        val brush = dialBrush(size.width)
         drawFocusRing(
             fraction = shownMinutes / 60f,
             strokeWidth = 18.dp,
             track = SolidColor(colors.bgSunken),
             progress = brush,
             knobRadius = 12.dp,
-            secondLap = SolidColor(colors.brandSkyDeep),
+            secondLap = SolidColor(DialDeep),
         )
     }
 }

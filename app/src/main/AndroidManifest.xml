@@ -41,13 +41,18 @@
             android:exported="false"
             android:launchMode="singleTask"
             android:noHistory="true"
+            android:configChanges="uiMode"
             android:taskAffinity="com.recentr.app.hold"
             android:theme="@style/Theme.Recentr"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Launched through one of the aliases below (exported for the adb QA shortcuts). -->
+        <!--
+            Launched through one of the aliases below (exported for the adb QA shortcuts). Both
+            activities redraw themselves on a light / dark switch (uiMode) instead of restarting.
+        -->
         <activity
             android:name=".MainActivity"
+            android:configChanges="uiMode"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 

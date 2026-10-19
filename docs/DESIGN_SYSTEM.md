@@ -1,15 +1,16 @@
 # Recentr — Design system (Android)
 
 Port of the Figma file **"Offly · Screen time App UI Kit"** (`PKRDsYvhW5Ntdzwq9giTv3`), pages
-*Foundations* (`2045:2`) and *Components* (`2043:9403`). Module: `:core:designsystem`,
-package `com.recentr.core.designsystem`.
+*Foundations* (`2045:2`), *Components* (`2043:9403`) and *Dark mode* (`2128:6159`). Module:
+`:core:designsystem`, package `com.recentr.core.designsystem`.
 
 > The Figma kit is branded "Offly"; the Android app is **Recentr**. Every user-facing "Offly"
 > becomes "Recentr" (wordmark, copy, permission texts).
 
 ## Usage
 
-Wrap the UI in `RecentrTheme { … }` (done in `MainActivity`). Tokens are read through the
+Wrap the UI in `RecentrTheme(darkTheme) { … }` (done in `MainActivity` and `HoldActivity` through
+`RecentrAppTheme`, which follows *Settings › Appearance › Theme*). Tokens are read through the
 `RecentrTheme` object:
 
 ```kotlin
@@ -24,7 +25,7 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 
 | Figma | Kotlin |
 |---|---|
-| Colour variables (`bg/page`, `text/secondary`, `alpha/white-24`, …) | `RecentrTheme.colors.bgPage`, `.textSecondary`, `.alphaWhite24`, … (`theme/Color.kt`) |
+| Colour variables (`bg/page`, `text/secondary`, `alpha/white-24`, …) | `RecentrTheme.colors.bgPage`, `.textSecondary`, `.alphaWhite24`, … (`theme/Color.kt`): the collection's Light mode is `LightRecentrColors`, its Dark mode `DarkRecentrColors` |
 | Text styles (Display/Hero … Note/Handwritten) | `RecentrTheme.typography.displayHero`, `.displayNumber`, `.displayLarge`, `.title1`, `.title2`, `.headline`, `.bodyRegular`, `.bodyMedium`, `.captionRegular`, `.captionMedium`, `.labelSmall`, `.brandWordmark`, `.noteHandwritten` — Figtree, letter-spacing in % converted to `em` |
 | Spacing `space/2…48` | `RecentrTheme.spacing.space2 … space48`, `screenGutter` (24) |
 | Radius `xs 8 · sm 12 · md 16 · lg 20 · xl 24 · card 28 · sheet 36 · screen 48 · full` | `RecentrTheme.radius.*`, shapes in `RecentrShapes.*` |
@@ -41,7 +42,8 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
   Bitmaps rendered at 4× with transparency; the soft contact shadow overflows the slot like in Figma.
 * **Mascot** — `Mascot(MascotMood.Calm | Impatient | Dozing, width)` (160×200 artboard).
 * **Backdrops** — `BackdropBox(Backdrop.Sky | Backdrop.Aurora) { content }`: full-screen, anchored
-  top, page grey below.
+  top, page grey below. Each has a 3× render per palette (`backdrop_*_dark`, the same layers in the
+  Dark mode tokens); `Backdrop.drawable` picks the current one.
 * **Logo mark** — `LogoMark(width)` (Figma "Logo/Mark", the hourglass on its OFF toggle; with the
   `recentr` wordmark it makes the share card's "Logo/Lockup · On blue").
 * **Brand icon** — `BrandIconImage(BrandIcon.Sky | Night | Mint | Sunset, size)` (Figma "Logo/App
@@ -83,6 +85,19 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Daily goal sheet (Figma 28, Home and Insights) | `DailyGoalSheet(currentGoalMinutes, onSave, onDismissRequest, formatMinutes)` |
 
 A living catalogue of everything above: `DesignSystemCatalog()` (Profile tab → *Design system*).
+
+## Dark mode
+
+The *Dark mode* page is the Light mode screens with the Color collection switched to Dark: every
+component and screen reads the same tokens, so nothing branches on the palette except artwork.
+
+* *Settings › Appearance › Theme*: Light, Dark or Auto (the system setting, the default).
+  `RecentrTheme.isDark` tells which palette is on.
+* Stickers, mascot, logos and the brand gradients (CTA, templates, shield…) are the same in both.
+* `SystemBarsAppearance(lightIcons)` always gives light icons under the dark palette.
+* Android 12+: the app's night mode (`UiModeManager.setApplicationNightMode`) follows the choice, so
+  the splash screen (`values-night`) is already in the right palette. `MainActivity` and
+  `HoldActivity` handle `uiMode` changes without restarting.
 
 ## Android adaptations (iOS → Android)
 

@@ -11,6 +11,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.recentr.core.designsystem.theme.RecentrTheme
 
 private tailrec fun Context.findActivity(): Activity? = when (this) {
     is Activity -> this
@@ -51,23 +52,24 @@ private object SystemBarsRequests {
 /**
  * Sets the status / navigation bar icon colour while this composable is on screen — the Android
  * counterpart of the Figma "Status Bar · Tone" property. Use `lightIcons = true` on the sky
- * backdrop and over dimmed sheets, `false` on page-grey screens. Nested / successive calls are
- * resolved in entry order (the latest screen or overlay wins).
+ * backdrop and over dimmed sheets, `false` on page-grey screens; under the dark palette every
+ * screen is dark and the icons are always light. Nested / successive calls are resolved in entry
+ * order (the latest screen or overlay wins).
  */
 @Composable
 fun SystemBarsAppearance(lightIcons: Boolean) {
     val view = LocalView.current
     if (view.isInEditMode) return
     val window = remember(view) { view.context.findActivity()?.window } ?: return
-    val request = remember { SystemBarsRequests.Request(lightIcons) }
+    val tone = lightIcons || RecentrTheme.isDark
+    val request = remember { SystemBarsRequests.Request(tone) }
     DisposableEffect(window) {
         SystemBarsRequests.add(window, view, request)
         onDispose { SystemBarsRequests.remove(window, view, request) }
     }
     SideEffect {
-        if (request.lightIcons != lightIcons) {
-            request.lightIcons = lightIcons
-            SystemBarsRequests.apply(window, view)
-        }
+        // Also re-applied on a theme switch: the window's bar styles are reset with the palette.
+        request.lightIcons = tone
+        SystemBarsRequests.apply(window, view)
     }
 }

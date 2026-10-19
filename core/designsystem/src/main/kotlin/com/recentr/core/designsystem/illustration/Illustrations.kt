@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -108,11 +109,16 @@ private fun OverflowingImage(
     }
 }
 
-enum class Backdrop(@param:DrawableRes val drawable: Int) {
+enum class Backdrop(@param:DrawableRes private val light: Int, @param:DrawableRes private val dark: Int) {
     /** Home hero sky — blue gradient fading to page grey at ~78%, three soft clouds. */
-    Sky(R.drawable.backdrop_sky),
+    Sky(R.drawable.backdrop_sky, R.drawable.backdrop_sky_dark),
     /** Neutral page backdrop: page grey + one faint blue glow behind the header. */
-    Aurora(R.drawable.backdrop_aurora),
+    Aurora(R.drawable.backdrop_aurora, R.drawable.backdrop_aurora_dark),
+    ;
+
+    /** The artwork for the current palette (Figma "Dark mode" renders the same layers in the dark tokens). */
+    val drawable: Int
+        @DrawableRes @Composable @ReadOnlyComposable get() = if (RecentrTheme.isDark) dark else light
 }
 
 /**
