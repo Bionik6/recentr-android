@@ -44,6 +44,7 @@ import com.recentr.core.data.unlockStep
 import com.recentr.core.data.unlocksLeft
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
+import com.recentr.core.designsystem.format.clockTime
 import com.recentr.core.designsystem.format.wallClockTime
 import com.recentr.core.designsystem.haptics.SensoryFeedback
 import com.recentr.core.designsystem.icon.RecentrIcon
@@ -57,6 +58,7 @@ import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.AppSettings
+import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import java.time.Instant
@@ -307,11 +309,22 @@ private fun Shield(
 /** "Night Routine · until 7:00 AM", "Social time · today’s 1h used"… */
 @Composable
 private fun ruleSubtitle(rule: Rule, now: Long, zone: ZoneId): String {
-    if (rule.type == RuleType.Limit) return stringResource(R.string.shield_limit, rule.name, duration(rule.limitMinutes ?: 0))
+    if (rule.type == RuleType.Limit) return limitSubtitle(rule)
     if (rule.type == RuleType.Habit) return stringResource(R.string.shield_habit, rule.name)
     val until = rule.heldUntil(now, zone) ?: return rule.name
     val sameDay = Instant.ofEpochMilli(until).atZone(zone).toLocalDate() == Instant.ofEpochMilli(now).atZone(zone).toLocalDate()
     return stringResource(if (sameDay) R.string.shield_until else R.string.shield_until_tomorrow, rule.name, wallClockTime(until))
+}
+
+/** The budget of the limit's own period: "today’s 1h", "this week’s 5h", "1h used, resets at 4:00 AM". */
+@Composable
+private fun limitSubtitle(rule: Rule): String {
+    val budget = duration(rule.limitMinutes ?: 0)
+    return when (rule.limitReset) {
+        LimitReset.Midnight -> stringResource(R.string.shield_limit, rule.name, budget)
+        LimitReset.FourAm -> stringResource(R.string.shield_limit_resets_at, rule.name, budget, clockTime(4 * 60))
+        LimitReset.Monday -> stringResource(R.string.shield_limit_week, rule.name, budget)
+    }
 }
 
 /** "2h 15m", "45m", "2h". */

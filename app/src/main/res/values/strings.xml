@@ -13,6 +13,8 @@
     <string name="shield_until">%1$s · until %2$s</string>
     <string name="shield_until_tomorrow">%1$s · until %2$s tomorrow</string>
     <string name="shield_limit">%1$s · today’s %2$s used</string>
+    <string name="shield_limit_week">%1$s · this week’s %2$s used</string>
+    <string name="shield_limit_resets_at">%1$s · %2$s used, resets at %3$s</string>
     <string name="shield_habit">Finish your “%1$s” tasks to open it</string>
     <string name="shield_stayed_off">You’ve stayed off for %1$s</string>
     <string name="shield_focus_minutes">You’re %1$d min into focus</string>

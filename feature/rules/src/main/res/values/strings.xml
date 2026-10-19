@@ -294,6 +294,7 @@
     <string name="rules_detail_paused">Paused</string>
     <string name="rules_detail_paused_until">Paused until %1$s</string>
     <string name="rules_detail_daily">Daily budget</string>
+    <string name="rules_detail_weekly">Weekly budget</string>
     <string name="rules_blocked">Blocked</string>
     <string name="rules_unlocks_label">Unlocks</string>
     <string name="rules_streak">Streak</string>
@@ -307,6 +308,7 @@
     <string name="rules_tile_now">NOW</string>
     <string name="rules_tile_left_of">left of %1$s</string>
     <string name="rules_tile_daily">DAILY</string>
+    <string name="rules_tile_weekly">WEEKLY</string>
     <string name="rules_tile_used">%1$s used</string>
     <string name="rules_tile_tasks_done">tasks done</string>
     <string name="rules_tile_all_day_caption">Unlocks %1$s / day</string>

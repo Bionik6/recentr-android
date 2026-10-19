@@ -62,6 +62,7 @@ import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
 import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.AppId
+import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
@@ -292,7 +293,9 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
             stringResource(R.string.rules_detail_paused_until, wallClock(rule.pausedUntil!!))
         }
         rule.isRunning(now) -> stringResource(R.string.rules_detail_running)
-        rule.type == RuleType.Limit -> stringResource(R.string.rules_detail_daily)
+        rule.type == RuleType.Limit -> stringResource(
+            if (rule.limitReset == LimitReset.Monday) R.string.rules_detail_weekly else R.string.rules_detail_daily,
+        )
         rule.type == RuleType.Habit -> habitRepeatLabel(rule.habitRepeat)
         rule.schedule == null -> stringResource(R.string.rules_all_day)
         else -> {
@@ -377,7 +380,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> {
             stringResource(R.string.rules_tile_left_of, durationLabel(rule.durationMinutes ?: 0)),
         )
         rule.type == RuleType.Limit -> Triple(
-            stringResource(R.string.rules_tile_daily),
+            stringResource(if (rule.limitReset == LimitReset.Monday) R.string.rules_tile_weekly else R.string.rules_tile_daily),
             compactDuration(rule.limitMinutes ?: 0),
             stringResource(R.string.rules_tile_used, compactDuration(rule.usedMinutes)),
         )
