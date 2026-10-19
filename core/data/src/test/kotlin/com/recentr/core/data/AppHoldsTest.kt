@@ -6,6 +6,7 @@ import com.recentr.core.model.FocusPhase
 import com.recentr.core.model.FocusRun
 import com.recentr.core.model.HabitTask
 import com.recentr.core.model.LimitAction
+import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
@@ -35,12 +36,19 @@ class AppHoldsTest {
         focus: FocusRun? = null,
         unlocks: AppUnlocks = AppUnlocks(),
         usedToday: Map<String, Int>? = null,
+        usedThisWeek: Map<String, Int>? = null,
     ) = HoldState(
         rules = rules,
         focus = focus,
         protectedApps = setOf("com.recentr.app", settings),
         unlocks = unlocks,
-        usedToday = usedToday,
+        limitUsage = if (usedToday == null && usedThisWeek == null) {
+            null
+        } else {
+            LimitUsage(
+                listOfNotNull(usedToday?.let { LimitReset.Midnight to it }, usedThisWeek?.let { LimitReset.Monday to it }).toMap(),
+            )
+        },
     )
 
     private fun HoldState.reason(packageName: String, at: Long = now) = reasonFor(packageName, at, zone)
@@ -107,6 +115,18 @@ class AppHoldsTest {
         val used = mapOf(whatsApp.packageName to 59, tiktok.packageName to 1)
         assertEquals(60, limit.usedOf(used))
         assertTrue(state(listOf(limit), usedToday = used).reason(whatsApp.packageName) is HoldReason.ByRule)
+    }
+
+    @Test
+    fun `a weekly limit holds on the week's use, not today's`() {
+        val weekly = Rule("w", RuleType.Limit, "TikTok week", apps = listOf(tiktok), limitMinutes = 300, limitReset = LimitReset.Monday)
+        val daily = weekly.copy(id = "d", limitMinutes = 60, limitReset = LimitReset.Midnight)
+        val today = mapOf(tiktok.packageName to 20)
+        val week = mapOf(tiktok.packageName to 300)
+        assertEquals(HoldReason.ByRule(weekly), state(listOf(weekly), usedToday = today, usedThisWeek = week).reason(tiktok.packageName))
+        assertNull(state(listOf(daily), usedToday = today, usedThisWeek = week).reason(tiktok.packageName))
+        // The week not read yet: unknown, so it doesn't hold.
+        assertNull(state(listOf(weekly), usedToday = week).reason(tiktok.packageName))
     }
 
     @Test

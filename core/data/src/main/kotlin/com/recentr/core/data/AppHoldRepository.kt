@@ -2,21 +2,18 @@ package com.recentr.core.data
 
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
-import com.recentr.core.model.UsagePeriod
 import java.time.ZoneId
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 
 /**
  * The app blocker's state: which opened app is on hold ([HoldState]) given the rules, the focus
- * session and the device's apps, the apps opened anyway, and today's use of the apps under a
- * daily limit. Read by the accessibility service and the hold screen.
+ * session and the device's apps, the apps opened anyway, and the use of the apps under a daily
+ * limit over its period ([periodStart]). Read by the accessibility service and the hold screen.
  */
 class AppHoldRepository(
     private val rules: RulesRepository,
@@ -25,6 +22,7 @@ class AppHoldRepository(
     private val screenTime: ScreenTimeRepository,
     private val settings: SettingsRepository,
     private val zone: () -> ZoneId = ZoneId::systemDefault,
+    private val clock: () -> Long = System::currentTimeMillis,
 ) {
     private val _unlocks = MutableStateFlow(AppUnlocks())
 
@@ -32,14 +30,14 @@ class AppHoldRepository(
     val unlocks: StateFlow<AppUnlocks> = _unlocks.asStateFlow()
 
     @Volatile
-    private var usedToday: Map<String, Int>? = null
+    private var limitUsage: LimitUsage? = null
 
     private fun state(): HoldState = HoldState(
         rules = rules.rules.value,
         focus = focus.run.value,
         protectedApps = installedApps.protectedPackages,
         unlocks = _unlocks.value,
-        usedToday = usedToday,
+        limitUsage = limitUsage,
     )
 
     /** Why [packageName] is on hold at [now], or null when it may be used. */
@@ -81,16 +79,15 @@ class AppHoldRepository(
         listOfNotNull(rule.blockStart(now, zone()), _unlocks.value.lastEnd(packageName, rule, now)).maxOrNull()
 
     /**
-     * Re-reads today's minutes per app while there's a daily limit (device numbers only), for the
-     * limits to trip and for their cards ([RulesRepository.recordUsage]).
+     * Re-reads the minutes per app since the start of each daily limit's period ([periodStart]:
+     * today, since 4:00, or this week) while there's a limit (device numbers only), for the limits
+     * to trip and for their cards ([RulesRepository.recordUsage]).
      */
     suspend fun refreshUsage() {
-        val limited = rules.rules.value.any { it.type == RuleType.Limit }
-        usedToday = if (limited && screenTime.source.value == ScreenTimeSource.Device) {
-            screenTime.summary(UsagePeriod.Today)
-                .filterIsInstance<ScreenTimeState.Ready>()
-                .first()
-                .summary.mostUsed.associate { it.app.packageName to it.minutes }
+        val resets = rules.rules.value.filter { it.type == RuleType.Limit }.map { it.limitReset }.toSet()
+        limitUsage = if (resets.isNotEmpty() && screenTime.source.value == ScreenTimeSource.Device) {
+            val now = clock()
+            LimitUsage(resets.associateWith { screenTime.appMinutesSince(it.periodStart(now, zone())) })
                 .also(rules::recordUsage)
         } else {
             null

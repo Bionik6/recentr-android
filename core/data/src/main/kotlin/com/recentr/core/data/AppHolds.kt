@@ -56,8 +56,8 @@ data class HoldState(
     val protectedApps: Set<String>,
     /** Apps opened anyway, and past which rules. */
     val unlocks: AppUnlocks = AppUnlocks(),
-    /** Today's minutes per package, or null when unknown (no usage access): limits can't trip. */
-    val usedToday: Map<String, Int>? = null,
+    /** Use of the apps in each limit period, or null when unknown (no usage access): limits can't trip. */
+    val limitUsage: LimitUsage? = null,
 ) {
     /**
      * Why [packageName] is on hold at [now], or null when it may be used. A focus session holds
@@ -92,9 +92,9 @@ data class HoldState(
         return when (type) {
             RuleType.Lock, RuleType.Session, RuleType.Bedtime -> targets(packageName)
             RuleType.Limit -> {
-                val used = usedToday
+                val used = limitUsage?.of(this)
                 targets(packageName) && limitAction != LimitAction.Remind && used != null &&
-                    usedOf(used) >= (limitMinutes ?: Int.MAX_VALUE)
+                    used >= (limitMinutes ?: Int.MAX_VALUE)
             }
             RuleType.Habit -> targets(packageName) && habitTasks.any { !it.done } && habitRepeat.includes(now, zone)
         }
@@ -110,8 +110,8 @@ data class HoldState(
     }
 }
 
-/** Minutes the rule's apps were used today, given today's minutes per package: a limit's budget spent. */
-fun Rule.usedOf(usedToday: Map<String, Int>): Int = apps.sumOf { usedToday[it.packageName] ?: 0 }
+/** Minutes the rule's apps were used, given minutes per package over its limit period: the budget spent. */
+fun Rule.usedOf(minutesByPackage: Map<String, Int>): Int = apps.sumOf { minutesByPackage[it.packageName] ?: 0 }
 
 /**
  * Whether the hold screen offers "Unlock anyway" for this rule at [now]: an unlock method (or a

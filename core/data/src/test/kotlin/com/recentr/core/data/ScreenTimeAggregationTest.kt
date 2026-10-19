@@ -413,6 +413,27 @@ class ScreenTimeAggregationTest {
 
     // endregion
 
+    // region Limit periods
+
+    @Test
+    fun `a limit's use counts its apps from the start of its period`() {
+        val sunday = monday.minusDays(1)
+        val days = listOf(
+            day(sunday, use(sunday, YOUTUBE, 23, 0, 23, 40)),
+            day(monday, use(monday, YOUTUBE, 3, 30, 4, 20) + use(monday, X, 4, 30, 4, 45), end = at(monday, 5)),
+        )
+
+        // Since 4:00 (a 4 AM reset): the session that started at 3:30 counts from 4:00 on.
+        assertEquals(mapOf(YOUTUBE to 20, X to 15), ScreenTimeAggregation.appMinutes(days, since = at(monday, 4)))
+        // Since Sunday 4:00, the evening and the night count together.
+        assertEquals(mapOf(YOUTUBE to 90, X to 15), ScreenTimeAggregation.appMinutes(days, since = at(sunday, 4)))
+        // Since midnight: Monday only.
+        assertEquals(mapOf(YOUTUBE to 50, X to 15), ScreenTimeAggregation.appMinutes(days, since = at(monday, 0)))
+        assertEquals(emptyMap<String, Int>(), ScreenTimeAggregation.appMinutes(days, since = at(monday, 5)))
+    }
+
+    // endregion
+
     private companion object {
         const val HOUR = 3_600_000L
         const val INSTAGRAM = "com.instagram.android"

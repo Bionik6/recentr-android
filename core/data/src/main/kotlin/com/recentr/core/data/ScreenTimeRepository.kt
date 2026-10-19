@@ -54,6 +54,9 @@ interface ScreenTimeRepository {
 
     /** Pickups over [period] and the apps opened first after them. */
     suspend fun pickups(period: UsagePeriod): PickupStats
+
+    /** Minutes per package from [start] (epoch millis) until now: a daily limit's period ([periodStart]). */
+    suspend fun appMinutesSince(start: Long): Map<String, Int>
 }
 
 /**
@@ -88,6 +91,8 @@ class EmptyScreenTimeRepository(private val zone: () -> ZoneId = ZoneId::systemD
 
     override suspend fun pickups(period: UsagePeriod): PickupStats =
         ScreenTimeAggregation.pickupStats(period, emptyList(), zone(), resolveApp = { null })
+
+    override suspend fun appMinutesSince(start: Long): Map<String, Int> = emptyMap()
 }
 
 /**
@@ -190,6 +195,10 @@ class DemoScreenTimeRepository(
             firstOpens = firstOpens,
         )
     }
+
+    /** Today's demo apps, whatever the start. */
+    override suspend fun appMinutesSince(start: Long): Map<String, Int> =
+        demo(UsagePeriod.Today).mostUsed.associate { it.app.packageName to it.minutes }
 
     /** Splits [total] over the 24 hours along [weights] (rounding leftovers go to the busiest hours). */
     private fun spread(total: Int, weights: List<Int>): List<Int> {

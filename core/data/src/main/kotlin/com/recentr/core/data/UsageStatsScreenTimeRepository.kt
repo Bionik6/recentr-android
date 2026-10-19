@@ -136,6 +136,13 @@ class UsageStatsScreenTimeRepository(
         ScreenTimeAggregation.pickupStats(period, periodDays(period, zone, now), zone, ::resolveApp)
     }
 
+    override suspend fun appMinutesSince(start: Long): Map<String, Int> = runInterruptible(Dispatchers.IO) {
+        val zone = ZoneId.systemDefault()
+        val now = Instant.ofEpochMilli(clock()).atZone(zone)
+        val first = Instant.ofEpochMilli(start).atZone(zone).toLocalDate()
+        ScreenTimeAggregation.appMinutes(currentDays(first, day(now.toLocalDate(), zone, until = now), zone), since = start)
+    }
+
     /** The days of [period] in order (today's partial day last for the current periods). */
     private fun periodDays(
         period: UsagePeriod,

@@ -15,6 +15,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.util.UUID
 
@@ -23,7 +24,8 @@ import java.util.UUID
  * for the screens and the app blocker, and saved to [file] as JSON after every change, so they
  * survive the app being closed or the phone restarting.
  *
- * The daily counters (unlocks used, limit minutes, habit tasks done) start over on a new local day.
+ * The daily counters (unlocks used, habit tasks done) start over on a new local day, and a daily
+ * limit's minutes when its own period starts over ([periodStart]: midnight, 4:00 or Monday).
  */
 class RulesRepository(
     /** Where the rules are saved, or null to keep them in memory only (previews, tests). */
@@ -37,9 +39,9 @@ class RulesRepository(
     private val _rules = MutableStateFlow(saved?.rules.orEmpty())
     val rules: StateFlow<List<Rule>> = _rules.asStateFlow()
 
-    /** Local day (epoch day) the daily counters belong to. */
+    /** When the counters were last settled (epoch millis): their day and limit periods are those of this moment. */
     @Volatile
-    private var countersDay: Long = saved?.countersDay ?: epochDay(now)
+    private var settledAt: Long = saved?.settledAt ?: saved?.countersDay?.let(::startOfDay) ?: now
 
     /** One write at a time, each with the latest state. */
     private val writes = CoroutineScope(SupervisorJob() + writeDispatcher)
@@ -72,13 +74,17 @@ class RulesRepository(
     fun resume(id: String) = update(id) { it.copy(pausedUntil = null) }
 
     /**
-     * Today's minutes per package ([AppHoldRepository.refreshUsage]) become each daily limit's
-     * [Rule.usedMinutes], for its card and detail. Saved only when a limit's minutes changed.
+     * The minutes per package of each limit period ([AppHoldRepository.refreshUsage]) become each
+     * daily limit's [Rule.usedMinutes], for its card and detail. A limit whose period wasn't read
+     * keeps its minutes. Saved only when a limit's minutes changed.
      */
-    fun recordUsage(usedToday: Map<String, Int>) {
+    fun recordUsage(usage: LimitUsage) {
         var changed = false
         _rules.update { list ->
-            val updated = list.map { rule -> if (rule.type == RuleType.Limit) rule.copy(usedMinutes = rule.usedOf(usedToday)) else rule }
+            val updated = list.map { rule ->
+                val used = if (rule.type == RuleType.Limit) usage.of(rule) else null
+                if (used != null) rule.copy(usedMinutes = used) else rule
+            }
             changed = updated != list
             updated
         }
@@ -87,20 +93,24 @@ class RulesRepository(
 
     /**
      * Ends sessions whose time is up: one-shot sessions are removed, others just stop running.
-     * Expired pauses are cleared, and the daily counters start over on a new day. Call
-     * periodically (the rules list ticks every second, the app blocker every few seconds).
+     * Expired pauses are cleared, the daily counters start over on a new day, and a limit's
+     * minutes when its period starts over. Call periodically (the rules list ticks every second,
+     * the app blocker every few seconds).
      */
     fun settle(now: Long) {
-        val day = epochDay(now)
-        val newDay = day != countersDay
+        val zone = zone()
+        val since = settledAt
+        val newDay = epochDay(now) != epochDay(since)
+        fun Rule.newPeriod(): Boolean = if (type == RuleType.Limit) limitReset.resetBetween(since, now, zone) else newDay
         val needsWork = newDay || _rules.value.any { rule ->
-            (rule.sessionEndsAt?.let { it <= now } == true) || (rule.pausedUntil?.let { it <= now } == true)
+            rule.newPeriod() || (rule.sessionEndsAt?.let { it <= now } == true) || (rule.pausedUntil?.let { it <= now } == true)
         }
         if (!needsWork) return
-        countersDay = day
+        settledAt = now
         _rules.update { list ->
             list.mapNotNull { rule ->
-                var result = if (newDay) rule.withCountersReset() else rule
+                var result = if (newDay) rule.withDailyCountersReset() else rule
+                if (rule.newPeriod()) result = result.copy(usedMinutes = 0)
                 if (result.pausedUntil?.let { it <= now } == true) result = result.copy(pausedUntil = null)
                 val end = result.sessionEndsAt
                 if (end != null && end <= now) {
@@ -118,24 +128,31 @@ class RulesRepository(
         persist()
     }
 
-    private fun Rule.withCountersReset(): Rule = copy(
+    /** The counters of a day; [Rule.usedMinutes] follows the rule's own period instead. */
+    private fun Rule.withDailyCountersReset(): Rule = copy(
         unlocksUsedToday = 0,
-        usedMinutes = 0,
         habitTasks = habitTasks.map { it.copy(done = false) },
     )
 
     private fun epochDay(millis: Long): Long = Instant.ofEpochMilli(millis).atZone(zone()).toLocalDate().toEpochDay()
 
+    private fun startOfDay(epochDay: Long): Long = LocalDate.ofEpochDay(epochDay).atStartOfDay(zone()).toInstant().toEpochMilli()
+
     private fun persist() {
         val target = file ?: return
-        writes.launch { write(target, SavedRules(_rules.value, countersDay)) }
+        val at = settledAt
+        writes.launch { write(target, SavedRules(_rules.value, countersDay = epochDay(at), settledAt = at)) }
     }
 
-    /** Files written before templates went away still have a "templates" list: it's ignored. */
+    /**
+     * Files written before templates went away still have a "templates" list: it's ignored. Older
+     * files only have [countersDay]; it's still written for them.
+     */
     @Serializable
     private data class SavedRules(
         val rules: List<Rule> = emptyList(),
         val countersDay: Long? = null,
+        val settledAt: Long? = null,
     )
 
     private companion object {

@@ -54,6 +54,8 @@ class UsageAccessScreenTimeRepository(
 
     override suspend fun pickups(period: UsagePeriod): PickupStats = fromSource { it.pickups(period) }
 
+    override suspend fun appMinutesSince(start: Long): Map<String, Int> = fromSource { it.appMinutesSince(start) }
+
     /** Runs [read] on the current source, falling back to [noAccess] when access was just revoked. */
     private suspend fun <T> fromSource(read: suspend (ScreenTimeRepository) -> T): T {
         if (current.value != ScreenTimeSource.Device) return read(noAccess)

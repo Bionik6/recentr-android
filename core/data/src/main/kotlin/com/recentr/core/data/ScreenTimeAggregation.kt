@@ -212,6 +212,21 @@ internal object ScreenTimeAggregation {
         )
     }
 
+    /**
+     * Minutes per package of the [days]' sessions from [since] on (a session that started before is
+     * cut there), rounded per package like Most used: a daily limit's use over its period.
+     */
+    fun appMinutes(days: List<DayUsage>, since: Long): Map<String, Int> {
+        val millis = HashMap<String, Long>()
+        days.forEach { day ->
+            day.sessions.forEach { session ->
+                val counted = session.end - maxOf(session.start, since)
+                if (counted > 0) millis.merge(session.packageName, counted, Long::plus)
+            }
+        }
+        return millis.mapValues { it.value.roundedMinutes() }.filterValues { it > 0 }
+    }
+
     /** Pickups of one kind and the first app opened after each, until the screen goes off. */
     private class PickupLog {
         val times = ArrayList<Long>()

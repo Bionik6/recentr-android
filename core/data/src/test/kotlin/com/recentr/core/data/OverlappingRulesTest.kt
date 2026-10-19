@@ -1,6 +1,7 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.AppCategory
+import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
@@ -61,8 +62,10 @@ class OverlappingRulesTest {
         focus = null,
         protectedApps = setOf("com.recentr.app"),
         unlocks = unlocks,
-        usedToday = mapOf(yt to used),
+        limitUsage = usedToday(used),
     )
+
+    private fun usedToday(minutes: Int) = LimitUsage(mapOf(LimitReset.Midnight to mapOf(yt to minutes)))
 
     private fun HoldState.reason(at: Long, packageName: String = yt) = reasonFor(packageName, at, zone)
 
@@ -122,7 +125,7 @@ class OverlappingRulesTest {
         val unlocked = holds.unlockThrough(softBedtime, at(22, 0), minutes = 30)
         assertNull(unlocked.reason(at(22, 10)))
         // The daily hour runs out while the routine's unlock still runs.
-        assertEquals(HoldReason.ByRule(dailyLimit), unlocked.copy(usedToday = mapOf(yt to 60)).reason(at(22, 10)))
+        assertEquals(HoldReason.ByRule(dailyLimit), unlocked.copy(limitUsage = usedToday(60)).reason(at(22, 10)))
     }
 
     @Test
