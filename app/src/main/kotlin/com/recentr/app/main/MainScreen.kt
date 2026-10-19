@@ -60,6 +60,7 @@ fun MainScreen(
                         onOpenRules = { selected = RecentrTab.Rules },
                         onOpenInsights = { navController.navigateToInsights(it) },
                         onOpenStreak = { navController.navigateToStreak() },
+                        onOpenProfile = { selected = RecentrTab.Profile },
                         onOpenApp = { packageName, period -> navController.navigateToAppInsights(packageName, period) },
                     )
                     RecentrTab.Rules -> RulesTab(navController = navController, contentPadding = tabBarPadding)

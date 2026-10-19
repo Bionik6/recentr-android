@@ -13,8 +13,9 @@ import com.recentr.core.model.UsagePeriod
 /**
  * Home tab content (Home & Insight flow, Figma 22–29). Drawn under the floating tab bar:
  * [contentPadding] (bottom) is kept clear for it; the "Start blocking" CTA sits right above.
- * The usage card opens Insights ([onOpenInsights], with the period shown), the streak tile the
- * streak ([onOpenStreak]) and a "Most used" app its own insights ([onOpenApp]).
+ * The usage card opens Insights ([onOpenInsights], with the period shown), the header's flame the
+ * streak ([onOpenStreak]) and its avatar the Profile tab ([onOpenProfile]), a "Most used" app its
+ * own insights ([onOpenApp]).
  */
 @Composable
 fun HomeTab(
@@ -25,6 +26,7 @@ fun HomeTab(
     modifier: Modifier = Modifier,
     onOpenInsights: (UsagePeriod) -> Unit = {},
     onOpenStreak: () -> Unit = onOpenRules,
+    onOpenProfile: () -> Unit = {},
     onOpenApp: (packageName: String, period: UsagePeriod) -> Unit = { _, _ -> },
 ) {
     val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
@@ -32,8 +34,6 @@ fun HomeTab(
     HomeScreen(
         state = state,
         contentPadding = contentPadding,
-        onSelectPeriod = viewModel::selectPeriod,
-        onRefresh = viewModel::refresh,
         onSaveGoal = viewModel::saveDailyGoal,
         onToggleWellSpent = viewModel::toggleWellSpent,
         onSelectGrouping = viewModel::selectGrouping,
@@ -41,6 +41,7 @@ fun HomeTab(
         onOpenRules = onOpenRules,
         onOpenInsights = { onOpenInsights(state.period) },
         onOpenStreak = onOpenStreak,
+        onOpenProfile = onOpenProfile,
         onOpenApp = { onOpenApp(it, state.period) },
         modifier = modifier,
     )

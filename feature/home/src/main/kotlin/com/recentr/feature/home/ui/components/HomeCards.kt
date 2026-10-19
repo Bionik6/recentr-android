@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -171,16 +170,14 @@ internal fun skeletonPulse(): () -> Float {
     return { alpha }
 }
 
-/** Streak + next rule mini tiles ("Loading…" placeholders while syncing). */
+/** Full-width next rule tile, or the running session's countdown ("Loading…" while syncing). */
 @Composable
-internal fun HomeTiles(
-    streakDays: Int?,
+internal fun NextRuleTile(
     nextRule: NextRuleUi?,
     loading: Boolean,
     onOpenRules: () -> Unit,
     modifier: Modifier = Modifier,
     activeSession: ActiveSessionUi? = null,
-    onOpenStreak: () -> Unit = onOpenRules,
 ) {
     val dayNames = stringArrayResource(R.array.home_day_short)
     // Live countdown of the running session or routine (ticks every second while it runs).
@@ -195,63 +192,48 @@ internal fun HomeTiles(
             delay(1_000)
         }
     }
-    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        if (loading || streakDays == null) {
-            MiniTile(
-                label = stringResource(R.string.home_tile_placeholder),
-                value = stringResource(R.string.home_tile_loading),
-                sticker = Sticker.Flame,
-                modifier = Modifier.weight(1f),
-            )
-            MiniTile(
-                label = stringResource(R.string.home_tile_placeholder),
-                value = stringResource(R.string.home_tile_loading),
-                sticker = nextRule?.type?.sticker ?: Sticker.Bolt,
-                modifier = Modifier.weight(1f),
-            )
-        } else {
-            MiniTile(
-                label = stringResource(R.string.home_tile_streak),
-                value = pluralStringResource(R.plurals.home_streak_days, streakDays, streakDays),
-                sticker = Sticker.Flame,
-                onClick = onOpenStreak,
-                modifier = Modifier.weight(1f),
-            )
-            if (activeSession != null && remainingMillis > 0) {
-                val totalSeconds = (remainingMillis + 999) / 1000
-                val left = if (totalSeconds >= 3600) {
-                    "%d:%02d:%02d".format(totalSeconds / 3600, totalSeconds % 3600 / 60, totalSeconds % 60)
-                } else {
-                    "%d:%02d".format(totalSeconds / 60, totalSeconds % 60)
-                }
-                MiniTile(
-                    // Routines read "Blocking", like their chip on the Rules list.
-                    label = stringResource(if (activeSession.type == RuleType.Bedtime) R.string.home_tile_blocking else R.string.home_tile_ongoing),
-                    value = stringResource(R.string.home_tile_left, left),
-                    sticker = activeSession.type.sticker,
-                    onClick = onOpenRules,
-                    modifier = Modifier.weight(1f),
-                )
-            } else if (nextRule != null) {
-                val time = formatClock(nextRule.startMinute)
-                val whenText = if (nextRule.day == null) time else stringResource(R.string.home_tile_next_day, dayNames[nextRule.day.value - 1], time)
-                MiniTile(
-                    label = stringResource(R.string.home_tile_next, whenText),
-                    value = nextRule.name,
-                    sticker = nextRule.type.sticker,
-                    onClick = onOpenRules,
-                    modifier = Modifier.weight(1f),
-                )
+    val tileModifier = modifier.fillMaxWidth()
+    when {
+        loading -> MiniTile(
+            label = stringResource(R.string.home_tile_placeholder),
+            value = stringResource(R.string.home_tile_loading),
+            sticker = nextRule?.type?.sticker ?: Sticker.Bolt,
+            modifier = tileModifier,
+        )
+        activeSession != null && remainingMillis > 0 -> {
+            val totalSeconds = (remainingMillis + 999) / 1000
+            val left = if (totalSeconds >= 3600) {
+                "%d:%02d:%02d".format(totalSeconds / 3600, totalSeconds % 3600 / 60, totalSeconds % 60)
             } else {
-                MiniTile(
-                    label = stringResource(R.string.home_tile_next_none),
-                    value = stringResource(R.string.home_tile_no_rule),
-                    sticker = Sticker.Bolt,
-                    onClick = onOpenRules,
-                    modifier = Modifier.weight(1f),
-                )
+                "%d:%02d".format(totalSeconds / 60, totalSeconds % 60)
             }
+            MiniTile(
+                // Routines read "Blocking", like their chip on the Rules list.
+                label = stringResource(if (activeSession.type == RuleType.Bedtime) R.string.home_tile_blocking else R.string.home_tile_ongoing),
+                value = stringResource(R.string.home_tile_left, left),
+                sticker = activeSession.type.sticker,
+                onClick = onOpenRules,
+                modifier = tileModifier,
+            )
         }
+        nextRule != null -> {
+            val time = formatClock(nextRule.startMinute)
+            val whenText = if (nextRule.day == null) time else stringResource(R.string.home_tile_next_day, dayNames[nextRule.day.value - 1], time)
+            MiniTile(
+                label = stringResource(R.string.home_tile_next, whenText),
+                value = nextRule.name,
+                sticker = nextRule.type.sticker,
+                onClick = onOpenRules,
+                modifier = tileModifier,
+            )
+        }
+        else -> MiniTile(
+            label = stringResource(R.string.home_tile_next_none),
+            value = stringResource(R.string.home_tile_no_rule),
+            sticker = Sticker.Bolt,
+            onClick = onOpenRules,
+            modifier = tileModifier,
+        )
     }
 }
 

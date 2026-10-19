@@ -1,17 +1,16 @@
 package com.recentr.feature.home
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -40,6 +39,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
@@ -47,40 +47,42 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.data.DemoScreenTimeRepository
 import com.recentr.core.designsystem.component.DailyGoalSheet
+import com.recentr.core.designsystem.component.RecentrAvatar
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
-import com.recentr.core.designsystem.component.RecentrChip
-import com.recentr.core.designsystem.component.RecentrChipStyle
-import com.recentr.core.designsystem.component.RecentrIconButton
-import com.recentr.core.designsystem.component.RecentrIconButtonStyle
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
+import com.recentr.core.designsystem.illustration.Sticker
+import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.motion.pressScale
+import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.util.SystemBarsAppearance
+import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsagePeriod
 import com.recentr.feature.home.ui.components.HeroPage
 import com.recentr.feature.home.ui.components.HomeHero
-import com.recentr.feature.home.ui.components.HomeTiles
 import com.recentr.feature.home.ui.components.HomeTodayCard
 import com.recentr.feature.home.ui.components.MostUsedSection
+import com.recentr.feature.home.ui.components.NextRuleTile
 import com.recentr.feature.home.ui.components.SkeletonCard
 import com.recentr.feature.home.ui.components.WeekCard
 import com.recentr.feature.home.ui.formatDuration
-import com.recentr.feature.home.ui.labelRes
 import com.recentr.feature.home.ui.sheets.OfflineInfoSheet
-import com.recentr.feature.home.ui.sheets.PeriodSheet
 import com.recentr.feature.home.ui.sheets.ScreenTimeInfoSheet
+import com.recentr.feature.home.ui.style
 import kotlin.math.absoluteValue
 
-/** Sheets presented over Home (Figma 24 · 25 · 26 · 28). */
-internal enum class HomeSheet { ScreenTimeInfo, OfflineInfo, Period, Goal }
+/** Sheets presented over Home (Figma 24 · 25 · 28). */
+internal enum class HomeSheet { ScreenTimeInfo, OfflineInfo, Goal }
 
 /** Figma vertical rhythm of the first screen (402 × 874 frame). */
 private object HomeMetrics {
@@ -99,14 +101,13 @@ private object HomeMetrics {
 
 /**
  * Home tab (Figma "Home & Insight" 22–29). Scrollable: the sky, header, hero pager, usage card and
- * tiles fill the first screen above the pinned "Start blocking" CTA; "Most used" follows below.
+ * next rule tile fill the first screen above the pinned "Start blocking" CTA; "Most used" follows
+ * below.
  */
 @Composable
 internal fun HomeScreen(
     state: HomeUiState,
     contentPadding: PaddingValues,
-    onSelectPeriod: (UsagePeriod) -> Unit,
-    onRefresh: () -> Unit,
     onSaveGoal: (Int) -> Unit,
     onToggleWellSpent: (String) -> Unit,
     onSelectGrouping: (UsageGrouping) -> Unit,
@@ -115,6 +116,7 @@ internal fun HomeScreen(
     modifier: Modifier = Modifier,
     onOpenInsights: () -> Unit = {},
     onOpenStreak: () -> Unit = onOpenRules,
+    onOpenProfile: () -> Unit = {},
     onOpenApp: (packageName: String) -> Unit = {},
     initialSheet: HomeSheet? = null,
     pagerState: PagerState = rememberPagerState { HeroPage.entries.size },
@@ -166,11 +168,11 @@ internal fun HomeScreen(
                     .padding(top = HomeMetrics.headerTop),
             ) {
                 HomeHeader(
-                    period = state.period,
-                    syncing = state.isSyncing,
-                    onChoosePeriod = { sheet = HomeSheet.Period },
-                    onRefresh = onRefresh,
-                    onMore = { sheet = HomeSheet.Goal },
+                    streakDays = summary?.streakDays,
+                    avatarInitial = state.avatarInitial,
+                    avatarColor = state.avatarColor,
+                    onOpenStreak = onOpenStreak,
+                    onOpenProfile = onOpenProfile,
                     modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
                 )
                 Spacer(Modifier.height(HomeMetrics.headerToHero))
@@ -213,13 +215,11 @@ internal fun HomeScreen(
                     }
                 }
                 Spacer(Modifier.height(HomeMetrics.cardToTiles))
-                HomeTiles(
-                    streakDays = summary?.streakDays,
+                NextRuleTile(
                     nextRule = state.nextRule,
                     activeSession = state.activeSession,
                     loading = showSkeleton,
                     onOpenRules = onOpenRules,
-                    onOpenStreak = onOpenStreak,
                     modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
                 )
             }
@@ -297,11 +297,6 @@ internal fun HomeScreen(
                 onDismissRequest = { sheet = null },
             )
         }
-        HomeSheet.Period -> PeriodSheet(
-            selected = state.period,
-            onSelect = onSelectPeriod,
-            onDismissRequest = { sheet = null },
-        )
         HomeSheet.Goal -> DailyGoalSheet(
             currentGoalMinutes = state.dailyGoalMinutes,
             onSave = onSaveGoal,
@@ -312,14 +307,14 @@ internal fun HomeScreen(
     }
 }
 
-/** Wordmark · period chip · refresh · more (Figma "Header", 40dp high). */
+/** Wordmark · streak · avatar (Figma "Header", 40dp high). */
 @Composable
 private fun HomeHeader(
-    period: UsagePeriod,
-    syncing: Boolean,
-    onChoosePeriod: () -> Unit,
-    onRefresh: () -> Unit,
-    onMore: () -> Unit,
+    streakDays: Int?,
+    avatarInitial: String,
+    avatarColor: AvatarColor,
+    onOpenStreak: () -> Unit,
+    onOpenProfile: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val colors = RecentrTheme.colors
@@ -335,36 +330,48 @@ private fun HomeHeader(
             maxLines = 1,
         )
         Spacer(Modifier.weight(1f))
-        RecentrChip(
-            label = stringResource(period.labelRes),
-            style = RecentrChipStyle.OnSky,
-            icon = RecentrIcon.ChevronDown,
-            onClick = onChoosePeriod,
+        StreakButton(days = streakDays, onClick = onOpenStreak)
+        RecentrAvatar(
+            initial = avatarInitial,
+            style = avatarColor.style,
+            size = RecentrTheme.sizes.iconButton,
+            ringWidth = 2.dp,
+            ringColor = colors.textOnDark,
+            textStyle = RecentrTheme.typography.headline,
+            onClick = onOpenProfile,
+            onClickLabel = stringResource(R.string.home_open_profile),
         )
-        val rotation = if (syncing) {
-            val transition = rememberInfiniteTransition(label = "sync")
-            transition.animateFloat(
-                initialValue = 0f,
-                targetValue = 360f,
-                animationSpec = infiniteRepeatable(tween(900, easing = LinearEasing), RepeatMode.Restart),
-                label = "syncRotation",
+    }
+}
+
+/** Streak flame and its length on the sky glass ("—" until the first sync); opens the streak. */
+@Composable
+private fun StreakButton(days: Int?, onClick: () -> Unit) {
+    val colors = RecentrTheme.colors
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        Modifier
+            .pressScale(interactionSource, pressedScale = 0.92f)
+            .height(RecentrTheme.sizes.iconButton)
+            .clip(RecentrShapes.full)
+            .background(colors.alphaWhite24)
+            .border(1.dp, colors.alphaWhite24, RecentrShapes.full)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = LocalIndication.current,
+                role = Role.Button,
+                onClick = onClick,
             )
-        } else {
-            null
-        }
-        RecentrIconButton(
-            icon = RecentrIcon.Refresh,
-            contentDescription = stringResource(R.string.home_refresh),
-            onClick = onRefresh,
-            style = RecentrIconButtonStyle.OnSky,
-            enabled = !syncing,
-            modifier = Modifier.graphicsLayer { rotationZ = rotation?.value ?: 0f },
-        )
-        RecentrIconButton(
-            icon = RecentrIcon.More,
-            contentDescription = stringResource(R.string.home_more),
-            onClick = onMore,
-            style = RecentrIconButtonStyle.OnSky,
+            .padding(start = 8.dp, end = 14.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        StickerImage(Sticker.Flame, size = 26.dp, contentDescription = stringResource(R.string.home_tile_streak))
+        Text(
+            text = days?.toString() ?: stringResource(R.string.home_tile_placeholder),
+            style = RecentrTheme.typography.headline,
+            color = colors.textOnDark,
+            maxLines = 1,
         )
     }
 }
@@ -407,8 +414,6 @@ private fun HomePreviewHost(state: HomeUiState, page: HeroPage = HeroPage.Screen
         HomeScreen(
             state = state,
             contentPadding = PaddingValues(bottom = 96.dp),
-            onSelectPeriod = {},
-            onRefresh = {},
             onSaveGoal = {},
             onToggleWellSpent = {},
             onSelectGrouping = {},

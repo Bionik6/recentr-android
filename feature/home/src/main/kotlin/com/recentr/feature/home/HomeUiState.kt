@@ -1,6 +1,7 @@
 package com.recentr.feature.home
 
 import androidx.compose.runtime.Immutable
+import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsagePeriod
@@ -53,6 +54,9 @@ data class HomeUiState(
     val todayIndex: Int = 6,
     /** Settings › Appearance › "Show mascot on Home". */
     val showMascot: Boolean = true,
+    /** Header avatar: first letter of the name and its gradient (Profile › Edit profile). */
+    val avatarInitial: String = "?",
+    val avatarColor: AvatarColor = AvatarColor.Sunset,
 ) {
     /** Skeleton shown while syncing (no stale numbers on screen). */
     val showSkeleton: Boolean get() = isSyncing || summary == null

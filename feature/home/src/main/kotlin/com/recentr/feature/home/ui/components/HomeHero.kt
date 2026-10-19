@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -185,14 +186,30 @@ private fun HeroChips(page: HeroPage, summary: ScreenTimeSummary, goalMinutes: I
             }
         }
         HeroPage.Quality -> Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            RecentrChip(stringResource(R.string.home_split_focus, summary.focusPercent), style = RecentrChipStyle.OnSky)
-            RecentrChip(stringResource(R.string.home_split_social, summary.socialPercent), style = RecentrChipStyle.OnSky)
-            RecentrChip(stringResource(R.string.home_split_fun, summary.funPercent), style = RecentrChipStyle.OnSky)
+            HeroInfoChip(stringResource(R.string.home_split_focus, summary.focusPercent))
+            HeroInfoChip(stringResource(R.string.home_split_social, summary.socialPercent))
+            HeroInfoChip(stringResource(R.string.home_split_fun, summary.funPercent))
         }
-        HeroPage.Offline -> RecentrChip(
-            label = stringResource(R.string.home_offline_chip),
-            style = RecentrChipStyle.OnSky,
-            icon = RecentrIcon.Moon,
+        HeroPage.Offline -> HeroInfoChip(stringResource(R.string.home_offline_chip), icon = RecentrIcon.Moon)
+    }
+}
+
+/**
+ * Quality split and phone-free chips: white outline chips with primary text over the light sky's
+ * clouds (Figma 22), translucent glass on the dark sky.
+ */
+@Composable
+private fun HeroInfoChip(label: String, icon: RecentrIcon? = null) {
+    if (RecentrTheme.isDark) {
+        RecentrChip(label, style = RecentrChipStyle.OnSky, icon = icon)
+    } else {
+        // The outline makes it 32dp high: it overflows the 30dp chip slot evenly, as in Figma.
+        RecentrChip(
+            label = label,
+            style = RecentrChipStyle.Outline,
+            icon = icon,
+            contentColor = RecentrTheme.colors.textPrimary,
+            modifier = Modifier.wrapContentHeight(unbounded = true),
         )
     }
 }

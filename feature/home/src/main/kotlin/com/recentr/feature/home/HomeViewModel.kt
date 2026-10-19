@@ -33,8 +33,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Home & Insight state holder: screen-time summary for the selected period (with the Syncing
- * state of the repository), the daily goal from the user preferences, and the next rule or the
- * session or routine blocking apps now.
+ * state of the repository), the daily goal and avatar from the user preferences, and the next
+ * rule or the session or routine blocking apps now.
  */
 class HomeViewModel(
     private val screenTime: ScreenTimeRepository,
@@ -60,23 +60,25 @@ class HomeViewModel(
 
     val uiState: StateFlow<HomeUiState> = combine(
         local,
-        userPreferences.profile.map { it.dailyGoalMinutes },
+        userPreferences.profile,
         rules.rules,
         showMascot,
         clockTicks,
-    ) { local, goal, ruleList, mascot, _ ->
+    ) { local, profile, ruleList, mascot, _ ->
         val clock = now()
         HomeUiState(
             period = local.period,
             summary = local.summary,
             isSyncing = local.isSyncing,
-            dailyGoalMinutes = goal,
+            dailyGoalMinutes = profile.dailyGoalMinutes,
             nextRule = nextRule(ruleList, clock),
             activeSession = activeSession(ruleList, clock),
             wellSpent = local.wellSpent,
             grouping = local.grouping,
             todayIndex = clock.dayOfWeek.value - 1,
             showMascot = mascot,
+            avatarInitial = profile.initial,
+            avatarColor = profile.avatarColor,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
@@ -85,15 +87,6 @@ class HomeViewModel(
         // Usage access granted (or revoked) in Settings: demo ↔ device numbers.
         viewModelScope.launch { screenTime.source.drop(1).collect { sync() } }
     }
-
-    fun selectPeriod(period: UsagePeriod) {
-        if (period == local.value.period && !local.value.isSyncing) return
-        local.update { it.copy(period = period) }
-        sync()
-    }
-
-    /** Refresh button: re-aggregates screen time (shows the Syncing skeleton). */
-    fun refresh() = sync()
 
     fun saveDailyGoal(minutes: Int) {
         viewModelScope.launch { userPreferences.setDailyGoal(minutes) }

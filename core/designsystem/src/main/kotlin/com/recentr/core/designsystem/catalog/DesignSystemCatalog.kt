@@ -184,7 +184,7 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
             ) {
                 HourlyUsageChart(listOf(0, 0, 0, 0, 0, 0, 0, 8, 20, 12, 28, 60, 24, 44, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0))
             }
-            AddCard("Add a session", "E.g. “Block apps from 11 pm to 7 am”", onClick = {}, modifier = Modifier.fillMaxWidth())
+            AddCard("Add a session", "E.g. “Block apps for the next 30 min”", onClick = {}, modifier = Modifier.fillMaxWidth())
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 MiniTile("Streak", "3 days", Sticker.Flame, Modifier.weight(1f))
                 MiniTile("Next · 9:00 AM", "Work Hours", Sticker.Bolt, Modifier.weight(1f))

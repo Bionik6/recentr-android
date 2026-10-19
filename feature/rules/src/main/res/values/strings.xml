@@ -13,7 +13,7 @@
     <string name="rules_group_habits">Habits</string>
     <string name="rules_group_templates">Templates</string>
     <string name="rules_add_session">Add a session</string>
-    <string name="rules_add_session_hint">E.g. “Block apps from %1$s to %2$s”</string>
+    <string name="rules_add_session_hint">E.g. “Block apps for the next 30 min”</string>
     <string name="rules_add_routine">Add a routine</string>
     <string name="rules_add_routine_hint">E.g. “No phone during dinner”</string>
     <string name="rules_add_lock">Add a lock</string>
