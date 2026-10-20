@@ -86,10 +86,11 @@ class RulesRepository(
 
     /**
      * Saves [draft] over the rule with its id through the edit policy ([Rule.edit]): what loosens
-     * an engaged rule is kept for when its engagement ends. A new rule is added as it is: creating a
-     * rule only saves it.
+     * an engaged rule is kept for when its engagement ends — for a lock or a limit, unless
+     * [changesAnytime] (Settings › Change locks & limits anytime). A new rule is added as it is:
+     * creating a rule only saves it.
      */
-    fun save(draft: Rule, now: Long = clock()): RuleEdit {
+    fun save(draft: Rule, now: Long = clock(), changesAnytime: Boolean = false): RuleEdit {
         var edit = RuleEdit(now = draft, later = null, blocksMore = false)
         _rules.update { list ->
             val current = list.firstOrNull { it.id == draft.id }
@@ -97,7 +98,7 @@ class RulesRepository(
                 edit = RuleEdit(now = draft, later = null, blocksMore = false)
                 list + if (draft.streakFrom == null) draft.copy(streakFrom = clock()) else draft
             } else {
-                edit = current.edit(draft, now, zone())
+                edit = current.edit(draft, now, zone(), changesAnytime)
                 val saved = pauseStreak(current, edit.now, now)
                 list.map { if (it.id == draft.id) saved else it }
             }
@@ -113,13 +114,14 @@ class RulesRepository(
     }
 
     /**
-     * Deletes the rule with [id]: right away when it isn't engaged, otherwise once its engagement
-     * ends ([Rule.deleted]). True when it was deleted now.
+     * Deletes the rule with [id]: right away when it isn't engaged (or it's a lock or a limit and
+     * [changesAnytime]), otherwise once its engagement ends ([Rule.deleted]). True when it was
+     * deleted now.
      */
-    fun delete(id: String, now: Long = clock()): Boolean {
+    fun delete(id: String, now: Long = clock(), changesAnytime: Boolean = false): Boolean {
         var deleted = true
         _rules.update { list ->
-            val kept = list.firstOrNull { it.id == id }?.deleted(now, zone())
+            val kept = list.firstOrNull { it.id == id }?.deleted(now, zone(), changesAnytime)
             deleted = kept == null
             if (kept == null) list.filterNot { it.id == id } else list.map { if (it.id == id) kept else it }
         }

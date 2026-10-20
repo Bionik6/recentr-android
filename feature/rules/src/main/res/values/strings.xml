@@ -145,9 +145,15 @@
     <string name="rules_strict_confirm_title">Turn on Strict mode?</string>
     <string name="rules_strict_confirm_body">You won’t be able to unlock these apps until it ends, other than with an emergency unlock.</string>
     <string name="rules_turn_on">Turn on</string>
+    <string name="rules_not_now">Not now</string>
     <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
     <string name="rules_block_now_title">Block these apps now?</string>
     <string name="rules_block_now_body">The rule is blocking: the apps you added are blocked right away.</string>
+    <!-- Asked before a lock is activated or a limit started (not with Settings › Change locks & limits anytime). -->
+    <string name="rules_lock_confirm_title">Turn on %1$s?</string>
+    <string name="rules_lock_confirm_body">Once it’s on, what makes it easier — removing apps, more unlocks, turning it off — only applies at midnight.\n\nTo change it anytime, turn on Settings › Change locks &amp; limits anytime.</string>
+    <string name="rules_limit_confirm_title">Start %1$s?</string>
+    <string name="rules_limit_confirm_body">Once it’s started, what makes it easier — a bigger budget, removing apps — only applies at midnight, when it resets.\n\nTo change it anytime, turn on Settings › Change locks &amp; limits anytime.</string>
     <string name="rules_block_now">Block now</string>
 
     <!-- Lock sheet -->

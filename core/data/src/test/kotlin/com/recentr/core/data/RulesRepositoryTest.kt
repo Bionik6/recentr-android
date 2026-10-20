@@ -195,6 +195,18 @@ class RulesRepositoryTest {
     }
 
     @Test
+    fun `with changes anytime, a lock turns off and is deleted right away`() {
+        val repo = repository()
+        val edit = repo.save(repo.activeLock().copy(activeSince = null), changesAnytime = true)
+        assertNull(edit.later)
+        assertNull(repo.rule("l")!!.activeSince)
+        assertNull(repo.rule("l")!!.pending)
+        repo.start("l", now = now)
+        assertTrue(repo.delete("l", changesAnytime = true))
+        assertNull(repo.rule("l"))
+    }
+
+    @Test
     fun `keep it on drops the turn-off`() {
         val repo = repository()
         repo.save(repo.activeLock().copy(activeSince = null))

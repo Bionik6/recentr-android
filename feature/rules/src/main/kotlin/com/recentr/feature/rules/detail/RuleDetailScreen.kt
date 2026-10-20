@@ -73,11 +73,13 @@ import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
+import com.recentr.core.model.changesWaitUntil
 import com.recentr.core.model.latestWish
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.sheets.BlockRightAwayDialog
 import com.recentr.feature.rules.sheets.RuleSheet
 import com.recentr.feature.rules.sheets.RuleSheetsHost
+import com.recentr.feature.rules.sheets.StartConfirmDialog
 import com.recentr.feature.rules.sheets.StrictConfirmDialog
 import com.recentr.feature.rules.ui.PendingKind
 import com.recentr.feature.rules.ui.asSticker
@@ -125,6 +127,9 @@ internal fun RuleDetailDestination(
     var delete by rememberSaveable { mutableStateOf(false) }
     var confirmStrict by rememberSaveable { mutableStateOf(false) }
     var explainBlocking by rememberSaveable { mutableStateOf(false) }
+    /** Activate (a lock) or Start (a limit), waiting for "Turn on" / "Start". */
+    var confirmStart by rememberSaveable { mutableStateOf(false) }
+    val changesAnytime by viewModel.changesAnytime.collectAsStateWithLifecycle()
     /** A change that would block more apps right away, waiting for "Block". */
     var confirmBlock by remember { mutableStateOf<((Rule) -> Rule)?>(null) }
     val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
@@ -136,6 +141,13 @@ internal fun RuleDetailDestination(
         viewModel.start()
         // Started, but nothing is held until the app blocker is on: say how.
         if (!blockingOn) explainBlocking = true
+    }
+    /**
+     * A lock or a limit asks first: once it's on, what makes it easier only applies at midnight.
+     * Not with Settings › Change locks & limits anytime, nor for a session.
+     */
+    fun askThenStart() {
+        if (rule.type.asksBeforeStart && !changesAnytime) confirmStart = true else startOrActivate()
     }
 
     RuleDetailScreen(
@@ -154,7 +166,7 @@ internal fun RuleDetailDestination(
             },
             onPause = { if (rule.isPaused(state.now)) viewModel.resume() else pause = true },
             onEditRule = { onEditSettings(rule.id) },
-            onStart = ::startOrActivate,
+            onStart = ::askThenStart,
             onTurnOff = viewModel::turnOff,
             onEditSettings = { onEditSettings(rule.id) },
             onDelete = { delete = true },
@@ -177,6 +189,16 @@ internal fun RuleDetailDestination(
             later = rule.isEnforcing(state.now),
             onPause = viewModel::pause,
             onDismiss = { pause = false },
+        )
+    }
+    if (confirmStart) {
+        StartConfirmDialog(
+            rule = rule,
+            onConfirm = {
+                confirmStart = false
+                startOrActivate()
+            },
+            onDismiss = { confirmStart = false },
         )
     }
     if (confirmStrict) {
@@ -202,7 +224,8 @@ internal fun RuleDetailDestination(
         BlockingAccessSheet(onOpenSettings = { BlockingAccess.openSettings(context) }, onDismissRequest = { explainBlocking = false })
     }
     if (delete) {
-        val end = rule.engagementEnd(state.now)
+        // With Change locks & limits anytime, a lock or a limit is deleted right away.
+        val end = rule.changesWaitUntil(state.now, changesAnytime = changesAnytime)
         DeleteRuleSheet(
             ruleName = rule.name,
             streakDays = rule.streakDays,
@@ -219,6 +242,10 @@ internal fun RuleDetailDestination(
         )
     }
 }
+
+/** Activate (a lock) and Start (a limit) ask first ([StartConfirmDialog]); a session starts right away. */
+internal val RuleType.asksBeforeStart: Boolean
+    get() = this == RuleType.Lock || this == RuleType.Limit
 
 /** A saved session not running: it can be started. */
 internal fun Rule.startable(now: Long): Boolean = type == RuleType.Session && !isRunning(now)
