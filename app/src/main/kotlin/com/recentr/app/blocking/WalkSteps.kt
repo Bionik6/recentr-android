@@ -13,6 +13,7 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -22,6 +23,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -171,24 +173,6 @@ internal fun WalkStep(rule: Rule, packageName: String, label: String, onCancel: 
     val minutes = pluralStringResource(R.plurals.unlock_walk_minutes, rule.unlockDurationMinutes, rule.unlockDurationMinutes)
     UnlockPage(
         actions = {
-            when (problem) {
-                StepProblem.NoPermission -> WalkNote(
-                    RecentrIcon.ShieldCheck,
-                    stringResource(R.string.unlock_walk_no_permission_title),
-                    stringResource(R.string.unlock_walk_no_permission_body),
-                )
-                StepProblem.NoSensor -> WalkNote(
-                    RecentrIcon.ShieldCheck,
-                    stringResource(R.string.unlock_walk_no_sensor_title),
-                    stringResource(R.string.unlock_walk_no_sensor_body),
-                )
-                null -> WalkNote(
-                    RecentrIcon.ShieldCheck,
-                    stringResource(R.string.unlock_walk_safety_title),
-                    stringResource(R.string.unlock_walk_safety_body),
-                )
-            }
-            Spacer(Modifier.height(22.dp))
             if (walking) {
                 Box(Modifier.fillMaxWidth().height(54.dp), contentAlignment = Alignment.Center) {
                     Text(
@@ -245,22 +229,33 @@ internal fun WalkStep(rule: Rule, packageName: String, label: String, onCancel: 
             status = if (walking) stringResource(R.string.unlock_walk_more_to_go, walk.left) else stringResource(R.string.unlock_walk_ready),
             modifier = Modifier.entrance(200, blur = false),
         )
-        Spacer(Modifier.height(8.dp))
+        BottomSpacer()
+        when (problem) {
+            StepProblem.NoPermission -> WalkNote(
+                RecentrIcon.ShieldCheck,
+                stringResource(R.string.unlock_walk_no_permission_title),
+                stringResource(R.string.unlock_walk_no_permission_body),
+            )
+            StepProblem.NoSensor -> WalkNote(
+                RecentrIcon.ShieldCheck,
+                stringResource(R.string.unlock_walk_no_sensor_title),
+                stringResource(R.string.unlock_walk_no_sensor_body),
+            )
+            null -> WalkNote(
+                RecentrIcon.ShieldCheck,
+                stringResource(R.string.unlock_walk_safety_title),
+                stringResource(R.string.unlock_walk_safety_body),
+            )
+        }
+        Spacer(Modifier.height(6.dp))
     }
 }
 
 /** Walk complete: the steps are walked, and the app is open until the timer ends or "Lock it again". */
 @Composable
 internal fun WalkCompleteStep(packageName: String, label: String, minutes: Int, onOpen: () -> Unit, onLockAgain: () -> Unit) {
-    val colors = RecentrTheme.colors
     UnlockPage(
         actions = {
-            WalkNote(
-                RecentrIcon.Clock,
-                pluralStringResource(R.plurals.unlock_walk_done_note_title, minutes, minutes),
-                stringResource(R.string.unlock_walk_done_note_body, label),
-            )
-            Spacer(Modifier.height(22.dp))
             RecentrButton(
                 text = stringResource(R.string.unlock_open_app, label),
                 onClick = onOpen,
@@ -283,20 +278,13 @@ internal fun WalkCompleteStep(packageName: String, label: String, minutes: Int, 
             stringResource(R.string.unlock_walk_done_subtitle, Walk.STEPS, minutes),
         )
         Spacer(Modifier.height(20.dp))
-        // The app, as a reward, a little tilted, with the mascot beside it.
+        // The app, a little tilted and a little higher than the mascot beside it.
         Box(Modifier.size(width = 126.dp, height = 108.dp).entrance(from = DpOffset(0.dp, 40.dp), blur = false)) {
-            val shape = RoundedCornerShape(32.dp)
-            Box(
-                Modifier
-                    .matchParentSize()
-                    .rotate(-6f)
-                    .recentrShadow(RecentrElevation.float, shape)
-                    .clip(shape)
-                    .background(colors.bgSurface),
-                contentAlignment = Alignment.Center,
-            ) {
-                InstalledAppIcon(packageName, size = 64.dp)
-            }
+            InstalledAppIcon(
+                packageName,
+                size = 64.dp,
+                modifier = Modifier.align(Alignment.Center).offset(y = (-12).dp).rotate(-6f),
+            )
             Mascot(
                 MascotMood.Calm,
                 width = 80.dp,
@@ -305,8 +293,24 @@ internal fun WalkCompleteStep(packageName: String, label: String, minutes: Int, 
         }
         Spacer(Modifier.height(38.dp))
         StepsCard(steps = Walk.STEPS, status = stringResource(R.string.unlock_walk_goal_reached))
-        Spacer(Modifier.height(8.dp))
+        BottomSpacer()
+        WalkNote(
+            RecentrIcon.Clock,
+            pluralStringResource(R.plurals.unlock_walk_done_note_title, minutes, minutes),
+            stringResource(R.string.unlock_walk_done_note_body, label),
+        )
+        Spacer(Modifier.height(6.dp))
     }
+}
+
+/**
+ * Between the steps and the note: 18dp at least, more when the page has room, so the note sits
+ * just above the buttons (22dp, with [UnlockPage]'s gap).
+ */
+@Composable
+private fun ColumnScope.BottomSpacer() {
+    Spacer(Modifier.weight(1f))
+    Spacer(Modifier.height(18.dp))
 }
 
 @Composable
@@ -341,15 +345,23 @@ private fun StepsCard(steps: Int, status: String, modifier: Modifier = Modifier)
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            AnimatedContent(
-                targetState = steps,
-                transitionSpec = { (fadeIn() + slideInVertically { it / 3 }) togetherWith (fadeOut() + slideOutVertically { -it / 3 }) },
-                label = "steps",
-            ) { count ->
+            // Only the steps walked change: "/20" stays put.
+            val countColor = if (isDone) colors.feedbackSuccess else colors.textPrimary
+            Row {
+                AnimatedContent(
+                    targetState = steps,
+                    transitionSpec = {
+                        (fadeIn() + slideInVertically { it / 3 }) togetherWith (fadeOut() + slideOutVertically { -it / 3 }) using
+                            SizeTransform(clip = false)
+                    },
+                    label = "steps",
+                ) { count ->
+                    Text(count.toString(), style = RecentrTheme.typography.displayHero, color = countColor, maxLines = 1)
+                }
                 Text(
-                    stringResource(R.string.unlock_walk_count, count, Walk.STEPS),
+                    stringResource(R.string.unlock_walk_goal, Walk.STEPS),
                     style = RecentrTheme.typography.displayHero,
-                    color = if (count >= Walk.STEPS) colors.feedbackSuccess else colors.textPrimary,
+                    color = countColor,
                     maxLines = 1,
                 )
             }

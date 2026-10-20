@@ -88,7 +88,7 @@
     <string name="unlock_walk_subtitle">A small walk before you scroll. Complete all %1$d steps to get %2$s.</string>
     <string name="unlock_walking_title">A few more steps</string>
     <string name="unlock_walking_subtitle">%1$s stays locked until you reach %2$d steps. Take your time.</string>
-    <string name="unlock_walk_count">%1$d/%2$d</string>
+    <string name="unlock_walk_goal">/%1$d</string>
     <string name="unlock_walk_ready">steps · ready when you are</string>
     <string name="unlock_walk_more_to_go">steps · %1$d more to go</string>
     <string name="unlock_walk_goal_reached">steps · goal reached</string>

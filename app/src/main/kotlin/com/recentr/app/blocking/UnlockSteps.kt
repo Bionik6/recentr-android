@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
@@ -729,7 +730,8 @@ internal fun Title(text: String) {
 
 /**
  * The Aurora page of the unlock steps: [content] scrolls under the status bar, [actions] stay at
- * the bottom, above the keyboard when it's open.
+ * the bottom, above the keyboard when it's open. [content] is as tall as the page at least, so a
+ * `Modifier.weight` spacer in it pushes what follows down to the actions.
  */
 @Composable
 internal fun UnlockPage(actions: @Composable ColumnScope.() -> Unit, content: @Composable ColumnScope.() -> Unit) {
@@ -739,11 +741,13 @@ internal fun UnlockPage(actions: @Composable ColumnScope.() -> Unit, content: @C
             Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().imePadding().padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = content,
-            )
+            BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+                Column(
+                    Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).heightIn(min = maxHeight),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = content,
+                )
+            }
             Spacer(Modifier.height(16.dp))
             actions()
             Spacer(Modifier.height(14.dp))
