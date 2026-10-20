@@ -33,6 +33,7 @@ import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.motion.MotionSpecs
 import com.recentr.core.designsystem.theme.RecentrTheme
 import kotlin.math.atan2
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -42,7 +43,8 @@ private val KnobShadowColor = Color(0x400D1233)
 
 /**
  * A ring progress from 12 o'clock, clockwise, with butt ends and a white knob at the end of the
- * arc (Figma "Dial" / "Ring"). [fraction] can exceed 1 for a second lap, drawn over the first.
+ * arc (Figma "Dial" / "Ring"). With [secondLap], [fraction] can exceed 1: each lap is drawn over
+ * the full one before it, the two brushes taking turns so the laps stand apart.
  */
 internal fun DrawScope.drawFocusRing(
     fraction: Float,
@@ -57,11 +59,13 @@ internal fun DrawScope.drawFocusRing(
     val arcSize = Size(size.width - stroke, size.height - stroke)
     val topLeft = Offset(inset, inset)
     drawArc(track, startAngle = 0f, sweepAngle = 360f, useCenter = false, topLeft = topLeft, size = arcSize, style = Stroke(stroke))
-    val lap1 = fraction.coerceIn(0f, 1f)
-    drawArc(progress, -90f, 360f * lap1, false, topLeft, arcSize, style = Stroke(stroke, cap = StrokeCap.Butt))
-    if (fraction > 1f && secondLap != null) {
-        drawArc(secondLap, -90f, 360f * (fraction - 1f).coerceAtMost(1f), false, topLeft, arcSize, style = Stroke(stroke, cap = StrokeCap.Butt))
+    val laps = if (secondLap != null && fraction > 1f) ceil(fraction).toInt() - 1 else 0
+    val lapBrush = { lap: Int -> if (lap % 2 == 0 || secondLap == null) progress else secondLap }
+    if (laps > 0) {
+        drawArc(lapBrush(laps - 1), -90f, 360f, false, topLeft, arcSize, style = Stroke(stroke, cap = StrokeCap.Butt))
     }
+    val current = (fraction - laps).coerceIn(0f, 1f)
+    drawArc(lapBrush(laps), -90f, 360f * current, false, topLeft, arcSize, style = Stroke(stroke, cap = StrokeCap.Butt))
     // Knob at the end of the arc, on the stroke centre line.
     val angle = Math.toRadians((360.0 * (fraction % 1f).let { if (fraction > 0f && it == 0f) 1f else it }) - 90.0)
     val radius = (size.minDimension - stroke) / 2
@@ -80,9 +84,13 @@ private fun DrawScope.drawKnob(center: Offset, radius: Float) {
     }
 }
 
+/** Ends of the set-up dial gradient: fixed sky values in Figma, the same in the dark palette. */
+private val DialLight = Color(0xFF7CB8FF)
+private val DialDeep = Color(0xFF1452D4)
+
 /** Gradient of the set-up dial: Figma `linear-gradient` from (20, −15) to (170, 185) on a 250 dial. */
-private fun dialBrush(sizePx: Float, light: Color, deep: Color): Brush = Brush.linearGradient(
-    colors = listOf(light, deep),
+private fun dialBrush(sizePx: Float): Brush = Brush.linearGradient(
+    colors = listOf(DialLight, DialDeep),
     start = Offset(20f / 250f * sizePx, -15f / 250f * sizePx),
     end = Offset(170f / 250f * sizePx, 185f / 250f * sizePx),
 )
@@ -90,8 +98,8 @@ private fun dialBrush(sizePx: Float, light: Color, deep: Color): Brush = Brush.l
 /**
  * 91 · Focus — Set up "Dial": 250dp, 18dp sunken track, sky gradient progress (one lap = 60
  * minutes) and a draggable 24dp knob. Dragging snaps to 5 minutes between [min] and [max], with a
- * tick for each step; past 60 minutes a second, deeper lap is drawn. The arc and knob glide to
- * a new value (`.snappy(duration: 0.2)`).
+ * tick for each step; each hour past the first winds another lap, deep and sky in turn. The arc
+ * and knob glide to a new value (`.snappy(duration: 0.2)`).
  */
 @Composable
 internal fun FocusDial(
@@ -100,7 +108,7 @@ internal fun FocusDial(
     contentDescription: String,
     modifier: Modifier = Modifier,
     min: Int = 5,
-    max: Int = 120,
+    max: Int = 180,
 ) {
     val colors = RecentrTheme.colors
     val currentMinutes by rememberUpdatedState(minutes)
@@ -147,23 +155,23 @@ internal fun FocusDial(
             }
             .pointerInput(min, max) {
                 detectTapGestures { position ->
-                    // A tap sets the minutes on the first lap (or the second one past 60).
+                    // A tap sets the minutes on the lap the dial is on.
                     val dx = position.x - size.width / 2f
                     val dy = position.y - size.height / 2f
                     val degrees = ((Math.toDegrees(atan2(dy.toDouble(), dx.toDouble())) + 450.0) % 360.0).toFloat()
-                    val lapOffset = if (currentMinutes > 60) 60 else 0
+                    val lapOffset = (currentMinutes - 1).coerceAtLeast(0) / 60 * 60
                     onChange((((degrees / 6f) / 5f).roundToInt() * 5 + lapOffset).coerceIn(min, max))
                 }
             },
     ) {
-        val brush = dialBrush(size.width, colors.brandSkyLight, colors.brandSkyDeep)
+        val brush = dialBrush(size.width)
         drawFocusRing(
             fraction = shownMinutes / 60f,
             strokeWidth = 18.dp,
             track = SolidColor(colors.bgSunken),
             progress = brush,
             knobRadius = 12.dp,
-            secondLap = SolidColor(colors.brandSkyDeep),
+            secondLap = SolidColor(DialDeep),
         )
     }
 }

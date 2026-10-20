@@ -1,6 +1,7 @@
 package com.recentr.feature.home
 
 import androidx.compose.runtime.Immutable
+import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsagePeriod
@@ -42,17 +43,20 @@ data class HomeUiState(
     val summary: ScreenTimeSummary? = null,
     /** True while the repository aggregates screen time (Figma 29 · Syncing skeleton). */
     val isSyncing: Boolean = true,
+    /** A pull to refresh is reading the numbers again (they stay on screen meanwhile). */
+    val isRefreshing: Boolean = false,
     val dailyGoalMinutes: Int = 4 * 60,
     val nextRule: NextRuleUi? = null,
     /** Running session or routine, shown in place of the next rule in the tile. */
     val activeSession: ActiveSessionUi? = null,
-    /** Package names answered "Time well spent?" on the Most used list (local only). */
-    val wellSpent: Set<String> = emptySet(),
     val grouping: UsageGrouping = UsageGrouping.Apps,
     /** Monday = 0 … Sunday = 6, used to highlight today in the week chart. */
     val todayIndex: Int = 6,
     /** Settings › Appearance › "Show mascot on Home". */
     val showMascot: Boolean = true,
+    /** Header avatar: first letter of the name and its gradient (Profile › Edit profile). */
+    val avatarInitial: String = "?",
+    val avatarColor: AvatarColor = AvatarColor.Sunset,
 ) {
     /** Skeleton shown while syncing (no stale numbers on screen). */
     val showSkeleton: Boolean get() = isSyncing || summary == null

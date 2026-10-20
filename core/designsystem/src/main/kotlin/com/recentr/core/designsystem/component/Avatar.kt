@@ -1,19 +1,26 @@
 package com.recentr.core.designsystem.component
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.motion.pressScale
 import com.recentr.core.designsystem.theme.CssLinearGradient
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -34,7 +41,8 @@ enum class AvatarStyle(val brush: Brush) {
 
 /**
  * Figma "Avatar" — gradient disc with a white ring and the user's initial. Size L (68dp, 4dp
- * ring, Title/1 initial) is the default; Profile › Edit uses 96dp with the same ring and text.
+ * ring, Title/1 initial) is the default; Profile › Edit uses 96dp with the same ring and text,
+ * the Home header a 40dp button over the sky.
  */
 @Composable
 fun RecentrAvatar(
@@ -43,16 +51,35 @@ fun RecentrAvatar(
     modifier: Modifier = Modifier,
     size: Dp = 68.dp,
     ringWidth: Dp = 4.dp,
+    ringColor: Color = RecentrTheme.colors.bgSurface,
+    textStyle: TextStyle = RecentrTheme.typography.title1,
+    onClick: (() -> Unit)? = null,
+    onClickLabel: String? = null,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
+            .then(if (onClick != null) Modifier.pressScale(interactionSource, pressedScale = 0.92f) else Modifier)
             .size(size)
             .recentrShadow(RecentrElevation.card, CircleShape)
             .clip(CircleShape)
             .background(style.brush)
-            .border(ringWidth, RecentrTheme.colors.bgSurface, CircleShape),
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = LocalIndication.current,
+                        onClickLabel = onClickLabel,
+                        role = Role.Button,
+                        onClick = onClick,
+                    )
+                } else {
+                    Modifier
+                },
+            )
+            .border(ringWidth, ringColor, CircleShape),
         contentAlignment = Alignment.Center,
     ) {
-        Text(initial, style = RecentrTheme.typography.title1, color = RecentrTheme.colors.textOnDark, maxLines = 1)
+        Text(initial, style = textStyle, color = RecentrTheme.colors.textOnDark, maxLines = 1)
     }
 }

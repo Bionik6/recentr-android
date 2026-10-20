@@ -1,13 +1,11 @@
 package com.recentr.feature.profile
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -15,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.recentr.core.data.RecentrData
+import com.recentr.core.data.unlockMethodInUse
 import com.recentr.core.model.UnlockMethod
 import com.recentr.feature.profile.overview.EditProfileSheet
 import com.recentr.feature.profile.overview.ProfileScreen
@@ -31,6 +30,9 @@ import com.recentr.feature.profile.settings.SettingsScreen
 import com.recentr.feature.profile.settings.SettingsViewModel
 import com.recentr.feature.profile.settings.UnlockPassScreen
 import kotlinx.serialization.Serializable
+
+/** 61 · Profile, opened from Home's avatar. */
+@Serializable internal data object ProfileRoute
 
 @Serializable internal data object SettingsRoute
 
@@ -51,26 +53,23 @@ import kotlinx.serialization.Serializable
 /** 53 · Your unlock pass, of the rule [ruleId]. */
 @Serializable internal data class UnlockPassRoute(val ruleId: String)
 
-/**
- * Profile tab content (Figma 61 · Overview + 62 · Edit sheet). Drawn under the floating tab bar:
- * [contentPadding] (bottom) is kept clear for it.
- */
+/** Opens the profile (Home's avatar). */
+fun NavHostController.navigateToProfile() {
+    navigate(ProfileRoute) { launchSingleTop = true }
+}
+
+/** Figma 61 · Overview + 62 · Edit sheet. */
 @Composable
-fun ProfileTab(
-    navController: NavHostController,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier,
-) {
+private fun ProfileDestination(navController: NavHostController) {
     val viewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory)
     val state by viewModel.state.collectAsStateWithLifecycle()
     var editing by rememberSaveable { mutableStateOf(false) }
     ProfileScreen(
         state = state,
-        contentPadding = contentPadding,
+        onBack = { navController.popBackStack() },
         onEdit = { editing = true },
         onOpenSettings = { navController.navigate(SettingsRoute) { launchSingleTop = true } },
         onOpenRecap = { navController.navigate(WeeklyRecapRoute) { launchSingleTop = true } },
-        modifier = modifier,
     )
     if (editing) {
         EditProfileSheet(
@@ -84,7 +83,7 @@ fun ProfileTab(
 }
 
 /**
- * Full-screen Profile & Settings destinations (Figma 63–72), drawn above the tab bar.
+ * Full-screen Profile & Settings destinations (Figma 61–72), drawn above the tab bar.
  *
  * @param onSignedOut after "Log out" or "Delete account": the app goes back to the onboarding.
  * @param onReplayOnboarding / [onOpenDesignSystem] debug-only QA shortcuts listed in Settings.
@@ -96,6 +95,7 @@ fun NavGraphBuilder.profileDestinations(
     onOpenDesignSystem: (() -> Unit)? = null,
 ) {
     val back: () -> Unit = { navController.popBackStack() }
+    composable<ProfileRoute> { ProfileDestination(navController) }
     composable<SettingsRoute> {
         val viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
         val state by viewModel.state.collectAsStateWithLifecycle()
@@ -104,7 +104,7 @@ fun NavGraphBuilder.profileDestinations(
         SettingsScreen(
             state = state,
             blockingOn = blockingOn,
-            passRules = rules.filter { it.unlockMethod == UnlockMethod.ScanCode },
+            passRules = rules.filter { it.unlockMethodInUse == UnlockMethod.ScanCode },
             actions = SettingsActions(
                 onBack = back,
                 onOpenNotifications = { navController.navigate(SettingsNotificationsRoute) { launchSingleTop = true } },

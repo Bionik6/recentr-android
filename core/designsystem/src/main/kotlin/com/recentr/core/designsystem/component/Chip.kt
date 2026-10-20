@@ -27,9 +27,12 @@ import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 
 /** Figma "Chip" · Style. */
-enum class RecentrChipStyle { Neutral, Selected, Success, OnSky, Outline }
+enum class RecentrChipStyle { Neutral, Selected, Success, Danger, OnSky, Outline }
 
-/** Small status / filter chip (Ongoing, All day, 5min…). */
+/**
+ * Small status / filter chip (Ongoing, All day, 5min…). [contentColor] overrides the style's label
+ * and icon colour, like a Figma instance override.
+ */
 @Composable
 fun RecentrChip(
     label: String,
@@ -37,19 +40,21 @@ fun RecentrChip(
     style: RecentrChipStyle = RecentrChipStyle.Neutral,
     icon: RecentrIcon? = null,
     onClick: (() -> Unit)? = null,
+    contentColor: Color? = null,
 ) {
     val colors = RecentrTheme.colors
     val (background, content) = when (style) {
         RecentrChipStyle.Neutral -> colors.bgSunken to colors.textSecondary
         RecentrChipStyle.Selected -> colors.actionPrimary to colors.textOnAction
         RecentrChipStyle.Success -> colors.feedbackSuccess to colors.textOnDark
+        RecentrChipStyle.Danger -> colors.feedbackDanger to colors.textOnDark
         RecentrChipStyle.OnSky -> colors.alphaWhite24 to colors.textOnDark
         RecentrChipStyle.Outline -> colors.bgSurface to colors.textSecondary
     }
     val border = if (style == RecentrChipStyle.Outline) 1.dp else 0.dp
     // Styles ease into each other (a preset becoming the selected one).
     val animatedBackground by animateColorAsState(background, MotionSpecs.smooth(0.25f), label = "chipBackground")
-    val animatedContent by animateColorAsState(content, MotionSpecs.smooth(0.25f), label = "chipContent")
+    val animatedContent by animateColorAsState(contentColor ?: content, MotionSpecs.smooth(0.25f), label = "chipContent")
     val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = modifier

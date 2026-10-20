@@ -1,15 +1,13 @@
 package com.recentr.feature.home.ui
 
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.stringResource
+import com.recentr.core.designsystem.component.AvatarStyle
 import com.recentr.core.designsystem.format.clockTime
-import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.Sticker
-import com.recentr.core.model.AppId
+import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.RuleType
-import com.recentr.core.model.UsagePeriod
 import com.recentr.feature.home.R
 
 /** Formats minutes like the design: "1h12", "4h", "38m". */
@@ -30,17 +28,7 @@ internal fun formatDuration(minutes: Int): String {
 @ReadOnlyComposable
 internal fun formatClock(minuteOfDay: Int): String = clockTime(minuteOfDay)
 
-@get:StringRes
-internal val UsagePeriod.labelRes: Int
-    get() = when (this) {
-        UsagePeriod.Today -> R.string.home_period_today
-        UsagePeriod.Yesterday -> R.string.home_period_yesterday
-        UsagePeriod.ThisWeek -> R.string.home_period_this_week
-        UsagePeriod.ThisMonth -> R.string.home_period_this_month
-    }
-
-/** `DemoApp` ↔ `AppId` by enum name. */
-internal val AppId.demoApp: DemoApp get() = DemoApp.valueOf(name)
+internal val AvatarColor.style: AvatarStyle get() = AvatarStyle.valueOf(name)
 
 internal val RuleType.sticker: Sticker
     get() = when (this) {

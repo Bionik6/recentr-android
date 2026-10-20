@@ -40,13 +40,12 @@ enum class UnlockStep {
 
 /**
  * The first step of unlocking this rule's apps at [now], or null when there's no way past it: no
- * unlocks left today, "No unlocks", or Strict mode with this month's emergency unlocks spent.
+ * unlocks left today, a limit that locks, or Strict mode with this month's emergency unlocks spent.
  */
 fun Rule.unlockStep(now: Long, emergencyUnlocksLeft: Int, zone: ZoneId = ZoneId.systemDefault()): UnlockStep? = when {
     isStrictLocked(now, zone) -> UnlockStep.Emergency.takeIf { emergencyUnlocksLeft > 0 }
     !canOpenAnyway(now, zone) -> null
-    asksReason -> UnlockStep.Reason
-    else -> when (unlockMethod) {
+    else -> when (unlockMethodInUse) {
         UnlockMethod.Wait -> UnlockStep.Wait
         UnlockMethod.Reason -> UnlockStep.Reason
         UnlockMethod.Retype -> UnlockStep.Retype
@@ -55,9 +54,36 @@ fun Rule.unlockStep(now: Long, emergencyUnlocksLeft: Int, zone: ZoneId = ZoneId.
     }
 }
 
-/** A daily limit that asks for a reason once its budget is spent. */
-internal val Rule.asksReason: Boolean
-    get() = type == RuleType.Limit && limitAction == LimitAction.AskReason
+/**
+ * How this rule's apps are opened anyway, Strict mode aside. Strict mode is the only "no unlocks":
+ * locks, sessions and routines left with "No unlocks" or "Give a good reason" (both gone from
+ * "How do you unlock?") wait a few seconds. A limit has no unlock method: "When time is up"
+ * decides — Ask for a reason, or Lock until it resets. A habit opens with its tasks.
+ */
+val Rule.unlockMethodInUse: UnlockMethod
+    get() = when (type) {
+        RuleType.Lock, RuleType.Session, RuleType.Bedtime ->
+            unlockMethod.takeIf { it in UNLOCK_METHODS } ?: UnlockMethod.Wait
+        RuleType.Limit -> if (limitAction == LimitAction.AskReason) UnlockMethod.Reason else UnlockMethod.None
+        RuleType.Habit -> unlockMethod
+    }
+
+/** The ways out of "How do you unlock?", lightest first. */
+val UNLOCK_METHODS = listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode)
+
+/** The shortest wait before "Unlock anyway" opens an app. */
+const val MIN_WAIT_SECONDS = 5
+
+/** Seconds to wait with [UnlockMethod.Wait]: never less than [MIN_WAIT_SECONDS]. */
+val Rule.waitSecondsInUse: Int
+    get() = waitSeconds.coerceAtLeast(MIN_WAIT_SECONDS)
+
+/**
+ * Whether the rule's unlock method can be changed. Strict mode disables unlocks: while it's on, the
+ * method is kept, unused, and comes back when Strict mode is turned off.
+ */
+val Rule.unlockMethodEnabled: Boolean
+    get() = !strictMode
 
 /** Give a good reason (49): long enough to mean it. */
 object UnlockReason {

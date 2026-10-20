@@ -10,6 +10,8 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.recentr.core.data.RecentrData
+import com.recentr.core.data.unlockMethodInUse
+import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.designsystem.format.clockTimeShort
 import com.recentr.core.designsystem.format.wallClockTime
 import com.recentr.core.designsystem.illustration.Sticker
@@ -37,17 +39,6 @@ internal val RuleSticker.asSticker: Sticker
         RuleSticker.Leaf -> Sticker.Leaf
         RuleSticker.Note -> Sticker.Note
         RuleSticker.Flame -> Sticker.Flame
-    }
-
-/** Section caption of the "Choose apps" sheet ("SOCIAL"). */
-internal val AppCategory.sectionLabel: Int
-    get() = when (this) {
-        AppCategory.Social -> R.string.rules_cat_social
-        AppCategory.Entertainment -> R.string.rules_cat_entertainment
-        AppCategory.Music -> R.string.rules_cat_music
-        AppCategory.Games -> R.string.rules_cat_games
-        AppCategory.Productivity -> R.string.rules_cat_productivity
-        AppCategory.Other -> R.string.rules_cat_other
     }
 
 /** Category name in values ("Social · 3"). */
@@ -135,6 +126,16 @@ internal fun countdown(millis: Long): String {
     return if (h > 0) "%d:%02d:%02d".format(h, m, s) else "%d:%02d".format(m, s)
 }
 
+/** "23m42s", "2h32m", "2d 3h": how long until a routine starts, to the second only in its last hour. */
+internal fun startCountdown(millis: Long): String {
+    val seconds = max(0L, (millis + 999) / 1000)
+    if (seconds < 3600) return if (seconds < 60) "${seconds}s" else "%dm%02ds".format(seconds / 60, seconds % 60)
+    val minutes = (seconds + 59) / 60
+    if (minutes < 24 * 60) return "%dh%02dm".format(minutes / 60, minutes % 60)
+    val hours = (minutes + 59) / 60
+    return if (hours % 24 == 0L) "${hours / 24}d" else "${hours / 24}d ${hours % 24}h"
+}
+
 /* Times & days. */
 
 /** "9 AM", "9:30 PM" (or "09:00", "21:30" on the 24-hour clock). */
@@ -213,9 +214,9 @@ internal fun appsName(apps: List<UsageApp>, two: (String, String) -> String, mor
 
 @Composable
 @ReadOnlyComposable
-internal fun unlockLabel(rule: Rule): String = when (rule.unlockMethod) {
+internal fun unlockLabel(rule: Rule): String = when (rule.unlockMethodInUse) {
     UnlockMethod.None, UnlockMethod.Strict -> stringResource(R.string.rules_unlock_none)
-    UnlockMethod.Wait -> stringResource(R.string.rules_unlock_wait, rule.waitSeconds)
+    UnlockMethod.Wait -> stringResource(R.string.rules_unlock_wait, rule.waitSecondsInUse)
     UnlockMethod.Reason -> stringResource(R.string.rules_unlock_reason)
     UnlockMethod.Retype -> stringResource(R.string.rules_unlock_retype)
     UnlockMethod.ScanCode -> stringResource(R.string.rules_unlock_scan)

@@ -56,13 +56,13 @@ import com.recentr.feature.rules.ui.components.RuleSheetHeader
 import com.recentr.feature.rules.ui.components.SectionCaption
 import com.recentr.feature.rules.ui.components.SettingsGroup
 import com.recentr.feature.rules.ui.components.StrictToggleRow
+import com.recentr.feature.rules.ui.components.UnlockMethodRow
 import com.recentr.feature.rules.ui.components.ValueStepper
 import com.recentr.feature.rules.ui.durationLabel
 import com.recentr.feature.rules.ui.habitRepeatLabel
 import com.recentr.feature.rules.ui.limitActionLabel
 import com.recentr.feature.rules.ui.limitResetLabel
 import com.recentr.feature.rules.ui.scheduleLabel
-import com.recentr.feature.rules.ui.unlockLabel
 import com.recentr.feature.rules.ui.unlocksPerDayLabel
 
 /** What the editor bodies can do. */
@@ -112,7 +112,7 @@ internal fun ColumnScope.EditorCta(state: RuleEditorUiState, createLabel: Int, a
     )
 }
 
-/** Figma 31 "Session": suggestions, Block / Active / Unlocks, Strict mode. */
+/** Figma 31 "Session": suggestions, Block / Active / Unlock method, Strict mode. */
 @Composable
 internal fun ColumnScope.SessionEditor(state: RuleEditorUiState, title: String, actions: EditorActions) {
     val rule = state.draft
@@ -153,7 +153,7 @@ internal fun ColumnScope.SessionEditor(state: RuleEditorUiState, title: String, 
         } else {
             EditorRow(R.string.rules_row_active, scheduleLabel(schedule), RecentrIcon.Clock) { actions.open(RuleSheet.Schedule) }
         }
-        EditorRow(R.string.rules_row_unlocks, unlockLabel(rule), RecentrIcon.Lock) { actions.open(RuleSheet.Unlock) }
+        UnlockMethodRow(rule, onClick = { actions.open(RuleSheet.Unlock) }, icon = RecentrIcon.Lock)
     }
     Gap(10.dp)
     SettingsGroup {
@@ -169,7 +169,7 @@ internal fun ColumnScope.LockEditor(state: RuleEditorUiState, title: String, act
     Gap(20.dp)
     SettingsGroup {
         EditorRow(R.string.rules_row_block, appsLabel(rule.apps), RecentrIcon.Apps) { actions.open(RuleSheet.Apps) }
-        EditorRow(R.string.rules_row_unlock_method, unlockLabel(rule), RecentrIcon.Hourglass) { actions.open(RuleSheet.Unlock) }
+        UnlockMethodRow(rule, onClick = { actions.open(RuleSheet.Unlock) })
         EditorRow(R.string.rules_row_unlocks_per_day, unlocksPerDayLabel(rule.unlocksPerDay), RecentrIcon.Refresh) { actions.open(RuleSheet.UnlocksPerDay) }
         EditorRow(R.string.rules_row_active, scheduleLabel(rule.schedule), RecentrIcon.Clock) { actions.open(RuleSheet.Schedule) }
     }
@@ -222,7 +222,7 @@ internal fun ColumnScope.LimitEditor(state: RuleEditorUiState, title: String, ac
     }
 }
 
-/** Figma 39 "Bedtime": FROM / UNTIL cards, weekday dots, Block / Strict mode. */
+/** Figma 39 "Bedtime": FROM / UNTIL cards, weekday dots, Block / Unlock method / Strict mode. */
 @Composable
 internal fun ColumnScope.BedtimeEditor(state: RuleEditorUiState, title: String, actions: EditorActions) {
     val rule = state.draft
@@ -249,6 +249,7 @@ internal fun ColumnScope.BedtimeEditor(state: RuleEditorUiState, title: String, 
     Gap(16.dp)
     SettingsGroup {
         EditorRow(R.string.rules_row_block, appsLabel(rule.apps), RecentrIcon.Apps) { actions.open(RuleSheet.Apps) }
+        UnlockMethodRow(rule, onClick = { actions.open(RuleSheet.Unlock) })
         StrictToggleRow(rule.strictMode, actions.onStrictChange, locked = actions.strictLocked)
     }
 }

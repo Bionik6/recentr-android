@@ -1,11 +1,13 @@
 package com.recentr.feature.insights
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -13,9 +15,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.recentr.core.model.Achievement
+import com.recentr.core.model.RangeUnit
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UsageRange
 import com.recentr.feature.insights.achievements.AchievementsScreen
 import com.recentr.feature.insights.achievements.AchievementsViewModel
 import com.recentr.feature.insights.achievements.BadgeSheet
@@ -28,7 +32,6 @@ import com.recentr.feature.insights.goal.DailyGoalScreen
 import com.recentr.feature.insights.goal.DailyGoalViewModel
 import com.recentr.feature.insights.overview.InsightsOverviewScreen
 import com.recentr.feature.insights.overview.InsightsOverviewViewModel
-import com.recentr.feature.insights.overview.InsightsTab
 import com.recentr.feature.insights.overview.OverviewActions
 import com.recentr.feature.insights.pickups.PickupsScreen
 import com.recentr.feature.insights.pickups.PickupsViewModel
@@ -36,16 +39,22 @@ import com.recentr.feature.insights.report.MonthlyReportScreen
 import com.recentr.feature.insights.report.MonthlyReportViewModel
 import com.recentr.feature.insights.share.ShareScreen
 import com.recentr.feature.insights.share.ShareSubject
+import java.time.LocalDate
 import kotlinx.serialization.Serializable
 
-/** 99 / 102 · Overview on [tab]; [day] is the day of the Day tab (Today or Yesterday). */
-@Serializable internal data class InsightsRoute(val tab: String, val day: String = UsagePeriod.Today.name)
+/** 100 · App detail over a day, week or month: a [RangeUnit] name and its first day (ISO). */
+@Serializable internal data class AppDetailRoute(val packageName: String, val unit: String, val start: String) {
+    constructor(packageName: String, range: UsageRange) : this(packageName, range.unit.name, range.start.toString())
 
-/** 100 · App detail over [period] (a [UsagePeriod] name). */
-@Serializable internal data class AppDetailRoute(val packageName: String, val period: String)
+    val range: UsageRange get() = UsageRange.of(RangeUnit.valueOf(unit), LocalDate.parse(start))
+}
 
-/** 101 · Pickups over [period]. */
-@Serializable internal data class PickupsRoute(val period: String)
+/** 101 · Pickups over a day, week or month. */
+@Serializable internal data class PickupsRoute(val unit: String, val start: String) {
+    constructor(range: UsageRange) : this(range.unit.name, range.start.toString())
+
+    val range: UsageRange get() = UsageRange.of(RangeUnit.valueOf(unit), LocalDate.parse(start))
+}
 
 /** 104 · Daily goal. */
 @Serializable internal data object DailyGoalRoute
@@ -69,31 +78,59 @@ import kotlinx.serialization.Serializable
 @Serializable internal data class ShareRoute(val achievement: String? = null)
 
 /**
- * Opens Insights on the tab matching a Home period: Today / Yesterday → Day, this week → Week,
- * this month → Month.
+ * Insights tab content (Figma 99 / 102 under a tab header), on today's Day tab at first. Drawn
+ * under the floating tab bar: [contentPadding] (bottom) is kept clear for it. [openPeriod] (Home's
+ * usage card) switches to that period, then [onPeriodOpened] clears it.
  */
-fun NavHostController.navigateToInsights(period: UsagePeriod) {
-    val tab = when (period) {
-        UsagePeriod.Today, UsagePeriod.Yesterday -> InsightsTab.Day
-        UsagePeriod.ThisWeek -> InsightsTab.Week
-        UsagePeriod.ThisMonth -> InsightsTab.Month
+@Composable
+fun InsightsOverviewTab(
+    navController: NavHostController,
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+    openPeriod: UsagePeriod? = null,
+    onPeriodOpened: () -> Unit = {},
+) {
+    val viewModel: InsightsOverviewViewModel = viewModel(
+        factory = InsightsOverviewViewModel.factory(UsageRange.of(RangeUnit.Day, LocalDate.now())),
+    )
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(openPeriod) {
+        if (openPeriod != null) {
+            viewModel.show(openPeriod)
+            onPeriodOpened()
+        }
     }
-    val day = if (period == UsagePeriod.Yesterday) UsagePeriod.Yesterday else UsagePeriod.Today
-    navigate(InsightsRoute(tab.name, day.name)) { launchSingleTop = true }
+    val open: (Any) -> Unit = { route -> navController.navigate(route) { launchSingleTop = true } }
+    InsightsOverviewScreen(
+        state = state,
+        actions = OverviewActions(
+            onSelectTab = viewModel::selectTab,
+            onPrevious = viewModel::previous,
+            onNext = viewModel::next,
+            onOpenApp = { packageName, range -> open(AppDetailRoute(packageName, range)) },
+            onOpenDailyGoal = { open(DailyGoalRoute) },
+            onOpenPickups = { open(PickupsRoute(it)) },
+            onOpenStreak = { open(StreakRoute) },
+            onOpenAchievements = { open(AchievementsRoute) },
+            onOpenReport = { open(MonthlyReportRoute) },
+        ),
+        contentPadding = contentPadding,
+        modifier = modifier,
+    )
 }
 
 /** Opens one app's insights over [period] (Home "Most used"). */
 fun NavHostController.navigateToAppInsights(packageName: String, period: UsagePeriod) {
-    navigate(AppDetailRoute(packageName, period.name)) { launchSingleTop = true }
+    navigate(AppDetailRoute(packageName, UsageRange.of(period, LocalDate.now()))) { launchSingleTop = true }
 }
 
-/** Opens the streak screen (Home streak tile). */
+/** Opens the streak screen (Home's streak flame). */
 fun NavHostController.navigateToStreak() {
     navigate(StreakRoute) { launchSingleTop = true }
 }
 
 /**
- * Insights & Achievements destinations (Figma 99–110), drawn above the tab bar.
+ * Insights & Achievements destinations (Figma 100–110), drawn above the tab bar.
  *
  * @param onCreateRule opens the rule editor for a new rule of a type, with apps preselected.
  * @param onEditRule opens the editor of an existing rule.
@@ -106,29 +143,9 @@ fun NavGraphBuilder.insightsDestinations(
     val back: () -> Unit = { navController.popBackStack() }
     fun open(route: Any) = navController.navigate(route) { launchSingleTop = true }
 
-    composable<InsightsRoute> { entry ->
-        val route = entry.toRoute<InsightsRoute>()
-        val viewModel: InsightsOverviewViewModel = viewModel(
-            factory = InsightsOverviewViewModel.factory(InsightsTab.valueOf(route.tab), UsagePeriod.valueOf(route.day)),
-        )
-        val state by viewModel.state.collectAsStateWithLifecycle()
-        InsightsOverviewScreen(
-            state = state,
-            actions = OverviewActions(
-                onBack = back,
-                onSelectTab = viewModel::selectTab,
-                onOpenApp = { packageName, period -> open(AppDetailRoute(packageName, period.name)) },
-                onOpenDailyGoal = { open(DailyGoalRoute) },
-                onOpenPickups = { open(PickupsRoute(it.name)) },
-                onOpenStreak = { open(StreakRoute) },
-                onOpenAchievements = { open(AchievementsRoute) },
-                onOpenReport = { open(MonthlyReportRoute) },
-            ),
-        )
-    }
     composable<AppDetailRoute> { entry ->
         val route = entry.toRoute<AppDetailRoute>()
-        val viewModel: AppDetailViewModel = viewModel(factory = AppDetailViewModel.factory(route.packageName, UsagePeriod.valueOf(route.period)))
+        val viewModel: AppDetailViewModel = viewModel(factory = AppDetailViewModel.factory(route.packageName, route.range))
         val state by viewModel.state.collectAsStateWithLifecycle()
         AppDetailScreen(
             state = state,
@@ -139,7 +156,7 @@ fun NavGraphBuilder.insightsDestinations(
     }
     composable<PickupsRoute> { entry ->
         val route = entry.toRoute<PickupsRoute>()
-        val viewModel: PickupsViewModel = viewModel(factory = PickupsViewModel.factory(UsagePeriod.valueOf(route.period)))
+        val viewModel: PickupsViewModel = viewModel(factory = PickupsViewModel.factory(route.range))
         val state by viewModel.state.collectAsStateWithLifecycle()
         PickupsScreen(state = state, onBack = back, onStartBedtime = { onCreateRule(RuleType.Bedtime, emptyList()) })
     }

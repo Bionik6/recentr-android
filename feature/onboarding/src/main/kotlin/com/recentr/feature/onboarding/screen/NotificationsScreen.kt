@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
-import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.motion.entrance
@@ -45,9 +44,10 @@ import com.recentr.feature.onboarding.component.compactDuration
 import com.recentr.feature.onboarding.permission.canPostNotifications
 
 /**
- * 19 · Onboarding — Notifications (Figma 2024:1392). "Turn on notifications" requests
- * `POST_NOTIFICATIONS` on API 33+ (earlier versions report the app setting); the result is stored
- * in the profile and the flow moves on either way. "Not now" skips.
+ * 19 · Onboarding — Notifications (Figma 2024:1392). A single "Continue": it asks for
+ * `POST_NOTIFICATIONS` on API 33+ (the system dialog is where the user says yes or no; earlier
+ * versions report the app setting), the answer is stored in the profile and the flow moves on
+ * either way.
  *
  * @param onResult called with whether notifications are enabled.
  */
@@ -66,14 +66,13 @@ internal fun NotificationsRoute(
         progress = progress,
         dailyGoalMinutes = dailyGoalMinutes,
         onBack = onBack,
-        onTurnOn = {
+        onContinue = {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !context.canPostNotifications()) {
                 launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
             } else {
                 onResult(context.canPostNotifications())
             }
         },
-        onNotNow = { onResult(false) },
     )
 }
 
@@ -82,22 +81,13 @@ internal fun NotificationsScreen(
     progress: HeaderProgress,
     dailyGoalMinutes: Int,
     onBack: () -> Unit,
-    onTurnOn: () -> Unit,
-    onNotNow: () -> Unit,
+    onContinue: () -> Unit,
 ) {
     OnboardingPage(
         progress = progress,
         onBack = onBack,
         bottomBar = {
-            RecentrButton(stringResource(R.string.onb_notif_turn_on), onTurnOn, Modifier.fillMaxWidth().entrance(500))
-            RecentrButton(
-                text = stringResource(R.string.onb_notif_not_now),
-                onClick = onNotNow,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .entrance(600, blur = false),
-                style = RecentrButtonStyle.Secondary,
-            )
+            RecentrButton(stringResource(R.string.onb_continue), onContinue, Modifier.fillMaxWidth().entrance(500))
         },
     ) {
         Spacer(Modifier.height(20.dp))
@@ -169,6 +159,6 @@ private fun NotificationBanner(sticker: Sticker, title: String, body: String, mo
 @Composable
 private fun NotificationsScreenPreview() {
     RecentrTheme {
-        NotificationsScreen(HeaderProgress(1f), dailyGoalMinutes = 260, onBack = {}, onTurnOn = {}, onNotNow = {})
+        NotificationsScreen(HeaderProgress(1f), dailyGoalMinutes = 260, onBack = {}, onContinue = {})
     }
 }

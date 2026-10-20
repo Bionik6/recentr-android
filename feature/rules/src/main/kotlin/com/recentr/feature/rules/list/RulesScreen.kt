@@ -65,7 +65,6 @@ import com.recentr.feature.rules.model.TemplateCardUi
 import com.recentr.feature.rules.model.TemplateCategory
 import com.recentr.feature.rules.model.toCard
 import com.recentr.feature.rules.ui.asSticker
-import com.recentr.feature.rules.ui.clockLabel
 import com.recentr.feature.rules.ui.components.RuleGroupHeader
 import com.recentr.feature.rules.ui.components.RulesToastHost
 
@@ -199,7 +198,7 @@ private fun RulesList(state: RulesUiState, listState: LazyListState, bottom: and
                     item(key = "add-${section.group}") {
                         AddCard(
                             title = stringResource(section.group.addTitle),
-                            hint = stringResource(section.group.addHint, clockLabel(23 * 60), clockLabel(7 * 60)),
+                            hint = stringResource(section.group.addHint),
                             onClick = { actions.onCreate(section.group.type) },
                             modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth().animateItem(),
                         )

@@ -210,7 +210,10 @@ private fun Shield(
                 RecentrData.focus.resistUrge()
                 onOpenRecentr()
             }
-            links += stringResource(R.string.shield_end_focus) to { RecentrData.focus.end(System.currentTimeMillis()) }
+            // A strict session can't be ended early: it only runs out.
+            if (!focusRun.isStrict) {
+                links += stringResource(R.string.shield_end_focus) to { RecentrData.focus.end(System.currentTimeMillis()) }
+            }
         }
         is HoldReason.ByRule -> {
             val rule = reason.rule

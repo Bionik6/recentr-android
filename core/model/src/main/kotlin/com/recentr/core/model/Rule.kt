@@ -59,6 +59,16 @@ data class RuleSchedule(
         }
     }
 
+    /** When the window next starts after [epochMillis], within a week; null without days. */
+    fun nextStartAfter(epochMillis: Long, zone: ZoneId = ZoneId.systemDefault()): Long? {
+        val today = Instant.ofEpochMilli(epochMillis).atZone(zone).toLocalDate()
+        return (0..7).asSequence()
+            .map { today.plusDays(it.toLong()) }
+            .filter { it.dayOfWeek.value in days }
+            .map { it.atStartOfDay(zone).plusMinutes(startMinute.toLong()).toInstant().toEpochMilli() }
+            .firstOrNull { it > epochMillis }
+    }
+
     companion object {
         const val MINUTES_PER_DAY = 24 * 60
     }
@@ -70,7 +80,10 @@ enum class UnlockMethod {
     None,
     /** Wait a few seconds ([Rule.waitSeconds]). */
     Wait,
-    /** Give a good reason. */
+    /**
+     * Give a good reason: what a limit asks for with "Ask for a reason". Gone from "How do you
+     * unlock?": locks, sessions and routines left with it wait instead.
+     */
     Reason,
     /** Kept for compatibility: same as [None]. */
     Strict,
@@ -114,11 +127,17 @@ data class Rule(
     /** Epoch millis until which the rule is paused, or null. [Long.MAX_VALUE] = until resumed. */
     val pausedUntil: Long? = null,
     val streakDays: Int = 0,
+    /**
+     * Windows starting before this (epoch millis) don't count toward [streakDays]: when the rule
+     * was created, the end of the last window counted, or when the streak broke. Null in rules
+     * saved before streaks were counted (they count from the start of the day they're read).
+     */
+    val streakFrom: Long? = null,
     /** Epoch millis when an active session started, or null. */
     val activeSince: Long? = null,
     val sticker: RuleSticker = type.defaultSticker,
     /** Unlock method [UnlockMethod.Wait]: seconds to wait. */
-    val waitSeconds: Int = 5,
+    val waitSeconds: Int = 10,
     /** Unlocks allowed per day, or null for unlimited. */
     val unlocksPerDay: Int? = 5,
     val unlocksUsedToday: Int = 0,
@@ -132,7 +151,7 @@ data class Rule(
     val limitAction: LimitAction = LimitAction.Lock,
     val habitTasks: List<HabitTask> = emptyList(),
     val habitRepeat: HabitRepeat = HabitRepeat.EveryDay,
-    /** One-shot session started with "Start blocking": removed once it ends. */
+    /** Session started with "Start blocking", while it runs; once it ends it is a saved session like any other. */
     val oneShot: Boolean = false,
 ) {
     fun isPaused(now: Long): Boolean = pausedUntil != null && pausedUntil > now

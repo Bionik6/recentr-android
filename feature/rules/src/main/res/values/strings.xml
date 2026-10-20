@@ -13,7 +13,7 @@
     <string name="rules_group_habits">Habits</string>
     <string name="rules_group_templates">Templates</string>
     <string name="rules_add_session">Add a session</string>
-    <string name="rules_add_session_hint">E.g. “Block apps from %1$s to %2$s”</string>
+    <string name="rules_add_session_hint">E.g. “Block apps for the next 30 min”</string>
     <string name="rules_add_routine">Add a routine</string>
     <string name="rules_add_routine_hint">E.g. “No phone during dinner”</string>
     <string name="rules_add_lock">Add a lock</string>
@@ -30,6 +30,13 @@
     <!-- Card chips & values -->
     <string name="rules_status_ongoing">Ongoing</string>
     <string name="rules_status_upcoming">Upcoming</string>
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Ready</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d app</item>
+        <item quantity="other">+ %d apps</item>
+    </plurals>
+    <string name="rules_tile_ready">READY</string>
     <string name="rules_status_blocking">Blocking</string>
     <string name="rules_status_paused">Paused</string>
     <string name="rules_status_times_up">Time’s up</string>
@@ -40,6 +47,7 @@
     <string name="rules_strict_mode">Strict mode</string>
     <string name="rules_value_locked">Locked</string>
     <string name="rules_value_left">%1$s left</string>
+    <string name="rules_value_starts_in">in %1$s</string>
     <string name="rules_value_paused">Paused</string>
     <string name="rules_value_used_of">%1$s / %2$s</string>
     <string name="rules_schedule_format">%1$s · %2$s</string>
@@ -117,6 +125,7 @@
     <string name="rules_row_block">Block</string>
     <string name="rules_row_active">Active</string>
     <string name="rules_row_unlocks">Unlocks</string>
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
     <string name="rules_row_unlock_method">Unlock method</string>
     <string name="rules_row_unlocks_per_day">Unlocks per day</string>
     <string name="rules_row_apps">Apps</string>
@@ -129,7 +138,7 @@
 
     <!-- Session sheet -->
     <string name="rules_session_title">Session</string>
-    <string name="rules_session_subtitle">Block apps for %1$s, starting now.</string>
+    <string name="rules_session_subtitle">Block apps for %1$s once you start it.</string>
     <string name="rules_session_subtitle_scheduled">Block apps %1$s.</string>
     <string name="rules_session_default_name">Focus session</string>
     <string name="rules_suggestions">SUGGESTIONS</string>
@@ -138,6 +147,7 @@
     <!-- Strict mode -->
     <string name="rules_strict_caption">Can’t be turned off until the session ends.</string>
     <string name="rules_strict_locked_caption">On until this session ends.</string>
+    <string name="rules_unlock_strict_caption">Unlocks are unavailable in strict mode.</string>
     <string name="rules_strict_confirm_title">Turn on Strict mode?</string>
     <string name="rules_strict_confirm_body">You won’t be able to edit, delete or unlock this session until it ends.</string>
     <string name="rules_turn_on">Turn on</string>
@@ -148,6 +158,7 @@
     <string name="rules_lock_subtitle">Keep chosen apps closed until you unlock them on purpose.</string>
     <string name="rules_lock_note_title">Why this lock?</string>
     <string name="rules_create_lock">Create lock</string>
+    <string name="rules_create_session">Create session</string>
     <string name="rules_unlock_none">None</string>
     <string name="rules_unlock_wait">Wait %1$d s</string>
     <string name="rules_unlock_reason">Reason</string>
@@ -160,12 +171,6 @@
     <string name="rules_choose_apps">Choose apps</string>
     <string name="rules_selected">%1$d selected</string>
     <string name="rules_search_apps">Search apps</string>
-    <string name="rules_cat_social">SOCIAL</string>
-    <string name="rules_cat_entertainment">ENTERTAINMENT</string>
-    <string name="rules_cat_music">MUSIC</string>
-    <string name="rules_cat_games">GAMES</string>
-    <string name="rules_cat_productivity">PRODUCTIVITY</string>
-    <string name="rules_cat_other">OTHER APPS</string>
     <string name="rules_category_social">Social</string>
     <string name="rules_category_entertainment">Entertainment</string>
     <string name="rules_category_music">Music</string>
@@ -173,10 +178,13 @@
     <string name="rules_category_productivity">Productivity</string>
     <string name="rules_category_other">Other</string>
     <string name="rules_category_count">%1$s · %2$d</string>
-    <plurals name="rules_done_apps">
-        <item quantity="one">Done · %d app</item>
-        <item quantity="other">Done · %d apps</item>
+    <plurals name="rules_block_apps">
+        <item quantity="one">Block · %d app</item>
+        <item quantity="other">Block · %d apps</item>
     </plurals>
+    <string name="rules_all_apps_and_categories">All apps &amp; categories</string>
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">All</string>
     <string name="rules_no_apps_found">No apps match “%1$s”.</string>
 
     <!-- Session length -->
@@ -237,10 +245,8 @@
     <string name="rules_unlock_title">How do you unlock?</string>
     <string name="rules_unlock_subtitle">Pick the kind of friction that works for you.</string>
     <string name="rules_unlock_option_wait">Wait a few seconds</string>
-    <string name="rules_unlock_option_reason">Give a good reason</string>
     <string name="rules_unlock_option_retype">Re-type a painful text</string>
     <string name="rules_unlock_option_scan">Scan a code you keep elsewhere</string>
-    <string name="rules_unlock_option_none">No unlocks at all</string>
 
     <!-- Wait settings -->
     <string name="rules_wait_title">Wait before unlocking</string>
@@ -304,6 +310,7 @@
     </plurals>
     <string name="rules_why">Why</string>
     <string name="rules_why_placeholder">Tap to write down why this matters.</string>
+    <string name="rules_why_empty">No reason written down yet.</string>
     <string name="rules_tile_to">%1$s to %2$s</string>
     <string name="rules_tile_now">NOW</string>
     <string name="rules_tile_left_of">left of %1$s</string>

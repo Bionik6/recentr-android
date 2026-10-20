@@ -35,7 +35,7 @@ class RulesRepositoryTest {
         date.atTime(hour, minute).atZone(zone).toInstant().toEpochMilli()
 
     private fun repository(at: Long = now) =
-        RulesRepository(folder.root.resolve("rules.json"), zone = { zone }, now = at, writeDispatcher = Dispatchers.Unconfined)
+        RulesRepository(folder.root.resolve("rules.json"), zone = { zone }, now = at, writeDispatcher = Dispatchers.Unconfined, clock = { at })
 
     /** [minutes] per package in the period of [reset]. */
     private fun used(reset: LimitReset, vararg minutes: Pair<String, Int>) = LimitUsage(mapOf(reset to mapOf(*minutes)))
@@ -59,6 +59,8 @@ class RulesRepositoryTest {
             schedule = RuleSchedule(9 * 60, 17 * 60, (1..5).toSet()),
             pausedUntil = Long.MAX_VALUE,
             habitTasks = listOf(HabitTask("t", "Read")),
+            streakDays = 4,
+            streakFrom = now - day,
         )
         repository().upsert(rule)
 
@@ -221,11 +223,170 @@ class RulesRepositoryTest {
     }
 
     @Test
-    fun `ended one-shot sessions are removed and kept removed`() {
+    fun `a session started with Start blocking stays saved once it ends`() {
         val repo = repository()
         repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, activeSince = now, oneShot = true))
         repo.settle(now + 31 * 60_000)
-        assertNull(repo.rule("s"))
-        assertNull(repository().rule("s"))
+        val ended = repo.rule("s")!!
+        assertNull(ended.activeSince)
+        assertFalse(ended.oneShot)
+        assertFalse(ended.isRunning(now + 31 * 60_000))
+        // Its run counts for its streak, and it's still there after a restart.
+        assertEquals(1, ended.streakDays)
+        assertEquals("Focus", repository(now + 32 * 60_000).rule("s")!!.name)
+    }
+
+    @Test
+    fun `a saved session runs again for its length`() {
+        val repo = repository()
+        repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, activeSince = now, oneShot = true))
+        repo.settle(now + 31 * 60_000)
+
+        val later = now + 3 * 3_600_000L
+        repo.startSession("s", now = later)
+        assertTrue(repo.rule("s")!!.isRunning(later + 60_000))
+        assertEquals(later + 30 * 60_000, repo.rule("s")!!.sessionEndsAt)
+        repo.settle(later + 30 * 60_000)
+        assertFalse(repo.rule("s")!!.isRunning(later + 30 * 60_000))
+        // A second run the same day doesn't add a day to the streak.
+        assertEquals(1, repo.rule("s")!!.streakDays)
+    }
+
+    @Test
+    fun `starting a paused session lifts the pause`() {
+        val repo = repository()
+        repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, pausedUntil = Long.MAX_VALUE))
+        repo.startSession("s", now = now)
+        assertNull(repo.rule("s")!!.pausedUntil)
+        assertTrue(repo.rule("s")!!.isRunning(now + 1))
+    }
+
+    // Streaks
+
+    private val tuesday = monday.plusDays(1)
+    private val wednesday = monday.plusDays(2)
+
+    /** Weekdays 6:00 → 9:00. */
+    private val morning = Rule(
+        "m",
+        RuleType.Bedtime,
+        "Morning Routine",
+        apps = listOf(whatsApp),
+        schedule = RuleSchedule(6 * 60, 9 * 60, (1..5).toSet()),
+    )
+
+    @Test
+    fun `a routine saved before streaks counts this morning's window once it's over`() {
+        // The 6:00 → 9:00 routine ran this morning, but its card still read "0 days".
+        folder.root.resolve("rules.json").writeText(
+            """{"rules":[{"id":"m","type":"Bedtime","name":"Morning Routine",""" +
+                """"schedule":{"startMinute":360,"endMinute":540,"days":[1,2,3,4,5]}}],"settledAt":${at(monday, 5)}}""",
+        )
+        val repo = repository(at(monday, 5))
+        repo.settle(at(monday, 8))
+        assertEquals(0, repo.rule("m")!!.streakDays)
+        repo.settle(at(monday, 9, 1))
+        assertEquals(1, repo.rule("m")!!.streakDays)
+        // Saved, and counted once.
+        assertEquals(1, repository(at(monday, 10)).apply { settle(at(monday, 23)) }.rule("m")!!.streakDays)
+        repo.settle(at(tuesday, 9, 1))
+        assertEquals(2, repo.rule("m")!!.streakDays)
+    }
+
+    @Test
+    fun `a new rule counts its windows from when it was made`() {
+        val repo = repository(at(monday, 7))
+        repo.upsert(morning)
+        assertEquals(at(monday, 7), repo.rule("m")!!.streakFrom)
+        repo.settle(at(monday, 9, 30))
+        assertEquals(0, repo.rule("m")!!.streakDays)
+        repo.settle(at(tuesday, 9, 30))
+        assertEquals(1, repo.rule("m")!!.streakDays)
+    }
+
+    @Test
+    fun `editing a rule keeps its streak`() {
+        val repo = repository(at(monday, 0))
+        repo.upsert(morning)
+        repo.settle(at(monday, 9, 30))
+        repo.upsert(repo.rule("m")!!.copy(name = "Mornings", schedule = RuleSchedule(6 * 60, 10 * 60, (1..5).toSet())))
+        repo.settle(at(tuesday, 10, 30))
+        assertEquals(2, repo.rule("m")!!.streakDays)
+    }
+
+    @Test
+    fun `pausing over a window breaks the streak and resuming counts again`() {
+        val repo = repository(at(monday, 0))
+        repo.upsert(morning.copy(streakDays = 4))
+        repo.pause("m", Long.MAX_VALUE, now = at(monday, 7))
+        assertEquals(0, repo.rule("m")!!.streakDays)
+        repo.settle(at(tuesday, 9, 30))
+        assertEquals(0, repo.rule("m")!!.streakDays)
+        repo.resume("m", now = at(tuesday, 12))
+        repo.settle(at(wednesday, 9, 30))
+        assertEquals(1, repo.rule("m")!!.streakDays)
+    }
+
+    @Test
+    fun `a pause between windows keeps the streak`() {
+        val repo = repository(at(monday, 0))
+        repo.upsert(morning)
+        repo.settle(at(monday, 9, 30))
+        repo.pause("m", at(monday, 18), now = at(monday, 10))
+        repo.settle(at(tuesday, 9, 30))
+        assertEquals(2, repo.rule("m")!!.streakDays)
+    }
+
+    @Test
+    fun `an emergency unlock breaks the streaks of the rules it went past only`() {
+        val repo = repository(at(monday, 0))
+        repo.upsert(morning.copy(streakDays = 6))
+        repo.upsert(morning.copy(id = "other", streakDays = 6))
+        repo.breakStreaks(listOf("m"), at(monday, 7))
+        repo.settle(at(monday, 9, 30))
+        assertEquals(0, repo.rule("m")!!.streakDays)
+        assertEquals(7, repo.rule("other")!!.streakDays)
+        repo.settle(at(tuesday, 9, 30))
+        assertEquals(1, repo.rule("m")!!.streakDays)
+    }
+
+    @Test
+    fun `a habit day counts with its tasks before they start over`() {
+        val repo = repository(at(monday, 0))
+        repo.upsert(Rule("h", RuleType.Habit, "Read first", habitTasks = listOf(HabitTask("t", "Read"))))
+        repo.update("h") { rule -> rule.copy(habitTasks = rule.habitTasks.map { it.copy(done = true) }) }
+        repo.settle(at(monday, 21))
+        repo.settle(at(tuesday, 0, 1))
+        assertEquals(1, repo.rule("h")!!.streakDays)
+        assertFalse(repo.rule("h")!!.habitTasks.single().done)
+        // Tuesday's task left undone.
+        repo.settle(at(wednesday, 0, 1))
+        assertEquals(0, repo.rule("h")!!.streakDays)
+    }
+
+    @Test
+    fun `a limit's day counts with its minutes before they start over`() {
+        val repo = repository(at(monday, 0))
+        repo.upsert(Rule("l", RuleType.Limit, "Daily limit", apps = listOf(whatsApp), limitMinutes = 30))
+        repo.recordUsage(used(LimitReset.Midnight, whatsApp.packageName to 20))
+        repo.settle(at(tuesday, 0, 1))
+        assertEquals(1, repo.rule("l")!!.streakDays)
+        assertEquals(0, repo.rule("l")!!.usedMinutes)
+        repo.recordUsage(used(LimitReset.Midnight, whatsApp.packageName to 45))
+        repo.settle(at(wednesday, 0, 1))
+        assertEquals(0, repo.rule("l")!!.streakDays)
+    }
+
+    @Test
+    fun `a manual session counts the day's first finished run`() {
+        val repo = repository(at(monday, 0))
+        repo.upsert(Rule("s", RuleType.Session, "Deep work", apps = listOf(whatsApp), durationMinutes = 30))
+        repo.update("s") { it.copy(activeSince = at(monday, 10)) }
+        repo.settle(at(monday, 10, 31))
+        assertEquals(1, repo.rule("s")!!.streakDays)
+        assertNull(repo.rule("s")!!.activeSince)
+        repo.update("s") { it.copy(activeSince = at(monday, 14)) }
+        repo.settle(at(monday, 14, 31))
+        assertEquals(1, repo.rule("s")!!.streakDays)
     }
 }

@@ -49,8 +49,7 @@ import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
-import com.recentr.core.designsystem.illustration.AppIcon
-import com.recentr.core.designsystem.illustration.DemoApp
+import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.illustration.LogoMark
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
@@ -145,9 +144,9 @@ internal fun ShareScreen(subject: ShareSubject?, onClose: () -> Unit, modifier: 
             }
         }
         Row(Modifier.fillMaxWidth().padding(horizontal = 24.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-            TargetButton(stringResource(R.string.share_stories), onClick = { send(ShareTarget.Stories) }) { AppIcon(DemoApp.Instagram, size = 56.dp, contentDescription = null) }
-            TargetButton(stringResource(R.string.share_post), onClick = { send(ShareTarget.Post) }) { AppIcon(DemoApp.X, size = 56.dp, contentDescription = null) }
-            TargetButton(stringResource(R.string.share_facebook), onClick = { send(ShareTarget.Facebook) }) { AppIcon(DemoApp.Facebook, size = 56.dp, contentDescription = null) }
+            TargetButton(stringResource(R.string.share_stories), onClick = { send(ShareTarget.Stories) }) { TargetAppIcon(ShareTarget.Stories) }
+            TargetButton(stringResource(R.string.share_post), onClick = { send(ShareTarget.Post) }) { TargetAppIcon(ShareTarget.Post) }
+            TargetButton(stringResource(R.string.share_facebook), onClick = { send(ShareTarget.Facebook) }) { TargetAppIcon(ShareTarget.Facebook) }
             TargetButton(stringResource(R.string.share_copy_link), onClick = { send(ShareTarget.CopyLink) }) { RoundIcon(RecentrIcon.Note) }
             TargetButton(stringResource(R.string.share_save), onClick = { send(ShareTarget.Save) }) { RoundIcon(RecentrIcon.ChevronDown) }
         }
@@ -200,6 +199,12 @@ private fun ShareCardContent(subject: ShareSubject) {
         LogoMark(width = 34.465.dp)
         Text(stringResource(R.string.share_wordmark), style = LockupWordmark, color = Color.White, maxLines = 1)
     }
+}
+
+/** The share target app's own icon (a placeholder when it isn't installed: the share sheet opens then). */
+@Composable
+private fun TargetAppIcon(target: ShareTarget) {
+    InstalledAppIcon(target.packageName.orEmpty(), size = 56.dp)
 }
 
 @Composable

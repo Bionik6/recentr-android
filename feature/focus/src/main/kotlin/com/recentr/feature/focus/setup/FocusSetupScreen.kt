@@ -13,7 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,17 +33,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.recentr.core.designsystem.component.BlockingOffBanner
 import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
+import com.recentr.core.designsystem.component.RecentrAlertDialog
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
+import com.recentr.core.designsystem.component.RecentrToggle
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
@@ -89,6 +96,7 @@ internal fun FocusSetupScreen(
     val colors = RecentrTheme.colors
     var sheet by rememberSaveable { mutableStateOf<SetupSheet?>(null) }
     var menu by rememberSaveable { mutableStateOf(false) }
+    var confirmStrict by rememberSaveable { mutableStateOf(false) }
     val bottomInset = contentPadding.calculateBottomPadding()
     BackdropBox(Backdrop.Aurora, modifier) {
         Column(Modifier.fillMaxSize().statusBarsPadding()) {
@@ -130,11 +138,19 @@ internal fun FocusSetupScreen(
                         max = FocusConfig.MAX_FOCUS,
                     )
                     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        Text(
-                            formatCountdown(config.focusMinutes * 60_000L),
-                            style = RecentrTheme.typography.displayHero.copy(fontSize = 60.sp, lineHeight = 60.sp, letterSpacing = (-0.03).em),
-                            color = colors.textPrimary,
+                        // The minutes ("180:00"), inside the ring: a long round shrinks to fit.
+                        BasicText(
+                            stringResource(R.string.focus_dial_value, config.focusMinutes),
+                            style = RecentrTheme.typography.displayHero.copy(
+                                color = colors.textPrimary,
+                                fontSize = 60.sp,
+                                lineHeight = 60.sp,
+                                letterSpacing = (-0.03).em,
+                                fontFeatureSettings = "tnum",
+                            ),
                             maxLines = 1,
+                            autoSize = TextAutoSize.StepBased(minFontSize = 30.sp, maxFontSize = 60.sp, stepSize = 1.sp),
+                            modifier = Modifier.widthIn(max = 182.dp),
                         )
                         Text(
                             config.label,
@@ -188,6 +204,25 @@ internal fun FocusSetupScreen(
                             maxLines = 1,
                         )
                     }
+                    CardDivider()
+                    // The session going on's, or the next one's. Turning it on asks first.
+                    StrictModeRow(
+                        checked = run?.isStrict ?: config.strictMode,
+                        enabled = run == null,
+                        onCheckedChange = { on ->
+                            if (on) confirmStrict = true else onUpdate { it.copy(strictMode = false) }
+                        },
+                    )
+                }
+                // Under the form, what Strict mode will hold.
+                if (run == null && config.strictMode) {
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        stringResource(R.string.focus_strict_caption),
+                        style = RecentrTheme.typography.captionMedium,
+                        color = colors.textTertiary,
+                        textAlign = TextAlign.Center,
+                    )
                 }
                 if (config.blockedApps.isNotEmpty() && !blockingOn) {
                     Spacer(Modifier.height(12.dp))
@@ -218,6 +253,19 @@ internal fun FocusSetupScreen(
                 .align(Alignment.BottomCenter)
                 .padding(start = 24.dp, end = 24.dp, bottom = bottomInset + 8.dp)
                 .fillMaxWidth(),
+        )
+    }
+    if (confirmStrict) {
+        RecentrAlertDialog(
+            title = stringResource(R.string.focus_strict_confirm_title),
+            body = stringResource(R.string.focus_strict_confirm_body),
+            primaryText = stringResource(R.string.focus_strict_turn_on),
+            onPrimary = {
+                confirmStrict = false
+                onUpdate { it.copy(strictMode = true) }
+            },
+            onDismissRequest = { confirmStrict = false },
+            secondaryText = stringResource(R.string.focus_cancel),
         )
     }
     when (sheet) {
@@ -260,6 +308,23 @@ private fun StartButton(run: FocusRun?, onStart: () -> Unit, onResume: () -> Uni
         icon = RecentrIcon.Hourglass,
         modifier = modifier,
     )
+}
+
+/** "Strict mode" row of the set-up card: shield sticker, label and its switch (the row toggles). */
+@Composable
+private fun StrictModeRow(checked: Boolean, enabled: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .toggleable(value = checked, enabled = enabled, role = Role.Switch, onValueChange = onCheckedChange)
+            .padding(vertical = 14.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        StickerImage(Sticker.Shield, size = 32.dp)
+        RowLabel(stringResource(R.string.focus_strict_mode))
+        RecentrToggle(checked = checked, onCheckedChange = null, enabled = enabled)
+    }
 }
 
 /** Row of the set-up card: 32dp sticker, label, trailing value and an 18dp chevron. */

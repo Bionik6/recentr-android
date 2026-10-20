@@ -17,8 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.format.LocalUse24HourClock
 import com.recentr.core.designsystem.motion.ProvideRecentrMotion
-import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.core.model.AppSettings
+import com.recentr.app.RecentrAppTheme
 import com.recentr.core.model.TimeFormat
 
 /**
@@ -37,19 +36,22 @@ class HoldActivity : ComponentActivity() {
         held = intent.getStringExtra(EXTRA_PACKAGE)
         onBackPressedDispatcher.addCallback(this) { goHome() }
         setContent {
-            RecentrTheme {
-                val settings = RecentrData.settings.settings.collectAsStateWithLifecycle(AppSettings()).value
-                ProvideRecentrMotion(reduceMotion = settings.reduceMotion, hapticsEnabled = settings.haptics) {
-                    val use24Hour = settings.timeFormat?.let { it == TimeFormat.TwentyFourHour }
-                        ?: DateFormat.is24HourFormat(LocalContext.current)
-                    CompositionLocalProvider(LocalUse24HourClock provides use24Hour) {
-                        held?.let { app ->
-                            HoldScreen(
-                                packageName = app,
-                                onClose = ::goHome,
-                                onOpenRecentr = ::openRecentr,
-                                onReleased = ::finish,
-                            )
+            // Drawn once the settings are read, so the shield opens in the chosen palette.
+            val settings = RecentrData.settings.settings.collectAsStateWithLifecycle(null).value
+            if (settings != null) {
+                RecentrAppTheme(settings.theme) {
+                    ProvideRecentrMotion(reduceMotion = settings.reduceMotion, hapticsEnabled = settings.haptics) {
+                        val use24Hour = settings.timeFormat?.let { it == TimeFormat.TwentyFourHour }
+                            ?: DateFormat.is24HourFormat(LocalContext.current)
+                        CompositionLocalProvider(LocalUse24HourClock provides use24Hour) {
+                            held?.let { app ->
+                                HoldScreen(
+                                    packageName = app,
+                                    onClose = ::goHome,
+                                    onOpenRecentr = ::openRecentr,
+                                    onReleased = ::finish,
+                                )
+                            }
                         }
                     }
                 }

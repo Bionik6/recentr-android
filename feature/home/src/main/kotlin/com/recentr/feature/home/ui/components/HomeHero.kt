@@ -1,6 +1,7 @@
 package com.recentr.feature.home.ui.components
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -31,12 +33,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.FirstBaseline
+import androidx.compose.ui.layout.LastBaseline
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.icon.RecentrIcon
@@ -102,21 +110,29 @@ private fun HeroPageContent(
             Shadow(color = Color(0x400D3399), offset = androidx.compose.ui.geometry.Offset(0f, 6.dp.toPx()), blurRadius = 16.dp.toPx())
         },
     )
-    Column(
-        Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        Text(overline, style = RecentrTheme.typography.bodyMedium, color = colors.textOnDarkMuted, maxLines = 1)
+    // Spaced from the glyphs rather than the line boxes: the figure's digits 20dp under the
+    // overline's baseline, the chips 16dp under the digits.
+    val digitsHeight = with(density) { (numberStyle.fontSize.value * FigtreeCapHeight).sp.roundToPx() }
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            overline,
+            style = RecentrTheme.typography.bodyMedium,
+            color = colors.textOnDarkMuted,
+            maxLines = 1,
+            modifier = Modifier.glyphBox(below = 0.dp),
+        )
+        Spacer(Modifier.height(20.dp))
         if (syncing || value == null) {
+            // Where the digits will be.
             val alpha = skeletonPulse()
             Box(
                 Modifier
-                    .size(width = 200.dp, height = 64.dp)
+                    .size(width = 200.dp, height = with(density) { digitsHeight.toDp() })
                     .graphicsLayer { this.alpha = alpha() }
                     .clip(RoundedCornerShape(RecentrTheme.radius.lg))
                     .background(colors.alphaWhite24),
             )
+            Spacer(Modifier.height(16.dp))
             RecentrChip(
                 label = stringResource(R.string.home_syncing),
                 style = RecentrChipStyle.OnSky,
@@ -125,7 +141,8 @@ private fun HeroPageContent(
         } else {
             AnimatedContent(
                 targetState = value,
-                transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(160)) },
+                // Unclipped: the figure's shadow and descenders reach below its shortened box.
+                transitionSpec = { (fadeIn(tween(220)) togetherWith fadeOut(tween(160))).using(SizeTransform(clip = false)) },
                 label = "heroValue",
             ) { text ->
                 Text(
@@ -134,6 +151,7 @@ private fun HeroPageContent(
                     color = colors.textOnDark,
                     maxLines = 1,
                     modifier = Modifier
+                        .glyphBox(capHeight = digitsHeight, below = 16.dp)
                         .clip(RoundedCornerShape(RecentrTheme.radius.lg))
                         .then(
                             if (onValueClick != null) {
@@ -152,6 +170,25 @@ private fun HeroPageContent(
             Box(Modifier.height(30.dp), contentAlignment = Alignment.Center) { chips() }
         }
     }
+}
+
+/** Figtree's cap height, in ems: how high capitals and figures stand above the baseline. */
+private const val FigtreeCapHeight = 0.7f
+
+/**
+ * Lays the text out from its glyphs rather than its line box: from the top of its capitals and
+ * figures ([capHeight] px above the first baseline; the line box's top when null) to [below]
+ * under its last baseline. It still draws in full.
+ */
+private fun Modifier.glyphBox(capHeight: Int? = null, below: Dp) = layout { measurable, constraints ->
+    val placeable = measurable.measure(constraints)
+    val first = placeable[FirstBaseline]
+    val last = placeable[LastBaseline]
+    if (first == AlignmentLine.Unspecified || last == AlignmentLine.Unspecified) {
+        return@layout layout(placeable.width, placeable.height) { placeable.place(0, 0) }
+    }
+    val top = if (capHeight == null) 0 else (first - capHeight).coerceAtLeast(0)
+    layout(placeable.width, last + below.roundToPx() - top) { placeable.place(0, -top) }
 }
 
 @Composable
@@ -176,23 +213,40 @@ private fun HeroChips(page: HeroPage, summary: ScreenTimeSummary, goalMinutes: I
             } else {
                 val under = summary.dailyAverageMinutes <= goalMinutes
                 val goal = formatDuration(goalMinutes)
+                // Over the goal reads red: a white glass chip disappears into the clouds.
                 RecentrChip(
                     label = stringResource(if (under) R.string.home_goal_under else R.string.home_goal_over, goal),
-                    style = if (under) RecentrChipStyle.Success else RecentrChipStyle.OnSky,
+                    style = if (under) RecentrChipStyle.Success else RecentrChipStyle.Danger,
                     icon = if (under) RecentrIcon.Check else RecentrIcon.Hourglass,
                     onClick = onEditGoal,
                 )
             }
         }
         HeroPage.Quality -> Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            RecentrChip(stringResource(R.string.home_split_focus, summary.focusPercent), style = RecentrChipStyle.OnSky)
-            RecentrChip(stringResource(R.string.home_split_social, summary.socialPercent), style = RecentrChipStyle.OnSky)
-            RecentrChip(stringResource(R.string.home_split_fun, summary.funPercent), style = RecentrChipStyle.OnSky)
+            HeroInfoChip(stringResource(R.string.home_split_focus, summary.focusPercent))
+            HeroInfoChip(stringResource(R.string.home_split_social, summary.socialPercent))
+            HeroInfoChip(stringResource(R.string.home_split_fun, summary.funPercent))
         }
-        HeroPage.Offline -> RecentrChip(
-            label = stringResource(R.string.home_offline_chip),
-            style = RecentrChipStyle.OnSky,
-            icon = RecentrIcon.Moon,
+        HeroPage.Offline -> HeroInfoChip(stringResource(R.string.home_offline_chip), icon = RecentrIcon.Moon)
+    }
+}
+
+/**
+ * Quality split and phone-free chips: white outline chips with primary text over the light sky's
+ * clouds (Figma 22), translucent glass on the dark sky.
+ */
+@Composable
+private fun HeroInfoChip(label: String, icon: RecentrIcon? = null) {
+    if (RecentrTheme.isDark) {
+        RecentrChip(label, style = RecentrChipStyle.OnSky, icon = icon)
+    } else {
+        // The outline makes it 32dp high: it overflows the 30dp chip slot evenly, as in Figma.
+        RecentrChip(
+            label = label,
+            style = RecentrChipStyle.Outline,
+            icon = icon,
+            contentColor = RecentrTheme.colors.textPrimary,
+            modifier = Modifier.wrapContentHeight(unbounded = true),
         )
     }
 }

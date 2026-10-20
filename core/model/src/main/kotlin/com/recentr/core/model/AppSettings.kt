@@ -30,7 +30,8 @@ enum class PlusPlan { Yearly, Monthly }
 
 /** App preferences (Profile & Settings flow). */
 data class AppSettings(
-    val theme: ThemeMode = ThemeMode.Light,
+    /** Follows the system's dark theme until the user picks Light or Dark. */
+    val theme: ThemeMode = ThemeMode.Auto,
     val appIcon: AppIconStyle = AppIconStyle.Sky,
     val showMascotOnHome: Boolean = true,
     val reduceMotion: Boolean = false,

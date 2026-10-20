@@ -43,7 +43,10 @@ class FocusRepository(
 
     fun updateConfig(transform: (FocusConfig) -> FocusConfig) = _config.update(transform)
 
-    /** Starts a session with the current set-up ([rounds] overrides the number of rounds). */
+    /**
+     * Starts a session with the current set-up ([rounds] overrides the number of rounds). Strict
+     * mode is chosen for each session: the next one starts without it.
+     */
     fun start(now: Long, rounds: Int? = null) {
         val config = _config.value.let { if (rounds != null) it.copy(rounds = rounds) else it }
         _lastCompleted.value = null
@@ -55,10 +58,12 @@ class FocusRepository(
             phaseEndsAt = now + config.focusMinutes * 60_000L,
             pausedRemainingMillis = null,
         )
+        _config.update { it.copy(strictMode = false) }
     }
 
+    /** Pauses the round, unless Strict mode holds the session. */
     fun pause(now: Long) = _run.update { run ->
-        if (run == null || run.isPaused) run else run.copy(phaseEndsAt = null, pausedRemainingMillis = run.remainingMillis(now))
+        if (run == null || run.isPaused || run.isStrict) run else run.copy(phaseEndsAt = null, pausedRemainingMillis = run.remainingMillis(now))
     }
 
     fun resume(now: Long) = _run.update { run ->
@@ -73,9 +78,12 @@ class FocusRepository(
     /** "Back to focus" on the app-on-hold dialog. */
     fun resistUrge() = _run.update { it?.copy(urgesResisted = it.urgesResisted + 1) }
 
-    /** Ends the session early. Returns the logged session, or null when nothing was focused. */
+    /**
+     * Ends the session early. Returns the logged session, or null when nothing was focused or
+     * Strict mode holds the session (it then goes on).
+     */
     fun end(now: Long): FocusSessionRecord? {
-        val run = _run.value ?: return null
+        val run = _run.value?.takeUnless { it.isStrict } ?: return null
         _run.value = null
         return log(run, run.focusedMillis(now))
     }

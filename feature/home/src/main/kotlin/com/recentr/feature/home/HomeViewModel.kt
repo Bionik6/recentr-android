@@ -8,12 +8,12 @@ import com.recentr.core.data.RecentrData
 import com.recentr.core.data.RulesRepository
 import com.recentr.core.data.ScreenTimeRepository
 import com.recentr.core.data.ScreenTimeState
-import com.recentr.core.data.UserPreferencesRepository
 import com.recentr.core.data.heldUntil
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.core.model.UsagePeriod
+import com.recentr.core.model.UserProfile
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlinx.coroutines.Job
@@ -33,12 +33,16 @@ import kotlinx.coroutines.launch
 
 /**
  * Home & Insight state holder: screen-time summary for the selected period (with the Syncing
- * state of the repository), the daily goal from the user preferences, and the next rule or the
- * session or routine blocking apps now.
+ * state of the repository), the daily goal and avatar from the user preferences, and the next
+ * rule or the session or routine blocking apps now. A pull to refresh ([refresh]) reads them
+ * again under its spinner, keeping the numbers on screen meanwhile.
+ *
+ * @param profile the stored profile (daily goal, avatar); [saveGoal] stores a new daily goal.
  */
 class HomeViewModel(
     private val screenTime: ScreenTimeRepository,
-    private val userPreferences: UserPreferencesRepository,
+    profile: Flow<UserProfile>,
+    private val saveGoal: suspend (minutes: Int) -> Unit,
     rules: RulesRepository,
     private val now: () -> LocalDateTime = LocalDateTime::now,
     showMascot: Flow<Boolean> = flowOf(true),
@@ -49,7 +53,8 @@ class HomeViewModel(
         val period: UsagePeriod = UsagePeriod.Today,
         val summary: ScreenTimeSummary? = null,
         val isSyncing: Boolean = true,
-        val wellSpent: Set<String> = emptySet(),
+        /** A pull to refresh is reading the numbers again. */
+        val refreshing: Boolean = false,
         val grouping: UsageGrouping = UsageGrouping.Apps,
         /** Bumped on each sync so the "next rule" is recomputed against the clock. */
         val syncCount: Int = 0,
@@ -60,23 +65,25 @@ class HomeViewModel(
 
     val uiState: StateFlow<HomeUiState> = combine(
         local,
-        userPreferences.profile.map { it.dailyGoalMinutes },
+        profile,
         rules.rules,
         showMascot,
         clockTicks,
-    ) { local, goal, ruleList, mascot, _ ->
+    ) { local, profile, ruleList, mascot, _ ->
         val clock = now()
         HomeUiState(
             period = local.period,
             summary = local.summary,
             isSyncing = local.isSyncing,
-            dailyGoalMinutes = goal,
+            isRefreshing = local.refreshing,
+            dailyGoalMinutes = profile.dailyGoalMinutes,
             nextRule = nextRule(ruleList, clock),
             activeSession = activeSession(ruleList, clock),
-            wellSpent = local.wellSpent,
             grouping = local.grouping,
             todayIndex = clock.dayOfWeek.value - 1,
             showMascot = mascot,
+            avatarInitial = profile.initial,
+            avatarColor = profile.avatarColor,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
@@ -86,42 +93,38 @@ class HomeViewModel(
         viewModelScope.launch { screenTime.source.drop(1).collect { sync() } }
     }
 
-    fun selectPeriod(period: UsagePeriod) {
-        if (period == local.value.period && !local.value.isSyncing) return
-        local.update { it.copy(period = period) }
-        sync()
-    }
-
-    /** Refresh button: re-aggregates screen time (shows the Syncing skeleton). */
-    fun refresh() = sync()
-
     fun saveDailyGoal(minutes: Int) {
-        viewModelScope.launch { userPreferences.setDailyGoal(minutes) }
+        viewModelScope.launch { saveGoal(minutes) }
     }
 
-    fun toggleWellSpent(packageName: String) {
-        local.update { state ->
-            state.copy(
-                wellSpent = if (packageName in state.wellSpent) state.wellSpent - packageName else state.wellSpent + packageName,
-            )
-        }
+    /** Pull to refresh: screen time read again (the next rule follows), without the skeleton. */
+    fun refresh() {
+        if (local.value.refreshing) return
+        local.update { it.copy(refreshing = true) }
+        sync(quiet = true)
     }
 
     fun selectGrouping(grouping: UsageGrouping) {
         local.update { it.copy(grouping = grouping) }
     }
 
-    private fun sync() {
+    /** Reads the screen time; [quiet] (a pull to refresh) leaves the numbers up while it does. */
+    private fun sync(quiet: Boolean = false) {
         syncJob?.cancel()
         val period = local.value.period
         syncJob = viewModelScope.launch {
-            screenTime.summary(period).collect { state ->
-                when (state) {
-                    ScreenTimeState.Syncing -> local.update { it.copy(isSyncing = true) }
-                    is ScreenTimeState.Ready -> local.update {
-                        it.copy(summary = state.summary, isSyncing = false, syncCount = it.syncCount + 1)
+            try {
+                screenTime.summary(period).collect { state ->
+                    when (state) {
+                        ScreenTimeState.Syncing -> if (!quiet) local.update { it.copy(isSyncing = true) }
+                        is ScreenTimeState.Ready -> local.update {
+                            it.copy(summary = state.summary, isSyncing = false, refreshing = false, syncCount = it.syncCount + 1)
+                        }
                     }
                 }
+            } finally {
+                // Also when it failed or a newer sync replaced it: the spinner doesn't stay up.
+                if (quiet) local.update { it.copy(refreshing = false) }
             }
         }
     }
@@ -142,7 +145,8 @@ class HomeViewModel(
             initializer {
                 HomeViewModel(
                     screenTime = RecentrData.screenTime,
-                    userPreferences = RecentrData.userPreferences,
+                    profile = RecentrData.userPreferences.profile,
+                    saveGoal = RecentrData.userPreferences::setDailyGoal,
                     rules = RecentrData.rules,
                     showMascot = RecentrData.settings.settings.map { it.showMascotOnHome },
                 )

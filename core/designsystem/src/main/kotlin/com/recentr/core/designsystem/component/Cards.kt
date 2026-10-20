@@ -18,8 +18,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -41,13 +43,13 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
-import com.recentr.core.designsystem.illustration.AppIcon
-import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
@@ -83,8 +85,8 @@ fun SurfaceCard(
  * Figma "Rule Card" — Lock / Session / Limit / Routine rule summary.
  *
  * @param chips status + schedule chips (use [RecentrChip]).
- * @param apps overlapping app icons shown after the [leadingIcon] ([OverlappingAppIcons],
- *   [OverlappingInstalledAppIcons]).
+ * @param apps overlapping app icons shown after the [leadingIcon] ([OverlappingInstalledAppIcons]).
+ * @param valueColor the [value]'s colour, primary text by default.
  */
 @Composable
 fun RuleCard(
@@ -94,6 +96,7 @@ fun RuleCard(
     streak: Int? = null,
     apps: @Composable () -> Unit = {},
     value: String? = null,
+    valueColor: Color? = null,
     leadingIcon: RecentrIcon = RecentrIcon.Lock,
     onClick: (() -> Unit)? = null,
     chips: @Composable RowScope.() -> Unit = {},
@@ -141,21 +144,28 @@ fun RuleCard(
             apps()
             Spacer(Modifier.weight(1f))
             if (value != null) {
-                Text(text = value, style = RecentrTheme.typography.title2, color = colors.textPrimary, maxLines = 1)
+                // One line, flush right: it shrinks (to 70%, as on iOS) rather than losing its last
+                // word to a hidden second line when the apps leave it little room ("7:45:14 left").
+                // Tabular digits keep a countdown from shifting as it ticks.
+                BasicText(
+                    text = value,
+                    style = RecentrTheme.typography.title2.copy(
+                        color = valueColor ?: colors.textPrimary,
+                        textAlign = TextAlign.End,
+                        fontFeatureSettings = "tnum",
+                    ),
+                    maxLines = 1,
+                    autoSize = TextAutoSize.StepBased(minFontSize = 15.sp, maxFontSize = RecentrTheme.typography.title2.fontSize, stepSize = 1.sp),
+                )
             }
         }
     }
 }
 
-/** Row of app icons overlapping by [overlap] (Rule card, App picker summaries). */
-@Composable
-fun OverlappingAppIcons(apps: List<DemoApp>, size: Dp = 24.dp, overlap: Dp = 6.dp, modifier: Modifier = Modifier) {
-    Row(modifier, horizontalArrangement = Arrangement.spacedBy(-overlap)) {
-        apps.forEach { AppIcon(it, size = size) }
-    }
-}
-
-/** [OverlappingAppIcons] of installed apps: their launcher icons, by package name. */
+/**
+ * Installed apps' launcher icons, by package name, overlapping by [overlap] (Rule card, app picker
+ * summaries).
+ */
 @Composable
 fun OverlappingInstalledAppIcons(packageNames: List<String>, size: Dp = 24.dp, overlap: Dp = 6.dp, modifier: Modifier = Modifier) {
     Row(modifier, horizontalArrangement = Arrangement.spacedBy(-overlap)) {
@@ -361,6 +371,7 @@ fun StickyNote(
     body: String,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+    maxBodyLines: Int = Int.MAX_VALUE,
 ) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(20.dp)
@@ -374,7 +385,13 @@ fun StickyNote(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(title, style = RecentrTheme.typography.headline, color = colors.accentNoteInk)
-        Text(body, style = RecentrTheme.typography.noteHandwritten, color = colors.accentNoteInk)
+        Text(
+            body,
+            style = RecentrTheme.typography.noteHandwritten,
+            color = colors.accentNoteInk,
+            maxLines = maxBodyLines,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 

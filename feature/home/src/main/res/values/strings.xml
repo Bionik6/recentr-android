@@ -2,15 +2,7 @@
 <resources>
     <!-- Header -->
     <string name="home_wordmark" translatable="false">Recentr</string>
-    <string name="home_refresh">Refresh screen time</string>
-    <string name="home_more">Edit daily goal</string>
-    <string name="home_choose_period">Choose period, %1$s</string>
-
-    <!-- Periods -->
-    <string name="home_period_today">Today</string>
-    <string name="home_period_yesterday">Yesterday</string>
-    <string name="home_period_this_week">This week</string>
-    <string name="home_period_this_month">This month</string>
+    <string name="home_open_profile">Open profile</string>
 
     <!-- Durations ("1h12", "4h", "38m") -->
     <string name="home_duration_hours_minutes">%1$dh%2$02d</string>
@@ -100,8 +92,6 @@
     <string name="home_most_used">Most used</string>
     <string name="home_filter_apps">Apps</string>
     <string name="home_filter_categories">Categories</string>
-    <string name="home_time_well_spent">Time well spent?</string>
-    <string name="home_time_well_spent_yes">Time well spent</string>
     <string name="home_category_social">Social</string>
     <string name="home_category_entertainment">Entertainment</string>
     <string name="home_category_games">Games</string>
@@ -123,7 +113,6 @@
     <string name="home_info_got_it">Got it</string>
 
     <!-- Period sheet -->
-    <string name="home_period_title">Show screen time for</string>
 
     <!-- Goal sheet -->
 </resources>

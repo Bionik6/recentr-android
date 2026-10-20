@@ -26,6 +26,7 @@ import java.util.UUID
  *
  * The daily counters (unlocks used, habit tasks done) start over on a new local day, and a daily
  * limit's minutes when its own period starts over ([periodStart]: midnight, 4:00 or Monday).
+ * Each rule's streak counts its windows as they end ([RuleStreaks]).
  */
 class RulesRepository(
     /** Where the rules are saved, or null to keep them in memory only (previews, tests). */
@@ -33,6 +34,7 @@ class RulesRepository(
     private val zone: () -> ZoneId = ZoneId::systemDefault,
     now: Long = System.currentTimeMillis(),
     writeDispatcher: CoroutineDispatcher = Dispatchers.IO.limitedParallelism(1),
+    private val clock: () -> Long = System::currentTimeMillis,
 ) {
     private val saved = file?.let(::read)
 
@@ -50,7 +52,12 @@ class RulesRepository(
 
     fun upsert(rule: Rule) {
         _rules.update { list ->
-            if (list.any { it.id == rule.id }) list.map { if (it.id == rule.id) rule else it } else list + rule
+            if (list.any { it.id == rule.id }) {
+                list.map { if (it.id == rule.id) rule else it }
+            } else {
+                // A new rule's streak counts its windows from now on.
+                list + if (rule.streakFrom == null) rule.copy(streakFrom = clock()) else rule
+            }
         }
         persist()
     }
@@ -68,10 +75,25 @@ class RulesRepository(
 
     fun newId(): String = UUID.randomUUID().toString()
 
-    /** Pauses the rule until [untilEpochMillis] ([Long.MAX_VALUE] = until resumed). */
-    fun pause(id: String, untilEpochMillis: Long) = update(id) { it.copy(pausedUntil = untilEpochMillis) }
+    /**
+     * Pauses the rule until [untilEpochMillis] ([Long.MAX_VALUE] = until resumed). A pause over
+     * one of its windows breaks its streak.
+     */
+    fun pause(id: String, untilEpochMillis: Long, now: Long = clock()) = update(id) {
+        RuleStreaks.pausedOver(it, now, untilEpochMillis, zone()).copy(pausedUntil = untilEpochMillis)
+    }
 
-    fun resume(id: String) = update(id) { it.copy(pausedUntil = null) }
+    fun resume(id: String, now: Long = clock()) = update(id) { RuleStreaks.resumed(it.copy(pausedUntil = null), now) }
+
+    /** Runs a saved session again from [now], for its length (a pause in the way is lifted). */
+    fun startSession(id: String, now: Long = clock()) = update(id) { it.copy(activeSince = now, pausedUntil = null) }
+
+    /** The rules [ids] were broken at [now] (an emergency unlock past them): their streaks start over. */
+    fun breakStreaks(ids: Collection<String>, now: Long) {
+        if (ids.isEmpty()) return
+        _rules.update { list -> list.map { if (it.id in ids) RuleStreaks.broken(it, now) else it } }
+        persist()
+    }
 
     /**
      * The minutes per package of each limit period ([AppHoldRepository.refreshUsage]) become each
@@ -92,29 +114,36 @@ class RulesRepository(
     }
 
     /**
-     * Ends sessions whose time is up: one-shot sessions are removed, others just stop running.
+     * Ends sessions whose time is up: they stop running and stay saved, a one-shot session
+     * ("Start blocking") too, so it can be started again.
      * Expired pauses are cleared, the daily counters start over on a new day, and a limit's
-     * minutes when its period starts over. Call periodically (the rules list ticks every second,
-     * the app blocker every few seconds).
+     * minutes when its period starts over. Streaks count the windows that ended first, while the
+     * day's tasks and the period's minutes are still those of the window. Call periodically (the
+     * rules list ticks every second, the app blocker every few seconds).
      */
     fun settle(now: Long) {
         val zone = zone()
         val since = settledAt
         val newDay = epochDay(now) != epochDay(since)
         fun Rule.newPeriod(): Boolean = if (type == RuleType.Limit) limitReset.resetBetween(since, now, zone) else newDay
+        // Rules saved before streaks were counted count from the start of today.
+        val today = startOfDay(epochDay(now))
         val needsWork = newDay || _rules.value.any { rule ->
-            rule.newPeriod() || (rule.sessionEndsAt?.let { it <= now } == true) || (rule.pausedUntil?.let { it <= now } == true)
+            rule.newPeriod() || (rule.sessionEndsAt?.let { it <= now } == true) || (rule.pausedUntil?.let { it <= now } == true) ||
+                (rule.streakFrom == null && !rule.oneShot) || RuleStreaks.due(rule, now, zone)
         }
         if (!needsWork) return
         settledAt = now
         _rules.update { list ->
             list.mapNotNull { rule ->
-                var result = if (newDay) rule.withDailyCountersReset() else rule
+                var result = if (rule.streakFrom == null && !rule.oneShot) rule.copy(streakFrom = today) else rule
+                result = RuleStreaks.advance(result, since, now, zone)
+                if (newDay) result = result.withDailyCountersReset()
                 if (rule.newPeriod()) result = result.copy(usedMinutes = 0)
                 if (result.pausedUntil?.let { it <= now } == true) result = result.copy(pausedUntil = null)
                 val end = result.sessionEndsAt
                 if (end != null && end <= now) {
-                    result = if (result.oneShot) return@mapNotNull null else result.copy(activeSince = null)
+                    result = RuleStreaks.runEnded(result.copy(oneShot = false), end, zone).copy(activeSince = null)
                 }
                 result
             }

@@ -29,21 +29,22 @@ import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
-import com.recentr.core.designsystem.illustration.AppIcon
-import com.recentr.core.designsystem.illustration.DemoApp
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.motion.MotionSpecs
@@ -124,6 +125,37 @@ fun RecentrCheckbox(
 }
 
 /**
+ * [RecentrCheckbox] with a third, partial state (Material 3 [TriStateCheckbox]): a group whose
+ * items are only partly checked (some apps of a category). 24dp when [onClick] is null.
+ */
+@Composable
+fun RecentrTriStateCheckbox(
+    state: ToggleableState,
+    onClick: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
+    val colors = RecentrTheme.colors
+    val haptics = LocalRecentrHaptics.current
+    TriStateCheckbox(
+        state = state,
+        onClick = onClick?.let { click ->
+            {
+                haptics.selection()
+                click()
+            }
+        },
+        modifier = modifier,
+        enabled = enabled,
+        colors = CheckboxDefaults.colors(
+            checkedColor = colors.brandSky,
+            uncheckedColor = colors.borderDashed,
+            checkmarkColor = Color.White,
+        ),
+    )
+}
+
+/**
  * The native Android radio button (Material 3 [RadioButton]) in the Figma "Radio" colours: sky ring
  * and dot when selected, tertiary ring otherwise. 24dp when [onClick] is null (the whole row is
  * selectable and carries the [Role.RadioButton] semantics), 48dp touch target otherwise.
@@ -168,7 +200,8 @@ private fun SettingIcon(icon: RecentrIcon, tint: Color, background: Color) {
 /**
  * Figma "Setting Row" (Trailing = Value) — label, value and chevron. A null or empty [value] only
  * keeps the chevron. [iconTint] / [iconBackground] recolour the icon tile (tangerine "Strict
- * mode"), [labelColor] the label (danger "Cancel subscription").
+ * mode"), [labelColor] the label (danger "Cancel subscription"). A [caption] shows under the label;
+ * a disabled row is dimmed and can't be opened, its caption saying why.
  */
 @Composable
 fun SettingRow(
@@ -181,25 +214,36 @@ fun SettingRow(
     iconTint: Color = RecentrTheme.colors.textPrimary,
     iconBackground: Color = RecentrTheme.colors.bgSunken,
     labelColor: Color = RecentrTheme.colors.textPrimary,
+    caption: String? = null,
+    enabled: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
+    val dimmed = Modifier.alpha(if (enabled) 1f else DISABLED_ALPHA)
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
             .background(colors.bgSurface)
-            .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
+            .then(if (onClick != null) Modifier.clickable(enabled = enabled, role = Role.Button, onClick = onClick) else Modifier)
             .padding(start = 16.dp, end = 14.dp, top = 14.dp, bottom = 14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (icon != null) SettingIcon(icon, iconTint, iconBackground)
-        Text(label, style = RecentrTheme.typography.bodyMedium, color = labelColor, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-        if (!value.isNullOrEmpty()) {
-            Text(value, style = RecentrTheme.typography.bodyRegular, color = valueColor, maxLines = 1)
+        if (icon != null) Box(dimmed) { SettingIcon(icon, iconTint, iconBackground) }
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(label, style = RecentrTheme.typography.bodyMedium, color = labelColor, modifier = dimmed, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            if (caption != null) {
+                Text(caption, style = RecentrTheme.typography.captionRegular, color = colors.textSecondary)
+            }
         }
-        RecentrIconImage(RecentrIcon.ChevronRight, tint = colors.textTertiary, size = 19.2.dp)
+        if (!value.isNullOrEmpty()) {
+            Text(value, style = RecentrTheme.typography.bodyRegular, color = valueColor, modifier = dimmed, maxLines = 1)
+        }
+        RecentrIconImage(RecentrIcon.ChevronRight, tint = colors.textTertiary, size = 19.2.dp, modifier = dimmed)
     }
 }
+
+/** A disabled setting row's label, value and icons (the 0.4 of a disabled button). */
+private const val DISABLED_ALPHA = 0.4f
 
 /**
  * Figma "Setting Row" (Trailing = Toggle). [iconTint] / [iconBackground] recolour the icon tile
@@ -335,19 +379,7 @@ fun RecentrSegmented(
     }
 }
 
-/** Figma "App Row" — app picker row: icon, name, checkbox. */
-@Composable
-fun AppRow(
-    app: DemoApp,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
-    name: String = app.displayName,
-) {
-    AppRow(name, checked, onCheckedChange, modifier) { AppIcon(app, size = 32.dp, contentDescription = null) }
-}
-
-/** [AppRow] with any 32dp [icon] (an installed app's launcher icon: [InstalledAppIcon]). */
+/** Figma "App Row" — app picker row: a 32dp [icon] (the app's launcher icon: [InstalledAppIcon]), name, checkbox. */
 @Composable
 fun AppRow(
     name: String,

@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 /**
  * Colour tokens from the Figma "Foundations · 01 Colour" collection.
  * Names mirror the Figma variables (`bg/page` → [bgPage], `text/on-dark-muted` → [textOnDarkMuted]…).
+ * The defaults are the collection's Light mode, [DarkRecentrColors] its Dark mode.
  */
 @Immutable
 data class RecentrColors(
@@ -63,4 +64,50 @@ data class RecentrColors(
     val heroCloud: Color = Color(0xFFFFFFFF),
 )
 
-val LocalRecentrColors = staticCompositionLocalOf { RecentrColors() }
+/** Figma "Color" collection, Light mode. */
+val LightRecentrColors = RecentrColors()
+
+/** Figma "Color" collection, Dark mode (page "Dark mode"). */
+val DarkRecentrColors = RecentrColors(
+    bgPage = Color(0xFF0B0F1A),
+    bgSurface = Color(0xFF171C2C),
+    bgSunken = Color(0xFF10141F),
+    textPrimary = Color(0xFFF2F4F8),
+    textSecondary = Color(0xFFA3ACBF),
+    textTertiary = Color(0xFF687188),
+    textOnDark = Color(0xFFFFFFFF),
+    textOnDarkMuted = Color(0xB8FFFFFF),
+    textOnAction = Color(0xFF0E1220),
+    borderSubtle = Color(0xFF252C40),
+    borderDashed = Color(0xFF3A4359),
+    brandSky = Color(0xFF4A8CFF),
+    brandSkyLight = Color(0xFF2C4F94),
+    brandSkyDeep = Color(0xFF8CC0FF),
+    actionPrimary = Color(0xFFF2F4F8),
+    accentNote = Color(0xFFF5D35C),
+    accentNoteInk = Color(0xFF3A2E00),
+    accentTangerine = Color(0xFFFF8A3D),
+    accentNoteBlue = Color(0xFF18294A),
+    accentNoteMint = Color(0xFF123627),
+    accentNotePink = Color(0xFF391A2B),
+    feedbackSuccess = Color(0xFF34D17A),
+    feedbackDanger = Color(0xFFFF5A50),
+    auroraMint = Color(0xFF123A2C),
+    auroraBlue = Color(0xFF16295A),
+    auroraPink = Color(0xFF3A1830),
+    fillSelection = Color(0xFF262E45),
+    fillGrabber = Color(0xFF3A4359),
+    overlayScrim = Color(0x99000000),
+    alphaWhite80 = Color(0xE01C2235),
+    alphaWhite24 = Color(0x24FFFFFF),
+    alphaInk06 = Color(0x0FFFFFFF),
+    alphaTangerine14 = Color(0x2EFF8A3D),
+    alphaSky12 = Color(0x2E4A8CFF),
+    heroSky1 = Color(0xFF0D2462),
+    heroSky2 = Color(0xFF163C8F),
+    heroSky3 = Color(0xFF1A3263),
+    heroSky4 = Color(0xFF111A31),
+    heroCloud = Color(0xFF3B5CB0),
+)
+
+val LocalRecentrColors = staticCompositionLocalOf { LightRecentrColors }

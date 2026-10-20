@@ -62,7 +62,9 @@ data class HoldState(
     /**
      * Why [packageName] is on hold at [now], or null when it may be used. A focus session holds
      * its apps during focus rounds; an unlock lifts the rules it was granted past (not the
-     * session) until it runs out. When several rules hold the app, one without "Open anyway" wins.
+     * session) until it runs out. When several rules hold the app, the strictest wins: one in
+     * Strict mode (only an emergency unlock gets past it, and past the others), then one without
+     * "Open anyway", whatever their order.
      */
     fun reasonFor(packageName: String, now: Long, zone: ZoneId): HoldReason? {
         if (packageName in protectedApps) return null
@@ -71,7 +73,13 @@ data class HoldState(
         }?.let { return HoldReason.Focus(it) }
         val rule = holding(packageName, now, zone)
             .filterNot { unlocks.lifts(packageName, it, now) }
-            .minByOrNull { if (it.canOpenAnyway(now, zone)) 1 else 0 }
+            .minByOrNull {
+                when {
+                    it.isStrictLocked(now, zone) -> 0
+                    !it.canOpenAnyway(now, zone) -> 1
+                    else -> 2
+                }
+            }
         return rule?.let(HoldReason::ByRule)
     }
 
@@ -114,12 +122,12 @@ data class HoldState(
 fun Rule.usedOf(minutesByPackage: Map<String, Int>): Int = apps.sumOf { minutesByPackage[it.packageName] ?: 0 }
 
 /**
- * Whether the hold screen offers "Unlock anyway" for this rule at [now]: an unlock method (or a
- * limit that asks for a reason), unlocks left today, and no strict mode holding. Strict mode is
- * only passed with an emergency unlock ([unlockStep]).
+ * Whether the hold screen offers "Unlock anyway" for this rule at [now]: an unlock method in use
+ * ([unlockMethodInUse]), unlocks left today, and no strict mode holding. Strict mode is only passed
+ * with an emergency unlock ([unlockStep]).
  */
 fun Rule.canOpenAnyway(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean =
-    (unlockMethod in OPENABLE || asksReason) && !isStrictLocked(now, zone) && (unlocksPerDay?.let { unlocksUsedToday < it } ?: true)
+    unlockMethodInUse in OPENABLE && !isStrictLocked(now, zone) && (unlocksPerDay?.let { unlocksUsedToday < it } ?: true)
 
 /** Unlocks left today, or null when unlimited. */
 val Rule.unlocksLeft: Int?

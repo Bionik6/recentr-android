@@ -153,8 +153,6 @@
     <string name="onb_notif_banner2_body">Wrap up — X locks at 2h15.</string>
     <string name="onb_notif_banner3_title">3-day streak!</string>
     <string name="onb_notif_banner3_body">You stayed under %1$s again.</string>
-    <string name="onb_notif_turn_on">Turn on notifications</string>
-    <string name="onb_notif_not_now">Not now</string>
 
     <!-- 20 · Save progress -->
     <string name="onb_save_title">Save your progress</string>

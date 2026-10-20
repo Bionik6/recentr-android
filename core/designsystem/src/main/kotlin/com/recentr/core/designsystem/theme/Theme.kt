@@ -1,11 +1,14 @@
 package com.recentr.core.designsystem.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
@@ -13,14 +16,14 @@ import androidx.compose.foundation.text.selection.TextSelectionColors
 /**
  * Recentr theme. Exposes the Figma tokens through [RecentrTheme] and maps them onto
  * Material 3 so platform components (sheets, dialogs, menus) inherit Figtree and the palette.
- * The design is light-only.
+ * [darkTheme] switches every colour token to the Figma "Dark mode" values.
  */
 @Composable
-fun RecentrTheme(content: @Composable () -> Unit) {
-    val colors = RecentrColors()
+fun RecentrTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    val colors = if (darkTheme) DarkRecentrColors else LightRecentrColors
     val typography = RecentrTypography()
 
-    val colorScheme = lightColorScheme(
+    val colorScheme = (if (darkTheme) darkColorScheme() else lightColorScheme()).copy(
         primary = colors.actionPrimary,
         onPrimary = colors.textOnAction,
         secondary = colors.brandSky,
@@ -61,6 +64,7 @@ fun RecentrTheme(content: @Composable () -> Unit) {
     )
 
     CompositionLocalProvider(
+        LocalRecentrDarkTheme provides darkTheme,
         LocalRecentrColors provides colors,
         LocalRecentrTypography provides typography,
         LocalRecentrSpacing provides RecentrSpacing(),
@@ -80,8 +84,13 @@ fun RecentrTheme(content: @Composable () -> Unit) {
     }
 }
 
+private val LocalRecentrDarkTheme = staticCompositionLocalOf { false }
+
 /** Entry point to the design tokens: `RecentrTheme.colors.brandSky`, `RecentrTheme.typography.headline`… */
 object RecentrTheme {
+    /** True under the dark palette: artwork with a dark variant (backdrops) and the system bars follow it. */
+    val isDark: Boolean
+        @Composable @ReadOnlyComposable get() = LocalRecentrDarkTheme.current
     val colors: RecentrColors
         @Composable @ReadOnlyComposable get() = LocalRecentrColors.current
     val typography: RecentrTypography

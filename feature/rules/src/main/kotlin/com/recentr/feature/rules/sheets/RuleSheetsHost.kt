@@ -1,7 +1,21 @@
 package com.recentr.feature.rules.sheets
 
+import android.Manifest
+import android.app.AlarmManager
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import com.recentr.core.data.unlockMethodInUse
+import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.model.HabitRepeat
 import com.recentr.core.model.HabitTask
 import com.recentr.core.model.LimitAction
@@ -42,6 +56,33 @@ internal fun RuleSheetsHost(
     noteTitle: String = stringResource(R.string.rules_note_title),
 ) {
     val close = { onSheet(RuleSheet.None) }
+    // A reminder is a notification on time: picking one asks for notifications (Android 13+),
+    // then for "Alarms & reminders" (Android 12+, off by default from 14) so it doesn't come
+    // minutes late. Declared here, not in the sheet, so the answer still lands once it closed.
+    val context = LocalContext.current
+    val askForExactAlarms = {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            !context.getSystemService(AlarmManager::class.java).canScheduleExactAlarms()
+        ) {
+            try {
+                context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, "package:${context.packageName}".toUri()))
+            } catch (_: ActivityNotFoundException) {
+                // No such settings page: the reminder stays approximate.
+            }
+        }
+    }
+    val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) askForExactAlarms()
+    }
+    val askForNotifications = {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            askForExactAlarms()
+        }
+    }
     when (sheet) {
         RuleSheet.None -> Unit
         RuleSheet.Name -> EditNameStickerSheet(
@@ -80,8 +121,7 @@ internal fun RuleSheetsHost(
             )
         }
         RuleSheet.Unlock -> UnlockMethodSheet(
-            initial = rule.unlockMethod,
-            includeNone = rule.type != RuleType.Lock,
+            initial = rule.unlockMethodInUse,
             onContinue = { method ->
                 onUpdate { it.copy(unlockMethod = method) }
                 if (method == UnlockMethod.Wait) onSheet(RuleSheet.Wait)
@@ -89,7 +129,7 @@ internal fun RuleSheetsHost(
             onDismiss = close,
         )
         RuleSheet.Wait -> WaitSettingsSheet(
-            initialSeconds = rule.waitSeconds,
+            initialSeconds = rule.waitSecondsInUse,
             initialPerDay = rule.unlocksPerDay,
             initialLength = rule.unlockDurationMinutes,
             onSave = { seconds, perDay, length ->
@@ -129,7 +169,10 @@ internal fun RuleSheetsHost(
             title = stringResource(R.string.rules_reminders_title),
             options = ReminderOptions.map { reminderLabel(it) },
             selectedIndex = ReminderOptions.indexOf(rule.reminderMinutesBefore),
-            onSelect = { index -> onUpdate { it.copy(reminderMinutesBefore = ReminderOptions[index]) } },
+            onSelect = { index ->
+                onUpdate { it.copy(reminderMinutesBefore = ReminderOptions[index]) }
+                if (ReminderOptions[index] != null) askForNotifications()
+            },
             onDismiss = close,
         )
         RuleSheet.Note -> TextInputSheet(

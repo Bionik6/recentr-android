@@ -16,6 +16,7 @@ import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.RuleDetailRoute
 import com.recentr.feature.rules.model.RulesMessages
+import com.recentr.feature.rules.ui.durationText
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -42,7 +43,7 @@ internal enum class PauseOption(val label: Int) {
     UntilResumed(R.string.rules_pause_manual),
 }
 
-/** Rule detail (Figma 44): live rule, pause / resume, inline option edits, delete. */
+/** Rule detail (Figma 44): live rule, start (saved sessions) / pause / resume, inline option edits, delete. */
 internal class RuleDetailViewModel(
     private val ruleId: String,
     private val repository: RulesRepository,
@@ -79,6 +80,14 @@ internal class RuleDetailViewModel(
         }
         repository.pause(ruleId, until)
         repository.rule(ruleId)?.let { RulesMessages.show(string(R.string.rules_paused_toast, arrayOf(it.name))) }
+    }
+
+    /** A saved session runs again, for its length. */
+    fun start() {
+        repository.startSession(ruleId)
+        repository.rule(ruleId)?.let {
+            RulesMessages.show(string(R.string.rules_session_started, arrayOf(durationText(it.durationMinutes ?: 30, string))))
+        }
     }
 
     fun resume() {

@@ -27,20 +27,23 @@ import kotlinx.coroutines.delay
 
 /**
  * Create / edit sheet of a rule, hosted by the `RuleEditorRoute` dialog destination. The
- * option rows open the shared [RuleSheetsHost] sub-sheets on top of it.
+ * option rows open the shared [RuleSheetsHost] sub-sheets on top of it. Once it creates a rule,
+ * it goes with [onCreated] and the rule's id instead of [onClose].
  */
 @Composable
 internal fun RuleEditorDestination(
     onClose: () -> Unit,
+    onCreated: (ruleId: String) -> Unit,
     viewModel: RuleEditorViewModel = viewModel(factory = RuleEditorViewModel.Factory),
 ) {
     ClearDialogDim()
+    var created by rememberSaveable { mutableStateOf<String?>(null) }
     // The sheet can report its dismissal more than once (gesture + programmatic hide): pop once.
     var closed by remember { mutableStateOf(false) }
     val close = {
         if (!closed) {
             closed = true
-            onClose()
+            created?.let(onCreated) ?: onClose()
         }
     }
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -63,6 +66,7 @@ internal fun RuleEditorDestination(
             strictLocked = !state.isNew && state.draft.isStrictLocked(now),
             onSuggestion = viewModel::applySuggestion,
             onCommit = {
+                if (state.isNew) created = state.draft.id
                 viewModel.commit()
                 // The rule can't put apps on hold yet: explain blocking first, then close.
                 if (blockingOn) closer.close() else explainBlocking = true
@@ -80,7 +84,7 @@ internal fun RuleEditorDestination(
         )
         val title = if (state.customTitle) draft.name else typeTitle
         val createLabel = when (draft.type) {
-            RuleType.Session -> R.string.rules_start
+            RuleType.Session -> R.string.rules_create_session
             RuleType.Lock -> R.string.rules_create_lock
             RuleType.Limit -> R.string.rules_create_limit
             RuleType.Bedtime -> R.string.rules_create_routine

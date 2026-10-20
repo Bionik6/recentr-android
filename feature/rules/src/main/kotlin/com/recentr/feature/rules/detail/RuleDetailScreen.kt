@@ -1,7 +1,6 @@
 package com.recentr.feature.rules.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -32,9 +30,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,6 +41,9 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.recentr.core.data.BlockingAccess
+import com.recentr.core.data.RecentrData
+import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.designsystem.component.MiniTile
 import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrButton
@@ -79,6 +80,7 @@ import com.recentr.feature.rules.ui.components.RulesToastHost
 import com.recentr.feature.rules.ui.components.SettingsGroup
 import com.recentr.feature.rules.ui.components.StrictToggleRow
 import com.recentr.feature.rules.ui.components.TimeCard
+import com.recentr.feature.rules.ui.components.UnlockMethodRow
 import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.daysLabel
 import com.recentr.feature.rules.ui.durationLabel
@@ -87,7 +89,6 @@ import com.recentr.feature.rules.ui.label
 import com.recentr.feature.rules.ui.limitActionLabel
 import com.recentr.feature.rules.ui.limitResetLabel
 import com.recentr.feature.rules.ui.reminderLabel
-import com.recentr.feature.rules.ui.unlockLabel
 import com.recentr.feature.rules.ui.unlocksPerDayLabel
 import com.recentr.feature.rules.ui.wallClock
 
@@ -111,6 +112,8 @@ internal fun RuleDetailDestination(
     var pause by rememberSaveable { mutableStateOf(false) }
     var delete by rememberSaveable { mutableStateOf(false) }
     var confirmStrict by rememberSaveable { mutableStateOf(false) }
+    var explainBlocking by rememberSaveable { mutableStateOf(false) }
+    val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
     val locked = rule.isStrictLocked(state.now)
     fun guarded(action: () -> Unit) = if (locked) viewModel.strictLockedNotice() else action()
 
@@ -131,7 +134,12 @@ internal fun RuleDetailDestination(
             onPause = {
                 if (rule.isPaused(state.now)) viewModel.resume() else guarded { pause = true }
             },
-            onEditRule = { guarded { sheet = RuleSheet.Name } },
+            onEditRule = { guarded { onEditSettings(rule.id) } },
+            onStart = {
+                viewModel.start()
+                // Started, but nothing is held until the app blocker is on: say how.
+                if (!blockingOn) explainBlocking = true
+            },
             onEditSettings = { guarded { onEditSettings(rule.id) } },
             onDelete = { guarded { delete = true } },
         ),
@@ -157,6 +165,10 @@ internal fun RuleDetailDestination(
             onDismiss = { confirmStrict = false },
         )
     }
+    if (explainBlocking) {
+        val context = LocalContext.current
+        BlockingAccessSheet(onOpenSettings = { BlockingAccess.openSettings(context) }, onDismissRequest = { explainBlocking = false })
+    }
     if (delete) {
         DeleteRuleSheet(
             ruleName = rule.name,
@@ -167,12 +179,16 @@ internal fun RuleDetailDestination(
     }
 }
 
+/** A saved session not running: it can be started again (a pause in the way is lifted). */
+internal fun Rule.startable(now: Long): Boolean = type == RuleType.Session && schedule == null && !isRunning(now)
+
 internal class DetailActions(
     val onBack: () -> Unit = {},
     val onOpen: (RuleSheet) -> Unit = {},
     val onStrictChange: (Boolean) -> Unit = {},
     val onPause: () -> Unit = {},
     val onEditRule: () -> Unit = {},
+    val onStart: () -> Unit = {},
     val onEditSettings: () -> Unit = {},
     val onDelete: () -> Unit = {},
 )
@@ -207,7 +223,7 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                     }
                 }
                 Gap(19.dp)
-                DetailCollage(rule, now, actions)
+                DetailCollage(rule, now)
                 Gap(24.dp)
                 DetailSettings(rule, now, actions)
                 Gap(16.dp)
@@ -219,17 +235,32 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                     .padding(start = 24.dp, end = 24.dp, top = 8.dp, bottom = 14.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                RecentrButton(
-                    text = stringResource(if (rule.isPaused(now)) R.string.rules_resume else R.string.rules_pause),
-                    onClick = actions.onPause,
-                    style = RecentrButtonStyle.Soft,
-                    modifier = Modifier.weight(1f),
-                )
-                RecentrButton(
-                    text = stringResource(R.string.rules_edit_rule),
-                    onClick = actions.onEditRule,
-                    modifier = Modifier.weight(1f),
-                )
+                if (rule.startable(now)) {
+                    // A saved session: Start is what it's here for.
+                    RecentrButton(
+                        text = stringResource(R.string.rules_edit_rule),
+                        onClick = actions.onEditRule,
+                        style = RecentrButtonStyle.Soft,
+                        modifier = Modifier.weight(1f),
+                    )
+                    RecentrButton(
+                        text = stringResource(R.string.rules_start),
+                        onClick = actions.onStart,
+                        modifier = Modifier.weight(1f),
+                    )
+                } else {
+                    RecentrButton(
+                        text = stringResource(if (rule.isPaused(now)) R.string.rules_resume else R.string.rules_pause),
+                        onClick = actions.onPause,
+                        style = RecentrButtonStyle.Soft,
+                        modifier = Modifier.weight(1f),
+                    )
+                    RecentrButton(
+                        text = stringResource(R.string.rules_edit_rule),
+                        onClick = actions.onEditRule,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
             }
         }
         RulesToastHost(
@@ -293,6 +324,7 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
             stringResource(R.string.rules_detail_paused_until, wallClock(rule.pausedUntil!!))
         }
         rule.isRunning(now) -> stringResource(R.string.rules_detail_running)
+        rule.type == RuleType.Session && rule.schedule == null -> durationLabel(rule.durationMinutes ?: 30)
         rule.type == RuleType.Limit -> stringResource(
             if (rule.limitReset == LimitReset.Monday) R.string.rules_detail_weekly else R.string.rules_detail_daily,
         )
@@ -311,48 +343,44 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
 
 /**
  * Tilted collage: time card, blocked apps, "Why" note and streak (positions from Figma 44). The
- * pieces drop into place one after the other when the page opens.
+ * pieces drop into place one after the other when the page opens. Read-only: "Edit rule" opens
+ * the editor.
  */
 @Composable
-private fun DetailCollage(rule: Rule, now: Long, actions: DetailActions) {
-    val schedule = rule.schedule
+private fun DetailCollage(rule: Rule, now: Long) {
     val (label, value, caption) = timeTile(rule, now)
-    val timeTarget = when {
-        rule.isRunning(now) || (rule.type == RuleType.Session && schedule == null) -> RuleSheet.Duration
-        rule.type == RuleType.Session || rule.type == RuleType.Lock -> RuleSheet.Schedule
-        rule.type == RuleType.Bedtime -> RuleSheet.BedtimeStart
-        rule.type == RuleType.Habit -> RuleSheet.Repeats
-        else -> null
-    }
     Box(Modifier.fillMaxWidth().height(250.dp), contentAlignment = Alignment.Center) {
+        // Fixed widths, the time card on the left edge and the apps tile on the right: a countdown
+        // doesn't make them grow and shrink, and a long value ("14:56:36") shrinks to fit.
         TimeCard(
             label = label,
             value = value,
             caption = caption,
             rotation = 4f,
-            onClick = if (timeTarget != null) ({ actions.onOpen(timeTarget) }) else actions.onEditSettings,
-            // Anchored to the left edge (not centred) so a wide value like "21:16 – 21:30" grows
-            // to the right instead of off-screen, and capped before the apps tile.
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .offset(y = (-54.7).dp)
-                .widthIn(max = 200.dp)
+                .width(164.dp)
                 .entrance(50, from = DpOffset((-20).dp, 10.dp), blur = false),
         )
         AppsTile(
             rule = rule,
-            onClick = { actions.onOpen(RuleSheet.Apps) },
             modifier = Modifier
-                .offset(x = 92.15.dp, y = (-69.16).dp)
+                .align(Alignment.CenterEnd)
+                .offset(x = (-12).dp, y = (-69.16).dp)
+                .width(148.dp)
                 .entrance(120, from = DpOffset(20.dp, 10.dp), blur = false)
                 .graphicsLayer { rotationZ = -5f },
         )
+        // Pinned by its top just under the apps tile (where Figma's two-line note starts) and
+        // capped at three lines, so a long reason grows downwards instead of over the apps.
         StickyNote(
             title = stringResource(R.string.rules_why),
-            body = rule.note?.takeIf { it.isNotBlank() } ?: stringResource(R.string.rules_why_placeholder),
-            onClick = { actions.onOpen(RuleSheet.Note) },
+            body = rule.note?.takeIf { it.isNotBlank() } ?: stringResource(R.string.rules_why_empty),
+            maxBodyLines = 3,
             modifier = Modifier
-                .offset(x = 86.dp, y = 56.6.dp)
+                .align(Alignment.TopCenter)
+                .offset(x = 86.dp, y = 126.dp)
                 .entrance(200, blur = false)
                 .width(180.dp)
                 .graphicsLayer { rotationZ = 3f },
@@ -390,7 +418,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> {
             stringResource(R.string.rules_tile_tasks_done),
         )
         rule.type == RuleType.Session && schedule == null -> Triple(
-            stringResource(R.string.rules_tile_now),
+            stringResource(R.string.rules_tile_ready),
             durationLabel(rule.durationMinutes ?: 0),
             stringResource(R.string.rules_session_title),
         )
@@ -408,7 +436,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> {
 }
 
 @Composable
-private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun AppsTile(rule: Rule, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(24.dp)
     val apps = rule.apps
@@ -417,7 +445,6 @@ private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modif
             .recentrShadow(RecentrElevation.float, shape)
             .clip(shape)
             .background(colors.bgSurface)
-            .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -431,6 +458,8 @@ private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modif
             pluralStringResource(R.plurals.rules_apps_count, apps.size, apps.size),
             style = RecentrTheme.typography.headline,
             color = colors.textPrimary,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
@@ -448,7 +477,7 @@ private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
     SettingsGroup {
         when (rule.type) {
             RuleType.Session -> {
-                row(R.string.rules_row_unlock_method, unlockLabel(rule), RecentrIcon.Hourglass, RuleSheet.Unlock)
+                UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
                 if (rule.schedule != null) {
                     row(R.string.rules_row_reminders, reminderLabel(rule.reminderMinutesBefore), RecentrIcon.Bell, RuleSheet.Reminders)
                 } else {
@@ -456,7 +485,7 @@ private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
                 }
             }
             RuleType.Lock -> {
-                row(R.string.rules_row_unlock_method, unlockLabel(rule), RecentrIcon.Hourglass, RuleSheet.Unlock)
+                UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
                 row(R.string.rules_row_unlocks_per_day, unlocksPerDayLabel(rule.unlocksPerDay), RecentrIcon.Refresh, RuleSheet.UnlocksPerDay)
             }
             RuleType.Limit -> {
@@ -464,6 +493,7 @@ private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
                 row(R.string.rules_row_when_time_up, limitActionLabel(rule.limitAction), RecentrIcon.Lock, RuleSheet.TimeUp)
             }
             RuleType.Bedtime -> {
+                UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
                 row(R.string.rules_row_reminders, reminderLabel(rule.reminderMinutesBefore), RecentrIcon.Bell, RuleSheet.Reminders)
             }
             RuleType.Habit -> {

@@ -85,6 +85,7 @@ import com.recentr.core.data.EmergencyUnlocks
 import com.recentr.core.data.Retype
 import com.recentr.core.data.UnlockPass
 import com.recentr.core.data.UnlockReason
+import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrChip
@@ -123,7 +124,7 @@ import kotlinx.coroutines.launch
 /** 48 · Choose your unlock time: a countdown to sit through, then how long to open the app for. */
 @Composable
 internal fun WaitStep(rule: Rule, packageName: String, label: String, onNevermind: () -> Unit, onUnlock: (minutes: Int) -> Unit) {
-    var secondsLeft by rememberSaveable { mutableIntStateOf(rule.waitSeconds) }
+    var secondsLeft by rememberSaveable { mutableIntStateOf(rule.waitSecondsInUse) }
     var minutes by rememberSaveable { mutableIntStateOf(rule.unlockDurationMinutes) }
     LaunchedEffect(Unit) {
         while (secondsLeft > 0) {
