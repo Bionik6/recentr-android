@@ -7,6 +7,12 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <!-- Counting the steps of a walk to unlock (Unlock — Walk 20 steps), from Android 10. -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-feature
+        android:name="android.hardware.sensor.stepcounter"
+        android:required="false" />
+
     <!-- Rule reminders: on time when the user allows exact alarms, set again after a reboot. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />

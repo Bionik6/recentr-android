@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.recentr.core.data.MIN_WAIT_SECONDS
 import com.recentr.core.data.UNLOCK_METHODS
+import com.recentr.core.data.Walk
 import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.OptionTrailing
 import com.recentr.core.designsystem.component.RecentrButton
@@ -36,11 +37,12 @@ import com.recentr.feature.rules.ui.durationLabel
 import com.recentr.feature.rules.ui.unlocksPerDayLabel
 
 /**
- * The ways out of "How do you unlock?", lightest first. No "No unlocks": that's Strict mode, so a
- * rule without it can always be unlocked, waiting 10 seconds by default. A limit has none: only an
- * emergency unlock gets past it.
+ * The ways out of "How do you unlock?", as Figma lists them: lightest first, then walking, which is
+ * lighter than scanning the pass ([UNLOCK_METHODS] has them by effort). No "No unlocks": that's
+ * Strict mode, so a rule without it can always be unlocked, waiting 10 seconds by default. A limit
+ * has none: only an emergency unlock gets past it.
  */
-internal val UnlockMethodOptions = UNLOCK_METHODS
+internal val UnlockMethodOptions = listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode, UnlockMethod.Walk)
 
 /** Figma 41 "How do you unlock?" — friction options as radio buttons, Continue. */
 @Composable
@@ -52,9 +54,10 @@ internal fun UnlockMethodSheet(
     var method by rememberSaveable { mutableStateOf(initial) }
     val options = UnlockMethodOptions.map { option ->
         when (option) {
-            UnlockMethod.Wait -> Triple(option, R.string.rules_unlock_option_wait, RecentrIcon.Hourglass)
-            UnlockMethod.Retype -> Triple(option, R.string.rules_unlock_option_retype, RecentrIcon.Pencil)
-            UnlockMethod.ScanCode -> Triple(option, R.string.rules_unlock_option_scan, RecentrIcon.Qr)
+            UnlockMethod.Wait -> Triple(option, stringResource(R.string.rules_unlock_option_wait), RecentrIcon.Hourglass)
+            UnlockMethod.Retype -> Triple(option, stringResource(R.string.rules_unlock_option_retype), RecentrIcon.Pencil)
+            UnlockMethod.Walk -> Triple(option, stringResource(R.string.rules_unlock_option_walk, Walk.STEPS), RecentrIcon.Home)
+            UnlockMethod.ScanCode -> Triple(option, stringResource(R.string.rules_unlock_option_scan), RecentrIcon.Qr)
         }
     }
     RulesSheet(onDismissRequest = onDismiss) { closer ->
@@ -81,7 +84,7 @@ internal fun UnlockMethodSheet(
             Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 options.forEach { (value, label, icon) ->
                     OptionRow(
-                        label = stringResource(label),
+                        label = label,
                         selected = method == value,
                         onClick = { method = value },
                         icon = icon,

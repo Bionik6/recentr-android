@@ -165,6 +165,7 @@
     <string name="rules_unlock_wait">Wait %1$d s</string>
     <string name="rules_unlock_retype">Re-type</string>
     <string name="rules_unlock_scan">Scan code</string>
+    <string name="rules_unlock_walk">Walk %1$d steps</string>
     <string name="rules_unlimited">Unlimited</string>
     <string name="rules_lock_default_name">Lock</string>
 
@@ -229,6 +230,7 @@
     <string name="rules_unlock_option_wait">Wait a few seconds</string>
     <string name="rules_unlock_option_retype">Re-type a painful text</string>
     <string name="rules_unlock_option_scan">Scan a code you keep elsewhere</string>
+    <string name="rules_unlock_option_walk">Walk %1$d steps</string>
 
     <!-- Wait settings -->
     <string name="rules_wait_title">Wait before unlocking</string>

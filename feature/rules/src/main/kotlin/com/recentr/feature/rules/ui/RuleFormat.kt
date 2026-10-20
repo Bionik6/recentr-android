@@ -11,6 +11,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.recentr.core.data.RecentrData
+import com.recentr.core.data.Walk
 import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.designsystem.format.LocalUse24HourClock
 import com.recentr.core.designsystem.format.clockTimeOf
@@ -234,6 +235,7 @@ internal fun unlockLabel(rule: Rule): String = when (rule.unlockMethod) {
     UnlockMethod.Wait -> stringResource(R.string.rules_unlock_wait, rule.waitSecondsInUse)
     UnlockMethod.Retype -> stringResource(R.string.rules_unlock_retype)
     UnlockMethod.ScanCode -> stringResource(R.string.rules_unlock_scan)
+    UnlockMethod.Walk -> stringResource(R.string.rules_unlock_walk, Walk.STEPS)
 }
 
 @Composable

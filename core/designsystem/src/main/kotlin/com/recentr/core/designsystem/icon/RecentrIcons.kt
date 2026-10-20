@@ -36,6 +36,7 @@ enum class RecentrIcon(@param:DrawableRes val drawable: Int) {
     Bell(R.drawable.ic_bell),
     Clock(R.drawable.ic_clock),
     Shield(R.drawable.ic_shield),
+    ShieldCheck(R.drawable.ic_shield_check),
     Hourglass(R.drawable.ic_hourglass),
     Chart(R.drawable.ic_chart),
     ArrowRight(R.drawable.ic_arrow_right),

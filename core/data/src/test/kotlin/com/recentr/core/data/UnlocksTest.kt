@@ -34,11 +34,32 @@ class UnlocksTest {
         assertEquals(UnlockStep.Wait, lock(UnlockMethod.Wait).unlockStep(now, emergencyUnlocksLeft = 3))
         assertEquals(UnlockStep.Retype, lock(UnlockMethod.Retype).unlockStep(now, 3))
         assertEquals(UnlockStep.Scan, lock(UnlockMethod.ScanCode).unlockStep(now, 3))
+        assertEquals(UnlockStep.Walk, lock(UnlockMethod.Walk).unlockStep(now, 3))
+    }
+
+    @Test
+    fun `a walk is a way out of how do you unlock`() {
+        assertTrue(UnlockMethod.Walk in UNLOCK_METHODS)
+        assertEquals(UnlockStep.Walk, routine(UnlockMethod.Walk).unlockStep(now, 3, zone))
+        assertTrue(lock(UnlockMethod.Walk).canOpenAnyway(now, zone))
+        // It counts against the day's unlocks like any other.
+        assertNull(lock(UnlockMethod.Walk).copy(unlocksUsedToday = 5).unlockStep(now, 3))
+    }
+
+    @Test
+    fun `a strict walk only lets emergencies through`() {
+        val strict = Rule(
+            "s", RuleType.Session, "Deep work", apps = listOf(tiktok),
+            durationMinutes = 60, activeSince = now - 10 * minute, strictMode = true, unlockMethod = UnlockMethod.Walk,
+        )
+        assertEquals(UnlockStep.Emergency, strict.unlockStep(now, emergencyUnlocksLeft = 1))
+        assertEquals(UnlockStep.Walk, strict.copy(activeSince = now - 70 * minute).unlockStep(now, emergencyUnlocksLeft = 0))
     }
 
     @Test
     fun `the unlock methods go by effort, lightest first`() {
-        assertEquals(listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode), UNLOCK_METHODS)
+        // docs/RULES.md: wait, re-type, walk, scan the pass.
+        assertEquals(listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.Walk, UnlockMethod.ScanCode), UNLOCK_METHODS)
     }
 
     @Test
@@ -157,6 +178,82 @@ class UnlocksTest {
     @Test
     fun `pasting counts as a typo`() {
         assertTrue(Retype().typed("I know it.", "I know it.").hasTypo)
+    }
+
+    @Test
+    fun `a walk counts from the step counter's first reading`() {
+        // The counter adds up every step since the phone started.
+        val start = Walk().counted(5_230f)
+        assertEquals(5_230f, start.start)
+        assertEquals(0, start.steps)
+        assertEquals(Walk.STEPS, start.left)
+        assertEquals(0f, start.progress, 0.0001f)
+
+        val walking = start.counted(5_242f)
+        assertEquals(12, walking.steps)
+        assertEquals(8, walking.left)
+        assertEquals(0.6f, walking.progress, 0.0001f)
+        assertFalse(walking.isDone)
+        // The first reading stays the start.
+        assertEquals(5_230f, walking.start)
+    }
+
+    @Test
+    fun `twenty steps and the walk is done`() {
+        assertEquals(20, Walk.STEPS)
+        val done = Walk().counted(100f).counted(119f).counted(120f)
+        assertTrue(done.isDone)
+        assertEquals(0, done.left)
+        // Steps past the goal don't count.
+        assertEquals(20, done.counted(160f).steps)
+        assertEquals(1f, done.counted(160f).progress, 0.0001f)
+    }
+
+    @Test
+    fun `steps never go back`() {
+        val walking = Walk().counted(100f).counted(110f)
+        // The phone restarted: its counter starts over.
+        assertEquals(10, walking.counted(3f).steps)
+        assertEquals(10, walking.counted(105f).steps)
+    }
+
+    @Test
+    fun `a pretend walk steps one at a time`() {
+        var walk = Walk()
+        repeat(Walk.STEPS + 3) { walk = walk.stepped() }
+        assertEquals(Walk.STEPS, walk.steps)
+        assertTrue(walk.isDone)
+        assertNull(walk.start)
+    }
+
+    @Test
+    fun `the accelerometer shows the steps before the counter`() {
+        val walk = Walk().detected(3).detected(4)
+        assertEquals(4, walk.steps)
+        assertEquals(16, walk.left)
+    }
+
+    @Test
+    fun `a counter that waits for a few steps loses none`() {
+        // The counter sends no reading at the start: its first comes after eight steps, which the
+        // accelerometer already found.
+        var walk = Walk().detected(8).counted(5_238f)
+        assertEquals(5_230f, walk.start)
+        assertEquals(8, walk.steps)
+        // Both count the next steps: they aren't counted twice.
+        walk = walk.detected(9).counted(5_239f)
+        assertEquals(9, walk.steps)
+        walk = walk.counted(5_242f).detected(10)
+        assertEquals(12, walk.steps)
+    }
+
+    @Test
+    fun `the counter catches up on steps taken with the screen off`() {
+        // The accelerometer stopped with the screen; the counter kept counting.
+        val walk = Walk().detected(4).counted(104f).counted(115f)
+        assertEquals(15, walk.steps)
+        // The accelerometer, back, doesn't count them again.
+        assertEquals(15, walk.detected(6).steps)
     }
 
     @Test

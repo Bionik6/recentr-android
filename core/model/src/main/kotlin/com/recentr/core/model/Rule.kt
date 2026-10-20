@@ -126,6 +126,8 @@ enum class UnlockMethod {
     Wait,
     /** Re-type a painful text. */
     Retype,
+    /** Walk a few steps (Figma "Unlock — Walk 20 steps"). */
+    Walk,
     /** Scan a code you keep elsewhere. */
     ScanCode,
 }

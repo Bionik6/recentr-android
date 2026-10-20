@@ -100,13 +100,21 @@ also from the Home streak tile.
   and unit-tested: locks that are on, running sessions, routines (their chosen apps, inside the
   window), limits whose budget is spent (device usage since *Start*, so usage access is needed),
   focus rounds — it opens `HoldActivity` ("App on hold"). "Unlock anyway" follows the rule's
-  unlock method (wait, re-type or scan the pass) and counts against its unlocks per day; a strict
-  rule or a limit only offers an emergency unlock (three a month). Recentr, the home screens,
-  System UI and Settings are never held (and not offered by the pickers).
+  unlock method (wait, re-type, walk 20 steps or scan the pass) and counts against its unlocks per
+  day; a strict rule or a limit only offers an emergency unlock (three a month). Recentr, the home
+  screens, System UI and Settings are never held (and not offered by the pickers).
   - The user turns it on in Settings › Accessibility, after the in-app explanation
     (`BlockingAccessSheet`: Rules banner, after saving a rule, Focus set-up, Settings › App
     blocking). Force-stopping Recentr turns the service off (Android behaviour).
   - QA: Settings › Accessibility › Recentr app blocking, then open a blocked app.
+  - Walking to unlock counts steps from "Start walking" with the phone's step counter
+    (`Sensor.TYPE_STEP_COUNTER`, the Physical activity permission from Android 10). The counter
+    reports steps seconds late (it waits for several in a row, then sends them together), so while
+    the hold screen is open `StepDetector` also finds each step's bounce in the accelerometer, once
+    three come in a row at a walking pace; the counter catches up on steps taken with the screen
+    off. `Walk` shows whichever counted more. Both are in `:core:data`, pure and unit-tested. A
+    phone without a step counter can't walk to unlock; debug builds without one (the emulator)
+    pretend to walk two steps a second.
 - Strict mode is a toggle on sessions and routines: while the rule is engaged, its apps can't be
   unlocked, other than with an emergency unlock (turning it on while the rule already blocks asks
   first; turning it off waits for the end). Settings › Strict mode makes new sessions and

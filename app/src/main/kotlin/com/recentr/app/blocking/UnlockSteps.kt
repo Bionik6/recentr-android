@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
@@ -115,7 +116,8 @@ import com.recentr.core.model.Rule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// The unlock friction screens behind the shield's "Unlock anyway" (Figma › Unlock friction 48–55).
+// The unlock friction screens behind the shield's "Unlock anyway" (Figma › Unlock friction 48–55;
+// walking to unlock is in WalkSteps.kt).
 // They swap without a transition (navigation-style changes are the system's); only what's inside
 // a screen animates.
 
@@ -651,7 +653,7 @@ internal fun UnlockedStep(packageName: String, label: String, until: Long, now: 
 
 /** "YouTube · locked by Night Routine": the app being unlocked, and what keeps it closed. */
 @Composable
-private fun AppChip(packageName: String, text: String) {
+internal fun AppChip(packageName: String, text: String) {
     Row(
         Modifier
             .recentrShadow(RecentrElevation.card, RecentrShapes.full)
@@ -673,27 +675,30 @@ private fun AppChip(packageName: String, text: String) {
 }
 
 @Composable
-private fun Title(text: String) {
+internal fun Title(text: String) {
     Text(text, style = RecentrTheme.typography.title1, color = RecentrTheme.colors.textPrimary, textAlign = TextAlign.Center)
 }
 
 /**
  * The Aurora page of the unlock steps: [content] scrolls under the status bar, [actions] stay at
- * the bottom, above the keyboard when it's open.
+ * the bottom, above the keyboard when it's open. [content] is as tall as the page at least, so a
+ * `Modifier.weight` spacer in it pushes what follows down to the actions.
  */
 @Composable
-private fun UnlockPage(actions: @Composable ColumnScope.() -> Unit, content: @Composable ColumnScope.() -> Unit) {
+internal fun UnlockPage(actions: @Composable ColumnScope.() -> Unit, content: @Composable ColumnScope.() -> Unit) {
     SystemBarsAppearance(lightIcons = false)
     BackdropBox(Backdrop.Aurora) {
         Column(
             Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().imePadding().padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = content,
-            )
+            BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+                Column(
+                    Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).heightIn(min = maxHeight),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = content,
+                )
+            }
             Spacer(Modifier.height(16.dp))
             actions()
             Spacer(Modifier.height(14.dp))

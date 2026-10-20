@@ -73,6 +73,40 @@
     <string name="unlock_open_caption">We’ll lock it again when the timer ends.</string>
     <string name="unlock_open_app">Open %1$s</string>
     <string name="unlock_lock_again">Lock it again</string>
+    <string name="unlock_walk_title">Walk %1$d steps to unlock</string>
+    <string name="unlock_walk_subtitle">A small walk before you scroll. Complete all %1$d steps to get %2$s.</string>
+    <string name="unlock_walking_title">A few more steps</string>
+    <string name="unlock_walking_subtitle">%1$s stays locked until you reach %2$d steps. Take your time.</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">steps · ready when you are</string>
+    <string name="unlock_walk_more_to_go">steps · %1$d more to go</string>
+    <string name="unlock_walk_goal_reached">steps · goal reached</string>
+    <string name="unlock_walk_locked_until">Locked until %1$d steps</string>
+    <string name="unlock_walk_complete_chip">%1$d steps complete</string>
+    <string name="unlock_walk_safety_title">Phone away. Eyes up.</string>
+    <string name="unlock_walk_safety_body">Walk in a safe, clear space. Stop before checking your progress.</string>
+    <string name="unlock_walk_no_permission_title">Recentr can’t count your steps</string>
+    <string name="unlock_walk_no_permission_body">Allow Physical activity for Recentr, then start walking again.</string>
+    <string name="unlock_walk_no_sensor_title">This phone can’t count steps</string>
+    <string name="unlock_walk_no_sensor_body">Choose another way to unlock on the rule’s page.</string>
+    <string name="unlock_walk_start">Start walking</string>
+    <string name="unlock_walk_cancel">Cancel walk</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="one">%1$d step left to unlock</item>
+        <item quantity="other">%1$d steps left to unlock</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · %2$d-minute unlock</string>
+    <string name="unlock_walk_done_title">%1$s is unlocked</string>
+    <string name="unlock_walk_done_subtitle">%1$d steps. A little reset. Your %2$d-minute break is ready.</string>
+    <string name="unlock_walk_done_note_body">We’ll lock it again when the timer ends. Stop walking before opening %1$s.</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="one">%1$d minute, just for you</item>
+        <item quantity="other">%1$d minutes, just for you</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
 
     <!-- Rule reminders (Rule detail › Reminders) -->
     <string name="reminder_channel">Rule reminders</string>
