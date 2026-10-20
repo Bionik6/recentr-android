@@ -14,28 +14,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import com.recentr.core.data.unlockMethodInUse
 import com.recentr.core.data.waitSecondsInUse
-import com.recentr.core.model.HabitRepeat
-import com.recentr.core.model.HabitTask
-import com.recentr.core.model.LimitAction
-import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSticker
-import com.recentr.core.model.RuleType
 import com.recentr.core.model.UnlockMethod
 import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
-import com.recentr.feature.rules.ui.habitRepeatLabel
-import com.recentr.feature.rules.ui.limitActionLabel
-import com.recentr.feature.rules.ui.limitResetLabel
 import com.recentr.feature.rules.ui.reminderLabel
-import java.util.UUID
 
 /** Sub-sheets a rule editor (or the rule detail) can open. */
 internal enum class RuleSheet {
-    None, Name, Apps, Duration, Schedule, BedtimeStart, BedtimeEnd, Unlock, Wait,
-    UnlocksPerDay, Resets, TimeUp, Repeats, Reminders, Note, AddTask,
+    None, Name, Apps, Duration, BedtimeStart, BedtimeEnd, Unlock, Wait, UnlocksPerDay, Reminders, Note,
 }
 
 private val ReminderOptions = listOf(null, 5, 10, 15, 30)
@@ -98,13 +87,6 @@ internal fun RuleSheetsHost(
             onDone = { minutes -> onUpdate { it.copy(durationMinutes = minutes) } },
             onDismiss = close,
         )
-        RuleSheet.Schedule -> ScheduleSheet(
-            title = stringResource(R.string.rules_row_active),
-            initial = rule.schedule,
-            allowAllDay = rule.type == RuleType.Lock,
-            onSave = { schedule -> onUpdate { it.copy(schedule = schedule) } },
-            onDismiss = close,
-        )
         RuleSheet.BedtimeStart, RuleSheet.BedtimeEnd -> rule.schedule?.let { schedule ->
             val start = sheet == RuleSheet.BedtimeStart
             TimeOfDayDialog(
@@ -121,7 +103,7 @@ internal fun RuleSheetsHost(
             )
         }
         RuleSheet.Unlock -> UnlockMethodSheet(
-            initial = rule.unlockMethodInUse,
+            initial = rule.unlockMethod,
             onContinue = { method ->
                 onUpdate { it.copy(unlockMethod = method) }
                 if (method == UnlockMethod.Wait) onSheet(RuleSheet.Wait)
@@ -144,27 +126,6 @@ internal fun RuleSheetsHost(
             onSelect = { index -> onUpdate { it.copy(unlocksPerDay = UnlocksPerDayOptions[index]) } },
             onDismiss = close,
         )
-        RuleSheet.Resets -> OptionPickerSheet(
-            title = stringResource(R.string.rules_resets_title),
-            options = LimitReset.entries.map { limitResetLabel(it) },
-            selectedIndex = rule.limitReset.ordinal,
-            onSelect = { index -> onUpdate { it.copy(limitReset = LimitReset.entries[index]) } },
-            onDismiss = close,
-        )
-        RuleSheet.TimeUp -> OptionPickerSheet(
-            title = stringResource(R.string.rules_time_up_title),
-            options = LimitAction.entries.map { limitActionLabel(it) },
-            selectedIndex = rule.limitAction.ordinal,
-            onSelect = { index -> onUpdate { it.copy(limitAction = LimitAction.entries[index]) } },
-            onDismiss = close,
-        )
-        RuleSheet.Repeats -> OptionPickerSheet(
-            title = stringResource(R.string.rules_repeats_title),
-            options = HabitRepeat.entries.map { habitRepeatLabel(it) },
-            selectedIndex = rule.habitRepeat.ordinal,
-            onSelect = { index -> onUpdate { it.copy(habitRepeat = HabitRepeat.entries[index]) } },
-            onDismiss = close,
-        )
         RuleSheet.Reminders -> OptionPickerSheet(
             title = stringResource(R.string.rules_reminders_title),
             options = ReminderOptions.map { reminderLabel(it) },
@@ -180,13 +141,6 @@ internal fun RuleSheetsHost(
             initial = rule.note.orEmpty(),
             placeholder = stringResource(R.string.rules_note_placeholder),
             onSave = { note -> onUpdate { it.copy(note = note) } },
-            onDismiss = close,
-        )
-        RuleSheet.AddTask -> TextInputSheet(
-            title = stringResource(R.string.rules_new_task_title),
-            initial = "",
-            placeholder = stringResource(R.string.rules_new_task_placeholder),
-            onSave = { title -> onUpdate { it.copy(habitTasks = it.habitTasks + HabitTask(UUID.randomUUID().toString(), title)) } },
             onDismiss = close,
         )
     }

@@ -2,12 +2,8 @@ package com.recentr.core.data
 
 import com.recentr.core.model.FocusPhase
 import com.recentr.core.model.FocusRun
-import com.recentr.core.model.HabitRepeat
-import com.recentr.core.model.LimitAction
 import com.recentr.core.model.Rule
-import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
-import com.recentr.core.model.UnlockMethod
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -25,7 +21,7 @@ sealed interface HoldReason {
  * The apps opened anyway ("Unlock anyway", emergency unlocks): for each app, until when (epoch
  * millis) each rule lets it through. An unlock only lifts the rules that held the app when it was
  * unlocked, so one rule's unlock never opens the app past another rule: a routine starting or a
- * limit running out during the unlock puts the app on hold again.
+ * limit's budget running out during the unlock puts the app on hold again.
  */
 data class AppUnlocks(private val until: Map<String, Map<String, Long>> = emptyMap()) {
 
@@ -56,7 +52,10 @@ data class HoldState(
     val protectedApps: Set<String>,
     /** Apps opened anyway, and past which rules. */
     val unlocks: AppUnlocks = AppUnlocks(),
-    /** Use of the apps in each limit period, or null when unknown (no usage access): limits can't trip. */
+    /**
+     * Use of the started limits' apps since their Start, or null when it wasn't read (no usage
+     * access): a limit then goes by the minutes it last recorded ([Rule.usedMinutes]).
+     */
     val limitUsage: LimitUsage? = null,
 ) {
     /**
@@ -64,7 +63,7 @@ data class HoldState(
      * its apps during focus rounds; an unlock lifts the rules it was granted past (not the
      * session) until it runs out. When several rules hold the app, the strictest wins: one in
      * Strict mode (only an emergency unlock gets past it, and past the others), then one without
-     * "Open anyway", whatever their order.
+     * "Open anyway" (a limit, no unlocks left today), whatever their order.
      */
     fun reasonFor(packageName: String, now: Long, zone: ZoneId): HoldReason? {
         if (packageName in protectedApps) return null
@@ -89,45 +88,31 @@ data class HoldState(
 
     /**
      * The rules an "Unlock anyway" through [through] lifts at [now]: [through], and the other rules
-     * holding the app that could be unlocked too. Never one that can't (Strict mode, "No unlocks",
-     * none left today): it keeps the app on hold.
+     * holding the app that could be unlocked too. Never one that can't (Strict mode, a limit, none
+     * left today): it keeps the app on hold.
      */
     fun liftedBy(through: Rule, packageName: String, now: Long, zone: ZoneId): List<Rule> =
         (listOf(through) + holding(packageName, now, zone).filter { it.canOpenAnyway(now, zone) }).distinctBy { it.id }
 
+    /** A limit holds its apps once its budget is spent, until midnight; the other rules while engaged. */
     private fun Rule.holds(packageName: String, now: Long, zone: ZoneId): Boolean {
-        if (!isEnforcing(now, zone)) return false
-        return when (type) {
-            RuleType.Lock, RuleType.Session, RuleType.Bedtime -> targets(packageName)
-            RuleType.Limit -> {
-                val used = limitUsage?.of(this)
-                targets(packageName) && limitAction != LimitAction.Remind && used != null &&
-                    used >= (limitMinutes ?: Int.MAX_VALUE)
-            }
-            RuleType.Habit -> targets(packageName) && habitTasks.any { !it.done } && habitRepeat.includes(now, zone)
-        }
-    }
-
-    private fun HabitRepeat.includes(now: Long, zone: ZoneId): Boolean {
-        val day = Instant.ofEpochMilli(now).atZone(zone).dayOfWeek.value
-        return when (this) {
-            HabitRepeat.EveryDay -> true
-            HabitRepeat.Weekdays -> day <= 5
-            HabitRepeat.Weekends -> day >= 6
-        }
+        if (!targets(packageName) || !isEnforcing(now, zone)) return false
+        if (type != RuleType.Limit) return true
+        val used = limitUsage?.of(this) ?: usedMinutes
+        return used >= (limitMinutes ?: Int.MAX_VALUE)
     }
 }
 
-/** Minutes the rule's apps were used, given minutes per package over its limit period: the budget spent. */
+/** Minutes the rule's apps were used, given minutes per package since a limit's Start: the budget spent. */
 fun Rule.usedOf(minutesByPackage: Map<String, Int>): Int = apps.sumOf { minutesByPackage[it.packageName] ?: 0 }
 
 /**
- * Whether the hold screen offers "Unlock anyway" for this rule at [now]: an unlock method in use
- * ([unlockMethodInUse]), unlocks left today, and no strict mode holding. Strict mode is only passed
- * with an emergency unlock ([unlockStep]).
+ * Whether the hold screen offers "Unlock anyway" for this rule at [now]: unlocks left today, no
+ * Strict mode holding and not a limit (a limit has no unlocks). Strict mode and limits are only
+ * passed with an emergency unlock ([unlockStep]).
  */
 fun Rule.canOpenAnyway(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean =
-    unlockMethodInUse in OPENABLE && !isStrictLocked(now, zone) && (unlocksPerDay?.let { unlocksUsedToday < it } ?: true)
+    type != RuleType.Limit && !isStrictLocked(now, zone) && (unlocksPerDay?.let { unlocksUsedToday < it } ?: true)
 
 /** Unlocks left today, or null when unlimited. */
 val Rule.unlocksLeft: Int?
@@ -135,34 +120,35 @@ val Rule.unlocksLeft: Int?
 
 /**
  * When the rule stops holding apps (epoch millis): the end of the running session or of the
- * current scheduled window, or null when it holds all day (locks, limits, habits).
+ * routine's current window, midnight for a limit. Null when nothing ends it on its own: a lock,
+ * a routine's whole-day window.
  */
-fun Rule.heldUntil(now: Long, zone: ZoneId): Long? {
-    if (activeSince != null) return sessionEndsAt
-    val window = schedule ?: return null
-    if (window.lengthMinutes >= RuleSchedule.MINUTES_PER_DAY) return null
-    val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(now), zone)
-    val minute = time.hour * 60 + time.minute
-    val endDate = if (window.overnight && minute >= window.startMinute) time.toLocalDate().plusDays(1) else time.toLocalDate()
-    return endDate.atStartOfDay(zone).plusMinutes(window.endMinute.toLong()).toInstant().toEpochMilli()
+fun Rule.heldUntil(now: Long, zone: ZoneId): Long? = when (type) {
+    RuleType.Session -> sessionEndsAt
+    RuleType.Bedtime -> schedule?.takeIf { !it.allDay }?.windowEndAt(now, zone)
+    RuleType.Lock -> null
+    RuleType.Limit -> limitEndsAt(zone)
 }
 
 /**
  * When the rule started holding its apps, for the shield's "You've stayed off for…": the running
- * session's start, the current scheduled window's start, or the start of the day for rules that
- * hold all day. Null for limits: the moment their budget ran out isn't kept.
+ * session's start, the routine's current window's start (its day for a whole-day window), the
+ * start of the day for a lock (or its Activate, if later). Null for limits: the moment their
+ * budget ran out isn't kept.
  */
 fun Rule.blockStart(now: Long, zone: ZoneId): Long? {
-    activeSince?.let { return it }
-    if (type == RuleType.Limit) return null
     val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(now), zone)
-    val window = schedule
-    if (window == null || window.lengthMinutes >= RuleSchedule.MINUTES_PER_DAY) {
-        return time.toLocalDate().atStartOfDay(zone).toInstant().toEpochMilli()
+    val today = time.toLocalDate().atStartOfDay(zone).toInstant().toEpochMilli()
+    return when (type) {
+        RuleType.Session -> activeSince
+        RuleType.Limit -> null
+        RuleType.Lock -> activeSince?.let { maxOf(it, today) }
+        RuleType.Bedtime -> {
+            val window = schedule ?: return null
+            if (window.allDay) return today
+            val minute = time.hour * 60 + time.minute
+            val startDate = if (window.overnight && minute < window.endMinute) time.toLocalDate().minusDays(1) else time.toLocalDate()
+            startDate.atStartOfDay(zone).plusMinutes(window.startMinute.toLong()).toInstant().toEpochMilli()
+        }
     }
-    val minute = time.hour * 60 + time.minute
-    val startDate = if (window.overnight && minute < window.endMinute) time.toLocalDate().minusDays(1) else time.toLocalDate()
-    return startDate.atStartOfDay(zone).plusMinutes(window.startMinute.toLong()).toInstant().toEpochMilli()
 }
-
-private val OPENABLE = setOf(UnlockMethod.Wait, UnlockMethod.Reason, UnlockMethod.Retype, UnlockMethod.ScanCode)

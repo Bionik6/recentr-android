@@ -8,7 +8,6 @@ import com.google.zxing.qrcode.QRCodeReader
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.google.zxing.qrcode.encoder.Encoder
 import com.recentr.core.model.AppSettings
-import com.recentr.core.model.LimitAction
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UnlockMethod
@@ -25,51 +24,40 @@ enum class UnlockStep {
     /** Choose your unlock time (48): wait a few seconds first. */
     Wait,
 
-    /** Give a good reason (49). */
-    Reason,
-
     /** Type this to unlock (50, 51). */
     Retype,
 
     /** Scan your unlock pass (52). */
     Scan,
 
-    /** Emergency unlock (54): the only way past Strict mode. */
+    /** Emergency unlock (54): the only way past Strict mode or a limit. */
     Emergency,
 }
 
 /**
  * The first step of unlocking this rule's apps at [now], or null when there's no way past it: no
- * unlocks left today, a limit that locks, or Strict mode with this month's emergency unlocks spent.
+ * unlocks left today, or only an emergency unlock gets past it ([onlyEmergency]) and this month's
+ * are spent.
  */
 fun Rule.unlockStep(now: Long, emergencyUnlocksLeft: Int, zone: ZoneId = ZoneId.systemDefault()): UnlockStep? = when {
-    isStrictLocked(now, zone) -> UnlockStep.Emergency.takeIf { emergencyUnlocksLeft > 0 }
+    onlyEmergency(now, zone) -> UnlockStep.Emergency.takeIf { emergencyUnlocksLeft > 0 }
     !canOpenAnyway(now, zone) -> null
-    else -> when (unlockMethodInUse) {
+    else -> when (unlockMethod) {
         UnlockMethod.Wait -> UnlockStep.Wait
-        UnlockMethod.Reason -> UnlockStep.Reason
         UnlockMethod.Retype -> UnlockStep.Retype
         UnlockMethod.ScanCode -> UnlockStep.Scan
-        UnlockMethod.None, UnlockMethod.Strict -> null
     }
 }
 
 /**
- * How this rule's apps are opened anyway, Strict mode aside. Strict mode is the only "no unlocks":
- * locks, sessions and routines left with "No unlocks" or "Give a good reason" (both gone from
- * "How do you unlock?") wait a few seconds. A limit has no unlock method: "When time is up"
- * decides — Ask for a reason, or Lock until it resets. A habit opens with its tasks.
+ * Only an emergency unlock gets this rule's apps open at [now]: Strict mode while the rule is
+ * engaged, or a limit, which has no unlocks.
  */
-val Rule.unlockMethodInUse: UnlockMethod
-    get() = when (type) {
-        RuleType.Lock, RuleType.Session, RuleType.Bedtime ->
-            unlockMethod.takeIf { it in UNLOCK_METHODS } ?: UnlockMethod.Wait
-        RuleType.Limit -> if (limitAction == LimitAction.AskReason) UnlockMethod.Reason else UnlockMethod.None
-        RuleType.Habit -> unlockMethod
-    }
+fun Rule.onlyEmergency(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean =
+    type == RuleType.Limit || isStrictLocked(now, zone)
 
-/** The ways out of "How do you unlock?", lightest first. */
-val UNLOCK_METHODS = listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode)
+/** The ways out of "How do you unlock?", by effort, lightest first. */
+val UNLOCK_METHODS: List<UnlockMethod> = UnlockMethod.entries
 
 /** The shortest wait before "Unlock anyway" opens an app. */
 const val MIN_WAIT_SECONDS = 5
@@ -84,21 +72,6 @@ val Rule.waitSecondsInUse: Int
  */
 val Rule.unlockMethodEnabled: Boolean
     get() = !strictMode
-
-/** Give a good reason (49): long enough to mean it. */
-object UnlockReason {
-    const val MINIMUM_LENGTH = 20
-
-    fun length(reason: String): Int = reason.trim().length
-
-    fun isEnough(reason: String): Boolean = length(reason) >= MINIMUM_LENGTH
-
-    /** A suggestion chip tapped: "Work: " to start the reason, or added to what's written. */
-    fun withSuggestion(reason: String, suggestion: String): String {
-        val trimmed = reason.trim()
-        return if (trimmed.isEmpty()) "$suggestion: " else "$trimmed ${suggestion.lowercase()}"
-    }
-}
 
 /**
  * What's been typed of the retype text (50), and whether a typo sent it back to the start (51).
@@ -174,8 +147,8 @@ class QrReader {
 }
 
 /**
- * Emergency unlocks (54): the way past Strict mode, three a month across every rule. Each one
- * opens the app for [MINUTES] minutes.
+ * Emergency unlocks (54): the way past Strict mode and limits, three a month across every rule.
+ * Each one opens the app for [MINUTES] minutes.
  */
 object EmergencyUnlocks {
     const val PER_MONTH = 3

@@ -96,15 +96,15 @@ internal fun SettingsGroup(modifier: Modifier = Modifier, content: @Composable C
 }
 
 /**
- * "Strict mode" row: tangerine shield tile and the toggle. Once the strict rule blocks
- * ([locked]) the toggle stays on until the session ends.
+ * "Strict mode" row of sessions and routines: tangerine shield tile and the toggle. Strict mode
+ * leaves no unlocks but emergency ones while the rule is engaged; turned off then, it goes off
+ * when the rule's engagement ends.
  */
 @Composable
 internal fun StrictToggleRow(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    locked: Boolean = false,
 ) {
     val colors = RecentrTheme.colors
     SettingToggleRow(
@@ -114,10 +114,27 @@ internal fun StrictToggleRow(
         icon = RecentrIcon.Shield,
         iconTint = colors.accentTangerine,
         iconBackground = colors.alphaTangerine14,
-        caption = stringResource(if (locked) R.string.rules_strict_locked_caption else R.string.rules_strict_caption),
-        enabled = !locked,
+        caption = stringResource(R.string.rules_strict_caption),
         modifier = modifier.fillMaxWidth(),
     )
+}
+
+/** A line of information in a settings group: an icon and a caption ("Resets automatically at midnight."). */
+@Composable
+internal fun InfoRow(text: String, icon: RecentrIcon, modifier: Modifier = Modifier) {
+    val colors = RecentrTheme.colors
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(20.dp))
+            .background(colors.bgSurface)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        RecentrIconImage(icon, tint = colors.textTertiary, size = 16.dp)
+        Text(text, style = RecentrTheme.typography.captionRegular, color = colors.textSecondary)
+    }
 }
 
 /**
@@ -263,7 +280,7 @@ internal fun RulesToastPill(text: String, modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         RecentrIconImage(RecentrIcon.Check, tint = colors.textOnDark)
-        Text(text, style = RecentrTheme.typography.headline, color = colors.textOnDark, maxLines = 1)
+        Text(text, style = RecentrTheme.typography.headline, color = colors.textOnDark, maxLines = 2, overflow = TextOverflow.Ellipsis)
     }
 }
 

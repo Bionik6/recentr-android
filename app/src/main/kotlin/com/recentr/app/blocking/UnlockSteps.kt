@@ -84,13 +84,11 @@ import com.recentr.app.R
 import com.recentr.core.data.EmergencyUnlocks
 import com.recentr.core.data.Retype
 import com.recentr.core.data.UnlockPass
-import com.recentr.core.data.UnlockReason
 import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
-import com.recentr.core.designsystem.component.StickyNoteField
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.haptics.SensoryFeedback
 import com.recentr.core.designsystem.icon.RecentrIcon
@@ -243,64 +241,6 @@ private fun DurationChips(selected: Int, onSelect: (Int) -> Unit) {
                 onClick = { onSelect(minutes) },
             )
         }
-    }
-}
-
-/** 49 · Give a good reason: written on a sticky note, twenty letters at least. */
-@Composable
-internal fun ReasonStep(rule: Rule, packageName: String, label: String, onUnlock: () -> Unit) {
-    var reason by rememberSaveable { mutableStateOf("") }
-    val length = UnlockReason.length(reason)
-    val isEnough = UnlockReason.isEnough(reason)
-    val focus = remember { FocusRequester() }
-    LaunchedEffect(Unit) { focus.requestFocus() }
-    SensoryFeedback(isEnough) { if (isEnough) selection() }
-    UnlockPage(
-        actions = {
-            RecentrButton(
-                text = stringResource(R.string.unlock_for_minutes, rule.unlockDurationMinutes),
-                onClick = onUnlock,
-                style = if (isEnough) RecentrButtonStyle.Primary else RecentrButtonStyle.Soft,
-                enabled = isEnough,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        },
-    ) {
-        Spacer(Modifier.height(8.dp))
-        AppChip(packageName, stringResource(R.string.unlock_locked_by, label, rule.name))
-        Spacer(Modifier.height(12.dp))
-        Title(stringResource(R.string.unlock_reason_title))
-        Spacer(Modifier.height(24.dp))
-        StickyNoteField(
-            title = stringResource(R.string.unlock_reason_note),
-            value = reason,
-            onValueChange = { reason = it },
-            placeholder = stringResource(R.string.unlock_reason_hint),
-            fieldModifier = Modifier.focusRequester(focus),
-            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-            modifier = Modifier.padding(horizontal = 17.dp).fillMaxWidth().rotate(-2f),
-        )
-        Spacer(Modifier.height(24.dp))
-        val suggestions = listOf(R.string.unlock_reason_work, R.string.unlock_reason_reply, R.string.unlock_reason_bored).map { stringResource(it) }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            suggestions.forEach { suggestion ->
-                RecentrChip(
-                    label = suggestion,
-                    style = RecentrChipStyle.Outline,
-                    onClick = { reason = UnlockReason.withSuggestion(reason, suggestion) },
-                )
-            }
-        }
-        Spacer(Modifier.height(12.dp))
-        Text(
-            stringResource(
-                if (isEnough) R.string.unlock_reason_count_done else R.string.unlock_reason_count,
-                length,
-                UnlockReason.MINIMUM_LENGTH,
-            ),
-            style = RecentrTheme.typography.captionMedium,
-            color = if (isEnough) RecentrTheme.colors.feedbackSuccess else RecentrTheme.colors.textTertiary,
-        )
     }
 }
 
@@ -494,9 +434,19 @@ internal fun PasscodeStep(rule: Rule, packageName: String, label: String, onUnlo
     }
 }
 
-/** 54 · Emergency unlock: hold to spend one of the month's three, past Strict mode. */
+/**
+ * 54 · Emergency unlock: hold to spend one of the month's three, past Strict mode or past a
+ * [limit] (its name), which has no other unlocks.
+ */
 @Composable
-internal fun EmergencyStep(packageName: String, label: String, unlocksLeft: Int, onCancel: () -> Unit, onUnlock: () -> Unit) {
+internal fun EmergencyStep(
+    packageName: String,
+    label: String,
+    limit: String?,
+    unlocksLeft: Int,
+    onCancel: () -> Unit,
+    onUnlock: () -> Unit,
+) {
     val colors = RecentrTheme.colors
     UnlockPage(
         actions = {
@@ -511,17 +461,18 @@ internal fun EmergencyStep(packageName: String, label: String, unlocksLeft: Int,
         },
     ) {
         Spacer(Modifier.height(8.dp))
-        AppChip(packageName, stringResource(R.string.unlock_strict_on, label))
+        AppChip(packageName, if (limit != null) stringResource(R.string.unlock_locked_by, label, limit) else stringResource(R.string.unlock_strict_on, label))
         Spacer(Modifier.height(40.dp))
         Mascot(MascotMood.Impatient, width = 160.dp, modifier = Modifier.entrance(100))
         Spacer(Modifier.height(32.dp))
         Title(stringResource(R.string.unlock_emergency_title))
         Spacer(Modifier.height(16.dp))
         Text(
-            if (unlocksLeft > 0) {
-                stringResource(R.string.unlock_emergency_body, unlocksLeft)
-            } else {
-                stringResource(R.string.unlock_emergency_spent)
+            when {
+                limit != null && unlocksLeft > 0 -> stringResource(R.string.unlock_emergency_limit_body, unlocksLeft)
+                limit != null -> stringResource(R.string.unlock_emergency_limit_spent)
+                unlocksLeft > 0 -> stringResource(R.string.unlock_emergency_body, unlocksLeft)
+                else -> stringResource(R.string.unlock_emergency_spent)
             },
             style = RecentrTheme.typography.bodyRegular,
             color = colors.textSecondary,

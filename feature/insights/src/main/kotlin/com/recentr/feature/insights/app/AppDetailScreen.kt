@@ -46,7 +46,7 @@ import com.recentr.feature.insights.ui.labelRes
 
 /**
  * 100 · Insights — App detail: time and opens over the period, the hourly profile, the longest
- * session and first open, what Recentr noticed, and the daily limit CTA.
+ * session and first open, what Recentr noticed, and the limit CTA.
  *
  * @param onLimit opens the limit editor: the existing rule ([Rule.id]) or a new one for the app.
  * @param onBlock creates a lock rule for the app.

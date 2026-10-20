@@ -64,7 +64,7 @@ interface ScreenTimeRepository {
 
     suspend fun pickups(period: UsagePeriod): PickupStats = pickups(UsageRange.of(period, LocalDate.now()))
 
-    /** Minutes per package from [start] (epoch millis) until now: a daily limit's period ([periodStart]). */
+    /** Minutes per package from [start] (epoch millis) until now: a limit's use since its Start. */
     suspend fun appMinutesSince(start: Long): Map<String, Int>
 
     /**

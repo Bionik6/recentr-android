@@ -12,14 +12,18 @@ import com.recentr.core.data.InstalledAppsRepository
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.RulesRepository
 import com.recentr.core.model.Rule
+import com.recentr.core.model.RuleEdit
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
+import com.recentr.core.model.edit
+import com.recentr.core.model.latestWish
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.RuleEditorRoute
 import com.recentr.feature.rules.model.BuiltInTemplate
 import com.recentr.feature.rules.model.RuleFactory
 import com.recentr.feature.rules.model.RulesMessages
+import com.recentr.feature.rules.ui.savedToast
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,11 +33,12 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.ZoneId
 
 @Immutable
 internal data class RuleEditorUiState(
     val draft: Rule,
-    /** Creating (vs editing an existing rule). */
+    /** Creating (vs editing an existing rule: the draft starts from its latest wish, [Rule.latestWish]). */
     val isNew: Boolean,
     /** The sheet title shows the rule name (renamed / template / existing) instead of the type. */
     val customTitle: Boolean,
@@ -71,7 +76,8 @@ internal class RuleEditorViewModel(
     }
 
     private fun initialState(route: RuleEditorRoute): RuleEditorUiState {
-        route.ruleId?.let(repository::rule)?.let { return RuleEditorUiState(it, isNew = false, customTitle = true) }
+        // Editing while a change is kept for later: from that change, the latest wish.
+        route.ruleId?.let(repository::rule)?.let { return RuleEditorUiState(it.latestWish, isNew = false, customTitle = true) }
         val builtIn = route.templateId?.let(BuiltInTemplate::byId)
         val draft = builtIn?.let { factory.fromTemplate(it, installedApps.apps.value.orEmpty()) } ?: factory.newRule(RuleType.valueOf(route.type))
         val state = RuleEditorUiState(draft, isNew = true, customTitle = builtIn != null)
@@ -89,7 +95,6 @@ internal class RuleEditorViewModel(
         val named = if (customTitle) draft else when (draft.type) {
             RuleType.Lock -> draft.copy(name = factory.lockName(apps))
             RuleType.Limit -> draft.copy(name = factory.limitName(apps))
-            RuleType.Habit -> draft.copy(name = factory.habitName(apps))
             else -> draft
         }
         return copy(draft = named)
@@ -111,14 +116,24 @@ internal class RuleEditorViewModel(
         )
     }
 
-    /** Creates / saves the rule. Nothing starts on its own: a new session waits on its page for Start. */
-    fun commit() {
+    /**
+     * What saving the draft would do now ([Rule.edit]), to ask first when it blocks more apps right
+     * away. Null for a new rule.
+     */
+    fun preview(now: Long = System.currentTimeMillis()): RuleEdit? =
+        repository.rule(_state.value.draft.id)?.takeIf { !_state.value.isNew }?.edit(_state.value.draft, now, ZoneId.systemDefault())
+
+    /**
+     * Creates / saves the rule ([RulesRepository.save]). Creating only saves it: a session, a lock
+     * or a limit waits on its page for Start. An edit while the rule is engaged applies what
+     * reinforces it now and keeps the rest for when its engagement ends; [clock] formats when.
+     */
+    fun commit(clock: (Long) -> String) {
         val state = _state.value
         val draft = state.draft
-        repository.upsert(draft)
-        RulesMessages.show(
-            if (state.isNew) string(R.string.rules_rule_created, arrayOf(draft.name)) else string(R.string.rules_rule_saved, emptyArray()),
-        )
+        repository.save(draft)
+        val saved = repository.rule(draft.id) ?: draft
+        RulesMessages.show(if (state.isNew) string(R.string.rules_rule_created, arrayOf(draft.name)) else savedToast(saved, string, clock))
     }
 
     companion object {

@@ -1,7 +1,7 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.Rule
-import com.recentr.core.model.RuleSchedule
+import com.recentr.core.model.RuleType
 import java.time.Instant
 import java.time.ZoneId
 
@@ -13,16 +13,16 @@ data class DueReminder(
 )
 
 /**
- * The next reminder after [now] among the rules with one (Rule detail › Reminders): enabled rules
- * with a weekly window, [Rule.reminderMinutesBefore] its start, skipping the starts that fall in
- * a pause. All-day windows have no start to announce. Rules due at the same moment share it.
+ * The next reminder after [now] among the routines with one (Rule detail › Reminders): enabled
+ * routines, [Rule.reminderMinutesBefore] a window's start, skipping the starts that fall in a
+ * pause. Whole-day windows have no start to announce. Rules due at the same moment share it.
  */
 fun nextRuleReminder(rules: List<Rule>, now: Long, zone: ZoneId = ZoneId.systemDefault()): DueReminder? {
     val today = Instant.ofEpochMilli(now).atZone(zone).toLocalDate()
     val due = rules.mapNotNull { rule ->
         val before = rule.reminderMinutesBefore ?: return@mapNotNull null
-        val schedule = rule.schedule ?: return@mapNotNull null
-        if (!rule.enabled || rule.oneShot || schedule.lengthMinutes >= RuleSchedule.MINUTES_PER_DAY) return@mapNotNull null
+        val schedule = rule.schedule?.takeIf { rule.type == RuleType.Bedtime } ?: return@mapNotNull null
+        if (!rule.enabled || schedule.allDay) return@mapNotNull null
         // Eight days: a reminder can fall on the evening before its start, a week ahead at most.
         (0..8).asSequence()
             .map { today.plusDays(it.toLong()) }

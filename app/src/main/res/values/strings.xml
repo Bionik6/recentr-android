@@ -13,16 +13,12 @@
     <string name="shield_until">%1$s · until %2$s</string>
     <string name="shield_until_tomorrow">%1$s · until %2$s tomorrow</string>
     <string name="shield_limit">%1$s · today’s %2$s used</string>
-    <string name="shield_limit_week">%1$s · this week’s %2$s used</string>
-    <string name="shield_limit_resets_at">%1$s · %2$s used, resets at %3$s</string>
-    <string name="shield_habit">Finish your “%1$s” tasks to open it</string>
     <string name="shield_stayed_off">You’ve stayed off for %1$s</string>
     <string name="shield_focus_minutes">You’re %1$d min into focus</string>
     <string name="shield_focus_started">Your focus just started</string>
     <string name="shield_got_this">I’ve got this</string>
     <string name="shield_back_to_focus">Back to focus</string>
     <string name="shield_end_focus">End focus early</string>
-    <string name="shield_open_recentr">Open Recentr</string>
     <string name="shield_unlock_anyway">Unlock anyway</string>
     <string name="shield_unlock_anyway_left">Unlock anyway (%1$d of %2$d left)</string>
     <string name="shield_emergency">Emergency unlock</string>
@@ -41,15 +37,6 @@
     <string name="unlock_minutes_chip">%1$d min</string>
     <string name="unlock_nevermind">Nevermind</string>
     <string name="unlock_unlock">Unlock</string>
-    <string name="unlock_reason_title">Give a good reason</string>
-    <string name="unlock_reason_note">Why now?</string>
-    <string name="unlock_reason_hint">Need to share the playlist for tomorrow’s run</string>
-    <string name="unlock_reason_work">Work</string>
-    <string name="unlock_reason_reply">Reply to someone</string>
-    <string name="unlock_reason_bored">Just bored</string>
-    <string name="unlock_reason_count">%1$d / %2$d characters minimum</string>
-    <string name="unlock_reason_count_done">%1$d / %2$d characters minimum ✓</string>
-    <string name="unlock_for_minutes">Unlock for %1$d min</string>
     <string name="unlock_retype_title">Type this to unlock</string>
     <string name="unlock_retype_text">I am choosing a feed over the work I said mattered today, and I know it.</string>
     <string name="unlock_quote">“%1$s”</string>
@@ -72,6 +59,8 @@
     <string name="unlock_emergency_title">Emergency unlock</string>
     <string name="unlock_emergency_body">Strict mode is on. Use this only when it truly matters — you have %1$d left this month.</string>
     <string name="unlock_emergency_spent">Strict mode is on, and this month’s emergency unlocks are spent.</string>
+    <string name="unlock_emergency_limit_body">Today’s time is up, and a limit has no unlocks. Use this only when it truly matters — you have %1$d left this month.</string>
+    <string name="unlock_emergency_limit_spent">Today’s time is up, and this month’s emergency unlocks are spent.</string>
     <plurals name="unlock_emergency_left">
         <item quantity="one">%d emergency unlock left</item>
         <item quantity="other">%d emergency unlocks left</item>
@@ -87,7 +76,7 @@
 
     <!-- Rule reminders (Rule detail › Reminders) -->
     <string name="reminder_channel">Rule reminders</string>
-    <string name="reminder_channel_description">A heads-up before a session or routine starts blocking apps.</string>
+    <string name="reminder_channel_description">A heads-up before a routine starts blocking apps.</string>
     <string name="reminder_title">%1$s starts in %2$d min</string>
     <string name="reminder_text">Apps get blocked at %1$s.</string>
 </resources>

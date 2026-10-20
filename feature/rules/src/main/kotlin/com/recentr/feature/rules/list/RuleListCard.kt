@@ -26,8 +26,9 @@ import com.recentr.feature.rules.R
 import com.recentr.feature.rules.ui.asSticker
 import com.recentr.feature.rules.ui.compactDuration
 import com.recentr.feature.rules.ui.countdown
+import com.recentr.feature.rules.ui.PendingKind
 import com.recentr.feature.rules.ui.durationLabel
-import com.recentr.feature.rules.ui.habitRepeatLabel
+import com.recentr.feature.rules.ui.pendingKind
 import com.recentr.feature.rules.ui.scheduleLabel
 import com.recentr.feature.rules.ui.startCountdown
 import com.recentr.feature.rules.ui.components.IconTintChip
@@ -35,41 +36,36 @@ import com.recentr.feature.rules.ui.components.overlayBorder
 import java.time.ZoneId
 
 /**
- * When the card's countdown ends: the running session, or the scheduled window a session or
- * routine is in. Null when nothing counts down (locks, limits and habits hold without one).
+ * When the card's countdown ends: the running session, or the window a routine is in. Null when
+ * nothing counts down (locks and limits hold without one).
  */
-internal fun Rule.runsUntil(now: Long, zone: ZoneId = ZoneId.systemDefault()): Long? = when {
-    isRunning(now) -> sessionEndsAt
-    (type == RuleType.Session || type == RuleType.Bedtime) && isEnforcing(now, zone) -> heldUntil(now, zone)
-    else -> null
+internal fun Rule.runsUntil(now: Long, zone: ZoneId = ZoneId.systemDefault()): Long? = when (type) {
+    RuleType.Session -> sessionEndsAt?.takeIf { isRunning(now) }
+    RuleType.Bedtime -> heldUntil(now, zone)?.takeIf { isEnforcing(now, zone) }
+    RuleType.Lock, RuleType.Limit -> null
 }
 
 /**
  * The status chip of a rule card. [Ongoing] and [Blocking] read green: the rule is on now. [Ready]:
- * a saved session waiting to be started again.
+ * a session or a limit waiting for Start. [Off]: a lock waiting for Activate.
  */
 internal enum class CardStatus {
-    Paused, Ongoing, Blocking, Upcoming, Ready, TimesUp, Unlocks, Tasks;
+    Paused, Ongoing, Blocking, Upcoming, Ready, TimesUp, Unlocks, Off;
 
     val active: Boolean get() = this == Ongoing || this == Blocking
 }
 
 internal fun Rule.cardStatus(now: Long, zone: ZoneId = ZoneId.systemDefault()): CardStatus = when {
     isPaused(now) -> CardStatus.Paused
-    runsUntil(now, zone) != null -> if (type == RuleType.Bedtime) CardStatus.Blocking else CardStatus.Ongoing
     else -> when (type) {
-        RuleType.Lock -> CardStatus.Unlocks
-        RuleType.Session -> {
-            val window = schedule
-            when {
-                window == null -> CardStatus.Ready
-                window.isActiveAt(now, zone) -> CardStatus.Ongoing
-                else -> CardStatus.Upcoming
-            }
+        RuleType.Session -> if (isRunning(now)) CardStatus.Ongoing else CardStatus.Ready
+        RuleType.Bedtime -> if (isEnforcing(now, zone)) CardStatus.Blocking else CardStatus.Upcoming
+        RuleType.Lock -> if (isEnforcing(now, zone)) CardStatus.Unlocks else CardStatus.Off
+        RuleType.Limit -> when {
+            !isEnforcing(now, zone) -> CardStatus.Ready
+            usedMinutes >= (limitMinutes ?: Int.MAX_VALUE) -> CardStatus.TimesUp
+            else -> CardStatus.Ongoing
         }
-        RuleType.Limit -> if (usedMinutes >= (limitMinutes ?: Int.MAX_VALUE)) CardStatus.TimesUp else CardStatus.Ongoing
-        RuleType.Bedtime -> if (schedule?.isActiveAt(now, zone) == true) CardStatus.Blocking else CardStatus.Upcoming
-        RuleType.Habit -> CardStatus.Tasks
     }
 }
 
@@ -81,29 +77,29 @@ internal sealed interface CardValue {
     /** A routine waiting for its window: the countdown to its start. */
     data class StartsIn(val millis: Long) : CardValue
     data object Locked : CardValue
+    /** A lock waiting for Activate. */
+    data object Off : CardValue
     data class UsedOf(val usedMinutes: Int, val totalMinutes: Int) : CardValue
+    /** A limit waiting for Start: its budget. */
     data class Minutes(val minutes: Int) : CardValue
-    data class Tasks(val done: Int, val total: Int) : CardValue
 }
 
 /**
  * The card's value, or null for nothing: a routine waiting for its window counts down to its
- * start; otherwise it shows the minutes it held apps only once there is a whole one (no "0s" in
- * its first minute); a saved session waiting to run again has its length on its chip already.
+ * start, a started limit reads "used / budget" and one waiting for Start its budget; a saved
+ * session waiting for Start has its length on its chip already.
  */
 internal fun Rule.cardValue(now: Long, zone: ZoneId = ZoneId.systemDefault()): CardValue? {
     if (isPaused(now)) return CardValue.Paused
     runsUntil(now, zone)?.let { return CardValue.Left(it - now) }
     return when (type) {
-        RuleType.Lock -> CardValue.Locked
-        RuleType.Session -> schedule?.let { CardValue.UsedOf(usedMinutes, it.lengthMinutes) }
-        RuleType.Limit -> CardValue.UsedOf(usedMinutes, limitMinutes ?: 0)
+        RuleType.Lock -> if (isEnforcing(now, zone)) CardValue.Locked else CardValue.Off
+        RuleType.Session -> null
+        RuleType.Limit -> if (isEnforcing(now, zone)) CardValue.UsedOf(usedMinutes, limitMinutes ?: 0) else CardValue.Minutes(limitMinutes ?: 0)
         RuleType.Bedtime -> schedule
             ?.takeIf { enabled && !it.isActiveAt(now, zone) }
             ?.nextStartAfter(now, zone)
             ?.let { CardValue.StartsIn(it - now) }
-            ?: if (usedMinutes >= 1) CardValue.Minutes(usedMinutes) else null
-        RuleType.Habit -> CardValue.Tasks(habitTasks.count { it.done }, habitTasks.size)
     }
 }
 
@@ -126,9 +122,9 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
         is CardValue.Left -> stringResource(R.string.rules_value_left, countdown(v.millis))
         is CardValue.StartsIn -> stringResource(R.string.rules_value_starts_in, startCountdown(v.millis))
         CardValue.Locked -> stringResource(R.string.rules_value_locked)
+        CardValue.Off -> stringResource(R.string.rules_value_off)
         is CardValue.UsedOf -> stringResource(R.string.rules_value_used_of, compactDuration(v.usedMinutes), compactDuration(v.totalMinutes))
         is CardValue.Minutes -> compactDuration(v.minutes)
-        is CardValue.Tasks -> "${v.done}/${v.total}"
     }
     RuleCard(
         title = rule.name,
@@ -147,7 +143,7 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
         if (running && rule.strictMode) {
             IconTintChip(stringResource(R.string.rules_strict_mode), RecentrIcon.Shield, colors.accentTangerine)
         } else {
-            RecentrChip(scheduleChip(rule), style = RecentrChipStyle.Outline)
+            RecentrChip(scheduleChip(rule, now), style = RecentrChipStyle.Outline)
         }
     }
 }
@@ -162,7 +158,7 @@ private fun statusLabel(rule: Rule, status: CardStatus): String = when (status) 
     CardStatus.TimesUp -> stringResource(R.string.rules_status_times_up)
     CardStatus.Unlocks -> rule.unlocksPerDay?.let { stringResource(R.string.rules_status_unlocks, rule.unlocksUsedToday, it) }
         ?: stringResource(R.string.rules_status_unlocks_unlimited)
-    CardStatus.Tasks -> stringResource(R.string.rules_status_tasks, rule.habitTasks.count { it.done }, rule.habitTasks.size)
+    CardStatus.Off -> stringResource(R.string.rules_status_off)
 }
 
 /** Up to [CARD_APPS] overlapping icons, then "+ N apps". */
@@ -182,12 +178,16 @@ private fun CardApps(rule: Rule) {
     }
 }
 
+/**
+ * The card's second chip: a session's length, a routine's days and hours, "Until midnight" for a
+ * started limit or a lock turning off, "Budget for today" for a limit waiting for Start.
+ */
 @Composable
-private fun scheduleChip(rule: Rule): String = when (rule.type) {
-    RuleType.Limit -> stringResource(R.string.rules_all_day)
-    RuleType.Habit -> habitRepeatLabel(rule.habitRepeat)
-    RuleType.Session -> if (rule.schedule == null && rule.durationMinutes != null) durationLabel(rule.durationMinutes!!) else scheduleLabel(rule.schedule)
-    else -> scheduleLabel(rule.schedule)
+private fun scheduleChip(rule: Rule, now: Long): String = when (rule.type) {
+    RuleType.Limit -> stringResource(if (rule.isEnforcing(now)) R.string.rules_until_midnight else R.string.rules_budget_today)
+    RuleType.Session -> durationLabel(rule.durationMinutes ?: 30)
+    RuleType.Lock -> stringResource(if (rule.pendingKind == PendingKind.TurnOff) R.string.rules_until_midnight else R.string.rules_all_day)
+    RuleType.Bedtime -> scheduleLabel(rule.schedule)
 }
 
 @Preview
@@ -202,6 +202,7 @@ private fun RuleListCardPreview() {
                 apps = listOf(AppId.Instagram, AppId.X, AppId.TikTok).map { UsageApp.of(it) },
                 limitMinutes = 135,
                 usedMinutes = 10,
+                activeSince = 0L,
                 streakDays = 3,
             ),
             now = 0L,

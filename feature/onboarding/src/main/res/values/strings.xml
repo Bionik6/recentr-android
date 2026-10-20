@@ -171,7 +171,7 @@
     <string name="onb_rule_focus">Focus time</string>
     <string name="onb_rule_social">Social limit</string>
     <string name="onb_rule_quiet">Quiet hours</string>
-    <string name="onb_rule_daily_limit">Daily limit</string>
+    <string name="onb_rule_daily_limit">Time budget</string>
     <string name="onb_all_set_note_title">Why I’m doing this</string>
     <string name="onb_reason_scroll">More evenings outside, fewer hours on TikTok.</string>
     <string name="onb_reason_sleep">Calmer nights, phone-free mornings.</string>

@@ -25,15 +25,15 @@ import com.recentr.core.designsystem.theme.RecentrTheme
  * contact shadow, which can spill below the artboard: [exportHeightRatio] is export height / width.
  */
 enum class Sticker(@param:DrawableRes val drawable: Int, val exportHeightRatio: Float) {
-    /** Lock rule — block apps entirely. */
+    /** Lock rule — keep apps blocked until it's turned off. */
     Lock(R.drawable.sticker_lock, 1f),
     /** Session rule — focus now. */
     Bolt(R.drawable.sticker_bolt, 508f / 480f),
-    /** Limit rule — daily time budget. */
+    /** Limit rule — a time budget for today. */
     Timer(R.drawable.sticker_timer, 1f),
     /** Routine rule — evenings & nights. */
     Moon(R.drawable.sticker_moon, 1f),
-    /** Habit — grow a good habit. */
+    /** Leaf — calm, offline time (routines, focus log, badges). */
     Leaf(R.drawable.sticker_leaf, 1f),
     /** Reflection / reason — sticky note. */
     Note(R.drawable.sticker_note, 492f / 480f),

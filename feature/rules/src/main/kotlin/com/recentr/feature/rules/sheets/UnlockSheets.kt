@@ -37,7 +37,8 @@ import com.recentr.feature.rules.ui.unlocksPerDayLabel
 
 /**
  * The ways out of "How do you unlock?", lightest first. No "No unlocks": that's Strict mode, so a
- * rule without it can always be unlocked, waiting 10 seconds by default.
+ * rule without it can always be unlocked, waiting 10 seconds by default. A limit has none: only an
+ * emergency unlock gets past it.
  */
 internal val UnlockMethodOptions = UNLOCK_METHODS
 
@@ -48,12 +49,12 @@ internal fun UnlockMethodSheet(
     onContinue: (UnlockMethod) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    var method by rememberSaveable { mutableStateOf(initial.takeIf { it in UnlockMethodOptions } ?: UnlockMethod.Wait) }
+    var method by rememberSaveable { mutableStateOf(initial) }
     val options = UnlockMethodOptions.map { option ->
         when (option) {
+            UnlockMethod.Wait -> Triple(option, R.string.rules_unlock_option_wait, RecentrIcon.Hourglass)
             UnlockMethod.Retype -> Triple(option, R.string.rules_unlock_option_retype, RecentrIcon.Pencil)
             UnlockMethod.ScanCode -> Triple(option, R.string.rules_unlock_option_scan, RecentrIcon.Qr)
-            else -> Triple(option, R.string.rules_unlock_option_wait, RecentrIcon.Hourglass)
         }
     }
     RulesSheet(onDismissRequest = onDismiss) { closer ->

@@ -11,7 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AppId
-import com.recentr.core.model.HabitTask
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
@@ -59,7 +58,6 @@ private fun BedtimeEditorPreview() = SheetPreview {
                 "2", RuleType.Bedtime, "Bedtime",
                 schedule = RuleSchedule(23 * 60, 7 * 60, (1..5).toSet()),
                 apps = listOf(AppId.Instagram, AppId.TikTok).map { UsageApp.of(it) },
-                strictMode = true,
             ),
             isNew = true,
             customTitle = false,
@@ -71,19 +69,14 @@ private fun BedtimeEditorPreview() = SheetPreview {
 
 @Preview(widthDp = 402)
 @Composable
-private fun HabitEditorPreview() = SheetPreview {
-    HabitEditor(
+private fun LimitEditorPreview() = SheetPreview {
+    LimitEditor(
         state = RuleEditorUiState(
-            Rule(
-                "3", RuleType.Habit, "Before X opens",
-                apps = listOf(AppId.X, AppId.TikTok).map { UsageApp.of(it) },
-                habitTasks = listOf(HabitTask("a", "Read 10 pages", done = true), HabitTask("b", "Drink a glass of water")),
-            ),
+            Rule("3", RuleType.Limit, "Social time", apps = listOf(AppId.Instagram, AppId.TikTok).map { UsageApp.of(it) }, limitMinutes = 2 * 60 + 15),
             isNew = true,
             customTitle = false,
         ),
-        title = "Habit",
-        habitTitle = "Before X opens",
+        title = "Limit",
         actions = previewActions,
     )
 }

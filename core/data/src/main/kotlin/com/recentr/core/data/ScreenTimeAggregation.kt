@@ -215,7 +215,7 @@ internal object ScreenTimeAggregation {
 
     /**
      * Minutes per package of the [days]' sessions from [since] on (a session that started before is
-     * cut there), rounded per package like Most used: a daily limit's use over its period.
+     * cut there), rounded per package like Most used: a limit's use since its Start.
      */
     fun appMinutes(days: List<DayUsage>, since: Long): Map<String, Int> {
         val millis = HashMap<String, Long>()

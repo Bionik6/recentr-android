@@ -64,7 +64,6 @@
     <string name="plus_subtitle">Every tool for calmer days</string>
     <string name="plus_benefit_rules">Unlimited rules &amp; routines</string>
     <string name="plus_benefit_strict">Strict mode &amp; emergency passes</string>
-    <string name="plus_benefit_habits">Habits that unlock apps</string>
     <string name="plus_benefit_recaps">Weekly recaps &amp; reflections</string>
     <string name="plus_yearly">Yearly</string>
     <string name="plus_monthly">Monthly</string>
@@ -134,7 +133,7 @@
     <string name="settings_replay_onboarding">Replay onboarding</string>
     <string name="settings_design_system">Design system</string>
     <string name="emergency_title">Emergency unlocks</string>
-    <string name="emergency_body">You have %1$d of %2$d emergency unlocks left this month. When Strict mode holds an app, each one opens it for 5 minutes anyway. They come back on %3$s.</string>
+    <string name="emergency_body">You have %1$d of %2$d emergency unlocks left this month. When Strict mode or a spent limit holds an app, each one opens it for 5 minutes anyway. They come back on %3$s.</string>
     <string name="unlock_pass_title">Unlock pass</string>
     <string name="unlock_pass_none">No rule asks for a pass yet. Pick “Scan a code you keep elsewhere” as a rule’s unlock, then print its pass here.</string>
     <string name="unlock_pass_body">Print a rule’s pass and keep it far from your phone. Scanning it is the way in.</string>
@@ -153,7 +152,7 @@
     <string name="help_not_blocking">Recentr isn’t blocking an app</string>
     <string name="help_not_blocking_body">Blocking needs Usage access and Recentr running in the background. Check Settings › Apps › Recentr and turn off battery optimisation.</string>
     <string name="help_strict">Questions about Strict mode</string>
-    <string name="help_strict_body">Turn Strict mode on for a session or a routine and it holds until it ends: no edits, no pauses, no unlocks, and no turning it off. Settings › Strict mode turns it on for every new one.</string>
+    <string name="help_strict_body">Turn Strict mode on for a session or a routine and, until it ends, its apps can’t be unlocked, other than with an emergency unlock. Turning it off then waits for the end. Settings › Strict mode turns it on for every new one.</string>
     <string name="help_billing">Billing &amp; Recentr Plus</string>
     <string name="help_billing_body">Recentr Plus is billed through Google Play. You can cancel anytime from Settings › Recentr Plus or your Play subscriptions.</string>
     <string name="help_note_section">Send us a note</string>

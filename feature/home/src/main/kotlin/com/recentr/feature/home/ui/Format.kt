@@ -36,5 +36,4 @@ internal val RuleType.sticker: Sticker
         RuleType.Lock -> Sticker.Lock
         RuleType.Limit -> Sticker.Timer
         RuleType.Bedtime -> Sticker.Moon
-        RuleType.Habit -> Sticker.Leaf
     }

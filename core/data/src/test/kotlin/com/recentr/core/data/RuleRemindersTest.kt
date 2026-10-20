@@ -57,6 +57,13 @@ class RuleRemindersTest {
     }
 
     @Test
+    fun onlyRoutinesHaveReminders() {
+        // Sessions, locks and limits have no days or hours.
+        val rules = RuleType.entries.filter { it != RuleType.Bedtime }.map { type -> morning.copy(id = type.name, type = type) }
+        assertNull(nextRuleReminder(rules, at(13), zone))
+    }
+
+    @Test
     fun skipsAStartInsideAPause() {
         // Paused until Tuesday morning: Monday's start is skipped.
         val paused = morning.copy(pausedUntil = at(8, day = 20))
@@ -67,7 +74,7 @@ class RuleRemindersTest {
     fun rulesDueTogetherShareTheReminder() {
         val focus = Rule(
             "focus",
-            RuleType.Session,
+            RuleType.Bedtime,
             "Focus",
             schedule = RuleSchedule(20 * 60 + 5, 22 * 60),
             reminderMinutesBefore = 5,
