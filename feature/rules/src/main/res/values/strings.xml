@@ -149,19 +149,19 @@
     <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
     <string name="rules_block_now_title">Block these apps now?</string>
     <string name="rules_block_now_body">The rule is blocking: the apps you added are blocked right away.</string>
-    <!-- Asked before a lock is activated or a limit started (not with Settings › Change locks & limits anytime). -->
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
     <string name="rules_lock_confirm_title">Turn on %1$s?</string>
-    <string name="rules_lock_confirm_body">Once it’s on, what makes it easier — removing apps, more unlocks, turning it off — only applies at midnight.\n\nTo change it anytime, turn on Settings › Change locks &amp; limits anytime.</string>
+    <string name="rules_lock_confirm_body">Once it’s on, what makes it easier — removing apps, more unlocks, turning it off — only applies at midnight.</string>
     <string name="rules_limit_confirm_title">Start %1$s?</string>
-    <string name="rules_limit_confirm_body">Once it’s started, what makes it easier — a bigger budget, removing apps — only applies at midnight, when it resets.\n\nTo change it anytime, turn on Settings › Change locks &amp; limits anytime.</string>
+    <string name="rules_limit_confirm_body">Once it’s started, what makes it easier — a bigger budget, removing apps — only applies at midnight, when it resets.</string>
     <string name="rules_block_now">Block now</string>
 
     <!-- Lock sheet -->
     <string name="rules_lock_title">Lock</string>
     <string name="rules_lock_subtitle">Keep chosen apps closed, with a few short unlocks a day.</string>
     <string name="rules_lock_note_title">Why this lock?</string>
-    <string name="rules_create_lock">Create lock</string>
-    <string name="rules_create_session">Create session</string>
+    <string name="rules_hold_create_lock">Hold to create lock</string>
+    <string name="rules_hold_create_session">Hold to create session</string>
     <string name="rules_unlock_wait">Wait %1$d s</string>
     <string name="rules_unlock_retype">Re-type</string>
     <string name="rules_unlock_scan">Scan code</string>
@@ -198,7 +198,11 @@
     <!-- Limit sheet -->
     <string name="rules_limit_title">Limit</string>
     <string name="rules_limit_subtitle">A time budget for today, for apps that eat your day.</string>
-    <string name="rules_create_limit">Create limit</string>
+    <string name="rules_hold_create_limit">Hold to create limit</string>
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">Locked in until midnight</string>
+    <string name="rules_locked_in_lock">It’s on as soon as it’s created. Easing it — removing apps, more unlocks, turning it off — or deleting it only applies after the daily reset, at midnight.</string>
+    <string name="rules_locked_in_limit">It starts as soon as it’s created. Easing it — a bigger budget, removing apps — or deleting it only applies after the daily reset, at midnight.</string>
     <string name="rules_limit_resets">Resets automatically at midnight.</string>
     <string name="rules_limit_default_name">Limit</string>
     <string name="rules_limit_social_name">Social time</string>
@@ -214,7 +218,7 @@
     <string name="rules_tonight_alone">Tonight</string>
     <string name="rules_today_alone">Today</string>
     <string name="rules_tomorrow_alone">Tomorrow</string>
-    <string name="rules_create_routine">Create routine</string>
+    <string name="rules_hold_create_routine">Hold to create routine</string>
     <string name="rules_starts_at">Starts at</string>
     <string name="rules_ends_at_title">Ends at</string>
 

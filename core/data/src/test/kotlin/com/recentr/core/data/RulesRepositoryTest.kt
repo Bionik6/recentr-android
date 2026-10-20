@@ -128,13 +128,59 @@ class RulesRepositoryTest {
     // Start, Activate
 
     @Test
-    fun `creating a rule only saves it`() {
+    fun `saving a new rule only saves it`() {
         val repo = repository()
         val edit = repo.save(Rule("s", RuleType.Session, "Focus", apps = listOf(tiktok), durationMinutes = 30))
         assertNull(edit.later)
         assertNull(repo.rule("s")!!.activeSince)
         assertFalse(repo.rule("s")!!.isRunning(now))
         assertEquals(now, repo.rule("s")!!.streakFrom)
+    }
+
+    @Test
+    fun `creating a session starts it`() {
+        val repo = repository()
+        repo.create(Rule("s", RuleType.Session, "Focus", apps = listOf(tiktok), durationMinutes = 30))
+        val session = repo.rule("s")!!
+        assertEquals(now, session.activeSince)
+        assertEquals(now + 30 * 60_000, session.sessionEndsAt)
+        assertTrue(session.isRunning(now + 60_000))
+        assertEquals(now, session.streakFrom)
+        // Saved, still running after a restart; its run counts once it ends.
+        assertTrue(repository(now + 60_000).rule("s")!!.isRunning(now + 60_000))
+        repo.settle(now + 30 * 60_000)
+        assertEquals(1, repo.rule("s")!!.streakDays)
+    }
+
+    @Test
+    fun `creating a lock turns it on`() {
+        val repo = repository()
+        repo.create(lock)
+        assertEquals(now, repo.rule("l")!!.activeSince)
+        assertTrue(repo.rule("l")!!.isHolding(now, zone))
+        // On, what eases it waits for midnight, right from the start.
+        assertFalse(repo.delete("l"))
+        assertEquals(at(monday, 0), repo.rule("l")!!.pending?.appliesAt)
+    }
+
+    @Test
+    fun `creating a limit starts it for today`() {
+        val repo = repository()
+        repo.create(Rule("m", RuleType.Limit, "Limit", apps = listOf(whatsApp), limitMinutes = 60, usedMinutes = 12))
+        val limit = repo.rule("m")!!
+        assertEquals(now, limit.activeSince)
+        assertEquals(0, limit.usedMinutes)
+        assertTrue(limit.isEnforcing(now, zone))
+        assertEquals(at(monday, 0), limit.limitEndsAt(zone))
+    }
+
+    @Test
+    fun `creating a routine leaves it to its schedule`() {
+        val repo = repository()
+        repo.create(Rule("r", RuleType.Bedtime, "Bedtime", apps = listOf(tiktok), schedule = RuleSchedule(22 * 60, 7 * 60)))
+        assertNull(repo.rule("r")!!.activeSince)
+        assertFalse(repo.rule("r")!!.isEnforcing(now, zone))
+        assertTrue(repo.rule("r")!!.isEnforcing(at(sunday, 23), zone))
     }
 
     @Test
@@ -192,18 +238,6 @@ class RulesRepositoryTest {
         assertFalse(off.isEnforcing(at(monday, 0), zone))
         // The day it was on counted.
         assertEquals(1, off.streakDays)
-    }
-
-    @Test
-    fun `with changes anytime, a lock turns off and is deleted right away`() {
-        val repo = repository()
-        val edit = repo.save(repo.activeLock().copy(activeSince = null), changesAnytime = true)
-        assertNull(edit.later)
-        assertNull(repo.rule("l")!!.activeSince)
-        assertNull(repo.rule("l")!!.pending)
-        repo.start("l", now = now)
-        assertTrue(repo.delete("l", changesAnytime = true))
-        assertNull(repo.rule("l"))
     }
 
     @Test

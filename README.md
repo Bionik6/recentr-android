@@ -87,7 +87,8 @@ also from the Home streak tile.
   **routine** blocks them during windows that repeat (saved as `RuleType.Bedtime`); a **lock**
   keeps them blocked from *Activate*, with a few unlocks a day, and *Turn off* takes effect at
   midnight; a **limit** is a time budget for today from *Start*, then blocks its apps until
-  midnight, and has no unlocks but emergency ones. Creating a rule only saves it. While a rule is
+  midnight, and has no unlocks but emergency ones. Creating a rule (held down, not tapped) turns
+  it on: a session starts, a lock is on, a limit starts for today. While a rule is
   engaged, an edit that loosens it (fewer apps, more unlocks, a bigger budget, Strict mode off,
   pause, turn off, delete) is kept on the rule and applied when the engagement ends; what
   reinforces it applies now (`Rule.edit` in `:core:model`, unit-tested).

@@ -42,13 +42,9 @@ data class RuleEdit(
  *
  * What the rule has used and counted (minutes used, unlocks used today, its streak, Start) always
  * stays the rule's. A kept delete stays kept: only dropping it keeps the rule.
- *
- * With Settings › Change locks & limits anytime on ([changesAnytime]), a lock or a limit is never
- * engaged for this: every change applies now ([changesWaitUntil]). Asking first when a change
- * blocks more apps right away still holds: blocking itself doesn't change.
  */
-fun Rule.edit(draft: Rule, now: Long, zone: ZoneId = ZoneId.systemDefault(), changesAnytime: Boolean = false): RuleEdit {
-    val end = changesWaitUntil(now, zone, changesAnytime)
+fun Rule.edit(draft: Rule, now: Long, zone: ZoneId = ZoneId.systemDefault()): RuleEdit {
+    val end = engagementEnd(now, zone)
     if (end == null) {
         val applied = settingsOf(draft)
         return RuleEdit(now = applied, later = null, blocksMore = blocksMore(applied, now, zone))
@@ -101,14 +97,6 @@ fun Rule.edit(draft: Rule, now: Long, zone: ZoneId = ZoneId.systemDefault(), cha
 }
 
 /**
- * When changes that loosen the rule apply ([edit], [deleted]): the end of its engagement, or null
- * when they apply now — the rule isn't engaged, or it's a lock or a limit and Settings › Change
- * locks & limits anytime is on ([changesAnytime]).
- */
-fun Rule.changesWaitUntil(now: Long, zone: ZoneId = ZoneId.systemDefault(), changesAnytime: Boolean = false): Long? =
-    if (changesAnytime && (type == RuleType.Lock || type == RuleType.Limit)) null else engagementEnd(now, zone)
-
-/**
  * Whether [after] blocks more apps right away than this rule: it holds apps now and [after] adds
  * one, or it's a started limit whose budget drops to what's already used.
  */
@@ -120,12 +108,11 @@ private fun Rule.blocksMore(after: Rule, now: Long, zone: ZoneId): Boolean {
 }
 
 /**
- * Deleting the rule at [now]: null when it goes right away (it isn't engaged, or [changesAnytime]
- * for a lock or a limit), otherwise the rule with the delete kept for the end of its engagement
- * ("Deleted at midnight").
+ * Deleting the rule at [now]: null when it goes right away (it isn't engaged), otherwise the rule
+ * with the delete kept for the end of its engagement ("Deleted at midnight").
  */
-fun Rule.deleted(now: Long, zone: ZoneId = ZoneId.systemDefault(), changesAnytime: Boolean = false): Rule? =
-    changesWaitUntil(now, zone, changesAnytime)?.let { copy(pending = RuleChange(it, rule = null)) }
+fun Rule.deleted(now: Long, zone: ZoneId = ZoneId.systemDefault()): Rule? =
+    engagementEnd(now, zone)?.let { copy(pending = RuleChange(it, rule = null)) }
 
 /**
  * The rule as it was last wished: the change kept for later, if any (what the editor opens on and

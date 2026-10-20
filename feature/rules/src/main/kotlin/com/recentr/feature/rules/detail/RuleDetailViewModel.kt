@@ -24,12 +24,10 @@ import com.recentr.feature.rules.ui.durationText
 import com.recentr.feature.rules.ui.pendingWhen
 import com.recentr.feature.rules.ui.savedToast
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -55,23 +53,14 @@ internal enum class PauseOption(val label: Int) {
  * Rule detail (Figma 44): the live rule; Start (sessions, limits), Activate and Turn off (locks),
  * Pause and Resume (routines); option edits; delete; dropping a change kept for later. Every change
  * goes through the edit policy ([RulesRepository.save]): while the rule is engaged, what loosens it
- * waits for the end of its engagement — for a lock or a limit, unless Settings › Change locks &
- * limits anytime is on. [clock] arguments format when ("7:00 AM").
+ * waits for the end of its engagement. [clock] arguments format when ("7:00 AM").
  */
 internal class RuleDetailViewModel(
     private val ruleId: String,
     private val repository: RulesRepository,
     private val string: (Int, Array<out Any>) -> String,
     private val zone: () -> ZoneId = ZoneId::systemDefault,
-    /** Settings › Change locks & limits anytime. */
-    changesLocksAnytime: Flow<Boolean> = flowOf(false),
 ) : ViewModel() {
-
-    /**
-     * Settings › Change locks & limits anytime: a lock or a limit that's on changes right away, and
-     * Activate and Start don't ask first.
-     */
-    val changesAnytime: StateFlow<Boolean> = changesLocksAnytime.stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     private val clock = flow {
         while (true) {
@@ -88,7 +77,7 @@ internal class RuleDetailViewModel(
 
     /** What [transform] on the rule's latest wish would do now: to ask first when it blocks more apps right away. */
     fun preview(transform: (Rule) -> Rule): RuleEdit? =
-        repository.rule(ruleId)?.let { it.edit(transform(it.latestWish), System.currentTimeMillis(), zone(), changesAnytime.value) }
+        repository.rule(ruleId)?.let { it.edit(transform(it.latestWish), System.currentTimeMillis(), zone()) }
 
     /**
      * Saves [transform] of the rule's latest wish. What waits for the end of the engagement is said
@@ -96,7 +85,7 @@ internal class RuleDetailViewModel(
      */
     fun update(clock: (Long) -> String, transform: (Rule) -> Rule) {
         val rule = repository.rule(ruleId) ?: return
-        val edit = repository.save(transform(rule.latestWish), changesAnytime = changesAnytime.value)
+        val edit = repository.save(transform(rule.latestWish))
         if (edit.later != null) RulesMessages.show(savedToast(edit.now, string, clock))
     }
 
@@ -148,17 +137,17 @@ internal class RuleDetailViewModel(
         )
     }
 
-    /** Turns the lock off: a loosening, so it goes off at midnight (right away with Change locks & limits anytime). */
+    /** Turns the lock off: a loosening, so it goes off at midnight. */
     fun turnOff() {
         val rule = repository.rule(ruleId) ?: return
-        val edit = repository.save(rule.latestWish.copy(activeSince = null), changesAnytime = changesAnytime.value)
+        val edit = repository.save(rule.latestWish.copy(activeSince = null))
         if (edit.later != null) RulesMessages.show(string(R.string.rules_pending_turn_off, emptyArray()))
     }
 
     /** Deletes the rule, right away or, while it's engaged, once its engagement ends. */
     fun delete(clock: (Long) -> String) {
         val rule = repository.rule(ruleId) ?: return
-        if (repository.delete(ruleId, changesAnytime = changesAnytime.value)) {
+        if (repository.delete(ruleId)) {
             RulesMessages.show(string(R.string.rules_deleted_toast, arrayOf(rule.name)))
         } else {
             val change = repository.rule(ruleId)?.pending ?: return
@@ -186,7 +175,6 @@ internal class RuleDetailViewModel(
                     ruleId = createSavedStateHandle().toRoute<RuleDetailRoute>().ruleId,
                     repository = RecentrData.rules,
                     string = { id, args -> app.getString(id, *args) },
-                    changesLocksAnytime = RecentrData.settings.settings.map { it.changesLocksAnytime },
                 )
             }
         }

@@ -91,10 +91,10 @@ internal fun RuleEditorDestination(
         )
         val title = if (state.customTitle) draft.name else typeTitle
         val createLabel = when (draft.type) {
-            RuleType.Session -> R.string.rules_create_session
-            RuleType.Lock -> R.string.rules_create_lock
-            RuleType.Limit -> R.string.rules_create_limit
-            RuleType.Bedtime -> R.string.rules_create_routine
+            RuleType.Session -> R.string.rules_hold_create_session
+            RuleType.Lock -> R.string.rules_hold_create_lock
+            RuleType.Limit -> R.string.rules_hold_create_limit
+            RuleType.Bedtime -> R.string.rules_hold_create_routine
         }
         SheetBody(
             figmaHeight = null,

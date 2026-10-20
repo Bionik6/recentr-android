@@ -2,10 +2,14 @@ package com.recentr.feature.rules.editor
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,14 +19,17 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
+import com.recentr.core.designsystem.component.RecentrHoldButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
 import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.StickyNote
 import com.recentr.core.designsystem.icon.RecentrIcon
+import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
+import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.model.BuiltInTemplate
 import com.recentr.feature.rules.model.toCard
@@ -79,15 +86,59 @@ private fun EditorRow(label: Int, value: String, icon: RecentrIcon, onClick: () 
 /** A rule needs apps to block before it can be created or saved. */
 private val Rule.blocksApps: Boolean get() = apps.isNotEmpty()
 
-/** Primary CTA ("Create session", "Save"). Disabled until the rule has apps to block. */
+/**
+ * Primary CTA, disabled until the rule has apps to block. A new rule is held down to be created
+ * ("Hold to create lock"): it's on as soon as it's created. A new lock or limit says first that
+ * easing it only applies at midnight ([LockedInCard]). Saving an edit is a tap ("Save").
+ */
 @Composable
 internal fun ColumnScope.EditorCta(state: RuleEditorUiState, createLabel: Int, actions: EditorActions) {
-    RecentrButton(
-        text = stringResource(if (state.isNew) createLabel else R.string.rules_save),
-        onClick = actions.onCommit,
+    if (!state.isNew) {
+        RecentrButton(
+            text = stringResource(R.string.rules_save),
+            onClick = actions.onCommit,
+            enabled = state.draft.blocksApps,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        return
+    }
+    when (state.draft.type) {
+        RuleType.Lock -> LockedInCard(R.string.rules_locked_in_lock, RecentrIcon.Lock)
+        RuleType.Limit -> LockedInCard(R.string.rules_locked_in_limit, RecentrIcon.Clock)
+        RuleType.Session, RuleType.Bedtime -> Unit
+    }
+    RecentrHoldButton(
+        text = stringResource(createLabel),
+        onComplete = actions.onCommit,
         enabled = state.draft.blocksApps,
         modifier = Modifier.fillMaxWidth(),
     )
+}
+
+/** "Locked in until midnight": a new lock or limit is on as soon as it's created, and easing it waits for midnight. */
+@Composable
+private fun LockedInCard(body: Int, icon: RecentrIcon) {
+    val colors = RecentrTheme.colors
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(bottom = 12.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(colors.bgSunken)
+            .padding(14.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Box(
+            Modifier.size(36.dp).clip(RoundedCornerShape(12.dp)).background(colors.bgSurface),
+            contentAlignment = Alignment.Center,
+        ) {
+            RecentrIconImage(icon, tint = colors.textPrimary, size = 20.dp)
+        }
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(stringResource(R.string.rules_locked_in_title), style = RecentrTheme.typography.headline, color = colors.textPrimary)
+            Text(stringResource(body), style = RecentrTheme.typography.captionRegular, color = colors.textSecondary)
+        }
+    }
 }
 
 /** Figma 31 "Session": suggestions, Block / Active (its length) / Unlock method, Strict mode. */

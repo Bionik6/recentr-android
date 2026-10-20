@@ -118,8 +118,6 @@
     <string name="time_format_option">%1$s · %2$s</string>
     <string name="settings_strict_mode">Strict mode</string>
     <string name="settings_strict_caption">New sessions and routines start strict.</string>
-    <string name="settings_changes_anytime">Change locks &amp; limits anytime</string>
-    <string name="settings_changes_anytime_caption">Changes to a lock or a limit that’s on apply right away, not at midnight.</string>
     <string name="settings_emergency_unlocks">Emergency unlocks</string>
     <string name="settings_unlocks_left">%d left</string>
     <string name="settings_app_blocking">App blocking</string>

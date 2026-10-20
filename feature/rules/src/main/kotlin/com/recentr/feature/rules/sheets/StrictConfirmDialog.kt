@@ -40,8 +40,8 @@ internal fun BlockRightAwayDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) 
 }
 
 /**
- * Asked before a lock is activated or a limit started (not with Settings › Change locks & limits
- * anytime): once it's on, what makes it easier only applies at midnight.
+ * Asked before a lock is activated or a limit started again from its page: once it's on, what
+ * makes it easier only applies at midnight.
  */
 @Composable
 internal fun StartConfirmDialog(rule: Rule, onConfirm: () -> Unit, onDismiss: () -> Unit) {

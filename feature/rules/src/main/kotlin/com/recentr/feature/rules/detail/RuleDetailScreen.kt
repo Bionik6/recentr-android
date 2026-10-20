@@ -73,7 +73,6 @@ import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
-import com.recentr.core.model.changesWaitUntil
 import com.recentr.core.model.latestWish
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.sheets.BlockRightAwayDialog
@@ -129,7 +128,6 @@ internal fun RuleDetailDestination(
     var explainBlocking by rememberSaveable { mutableStateOf(false) }
     /** Activate (a lock) or Start (a limit), waiting for "Turn on" / "Start". */
     var confirmStart by rememberSaveable { mutableStateOf(false) }
-    val changesAnytime by viewModel.changesAnytime.collectAsStateWithLifecycle()
     /** A change that would block more apps right away, waiting for "Block". */
     var confirmBlock by remember { mutableStateOf<((Rule) -> Rule)?>(null) }
     val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
@@ -143,11 +141,11 @@ internal fun RuleDetailDestination(
         if (!blockingOn) explainBlocking = true
     }
     /**
-     * A lock or a limit asks first: once it's on, what makes it easier only applies at midnight.
-     * Not with Settings › Change locks & limits anytime, nor for a session.
+     * Starting a lock or a limit again asks first: once it's on, what makes it easier only applies
+     * at midnight. A session starts right away.
      */
     fun askThenStart() {
-        if (rule.type.asksBeforeStart && !changesAnytime) confirmStart = true else startOrActivate()
+        if (rule.type.asksBeforeStart) confirmStart = true else startOrActivate()
     }
 
     RuleDetailScreen(
@@ -224,8 +222,7 @@ internal fun RuleDetailDestination(
         BlockingAccessSheet(onOpenSettings = { BlockingAccess.openSettings(context) }, onDismissRequest = { explainBlocking = false })
     }
     if (delete) {
-        // With Change locks & limits anytime, a lock or a limit is deleted right away.
-        val end = rule.changesWaitUntil(state.now, changesAnytime = changesAnytime)
+        val end = rule.engagementEnd(state.now)
         DeleteRuleSheet(
             ruleName = rule.name,
             streakDays = rule.streakDays,

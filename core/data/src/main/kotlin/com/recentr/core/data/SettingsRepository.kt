@@ -67,7 +67,6 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
             quietHoursStartMinute = this[Keys.quietStart] ?: defaults.quietHoursStartMinute,
             quietHoursEndMinute = this[Keys.quietEnd] ?: defaults.quietHoursEndMinute,
             strictByDefault = this[Keys.strictByDefault] ?: defaults.strictByDefault,
-            changesLocksAnytime = this[Keys.changesLocksAnytime] ?: defaults.changesLocksAnytime,
             emergencyUnlocksUsed = this[Keys.emergencyUnlocksUsed] ?: defaults.emergencyUnlocksUsed,
             emergencyUnlocksMonth = this[Keys.emergencyUnlocksMonth],
             plusPlan = PlusPlan.entries.firstOrNull { it.name == this[Keys.plusPlan] },
@@ -91,7 +90,6 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         this[Keys.quietStart] = s.quietHoursStartMinute
         this[Keys.quietEnd] = s.quietHoursEndMinute
         this[Keys.strictByDefault] = s.strictByDefault
-        this[Keys.changesLocksAnytime] = s.changesLocksAnytime
         this[Keys.emergencyUnlocksUsed] = s.emergencyUnlocksUsed
         s.emergencyUnlocksMonth?.let { this[Keys.emergencyUnlocksMonth] = it } ?: remove(Keys.emergencyUnlocksMonth)
         s.plusPlan?.let { this[Keys.plusPlan] = it.name } ?: remove(Keys.plusPlan)
@@ -117,7 +115,6 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         val quietStart = intPreferencesKey("quiet_start")
         val quietEnd = intPreferencesKey("quiet_end")
         val strictByDefault = booleanPreferencesKey("strict_by_default")
-        val changesLocksAnytime = booleanPreferencesKey("changes_locks_anytime")
         val emergencyUnlocksUsed = intPreferencesKey("emergency_unlocks_used")
         val emergencyUnlocksMonth = intPreferencesKey("emergency_unlocks_month")
         val plusPlan = stringPreferencesKey("plus_plan")

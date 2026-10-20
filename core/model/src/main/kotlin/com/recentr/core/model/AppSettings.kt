@@ -53,12 +53,6 @@ data class AppSettings(
     // Protection
     /** Settings › Strict mode: new sessions and routines start strict. */
     val strictByDefault: Boolean = false,
-    /**
-     * Settings › Change locks & limits anytime: a lock or a limit that's on changes right away
-     * (edits, turning a lock off, deleting) instead of at midnight, and Activate and Start don't ask
-     * first. Sessions and routines are unaffected.
-     */
-    val changesLocksAnytime: Boolean = false,
     /** Emergency unlocks spent in [emergencyUnlocksMonth] (they come back every month). */
     val emergencyUnlocksUsed: Int = 0,
     /** The month of [emergencyUnlocksUsed], as `year * 12 + month - 1`, or null when none were spent. */

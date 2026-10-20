@@ -116,15 +116,6 @@ internal fun SettingsScreen(
                     caption = stringResource(R.string.settings_strict_caption),
                     modifier = Modifier.fillMaxWidth(),
                 )
-                // Off by default: a lock or a limit that's on keeps what makes it easier for midnight.
-                SettingToggleRow(
-                    label = stringResource(R.string.settings_changes_anytime),
-                    checked = settings.changesLocksAnytime,
-                    onCheckedChange = { on -> actions.onUpdate { it.copy(changesLocksAnytime = on) } },
-                    icon = RecentrIcon.Pencil,
-                    caption = stringResource(R.string.settings_changes_anytime_caption),
-                    modifier = Modifier.fillMaxWidth(),
-                )
                 ValueRow(R.string.settings_emergency_unlocks, stringResource(R.string.settings_unlocks_left, emergencyLeft), RecentrIcon.Lock) {
                     overlay = SettingsOverlay.Emergency
                 }

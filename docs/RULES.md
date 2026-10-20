@@ -7,15 +7,17 @@ iOS and Android apps both follow this page: change it in both repositories toget
 
 | Kind | What it does | Starts | Ends |
 |---|---|---|---|
-| Session | Blocks apps for a set time. | By hand, right away: Start. | When its countdown ends. |
+| Session | Blocks apps for a set time. | When created, right away; Start again from its page. | When its countdown ends. |
 | Routine | Blocks apps during windows that repeat. | On its own, on the chosen days and hours. | At the end of each window. |
-| Lock | Keeps apps blocked, with a few short unlocks a day. | By hand: Activate. Then it stays on. | Turn off takes effect at midnight. Its unlocks start over at midnight. |
-| Limit | A time budget for today, then blocks the apps until midnight. | By hand: Start, for today only. | At midnight. It doesn't start again on its own. |
+| Lock | Keeps apps blocked, with a few short unlocks a day. | When created; Activate again from its page once it's off. Then it stays on. | Turn off takes effect at midnight. Its unlocks start over at midnight. |
+| Limit | A time budget for today, then blocks the apps until midnight. | When created, for today only; Start again from its page another day. | At midnight. It doesn't start again on its own. |
 
-- Creating a rule saves it, nothing more. A session, a lock or a limit waits on its page for Start
-  (Activate for a lock). A routine follows its schedule as soon as it's saved.
-- Activate (a lock) and Start (a limit) ask first: once it's on, what makes it easier only applies
-  at midnight.
+- Creating a rule turns it on: a session starts, a lock is on, a limit starts for today, and a
+  routine follows its schedule. The create button is held down, not just tapped. Creating a lock
+  or a limit says first that easing or deleting it only applies after the daily reset, at
+  midnight.
+- Starting a lock or a limit again from its page (Activate, Start) asks first: once it's on, what
+  makes it easier only applies at midnight.
 - Anything that follows a calendar is a routine ("Work hours · Weekdays · 9–5"). Sessions, locks
   and limits have no days or hours.
 
@@ -89,13 +91,6 @@ When a kept change applies:
 - Sessions and limits can't be stopped: they end on their own. A lock turns off at midnight. Only
   routines pause ("For 1 hour", "Until tomorrow", "Until I turn it back on"); during a window the
   pause starts when the window ends.
-
-## Changing locks and limits anytime
-
-Settings › Change locks & limits anytime (off by default) lets a lock or a limit that's on change
-right away: edits, turning a lock off and deleting apply now, and Activate and Start no longer ask
-first. Sessions and routines keep waiting for the end of their run or window. Blocking doesn't
-change: a lock blocks while it's on, and a spent limit only lets an emergency unlock through.
 
 ## Rules made before this
 

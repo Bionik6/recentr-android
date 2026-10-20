@@ -39,7 +39,8 @@ import java.util.UUID
  * for the screens and the app blocker, and saved to [file] as JSON after every change, so they
  * survive the app being closed or the phone restarting.
  *
- * Changes go through the edit policy ([save], [delete]): while a rule is engaged, what loosens it
+ * Creating a rule turns it on ([create]). Changes go through the edit policy ([save], [delete]):
+ * while a rule is engaged, what loosens it
  * is kept on the rule ([Rule.pending]) and applied by [settle] once the engagement ends. The
  * unlocks used start over on a new local day; a session ends with its countdown, a limit at
  * midnight. Each rule's streak counts its windows as they end ([RuleStreaks]).
@@ -86,11 +87,9 @@ class RulesRepository(
 
     /**
      * Saves [draft] over the rule with its id through the edit policy ([Rule.edit]): what loosens
-     * an engaged rule is kept for when its engagement ends — for a lock or a limit, unless
-     * [changesAnytime] (Settings › Change locks & limits anytime). A new rule is added as it is:
-     * creating a rule only saves it.
+     * an engaged rule is kept for when its engagement ends. A new rule is added as it is.
      */
-    fun save(draft: Rule, now: Long = clock(), changesAnytime: Boolean = false): RuleEdit {
+    fun save(draft: Rule, now: Long = clock()): RuleEdit {
         var edit = RuleEdit(now = draft, later = null, blocksMore = false)
         _rules.update { list ->
             val current = list.firstOrNull { it.id == draft.id }
@@ -98,13 +97,23 @@ class RulesRepository(
                 edit = RuleEdit(now = draft, later = null, blocksMore = false)
                 list + if (draft.streakFrom == null) draft.copy(streakFrom = clock()) else draft
             } else {
-                edit = current.edit(draft, now, zone(), changesAnytime)
+                edit = current.edit(draft, now, zone())
                 val saved = pauseStreak(current, edit.now, now)
                 list.map { if (it.id == draft.id) saved else it }
             }
         }
         persist()
         return edit
+    }
+
+    /**
+     * Creates [rule] and turns it on at [now] ("Hold to create"): a session starts, a lock is on,
+     * a limit starts for today ([start]); a routine follows its schedule. Its streak counts from now.
+     */
+    fun create(rule: Rule, now: Long = clock()) {
+        val created = rule.copy(streakFrom = rule.streakFrom ?: now, pending = null).started(now)
+        _rules.update { list -> list.filterNot { it.id == rule.id } + created }
+        persist()
     }
 
     /** Applies [transform] to the rule with [id], if it exists: runtime counters, not settings ([save]). */
@@ -114,14 +123,13 @@ class RulesRepository(
     }
 
     /**
-     * Deletes the rule with [id]: right away when it isn't engaged (or it's a lock or a limit and
-     * [changesAnytime]), otherwise once its engagement ends ([Rule.deleted]). True when it was
-     * deleted now.
+     * Deletes the rule with [id]: right away when it isn't engaged, otherwise once its engagement
+     * ends ([Rule.deleted]). True when it was deleted now.
      */
-    fun delete(id: String, now: Long = clock(), changesAnytime: Boolean = false): Boolean {
+    fun delete(id: String, now: Long = clock()): Boolean {
         var deleted = true
         _rules.update { list ->
-            val kept = list.firstOrNull { it.id == id }?.deleted(now, zone(), changesAnytime)
+            val kept = list.firstOrNull { it.id == id }?.deleted(now, zone())
             deleted = kept == null
             if (kept == null) list.filterNot { it.id == id } else list.map { if (it.id == id) kept else it }
         }
@@ -146,17 +154,18 @@ class RulesRepository(
         rule(id)?.let { save(it.latestWish.copy(pausedUntil = null), now) }
 
     /**
-     * Start (a session, for its length; a limit, for today) or Activate (a lock) at [now]. A pause
-     * in the way is lifted; a limit counts its budget from now. A limit started today isn't started
-     * again (its budget would start over), nor a lock that is on.
+     * Start (a session, for its length; a limit, for today) or Activate (a lock) at [now], again
+     * from the rule's page. A pause in the way is lifted; a limit counts its budget from now. A
+     * limit started today isn't started again (its budget would start over), nor a lock that is on.
      */
-    fun start(id: String, now: Long = clock()) = update(id) { rule ->
-        when (rule.type) {
-            RuleType.Session -> rule.copy(activeSince = now, activeUntil = now + (rule.durationMinutes ?: 0) * 60_000L, pausedUntil = null)
-            RuleType.Lock -> rule.copy(activeSince = rule.activeSince ?: now, pausedUntil = null)
-            RuleType.Limit -> if (rule.isEnforcing(now, zone())) rule else rule.copy(activeSince = now, usedMinutes = 0, pausedUntil = null)
-            RuleType.Bedtime -> rule
-        }
+    fun start(id: String, now: Long = clock()) = update(id) { it.started(now) }
+
+    /** [start]ed at [now]: a routine follows its schedule instead. */
+    private fun Rule.started(now: Long): Rule = when (type) {
+        RuleType.Session -> copy(activeSince = now, activeUntil = now + (durationMinutes ?: 0) * 60_000L, pausedUntil = null)
+        RuleType.Lock -> copy(activeSince = activeSince ?: now, pausedUntil = null)
+        RuleType.Limit -> if (isEnforcing(now, zone())) this else copy(activeSince = now, usedMinutes = 0, pausedUntil = null)
+        RuleType.Bedtime -> this
     }
 
     /** The rules [ids] were broken at [now] (an emergency unlock past them): their streaks start over. */

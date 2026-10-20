@@ -26,13 +26,11 @@ import com.recentr.feature.rules.model.RulesMessages
 import com.recentr.feature.rules.ui.savedToast
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.ZoneId
@@ -55,11 +53,7 @@ internal class RuleEditorViewModel(
     private val string: (Int, Array<out Any>) -> String,
     /** Settings › Strict mode: new sessions and routines start strict. */
     strictByDefault: Flow<Boolean> = flowOf(false),
-    /** Settings › Change locks & limits anytime: a lock or a limit that's on changes right away. */
-    changesLocksAnytime: Flow<Boolean> = flowOf(false),
 ) : ViewModel() {
-
-    private val changesAnytime = changesLocksAnytime.stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     private val _state = MutableStateFlow(initialState(route))
     val state: StateFlow<RuleEditorUiState> = _state.asStateFlow()
@@ -127,17 +121,18 @@ internal class RuleEditorViewModel(
      * away. Null for a new rule.
      */
     fun preview(now: Long = System.currentTimeMillis()): RuleEdit? =
-        repository.rule(_state.value.draft.id)?.takeIf { !_state.value.isNew }?.edit(_state.value.draft, now, ZoneId.systemDefault(), changesAnytime.value)
+        repository.rule(_state.value.draft.id)?.takeIf { !_state.value.isNew }?.edit(_state.value.draft, now, ZoneId.systemDefault())
 
     /**
-     * Creates / saves the rule ([RulesRepository.save]). Creating only saves it: a session, a lock
-     * or a limit waits on its page for Start. An edit while the rule is engaged applies what
-     * reinforces it now and keeps the rest for when its engagement ends; [clock] formats when.
+     * Creates the rule and turns it on ([RulesRepository.create]: a session starts, a lock is on, a
+     * limit starts for today, a routine follows its schedule), or saves the edit
+     * ([RulesRepository.save]): while the rule is engaged, what reinforces it applies now and the
+     * rest when its engagement ends; [clock] formats when.
      */
     fun commit(clock: (Long) -> String) {
         val state = _state.value
         val draft = state.draft
-        repository.save(draft, changesAnytime = changesAnytime.value)
+        if (state.isNew) repository.create(draft) else repository.save(draft)
         val saved = repository.rule(draft.id) ?: draft
         RulesMessages.show(if (state.isNew) string(R.string.rules_rule_created, arrayOf(draft.name)) else savedToast(saved, string, clock))
     }
@@ -155,7 +150,6 @@ internal class RuleEditorViewModel(
                     factory = RuleFactory(string, repository::newId),
                     string = string,
                     strictByDefault = RecentrData.settings.settings.map { it.strictByDefault },
-                    changesLocksAnytime = RecentrData.settings.settings.map { it.changesLocksAnytime },
                 )
             }
         }

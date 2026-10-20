@@ -2,7 +2,6 @@ package com.recentr.core.model
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -351,57 +350,5 @@ class RuleEditsTest {
         assertTrue(limit.copy(usedMinutes = 60).isHolding(now, zone))
         assertTrue(lock.isHolding(now, zone))
         assertFalse(lock.copy(activeSince = null).isHolding(now, zone))
-    }
-
-    // Settings › Change locks & limits anytime
-
-    @Test
-    fun `with changes anytime, a lock that's on changes right away`() {
-        val off = lock.edit(lock.copy(activeSince = null), now, zone, changesAnytime = true)
-        assertNull(off.now.activeSince)
-        assertNull(off.later)
-        assertNull(off.now.pending)
-        val easier = lock.edit(lock.copy(unlocksPerDay = 10, apps = listOf(whatsApp)), now, zone, changesAnytime = true)
-        assertEquals(10, easier.now.unlocksPerDay)
-        assertEquals(listOf(whatsApp), easier.now.apps)
-        assertNull(easier.later)
-        assertEquals(at(9), easier.now.activeSince)
-        assertEquals(2, easier.now.unlocksUsedToday)
-        // Blocking doesn't change: adding apps to a lock that's on still asks first.
-        assertTrue(lock.edit(lock.copy(apps = lock.apps + youTube), now, zone, changesAnytime = true).blocksMore)
-    }
-
-    @Test
-    fun `with changes anytime, a started limit's bigger budget applies now`() {
-        val bigger = limit.edit(limit.copy(limitMinutes = 90), now, zone, changesAnytime = true)
-        assertEquals(90, bigger.now.limitMinutes)
-        assertNull(bigger.later)
-        assertNull(bigger.now.pending)
-        // Still started, with what it used.
-        assertEquals(at(8), bigger.now.activeSince)
-        assertEquals(20, bigger.now.usedMinutes)
-        assertTrue(limit.edit(limit.copy(limitMinutes = 15), now, zone, changesAnytime = true).blocksMore)
-    }
-
-    @Test
-    fun `with changes anytime, a lock or a limit is deleted right away`() {
-        assertNull(lock.changesWaitUntil(now, zone, changesAnytime = true))
-        assertNull(lock.deleted(now, zone, changesAnytime = true))
-        assertNull(limit.deleted(now, zone, changesAnytime = true))
-        // Off, the setting changes nothing.
-        assertNotNull(lock.deleted(now, zone))
-        assertEquals(at(0, day = 20), lock.changesWaitUntil(now, zone))
-    }
-
-    @Test
-    fun `changes anytime leaves sessions and routines waiting`() {
-        val narrower = workHours.edit(workHours.copy(schedule = RuleSchedule(10 * 60, 17 * 60, (1..5).toSet())), now, zone, changesAnytime = true)
-        assertEquals(workHours.schedule, narrower.now.schedule)
-        assertEquals(at(17), narrower.now.pending?.appliesAt)
-        assertEquals(at(17), workHours.deleted(now, zone, changesAnytime = true)?.pending?.appliesAt)
-        val strict = session.copy(strictMode = true)
-        val off = strict.edit(strict.copy(strictMode = false), at(10, 10), zone, changesAnytime = true)
-        assertTrue(off.now.strictMode)
-        assertEquals(at(10, 30), off.now.pending?.appliesAt)
     }
 }
