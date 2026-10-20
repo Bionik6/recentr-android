@@ -260,6 +260,36 @@ class UnlocksTest {
     }
 
     @Test
+    fun `the accelerometer shows the steps before the counter`() {
+        val walk = Walk().detected(3).detected(4)
+        assertEquals(4, walk.steps)
+        assertEquals(16, walk.left)
+    }
+
+    @Test
+    fun `a counter that waits for a few steps loses none`() {
+        // The counter sends no reading at the start: its first comes after eight steps, which the
+        // accelerometer already found.
+        var walk = Walk().detected(8).counted(5_238f)
+        assertEquals(5_230f, walk.start)
+        assertEquals(8, walk.steps)
+        // Both count the next steps: they aren't counted twice.
+        walk = walk.detected(9).counted(5_239f)
+        assertEquals(9, walk.steps)
+        walk = walk.counted(5_242f).detected(10)
+        assertEquals(12, walk.steps)
+    }
+
+    @Test
+    fun `the counter catches up on steps taken with the screen off`() {
+        // The accelerometer stopped with the screen; the counter kept counting.
+        val walk = Walk().detected(4).counted(104f).counted(115f)
+        assertEquals(15, walk.steps)
+        // The accelerometer, back, doesn't count them again.
+        assertEquals(15, walk.detected(6).steps)
+    }
+
+    @Test
     fun `the pass opens its own rule only`() {
         val rule = lock(UnlockMethod.ScanCode)
         val code = UnlockPass.code(rule)

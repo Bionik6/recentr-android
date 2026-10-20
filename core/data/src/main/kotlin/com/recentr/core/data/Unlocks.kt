@@ -126,23 +126,34 @@ data class Retype(val typed: String = "", val hasTypo: Boolean = false) {
 }
 
 /**
- * The steps walked to unlock, out of [STEPS]. The phone's step counter adds up every step since it
- * started, so a walk counts from the counter's first reading after "Start walking". Steps never go
- * back down, even when the counter starts over (the phone restarted).
+ * The steps walked to unlock, out of [STEPS], from two sources. The accelerometer's
+ * ([StepDetector]) show at once while the hold screen is open. The step counter's are slower (it
+ * waits for several steps in a row before reporting them all at once) but catch up on steps taken
+ * with the screen off. A walk shows whichever has more. Steps never go back down, even when the
+ * counter starts over (the phone restarted).
  */
 data class Walk(
-    /** The counter's first reading, or null before it comes. */
+    /** The step counter's total when the walk started, once its first reading came. */
     val start: Float? = null,
+    /** The accelerometer's steps. */
+    val detected: Int = 0,
     val steps: Int = 0,
 ) {
-    /** Takes a reading of the step counter: its total since the phone started. */
+    /**
+     * Takes a reading of the step counter: its total since the phone started. It may send its first
+     * reading only after a few steps, which the accelerometer already found: the walk started that
+     * many steps before it.
+     */
     fun counted(total: Float): Walk {
-        val from = start ?: total
-        return Walk(start = from, steps = maxOf(steps, (total - from).toInt()).coerceIn(0, STEPS))
+        val from = start ?: (total - detected)
+        return copy(start = from, steps = maxOf(steps, (total - from).toInt()).coerceIn(0, STEPS))
     }
 
+    /** The accelerometer's steps so far. */
+    fun detected(steps: Int): Walk = copy(detected = steps, steps = maxOf(this.steps, steps).coerceAtMost(STEPS))
+
     /** One more step, without a step counter (the emulator's pretend walk). */
-    fun stepped(): Walk = copy(steps = (steps + 1).coerceAtMost(STEPS))
+    fun stepped(): Walk = detected(detected + 1)
 
     val left: Int get() = STEPS - steps
 
@@ -154,6 +165,83 @@ data class Walk(
     companion object {
         /** The steps to walk before the app opens. */
         const val STEPS = 20
+    }
+}
+
+/**
+ * Steps found in the accelerometer as they're taken.
+ *
+ * The step counter is sure of its steps but reports them seconds late, in batches: it waits to be
+ * sure it's a walk. This counts each step's bounce at once, while the hold screen is open. A bounce
+ * counts once a few came in a row at a walking pace, so lifting the phone isn't a step.
+ */
+class StepDetector {
+    /** Steps walked so far. */
+    var steps = 0
+        private set
+
+    /** The last few readings, averaged to smooth out the jolts within a step. */
+    private val recent = ArrayDeque<Double>()
+    private var sum = 0.0
+    /** The level the bounces rise above: gravity, give or take the sensor's offset. */
+    private var baseline: Double? = null
+    /** Whether the readings fell back since the last bounce, so the next one can count. */
+    private var armed = true
+    private var lastBounce: Double? = null
+    /** Bounces in a row not counted yet, until there are enough of them to be a walk. */
+    private var pending = 0
+    private var walking = false
+
+    /**
+     * Takes a reading of the accelerometer at [time] (seconds): the size of its acceleration in g,
+     * gravity included, so it doesn't matter how the phone is held.
+     */
+    fun add(magnitude: Double, time: Double) {
+        recent.addLast(magnitude)
+        sum += magnitude
+        if (recent.size > WINDOW) sum -= recent.removeFirst()
+        val smoothed = sum / recent.size
+        val base = baseline?.let { it + (smoothed - it) * 0.02 } ?: smoothed
+        baseline = base
+        val level = smoothed - base
+
+        if (!armed) {
+            if (level < 0) armed = true
+            return
+        }
+        if (level <= RISE) return
+        val last = lastBounce
+        if (last != null && time - last < SHORTEST_STEP) return
+        armed = false
+        if (last != null && time - last > LONGEST_STEP) {
+            pending = 0
+            walking = false
+        }
+        lastBounce = time
+        if (walking) {
+            steps++
+        } else if (++pending >= BOUNCES_TO_WALK) {
+            steps += pending
+            pending = 0
+            walking = true
+        }
+    }
+
+    companion object {
+        /** Readings averaged: 0.16 s at 50 a second. */
+        const val WINDOW = 8
+
+        /** How far above the baseline a bounce rises, in g. */
+        const val RISE = 0.04
+
+        /** Bounces closer than this (seconds) are the same step. */
+        const val SHORTEST_STEP = 0.27
+
+        /** A longer pause (seconds) ends the walk: the next bounces must show it's a walk again. */
+        const val LONGEST_STEP = 2.0
+
+        /** Bounces in a row before they count. */
+        const val BOUNCES_TO_WALK = 3
     }
 }
 

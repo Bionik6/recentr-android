@@ -97,10 +97,14 @@ also from the Home streak tile.
     (`BlockingAccessSheet`: Rules banner, after saving a rule, Focus set-up, Settings › App
     blocking). Force-stopping Recentr turns the service off (Android behaviour).
   - QA: Settings › Accessibility › Recentr app blocking, then open a blocked app.
-  - Walking to unlock counts steps with the phone's step counter (`Sensor.TYPE_STEP_COUNTER`,
-    the Physical activity permission from Android 10), from "Start walking": `Walk` in `:core:data`,
-    pure and unit-tested. A phone without one can't walk to unlock; debug builds without one (the
-    emulator) pretend to walk two steps a second.
+  - Walking to unlock counts steps from "Start walking" with the phone's step counter
+    (`Sensor.TYPE_STEP_COUNTER`, the Physical activity permission from Android 10). The counter
+    reports steps seconds late (it waits for several in a row, then sends them together), so while
+    the hold screen is open `StepDetector` also finds each step's bounce in the accelerometer, once
+    three come in a row at a walking pace; the counter catches up on steps taken with the screen
+    off. `Walk` shows whichever counted more. Both are in `:core:data`, pure and unit-tested. A
+    phone without a step counter can't walk to unlock; debug builds without one (the emulator)
+    pretend to walk two steps a second.
 - Strict mode is a toggle on sessions and routines: once the rule blocks, it can't be edited,
   deleted, paused or unlocked, and Strict mode can't be turned off until the session ends
   (turning it on while the rule already blocks asks first). Settings › Strict mode makes new

@@ -61,6 +61,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.recentr.app.R
+import com.recentr.core.data.StepDetector
 import com.recentr.core.data.Walk
 import com.recentr.core.designsystem.component.OnboardingProgress
 import com.recentr.core.designsystem.component.RecentrButton
@@ -82,10 +83,12 @@ import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
 import com.recentr.core.model.Rule
+import kotlin.math.sqrt
 import kotlinx.coroutines.delay
 
 // Walk to unlock (Figma › Unlock — Walk 20 steps, Walk in progress, Walk complete): the steps come
-// from the phone's step counter, so the phone can stay in a pocket.
+// from the accelerometer while the screen is on, and from the phone's step counter, so the phone
+// can stay in a pocket.
 
 /** Why the steps can't be counted. */
 private enum class StepProblem {
@@ -147,15 +150,29 @@ internal fun WalkStep(rule: Rule, packageName: String, label: String, onCancel: 
 
     if (walking && counter != null && sensors != null) {
         DisposableEffect(Unit) {
+            // The accelerometer shows each step at once; the counter catches up on the others.
+            val detector = StepDetector()
+            val detectedBefore = walk.detected
             val listener = object : SensorEventListener {
                 override fun onSensorChanged(event: SensorEvent) {
-                    walk = walk.counted(event.values[0])
+                    if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+                        val (x, y, z) = event.values
+                        val magnitude = sqrt((x * x + y * y + z * z).toDouble()) / SensorManager.GRAVITY_EARTH
+                        detector.add(magnitude, event.timestamp / 1e9)
+                        val detected = detectedBefore + detector.steps
+                        if (detected != walk.detected) walk = walk.detected(detected)
+                    } else {
+                        walk = walk.counted(event.values[0])
+                    }
                 }
 
                 override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) = Unit
             }
             // No batching: each step shows as soon as it's counted.
             sensors.registerListener(listener, counter, SensorManager.SENSOR_DELAY_UI, 0)
+            sensors.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.let {
+                sensors.registerListener(listener, it, SensorManager.SENSOR_DELAY_GAME)
+            }
             onDispose { sensors.unregisterListener(listener) }
         }
     } else if (walking && pretends) {
@@ -410,6 +427,6 @@ private fun WalkNote(icon: RecentrIcon, title: String, body: String) {
 
 /** A walk survives the hold screen being made again (a theme change…) mid-walk. */
 private val WalkSaver = listSaver<Walk, Any>(
-    save = { listOf(it.start ?: -1f, it.steps) },
-    restore = { Walk(start = (it[0] as Float).takeIf { start -> start >= 0f }, steps = it[1] as Int) },
+    save = { listOf(it.start ?: -1f, it.detected, it.steps) },
+    restore = { Walk(start = (it[0] as Float).takeIf { start -> start >= 0f }, detected = it[1] as Int, steps = it[2] as Int) },
 )
