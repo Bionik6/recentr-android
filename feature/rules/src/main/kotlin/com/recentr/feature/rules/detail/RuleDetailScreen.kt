@@ -1,6 +1,7 @@
 package com.recentr.feature.rules.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -124,6 +126,7 @@ internal fun RuleDetailDestination(
     var sheet by rememberSaveable { mutableStateOf(RuleSheet.None) }
     var pause by rememberSaveable { mutableStateOf(false) }
     var delete by rememberSaveable { mutableStateOf(false) }
+    var showApps by rememberSaveable { mutableStateOf(false) }
     var confirmStrict by rememberSaveable { mutableStateOf(false) }
     var explainBlocking by rememberSaveable { mutableStateOf(false) }
     /** Activate (a lock) or Start (a limit), waiting for "Turn on" / "Start". */
@@ -169,6 +172,7 @@ internal fun RuleDetailDestination(
             onEditSettings = { onEditSettings(rule.id) },
             onDelete = { delete = true },
             onDropPending = viewModel::dropPending,
+            onOpenApps = { showApps = true },
         ),
     )
     RuleSheetsHost(
@@ -181,6 +185,11 @@ internal fun RuleDetailDestination(
         onRename = { name, sticker -> viewModel.rename(clock, name, sticker) },
         onApps = { apps -> save { it.copy(apps = apps) } },
     )
+    if (showApps) {
+        // The app blocker's unlocks, live: an app whose unlock ends goes back with the blocked ones.
+        val unlocks by RecentrData.holds.unlocks.collectAsStateWithLifecycle()
+        RuleAppsSheet(rule = rule, now = state.now, unlocks = unlocks, onDismiss = { showApps = false })
+    }
     if (pause) {
         PauseRuleSheet(
             ruleName = rule.name,
@@ -261,6 +270,8 @@ internal class DetailActions(
     val onDelete: () -> Unit = {},
     /** "Drop changes", "Keep rule", "Keep it on", "Cancel" of the change kept for later. */
     val onDropPending: () -> Unit = {},
+    /** The "Blocked" tile: the rule's apps, blocked or unlocked for now. */
+    val onOpenApps: () -> Unit = {},
 )
 
 @Composable
@@ -293,7 +304,7 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                     }
                 }
                 Gap(19.dp)
-                DetailCollage(rule, now)
+                DetailCollage(rule, now, actions.onOpenApps)
                 Gap(24.dp)
                 if (rule.pending != null) {
                     PendingCard(rule, actions.onDropPending)
@@ -489,7 +500,7 @@ private fun PendingCard(rule: Rule, onDrop: () -> Unit) {
  * the editor.
  */
 @Composable
-private fun DetailCollage(rule: Rule, now: Long) {
+private fun DetailCollage(rule: Rule, now: Long, onOpenApps: () -> Unit) {
     val (label, value, caption) = timeTile(rule, now)
     Box(Modifier.fillMaxWidth().height(250.dp), contentAlignment = Alignment.Center) {
         // Fixed widths, the time card on the left edge and the apps tile on the right: a countdown
@@ -507,6 +518,7 @@ private fun DetailCollage(rule: Rule, now: Long) {
         )
         AppsTile(
             rule = rule,
+            onClick = onOpenApps,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .offset(x = (-12).dp, y = (-69.16).dp)
@@ -591,7 +603,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> = wh
 }
 
 @Composable
-private fun AppsTile(rule: Rule, modifier: Modifier = Modifier) {
+private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(24.dp)
     val apps = rule.apps
@@ -600,6 +612,8 @@ private fun AppsTile(rule: Rule, modifier: Modifier = Modifier) {
             .recentrShadow(RecentrElevation.float, shape)
             .clip(shape)
             .background(colors.bgSurface)
+            // Opens the "Apps" sheet: which are blocked, which are unlocked for now.
+            .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {

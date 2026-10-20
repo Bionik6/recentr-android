@@ -284,6 +284,19 @@
     <string name="rules_detail_on">On</string>
     <string name="rules_detail_off">Off</string>
     <string name="rules_blocked">Blocked</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">Apps</string>
+    <string name="rules_apps_blocking">Blocked right now</string>
+    <string name="rules_apps_not_blocking">Not blocking right now</string>
+    <string name="rules_apps_blocked">Blocked</string>
+    <string name="rules_apps_blocked_when_on">Blocked when it’s on</string>
+    <string name="rules_apps_unlocked">Unlocked for now</string>
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">Nothing blocked right now.</string>
+    <string name="rules_apps_none_unlocked">No app unlocked right now.</string>
+
     <string name="rules_streak">Streak</string>
     <plurals name="rules_streak_days">
         <item quantity="one">%d day</item>

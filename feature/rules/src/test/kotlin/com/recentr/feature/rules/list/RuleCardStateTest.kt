@@ -146,4 +146,12 @@ class RuleCardStateTest {
         assertEquals(CardValue.Locked, on.cardValue(at(13), zone))
         assertNull(on.runsUntil(at(13), zone))
     }
+
+    @Test
+    fun `a lock with apps unlocked for now still reads locked`() {
+        // Unlocking two of its apps for a few minutes uses two of its unlocks; the lock stays on.
+        val lock = Rule("k", RuleType.Lock, "Socials", activeSince = at(9), unlocksPerDay = 5, unlocksUsedToday = 2)
+        assertEquals(CardStatus.Unlocks, lock.cardStatus(at(13), zone))
+        assertEquals(CardValue.Locked, lock.cardValue(at(13), zone))
+    }
 }

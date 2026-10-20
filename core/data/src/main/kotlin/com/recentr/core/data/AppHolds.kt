@@ -4,6 +4,7 @@ import com.recentr.core.model.FocusPhase
 import com.recentr.core.model.FocusRun
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UsageApp
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -42,7 +43,28 @@ data class AppUnlocks(private val until: Map<String, Map<String, Long>> = emptyM
 
     /** When [rule] last closed [packageName] again: the end of its last unlock, if over by [now]. */
     fun lastEnd(packageName: String, rule: Rule, now: Long): Long? = until[packageName]?.get(rule.id)?.takeIf { it <= now }
+
+    /** When the unlock of [packageName] past [rule] running at [now] ends, or null when there's none. */
+    fun endOf(packageName: String, rule: Rule, now: Long): Long? = until[packageName]?.get(rule.id)?.takeIf { it > now }
+
+    /**
+     * [rule]'s apps at [now], sorted by name, for its page's "Apps" sheet: the ones it keeps closed,
+     * and the ones unlocked past it for now, with when their unlock ends. Another rule's unlock of
+     * an app doesn't count; an unlock over by [now] puts the app back with the others.
+     */
+    fun appsOf(rule: Rule, now: Long): RuleApps {
+        val apps = rule.apps.distinctBy { it.packageName }.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.label })
+        val unlocked = apps.mapNotNull { app -> endOf(app.packageName, rule, now)?.let { UnlockedApp(app, it) } }
+        val open = unlocked.map { it.app.packageName }.toSet()
+        return RuleApps(blocked = apps.filterNot { it.packageName in open }, unlocked = unlocked)
+    }
 }
+
+/** One of a rule's apps, unlocked past it until [until] (epoch millis). */
+data class UnlockedApp(val app: UsageApp, val until: Long)
+
+/** A rule's apps at a moment ([AppUnlocks.appsOf]): the ones it keeps closed, and the ones unlocked for now. */
+data class RuleApps(val blocked: List<UsageApp>, val unlocked: List<UnlockedApp>)
 
 /** Everything that decides whether an opened app is put on hold. */
 data class HoldState(

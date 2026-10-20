@@ -203,4 +203,46 @@ class AppHoldsTest {
         val closed = lock.copy(id = "b", unlockMethod = UnlockMethod.Wait, unlocksPerDay = 2, unlocksUsedToday = 2)
         assertEquals(HoldReason.ByRule(closed), state(listOf(openable, closed)).reason(whatsApp.packageName))
     }
+
+    // The "Apps" sheet of a rule's page
+
+    private val youTube = UsageApp("com.google.android.youtube", "YouTube", AppCategory.Entertainment)
+    private val instagram = UsageApp("com.instagram.android", "Instagram", AppCategory.Social)
+
+    /** On since 8:00: TikTok, WhatsApp, YouTube and Instagram, listed out of order. */
+    private val socials = lock.copy(apps = listOf(whatsApp, youTube, tiktok, instagram))
+
+    @Test
+    fun `nothing unlocked, every app is blocked, by name`() {
+        val apps = AppUnlocks().appsOf(socials, now)
+        assertEquals(listOf(instagram, tiktok, whatsApp, youTube), apps.blocked)
+        assertTrue(apps.unlocked.isEmpty())
+    }
+
+    @Test
+    fun `apps unlocked past the rule are listed apart, with when their unlock ends`() {
+        val unlocks = AppUnlocks()
+            .open(youTube.packageName, listOf(socials), now + 5 * minute)
+            .open(instagram.packageName, listOf(socials), now + 90 * minute)
+        val apps = unlocks.appsOf(socials, now)
+        assertEquals(listOf(tiktok, whatsApp), apps.blocked)
+        assertEquals(listOf(UnlockedApp(instagram, now + 90 * minute), UnlockedApp(youTube, now + 5 * minute)), apps.unlocked)
+        // Five minutes on, YouTube's unlock is over: back with the blocked apps.
+        val later = unlocks.appsOf(socials, now + 5 * minute)
+        assertEquals(listOf(tiktok, whatsApp, youTube), later.blocked)
+        assertEquals(listOf(UnlockedApp(instagram, now + 90 * minute)), later.unlocked)
+        // Instagram locked again: only YouTube is still unlocked.
+        assertEquals(listOf(youTube), unlocks.lockAgain(instagram.packageName, now + minute).appsOf(socials, now + minute).unlocked.map { it.app })
+    }
+
+    @Test
+    fun `another rule's unlock doesn't count`() {
+        val other = Rule("o", RuleType.Lock, "Other", apps = listOf(youTube), activeSince = now)
+        val unlocks = AppUnlocks().open(youTube.packageName, listOf(other), now + 5 * minute)
+        val apps = unlocks.appsOf(socials, now)
+        assertEquals(listOf(instagram, tiktok, whatsApp, youTube), apps.blocked)
+        assertTrue(apps.unlocked.isEmpty())
+        assertEquals(now + 5 * minute, unlocks.endOf(youTube.packageName, other, now))
+        assertNull(unlocks.endOf(youTube.packageName, socials, now))
+    }
 }
