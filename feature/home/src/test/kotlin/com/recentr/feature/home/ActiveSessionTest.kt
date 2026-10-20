@@ -10,7 +10,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-/** The Home tile's "Ongoing · 2:04:08 left": running sessions, and sessions or routines in their window. */
+/** The Home tile's "Ongoing · 2:04:08 left": running sessions, and routines in their window. */
 class ActiveSessionTest {
 
     private val zone = ZoneId.of("Europe/Paris")
@@ -46,10 +46,11 @@ class ActiveSessionTest {
     }
 
     @Test
-    fun `a scheduled session counts down to the end of its window`() {
-        val workHours = Rule("w", RuleType.Session, "Work", schedule = RuleSchedule(9 * 60, 17 * 60, (1..5).toSet()))
-        assertEquals(monday.atTime(17, 0).millis(), active(listOf(workHours), monday.atTime(10, 0))?.endsAt)
-        assertNull(active(listOf(workHours), monday.plusDays(5).atTime(10, 0)))
+    fun `a saved session counts down only once started`() {
+        val now = monday.atTime(10, 0)
+        val session = Rule("s", RuleType.Session, "Focus", durationMinutes = 30)
+        assertNull(active(listOf(session), now))
+        assertEquals(now.millis() + 30 * minute, active(listOf(session.copy(activeSince = now.millis(), activeUntil = now.millis() + 30 * minute)), now)?.endsAt)
     }
 
     @Test
@@ -64,12 +65,23 @@ class ActiveSessionTest {
     fun `rules that hold all day have no countdown`() {
         val now = monday.atTime(10, 0)
         val rules = listOf(
-            Rule("l", RuleType.Lock, "Lock"),
-            Rule("m", RuleType.Limit, "Limit", limitMinutes = 30),
-            Rule("h", RuleType.Habit, "Habit"),
+            Rule("l", RuleType.Lock, "Lock", activeSince = now.millis() - 60 * minute),
+            Rule("m", RuleType.Limit, "Limit", limitMinutes = 30, activeSince = now.millis() - 60 * minute, usedMinutes = 45),
             Rule("a", RuleType.Bedtime, "All day", schedule = RuleSchedule(0, 0)),
         )
         assertNull(active(rules, now))
+    }
+
+    @Test
+    fun `the next rule is a routine`() {
+        val now = monday.atTime(8, 0)
+        val workHours = Rule("w", RuleType.Bedtime, "Work", schedule = RuleSchedule(9 * 60, 17 * 60, (1..5).toSet()))
+        // A session or a lock saved with a schedule before they lost it isn't one.
+        val oldSession = Rule("s", RuleType.Session, "Old", schedule = RuleSchedule(8 * 60 + 30, 9 * 60))
+        val next = HomeViewModel.nextRule(listOf(oldSession, workHours), now)
+        assertEquals("w", next?.ruleId)
+        assertEquals(9 * 60, next?.startMinute)
+        assertNull(HomeViewModel.nextRule(listOf(oldSession), now))
     }
 
     @Test

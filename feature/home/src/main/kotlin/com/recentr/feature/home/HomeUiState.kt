@@ -10,7 +10,7 @@ import java.time.DayOfWeek
 /** Grouping of the "Most used" list (the "Apps ▾" chip). */
 enum class UsageGrouping { Apps, Categories }
 
-/** The upcoming blocking rule shown in the "Next · 9:00 AM" tile. */
+/** The upcoming routine shown in the "Next · 9:00 AM" tile. */
 @Immutable
 data class NextRuleUi(
     val ruleId: String,
@@ -23,15 +23,15 @@ data class NextRuleUi(
 )
 
 /**
- * What blocks apps right now: a session started with "Start blocking", or a scheduled session or
- * routine ([RuleType.Bedtime]) inside its window.
+ * What blocks apps right now, counting down: a running session, or a routine ([RuleType.Bedtime])
+ * inside its window.
  */
 @Immutable
 data class ActiveSessionUi(
     val ruleId: String,
     val name: String,
     val type: RuleType,
-    /** Epoch millis when the session or the scheduled window ends. */
+    /** Epoch millis when the session or the routine's window ends. */
     val endsAt: Long,
 )
 

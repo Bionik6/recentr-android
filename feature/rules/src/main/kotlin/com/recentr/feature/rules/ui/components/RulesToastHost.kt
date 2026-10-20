@@ -9,6 +9,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +23,7 @@ import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.recentr.core.designsystem.motion.MotionSpecs
@@ -72,6 +74,7 @@ internal fun RulesToastHost(modifier: Modifier = Modifier) {
             slideOutVertically(MotionSpecs.smooth(0.4f, IntOffset.VisibilityThreshold)) { it / 2 } +
             scaleOut(MotionSpecs.smooth(0.4f), targetScale = 0.9f),
     ) {
-        RulesToastPill(text, Modifier.semantics { liveRegion = LiveRegionMode.Polite })
+        // Clear of the screen's edges: a longer toast ("Saved · some changes apply…") wraps.
+        RulesToastPill(text, Modifier.padding(horizontal = 24.dp).semantics { liveRegion = LiveRegionMode.Polite })
     }
 }

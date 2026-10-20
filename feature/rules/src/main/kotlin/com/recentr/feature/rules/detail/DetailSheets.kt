@@ -27,17 +27,22 @@ import com.recentr.feature.rules.ui.components.RulesPillStyle
 import com.recentr.feature.rules.ui.components.RulesSheet
 import com.recentr.feature.rules.ui.components.SheetBody
 
-/** Figma 45 "Pause Work Hours?" — dozing mascot and pause length options. */
+/**
+ * Figma 45 "Pause Work Hours?" — dozing mascot and pause length options. Only routines pause;
+ * during a window ([later]) the pause starts when the window ends, and the sheet says so.
+ */
 @Composable
 internal fun PauseRuleSheet(
     ruleName: String,
+    later: Boolean,
     onPause: (PauseOption) -> Unit,
     onDismiss: () -> Unit,
 ) {
     var option by rememberSaveable { mutableStateOf(PauseOption.OneHour) }
     RulesSheet(onDismissRequest = onDismiss) { closer ->
         SheetBody(
-            figmaHeight = 514.dp,
+            // Taller by the line saying when the pause starts.
+            figmaHeight = if (later) 562.dp else 514.dp,
             topGap = 14.dp,
             bottomBar = {
                 RecentrButton(
@@ -55,6 +60,16 @@ internal fun PauseRuleSheet(
                 color = RecentrTheme.colors.textPrimary,
                 textAlign = TextAlign.Center,
             )
+            if (later) {
+                Gap(6.dp)
+                Text(
+                    stringResource(R.string.rules_pause_later),
+                    style = RecentrTheme.typography.bodyRegular,
+                    color = RecentrTheme.colors.textSecondary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
             Gap(16.dp)
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 PauseOption.entries.forEach { entry ->
@@ -70,11 +85,15 @@ internal fun PauseRuleSheet(
     }
 }
 
-/** Figma 47 "Delete Work Hours?" — impatient mascot, red delete, "Keep it". */
+/**
+ * Figma 47 "Delete Work Hours?" — impatient mascot, red delete, "Keep it". While the rule is
+ * engaged, the delete waits for its end: [later] says when ("It keeps blocking until midnight…").
+ */
 @Composable
 internal fun DeleteRuleSheet(
     ruleName: String,
     streakDays: Int,
+    later: String?,
     onDelete: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -107,10 +126,10 @@ internal fun DeleteRuleSheet(
             )
             Gap(6.dp)
             Text(
-                if (streakDays > 0) {
-                    pluralStringResource(R.plurals.rules_delete_body_streak, streakDays, streakDays)
-                } else {
-                    stringResource(R.string.rules_delete_body)
+                when {
+                    later != null -> later
+                    streakDays > 0 -> pluralStringResource(R.plurals.rules_delete_body_streak, streakDays, streakDays)
+                    else -> stringResource(R.string.rules_delete_body)
                 },
                 style = RecentrTheme.typography.bodyRegular,
                 color = RecentrTheme.colors.textSecondary,

@@ -17,18 +17,21 @@ import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.R
+import com.recentr.feature.rules.sheets.BlockRightAwayDialog
 import com.recentr.feature.rules.sheets.RuleSheet
 import com.recentr.feature.rules.sheets.RuleSheetsHost
 import com.recentr.feature.rules.ui.components.ClearDialogDim
 import com.recentr.feature.rules.ui.components.RulesSheet
 import com.recentr.feature.rules.ui.components.SheetBody
 import com.recentr.feature.rules.ui.components.SheetCloser
+import com.recentr.feature.rules.ui.rememberWallClock
 import kotlinx.coroutines.delay
 
 /**
  * Create / edit sheet of a rule, hosted by the `RuleEditorRoute` dialog destination. The
  * option rows open the shared [RuleSheetsHost] sub-sheets on top of it. Once it creates a rule,
- * it goes with [onCreated] and the rule's id instead of [onClose].
+ * it goes with [onCreated] and the rule's id instead of [onClose]. Saving an edit that blocks more
+ * apps right away (the rule holds them now) asks first.
  */
 @Composable
 internal fun RuleEditorDestination(
@@ -50,11 +53,22 @@ internal fun RuleEditorDestination(
     var sheet by rememberSaveable { mutableStateOf(RuleSheet.None) }
     val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
     var explainBlocking by rememberSaveable { mutableStateOf(false) }
+    var confirmBlock by rememberSaveable { mutableStateOf(false) }
     var editorCloser by remember { mutableStateOf<SheetCloser?>(null) }
+    val clock = rememberWallClock()
     val now by produceState(System.currentTimeMillis()) {
         while (true) {
             delay(1_000)
             value = System.currentTimeMillis()
+        }
+    }
+    /** Saves, then closes — once blocking is explained when the rule can't put apps on hold yet. */
+    val commit: () -> Unit = {
+        if (state.isNew) created = state.draft.id
+        viewModel.commit(clock)
+        when {
+            !blockingOn -> explainBlocking = true
+            else -> editorCloser?.close() ?: close()
         }
     }
     RulesSheet(onDismissRequest = close) { closer ->
@@ -63,14 +77,8 @@ internal fun RuleEditorDestination(
             open = { sheet = it },
             update = viewModel::update,
             onStrictChange = { on -> viewModel.update { it.copy(strictMode = on) } },
-            strictLocked = !state.isNew && state.draft.isStrictLocked(now),
             onSuggestion = viewModel::applySuggestion,
-            onCommit = {
-                if (state.isNew) created = state.draft.id
-                viewModel.commit()
-                // The rule can't put apps on hold yet: explain blocking first, then close.
-                if (blockingOn) closer.close() else explainBlocking = true
-            },
+            onCommit = { if (viewModel.preview()?.blocksMore == true) confirmBlock = true else commit() },
         )
         val draft = state.draft
         val typeTitle = stringResource(
@@ -79,16 +87,14 @@ internal fun RuleEditorDestination(
                 RuleType.Lock -> R.string.rules_lock_title
                 RuleType.Limit -> R.string.rules_limit_title
                 RuleType.Bedtime -> R.string.rules_bedtime_title
-                RuleType.Habit -> R.string.rules_habit_title
             },
         )
         val title = if (state.customTitle) draft.name else typeTitle
         val createLabel = when (draft.type) {
-            RuleType.Session -> R.string.rules_create_session
-            RuleType.Lock -> R.string.rules_create_lock
-            RuleType.Limit -> R.string.rules_create_limit
-            RuleType.Bedtime -> R.string.rules_create_routine
-            RuleType.Habit -> R.string.rules_create_habit
+            RuleType.Session -> R.string.rules_hold_create_session
+            RuleType.Lock -> R.string.rules_hold_create_lock
+            RuleType.Limit -> R.string.rules_hold_create_limit
+            RuleType.Bedtime -> R.string.rules_hold_create_routine
         }
         SheetBody(
             figmaHeight = null,
@@ -100,13 +106,6 @@ internal fun RuleEditorDestination(
                 RuleType.Lock -> LockEditor(state, title, actions)
                 RuleType.Limit -> LimitEditor(state, title, actions)
                 RuleType.Bedtime -> BedtimeEditor(state, title, actions)
-                RuleType.Habit -> HabitEditor(
-                    state = state,
-                    title = title,
-                    habitTitle = draft.apps.firstOrNull()?.let { stringResource(R.string.rules_habit_before, it.label) }
-                        ?: stringResource(R.string.rules_habit_default_name),
-                    actions = actions,
-                )
             }
         }
     }
@@ -120,6 +119,15 @@ internal fun RuleEditorDestination(
         onApps = viewModel::setApps,
         noteTitle = stringResource(if (state.draft.type == RuleType.Lock) R.string.rules_lock_note_title else R.string.rules_note_title),
     )
+    if (confirmBlock) {
+        BlockRightAwayDialog(
+            onConfirm = {
+                confirmBlock = false
+                commit()
+            },
+            onDismiss = { confirmBlock = false },
+        )
+    }
     if (explainBlocking) {
         val context = LocalContext.current
         BlockingAccessSheet(

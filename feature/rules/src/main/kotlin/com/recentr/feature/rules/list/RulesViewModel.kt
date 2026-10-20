@@ -36,7 +36,6 @@ internal enum class RuleGroup(
     Sessions(RuleType.Session, R.string.rules_group_sessions, R.string.rules_add_session, R.string.rules_add_session_hint, true),
     Limits(RuleType.Limit, R.string.rules_group_limits, null, null, false),
     Routines(RuleType.Bedtime, R.string.rules_group_routines, R.string.rules_add_routine, R.string.rules_add_routine_hint, true),
-    Habits(RuleType.Habit, R.string.rules_group_habits, R.string.rules_add_habit, R.string.rules_add_habit_hint, false),
 }
 
 @Immutable
@@ -66,7 +65,7 @@ private data class ListFlags(
 internal class RulesViewModel(
     private val repository: RulesRepository,
     blockingEnabled: StateFlow<Boolean>,
-    /** Re-reads today's use of the daily limits' apps ([com.recentr.core.data.AppHoldRepository.refreshUsage]). */
+    /** Re-reads the use of the started limits' apps ([com.recentr.core.data.AppHoldRepository.refreshUsage]). */
     private val refreshUsage: suspend () -> Unit = {},
 ) : ViewModel() {
 

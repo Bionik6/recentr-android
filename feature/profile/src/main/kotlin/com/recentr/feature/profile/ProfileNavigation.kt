@@ -13,7 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.recentr.core.data.RecentrData
-import com.recentr.core.data.unlockMethodInUse
+import com.recentr.core.model.RuleType
 import com.recentr.core.model.UnlockMethod
 import com.recentr.feature.profile.overview.EditProfileSheet
 import com.recentr.feature.profile.overview.ProfileScreen
@@ -104,7 +104,7 @@ fun NavGraphBuilder.profileDestinations(
         SettingsScreen(
             state = state,
             blockingOn = blockingOn,
-            passRules = rules.filter { it.unlockMethodInUse == UnlockMethod.ScanCode },
+            passRules = rules.filter { it.type != RuleType.Limit && it.unlockMethod == UnlockMethod.ScanCode },
             actions = SettingsActions(
                 onBack = back,
                 onOpenNotifications = { navController.navigate(SettingsNotificationsRoute) { launchSingleTop = true } },

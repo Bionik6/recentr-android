@@ -73,7 +73,7 @@ also from the Home streak tile.
   the focus log and the rules; with device numbers their earned days are kept (DataStore), demo
   numbers are evaluated on the fly. A badge already met before the user started counts from the
   first day; each new badge is celebrated once (the newest one when several arrive together).
-  *Set a daily limit* and *Block* work for any app with a launcher entry.
+  *Set a limit* and *Block* work for any app with a launcher entry.
 - Share cards are rendered to a PNG (`FileProvider`, cache): Stories / Post / Facebook open the app
   when it is installed, the share sheet otherwise; *Save* writes to Pictures/Recentr (Android 10+,
   the share sheet before).
@@ -82,25 +82,35 @@ also from the Home streak tile.
   (`InstalledAppsRepository`, `PackageManager`), grouped by their declared `android:appCategory`
   (catalogue packages keep their Figma category); rules and focus sessions keep the chosen apps'
   package names and labels.
-- Rules and saved templates are saved to `files/rules.json` (`RulesRepository`, written after
-  every change); the daily counters (unlocks used, habit tasks done) start over each day. The
-  focus session and its log are still in memory.
+- Rules come in four kinds, each with one job (the spec, shared with iOS, is
+  [docs/RULES.md](docs/RULES.md)): a **session** blocks apps for a set time from *Start*; a
+  **routine** blocks them during windows that repeat (saved as `RuleType.Bedtime`); a **lock**
+  keeps them blocked from *Activate*, with a few unlocks a day, and *Turn off* takes effect at
+  midnight; a **limit** is a time budget for today from *Start*, then blocks its apps until
+  midnight, and has no unlocks but emergency ones. Creating a rule (held down, not tapped) turns
+  it on: a session starts, a lock is on, a limit starts for today. While a rule is
+  engaged, an edit that loosens it (fewer apps, more unlocks, a bigger budget, Strict mode off,
+  pause, turn off, delete) is kept on the rule and applied when the engagement ends; what
+  reinforces it applies now (`Rule.edit` in `:core:model`, unit-tested).
+- Rules are saved to `files/rules.json` (`RulesRepository`, written after every change, with a
+  format version: files from before the four kinds are migrated on reading); the unlocks used
+  start over each day. The focus session and its log are still in memory.
 - App blocking: `HoldService` (`:app`) is an accessibility service told only which activity comes
   to the front (no window content). When that app is on hold — `HoldState` in `:core:data`, pure
-  and unit-tested: locks, running or scheduled sessions, routines (their chosen apps, inside the
-  window), daily limits (device usage, so usage access is needed), unfinished habits, focus
-  rounds — it opens `HoldActivity` ("App on hold"). "Open anyway" follows the rule's unlock
-  (wait, reason or retype; the unlock pass scan isn't available yet) and counts against its
-  unlocks per day; strict rules can't be opened. Recentr, the home screens, System UI and
-  Settings are never held (and not offered by the pickers).
+  and unit-tested: locks that are on, running sessions, routines (their chosen apps, inside the
+  window), limits whose budget is spent (device usage since *Start*, so usage access is needed),
+  focus rounds — it opens `HoldActivity` ("App on hold"). "Unlock anyway" follows the rule's
+  unlock method (wait, re-type or scan the pass) and counts against its unlocks per day; a strict
+  rule or a limit only offers an emergency unlock (three a month). Recentr, the home screens,
+  System UI and Settings are never held (and not offered by the pickers).
   - The user turns it on in Settings › Accessibility, after the in-app explanation
     (`BlockingAccessSheet`: Rules banner, after saving a rule, Focus set-up, Settings › App
     blocking). Force-stopping Recentr turns the service off (Android behaviour).
   - QA: Settings › Accessibility › Recentr app blocking, then open a blocked app.
-- Strict mode is a toggle on sessions and routines: once the rule blocks, it can't be edited,
-  deleted, paused or unlocked, and Strict mode can't be turned off until the session ends
-  (turning it on while the rule already blocks asks first). Settings › Strict mode makes new
-  sessions and routines start strict. Every toggle is the native Material 3 switch.
+- Strict mode is a toggle on sessions and routines: while the rule is engaged, its apps can't be
+  unlocked, other than with an emergency unlock (turning it on while the rule already blocks asks
+  first; turning it off waits for the end). Settings › Strict mode makes new sessions and
+  routines start strict. Every toggle is the native Material 3 switch.
 - No account backend: "Save your progress" and "I already have an account" only move the flow on.
 - Profile & Settings: no billing or account backend. *Start 7-day free trial* keeps the Recentr Plus
   plan on the device (`AppSettings.plusPlan`), *Invoices* opens the Play subscriptions page, *Log

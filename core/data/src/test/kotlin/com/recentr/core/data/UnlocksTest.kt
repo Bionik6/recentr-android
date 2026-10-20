@@ -2,7 +2,6 @@ package com.recentr.core.data
 
 import com.recentr.core.model.AppCategory
 import com.recentr.core.model.AppSettings
-import com.recentr.core.model.LimitAction
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
@@ -38,29 +37,8 @@ class UnlocksTest {
     }
 
     @Test
-    fun `a reason left over from before waits a few seconds`() {
-        // "Give a good reason" is gone from "How do you unlock?".
-        assertEquals(UnlockMethod.Wait, lock(UnlockMethod.Reason).unlockMethodInUse)
-        assertEquals(UnlockStep.Wait, lock(UnlockMethod.Reason).unlockStep(now, 3))
-    }
-
-    @Test
-    fun `no unlocks left over from before waits a few seconds`() {
-        // "No unlocks at all" is gone from "How do you unlock?": Strict mode is the only way to have none.
-        assertEquals(UnlockMethod.Wait, lock(UnlockMethod.None).unlockMethodInUse)
-        assertEquals(UnlockStep.Wait, lock(UnlockMethod.None).unlockStep(now, 3))
-        assertEquals(UnlockStep.Wait, lock(UnlockMethod.Strict).unlockStep(now, 3))
-        val session = Rule(
-            "s", RuleType.Session, "Deep work", apps = listOf(tiktok),
-            durationMinutes = 60, activeSince = now - 10 * minute, unlockMethod = UnlockMethod.None,
-        )
-        assertEquals(UnlockStep.Wait, session.unlockStep(now, 3))
-        assertEquals(UnlockStep.Wait, routine(UnlockMethod.None).unlockStep(now, 3, zone))
-        // Strict mode still lets emergencies through only.
-        assertEquals(UnlockStep.Emergency, session.copy(strictMode = true).unlockStep(now, 3))
-        // A habit opens with its tasks, not a wait.
-        val habit = Rule("h", RuleType.Habit, "Before TikTok", apps = listOf(tiktok), unlockMethod = UnlockMethod.None)
-        assertEquals(UnlockMethod.None, habit.unlockMethodInUse)
+    fun `the unlock methods go by effort, lightest first`() {
+        assertEquals(listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode), UNLOCK_METHODS)
     }
 
     @Test
@@ -79,23 +57,22 @@ class UnlocksTest {
     }
 
     @Test
-    fun `a limit that asks for a reason asks for one`() {
-        val limit = Rule("m", RuleType.Limit, "Social", apps = listOf(tiktok), limitMinutes = 60, limitAction = LimitAction.AskReason)
-        assertEquals(UnlockStep.Reason, limit.unlockStep(now, 3))
-        // "When time is up" decides, not an unlock method the limit can't show.
-        assertEquals(UnlockMethod.Reason, limit.copy(unlockMethod = UnlockMethod.ScanCode).unlockMethodInUse)
-        assertEquals(UnlockStep.Reason, limit.copy(unlockMethod = UnlockMethod.ScanCode).unlockStep(now, 3))
+    fun `a limit has no unlocks, only an emergency one gets past it`() {
+        // Saved with the default unlock method (Wait), which a limit never shows.
+        val limit = Rule("m", RuleType.Limit, "Social", apps = listOf(tiktok), limitMinutes = 60, activeSince = now - 60 * minute)
+        assertTrue(limit.onlyEmergency(now, zone))
+        assertFalse(limit.canOpenAnyway(now, zone))
+        UnlockMethod.entries.forEach { method ->
+            assertEquals(UnlockStep.Emergency, limit.copy(unlockMethod = method).unlockStep(now, emergencyUnlocksLeft = 3, zone = zone))
+        }
+        assertNull(limit.unlockStep(now, emergencyUnlocksLeft = 0, zone = zone))
     }
 
     @Test
-    fun `a limit that locks stays locked until it resets`() {
-        // Saved with the default unlock method (Wait), which a limit never shows.
-        val limit = Rule("m", RuleType.Limit, "Social", apps = listOf(tiktok), limitMinutes = 60, limitAction = LimitAction.Lock)
-        assertEquals(UnlockMethod.Wait, limit.unlockMethod)
-        assertEquals(UnlockMethod.None, limit.unlockMethodInUse)
-        assertFalse(limit.canOpenAnyway(now, zone))
-        assertNull(limit.unlockStep(now, emergencyUnlocksLeft = 3, zone = zone))
-        UnlockMethod.entries.forEach { method -> assertNull(limit.copy(unlockMethod = method).unlockStep(now, 3, zone)) }
+    fun `locks and limits are never strict`() {
+        val strictLock = lock().copy(strictMode = true, activeSince = now - 60 * minute)
+        assertFalse(strictLock.isStrictLocked(now, zone))
+        assertEquals(UnlockStep.Wait, strictLock.unlockStep(now, emergencyUnlocksLeft = 0, zone = zone))
     }
 
     /** A routine from 9 to 11 AM, so [now] is inside it. */
@@ -150,16 +127,6 @@ class UnlocksTest {
         assertNull(strict.unlockStep(now, emergencyUnlocksLeft = 0))
         // Once the session is over, Strict mode lets go.
         assertEquals(UnlockStep.Retype, strict.copy(activeSince = now - 70 * minute).unlockStep(now, emergencyUnlocksLeft = 0))
-    }
-
-    @Test
-    fun `a reason needs twenty letters`() {
-        assertFalse(UnlockReason.isEnough("Work:  "))
-        assertEquals("Work: ", UnlockReason.withSuggestion("", "Work"))
-        assertEquals("Reply fast just bored", UnlockReason.withSuggestion("Reply fast ", "Just bored"))
-        val reason = "Work: send the deck to Leo"
-        assertEquals(26, UnlockReason.length("  $reason \n"))
-        assertTrue(UnlockReason.isEnough(reason))
     }
 
     @Test
@@ -252,16 +219,19 @@ class UnlocksTest {
         // A session: since it started.
         val session = Rule("s", RuleType.Session, "S", durationMinutes = 60, activeSince = now - 25 * minute)
         assertEquals(now - 25 * minute, session.blockStart(now, zone))
-        // An all-day lock: since midnight.
-        assertEquals(at(today, 0), lock().blockStart(now, zone))
+        // A lock on since yesterday: since midnight; activated this morning: since then; off: never.
+        assertEquals(at(today, 0), lock().copy(activeSince = at(today.minusDays(1), 20)).blockStart(now, zone))
+        assertEquals(at(today, 9), lock().copy(activeSince = at(today, 9)).blockStart(now, zone))
+        assertNull(lock().blockStart(now, zone))
         // A night routine at 1 AM: since 11 PM the day before.
         val night = Rule("n", RuleType.Bedtime, "Night", schedule = RuleSchedule(23 * 60, 7 * 60))
         assertEquals(at(today.minusDays(1), 23), night.blockStart(at(today, 1), zone))
         assertEquals(at(today, 23), night.blockStart(at(today, 23, 30), zone))
-        // Work hours at 10 AM: since 9.
-        val work = Rule("w", RuleType.Lock, "Work", schedule = RuleSchedule(9 * 60, 17 * 60))
+        // Work hours at 10 AM: since 9; a whole-day routine: since midnight.
+        val work = Rule("w", RuleType.Bedtime, "Work", schedule = RuleSchedule(9 * 60, 17 * 60))
         assertEquals(at(today, 9), work.blockStart(now, zone))
+        assertEquals(at(today, 0), work.copy(schedule = RuleSchedule(0, 0)).blockStart(now, zone))
         // A limit doesn't know when its budget ran out.
-        assertNull(Rule("m", RuleType.Limit, "M", limitMinutes = 30).blockStart(now, zone))
+        assertNull(Rule("m", RuleType.Limit, "M", limitMinutes = 30, activeSince = at(today, 8)).blockStart(now, zone))
     }
 }

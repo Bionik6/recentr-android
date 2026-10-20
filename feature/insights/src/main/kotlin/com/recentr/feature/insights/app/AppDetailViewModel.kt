@@ -8,7 +8,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.RulesRepository
 import com.recentr.core.data.ScreenTimeRepository
-import com.recentr.core.data.periodStart
 import com.recentr.core.data.usedOf
 import com.recentr.core.model.AppUsageDetail
 import com.recentr.core.model.Rule
@@ -16,7 +15,6 @@ import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsagePeriod
 import com.recentr.core.model.UsageRange
 import java.time.LocalDate
-import java.time.ZoneId
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -32,16 +30,16 @@ internal data class AppDetailUiState(
     val today: LocalDate = LocalDate.now(),
     val detail: AppUsageDetail? = null,
     val loading: Boolean = true,
-    /** The daily limit covering this app, if any. */
+    /** The limit covering this app, if any. */
     val limitRule: Rule? = null,
-    /** Minutes the apps of [limitRule] used in its current period (the limit is shared by its apps). */
+    /** Minutes the apps of [limitRule] used since its Start today (the limit is shared by its apps); null when it isn't started. */
     val limitUsedMinutes: Int? = null,
 ) {
-    /** One day's hours or several days' (today only shows the daily limit). */
+    /** One day's hours or several days' (today only shows the limit's use). */
     val period: UsagePeriod get() = range.period(today)
 }
 
-/** 100 · App detail: one app over the day, week or month chosen in the overview, and its daily limit. */
+/** 100 · App detail: one app over the day, week or month chosen in the overview, and its limit. */
 internal class AppDetailViewModel(
     private val packageName: String,
     private val range: UsageRange,
@@ -60,13 +58,13 @@ internal class AppDetailViewModel(
         viewModelScope.launch {
             val detail = screenTime.appDetail(packageName, range)
             local.update { it.copy(detail = detail, loading = false) }
-            // The limit's apps' use since it last reset (midnight, 4:00 or Monday), for "14m over your limit".
+            // The limit's apps' use since its Start today, for "14m over your limit".
             if (state.value.period == UsagePeriod.Today && detail != null) {
                 val rule = state.value.limitRule ?: rules.rules.value.firstOrNull { rule ->
                     rule.type == RuleType.Limit && rule.enabled && rule.targets(detail.app.packageName)
                 }
-                if (rule != null) {
-                    val start = rule.limitReset.periodStart(System.currentTimeMillis(), ZoneId.systemDefault())
+                val start = rule?.activeSince?.takeIf { rule.isEnforcing(System.currentTimeMillis()) }
+                if (rule != null && start != null) {
                     val used = rule.usedOf(screenTime.appMinutesSince(start))
                     local.update { it.copy(limitUsedMinutes = used) }
                 }

@@ -169,12 +169,13 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
 
             Section("App")
             RecentrTabBar(selected = tab, onSelect = { tab = it })
+            // A routine waiting for its window: the countdown to its start.
             RuleCard(
                 title = "Work Hours",
                 sticker = Sticker.Bolt,
                 streak = 3,
                 apps = { OverlappingInstalledAppIcons(CatalogApps.take(3)) },
-                value = "0s / 2h15",
+                value = "in 2h32m",
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),
             ) {
@@ -194,7 +195,7 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
             AddCard("Add a session", "E.g. “Block apps for the next 30 min”", onClick = {}, modifier = Modifier.fillMaxWidth())
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 MiniTile("Streak", "3 days", Sticker.Flame, Modifier.weight(1f))
-                MiniTile("Next · 9:00 AM", "Work Hours", Sticker.Bolt, Modifier.weight(1f))
+                MiniTile("Next · 9:00 AM", "Work Hours", Sticker.Moon, Modifier.weight(1f))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 RuleTile("Lock", Sticker.Lock, onClick = {}, modifier = Modifier.width(108.dp))

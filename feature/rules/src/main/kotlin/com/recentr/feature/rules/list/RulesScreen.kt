@@ -57,6 +57,7 @@ import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.AppId
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
+import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
@@ -394,21 +395,33 @@ private fun RulesScreenPreview() {
                 sections = listOf(
                     RuleSection(
                         RuleGroup.Locks,
-                        listOf(Rule("1", RuleType.Lock, "Instagram & X", apps = listOf(AppId.Instagram, AppId.X).map { UsageApp.of(it) }, unlocksUsedToday = 2)),
+                        listOf(
+                            Rule(
+                                "1", RuleType.Lock, "Instagram & X",
+                                apps = listOf(AppId.Instagram, AppId.X).map { UsageApp.of(it) },
+                                activeSince = 0L,
+                                unlocksUsedToday = 2,
+                            ),
+                        ),
                     ),
                     RuleSection(
                         RuleGroup.Sessions,
+                        listOf(Rule("3", RuleType.Session, "Focus session", apps = listOf(AppId.TikTok).map { UsageApp.of(it) }, durationMinutes = 30)),
+                    ),
+                    RuleSection(
+                        RuleGroup.Routines,
                         listOf(
                             Rule(
-                                "2", RuleType.Session, "Work Hours",
+                                "2", RuleType.Bedtime, "Work Hours",
                                 apps = listOf(AppId.X, AppId.Instagram, AppId.TikTok).map { UsageApp.of(it) },
                                 schedule = RuleSchedule(540, 1020, (1..5).toSet()),
+                                sticker = RuleSticker.Bolt,
                                 streakDays = 3,
                             ),
                         ),
                     ),
                 ),
-                activeCount = 2,
+                activeCount = 3,
             ),
             contentPadding = PaddingValues(bottom = 96.dp),
             actions = RulesListActions(),

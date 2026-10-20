@@ -1,9 +1,7 @@
 package com.recentr.core.data
 
-import com.recentr.core.model.HabitRepeat
-import com.recentr.core.model.HabitTask
-import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
+import com.recentr.core.model.RuleChange
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
 import org.junit.Assert.assertEquals
@@ -32,10 +30,10 @@ class RuleStreaksTest {
         streakFrom = at(19, 0),
     )
 
-    /** Counts the windows over at [now], the counters settled at [since] (just before by default). */
-    private fun Rule.advancedTo(now: Long, since: Long = now - 1) = RuleStreaks.advance(this, since, now, zone)
+    /** Counts the windows over at [now]. */
+    private fun Rule.advancedTo(now: Long) = RuleStreaks.advance(this, now, zone)
 
-    // Windowed rules (routines, scheduled sessions)
+    // Routines
 
     @Test
     fun `a routine's window counts once it is over`() {
@@ -101,10 +99,16 @@ class RuleStreaksTest {
     }
 
     @Test
-    fun `nothing to count before the first window ends or for a one-shot session`() {
+    fun `a whole-day routine counts each of its days`() {
+        val weekend = morning.copy(schedule = RuleSchedule(0, 0, setOf(6, 7)), streakFrom = at(23, 0))
+        assertEquals(0, weekend.advancedTo(at(24, 23, 59)).streakDays)
+        assertEquals(1, weekend.advancedTo(at(25, 0)).streakDays)
+        assertEquals(2, weekend.advancedTo(at(26, 0)).streakDays)
+    }
+
+    @Test
+    fun `nothing to count before the first window ends`() {
         assertSame(morning, morning.advancedTo(at(19, 5)))
-        val oneShot = morning.copy(oneShot = true)
-        assertSame(oneShot, oneShot.advancedTo(at(23, 23)))
         val unread = morning.copy(streakFrom = null)
         assertSame(unread, unread.advancedTo(at(23, 23)))
     }
@@ -163,84 +167,58 @@ class RuleStreaksTest {
         assertSame(rule, RuleStreaks.resumed(rule, at(21, 12)))
     }
 
-    // Locks, habits, limits, manual sessions
+    // Locks, limits, sessions
+
+    /** Activated Monday 19 Oct at 10:00. */
+    private val lock = Rule("lock", RuleType.Lock, "YouTube", activeSince = at(19, 10), streakFrom = at(19, 0))
 
     @Test
-    fun `an all-day lock counts each of its days`() {
-        val lock = Rule("lock", RuleType.Lock, "YouTube", streakFrom = at(19, 0))
+    fun `a lock counts each day it's on, its first from Activate`() {
         assertEquals(0, lock.advancedTo(at(19, 23, 59)).streakDays)
         assertEquals(1, lock.advancedTo(at(20, 0)).streakDays)
         assertEquals(3, lock.advancedTo(at(22, 0, 1)).streakDays)
-        // An all-day schedule on weekdays: the weekend doesn't count.
-        val weekdays = lock.copy(schedule = RuleSchedule(0, 0, (1..5).toSet()), streakFrom = at(23, 0))
-        assertEquals(1, weekdays.advancedTo(at(26, 0)).streakDays)
-    }
-
-    private val habit = Rule(
-        "habit",
-        RuleType.Habit,
-        "Read first",
-        habitTasks = listOf(HabitTask("a", "Read 10 pages", done = true), HabitTask("b", "Stretch", done = true)),
-        streakFrom = at(19, 0),
-    )
-
-    @Test
-    fun `a habit day counts when every task was done`() {
-        assertEquals(1, habit.advancedTo(at(20, 0), since = at(19, 21)).streakDays)
+        // Off, it neither counts nor breaks.
+        val off = lock.copy(activeSince = null, streakDays = 3)
+        assertSame(off, off.advancedTo(at(25, 0)))
     }
 
     @Test
-    fun `a habit day left undone breaks it`() {
-        val undone = habit.copy(streakDays = 4, habitTasks = habit.habitTasks.map { it.copy(done = it.id == "a") })
-        assertEquals(0, undone.advancedTo(at(20, 0), since = at(19, 21)).streakDays)
-        val noTasks = habit.copy(streakDays = 4, habitTasks = emptyList())
-        assertEquals(0, noTasks.advancedTo(at(20, 0), since = at(19, 21)).streakDays)
+    fun `a lock turned off counts its days until then`() {
+        val turningOff = lock.copy(pending = RuleChange(at(21, 0), lock.copy(activeSince = null)))
+        assertEquals(2, turningOff.advancedTo(at(23, 0)).streakDays)
+        val deleted = lock.copy(pending = RuleChange(at(20, 0), null))
+        assertEquals(1, deleted.advancedTo(at(23, 0)).streakDays)
+        // A kept change that leaves it on doesn't stop it.
+        val edited = lock.copy(pending = RuleChange(at(20, 0), lock.copy(unlocksPerDay = 10)))
+        assertEquals(3, edited.advancedTo(at(22, 0)).streakDays)
     }
 
-    @Test
-    fun `habit days without the app open are undone`() {
-        // Tasks done on Monday, then nothing until Thursday: Tuesday and Wednesday break it.
-        assertEquals(0, habit.advancedTo(at(22, 9), since = at(19, 21)).streakDays)
-    }
+    /** Started Monday at 8:00 with 30 minutes; 20 used. */
+    private val limit = Rule("limit", RuleType.Limit, "Social time", limitMinutes = 30, usedMinutes = 20, activeSince = at(19, 8), streakFrom = at(19, 0))
 
     @Test
-    fun `a weekday habit skips the weekend`() {
-        val weekdays = habit.copy(habitRepeat = HabitRepeat.Weekdays, streakDays = 5, streakFrom = at(24, 0))
-        assertEquals(5, weekdays.advancedTo(at(26, 0), since = at(25, 12)).streakDays)
-    }
-
-    private val limit = Rule("limit", RuleType.Limit, "Daily limit", limitMinutes = 30, usedMinutes = 20, streakFrom = at(19, 0))
-
-    @Test
-    fun `a limit day kept within its budget counts`() {
-        assertEquals(1, limit.advancedTo(at(20, 0), since = at(19, 22)).streakDays)
-        assertEquals(1, limit.copy(usedMinutes = 30).advancedTo(at(20, 0), since = at(19, 22)).streakDays)
+    fun `a limit's day kept within its budget counts`() {
+        assertEquals(0, limit.advancedTo(at(19, 23, 59)).streakDays)
+        assertEquals(1, limit.advancedTo(at(20, 0)).streakDays)
+        assertEquals(1, limit.copy(usedMinutes = 30).advancedTo(at(20, 0)).streakDays)
     }
 
     @Test
     fun `a limit gone over breaks it`() {
-        assertEquals(0, limit.copy(usedMinutes = 31, streakDays = 3).advancedTo(at(20, 0), since = at(19, 22)).streakDays)
+        assertEquals(0, limit.copy(usedMinutes = 31, streakDays = 3).advancedTo(at(20, 0)).streakDays)
     }
 
     @Test
-    fun `a limit resetting at 4 am counts its period then`() {
-        val fourAm = limit.copy(limitReset = LimitReset.FourAm)
-        assertEquals(0, fourAm.advancedTo(at(20, 3, 59), since = at(19, 22)).streakDays)
-        assertEquals(1, fourAm.advancedTo(at(20, 4), since = at(19, 22)).streakDays)
+    fun `a limit not started neither counts nor breaks it`() {
+        val waiting = limit.copy(activeSince = null, streakDays = 3)
+        assertSame(waiting, waiting.advancedTo(at(25, 0)))
     }
 
-    @Test
-    fun `a weekly limit counts its week as seven days`() {
-        val weekly = limit.copy(limitReset = LimitReset.Monday)
-        assertEquals(0, weekly.advancedTo(at(25, 23), since = at(25, 22)).streakDays)
-        assertEquals(7, weekly.advancedTo(at(26, 0), since = at(25, 22)).streakDays)
-    }
-
-    private val manual = Rule("focus", RuleType.Session, "Deep work", durationMinutes = 30, streakFrom = at(19, 0))
+    private val session = Rule("focus", RuleType.Session, "Deep work", durationMinutes = 30, streakFrom = at(19, 0))
 
     @Test
-    fun `a manual session counts its first run of the day`() {
-        val first = RuleStreaks.runEnded(manual.copy(activeSince = at(19, 10)), at(19, 10, 30), zone)
+    fun `a session counts its first run of the day`() {
+        val first = RuleStreaks.runEnded(session.copy(activeSince = at(19, 10)), at(19, 10, 30), zone)
         assertEquals(1, first.streakDays)
         val second = RuleStreaks.runEnded(first.copy(activeSince = at(19, 15)), at(19, 15, 30), zone)
         assertEquals(1, second.streakDays)
@@ -249,15 +227,8 @@ class RuleStreaksTest {
     }
 
     @Test
-    fun `a manual session run broken while it ran doesn't count`() {
-        val broken = RuleStreaks.broken(manual.copy(activeSince = at(19, 10)), at(19, 10, 10))
+    fun `a session run broken while it ran doesn't count`() {
+        val broken = RuleStreaks.broken(session.copy(activeSince = at(19, 10)), at(19, 10, 10))
         assertEquals(0, RuleStreaks.runEnded(broken, at(19, 10, 30), zone).streakDays)
-    }
-
-    @Test
-    fun `a pause while a manual session runs breaks it`() {
-        val running = manual.copy(streakDays = 2, activeSince = at(19, 10))
-        assertEquals(0, RuleStreaks.pausedOver(running, at(19, 10, 10), at(19, 11), zone).streakDays)
-        assertSame(manual, RuleStreaks.pausedOver(manual, at(19, 12), at(19, 13), zone))
     }
 }

@@ -138,10 +138,10 @@
     <string name="insights_noticed_night">Most of your %1$s time is after %2$s. A bedtime routine could win it back.</string>
     <string name="insights_noticed_morning">Most of your %1$s time is before %2$s. A calm morning routine could win it back.</string>
     <string name="insights_noticed_work">Most of your %1$s time is during the workday. A focus session could win it back.</string>
-    <string name="insights_noticed_evening">Most of your %1$s time is in the evening. A daily limit could win it back.</string>
-    <string name="insights_noticed_spread">Your %1$s time is spread through the day. A daily limit keeps it in check.</string>
-    <string name="insights_set_limit">Set a daily limit</string>
-    <string name="insights_edit_limit">Edit daily limit</string>
+    <string name="insights_noticed_evening">Most of your %1$s time is in the evening. A limit could win it back.</string>
+    <string name="insights_noticed_spread">Your %1$s time is spread through the day. A limit keeps it in check.</string>
+    <string name="insights_set_limit">Set a limit</string>
+    <string name="insights_edit_limit">Edit limit</string>
     <string name="insights_block_app">Block %1$s</string>
 
     <!-- 101 · Pickups -->

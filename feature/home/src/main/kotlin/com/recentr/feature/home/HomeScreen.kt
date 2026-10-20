@@ -439,7 +439,7 @@ private fun previewState(period: UsagePeriod = UsagePeriod.Today, syncing: Boole
     summary = PreviewRepository.snapshot(period),
     isSyncing = syncing,
     dailyGoalMinutes = 4 * 60,
-    nextRule = NextRuleUi("work-hours", "Work Hours", RuleType.Session, 9 * 60, null),
+    nextRule = NextRuleUi("work-hours", "Work Hours", RuleType.Bedtime, 9 * 60, null),
 )
 
 @Composable

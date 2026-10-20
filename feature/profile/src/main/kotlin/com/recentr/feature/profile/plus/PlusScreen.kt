@@ -148,7 +148,7 @@ internal fun PlusScreen(
     }
 }
 
-/** White "Benefits" card: four sticker rows. */
+/** White "Benefits" card: three sticker rows. */
 @Composable
 private fun Benefits() {
     val shape = RoundedCornerShape(26.dp)
@@ -164,7 +164,6 @@ private fun Benefits() {
         listOf(
             Sticker.Lock to R.string.plus_benefit_rules,
             Sticker.Timer to R.string.plus_benefit_strict,
-            Sticker.Leaf to R.string.plus_benefit_habits,
             Sticker.Note to R.string.plus_benefit_recaps,
         ).forEach { (sticker, label) ->
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {

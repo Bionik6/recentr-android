@@ -12,8 +12,8 @@ import kotlinx.coroutines.withContext
 
 /**
  * The app blocker's state: which opened app is on hold ([HoldState]) given the rules, the focus
- * session and the device's apps, the apps opened anyway, and the use of the apps under a daily
- * limit over its period ([periodStart]). Read by the accessibility service and the hold screen.
+ * session and the device's apps, the apps opened anyway, and the use of the apps of each limit
+ * since its Start ([LimitUsage]). Read by the accessibility service and the hold screen.
  */
 class AppHoldRepository(
     private val rules: RulesRepository,
@@ -55,8 +55,8 @@ class AppHoldRepository(
 
     /**
      * Emergency unlock (54): [packageName] stays open for [EmergencyUnlocks.MINUTES] past every
-     * rule holding it now, Strict mode included, spending one of the month's emergency unlocks;
-     * their streaks start over. False when none are left.
+     * rule holding it now, Strict mode and limits included, spending one of the month's emergency
+     * unlocks; their streaks start over. False when none are left.
      */
     suspend fun emergencyUnlock(packageName: String, now: Long): Boolean = withContext(NonCancellable) {
         // Both or neither, even if the hold screen goes away meanwhile: never spent without opening.
@@ -80,16 +80,17 @@ class AppHoldRepository(
         listOfNotNull(rule.blockStart(now, zone()), _unlocks.value.lastEnd(packageName, rule, now)).maxOrNull()
 
     /**
-     * Re-reads the minutes per app since the start of each daily limit's period ([periodStart]:
-     * today, since 4:00, or this week) while there's a limit (device numbers only), for the limits
-     * to trip and for their cards ([RulesRepository.recordUsage]).
+     * Re-reads the minutes per app since the Start of each limit running today (device numbers
+     * only), for the limits to trip and for their cards ([RulesRepository.recordUsage]).
      */
     suspend fun refreshUsage() {
-        val resets = rules.rules.value.filter { it.type == RuleType.Limit }.map { it.limitReset }.toSet()
-        limitUsage = if (resets.isNotEmpty() && screenTime.source.value == ScreenTimeSource.Device) {
-            val now = clock()
-            LimitUsage(resets.associateWith { screenTime.appMinutesSince(it.periodStart(now, zone())) })
-                .also(rules::recordUsage)
+        val now = clock()
+        val starts = rules.rules.value
+            .filter { it.type == RuleType.Limit && it.isEnforcing(now, zone()) }
+            .mapNotNull { it.activeSince }
+            .toSet()
+        limitUsage = if (starts.isNotEmpty() && screenTime.source.value == ScreenTimeSource.Device) {
+            LimitUsage(starts.associateWith { screenTime.appMinutesSince(it) }).also(rules::recordUsage)
         } else {
             null
         }

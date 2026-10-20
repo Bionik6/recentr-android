@@ -3,7 +3,6 @@ package com.recentr.feature.rules.sheets
 import com.recentr.core.data.MIN_WAIT_SECONDS
 import com.recentr.core.model.UnlockMethod
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -11,10 +10,7 @@ import org.junit.Test
 class UnlockOptionsTest {
 
     @Test
-    fun `no unlocks is strict mode's, not an option`() {
-        assertFalse(UnlockMethod.None in UnlockMethodOptions)
-        assertFalse(UnlockMethod.Strict in UnlockMethodOptions)
-        assertFalse(UnlockMethod.Reason in UnlockMethodOptions)
+    fun `the unlock methods go lightest first, no unlocks is strict mode's`() {
         assertEquals(listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode), UnlockMethodOptions)
     }
 

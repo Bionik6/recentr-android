@@ -1,7 +1,6 @@
 package com.recentr.feature.rules.list
 
 import com.recentr.core.model.AppCategory
-import com.recentr.core.model.HabitTask
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
@@ -29,7 +28,8 @@ class RuleCardStateTest {
     private fun at(hour: Int, minutes: Int = 0): Long =
         LocalDate.of(2026, 10, 19).atTime(hour, minutes).atZone(zone).toInstant().toEpochMilli()
 
-    private val limit = Rule("l", RuleType.Limit, "Daily limit", limitMinutes = 30, usedMinutes = 20)
+    /** Started at 8:00 with 30 minutes, 20 used. */
+    private val limit = Rule("l", RuleType.Limit, "Limit", limitMinutes = 30, usedMinutes = 20, activeSince = at(8))
 
     /** Weekdays 20:10 → 9:00. */
     private val routine = Rule("r", RuleType.Bedtime, "Morning Routine", schedule = RuleSchedule(20 * 60 + 10, 9 * 60, (1..5).toSet()))
@@ -47,6 +47,17 @@ class RuleCardStateTest {
         val status = limit.copy(usedMinutes = 30).cardStatus(at(13), zone)
         assertEquals(CardStatus.TimesUp, status)
         assertFalse(status.active)
+    }
+
+    @Test
+    fun `a limit waiting for Start is ready, with its budget`() {
+        val waiting = limit.copy(activeSince = null, usedMinutes = 0)
+        assertEquals(CardStatus.Ready, waiting.cardStatus(at(13), zone))
+        assertFalse(waiting.cardStatus(at(13), zone).active)
+        assertEquals(CardValue.Minutes(30), waiting.cardValue(at(13), zone))
+        // Started yesterday: over at midnight, ready again.
+        val yesterday = limit.copy(activeSince = at(8) - 24 * HOUR)
+        assertEquals(CardStatus.Ready, yesterday.cardStatus(at(13), zone))
     }
 
     @Test
@@ -109,6 +120,8 @@ class RuleCardStateTest {
         assertEquals(CardStatus.Ready, idle.cardStatus(at(10, 40), zone))
         assertFalse(idle.cardStatus(at(10, 40), zone).active)
         assertNull(idle.cardValue(at(10, 40), zone))
+        // A session made a while ago doesn't run until it's started.
+        assertEquals(CardStatus.Ready, idle.cardStatus(at(13), zone))
     }
 
     @Test
@@ -123,12 +136,22 @@ class RuleCardStateTest {
     }
 
     @Test
-    fun `locks and habits keep their counters`() {
-        val lock = Rule("k", RuleType.Lock, "YouTube")
+    fun `a lock is off until activated, then locked with its unlocks`() {
+        val off = Rule("k", RuleType.Lock, "YouTube", unlocksUsedToday = 0)
+        assertEquals(CardStatus.Off, off.cardStatus(at(13), zone))
+        assertFalse(off.cardStatus(at(13), zone).active)
+        assertEquals(CardValue.Off, off.cardValue(at(13), zone))
+        val on = off.copy(activeSince = at(9), unlocksUsedToday = 2)
+        assertEquals(CardStatus.Unlocks, on.cardStatus(at(13), zone))
+        assertEquals(CardValue.Locked, on.cardValue(at(13), zone))
+        assertNull(on.runsUntil(at(13), zone))
+    }
+
+    @Test
+    fun `a lock with apps unlocked for now still reads locked`() {
+        // Unlocking two of its apps for a few minutes uses two of its unlocks; the lock stays on.
+        val lock = Rule("k", RuleType.Lock, "Socials", activeSince = at(9), unlocksPerDay = 5, unlocksUsedToday = 2)
         assertEquals(CardStatus.Unlocks, lock.cardStatus(at(13), zone))
         assertEquals(CardValue.Locked, lock.cardValue(at(13), zone))
-        val habit = Rule("h", RuleType.Habit, "Read first", habitTasks = listOf(HabitTask("a", "Read", done = true), HabitTask("b", "Walk")))
-        assertEquals(CardStatus.Tasks, habit.cardStatus(at(13), zone))
-        assertEquals(CardValue.Tasks(1, 2), habit.cardValue(at(13), zone))
     }
 }

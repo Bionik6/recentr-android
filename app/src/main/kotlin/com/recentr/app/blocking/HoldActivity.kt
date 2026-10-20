@@ -82,7 +82,7 @@ class HoldActivity : ComponentActivity() {
         finish()
     }
 
-    /** Back to Recentr where the user left it (the running focus session, the habit's tasks…). */
+    /** Back to Recentr where the user left it (the running focus session). */
     private fun openRecentr() {
         packageManager.getLaunchIntentForPackage(packageName)?.let { startActivity(it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
         finish()

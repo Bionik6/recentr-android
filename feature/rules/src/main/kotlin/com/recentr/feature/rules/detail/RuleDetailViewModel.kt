@@ -11,12 +11,18 @@ import androidx.navigation.toRoute
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.RulesRepository
 import com.recentr.core.model.Rule
+import com.recentr.core.model.RuleEdit
 import com.recentr.core.model.RuleSticker
+import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
+import com.recentr.core.model.edit
+import com.recentr.core.model.latestWish
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.RuleDetailRoute
 import com.recentr.feature.rules.model.RulesMessages
 import com.recentr.feature.rules.ui.durationText
+import com.recentr.feature.rules.ui.pendingWhen
+import com.recentr.feature.rules.ui.savedToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +31,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import java.time.LocalDate
+import java.time.Instant
 import java.time.ZoneId
 
 @Immutable
@@ -43,11 +49,17 @@ internal enum class PauseOption(val label: Int) {
     UntilResumed(R.string.rules_pause_manual),
 }
 
-/** Rule detail (Figma 44): live rule, start (saved sessions) / pause / resume, inline option edits, delete. */
+/**
+ * Rule detail (Figma 44): the live rule; Start (sessions, limits), Activate and Turn off (locks),
+ * Pause and Resume (routines); option edits; delete; dropping a change kept for later. Every change
+ * goes through the edit policy ([RulesRepository.save]): while the rule is engaged, what loosens it
+ * waits for the end of its engagement. [clock] arguments format when ("7:00 AM").
+ */
 internal class RuleDetailViewModel(
     private val ruleId: String,
     private val repository: RulesRepository,
     private val string: (Int, Array<out Any>) -> String,
+    private val zone: () -> ZoneId = ZoneId::systemDefault,
 ) : ViewModel() {
 
     private val clock = flow {
@@ -63,31 +75,47 @@ internal class RuleDetailViewModel(
     ) { rule, now -> RuleDetailUiState(rule, now, loaded = true) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), RuleDetailUiState(repository.rule(ruleId)))
 
-    fun update(transform: (Rule) -> Rule) = repository.update(ruleId, transform)
+    /** What [transform] on the rule's latest wish would do now: to ask first when it blocks more apps right away. */
+    fun preview(transform: (Rule) -> Rule): RuleEdit? =
+        repository.rule(ruleId)?.let { it.edit(transform(it.latestWish), System.currentTimeMillis(), zone()) }
 
-    fun rename(name: String, sticker: RuleSticker) = repository.update(ruleId) {
+    /**
+     * Saves [transform] of the rule's latest wish. What waits for the end of the engagement is said
+     * in a toast; what applies now needs none.
+     */
+    fun update(clock: (Long) -> String, transform: (Rule) -> Rule) {
+        val rule = repository.rule(ruleId) ?: return
+        val edit = repository.save(transform(rule.latestWish))
+        if (edit.later != null) RulesMessages.show(savedToast(edit.now, string, clock))
+    }
+
+    fun rename(clock: (Long) -> String, name: String, sticker: RuleSticker) = update(clock) {
         it.copy(name = name.ifBlank { it.name }, sticker = sticker)
     }
 
-    fun setApps(apps: List<UsageApp>) = repository.update(ruleId) { it.copy(apps = apps) }
+    fun setApps(clock: (Long) -> String, apps: List<UsageApp>) = update(clock) { it.copy(apps = apps) }
 
+    /**
+     * Pauses the routine. During a window the pause starts when the window ends, and lasts from
+     * there: an hour, the rest of that day, or until it's turned back on.
+     */
     fun pause(option: PauseOption) {
+        val rule = repository.rule(ruleId) ?: return
         val now = System.currentTimeMillis()
+        val from = rule.engagementEnd(now, zone()) ?: now
         val until = when (option) {
-            PauseOption.OneHour -> now + 60 * 60_000L
-            PauseOption.UntilTomorrow -> LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            PauseOption.OneHour -> from + 60 * 60_000L
+            PauseOption.UntilTomorrow -> Instant.ofEpochMilli(from).atZone(zone()).toLocalDate().plusDays(1).atStartOfDay(zone()).toInstant().toEpochMilli()
             PauseOption.UntilResumed -> Long.MAX_VALUE
         }
-        repository.pause(ruleId, until)
-        repository.rule(ruleId)?.let { RulesMessages.show(string(R.string.rules_paused_toast, arrayOf(it.name))) }
-    }
-
-    /** A saved session runs again, for its length. */
-    fun start() {
-        repository.startSession(ruleId)
-        repository.rule(ruleId)?.let {
-            RulesMessages.show(string(R.string.rules_session_started, arrayOf(durationText(it.durationMinutes ?: 30, string))))
-        }
+        val edit = repository.pause(ruleId, until, now) ?: return
+        RulesMessages.show(
+            if (edit.later != null) {
+                string(R.string.rules_pending_pause, emptyArray())
+            } else {
+                string(R.string.rules_paused_toast, arrayOf(rule.name))
+            },
+        )
     }
 
     fun resume() {
@@ -95,13 +123,49 @@ internal class RuleDetailViewModel(
         repository.rule(ruleId)?.let { RulesMessages.show(string(R.string.rules_resumed_toast, arrayOf(it.name))) }
     }
 
-    fun delete() {
-        val name = repository.rule(ruleId)?.name
-        repository.delete(ruleId)
-        if (name != null) RulesMessages.show(string(R.string.rules_deleted_toast, arrayOf(name)))
+    /** Start (a session for its length, a limit for today) or Activate (a lock): it holds from now on. */
+    fun start() {
+        repository.start(ruleId)
+        val rule = repository.rule(ruleId) ?: return
+        RulesMessages.show(
+            when (rule.type) {
+                RuleType.Session -> string(R.string.rules_session_started, arrayOf(durationText(rule.durationMinutes ?: 30, string)))
+                RuleType.Limit -> string(R.string.rules_limit_started, arrayOf(durationText(rule.limitMinutes ?: 0, string)))
+                RuleType.Lock -> string(R.string.rules_lock_activated, arrayOf(rule.name))
+                RuleType.Bedtime -> return
+            },
+        )
     }
 
-    fun strictLockedNotice() = RulesMessages.show(string(R.string.rules_strict_locked_toast, emptyArray()))
+    /** Turns the lock off: a loosening, so it goes off at midnight. */
+    fun turnOff() {
+        val rule = repository.rule(ruleId) ?: return
+        val edit = repository.save(rule.latestWish.copy(activeSince = null))
+        if (edit.later != null) RulesMessages.show(string(R.string.rules_pending_turn_off, emptyArray()))
+    }
+
+    /** Deletes the rule, right away or, while it's engaged, once its engagement ends. */
+    fun delete(clock: (Long) -> String) {
+        val rule = repository.rule(ruleId) ?: return
+        if (repository.delete(ruleId)) {
+            RulesMessages.show(string(R.string.rules_deleted_toast, arrayOf(rule.name)))
+        } else {
+            val change = repository.rule(ruleId)?.pending ?: return
+            RulesMessages.show(
+                pendingWhen(
+                    rule.type, change,
+                    midnight = R.string.rules_pending_delete_midnight,
+                    sessionEnd = R.string.rules_pending_delete_session,
+                    at = R.string.rules_pending_delete_at,
+                    string = string,
+                    clock = clock,
+                ),
+            )
+        }
+    }
+
+    /** "Drop changes", "Keep rule", "Keep it on", "Cancel": the change kept for later is dropped. */
+    fun dropPending() = repository.dropPending(ruleId)
 
     companion object {
         val Factory = viewModelFactory {

@@ -115,7 +115,7 @@ fun NavHostController.navigateToStartSession() {
     navigate(RuleEditorRoute(type = RuleType.Session.name)) { launchSingleTop = true }
 }
 
-/** Opens the editor of a new [type] rule, with [apps] already chosen (Insights "Set a daily limit"). */
+/** Opens the editor of a new [type] rule, with [apps] already chosen (Insights "Set a limit"). */
 fun NavHostController.navigateToNewRule(type: RuleType, apps: List<UsageApp> = emptyList()) {
     val chosen = apps.takeIf { it.isNotEmpty() }?.joinToString(",") { it.packageName }
     navigate(RuleEditorRoute(type = type.name, apps = chosen)) { launchSingleTop = true }

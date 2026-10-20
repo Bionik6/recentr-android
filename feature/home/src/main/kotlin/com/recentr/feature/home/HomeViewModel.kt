@@ -34,7 +34,8 @@ import kotlinx.coroutines.launch
 /**
  * Home & Insight state holder: screen-time summary for the selected period (with the Syncing
  * state of the repository), the daily goal and avatar from the user preferences, and the next
- * rule or the session or routine blocking apps now. A pull to refresh ([refresh]) reads them
+ * routine or the session or routine blocking apps now (a countdown only: a session can't be
+ * stopped, it ends on its own). A pull to refresh ([refresh]) reads them
  * again under its spinner, keeping the numbers on screen meanwhile.
  *
  * @param profile the stored profile (daily goal, avatar); [saveGoal] stores a new daily goal.
@@ -154,8 +155,8 @@ class HomeViewModel(
         }
 
         /**
-         * What blocks apps right now and ends first, if anything: a running session, or a
-         * scheduled session or routine inside its window.
+         * What blocks apps right now and ends first, if anything: a running session, or a routine
+         * inside its window.
          */
         internal fun activeSession(
             rules: List<Rule>,
@@ -169,21 +170,24 @@ class HomeViewModel(
         }
 
         /**
-         * When the rule's countdown ends, as on the Rules list: the running session, or the
-         * scheduled window a session or routine is in. Null for locks, limits and habits.
+         * When the rule's countdown ends, as on the Rules list: the running session, or the window
+         * a routine is in. Null for locks and limits, which hold without one.
          */
-        private fun Rule.blockingUntil(now: Long, zone: ZoneId): Long? = when {
-            isRunning(now) -> sessionEndsAt
-            (type == RuleType.Session || type == RuleType.Bedtime) && isEnforcing(now, zone) -> heldUntil(now, zone)
-            else -> null
+        private fun Rule.blockingUntil(now: Long, zone: ZoneId): Long? = when (type) {
+            RuleType.Session -> sessionEndsAt?.takeIf { isRunning(now) }
+            RuleType.Bedtime -> heldUntil(now, zone)?.takeIf { isEnforcing(now, zone) }
+            RuleType.Lock, RuleType.Limit -> null
         }
 
-        /** Earliest upcoming start among the enabled, scheduled, not paused rules. */
+        /**
+         * Earliest upcoming start among the enabled routines that aren't paused: the only rules
+         * with days and hours.
+         */
         internal fun nextRule(rules: List<Rule>, now: LocalDateTime): NextRuleUi? {
             val nowMillis = now.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
             return rules
                 .asSequence()
-                .filter { it.enabled && (it.pausedUntil == null || it.pausedUntil!! < nowMillis) }
+                .filter { it.type == RuleType.Bedtime && it.enabled && (it.pausedUntil == null || it.pausedUntil!! < nowMillis) }
                 .mapNotNull { rule ->
                     val schedule = rule.schedule ?: return@mapNotNull null
                     (0..7).asSequence()

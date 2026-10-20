@@ -44,7 +44,6 @@ import com.recentr.core.data.unlockStep
 import com.recentr.core.data.unlocksLeft
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
-import com.recentr.core.designsystem.format.clockTime
 import com.recentr.core.designsystem.format.wallClockTime
 import com.recentr.core.designsystem.haptics.SensoryFeedback
 import com.recentr.core.designsystem.icon.RecentrIcon
@@ -58,7 +57,6 @@ import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.AppSettings
-import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import java.time.Instant
@@ -146,7 +144,6 @@ internal fun HoldScreen(
     }
     when (currentStep) {
         UnlockStep.Wait -> WaitStep(rule, packageName, label, onNevermind = onClose, onUnlock = { minutes -> unlock(rule, minutes) })
-        UnlockStep.Reason -> ReasonStep(rule, packageName, label, onUnlock = { unlock(rule, rule.unlockDurationMinutes) })
         UnlockStep.Retype -> RetypeStep(rule, packageName, label, onUnlock = { unlock(rule, rule.unlockDurationMinutes) })
         UnlockStep.Scan -> if (typingPasscode) {
             PasscodeStep(rule, packageName, label, onUnlock = { unlock(rule, rule.unlockDurationMinutes) })
@@ -161,6 +158,8 @@ internal fun HoldScreen(
         UnlockStep.Emergency -> EmergencyStep(
             packageName = packageName,
             label = label,
+            // A limit has no unlocks at all; Strict mode leaves none but these.
+            limit = if (rule.type == RuleType.Limit) rule.name else null,
             unlocksLeft = emergencyLeft,
             onCancel = onClose,
             onUnlock = {
@@ -226,7 +225,6 @@ private fun Shield(
                 ?.let { stringResource(R.string.shield_stayed_off, stayedOff(it)) }
             primary = stringResource(R.string.shield_got_this)
             onPrimary = onClose
-            if (rule.type == RuleType.Habit) links += stringResource(R.string.shield_open_recentr) to onOpenRecentr
             rule.unlockStep(now, emergencyLeft)?.let { step ->
                 val text = when {
                     step == UnlockStep.Emergency -> stringResource(R.string.shield_emergency)
@@ -312,22 +310,10 @@ private fun Shield(
 /** "Night Routine · until 7:00 AM", "Social time · today’s 1h used"… */
 @Composable
 private fun ruleSubtitle(rule: Rule, now: Long, zone: ZoneId): String {
-    if (rule.type == RuleType.Limit) return limitSubtitle(rule)
-    if (rule.type == RuleType.Habit) return stringResource(R.string.shield_habit, rule.name)
+    if (rule.type == RuleType.Limit) return stringResource(R.string.shield_limit, rule.name, duration(rule.limitMinutes ?: 0))
     val until = rule.heldUntil(now, zone) ?: return rule.name
     val sameDay = Instant.ofEpochMilli(until).atZone(zone).toLocalDate() == Instant.ofEpochMilli(now).atZone(zone).toLocalDate()
     return stringResource(if (sameDay) R.string.shield_until else R.string.shield_until_tomorrow, rule.name, wallClockTime(until))
-}
-
-/** The budget of the limit's own period: "today’s 1h", "this week’s 5h", "1h used, resets at 4:00 AM". */
-@Composable
-private fun limitSubtitle(rule: Rule): String {
-    val budget = duration(rule.limitMinutes ?: 0)
-    return when (rule.limitReset) {
-        LimitReset.Midnight -> stringResource(R.string.shield_limit, rule.name, budget)
-        LimitReset.FourAm -> stringResource(R.string.shield_limit_resets_at, rule.name, budget, clockTime(4 * 60))
-        LimitReset.Monday -> stringResource(R.string.shield_limit_week, rule.name, budget)
-    }
 }
 
 /** "2h 15m", "45m", "2h". */

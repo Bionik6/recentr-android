@@ -5,18 +5,19 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import kotlinx.serialization.Serializable
 
-/** Kind of blocking rule — each maps to a sticker in the UI. Owned by the rules flow. */
+/**
+ * Kind of blocking rule — each maps to a sticker in the UI. Owned by the rules flow; what each one
+ * does, starts and ends with is in docs/RULES.md.
+ */
 enum class RuleType {
-    /** Focus now for a fixed duration, or on a weekly schedule (Sticker/Bolt). */
+    /** Blocks apps for a set time, from Start (Sticker/Bolt). */
     Session,
-    /** Block apps entirely, all day or on a schedule (Sticker/Lock). */
+    /** Keeps apps blocked from Activate until it's turned off, with a few unlocks a day (Sticker/Lock). */
     Lock,
-    /** Daily time budget (Sticker/Timer). */
+    /** A time budget for today, from Start; once spent, the apps are blocked until midnight (Sticker/Timer). */
     Limit,
-    /** Evenings & nights routine (Sticker/Moon). */
+    /** A routine: blocks apps during windows that repeat (Sticker/Moon). Saved under its first name. */
     Bedtime,
-    /** Grow a good habit: finish small tasks to unlock apps (Sticker/Leaf). */
-    Habit,
 }
 
 /** Sticker shown for a rule (Figma "Sticker" set). Defaults to the rule type's sticker. */
@@ -28,7 +29,6 @@ val RuleType.defaultSticker: RuleSticker
         RuleType.Lock -> RuleSticker.Lock
         RuleType.Limit -> RuleSticker.Timer
         RuleType.Bedtime -> RuleSticker.Moon
-        RuleType.Habit -> RuleSticker.Leaf
     }
 
 /** A weekly time window, minutes from midnight. `days` uses ISO numbering (1 = Monday). */
@@ -45,18 +45,35 @@ data class RuleSchedule(
     val lengthMinutes: Int
         get() = if (overnight) MINUTES_PER_DAY - startMinute + endMinute else endMinute - startMinute
 
+    /** A window of a whole day: it holds each of its [days], midnight to midnight. */
+    val allDay: Boolean get() = lengthMinutes >= MINUTES_PER_DAY
+
     /** Whether [epochMillis] falls inside the window (an overnight window belongs to its start day). */
     fun isActiveAt(epochMillis: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean {
         val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zone)
         val minute = time.hour * 60 + time.minute
         val day = time.dayOfWeek.value
-        if (lengthMinutes >= MINUTES_PER_DAY) return day in days
+        if (allDay) return day in days
         return if (!overnight) {
             day in days && minute in startMinute until endMinute
         } else {
             val previousDay = if (day == 1) 7 else day - 1
             (day in days && minute >= startMinute) || (previousDay in days && minute < endMinute)
         }
+    }
+
+    /**
+     * When the window holding [epochMillis] ends (epoch millis), or null outside the windows. A
+     * whole-day window ends at midnight.
+     */
+    fun windowEndAt(epochMillis: Long, zone: ZoneId = ZoneId.systemDefault()): Long? {
+        if (!isActiveAt(epochMillis, zone)) return null
+        val time = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zone)
+        val today = time.toLocalDate()
+        if (allDay) return today.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
+        val minute = time.hour * 60 + time.minute
+        val endDate = if (overnight && minute >= startMinute) today.plusDays(1) else today
+        return endDate.atStartOfDay(zone).plusMinutes(endMinute.toLong()).toInstant().toEpochMilli()
     }
 
     /** When the window next starts after [epochMillis], within a week; null without days. */
@@ -69,62 +86,77 @@ data class RuleSchedule(
             .firstOrNull { it > epochMillis }
     }
 
+    /**
+     * The minutes of the week inside the window (0 = Monday 0:00), as [isActiveAt] reads them: an
+     * overnight window belongs to its start day, Sunday night's runs into Monday morning.
+     */
+    fun minutesOfWeek(): BooleanArray {
+        val week = BooleanArray(MINUTES_PER_WEEK)
+        days.filter { it in 1..7 }.forEach { day ->
+            val dayStart = (day - 1) * MINUTES_PER_DAY
+            if (allDay) {
+                for (minute in 0 until MINUTES_PER_DAY) week[dayStart + minute] = true
+            } else {
+                for (minute in 0 until lengthMinutes) week[(dayStart + startMinute + minute) % MINUTES_PER_WEEK] = true
+            }
+        }
+        return week
+    }
+
+    /** Whether this window holds every minute of the week [other] holds (a wider routine window). */
+    fun covers(other: RuleSchedule?): Boolean {
+        if (other == null) return true
+        val mine = minutesOfWeek()
+        return other.minutesOfWeek().withIndex().all { (minute, held) -> !held || mine[minute] }
+    }
+
     companion object {
         const val MINUTES_PER_DAY = 24 * 60
+        const val MINUTES_PER_WEEK = 7 * MINUTES_PER_DAY
     }
 }
 
-/** How a blocked app can be opened anyway (Figma "How do you unlock?"). */
+/**
+ * How a blocked app can be opened anyway (Figma "How do you unlock?"). Declared by effort, lightest
+ * first: a harder one is a reinforcement ([Rule.edit]). There is no "No unlocks": Strict mode is
+ * the way to have none.
+ */
 enum class UnlockMethod {
-    /** No unlocks while the rule is active. */
-    None,
     /** Wait a few seconds ([Rule.waitSeconds]). */
     Wait,
-    /**
-     * Give a good reason: what a limit asks for with "Ask for a reason". Gone from "How do you
-     * unlock?": locks, sessions and routines left with it wait instead.
-     */
-    Reason,
-    /** Kept for compatibility: same as [None]. */
-    Strict,
     /** Re-type a painful text. */
     Retype,
     /** Scan a code you keep elsewhere. */
     ScanCode,
 }
 
-/** When a daily limit resets. */
-enum class LimitReset { Midnight, FourAm, Monday }
-
-/** What happens when a daily limit is used up. */
-enum class LimitAction { Lock, Remind, AskReason }
-
-/** Repeat pattern of a habit rule. */
-enum class HabitRepeat { EveryDay, Weekdays, Weekends }
-
-/** One task of a habit rule ("Read 10 pages"). */
+/**
+ * A change kept for when the rule's engagement ends ([Rule.edit]): at [appliesAt], [rule] replaces
+ * the rule's settings, or the rule is deleted when [rule] is null.
+ */
 @Serializable
-data class HabitTask(val id: String, val title: String, val done: Boolean = false)
+data class RuleChange(val appliesAt: Long, val rule: Rule?)
 
 @Serializable
 data class Rule(
     val id: String,
     val type: RuleType,
     val name: String,
-    /** Apps the rule blocks (habits: the apps the tasks unlock). */
+    /** Apps the rule blocks. */
     val apps: List<UsageApp> = emptyList(),
-    /** Weekly window, or null when the rule is active all day / is a one-shot session. */
+    /** Routines: their weekly window. Sessions, locks and limits have no days or hours. */
     val schedule: RuleSchedule? = null,
-    /** Limit rules: daily budget in minutes. */
+    /** Limits: the budget for today, in minutes. */
     val limitMinutes: Int? = null,
-    /** Session rules: duration in minutes. */
+    /** Sessions: length in minutes. */
     val durationMinutes: Int? = null,
-    /** Minutes already used today (limit rules) or during the current window. */
+    /** Limits: minutes their apps were used since Start. */
     val usedMinutes: Int = 0,
+    /** Sessions and routines ([canBeStrict]): while engaged, only an emergency unlock gets past them. */
     val strictMode: Boolean = false,
     val unlockMethod: UnlockMethod = UnlockMethod.Wait,
     val enabled: Boolean = true,
-    /** Epoch millis until which the rule is paused, or null. [Long.MAX_VALUE] = until resumed. */
+    /** Routines: epoch millis until which the rule is paused, or null. [Long.MAX_VALUE] = until resumed. */
     val pausedUntil: Long? = null,
     val streakDays: Int = 0,
     /**
@@ -133,8 +165,16 @@ data class Rule(
      * saved before streaks were counted (they count from the start of the day they're read).
      */
     val streakFrom: Long? = null,
-    /** Epoch millis when an active session started, or null. */
+    /**
+     * Epoch millis of Start (a running session, a limit started today) or of Activate (a lock that
+     * is on), or null.
+     */
     val activeSince: Long? = null,
+    /**
+     * End of the running session (epoch millis), set at Start: a shorter length doesn't shorten it.
+     * Null for sessions started before it was kept (they end [durationMinutes] after Start).
+     */
+    val activeUntil: Long? = null,
     val sticker: RuleSticker = type.defaultSticker,
     /** Unlock method [UnlockMethod.Wait]: seconds to wait. */
     val waitSeconds: Int = 10,
@@ -145,14 +185,10 @@ data class Rule(
     val unlockDurationMinutes: Int = 5,
     /** "Why" reason shown on a sticky note. */
     val note: String? = null,
-    /** Reminder before the window starts, in minutes, or null for none. */
+    /** Routines: reminder before a window starts, in minutes, or null for none. */
     val reminderMinutesBefore: Int? = null,
-    val limitReset: LimitReset = LimitReset.Midnight,
-    val limitAction: LimitAction = LimitAction.Lock,
-    val habitTasks: List<HabitTask> = emptyList(),
-    val habitRepeat: HabitRepeat = HabitRepeat.EveryDay,
-    /** Session started with "Start blocking", while it runs; once it ends it is a saved session like any other. */
-    val oneShot: Boolean = false,
+    /** A change kept for when the engagement ends ([edit]), or null. */
+    val pending: RuleChange? = null,
 ) {
     fun isPaused(now: Long): Boolean = pausedUntil != null && pausedUntil > now
 
@@ -161,29 +197,59 @@ data class Rule(
 
     /** End of the running session, or null when no session is running. */
     val sessionEndsAt: Long?
-        get() = activeSince?.let { start -> start + (durationMinutes ?: 0) * 60_000L }
+        get() = if (type != RuleType.Session) null else activeSince?.let { start -> activeUntil ?: (start + (durationMinutes ?: 0) * 60_000L) }
 
-    fun isRunning(now: Long): Boolean {
-        val end = sessionEndsAt ?: return false
-        return now < end && !isPaused(now)
-    }
+    /** A session running at [now]. */
+    fun isRunning(now: Long): Boolean = sessionEndsAt?.let { now < it } == true
 
-    /** True while the rule is enforcing (running session, scheduled window or all-day rule). */
-    fun isEnforcing(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean = when {
-        !enabled || isPaused(now) -> false
-        activeSince != null -> isRunning(now)
-        type == RuleType.Limit || type == RuleType.Habit -> true
-        schedule == null -> type == RuleType.Lock
-        else -> schedule.isActiveAt(now, zone)
-    }
+    /** A limit started today: when it ends, the first midnight after Start. Null when it isn't started. */
+    fun limitEndsAt(zone: ZoneId = ZoneId.systemDefault()): Long? =
+        if (type != RuleType.Limit) null else activeSince?.let { nextMidnight(it, zone) }
 
     /**
-     * Strict mode holds while the rule blocks (the running session, the scheduled window): no
-     * edits, deletes, pauses or unlocks, and it can't be turned off until the session ends.
+     * Whether the rule is engaged at [now] (docs/RULES.md): a session while it runs, a routine
+     * inside one of its windows and not paused, a lock from Activate until it's off, a limit from
+     * Start until midnight, budget spent or not.
      */
-    fun isStrictLocked(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean = strictMode && isEnforcing(now, zone)
+    fun isEnforcing(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean = when {
+        !enabled || isPaused(now) -> false
+        else -> when (type) {
+            RuleType.Session -> isRunning(now)
+            RuleType.Bedtime -> schedule?.isActiveAt(now, zone) == true
+            RuleType.Lock -> activeSince != null
+            RuleType.Limit -> limitEndsAt(zone)?.let { now < it } == true
+        }
+    }
 
-    /** Rules that end (sessions, routines) can be made strict: the lock lifts when they end. */
+    /** Engaged and blocking its apps now: a limit once its budget is spent, the others while engaged. */
+    fun isHolding(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean =
+        isEnforcing(now, zone) && (type != RuleType.Limit || usedMinutes >= (limitMinutes ?: Int.MAX_VALUE))
+
+    /**
+     * When the engagement holding [now] ends, or null when the rule isn't engaged: a session's end,
+     * the end of a routine's window, midnight for a lock or a limit. Changes kept by [edit] apply then.
+     */
+    fun engagementEnd(now: Long, zone: ZoneId = ZoneId.systemDefault()): Long? {
+        if (!isEnforcing(now, zone)) return null
+        return when (type) {
+            RuleType.Session -> sessionEndsAt
+            RuleType.Bedtime -> schedule?.windowEndAt(now, zone)
+            RuleType.Lock -> nextMidnight(now, zone)
+            RuleType.Limit -> limitEndsAt(zone)
+        }
+    }
+
+    /** Strict mode holds at [now]: the strict rule is engaged, so only an emergency unlock gets past it. */
+    fun isStrictLocked(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean =
+        canBeStrict && strictMode && isEnforcing(now, zone)
+
+    /** Rules that end on their own (sessions, routines) can be made strict. */
     val canBeStrict: Boolean
         get() = type == RuleType.Session || type == RuleType.Bedtime
+
+    companion object {
+        /** The first local midnight after [epochMillis]. */
+        fun nextMidnight(epochMillis: Long, zone: ZoneId): Long =
+            Instant.ofEpochMilli(epochMillis).atZone(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
+    }
 }

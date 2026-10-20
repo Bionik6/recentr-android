@@ -1,8 +1,6 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.AppCategory
-import com.recentr.core.model.LimitAction
-import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
@@ -17,7 +15,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 /**
- * Several rules holding the same app: a Bedtime routine and a daily limit both on YouTube. The
+ * Several rules holding the same app: a Bedtime routine, a limit and a lock all on YouTube. The
  * strictest rule is the one shown, and an unlock only lets the app past the rules that held it
  * when it was unlocked.
  */
@@ -47,29 +45,28 @@ class OverlappingRulesTest {
     /** The same routine without Strict mode: a 5-second wait unlocks it. */
     private val softBedtime = bedtime.copy(strictMode = false, unlockMethod = UnlockMethod.Wait)
 
-    /** One hour of YouTube a day; once it's used, a good reason unlocks it ("Ask why"), five times a day. */
-    private val dailyLimit = Rule(
+    /** One hour of YouTube, started at 8:00: once it's used, the app is held until midnight. */
+    private val limit = Rule(
         "limit",
         RuleType.Limit,
-        "Daily limit",
+        "YouTube",
         apps = listOf(youTube),
         limitMinutes = 60,
-        limitAction = LimitAction.AskReason,
-        unlocksPerDay = 5,
+        activeSince = at(8),
     )
 
-    /** The same limit set to Lock when time is up: no unlocks until it resets. */
-    private val lockingLimit = dailyLimit.copy(limitAction = LimitAction.Lock, unlockMethod = UnlockMethod.Wait)
+    /** On since 8:00, five unlocks a day. */
+    private val lock = Rule("lock", RuleType.Lock, "No YouTube", apps = listOf(youTube), activeSince = at(8), unlockMethod = UnlockMethod.Wait)
 
     private fun state(rules: List<Rule>, used: Int = 0, unlocks: AppUnlocks = AppUnlocks()) = HoldState(
         rules = rules,
         focus = null,
         protectedApps = setOf("com.recentr.app"),
         unlocks = unlocks,
-        limitUsage = usedToday(used),
+        limitUsage = usedSinceStart(used),
     )
 
-    private fun usedToday(minutes: Int) = LimitUsage(mapOf(LimitReset.Midnight to mapOf(yt to minutes)))
+    private fun usedSinceStart(minutes: Int) = LimitUsage(mapOf(limit.activeSince!! to mapOf(yt to minutes)))
 
     private fun HoldState.reason(at: Long, packageName: String = yt) = reasonFor(packageName, at, zone)
 
@@ -83,45 +80,40 @@ class OverlappingRulesTest {
 
     @Test
     fun `the routine holds the app while the limit still has time left`() {
-        assertEquals(HoldReason.ByRule(bedtime), state(listOf(dailyLimit, bedtime), used = 0).reason(at(22, 50)))
-        assertEquals(HoldReason.ByRule(bedtime), state(listOf(bedtime, dailyLimit), used = 59).reason(at(22, 50)))
+        assertEquals(HoldReason.ByRule(bedtime), state(listOf(limit, bedtime), used = 0).reason(at(22, 50)))
+        assertEquals(HoldReason.ByRule(bedtime), state(listOf(bedtime, limit), used = 59).reason(at(22, 50)))
     }
 
     @Test
     fun `the strict routine wins over a used-up limit, whatever the order`() {
-        assertEquals(HoldReason.ByRule(bedtime), state(listOf(dailyLimit, bedtime), used = 75).reason(at(22, 50)))
-        assertEquals(HoldReason.ByRule(bedtime), state(listOf(bedtime, dailyLimit), used = 75).reason(at(22, 50)))
-        // So the shield offers the emergency unlock only, not the limit's "Unlock anyway".
+        assertEquals(HoldReason.ByRule(bedtime), state(listOf(limit, bedtime), used = 75).reason(at(22, 50)))
+        assertEquals(HoldReason.ByRule(bedtime), state(listOf(bedtime, limit), used = 75).reason(at(22, 50)))
+        // So the shield offers the emergency unlock only.
         assertEquals(UnlockStep.Emergency, bedtime.unlockStep(at(22, 50), emergencyUnlocksLeft = 3, zone))
         assertNull(bedtime.unlockStep(at(22, 50), emergencyUnlocksLeft = 0, zone))
     }
 
     @Test
-    fun `the used-up limit holds the app outside the routine`() {
-        val holds = state(listOf(dailyLimit, bedtime), used = 75)
-        assertEquals(HoldReason.ByRule(dailyLimit), holds.reason(at(20, 0)))
-        assertEquals(UnlockStep.Reason, dailyLimit.unlockStep(at(20, 0), emergencyUnlocksLeft = 3, zone))
-        assertNull(state(listOf(dailyLimit, bedtime), used = 30).reason(at(20, 0)))
+    fun `the used-up limit holds the app outside the routine, past an emergency unlock only`() {
+        val holds = state(listOf(limit, bedtime), used = 75)
+        assertEquals(HoldReason.ByRule(limit), holds.reason(at(20, 0)))
+        assertEquals(UnlockStep.Emergency, limit.unlockStep(at(20, 0), emergencyUnlocksLeft = 3, zone))
+        assertNull(state(listOf(limit, bedtime), used = 30).reason(at(20, 0)))
     }
 
     @Test
-    fun `a used-up limit that locks can't be unlocked`() {
-        val holds = state(listOf(softBedtime, lockingLimit), used = 75)
-        assertEquals(HoldReason.ByRule(lockingLimit), holds.reason(at(20, 0)))
-        assertNull(lockingLimit.unlockStep(at(20, 0), emergencyUnlocksLeft = 3, zone))
-        // Inside the soft routine too: the limit is the one without "Unlock anyway", whatever the order.
-        assertEquals(HoldReason.ByRule(lockingLimit), holds.reason(at(22, 0)))
-        assertEquals(HoldReason.ByRule(lockingLimit), state(listOf(lockingLimit, softBedtime), used = 75).reason(at(22, 0)))
+    fun `a used-up limit can't be unlocked through another rule`() {
+        val holds = state(listOf(softBedtime, limit), used = 75)
+        // Inside the soft routine: the limit is the one without "Unlock anyway", whatever the order.
+        assertEquals(HoldReason.ByRule(limit), holds.reason(at(22, 0)))
+        assertEquals(HoldReason.ByRule(limit), state(listOf(limit, softBedtime), used = 75).reason(at(22, 0)))
         // Unlocking through the routine leaves it holding.
-        assertEquals(HoldReason.ByRule(lockingLimit), holds.unlockThrough(softBedtime, at(22, 0), minutes = 15).reason(at(22, 5)))
+        assertEquals(HoldReason.ByRule(limit), holds.unlockThrough(softBedtime, at(22, 0), minutes = 15).reason(at(22, 5)))
     }
 
     @Test
-    fun `the strict routine wins over a used-up limit that locks, whatever the order`() {
-        assertEquals(HoldReason.ByRule(bedtime), state(listOf(lockingLimit, bedtime), used = 75).reason(at(22, 50)))
-        assertEquals(HoldReason.ByRule(bedtime), state(listOf(bedtime, lockingLimit), used = 75).reason(at(22, 50)))
-        // Its emergency unlock gets past both, for five minutes.
-        val unlocked = state(listOf(lockingLimit, bedtime), used = 75).emergencyUnlock(at(22, 50))
+    fun `an emergency unlock gets past the strict routine and the limit, for five minutes`() {
+        val unlocked = state(listOf(limit, bedtime), used = 75).emergencyUnlock(at(22, 50))
         assertNull(unlocked.reason(at(22, 51)))
         assertEquals(HoldReason.ByRule(bedtime), unlocked.reason(at(22, 55)))
     }
@@ -129,66 +121,58 @@ class OverlappingRulesTest {
     @Test
     fun `a paused routine leaves the app to the limit`() {
         val paused = bedtime.copy(pausedUntil = at(23, 0))
-        assertEquals(HoldReason.ByRule(dailyLimit), state(listOf(paused, dailyLimit), used = 75).reason(at(22, 50)))
-        assertNull(state(listOf(paused, dailyLimit), used = 10).reason(at(22, 50)))
+        assertEquals(HoldReason.ByRule(limit), state(listOf(paused, limit), used = 75).reason(at(22, 50)))
+        assertNull(state(listOf(paused, limit), used = 10).reason(at(22, 50)))
     }
 
     @Test
-    fun `an unlock through the limit doesn't open the app past the routine starting during it`() {
-        // 21:00: the hour of YouTube is used up and unlocked for an hour through the limit.
-        val unlocked = state(listOf(dailyLimit, bedtime), used = 75).unlockThrough(dailyLimit, at(21, 0), minutes = 60)
-        assertNull(unlocked.reason(at(21, 10)))
-        // 21:30: Bedtime starts and puts YouTube on hold, the limit's unlock notwithstanding.
+    fun `an emergency unlock past the limit doesn't open the app past the routine starting during it`() {
+        // 21:27: the hour of YouTube is used up and unlocked in an emergency.
+        val unlocked = state(listOf(limit, bedtime), used = 75).emergencyUnlock(at(21, 27))
+        assertNull(unlocked.reason(at(21, 29)))
+        // 21:30: Bedtime starts and puts YouTube on hold, the unlock notwithstanding.
         assertEquals(HoldReason.ByRule(bedtime), unlocked.reason(at(21, 30)))
-        assertEquals(HoldReason.ByRule(bedtime), unlocked.reason(at(21, 59)))
-        assertEquals(HoldReason.ByRule(bedtime), unlocked.reason(at(22, 50)))
     }
 
     @Test
     fun `an unlock through the routine doesn't open the app past the limit running out during it`() {
-        val holds = state(listOf(softBedtime, dailyLimit), used = 50)
+        val holds = state(listOf(softBedtime, limit), used = 50)
         assertEquals(HoldReason.ByRule(softBedtime), holds.reason(at(22, 0)))
         val unlocked = holds.unlockThrough(softBedtime, at(22, 0), minutes = 30)
         assertNull(unlocked.reason(at(22, 10)))
-        // The daily hour runs out while the routine's unlock still runs.
-        assertEquals(HoldReason.ByRule(dailyLimit), unlocked.copy(limitUsage = usedToday(60)).reason(at(22, 10)))
+        // The hour runs out while the routine's unlock still runs.
+        assertEquals(HoldReason.ByRule(limit), unlocked.copy(limitUsage = usedSinceStart(60)).reason(at(22, 10)))
     }
 
     @Test
     fun `one unlock lifts every rule holding the app that could be unlocked`() {
-        val holds = state(listOf(dailyLimit, softBedtime), used = 75)
-        assertEquals(HoldReason.ByRule(dailyLimit), holds.reason(at(22, 0)))
-        val unlocked = holds.unlockThrough(dailyLimit, at(22, 0), minutes = 15)
+        val holds = state(listOf(lock, softBedtime))
+        assertEquals(HoldReason.ByRule(lock), holds.reason(at(22, 0)))
+        val unlocked = holds.unlockThrough(lock, at(22, 0), minutes = 15)
         assertNull(unlocked.reason(at(22, 0)))
         assertNull(unlocked.reason(at(22, 14)))
-        assertEquals(HoldReason.ByRule(dailyLimit), unlocked.reason(at(22, 15)))
+        assertEquals(HoldReason.ByRule(lock), unlocked.reason(at(22, 15)))
     }
 
     @Test
     fun `an unlock never lifts a rule that can't be unlocked`() {
         val now = at(22, 0)
-        // Strict mode: the limit's unlock leaves the routine holding.
-        assertEquals(listOf(dailyLimit), state(listOf(dailyLimit, bedtime), used = 75).liftedBy(dailyLimit, yt, now, zone))
-        assertEquals(
-            HoldReason.ByRule(bedtime),
-            state(listOf(dailyLimit, bedtime), used = 75).unlockThrough(dailyLimit, now, minutes = 15).reason(now),
-        )
+        // Strict mode: the lock's unlock leaves the routine holding.
+        assertEquals(listOf(lock), state(listOf(lock, bedtime)).liftedBy(lock, yt, now, zone))
+        assertEquals(HoldReason.ByRule(bedtime), state(listOf(lock, bedtime)).unlockThrough(lock, now, minutes = 15).reason(now))
         // No unlocks left today.
         val spent = softBedtime.copy(unlocksPerDay = 2, unlocksUsedToday = 2)
-        assertEquals(
-            HoldReason.ByRule(spent),
-            state(listOf(dailyLimit, spent), used = 75).unlockThrough(dailyLimit, now, minutes = 15).reason(now),
-        )
+        assertEquals(HoldReason.ByRule(spent), state(listOf(lock, spent)).unlockThrough(lock, now, minutes = 15).reason(now))
+        // A limit.
+        assertEquals(HoldReason.ByRule(limit), state(listOf(lock, limit), used = 75).unlockThrough(lock, now, minutes = 15).reason(now))
     }
 
     @Test
-    fun `an emergency unlock gets past the strict routine and the limit, not a rule starting after it`() {
-        val lateLock = Rule("late", RuleType.Lock, "No YouTube late", apps = listOf(youTube), schedule = RuleSchedule(22 * 60 + 52, 23 * 60 + 30))
-        val unlocked = state(listOf(bedtime, dailyLimit, lateLock), used = 75).emergencyUnlock(at(22, 50))
+    fun `an emergency unlock gets past the rules holding the app, not a routine starting after it`() {
+        val late = Rule("late", RuleType.Bedtime, "No YouTube late", apps = listOf(youTube), schedule = RuleSchedule(22 * 60 + 52, 23 * 60 + 30))
+        val unlocked = state(listOf(bedtime, limit, late), used = 75).emergencyUnlock(at(22, 50))
         assertNull(unlocked.reason(at(22, 51)))
-        assertEquals(HoldReason.ByRule(lateLock), unlocked.reason(at(22, 52)))
-        // Over after five minutes.
-        assertEquals(HoldReason.ByRule(bedtime), state(listOf(bedtime, dailyLimit), used = 75).emergencyUnlock(at(22, 50)).reason(at(22, 55)))
+        assertEquals(HoldReason.ByRule(late), unlocked.reason(at(22, 52)))
     }
 
     @Test
@@ -200,27 +184,27 @@ class OverlappingRulesTest {
 
     @Test
     fun `lock it again puts every rule back`() {
-        val unlocked = state(listOf(dailyLimit, softBedtime), used = 75).unlockThrough(dailyLimit, at(22, 0), minutes = 15)
+        val unlocked = state(listOf(lock, softBedtime)).unlockThrough(lock, at(22, 0), minutes = 15)
         val lockedAgain = unlocked.copy(unlocks = unlocked.unlocks.lockAgain(yt, at(22, 5)))
-        assertEquals(HoldReason.ByRule(dailyLimit), lockedAgain.reason(at(22, 5)))
+        assertEquals(HoldReason.ByRule(lock), lockedAgain.reason(at(22, 5)))
         // An ended unlock stays ended.
         assertEquals(unlocked.unlocks.lockAgain(yt, at(22, 20)), unlocked.unlocks.lockAgain(yt, at(22, 20)).lockAgain(yt, at(22, 30)))
     }
 
     @Test
     fun `a new unlock never shortens one still running`() {
-        val long = AppUnlocks().open(yt, listOf(dailyLimit), at(22, 0))
-        val both = long.open(yt, listOf(dailyLimit, softBedtime), at(21, 5))
-        assertTrue(both.lifts(yt, dailyLimit, at(21, 30)))
+        val long = AppUnlocks().open(yt, listOf(lock), at(22, 0))
+        val both = long.open(yt, listOf(lock, softBedtime), at(21, 5))
+        assertTrue(both.lifts(yt, lock, at(21, 30)))
         assertFalse(both.lifts(yt, softBedtime, at(21, 30)))
     }
 
     @Test
     fun `stayed off counts from the end of the rule's own last unlock`() {
-        val unlocks = AppUnlocks().open(yt, listOf(dailyLimit), at(21, 44))
-        assertNull(unlocks.lastEnd(yt, dailyLimit, at(21, 40)))
-        assertEquals(at(21, 44), unlocks.lastEnd(yt, dailyLimit, at(22, 50)))
-        // The limit's unlock says nothing about how long Bedtime kept YouTube closed.
+        val unlocks = AppUnlocks().open(yt, listOf(lock), at(21, 44))
+        assertNull(unlocks.lastEnd(yt, lock, at(21, 40)))
+        assertEquals(at(21, 44), unlocks.lastEnd(yt, lock, at(22, 50)))
+        // The lock's unlock says nothing about how long Bedtime kept YouTube closed.
         assertNull(unlocks.lastEnd(yt, bedtime, at(22, 50)))
     }
 }

@@ -1,15 +1,17 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.AppCategory
-import com.recentr.core.model.HabitTask
-import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
+import com.recentr.core.model.RuleChange
 import com.recentr.core.model.RuleSchedule
+import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
+import com.recentr.core.model.UnlockMethod
 import com.recentr.core.model.UsageApp
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule as JUnitRule
@@ -28,6 +30,7 @@ class RulesRepositoryTest {
     private val now = LocalDate.of(2026, 10, 18).atTime(11, 0).atZone(zone).toInstant().toEpochMilli()
     private val day = 24 * 3_600_000L
     private val whatsApp = UsageApp("com.whatsapp", "WhatsApp", AppCategory.Social)
+    private val tiktok = UsageApp("com.zhiliaoapp.musically", "TikTok", AppCategory.Social)
     private val sunday = LocalDate.of(2026, 10, 18)
     private val monday = sunday.plusDays(1)
 
@@ -37,11 +40,19 @@ class RulesRepositoryTest {
     private fun repository(at: Long = now) =
         RulesRepository(folder.root.resolve("rules.json"), zone = { zone }, now = at, writeDispatcher = Dispatchers.Unconfined, clock = { at })
 
-    /** [minutes] per package in the period of [reset]. */
-    private fun used(reset: LimitReset, vararg minutes: Pair<String, Int>) = LimitUsage(mapOf(reset to mapOf(*minutes)))
+    private val file get() = folder.root.resolve("rules.json")
 
-    private fun limit(id: String, reset: LimitReset) =
-        Rule(id, RuleType.Limit, "Limit", apps = listOf(whatsApp), limitMinutes = 60, limitReset = reset)
+    /** [minutes] per package since [start]. */
+    private fun used(start: Long, vararg minutes: Pair<String, Int>) = LimitUsage(mapOf(start to mapOf(*minutes)))
+
+    private val lock = Rule("l", RuleType.Lock, "Socials", apps = listOf(whatsApp, tiktok), unlocksPerDay = 5)
+
+    /** [lock] created and activated at [now] (Sunday 11:00). */
+    private fun RulesRepository.activeLock(): Rule {
+        save(lock)
+        start("l", now = now)
+        return rule("l")!!
+    }
 
     @Test
     fun `starts empty without a saved file`() {
@@ -50,39 +61,40 @@ class RulesRepositoryTest {
     }
 
     @Test
-    fun `rules survive a restart`() {
+    fun `rules survive a restart, with what they keep for later`() {
         val rule = Rule(
             id = "r",
-            type = RuleType.Session,
+            type = RuleType.Bedtime,
             name = "Work Hours",
             apps = listOf(whatsApp),
             schedule = RuleSchedule(9 * 60, 17 * 60, (1..5).toSet()),
             pausedUntil = Long.MAX_VALUE,
-            habitTasks = listOf(HabitTask("t", "Read")),
             streakDays = 4,
             streakFrom = now - day,
+            pending = RuleChange(now + day, Rule("r", RuleType.Bedtime, "Work Hours", apps = emptyList())),
         )
         repository().upsert(rule)
 
         val reopened = repository()
         assertEquals(listOf(rule), reopened.rules.value)
         assertTrue(reopened.rule("r")!!.targets("com.whatsapp"))
+        assertTrue(file.readText().contains("\"version\":1"))
     }
 
     @Test
     fun `a file saved with templates still opens`() {
-        folder.root.resolve("rules.json").writeText(
+        file.writeText(
             """{"rules":[{"id":"r","type":"Lock","name":"WhatsApp"}],"templates":[{"id":"saved-1","type":"Session","name":"Old"}]}""",
         )
         assertEquals(listOf("r"), repository().rules.value.map { it.id })
     }
 
     @Test
-    fun `deleting and erasing are saved too`() {
+    fun `deleting a rule that isn't engaged and erasing are saved too`() {
         repository().apply {
             upsert(Rule("a", RuleType.Lock, "A"))
             upsert(Rule("b", RuleType.Lock, "B"))
-            delete("a")
+            assertTrue(delete("a"))
         }
         assertEquals(listOf("b"), repository().rules.value.map { it.id })
 
@@ -91,160 +103,104 @@ class RulesRepositoryTest {
     }
 
     @Test
-    fun `daily counters start over on a new day`() {
+    fun `the unlocks used start over on a new day`() {
         val repo = repository()
-        repo.upsert(
-            Rule(
-                id = "h",
-                type = RuleType.Habit,
-                name = "Before X opens",
-                unlocksUsedToday = 3,
-                habitTasks = listOf(HabitTask("t", "Read", done = true)),
-            ),
-        )
+        repo.upsert(lock.copy(activeSince = now, unlocksUsedToday = 3))
         repo.settle(now + 60_000)
-        assertEquals(3, repo.rule("h")!!.unlocksUsedToday)
+        assertEquals(3, repo.rule("l")!!.unlocksUsedToday)
 
         repo.settle(now + day)
-        val reset = repository(now + day).rule("h")!!
-        assertEquals(0, reset.unlocksUsedToday)
-        assertFalse(reset.habitTasks.single().done)
-    }
-
-    @Test
-    fun `today's use of a daily limit's apps is shown on the limit and saved`() {
-        val youTube = UsageApp("com.google.android.youtube", "YouTube", AppCategory.Entertainment)
-        val repo = repository()
-        repo.upsert(Rule("m", RuleType.Limit, "Daily limit", apps = listOf(youTube, whatsApp), limitMinutes = 60))
-        repo.upsert(Rule("l", RuleType.Lock, "WhatsApp", apps = listOf(whatsApp)))
-
-        repo.recordUsage(used(LimitReset.Midnight, youTube.packageName to 4, whatsApp.packageName to 3, "com.other" to 50))
-        assertEquals(7, repo.rule("m")!!.usedMinutes)
-        // Only limits count their apps' use.
-        assertEquals(0, repo.rule("l")!!.usedMinutes)
-        assertEquals(7, repository().rule("m")!!.usedMinutes)
-
-        // An app not used today counts for nothing, and the next reading replaces the last one.
-        repo.recordUsage(used(LimitReset.Midnight, youTube.packageName to 12))
-        assertEquals(12, repository().rule("m")!!.usedMinutes)
-    }
-
-    @Test
-    fun `a limit's use starts over on a new day`() {
-        val repo = repository()
-        repo.upsert(Rule("m", RuleType.Limit, "Daily limit", apps = listOf(whatsApp), limitMinutes = 60))
-        repo.recordUsage(used(LimitReset.Midnight, whatsApp.packageName to 45))
-        repo.settle(at(sunday, 23, 59))
-        assertEquals(45, repo.rule("m")!!.usedMinutes)
-        repo.settle(at(monday, 0, 0))
-        assertEquals(0, repo.rule("m")!!.usedMinutes)
-    }
-
-    @Test
-    fun `each limit shows the use of its own period`() {
-        val repo = repository()
-        repo.upsert(limit("night", LimitReset.FourAm))
-        repo.upsert(limit("week", LimitReset.Monday))
-        repo.upsert(limit("day", LimitReset.Midnight).copy(usedMinutes = 12))
-
-        repo.recordUsage(LimitUsage(mapOf(LimitReset.FourAm to mapOf(whatsApp.packageName to 30), LimitReset.Monday to mapOf(whatsApp.packageName to 200))))
-        assertEquals(30, repo.rule("night")!!.usedMinutes)
-        assertEquals(200, repo.rule("week")!!.usedMinutes)
-        // Today's use wasn't read: the last reading stays.
-        assertEquals(12, repo.rule("day")!!.usedMinutes)
-    }
-
-    @Test
-    fun `a 4 AM limit keeps its minutes past midnight and starts over at 4 00`() {
-        val repo = repository(at(sunday, 22, 0))
-        repo.upsert(limit("night", LimitReset.FourAm).copy(unlocksUsedToday = 2))
-        repo.upsert(limit("day", LimitReset.Midnight))
-        repo.recordUsage(used(LimitReset.FourAm, whatsApp.packageName to 45))
-        repo.recordUsage(used(LimitReset.Midnight, whatsApp.packageName to 45))
-
-        repo.settle(at(monday, 0, 30))
-        assertEquals(45, repo.rule("night")!!.usedMinutes)
-        assertEquals(0, repo.rule("day")!!.usedMinutes)
-        // Unlocks stay counted per calendar day.
-        assertEquals(0, repo.rule("night")!!.unlocksUsedToday)
-
-        repo.settle(at(monday, 3, 59))
-        assertEquals(45, repo.rule("night")!!.usedMinutes)
-        repo.settle(at(monday, 4, 0))
-        assertEquals(0, repo.rule("night")!!.usedMinutes)
-    }
-
-    @Test
-    fun `a weekly limit keeps its minutes all week and starts over on Monday`() {
-        val repo = repository(at(sunday, 22, 0))
-        repo.upsert(limit("week", LimitReset.Monday))
-        repo.recordUsage(used(LimitReset.Monday, whatsApp.packageName to 200))
-        repo.settle(at(sunday, 23, 59))
-        assertEquals(200, repo.rule("week")!!.usedMinutes)
-        repo.settle(at(monday, 0, 0))
-        assertEquals(0, repo.rule("week")!!.usedMinutes)
-
-        repo.recordUsage(used(LimitReset.Monday, whatsApp.packageName to 30))
-        // Every day of the week, the clocks going back on Sunday 25 included.
-        (1L..6L).forEach { days ->
-            repo.settle(at(monday.plusDays(days), 23, 59))
-            assertEquals(30, repo.rule("week")!!.usedMinutes)
-        }
-        repo.settle(at(monday.plusWeeks(1), 0, 0))
-        assertEquals(0, repo.rule("week")!!.usedMinutes)
-    }
-
-    @Test
-    fun `a limit's period is remembered across a restart`() {
-        val repo = repository(at(sunday, 22, 0))
-        repo.upsert(limit("night", LimitReset.FourAm))
-        repo.settle(at(monday, 3, 0))
-        repo.recordUsage(used(LimitReset.FourAm, whatsApp.packageName to 45))
-
-        // Reopened before 4:00, the evening's minutes still count…
-        repository(at(monday, 3, 30)).apply { settle(at(monday, 3, 30)) }
-        assertEquals(45, repository().rule("night")!!.usedMinutes)
-        // …and after 4:00, they start over even though the app wasn't running at 4:00.
-        val reopened = repository(at(monday, 9, 0))
-        reopened.settle(at(monday, 9, 0))
-        assertEquals(0, reopened.rule("night")!!.usedMinutes)
+        assertEquals(0, repository(now + day).rule("l")!!.unlocksUsedToday)
     }
 
     @Test
     fun `a file with only the counters' day still starts the day over`() {
-        folder.root.resolve("rules.json").writeText(
-            """{"rules":[{"id":"m","type":"Limit","name":"L","limitMinutes":60,"usedMinutes":45}],"countersDay":${sunday.toEpochDay()}}""",
+        file.writeText(
+            """{"rules":[{"id":"l","type":"Lock","name":"L","unlocksUsedToday":4}],"countersDay":${sunday.toEpochDay()}}""",
         )
         val repo = repository(at(monday, 9, 0))
         repo.settle(at(sunday, 23, 0))
-        assertEquals(45, repo.rule("m")!!.usedMinutes)
+        assertEquals(4, repo.rule("l")!!.unlocksUsedToday)
         repo.settle(at(monday, 9, 0))
-        assertEquals(0, repo.rule("m")!!.usedMinutes)
+        assertEquals(0, repo.rule("l")!!.unlocksUsedToday)
+    }
+
+    // Start, Activate
+
+    @Test
+    fun `saving a new rule only saves it`() {
+        val repo = repository()
+        val edit = repo.save(Rule("s", RuleType.Session, "Focus", apps = listOf(tiktok), durationMinutes = 30))
+        assertNull(edit.later)
+        assertNull(repo.rule("s")!!.activeSince)
+        assertFalse(repo.rule("s")!!.isRunning(now))
+        assertEquals(now, repo.rule("s")!!.streakFrom)
     }
 
     @Test
-    fun `a session started with Start blocking stays saved once it ends`() {
+    fun `creating a session starts it`() {
         val repo = repository()
-        repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, activeSince = now, oneShot = true))
+        repo.create(Rule("s", RuleType.Session, "Focus", apps = listOf(tiktok), durationMinutes = 30))
+        val session = repo.rule("s")!!
+        assertEquals(now, session.activeSince)
+        assertEquals(now + 30 * 60_000, session.sessionEndsAt)
+        assertTrue(session.isRunning(now + 60_000))
+        assertEquals(now, session.streakFrom)
+        // Saved, still running after a restart; its run counts once it ends.
+        assertTrue(repository(now + 60_000).rule("s")!!.isRunning(now + 60_000))
+        repo.settle(now + 30 * 60_000)
+        assertEquals(1, repo.rule("s")!!.streakDays)
+    }
+
+    @Test
+    fun `creating a lock turns it on`() {
+        val repo = repository()
+        repo.create(lock)
+        assertEquals(now, repo.rule("l")!!.activeSince)
+        assertTrue(repo.rule("l")!!.isHolding(now, zone))
+        // On, what eases it waits for midnight, right from the start.
+        assertFalse(repo.delete("l"))
+        assertEquals(at(monday, 0), repo.rule("l")!!.pending?.appliesAt)
+    }
+
+    @Test
+    fun `creating a limit starts it for today`() {
+        val repo = repository()
+        repo.create(Rule("m", RuleType.Limit, "Limit", apps = listOf(whatsApp), limitMinutes = 60, usedMinutes = 12))
+        val limit = repo.rule("m")!!
+        assertEquals(now, limit.activeSince)
+        assertEquals(0, limit.usedMinutes)
+        assertTrue(limit.isEnforcing(now, zone))
+        assertEquals(at(monday, 0), limit.limitEndsAt(zone))
+    }
+
+    @Test
+    fun `creating a routine leaves it to its schedule`() {
+        val repo = repository()
+        repo.create(Rule("r", RuleType.Bedtime, "Bedtime", apps = listOf(tiktok), schedule = RuleSchedule(22 * 60, 7 * 60)))
+        assertNull(repo.rule("r")!!.activeSince)
+        assertFalse(repo.rule("r")!!.isEnforcing(now, zone))
+        assertTrue(repo.rule("r")!!.isEnforcing(at(sunday, 23), zone))
+    }
+
+    @Test
+    fun `a session runs from Start for its length, then stays saved`() {
+        val repo = repository()
+        repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30))
+        repo.start("s", now = now)
+        assertTrue(repo.rule("s")!!.isRunning(now + 60_000))
+        assertEquals(now + 30 * 60_000, repo.rule("s")!!.sessionEndsAt)
         repo.settle(now + 31 * 60_000)
         val ended = repo.rule("s")!!
         assertNull(ended.activeSince)
-        assertFalse(ended.oneShot)
+        assertNull(ended.activeUntil)
         assertFalse(ended.isRunning(now + 31 * 60_000))
         // Its run counts for its streak, and it's still there after a restart.
         assertEquals(1, ended.streakDays)
         assertEquals("Focus", repository(now + 32 * 60_000).rule("s")!!.name)
-    }
-
-    @Test
-    fun `a saved session runs again for its length`() {
-        val repo = repository()
-        repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, activeSince = now, oneShot = true))
-        repo.settle(now + 31 * 60_000)
 
         val later = now + 3 * 3_600_000L
-        repo.startSession("s", now = later)
-        assertTrue(repo.rule("s")!!.isRunning(later + 60_000))
+        repo.start("s", now = later)
         assertEquals(later + 30 * 60_000, repo.rule("s")!!.sessionEndsAt)
         repo.settle(later + 30 * 60_000)
         assertFalse(repo.rule("s")!!.isRunning(later + 30 * 60_000))
@@ -253,12 +209,240 @@ class RulesRepositoryTest {
     }
 
     @Test
-    fun `starting a paused session lifts the pause`() {
+    fun `a lock is on from Activate and stays on`() {
         val repo = repository()
-        repo.upsert(Rule("s", RuleType.Session, "Focus", durationMinutes = 30, pausedUntil = Long.MAX_VALUE))
-        repo.startSession("s", now = now)
-        assertNull(repo.rule("s")!!.pausedUntil)
-        assertTrue(repo.rule("s")!!.isRunning(now + 1))
+        repo.save(lock)
+        assertFalse(repo.rule("l")!!.isEnforcing(now, zone))
+        repo.start("l", now = now)
+        assertEquals(now, repo.rule("l")!!.activeSince)
+        repo.settle(now + 3 * day)
+        assertTrue(repo.rule("l")!!.isEnforcing(now + 3 * day, zone))
+        // Activating it again keeps it on since then.
+        repo.start("l", now = now + day)
+        assertEquals(now, repo.rule("l")!!.activeSince)
+    }
+
+    @Test
+    fun `turning a lock off takes effect at midnight`() {
+        val repo = repository()
+        val edit = repo.save(repo.activeLock().copy(activeSince = null))
+        assertNotNull(edit.later)
+        assertTrue(repo.rule("l")!!.isEnforcing(at(sunday, 23, 59), zone))
+        assertEquals(RuleChange(at(monday, 0), edit.later), repo.rule("l")!!.pending)
+        repo.settle(at(sunday, 23, 59))
+        assertNotNull(repo.rule("l")!!.activeSince)
+        repo.settle(at(monday, 0))
+        val off = repo.rule("l")!!
+        assertNull(off.activeSince)
+        assertNull(off.pending)
+        assertFalse(off.isEnforcing(at(monday, 0), zone))
+        // The day it was on counted.
+        assertEquals(1, off.streakDays)
+    }
+
+    @Test
+    fun `keep it on drops the turn-off`() {
+        val repo = repository()
+        repo.save(repo.activeLock().copy(activeSince = null))
+        repo.dropPending("l")
+        repo.settle(at(monday, 0))
+        assertEquals(now, repo.rule("l")!!.activeSince)
+    }
+
+    // Limits
+
+    @Test
+    fun `a limit counts its apps' use from Start, then ends at midnight and waits for the next Start`() {
+        val youTube = UsageApp("com.google.android.youtube", "YouTube", AppCategory.Entertainment)
+        val repo = repository()
+        repo.save(Rule("m", RuleType.Limit, "Limit", apps = listOf(youTube, whatsApp), limitMinutes = 60))
+        repo.upsert(lock.copy(apps = listOf(whatsApp)))
+        // Not started: nothing is counted.
+        repo.recordUsage(used(now, youTube.packageName to 40))
+        assertEquals(0, repo.rule("m")!!.usedMinutes)
+
+        repo.start("m", now = now)
+        assertTrue(repo.rule("m")!!.isEnforcing(now, zone))
+        repo.recordUsage(used(now, youTube.packageName to 4, whatsApp.packageName to 3, "com.other" to 50))
+        assertEquals(7, repo.rule("m")!!.usedMinutes)
+        // Only limits count their apps' use, and it's saved.
+        assertEquals(0, repo.rule("l")!!.usedMinutes)
+        assertEquals(7, repository().rule("m")!!.usedMinutes)
+        // The next reading replaces the last one; another Start's isn't this one's.
+        repo.recordUsage(used(now, youTube.packageName to 70))
+        assertEquals(70, repo.rule("m")!!.usedMinutes)
+        assertTrue(repo.rule("m")!!.isHolding(at(sunday, 23, 59), zone))
+        repo.recordUsage(used(now - 1, youTube.packageName to 5))
+        assertEquals(70, repo.rule("m")!!.usedMinutes)
+        // Started today, it isn't started again: its budget doesn't start over.
+        repo.start("m", now = at(sunday, 20))
+        assertEquals(now, repo.rule("m")!!.activeSince)
+        assertEquals(70, repo.rule("m")!!.usedMinutes)
+
+        repo.settle(at(sunday, 23, 59))
+        assertEquals(now, repo.rule("m")!!.activeSince)
+        repo.settle(at(monday, 0))
+        val ended = repo.rule("m")!!
+        assertNull(ended.activeSince)
+        assertEquals(0, ended.usedMinutes)
+        assertFalse(ended.isEnforcing(at(monday, 9), zone))
+        // It doesn't start again on its own.
+        repo.settle(at(monday.plusDays(1), 9))
+        assertNull(repo.rule("m")!!.activeSince)
+    }
+
+    @Test
+    fun `a limit's bigger budget waits for midnight, for the next Start`() {
+        val repo = repository()
+        repo.save(Rule("m", RuleType.Limit, "Limit", apps = listOf(whatsApp), limitMinutes = 60))
+        repo.start("m", now = now)
+        repo.save(repo.rule("m")!!.copy(limitMinutes = 120))
+        assertEquals(60, repo.rule("m")!!.limitMinutes)
+        repo.settle(at(monday, 0))
+        assertEquals(120, repo.rule("m")!!.limitMinutes)
+        assertNull(repo.rule("m")!!.activeSince)
+    }
+
+    // Changes while engaged
+
+    @Test
+    fun `what loosens an engaged rule waits, what reinforces it applies now`() {
+        val repo = repository()
+        val edit = repo.save(repo.activeLock().copy(apps = listOf(whatsApp), unlocksPerDay = 3, name = "Chats"))
+        val saved = repo.rule("l")!!
+        assertEquals("Chats", saved.name)
+        assertEquals(3, saved.unlocksPerDay)
+        assertEquals(listOf(whatsApp, tiktok), saved.apps)
+        assertEquals(listOf(whatsApp), edit.later?.apps)
+        // Kept across a restart, applied at midnight on what the rule counted since.
+        repo.update("l") { it.copy(unlocksUsedToday = 2) }
+        val reopened = repository(at(sunday, 22))
+        assertEquals(saved.pending, reopened.rule("l")!!.pending)
+        reopened.settle(at(monday, 0, 1))
+        val applied = reopened.rule("l")!!
+        assertEquals(listOf(whatsApp), applied.apps)
+        assertEquals(3, applied.unlocksPerDay)
+        assertNull(applied.pending)
+        assertEquals(now, applied.activeSince)
+    }
+
+    @Test
+    fun `a running session's kept change applies when it ends`() {
+        val repo = repository()
+        repo.upsert(Rule("s", RuleType.Session, "Focus", apps = listOf(tiktok), durationMinutes = 30, strictMode = true))
+        repo.start("s", now = now)
+        repo.save(repo.rule("s")!!.copy(strictMode = false, durationMinutes = 15))
+        assertTrue(repo.rule("s")!!.strictMode)
+        assertEquals(15, repo.rule("s")!!.durationMinutes)
+        assertEquals(now + 30 * 60_000, repo.rule("s")!!.sessionEndsAt)
+        repo.settle(now + 30 * 60_000)
+        val ended = repo.rule("s")!!
+        assertFalse(ended.strictMode)
+        assertNull(ended.activeSince)
+        assertEquals(1, ended.streakDays)
+    }
+
+    @Test
+    fun `deleting an engaged rule waits for the end of its engagement`() {
+        val repo = repository()
+        repo.activeLock()
+        assertFalse(repo.delete("l"))
+        assertEquals(RuleChange(at(monday, 0), null), repo.rule("l")!!.pending)
+        repo.settle(at(sunday, 23, 59))
+        assertNotNull(repo.rule("l"))
+        repo.settle(at(monday, 0))
+        assertNull(repo.rule("l"))
+        assertNull(repository(at(monday, 1)).rule("l"))
+    }
+
+    @Test
+    fun `keep rule drops a kept delete`() {
+        val repo = repository()
+        repo.activeLock()
+        repo.delete("l")
+        repo.dropPending("l")
+        repo.settle(at(monday, 0))
+        assertNotNull(repo.rule("l"))
+    }
+
+    // Migration
+
+    @Test
+    fun `rules made before the four kinds are migrated once`() {
+        file.writeText(
+            """
+            {"rules":[
+              {"id":"habit","type":"Habit","name":"Read first","habitTasks":[{"id":"t","title":"Read","done":true}],"habitRepeat":"Weekdays"},
+              {"id":"work","type":"Session","name":"Work","schedule":{"startMinute":540,"endMinute":1020,"days":[1,2,3,4,5]},"sticker":"Bolt","unlockMethod":"None","unlocksPerDay":null,"reminderMinutesBefore":10},
+              {"id":"night","type":"Lock","name":"Nights","schedule":{"startMinute":1320,"endMinute":420},"strictMode":true},
+              {"id":"focus","type":"Session","name":"Focus","durationMinutes":30,"pausedUntil":9223372036854775807,"unlockMethod":"Strict","oneShot":true},
+              {"id":"socials","type":"Lock","name":"Socials","pausedUntil":${now + 3_600_000},"strictMode":true,"unlockMethod":"Reason","unlocksPerDay":3},
+              {"id":"off","type":"Lock","name":"Off","pausedUntil":9223372036854775807},
+              {"id":"limit","type":"Limit","name":"Daily limit","limitMinutes":60,"usedMinutes":45,"limitReset":"FourAm","limitAction":"AskReason","strictMode":true,"activeSince":${now - 3_600_000}},
+              {"id":"bedtime","type":"Bedtime","name":"Bedtime","schedule":{"startMinute":1380,"endMinute":420},"pausedUntil":9223372036854775807,"strictMode":true}
+            ],"settledAt":$now}
+            """.trimIndent(),
+        )
+        val repo = repository()
+        val rules = repo.rules.value.associateBy { it.id }
+        // Habits are gone.
+        assertEquals(listOf("work", "night", "focus", "socials", "off", "limit", "bedtime"), repo.rules.value.map { it.id })
+
+        // A session with a weekly schedule and a lock with hours become routines, keeping their sticker.
+        val work = rules.getValue("work")
+        assertEquals(RuleType.Bedtime, work.type)
+        assertEquals(RuleSticker.Bolt, work.sticker)
+        assertEquals(RuleSchedule(540, 1020, (1..5).toSet()), work.schedule)
+        assertEquals(10, work.reminderMinutesBefore)
+        // "No unlocks" becomes the default: wait, five unlocks a day.
+        assertEquals(UnlockMethod.Wait, work.unlockMethod)
+        assertEquals(5, work.unlocksPerDay)
+        val night = rules.getValue("night")
+        assertEquals(RuleType.Bedtime, night.type)
+        assertEquals(RuleSticker.Lock, night.sticker)
+        assertTrue(night.strictMode)
+
+        // A session without one stays a session; only routines pause.
+        val focus = rules.getValue("focus")
+        assertEquals(RuleType.Session, focus.type)
+        assertNull(focus.pausedUntil)
+        assertEquals(UnlockMethod.Wait, focus.unlockMethod)
+
+        // A lock without hours stays on from now, paused or not, unless it was paused until turned back on.
+        val socials = rules.getValue("socials")
+        assertEquals(now, socials.activeSince)
+        assertNull(socials.pausedUntil)
+        assertFalse(socials.strictMode)
+        assertEquals(UnlockMethod.Wait, socials.unlockMethod)
+        assertEquals(3, socials.unlocksPerDay)
+        assertNull(rules.getValue("off").activeSince)
+        assertNull(rules.getValue("off").pausedUntil)
+
+        // A limit waits for Start, with no Strict mode.
+        val limit = rules.getValue("limit")
+        assertNull(limit.activeSince)
+        assertEquals(0, limit.usedMinutes)
+        assertFalse(limit.strictMode)
+        assertEquals(60, limit.limitMinutes)
+
+        // A routine keeps its pause and Strict mode.
+        val bedtime = rules.getValue("bedtime")
+        assertEquals(Long.MAX_VALUE, bedtime.pausedUntil)
+        assertTrue(bedtime.strictMode)
+
+        // Saved as they are now: read again later, nothing is migrated twice.
+        val text = file.readText()
+        assertTrue(text.contains("\"version\":1"))
+        assertFalse(text.contains("limitReset"))
+        assertFalse(text.contains("Habit"))
+        assertEquals(now, repository(now + day).rule("socials")!!.activeSince)
+    }
+
+    @Test
+    fun `a migrated file keeps its rules when they can't all be read`() {
+        // An unknown unlock method left over from before decodes, migrated to a wait.
+        file.writeText("""{"rules":[{"id":"l","type":"Lock","name":"L","unlockMethod":"None"}]}""")
+        assertEquals(UnlockMethod.Wait, repository().rule("l")!!.unlockMethod)
     }
 
     // Streaks
@@ -278,7 +462,7 @@ class RulesRepositoryTest {
     @Test
     fun `a routine saved before streaks counts this morning's window once it's over`() {
         // The 6:00 → 9:00 routine ran this morning, but its card still read "0 days".
-        folder.root.resolve("rules.json").writeText(
+        file.writeText(
             """{"rules":[{"id":"m","type":"Bedtime","name":"Morning Routine",""" +
                 """"schedule":{"startMinute":360,"endMinute":540,"days":[1,2,3,4,5]}}],"settledAt":${at(monday, 5)}}""",
         )
@@ -296,7 +480,7 @@ class RulesRepositoryTest {
     @Test
     fun `a new rule counts its windows from when it was made`() {
         val repo = repository(at(monday, 7))
-        repo.upsert(morning)
+        repo.save(morning)
         assertEquals(at(monday, 7), repo.rule("m")!!.streakFrom)
         repo.settle(at(monday, 9, 30))
         assertEquals(0, repo.rule("m")!!.streakDays)
@@ -309,7 +493,7 @@ class RulesRepositoryTest {
         val repo = repository(at(monday, 0))
         repo.upsert(morning)
         repo.settle(at(monday, 9, 30))
-        repo.upsert(repo.rule("m")!!.copy(name = "Mornings", schedule = RuleSchedule(6 * 60, 10 * 60, (1..5).toSet())))
+        repo.save(repo.rule("m")!!.copy(name = "Mornings", schedule = RuleSchedule(6 * 60, 10 * 60, (1..5).toSet())), now = at(monday, 9, 30))
         repo.settle(at(tuesday, 10, 30))
         assertEquals(2, repo.rule("m")!!.streakDays)
     }
@@ -318,13 +502,28 @@ class RulesRepositoryTest {
     fun `pausing over a window breaks the streak and resuming counts again`() {
         val repo = repository(at(monday, 0))
         repo.upsert(morning.copy(streakDays = 4))
-        repo.pause("m", Long.MAX_VALUE, now = at(monday, 7))
+        repo.pause("m", Long.MAX_VALUE, now = at(monday, 5))
         assertEquals(0, repo.rule("m")!!.streakDays)
         repo.settle(at(tuesday, 9, 30))
         assertEquals(0, repo.rule("m")!!.streakDays)
         repo.resume("m", now = at(tuesday, 12))
         repo.settle(at(wednesday, 9, 30))
         assertEquals(1, repo.rule("m")!!.streakDays)
+    }
+
+    @Test
+    fun `a routine paused during its window pauses when the window ends`() {
+        val repo = repository(at(monday, 0))
+        repo.upsert(morning.copy(streakDays = 4))
+        repo.pause("m", Long.MAX_VALUE, now = at(monday, 7))
+        assertNull(repo.rule("m")!!.pausedUntil)
+        assertEquals(at(monday, 9), repo.rule("m")!!.pending?.appliesAt)
+        repo.settle(at(monday, 9, 1))
+        val paused = repo.rule("m")!!
+        assertEquals(Long.MAX_VALUE, paused.pausedUntil)
+        // This morning's window counted before the pause, the next ones are lost to it.
+        assertEquals(0, paused.streakDays)
+        assertNull(paused.pending)
     }
 
     @Test
@@ -351,42 +550,17 @@ class RulesRepositoryTest {
     }
 
     @Test
-    fun `a habit day counts with its tasks before they start over`() {
-        val repo = repository(at(monday, 0))
-        repo.upsert(Rule("h", RuleType.Habit, "Read first", habitTasks = listOf(HabitTask("t", "Read"))))
-        repo.update("h") { rule -> rule.copy(habitTasks = rule.habitTasks.map { it.copy(done = true) }) }
-        repo.settle(at(monday, 21))
-        repo.settle(at(tuesday, 0, 1))
-        assertEquals(1, repo.rule("h")!!.streakDays)
-        assertFalse(repo.rule("h")!!.habitTasks.single().done)
-        // Tuesday's task left undone.
-        repo.settle(at(wednesday, 0, 1))
-        assertEquals(0, repo.rule("h")!!.streakDays)
-    }
-
-    @Test
     fun `a limit's day counts with its minutes before they start over`() {
         val repo = repository(at(monday, 0))
-        repo.upsert(Rule("l", RuleType.Limit, "Daily limit", apps = listOf(whatsApp), limitMinutes = 30))
-        repo.recordUsage(used(LimitReset.Midnight, whatsApp.packageName to 20))
+        repo.save(Rule("l", RuleType.Limit, "Limit", apps = listOf(whatsApp), limitMinutes = 30))
+        repo.start("l", now = at(monday, 8))
+        repo.recordUsage(used(at(monday, 8), whatsApp.packageName to 20))
         repo.settle(at(tuesday, 0, 1))
         assertEquals(1, repo.rule("l")!!.streakDays)
         assertEquals(0, repo.rule("l")!!.usedMinutes)
-        repo.recordUsage(used(LimitReset.Midnight, whatsApp.packageName to 45))
+        repo.start("l", now = at(tuesday, 8))
+        repo.recordUsage(used(at(tuesday, 8), whatsApp.packageName to 45))
         repo.settle(at(wednesday, 0, 1))
         assertEquals(0, repo.rule("l")!!.streakDays)
-    }
-
-    @Test
-    fun `a manual session counts the day's first finished run`() {
-        val repo = repository(at(monday, 0))
-        repo.upsert(Rule("s", RuleType.Session, "Deep work", apps = listOf(whatsApp), durationMinutes = 30))
-        repo.update("s") { it.copy(activeSince = at(monday, 10)) }
-        repo.settle(at(monday, 10, 31))
-        assertEquals(1, repo.rule("s")!!.streakDays)
-        assertNull(repo.rule("s")!!.activeSince)
-        repo.update("s") { it.copy(activeSince = at(monday, 14)) }
-        repo.settle(at(monday, 14, 31))
-        assertEquals(1, repo.rule("s")!!.streakDays)
     }
 }

@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,24 +38,20 @@ import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrTextField
-import com.recentr.core.designsystem.component.SettingToggleRow
 import com.recentr.core.designsystem.format.LocalUse24HourClock
 import com.recentr.core.designsystem.format.clockDigits
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleSticker
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.model.RulesMessages
 import com.recentr.feature.rules.ui.asSticker
-import com.recentr.feature.rules.ui.components.DayDots
 import com.recentr.feature.rules.ui.components.Gap
 import com.recentr.feature.rules.ui.components.HGap
 import com.recentr.feature.rules.ui.components.RulesSheet
 import com.recentr.feature.rules.ui.components.SectionCaption
-import com.recentr.feature.rules.ui.components.SettingsGroup
 import com.recentr.feature.rules.ui.components.SheetBody
 import com.recentr.feature.rules.ui.components.TimeCard
 import com.recentr.feature.rules.ui.isPm
@@ -88,7 +83,7 @@ internal fun OptionPickerSheet(
     }
 }
 
-/** One text field + Save (reason note, new habit task). */
+/** One text field + Save (the "Why" note). */
 @Composable
 internal fun TextInputSheet(
     title: String,
@@ -268,89 +263,3 @@ private fun cardCaption(minuteOfDay: Int, day: CardDay): String = if (LocalUse24
 } else {
     stringResource(day.withMeridiem, stringResource(if (isPm(minuteOfDay)) R.string.rules_pm else R.string.rules_am))
 }
-
-/** "Active" schedule editor: optional all-day toggle, FROM/UNTIL cards and day dots. */
-@Composable
-internal fun ScheduleSheet(
-    title: String,
-    initial: RuleSchedule?,
-    allowAllDay: Boolean,
-    onSave: (RuleSchedule?) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val fallback = initial?.takeIf { it.lengthMinutes < RuleSchedule.MINUTES_PER_DAY } ?: RuleSchedule(9 * 60, 17 * 60)
-    var allDay by rememberSaveable { mutableStateOf(allowAllDay && (initial == null || initial.lengthMinutes >= RuleSchedule.MINUTES_PER_DAY)) }
-    var start by rememberSaveable { mutableIntStateOf(fallback.startMinute) }
-    var end by rememberSaveable { mutableIntStateOf(fallback.endMinute) }
-    var days by rememberSaveable { mutableStateOf((initial?.days ?: (1..7).toSet()).toList()) }
-    var editing by rememberSaveable { mutableStateOf(TimeField.None) }
-    RulesSheet(onDismissRequest = onDismiss) { closer ->
-        SheetBody(
-            figmaHeight = null,
-            topGap = 18.dp,
-            wrapContent = true,
-            bottomBar = {
-                RecentrButton(
-                    text = stringResource(R.string.rules_save),
-                    enabled = days.isNotEmpty(),
-                    onClick = {
-                        val result = when {
-                            allDay && days.size == 7 -> null
-                            allDay -> RuleSchedule(0, 0, days.toSet())
-                            else -> RuleSchedule(start, end, days.toSet())
-                        }
-                        closer.close { onSave(result) }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-        ) {
-            Text(
-                title,
-                style = RecentrTheme.typography.title1,
-                color = RecentrTheme.colors.textPrimary,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            Gap(16.dp)
-            if (allowAllDay) {
-                SettingsGroup {
-                    SettingToggleRow(
-                        label = stringResource(R.string.rules_all_day),
-                        checked = allDay,
-                        onCheckedChange = { allDay = it },
-                        icon = RecentrIcon.Sun,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-                Gap(16.dp)
-            }
-            if (!allDay) {
-                TimesRow(
-                    startMinute = start,
-                    endMinute = end,
-                    onStart = { editing = TimeField.Start },
-                    onEnd = { editing = TimeField.End },
-                )
-                Gap(14.dp)
-            }
-            DayDots(days = days.toSet(), onToggle = { day -> days = if (day in days) days - day else (days + day).sorted() })
-        }
-    }
-    when (editing) {
-        TimeField.None -> Unit
-        TimeField.Start -> TimeOfDayDialog(
-            title = stringResource(R.string.rules_starts_at),
-            initialMinuteOfDay = start,
-            onConfirm = { start = it; editing = TimeField.None },
-            onDismiss = { editing = TimeField.None },
-        )
-        TimeField.End -> TimeOfDayDialog(
-            title = stringResource(R.string.rules_ends_at_title),
-            initialMinuteOfDay = end,
-            onConfirm = { end = it; editing = TimeField.None },
-            onDismiss = { editing = TimeField.None },
-        )
-    }
-}
-
-internal enum class TimeField { None, Start, End }

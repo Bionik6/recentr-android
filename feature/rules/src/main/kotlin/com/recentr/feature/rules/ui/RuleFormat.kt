@@ -4,28 +4,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.recentr.core.data.RecentrData
-import com.recentr.core.data.unlockMethodInUse
 import com.recentr.core.data.waitSecondsInUse
+import com.recentr.core.designsystem.format.LocalUse24HourClock
+import com.recentr.core.designsystem.format.clockTimeOf
 import com.recentr.core.designsystem.format.clockTimeShort
 import com.recentr.core.designsystem.format.wallClockTime
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.model.AppCategory
-import com.recentr.core.model.HabitRepeat
-import com.recentr.core.model.LimitAction
-import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
+import com.recentr.core.model.RuleChange
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UnlockMethod
 import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
+import java.time.Instant
+import java.time.ZoneId
 import kotlin.math.max
 
 /* Mappings between the shared model and the design system. */
@@ -73,7 +75,6 @@ internal fun RuleType.label(): String = stringResource(
         RuleType.Lock -> R.string.rules_type_lock
         RuleType.Limit -> R.string.rules_type_limit
         RuleType.Bedtime -> R.string.rules_type_routine
-        RuleType.Habit -> R.string.rules_type_habit
     },
 )
 
@@ -179,6 +180,21 @@ internal fun scheduleLabel(schedule: RuleSchedule?): String = when {
 @ReadOnlyComposable
 internal fun wallClock(epochMillis: Long): String = wallClockTime(epochMillis)
 
+/**
+ * [wallClock] for the messages the rules' ViewModels post: "7:00 AM" (or "07:00") on the clock
+ * the screen shows.
+ */
+@Composable
+internal fun rememberWallClock(): (Long) -> String {
+    val use24Hour = LocalUse24HourClock.current
+    return remember(use24Hour) {
+        { epochMillis ->
+            val time = Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()).toLocalTime()
+            clockTimeOf(time.hour * 60 + time.minute, use24Hour)
+        }
+    }
+}
+
 /* Apps. */
 
 /** "Instagram, X" for up to two apps, else "3 apps". */
@@ -214,10 +230,8 @@ internal fun appsName(apps: List<UsageApp>, two: (String, String) -> String, mor
 
 @Composable
 @ReadOnlyComposable
-internal fun unlockLabel(rule: Rule): String = when (rule.unlockMethodInUse) {
-    UnlockMethod.None, UnlockMethod.Strict -> stringResource(R.string.rules_unlock_none)
+internal fun unlockLabel(rule: Rule): String = when (rule.unlockMethod) {
     UnlockMethod.Wait -> stringResource(R.string.rules_unlock_wait, rule.waitSecondsInUse)
-    UnlockMethod.Reason -> stringResource(R.string.rules_unlock_reason)
     UnlockMethod.Retype -> stringResource(R.string.rules_unlock_retype)
     UnlockMethod.ScanCode -> stringResource(R.string.rules_unlock_scan)
 }
@@ -229,33 +243,64 @@ internal fun unlocksPerDayLabel(perDay: Int?): String =
 
 @Composable
 @ReadOnlyComposable
-internal fun limitResetLabel(reset: LimitReset): String = when (reset) {
-    LimitReset.Midnight -> stringResource(R.string.rules_reset_midnight)
-    LimitReset.FourAm -> clockLabel(4 * 60)
-    LimitReset.Monday -> stringResource(R.string.rules_reset_monday)
-}
-
-@Composable
-@ReadOnlyComposable
-internal fun limitActionLabel(action: LimitAction): String = stringResource(
-    when (action) {
-        LimitAction.Lock -> R.string.rules_action_lock
-        LimitAction.Remind -> R.string.rules_action_remind
-        LimitAction.AskReason -> R.string.rules_action_ask
-    },
-)
-
-@Composable
-@ReadOnlyComposable
-internal fun habitRepeatLabel(repeat: HabitRepeat): String = stringResource(
-    when (repeat) {
-        HabitRepeat.EveryDay -> R.string.rules_days_every_day
-        HabitRepeat.Weekdays -> R.string.rules_days_weekdays
-        HabitRepeat.Weekends -> R.string.rules_days_weekends
-    },
-)
-
-@Composable
-@ReadOnlyComposable
 internal fun reminderLabel(minutes: Int?): String =
     if (minutes == null) stringResource(R.string.rules_reminder_off) else stringResource(R.string.rules_reminder_before, minutes)
+
+/* Changes kept for later. */
+
+/** What a change kept on [rule] ([Rule.pending]) is: a delete, a lock's turn-off, a routine's pause, or other changes. */
+internal enum class PendingKind { Delete, TurnOff, Pause, Changes }
+
+internal val Rule.pendingKind: PendingKind?
+    get() {
+        val change = pending ?: return null
+        val wish = change.rule ?: return PendingKind.Delete
+        return when {
+            type == RuleType.Lock && activeSince != null && wish.activeSince == null -> PendingKind.TurnOff
+            type == RuleType.Bedtime && (wish.pausedUntil ?: 0) > change.appliesAt && pausedUntil == null -> PendingKind.Pause
+            else -> PendingKind.Changes
+        }
+    }
+
+/**
+ * When [change] applies, for [type]: [midnight] for a lock or a limit, [sessionEnd] for a session,
+ * [at] with the time a routine's window ends. [string] resolves resources, [clock] formats times.
+ */
+internal fun pendingWhen(
+    type: RuleType,
+    change: RuleChange,
+    midnight: Int,
+    sessionEnd: Int,
+    at: Int,
+    string: (Int, Array<out Any>) -> String,
+    clock: (Long) -> String,
+): String = when (type) {
+    RuleType.Session -> string(sessionEnd, emptyArray())
+    RuleType.Bedtime -> string(at, arrayOf(clock(change.appliesAt)))
+    RuleType.Lock, RuleType.Limit -> string(midnight, emptyArray())
+}
+
+/** [pendingWhen] in a composable: the resources resolved and the time formatted on the screen's clock. */
+@Composable
+@ReadOnlyComposable
+internal fun pendingWhenText(type: RuleType, change: RuleChange, midnight: Int, sessionEnd: Int, at: Int): String = when (type) {
+    RuleType.Session -> stringResource(sessionEnd)
+    RuleType.Bedtime -> stringResource(at, wallClock(change.appliesAt))
+    RuleType.Lock, RuleType.Limit -> stringResource(midnight)
+}
+
+/**
+ * The toast of a change saved while the rule is engaged ("Saved · some changes apply at
+ * midnight"), or of a change saved right away ("Changes saved").
+ */
+internal fun savedToast(rule: Rule, string: (Int, Array<out Any>) -> String, clock: (Long) -> String): String {
+    val change = rule.pending?.takeIf { it.rule != null } ?: return string(R.string.rules_rule_saved, emptyArray())
+    return pendingWhen(
+        rule.type, change,
+        midnight = R.string.rules_saved_later_midnight,
+        sessionEnd = R.string.rules_saved_later_session,
+        at = R.string.rules_saved_later_at,
+        string = string,
+        clock = clock,
+    )
+}

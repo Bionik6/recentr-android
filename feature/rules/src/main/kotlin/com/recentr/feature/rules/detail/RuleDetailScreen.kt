@@ -1,16 +1,19 @@
 package com.recentr.feature.rules.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -33,6 +36,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -49,10 +53,12 @@ import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
+import com.recentr.core.designsystem.component.RecentrTextButton
 import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.StickyNote
 import com.recentr.core.designsystem.format.clockHours
 import com.recentr.core.designsystem.icon.RecentrIcon
+import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.BackdropBox
 import com.recentr.core.designsystem.illustration.Sticker
@@ -63,15 +69,20 @@ import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
 import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.AppId
-import com.recentr.core.model.LimitReset
 import com.recentr.core.model.Rule
+import com.recentr.core.model.RuleChange
 import com.recentr.core.model.RuleSchedule
+import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
+import com.recentr.core.model.latestWish
 import com.recentr.feature.rules.R
+import com.recentr.feature.rules.sheets.BlockRightAwayDialog
 import com.recentr.feature.rules.sheets.RuleSheet
 import com.recentr.feature.rules.sheets.RuleSheetsHost
+import com.recentr.feature.rules.sheets.StartConfirmDialog
 import com.recentr.feature.rules.sheets.StrictConfirmDialog
+import com.recentr.feature.rules.ui.PendingKind
 import com.recentr.feature.rules.ui.asSticker
 import com.recentr.feature.rules.ui.clockLabel
 import com.recentr.feature.rules.ui.compactDuration
@@ -84,15 +95,19 @@ import com.recentr.feature.rules.ui.components.UnlockMethodRow
 import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.daysLabel
 import com.recentr.feature.rules.ui.durationLabel
-import com.recentr.feature.rules.ui.habitRepeatLabel
 import com.recentr.feature.rules.ui.label
-import com.recentr.feature.rules.ui.limitActionLabel
-import com.recentr.feature.rules.ui.limitResetLabel
+import com.recentr.feature.rules.ui.pendingKind
+import com.recentr.feature.rules.ui.pendingWhenText
+import com.recentr.feature.rules.ui.rememberWallClock
 import com.recentr.feature.rules.ui.reminderLabel
 import com.recentr.feature.rules.ui.unlocksPerDayLabel
 import com.recentr.feature.rules.ui.wallClock
 
-/** Rule detail destination (Figma 44) with its Pause (45), Edit (46) and Delete (47) sheets. */
+/**
+ * Rule detail destination (Figma 44) with its Pause (45), Edit (46) and Delete (47) sheets. Every
+ * change goes through the edit policy: while the rule is engaged, what loosens it waits for the end
+ * of the engagement (the page says so), and what blocks more apps right away asks first.
+ */
 @Composable
 internal fun RuleDetailDestination(
     onBack: () -> Unit,
@@ -111,58 +126,104 @@ internal fun RuleDetailDestination(
     var sheet by rememberSaveable { mutableStateOf(RuleSheet.None) }
     var pause by rememberSaveable { mutableStateOf(false) }
     var delete by rememberSaveable { mutableStateOf(false) }
+    var showApps by rememberSaveable { mutableStateOf(false) }
     var confirmStrict by rememberSaveable { mutableStateOf(false) }
     var explainBlocking by rememberSaveable { mutableStateOf(false) }
+    /** Activate (a lock) or Start (a limit), waiting for "Turn on" / "Start". */
+    var confirmStart by rememberSaveable { mutableStateOf(false) }
+    /** A change that would block more apps right away, waiting for "Block". */
+    var confirmBlock by remember { mutableStateOf<((Rule) -> Rule)?>(null) }
     val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
-    val locked = rule.isStrictLocked(state.now)
-    fun guarded(action: () -> Unit) = if (locked) viewModel.strictLockedNotice() else action()
+    val clock = rememberWallClock()
+    fun save(transform: (Rule) -> Rule) {
+        if (viewModel.preview(transform)?.blocksMore == true) confirmBlock = transform else viewModel.update(clock, transform)
+    }
+    fun startOrActivate() {
+        viewModel.start()
+        // Started, but nothing is held until the app blocker is on: say how.
+        if (!blockingOn) explainBlocking = true
+    }
+    /**
+     * Starting a lock or a limit again asks first: once it's on, what makes it easier only applies
+     * at midnight. A session starts right away.
+     */
+    fun askThenStart() {
+        if (rule.type.asksBeforeStart) confirmStart = true else startOrActivate()
+    }
 
     RuleDetailScreen(
         rule = rule,
         now = state.now,
         actions = DetailActions(
             onBack = onBack,
-            onOpen = { target -> guarded { sheet = target } },
+            onOpen = { target -> sheet = target },
             onStrictChange = { on ->
                 when {
-                    !on -> guarded { viewModel.update { it.copy(strictMode = false) } }
-                    // It would lock right away, for the rest of the session: ask first.
+                    !on -> save { it.copy(strictMode = false) }
+                    // Only emergency unlocks from now until it ends: ask first.
                     rule.isEnforcing(state.now) -> confirmStrict = true
-                    else -> viewModel.update { it.copy(strictMode = true) }
+                    else -> save { it.copy(strictMode = true) }
                 }
             },
-            onPause = {
-                if (rule.isPaused(state.now)) viewModel.resume() else guarded { pause = true }
-            },
-            onEditRule = { guarded { onEditSettings(rule.id) } },
-            onStart = {
-                viewModel.start()
-                // Started, but nothing is held until the app blocker is on: say how.
-                if (!blockingOn) explainBlocking = true
-            },
-            onEditSettings = { guarded { onEditSettings(rule.id) } },
-            onDelete = { guarded { delete = true } },
+            onPause = { if (rule.isPaused(state.now)) viewModel.resume() else pause = true },
+            onEditRule = { onEditSettings(rule.id) },
+            onStart = ::askThenStart,
+            onTurnOff = viewModel::turnOff,
+            onEditSettings = { onEditSettings(rule.id) },
+            onDelete = { delete = true },
+            onDropPending = viewModel::dropPending,
+            onOpenApps = { showApps = true },
         ),
     )
     RuleSheetsHost(
         sheet = sheet,
-        rule = rule,
+        // The sheets open on the rule as last wished, a change kept for later included.
+        rule = rule.latestWish,
         now = state.now,
         onSheet = { sheet = it },
-        onUpdate = viewModel::update,
-        onRename = viewModel::rename,
-        onApps = viewModel::setApps,
+        onUpdate = ::save,
+        onRename = { name, sticker -> viewModel.rename(clock, name, sticker) },
+        onApps = { apps -> save { it.copy(apps = apps) } },
     )
+    if (showApps) {
+        // The app blocker's unlocks, live: an app whose unlock ends goes back with the blocked ones.
+        val unlocks by RecentrData.holds.unlocks.collectAsStateWithLifecycle()
+        RuleAppsSheet(rule = rule, now = state.now, unlocks = unlocks, onDismiss = { showApps = false })
+    }
     if (pause) {
-        PauseRuleSheet(ruleName = rule.name, onPause = viewModel::pause, onDismiss = { pause = false })
+        PauseRuleSheet(
+            ruleName = rule.name,
+            later = rule.isEnforcing(state.now),
+            onPause = viewModel::pause,
+            onDismiss = { pause = false },
+        )
+    }
+    if (confirmStart) {
+        StartConfirmDialog(
+            rule = rule,
+            onConfirm = {
+                confirmStart = false
+                startOrActivate()
+            },
+            onDismiss = { confirmStart = false },
+        )
     }
     if (confirmStrict) {
         StrictConfirmDialog(
             onConfirm = {
-                viewModel.update { it.copy(strictMode = true) }
+                save { it.copy(strictMode = true) }
                 confirmStrict = false
             },
             onDismiss = { confirmStrict = false },
+        )
+    }
+    confirmBlock?.let { transform ->
+        BlockRightAwayDialog(
+            onConfirm = {
+                viewModel.update(clock, transform)
+                confirmBlock = null
+            },
+            onDismiss = { confirmBlock = null },
         )
     }
     if (explainBlocking) {
@@ -170,17 +231,30 @@ internal fun RuleDetailDestination(
         BlockingAccessSheet(onOpenSettings = { BlockingAccess.openSettings(context) }, onDismissRequest = { explainBlocking = false })
     }
     if (delete) {
+        val end = rule.engagementEnd(state.now)
         DeleteRuleSheet(
             ruleName = rule.name,
             streakDays = rule.streakDays,
-            onDelete = viewModel::delete,
+            later = end?.let {
+                pendingWhenText(
+                    rule.type, RuleChange(it, null),
+                    midnight = R.string.rules_delete_body_later_midnight,
+                    sessionEnd = R.string.rules_delete_body_later_session,
+                    at = R.string.rules_delete_body_later_at,
+                )
+            },
+            onDelete = { viewModel.delete(clock) },
             onDismiss = { delete = false },
         )
     }
 }
 
-/** A saved session not running: it can be started again (a pause in the way is lifted). */
-internal fun Rule.startable(now: Long): Boolean = type == RuleType.Session && schedule == null && !isRunning(now)
+/** Activate (a lock) and Start (a limit) ask first ([StartConfirmDialog]); a session starts right away. */
+internal val RuleType.asksBeforeStart: Boolean
+    get() = this == RuleType.Lock || this == RuleType.Limit
+
+/** A saved session not running: it can be started. */
+internal fun Rule.startable(now: Long): Boolean = type == RuleType.Session && !isRunning(now)
 
 internal class DetailActions(
     val onBack: () -> Unit = {},
@@ -188,9 +262,16 @@ internal class DetailActions(
     val onStrictChange: (Boolean) -> Unit = {},
     val onPause: () -> Unit = {},
     val onEditRule: () -> Unit = {},
+    /** Start (sessions, limits) or Activate (locks). */
     val onStart: () -> Unit = {},
+    /** A lock's "Turn off". */
+    val onTurnOff: () -> Unit = {},
     val onEditSettings: () -> Unit = {},
     val onDelete: () -> Unit = {},
+    /** "Drop changes", "Keep rule", "Keep it on", "Cancel" of the change kept for later. */
+    val onDropPending: () -> Unit = {},
+    /** The "Blocked" tile: the rule's apps, blocked or unlocked for now. */
+    val onOpenApps: () -> Unit = {},
 )
 
 @Composable
@@ -223,9 +304,14 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                     }
                 }
                 Gap(19.dp)
-                DetailCollage(rule, now)
+                DetailCollage(rule, now, actions.onOpenApps)
                 Gap(24.dp)
-                DetailSettings(rule, now, actions)
+                if (rule.pending != null) {
+                    PendingCard(rule, actions.onDropPending)
+                    Gap(12.dp)
+                }
+                // The settings as last wished: what waits for later is in the card above.
+                DetailSettings(rule.latestWish, actions)
                 Gap(16.dp)
             }
             Row(
@@ -235,32 +321,7 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                     .padding(start = 24.dp, end = 24.dp, top = 8.dp, bottom = 14.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                if (rule.startable(now)) {
-                    // A saved session: Start is what it's here for.
-                    RecentrButton(
-                        text = stringResource(R.string.rules_edit_rule),
-                        onClick = actions.onEditRule,
-                        style = RecentrButtonStyle.Soft,
-                        modifier = Modifier.weight(1f),
-                    )
-                    RecentrButton(
-                        text = stringResource(R.string.rules_start),
-                        onClick = actions.onStart,
-                        modifier = Modifier.weight(1f),
-                    )
-                } else {
-                    RecentrButton(
-                        text = stringResource(if (rule.isPaused(now)) R.string.rules_resume else R.string.rules_pause),
-                        onClick = actions.onPause,
-                        style = RecentrButtonStyle.Soft,
-                        modifier = Modifier.weight(1f),
-                    )
-                    RecentrButton(
-                        text = stringResource(R.string.rules_edit_rule),
-                        onClick = actions.onEditRule,
-                        modifier = Modifier.weight(1f),
-                    )
-                }
+                DetailButtons(rule, now, actions)
             }
         }
         RulesToastHost(
@@ -269,6 +330,55 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                 .navigationBarsPadding()
                 .padding(bottom = 14.dp + 54.dp + 16.dp),
         )
+    }
+}
+
+/**
+ * The bottom bar. Session: Start, then nothing to stop: it ends on its own. Routine: Pause or
+ * Resume. Lock: Activate, then Turn off. Limit: Start, for today. "Edit rule" is always there.
+ */
+@Composable
+private fun RowScope.DetailButtons(rule: Rule, now: Long, actions: DetailActions) {
+    @Composable
+    fun edit(style: RecentrButtonStyle) = RecentrButton(
+        text = stringResource(R.string.rules_edit_rule),
+        onClick = actions.onEditRule,
+        style = style,
+        modifier = Modifier.weight(1f),
+    )
+    @Composable
+    fun soft(text: Int, onClick: () -> Unit) = RecentrButton(
+        text = stringResource(text),
+        onClick = onClick,
+        style = RecentrButtonStyle.Soft,
+        modifier = Modifier.weight(1f),
+    )
+    @Composable
+    fun primary(text: Int, onClick: () -> Unit) = RecentrButton(text = stringResource(text), onClick = onClick, modifier = Modifier.weight(1f))
+    when (rule.type) {
+        RuleType.Session -> if (rule.isRunning(now)) {
+            edit(RecentrButtonStyle.Primary)
+        } else {
+            edit(RecentrButtonStyle.Soft)
+            primary(R.string.rules_start, actions.onStart)
+        }
+        RuleType.Bedtime -> {
+            soft(if (rule.isPaused(now)) R.string.rules_resume else R.string.rules_pause, actions.onPause)
+            edit(RecentrButtonStyle.Primary)
+        }
+        RuleType.Lock -> if (rule.activeSince != null) {
+            soft(R.string.rules_turn_off, actions.onTurnOff)
+            edit(RecentrButtonStyle.Primary)
+        } else {
+            edit(RecentrButtonStyle.Soft)
+            primary(R.string.rules_activate, actions.onStart)
+        }
+        RuleType.Limit -> if (rule.isEnforcing(now)) {
+            edit(RecentrButtonStyle.Primary)
+        } else {
+            edit(RecentrButtonStyle.Soft)
+            primary(R.string.rules_start, actions.onStart)
+        }
     }
 }
 
@@ -314,7 +424,10 @@ private fun DetailNav(actions: DetailActions) {
     }
 }
 
-/** "Session · Active weekdays", "Lock · All day", "Session · Running now", "… · Paused". */
+/**
+ * "Routine · Active weekdays", "Session · Running now", "Lock · On", "Limit · Until midnight",
+ * "… · Paused".
+ */
 @Composable
 private fun detailSubtitle(rule: Rule, now: Long): String {
     val state = when {
@@ -323,22 +436,62 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
         } else {
             stringResource(R.string.rules_detail_paused_until, wallClock(rule.pausedUntil!!))
         }
-        rule.isRunning(now) -> stringResource(R.string.rules_detail_running)
-        rule.type == RuleType.Session && rule.schedule == null -> durationLabel(rule.durationMinutes ?: 30)
-        rule.type == RuleType.Limit -> stringResource(
-            if (rule.limitReset == LimitReset.Monday) R.string.rules_detail_weekly else R.string.rules_detail_daily,
-        )
-        rule.type == RuleType.Habit -> habitRepeatLabel(rule.habitRepeat)
-        rule.schedule == null -> stringResource(R.string.rules_all_day)
-        else -> {
-            val days = rule.schedule!!.days
-            val label = daysLabel(days)
-            // "Active weekdays" / "Active every day", but keep "Active Mon, Wed" capitalised.
-            val named = days == (1..7).toSet() || days == (1..5).toSet() || days == setOf(6, 7)
-            stringResource(R.string.rules_detail_active_days, if (named) label.lowercase() else label)
+        else -> when (rule.type) {
+            RuleType.Session -> if (rule.isRunning(now)) stringResource(R.string.rules_detail_running) else durationLabel(rule.durationMinutes ?: 30)
+            RuleType.Lock -> stringResource(if (rule.activeSince != null) R.string.rules_detail_on else R.string.rules_detail_off)
+            RuleType.Limit -> stringResource(if (rule.isEnforcing(now)) R.string.rules_until_midnight else R.string.rules_budget_today)
+            RuleType.Bedtime -> {
+                val days = rule.schedule?.days ?: (1..7).toSet()
+                val label = daysLabel(days)
+                // "Active weekdays" / "Active every day", but keep "Active Mon, Wed" capitalised.
+                val named = days == (1..7).toSet() || days == (1..5).toSet() || days == setOf(6, 7)
+                stringResource(R.string.rules_detail_active_days, if (named) label.lowercase() else label)
+            }
         }
     }
     return stringResource(R.string.rules_detail_sub, rule.type.label(), state)
+}
+
+/**
+ * What waits for the end of the engagement, and the way to drop it: "Your changes apply at
+ * midnight · Drop changes", "Deleted at midnight · Keep rule", "Turns off at midnight · Keep it
+ * on", "Pauses when this window ends · Cancel".
+ */
+@Composable
+private fun PendingCard(rule: Rule, onDrop: () -> Unit) {
+    val change = rule.pending ?: return
+    val colors = RecentrTheme.colors
+    val (text, action) = when (rule.pendingKind) {
+        PendingKind.Delete -> pendingWhenText(
+            rule.type, change,
+            midnight = R.string.rules_pending_delete_midnight,
+            sessionEnd = R.string.rules_pending_delete_session,
+            at = R.string.rules_pending_delete_at,
+        ) to R.string.rules_pending_keep_rule
+        PendingKind.TurnOff -> stringResource(R.string.rules_pending_turn_off) to R.string.rules_pending_keep_on
+        PendingKind.Pause -> stringResource(R.string.rules_pending_pause) to R.string.rules_pending_dont_pause
+        else -> pendingWhenText(
+            rule.type, change,
+            midnight = R.string.rules_pending_changes_midnight,
+            sessionEnd = R.string.rules_pending_changes_session,
+            at = R.string.rules_pending_changes_at,
+        ) to R.string.rules_pending_drop
+    }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(20.dp))
+            .background(colors.alphaSky12)
+            .padding(start = 14.dp, end = 4.dp, top = 6.dp, bottom = 6.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(Modifier.size(32.dp).clip(RoundedCornerShape(10.dp)).background(colors.bgSurface), contentAlignment = Alignment.Center) {
+            RecentrIconImage(RecentrIcon.Clock, tint = colors.brandSky, size = 18.dp)
+        }
+        Text(text, style = RecentrTheme.typography.bodyMedium, color = colors.textPrimary, modifier = Modifier.weight(1f))
+        RecentrTextButton(text = stringResource(action), onClick = onDrop, color = colors.brandSky)
+    }
 }
 
 /**
@@ -347,7 +500,7 @@ private fun detailSubtitle(rule: Rule, now: Long): String {
  * the editor.
  */
 @Composable
-private fun DetailCollage(rule: Rule, now: Long) {
+private fun DetailCollage(rule: Rule, now: Long, onOpenApps: () -> Unit) {
     val (label, value, caption) = timeTile(rule, now)
     Box(Modifier.fillMaxWidth().height(250.dp), contentAlignment = Alignment.Center) {
         // Fixed widths, the time card on the left edge and the apps tile on the right: a countdown
@@ -365,6 +518,7 @@ private fun DetailCollage(rule: Rule, now: Long) {
         )
         AppsTile(
             rule = rule,
+            onClick = onOpenApps,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .offset(x = (-12).dp, y = (-69.16).dp)
@@ -399,44 +553,57 @@ private fun DetailCollage(rule: Rule, now: Long) {
 }
 
 @Composable
-private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> {
-    val schedule = rule.schedule
-    return when {
-        rule.isRunning(now) -> Triple(
-            stringResource(R.string.rules_tile_now),
-            countdown((rule.sessionEndsAt ?: now) - now),
-            stringResource(R.string.rules_tile_left_of, durationLabel(rule.durationMinutes ?: 0)),
-        )
-        rule.type == RuleType.Limit -> Triple(
-            stringResource(if (rule.limitReset == LimitReset.Monday) R.string.rules_tile_weekly else R.string.rules_tile_daily),
-            compactDuration(rule.limitMinutes ?: 0),
-            stringResource(R.string.rules_tile_used, compactDuration(rule.usedMinutes)),
-        )
-        rule.type == RuleType.Habit -> Triple(
-            habitRepeatLabel(rule.habitRepeat).uppercase(),
-            "${rule.habitTasks.count { it.done }}/${rule.habitTasks.size}",
-            stringResource(R.string.rules_tile_tasks_done),
-        )
-        rule.type == RuleType.Session && schedule == null -> Triple(
-            stringResource(R.string.rules_tile_ready),
-            durationLabel(rule.durationMinutes ?: 0),
-            stringResource(R.string.rules_session_title),
-        )
-        schedule == null || schedule.lengthMinutes >= RuleSchedule.MINUTES_PER_DAY -> Triple(
-            daysLabel(schedule?.days ?: (1..7).toSet()).uppercase(),
-            stringResource(R.string.rules_all_day),
-            stringResource(R.string.rules_tile_all_day_caption, unlocksPerDayLabel(rule.unlocksPerDay)),
-        )
-        else -> Triple(
-            daysLabel(schedule.days).uppercase(),
-            stringResource(R.string.rules_time_range, clockHours(schedule.startMinute), clockHours(schedule.endMinute)),
-            stringResource(R.string.rules_tile_to, clockLabel(schedule.startMinute), clockLabel(schedule.endMinute)),
-        )
+private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> = when (rule.type) {
+    RuleType.Session -> {
+        val end = rule.sessionEndsAt
+        if (end != null && rule.isRunning(now)) {
+            Triple(
+                stringResource(R.string.rules_tile_now),
+                countdown(end - now),
+                stringResource(R.string.rules_tile_left_of, durationLabel(((end - (rule.activeSince ?: end)) / 60_000L).toInt())),
+            )
+        } else {
+            Triple(
+                stringResource(R.string.rules_tile_ready),
+                durationLabel(rule.durationMinutes ?: 0),
+                stringResource(R.string.rules_session_title),
+            )
+        }
+    }
+    RuleType.Limit -> Triple(
+        stringResource(R.string.rules_tile_today),
+        compactDuration(rule.limitMinutes ?: 0),
+        if (rule.isEnforcing(now)) {
+            stringResource(R.string.rules_tile_used, compactDuration(rule.usedMinutes))
+        } else {
+            stringResource(R.string.rules_tile_not_started)
+        },
+    )
+    RuleType.Lock -> Triple(
+        stringResource(R.string.rules_tile_unlocks_today),
+        rule.unlocksPerDay?.let { stringResource(R.string.rules_tile_unlocks_of, rule.unlocksUsedToday, it) } ?: rule.unlocksUsedToday.toString(),
+        stringResource(if (rule.activeSince != null) R.string.rules_value_locked else R.string.rules_detail_off),
+    )
+    RuleType.Bedtime -> {
+        val schedule = rule.schedule
+        if (schedule == null || schedule.allDay) {
+            Triple(
+                daysLabel(schedule?.days ?: (1..7).toSet()).uppercase(),
+                stringResource(R.string.rules_all_day),
+                stringResource(R.string.rules_tile_all_day_caption, unlocksPerDayLabel(rule.unlocksPerDay)),
+            )
+        } else {
+            Triple(
+                daysLabel(schedule.days).uppercase(),
+                stringResource(R.string.rules_time_range, clockHours(schedule.startMinute), clockHours(schedule.endMinute)),
+                stringResource(R.string.rules_tile_to, clockLabel(schedule.startMinute), clockLabel(schedule.endMinute)),
+            )
+        }
     }
 }
 
 @Composable
-private fun AppsTile(rule: Rule, modifier: Modifier = Modifier) {
+private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(24.dp)
     val apps = rule.apps
@@ -445,14 +612,12 @@ private fun AppsTile(rule: Rule, modifier: Modifier = Modifier) {
             .recentrShadow(RecentrElevation.float, shape)
             .clip(shape)
             .background(colors.bgSurface)
+            // Opens the "Apps" sheet: which are blocked, which are unlocked for now.
+            .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Text(
-            stringResource(if (rule.type == RuleType.Habit) R.string.rules_unlocks_label else R.string.rules_blocked),
-            style = RecentrTheme.typography.captionMedium,
-            color = colors.textTertiary,
-        )
+        Text(stringResource(R.string.rules_blocked), style = RecentrTheme.typography.captionMedium, color = colors.textTertiary)
         OverlappingInstalledAppIcons(apps.take(3).map { it.packageName }, size = 40.dp, overlap = 8.dp)
         Text(
             pluralStringResource(R.plurals.rules_apps_count, apps.size, apps.size),
@@ -464,8 +629,9 @@ private fun AppsTile(rule: Rule, modifier: Modifier = Modifier) {
     }
 }
 
+/** The rule's settings, as last wished ([rule] is its [latestWish]). */
 @Composable
-private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
+private fun DetailSettings(rule: Rule, actions: DetailActions) {
     @Composable
     fun row(label: Int, value: String, icon: RecentrIcon, target: RuleSheet?) = SettingRow(
         label = stringResource(label),
@@ -478,37 +644,20 @@ private fun DetailSettings(rule: Rule, now: Long, actions: DetailActions) {
         when (rule.type) {
             RuleType.Session -> {
                 UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
-                if (rule.schedule != null) {
-                    row(R.string.rules_row_reminders, reminderLabel(rule.reminderMinutesBefore), RecentrIcon.Bell, RuleSheet.Reminders)
-                } else {
-                    row(R.string.rules_row_active, durationLabel(rule.durationMinutes ?: 0), RecentrIcon.Clock, RuleSheet.Duration)
-                }
+                row(R.string.rules_row_active, durationLabel(rule.durationMinutes ?: 0), RecentrIcon.Clock, RuleSheet.Duration)
             }
             RuleType.Lock -> {
                 UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
                 row(R.string.rules_row_unlocks_per_day, unlocksPerDayLabel(rule.unlocksPerDay), RecentrIcon.Refresh, RuleSheet.UnlocksPerDay)
             }
-            RuleType.Limit -> {
-                row(R.string.rules_row_resets, limitResetLabel(rule.limitReset), RecentrIcon.Refresh, RuleSheet.Resets)
-                row(R.string.rules_row_when_time_up, limitActionLabel(rule.limitAction), RecentrIcon.Lock, RuleSheet.TimeUp)
-            }
+            // The budget's stepper is in the editor.
+            RuleType.Limit -> row(R.string.rules_budget_today, compactDuration(rule.limitMinutes ?: 0), RecentrIcon.Clock, null)
             RuleType.Bedtime -> {
                 UnlockMethodRow(rule, onClick = { actions.onOpen(RuleSheet.Unlock) })
                 row(R.string.rules_row_reminders, reminderLabel(rule.reminderMinutesBefore), RecentrIcon.Bell, RuleSheet.Reminders)
             }
-            RuleType.Habit -> {
-                row(R.string.rules_row_repeats, habitRepeatLabel(rule.habitRepeat), RecentrIcon.Refresh, RuleSheet.Repeats)
-                row(
-                    R.string.rules_row_tasks,
-                    stringResource(R.string.rules_status_tasks, rule.habitTasks.count { it.done }, rule.habitTasks.size),
-                    RecentrIcon.Check,
-                    null,
-                )
-            }
         }
-        if (rule.canBeStrict || rule.strictMode) {
-            StrictToggleRow(rule.strictMode, actions.onStrictChange, locked = rule.isStrictLocked(now))
-        }
+        if (rule.canBeStrict) StrictToggleRow(rule.strictMode, actions.onStrictChange)
     }
 }
 
@@ -519,14 +668,35 @@ private fun RuleDetailPreview() {
         RuleDetailScreen(
             rule = Rule(
                 id = "work-hours",
-                type = RuleType.Session,
+                type = RuleType.Bedtime,
                 name = "Work Hours",
                 apps = listOf(AppId.X, AppId.Instagram, AppId.TikTok).map { UsageApp.of(it) },
                 schedule = RuleSchedule(9 * 60, 17 * 60, (1..5).toSet()),
+                sticker = RuleSticker.Bolt,
                 reminderMinutesBefore = 10,
                 note = "Deep work beats busy work.",
                 streakDays = 3,
             ),
+            now = 0L,
+            actions = DetailActions(),
+        )
+    }
+}
+
+@Preview(heightDp = 874)
+@Composable
+private fun LockTurningOffPreview() {
+    val lock = Rule(
+        id = "socials",
+        type = RuleType.Lock,
+        name = "Instagram & X",
+        apps = listOf(AppId.X, AppId.Instagram).map { UsageApp.of(it) },
+        activeSince = 0L,
+        unlocksUsedToday = 2,
+    )
+    RecentrTheme {
+        RuleDetailScreen(
+            rule = lock.copy(pending = RuleChange(24 * 3_600_000L, lock.copy(activeSince = null))),
             now = 0L,
             actions = DetailActions(),
         )
