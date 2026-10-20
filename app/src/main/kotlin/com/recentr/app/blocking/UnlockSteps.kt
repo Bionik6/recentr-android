@@ -117,7 +117,8 @@ import com.recentr.core.model.Rule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// The unlock friction screens behind the shield's "Unlock anyway" (Figma › Unlock friction 48–55).
+// The unlock friction screens behind the shield's "Unlock anyway" (Figma › Unlock friction 48–55;
+// walking to unlock is in WalkSteps.kt).
 // They swap without a transition (navigation-style changes are the system's); only what's inside
 // a screen animates.
 
@@ -700,7 +701,7 @@ internal fun UnlockedStep(packageName: String, label: String, until: Long, now: 
 
 /** "YouTube · locked by Night Routine": the app being unlocked, and what keeps it closed. */
 @Composable
-private fun AppChip(packageName: String, text: String) {
+internal fun AppChip(packageName: String, text: String) {
     Row(
         Modifier
             .recentrShadow(RecentrElevation.card, RecentrShapes.full)
@@ -722,7 +723,7 @@ private fun AppChip(packageName: String, text: String) {
 }
 
 @Composable
-private fun Title(text: String) {
+internal fun Title(text: String) {
     Text(text, style = RecentrTheme.typography.title1, color = RecentrTheme.colors.textPrimary, textAlign = TextAlign.Center)
 }
 
@@ -731,7 +732,7 @@ private fun Title(text: String) {
  * the bottom, above the keyboard when it's open.
  */
 @Composable
-private fun UnlockPage(actions: @Composable ColumnScope.() -> Unit, content: @Composable ColumnScope.() -> Unit) {
+internal fun UnlockPage(actions: @Composable ColumnScope.() -> Unit, content: @Composable ColumnScope.() -> Unit) {
     SystemBarsAppearance(lightIcons = false)
     BackdropBox(Backdrop.Aurora) {
         Column(

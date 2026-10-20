@@ -90,13 +90,17 @@ also from the Home streak tile.
   and unit-tested: locks, running or scheduled sessions, routines (their chosen apps, inside the
   window), daily limits (device usage, so usage access is needed), unfinished habits, focus
   rounds — it opens `HoldActivity` ("App on hold"). "Open anyway" follows the rule's unlock
-  (wait, reason or retype; the unlock pass scan isn't available yet) and counts against its
+  (wait, reason, retype, the unlock pass scan, or walking 20 steps) and counts against its
   unlocks per day; strict rules can't be opened. Recentr, the home screens, System UI and
   Settings are never held (and not offered by the pickers).
   - The user turns it on in Settings › Accessibility, after the in-app explanation
     (`BlockingAccessSheet`: Rules banner, after saving a rule, Focus set-up, Settings › App
     blocking). Force-stopping Recentr turns the service off (Android behaviour).
   - QA: Settings › Accessibility › Recentr app blocking, then open a blocked app.
+  - Walking to unlock counts steps with the phone's step counter (`Sensor.TYPE_STEP_COUNTER`,
+    the Physical activity permission from Android 10), from "Start walking": `Walk` in `:core:data`,
+    pure and unit-tested. A phone without one can't walk to unlock; debug builds without one (the
+    emulator) pretend to walk two steps a second.
 - Strict mode is a toggle on sessions and routines: once the rule blocks, it can't be edited,
   deleted, paused or unlocked, and Strict mode can't be turned off until the session ends
   (turning it on while the rule already blocks asks first). Settings › Strict mode makes new

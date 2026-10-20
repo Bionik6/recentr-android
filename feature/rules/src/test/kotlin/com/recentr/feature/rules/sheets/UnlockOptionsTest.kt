@@ -15,7 +15,10 @@ class UnlockOptionsTest {
         assertFalse(UnlockMethod.None in UnlockMethodOptions)
         assertFalse(UnlockMethod.Strict in UnlockMethodOptions)
         assertFalse(UnlockMethod.Reason in UnlockMethodOptions)
-        assertEquals(listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode), UnlockMethodOptions)
+        assertEquals(
+            listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode, UnlockMethod.Walk),
+            UnlockMethodOptions,
+        )
     }
 
     @Test

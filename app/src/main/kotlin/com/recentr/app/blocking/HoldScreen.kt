@@ -101,6 +101,8 @@ internal fun HoldScreen(
     var typingPasscode by rememberSaveable(packageName) { mutableStateOf(false) }
     /** Until when the app was just unlocked, while the Unlocked card shows. */
     var unlockedUntil by rememberSaveable(packageName) { mutableStateOf<Long?>(null) }
+    /** How long the app was unlocked for by walking: Walk complete shows instead of Unlocked. */
+    var walkedMinutes by rememberSaveable(packageName) { mutableStateOf<Int?>(null) }
     /** An emergency unlock being spent: one at a time. */
     var spendingEmergency by remember { mutableStateOf(false) }
 
@@ -108,18 +110,25 @@ internal fun HoldScreen(
     SensoryFeedback(unlocked) { if (unlocked) success() }
 
     if (unlocked) {
-        UnlockedStep(
-            packageName = packageName,
-            label = label,
-            until = unlockedUntil ?: now,
-            now = now,
-            onOpen = onReleased,
-            onLockAgain = {
-                holds.lockAgain(packageName, System.currentTimeMillis())
-                unlockedUntil = null
-                onClose()
-            },
-        )
+        val lockAgain = {
+            holds.lockAgain(packageName, System.currentTimeMillis())
+            unlockedUntil = null
+            walkedMinutes = null
+            onClose()
+        }
+        val walked = walkedMinutes
+        if (walked != null) {
+            WalkCompleteStep(packageName, label, minutes = walked, onOpen = onReleased, onLockAgain = lockAgain)
+        } else {
+            UnlockedStep(
+                packageName = packageName,
+                label = label,
+                until = unlockedUntil ?: now,
+                now = now,
+                onOpen = onReleased,
+                onLockAgain = lockAgain,
+            )
+        }
         return
     }
     if (reason == null) {
@@ -132,10 +141,11 @@ internal fun HoldScreen(
         if (typingPasscode) typingPasscode = false else step = null
     }
 
-    fun unlock(through: Rule, minutes: Int) {
+    fun unlock(through: Rule, minutes: Int, walked: Boolean = false) {
         val at = System.currentTimeMillis()
         holds.openAnyway(through, packageName, at, minutes)
         unlockedUntil = at + minutes * 60_000L
+        walkedMinutes = minutes.takeIf { walked }
         step = null
         typingPasscode = false
     }
@@ -158,6 +168,13 @@ internal fun HoldScreen(
                 onUnlock = { unlock(rule, rule.unlockDurationMinutes) },
             )
         }
+        UnlockStep.Walk -> WalkStep(
+            rule = rule,
+            packageName = packageName,
+            label = label,
+            onCancel = onClose,
+            onUnlock = { unlock(rule, rule.unlockDurationMinutes, walked = true) },
+        )
         UnlockStep.Emergency -> EmergencyStep(
             packageName = packageName,
             label = label,
@@ -170,6 +187,7 @@ internal fun HoldScreen(
                         val at = System.currentTimeMillis()
                         if (holds.emergencyUnlock(packageName, at)) {
                             unlockedUntil = at + EmergencyUnlocks.MINUTES * 60_000L
+                            walkedMinutes = null
                             step = null
                         }
                         spendingEmergency = false

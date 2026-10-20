@@ -165,4 +165,4 @@ fun Rule.blockStart(now: Long, zone: ZoneId): Long? {
     return startDate.atStartOfDay(zone).plusMinutes(window.startMinute.toLong()).toInstant().toEpochMilli()
 }
 
-private val OPENABLE = setOf(UnlockMethod.Wait, UnlockMethod.Reason, UnlockMethod.Retype, UnlockMethod.ScanCode)
+private val OPENABLE = setOf(UnlockMethod.Wait, UnlockMethod.Reason, UnlockMethod.Retype, UnlockMethod.ScanCode, UnlockMethod.Walk)

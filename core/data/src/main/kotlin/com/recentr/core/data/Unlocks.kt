@@ -17,7 +17,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 // The friction between a held app's "Unlock anyway" and the app opening (Figma › Unlock friction,
-// 48–55). Pure functions of the rule, the settings and what was typed, so the hold screen and the
+// 48–55, and Unlock — Walk). Pure functions of the rule, the settings and what was typed, so the hold screen and the
 // tests agree.
 
 /** What stands between a held app and "Unlock anyway". */
@@ -33,6 +33,9 @@ enum class UnlockStep {
 
     /** Scan your unlock pass (52). */
     Scan,
+
+    /** Walk 20 steps to unlock, then a few more steps while they're counted. */
+    Walk,
 
     /** Emergency unlock (54): the only way past Strict mode. */
     Emergency,
@@ -50,6 +53,7 @@ fun Rule.unlockStep(now: Long, emergencyUnlocksLeft: Int, zone: ZoneId = ZoneId.
         UnlockMethod.Reason -> UnlockStep.Reason
         UnlockMethod.Retype -> UnlockStep.Retype
         UnlockMethod.ScanCode -> UnlockStep.Scan
+        UnlockMethod.Walk -> UnlockStep.Walk
         UnlockMethod.None, UnlockMethod.Strict -> null
     }
 }
@@ -69,7 +73,7 @@ val Rule.unlockMethodInUse: UnlockMethod
     }
 
 /** The ways out of "How do you unlock?", lightest first. */
-val UNLOCK_METHODS = listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode)
+val UNLOCK_METHODS = listOf(UnlockMethod.Wait, UnlockMethod.Retype, UnlockMethod.ScanCode, UnlockMethod.Walk)
 
 /** The shortest wait before "Unlock anyway" opens an app. */
 const val MIN_WAIT_SECONDS = 5
@@ -119,6 +123,38 @@ data class Retype(val typed: String = "", val hasTypo: Boolean = false) {
 
     /** How much of [typed] matches [target], to show the typo in red. */
     fun matching(target: String): Int = typed.zip(target).takeWhile { (a, b) -> a == b }.size
+}
+
+/**
+ * The steps walked to unlock, out of [STEPS]. The phone's step counter adds up every step since it
+ * started, so a walk counts from the counter's first reading after "Start walking". Steps never go
+ * back down, even when the counter starts over (the phone restarted).
+ */
+data class Walk(
+    /** The counter's first reading, or null before it comes. */
+    val start: Float? = null,
+    val steps: Int = 0,
+) {
+    /** Takes a reading of the step counter: its total since the phone started. */
+    fun counted(total: Float): Walk {
+        val from = start ?: total
+        return Walk(start = from, steps = maxOf(steps, (total - from).toInt()).coerceIn(0, STEPS))
+    }
+
+    /** One more step, without a step counter (the emulator's pretend walk). */
+    fun stepped(): Walk = copy(steps = (steps + 1).coerceAtMost(STEPS))
+
+    val left: Int get() = STEPS - steps
+
+    val isDone: Boolean get() = steps >= STEPS
+
+    /** How far along the walk is, from 0 to 1. */
+    val progress: Float get() = steps / STEPS.toFloat()
+
+    companion object {
+        /** The steps to walk before the app opens. */
+        const val STEPS = 20
+    }
 }
 
 /**

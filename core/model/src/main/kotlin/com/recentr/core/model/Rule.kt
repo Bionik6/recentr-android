@@ -91,6 +91,8 @@ enum class UnlockMethod {
     Retype,
     /** Scan a code you keep elsewhere. */
     ScanCode,
+    /** Walk a few steps (Figma "Unlock — Walk 20 steps"). */
+    Walk,
 }
 
 /** When a daily limit resets. */

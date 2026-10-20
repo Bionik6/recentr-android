@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.recentr.core.data.MIN_WAIT_SECONDS
 import com.recentr.core.data.UNLOCK_METHODS
+import com.recentr.core.data.Walk
 import com.recentr.core.designsystem.component.OptionRow
 import com.recentr.core.designsystem.component.OptionTrailing
 import com.recentr.core.designsystem.component.RecentrButton
@@ -51,9 +52,10 @@ internal fun UnlockMethodSheet(
     var method by rememberSaveable { mutableStateOf(initial.takeIf { it in UnlockMethodOptions } ?: UnlockMethod.Wait) }
     val options = UnlockMethodOptions.map { option ->
         when (option) {
-            UnlockMethod.Retype -> Triple(option, R.string.rules_unlock_option_retype, RecentrIcon.Pencil)
-            UnlockMethod.ScanCode -> Triple(option, R.string.rules_unlock_option_scan, RecentrIcon.Qr)
-            else -> Triple(option, R.string.rules_unlock_option_wait, RecentrIcon.Hourglass)
+            UnlockMethod.Retype -> Triple(option, stringResource(R.string.rules_unlock_option_retype), RecentrIcon.Pencil)
+            UnlockMethod.ScanCode -> Triple(option, stringResource(R.string.rules_unlock_option_scan), RecentrIcon.Qr)
+            UnlockMethod.Walk -> Triple(option, stringResource(R.string.rules_unlock_option_walk, Walk.STEPS), RecentrIcon.Home)
+            else -> Triple(option, stringResource(R.string.rules_unlock_option_wait), RecentrIcon.Hourglass)
         }
     }
     RulesSheet(onDismissRequest = onDismiss) { closer ->
@@ -80,7 +82,7 @@ internal fun UnlockMethodSheet(
             Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 options.forEach { (value, label, icon) ->
                     OptionRow(
-                        label = stringResource(label),
+                        label = label,
                         selected = method == value,
                         onClick = { method = value },
                         icon = icon,
