@@ -219,14 +219,6 @@ internal fun appsCategoryLabel(apps: List<UsageApp>): String {
     }
 }
 
-/** Default rule name built from the blocked apps: "Instagram & X", "Instagram & 2 more". */
-internal fun appsName(apps: List<UsageApp>, two: (String, String) -> String, more: (String, Int) -> String): String? = when {
-    apps.isEmpty() -> null
-    apps.size == 1 -> apps.single().label
-    apps.size == 2 -> two(apps[0].label, apps[1].label)
-    else -> more(apps[0].label, apps.size - 1)
-}
-
 /* Rule options. */
 
 @Composable

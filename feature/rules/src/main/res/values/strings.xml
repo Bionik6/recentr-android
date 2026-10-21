@@ -113,8 +113,6 @@
         <item quantity="one">%d app</item>
         <item quantity="other">%d apps</item>
     </plurals>
-    <string name="rules_name_two">%1$s &amp; %2$s</string>
-    <string name="rules_name_more">%1$s &amp; %2$d more</string>
 
     <!-- Rule types -->
     <string name="rules_type_session">Session</string>

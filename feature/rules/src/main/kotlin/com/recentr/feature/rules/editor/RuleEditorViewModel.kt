@@ -87,13 +87,12 @@ internal class RuleEditorViewModel(
 
     fun update(transform: (Rule) -> Rule) = _state.update { it.copy(draft = transform(it.draft)) }
 
-    /** New apps; rules that are still unnamed take a name built from them ("Instagram & X"). */
+    /** New apps; a limit that's still unnamed takes a name from them ("Social time"). */
     fun setApps(apps: List<UsageApp>) = _state.update { it.withApps(apps) }
 
     private fun RuleEditorUiState.withApps(apps: List<UsageApp>): RuleEditorUiState {
         val draft = draft.copy(apps = apps)
         val named = if (customTitle) draft else when (draft.type) {
-            RuleType.Lock -> draft.copy(name = factory.lockName(apps))
             RuleType.Limit -> draft.copy(name = factory.limitName(apps))
             else -> draft
         }
