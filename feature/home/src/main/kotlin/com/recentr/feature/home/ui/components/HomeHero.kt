@@ -61,6 +61,8 @@ internal enum class HeroPage { ScreenTime, Quality, Offline }
 /**
  * Figma "Hero": swipeable overline + big number + chips, with the 3 pager dots. Tapping the
  * number opens the matching info sheet, tapping the goal chip opens the goal editor.
+ * Without usage access ([onConnect] set) every page reads "–" over a "Not connected" chip that
+ * opens Settings › Usage access: an empty summary isn't a day without screen time.
  */
 @Composable
 internal fun HomeHero(
@@ -73,6 +75,7 @@ internal fun HomeHero(
     onOfflineInfo: () -> Unit,
     onEditGoal: () -> Unit,
     modifier: Modifier = Modifier,
+    onConnect: (() -> Unit)? = null,
 ) {
     Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         HorizontalPager(state = pagerState, modifier = Modifier.fillMaxWidth()) { index ->
@@ -80,14 +83,23 @@ internal fun HomeHero(
             HeroPageContent(
                 overline = stringResource(page.overline(period)),
                 syncing = syncing || summary == null,
-                value = summary?.let { heroValue(page, it) },
-                onValueClick = when (page) {
-                    HeroPage.ScreenTime -> onScreenTimeInfo
-                    HeroPage.Quality -> null
-                    HeroPage.Offline -> onOfflineInfo
+                value = summary?.let { if (onConnect != null) NO_VALUE else heroValue(page, it) },
+                onValueClick = when {
+                    onConnect != null -> null
+                    page == HeroPage.ScreenTime -> onScreenTimeInfo
+                    page == HeroPage.Quality -> null
+                    else -> onOfflineInfo
                 },
             ) {
-                if (summary != null) HeroChips(page, summary, dailyGoalMinutes, onEditGoal)
+                when {
+                    summary == null -> Unit
+                    onConnect != null -> HeroInfoChip(
+                        label = stringResource(R.string.home_no_access_chip),
+                        icon = RecentrIcon.Chart,
+                        onClick = onConnect,
+                    )
+                    else -> HeroChips(page, summary, dailyGoalMinutes, onEditGoal)
+                }
             }
         }
         Spacer(Modifier.height(6.dp))
@@ -232,19 +244,20 @@ private fun HeroChips(page: HeroPage, summary: ScreenTimeSummary, goalMinutes: I
 }
 
 /**
- * Quality split and phone-free chips: white outline chips with primary text over the light sky's
- * clouds (Figma 22), translucent glass on the dark sky.
+ * Quality split, phone-free and "Not connected" chips: white outline chips with primary text over
+ * the light sky's clouds (Figma 22), translucent glass on the dark sky.
  */
 @Composable
-private fun HeroInfoChip(label: String, icon: RecentrIcon? = null) {
+private fun HeroInfoChip(label: String, icon: RecentrIcon? = null, onClick: (() -> Unit)? = null) {
     if (RecentrTheme.isDark) {
-        RecentrChip(label, style = RecentrChipStyle.OnSky, icon = icon)
+        RecentrChip(label, style = RecentrChipStyle.OnSky, icon = icon, onClick = onClick)
     } else {
         // The outline makes it 32dp high: it overflows the 30dp chip slot evenly, as in Figma.
         RecentrChip(
             label = label,
             style = RecentrChipStyle.Outline,
             icon = icon,
+            onClick = onClick,
             contentColor = RecentrTheme.colors.textPrimary,
             modifier = Modifier.wrapContentHeight(unbounded = true),
         )
@@ -255,14 +268,17 @@ private fun HeroInfoChip(label: String, icon: RecentrIcon? = null) {
 private fun heroValue(page: HeroPage, summary: ScreenTimeSummary): String = when (page) {
     HeroPage.ScreenTime -> formatDuration(summary.dailyAverageMinutes)
     HeroPage.Quality -> when {
-        // No split without usage data (no usage access).
-        summary.focusPercent + summary.socialPercent + summary.funPercent == 0 -> "–"
+        // No split without usage data.
+        summary.focusPercent + summary.socialPercent + summary.funPercent == 0 -> NO_VALUE
         summary.focusPercent >= 60 -> stringResource(R.string.home_quality_focused)
         summary.focusPercent >= 40 -> stringResource(R.string.home_quality_balanced)
         else -> stringResource(R.string.home_quality_distracted)
     }
     HeroPage.Offline -> formatDuration(summary.longestOfflineMinutes)
 }
+
+/** The hero's figure when there is none to show. */
+private const val NO_VALUE = "–"
 
 private fun HeroPage.overline(period: UsagePeriod): Int = when (this) {
     HeroPage.ScreenTime -> when (period) {

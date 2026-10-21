@@ -22,6 +22,9 @@
     <string name="home_compare_more_month">%1$d%% more than last month</string>
     <string name="home_syncing">Syncing screen time…</string>
 
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">Not connected</string>
+
     <!-- Hero · quality page -->
     <string name="home_hero_quality_today">Quality today</string>
     <string name="home_hero_quality_yesterday">Quality yesterday</string>

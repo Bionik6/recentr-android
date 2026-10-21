@@ -60,6 +60,7 @@ import com.recentr.core.designsystem.component.DailyGoalSheet
 import com.recentr.core.designsystem.component.RecentrAvatar
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
+import com.recentr.core.designsystem.component.UsageAccessCard
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.Mascot
@@ -107,7 +108,8 @@ private object HomeMetrics {
 /**
  * Home tab (Figma "Home & Insight" 22–29). Scrollable: the sky, header, hero pager, usage card and
  * next rule tile fill the first screen above the pinned "Start blocking" CTA; "Most used" follows
- * below.
+ * below. Without usage access ([HomeUiState.needsUsageAccess]) the usage card asks for it
+ * ([onConnectScreenTime]) and no number is shown.
  */
 @Composable
 internal fun HomeScreen(
@@ -125,6 +127,7 @@ internal fun HomeScreen(
     blockingOn: Boolean = true,
     onTurnOnBlocking: () -> Unit = {},
     onRefresh: () -> Unit = {},
+    onConnectScreenTime: () -> Unit = {},
     initialSheet: HomeSheet? = null,
     pagerState: PagerState = rememberPagerState { HeroPage.entries.size },
 ) {
@@ -145,6 +148,7 @@ internal fun HomeScreen(
 
     val summary = state.summary
     val showSkeleton = state.showSkeleton
+    val needsUsageAccess = state.needsUsageAccess
     // 0 on the Quality page, 1 one page away: drives the mascot fade and the focus bars.
     val qualityDistance by remember {
         derivedStateOf {
@@ -192,7 +196,7 @@ internal fun HomeScreen(
                         .padding(top = HomeMetrics.headerTop),
                 ) {
                     HomeHeader(
-                        streakDays = summary?.streakDays,
+                        streakDays = summary?.streakDays?.takeUnless { needsUsageAccess },
                         avatarInitial = state.avatarInitial,
                         avatarColor = state.avatarColor,
                         onOpenStreak = onOpenStreak,
@@ -210,6 +214,7 @@ internal fun HomeScreen(
                         onScreenTimeInfo = { sheet = HomeSheet.ScreenTimeInfo },
                         onOfflineInfo = { sheet = HomeSheet.OfflineInfo },
                         onEditGoal = { sheet = HomeSheet.Goal },
+                        onConnect = onConnectScreenTime.takeIf { needsUsageAccess },
                         // In front of the mascot rising from the usage card: its chip stays whole.
                         modifier = Modifier.zIndex(1f),
                     )
@@ -220,11 +225,12 @@ internal fun HomeScreen(
                             state = state,
                             focusHighlight = 1f - qualityDistance,
                             onClick = onOpenInsights,
+                            onConnect = onConnectScreenTime,
                         )
                         if (state.showMascot) {
                             Mascot(
                                 mood = when {
-                                    showSkeleton -> MascotMood.Dozing
+                                    showSkeleton || needsUsageAccess -> MascotMood.Dozing
                                     pagerState.currentPage == HeroPage.Offline.ordinal -> MascotMood.Dozing
                                     summary != null && !summary.isMultiDay && summary.totalMinutes > state.dailyGoalMinutes -> MascotMood.Impatient
                                     else -> MascotMood.Calm
@@ -258,7 +264,7 @@ internal fun HomeScreen(
                         )
                     }
                 }
-                if (summary != null) {
+                if (summary != null && !needsUsageAccess) {
                     // Previous numbers stay readable but dimmed while a re-sync runs.
                     val listAlpha by animateFloatAsState(if (showSkeleton) 0.4f else 1f, label = "mostUsedAlpha")
                     Spacer(Modifier.height(HomeMetrics.tilesToMostUsed))
@@ -410,12 +416,16 @@ private fun StreakButton(days: Int?, onClick: () -> Unit) {
     }
 }
 
-/** Today card (single day), Week card (week / month) or the syncing skeleton; tapping opens Insights. */
+/**
+ * Today card (single day), Week card (week / month) or the syncing skeleton; tapping opens Insights.
+ * Without usage access, the card asking for it ([onConnect]).
+ */
 @Composable
-private fun UsageCard(state: HomeUiState, focusHighlight: Float, onClick: () -> Unit) {
+private fun UsageCard(state: HomeUiState, focusHighlight: Float, onClick: () -> Unit, onConnect: () -> Unit) {
     val summary = state.summary
     val kind = when {
         state.showSkeleton || summary == null -> 0
+        state.needsUsageAccess -> 3
         summary.isMultiDay -> 2
         else -> 1
     }
@@ -426,6 +436,7 @@ private fun UsageCard(state: HomeUiState, focusHighlight: Float, onClick: () -> 
     ) { target ->
         when {
             target == 0 || summary == null -> SkeletonCard(Modifier.fillMaxWidth())
+            target == 3 -> UsageAccessCard(onConnect, Modifier.fillMaxWidth())
             target == 2 -> WeekCard(summary, todayIndex = state.todayIndex, modifier = Modifier.fillMaxWidth(), onClick = onClick)
             else -> HomeTodayCard(summary, focusHighlight, Modifier.fillMaxWidth(), onClick = onClick)
         }
@@ -472,3 +483,7 @@ private fun HomeWeekPreview() = HomePreviewHost(previewState(UsagePeriod.ThisWee
 @Preview(widthDp = 411, heightDp = 923)
 @Composable
 private fun HomeSyncingPreview() = HomePreviewHost(previewState(syncing = true))
+
+@Preview(widthDp = 411, heightDp = 923)
+@Composable
+private fun HomeNoUsageAccessPreview() = HomePreviewHost(previewState().copy(usageAccess = false))

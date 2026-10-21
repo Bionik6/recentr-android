@@ -8,12 +8,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.recentr.core.data.UsageAccess
 import com.recentr.core.model.Achievement
 import com.recentr.core.model.RangeUnit
 import com.recentr.core.model.RuleType
@@ -101,6 +103,7 @@ fun InsightsOverviewTab(
         }
     }
     val open: (Any) -> Unit = { route -> navController.navigate(route) { launchSingleTop = true } }
+    val context = LocalContext.current
     InsightsOverviewScreen(
         state = state,
         actions = OverviewActions(
@@ -113,6 +116,7 @@ fun InsightsOverviewTab(
             onOpenStreak = { open(StreakRoute) },
             onOpenAchievements = { open(AchievementsRoute) },
             onOpenReport = { open(MonthlyReportRoute) },
+            onConnectScreenTime = { UsageAccess.openSettings(context) },
         ),
         contentPadding = contentPadding,
         modifier = modifier,

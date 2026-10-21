@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.RulesRepository
 import com.recentr.core.data.ScreenTimeRepository
+import com.recentr.core.data.ScreenTimeSource
 import com.recentr.core.data.ScreenTimeState
 import com.recentr.core.data.heldUntil
 import com.recentr.core.model.Rule
@@ -36,7 +37,8 @@ import kotlinx.coroutines.launch
  * state of the repository), the daily goal and avatar from the user preferences, and the next
  * routine or the session or routine blocking apps now (a countdown only: a session can't be
  * stopped, it ends on its own). A pull to refresh ([refresh]) reads them
- * again under its spinner, keeping the numbers on screen meanwhile.
+ * again under its spinner, keeping the numbers on screen meanwhile. Without usage access the
+ * numbers are empty, and [HomeUiState.needsUsageAccess] asks for it instead of showing them.
  *
  * @param profile the stored profile (daily goal, avatar); [saveGoal] stores a new daily goal.
  */
@@ -53,6 +55,8 @@ class HomeViewModel(
     private data class LocalState(
         val period: UsagePeriod = UsagePeriod.Today,
         val summary: ScreenTimeSummary? = null,
+        /** Whether [summary] was read with usage access (device numbers) or without (empty). */
+        val usageAccess: Boolean = true,
         val isSyncing: Boolean = true,
         /** A pull to refresh is reading the numbers again. */
         val refreshing: Boolean = false,
@@ -75,6 +79,7 @@ class HomeViewModel(
         HomeUiState(
             period = local.period,
             summary = local.summary,
+            usageAccess = local.usageAccess,
             isSyncing = local.isSyncing,
             isRefreshing = local.refreshing,
             dailyGoalMinutes = profile.dailyGoalMinutes,
@@ -90,7 +95,7 @@ class HomeViewModel(
 
     init {
         sync()
-        // Usage access granted (or revoked) in Settings: demo ↔ device numbers.
+        // Usage access granted (or revoked) in Settings: empty ↔ device numbers.
         viewModelScope.launch { screenTime.source.drop(1).collect { sync() } }
     }
 
@@ -119,7 +124,13 @@ class HomeViewModel(
                     when (state) {
                         ScreenTimeState.Syncing -> if (!quiet) local.update { it.copy(isSyncing = true) }
                         is ScreenTimeState.Ready -> local.update {
-                            it.copy(summary = state.summary, isSyncing = false, refreshing = false, syncCount = it.syncCount + 1)
+                            it.copy(
+                                summary = state.summary,
+                                usageAccess = screenTime.source.value == ScreenTimeSource.Device,
+                                isSyncing = false,
+                                refreshing = false,
+                                syncCount = it.syncCount + 1,
+                            )
                         }
                     }
                 }

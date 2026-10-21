@@ -42,6 +42,7 @@ import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrSegmented
+import com.recentr.core.designsystem.component.UsageAccessCard
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -84,13 +85,15 @@ internal class OverviewActions(
     val onOpenStreak: () -> Unit,
     val onOpenAchievements: () -> Unit,
     val onOpenReport: () -> Unit,
+    /** Settings › Usage access, without which there are no numbers. */
+    val onConnectScreenTime: () -> Unit = {},
 )
 
 /**
  * 99 · Insights — Overview (Day / Week) and 102 · Month, as the Insights tab: segmented tabs and
  * the date selector (any day, week or month the device has data for), then the daily average with
  * the goal line, the category split and the top apps — or the month calendar. Drawn under the
- * floating tab bar ([contentPadding] bottom).
+ * floating tab bar ([contentPadding] bottom). Without usage access, only the card asking for it.
  */
 @Composable
 internal fun InsightsOverviewScreen(
@@ -100,7 +103,7 @@ internal fun InsightsOverviewScreen(
     modifier: Modifier = Modifier,
 ) {
     // The monthly report covers the month under way.
-    val reportMonth = state.tab == RangeUnit.Month && state.today in state.range
+    val reportMonth = state.tab == RangeUnit.Month && state.today in state.range && !state.needsUsageAccess
     InsightsScaffold(
         modifier = modifier,
         bottomInset = contentPadding.calculateBottomPadding(),
@@ -119,37 +122,42 @@ internal fun InsightsOverviewScreen(
         },
     ) {
         Spacer(Modifier.height(16.dp))
-        RecentrSegmented(
-            options = listOf(
-                stringResource(R.string.insights_tab_day),
-                stringResource(R.string.insights_tab_week),
-                stringResource(R.string.insights_tab_month),
-            ),
-            selectedIndex = state.tab.ordinal,
-            onSelect = { actions.onSelectTab(RangeUnit.entries[it]) },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(Modifier.height(10.dp))
-        DateSelector(state, actions)
-        Spacer(Modifier.height(10.dp))
-        AnimatedContent(
-            targetState = state.tab,
-            transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(120)) },
-            label = "insightsTab",
-        ) { tab ->
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                if (tab == RangeUnit.Month) {
-                    MonthContent(state)
-                } else {
-                    val summary = state.summary
-                    if (summary == null || summary.range != state.range) {
-                        LoadingBlock(219.dp)
-                        LoadingBlock(110.dp)
-                        LoadingBlock(260.dp)
+        if (state.needsUsageAccess) {
+            // No day, week or month to look at: their empty numbers would read as no screen time.
+            UsageAccessCard(onConnect = actions.onConnectScreenTime)
+        } else {
+            RecentrSegmented(
+                options = listOf(
+                    stringResource(R.string.insights_tab_day),
+                    stringResource(R.string.insights_tab_week),
+                    stringResource(R.string.insights_tab_month),
+                ),
+                selectedIndex = state.tab.ordinal,
+                onSelect = { actions.onSelectTab(RangeUnit.entries[it]) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Spacer(Modifier.height(10.dp))
+            DateSelector(state, actions)
+            Spacer(Modifier.height(10.dp))
+            AnimatedContent(
+                targetState = state.tab,
+                transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(120)) },
+                label = "insightsTab",
+            ) { tab ->
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    if (tab == RangeUnit.Month) {
+                        MonthContent(state)
                     } else {
-                        UsageCard(state, summary, onClick = actions.onOpenDailyGoal)
-                        CategoryCard(summary)
-                        TopAppsCard(summary.mostUsed.take(TOP_APPS), onOpenApp = { actions.onOpenApp(it, state.range) })
+                        val summary = state.summary
+                        if (summary == null || summary.range != state.range) {
+                            LoadingBlock(219.dp)
+                            LoadingBlock(110.dp)
+                            LoadingBlock(260.dp)
+                        } else {
+                            UsageCard(state, summary, onClick = actions.onOpenDailyGoal)
+                            CategoryCard(summary)
+                            TopAppsCard(summary.mostUsed.take(TOP_APPS), onOpenApp = { actions.onOpenApp(it, state.range) })
+                        }
                     }
                 }
             }
@@ -384,6 +392,18 @@ private fun OverviewWeekPreview() {
                 loading = false,
                 goalMinutes = 90,
             ),
+            actions = NoActions,
+            contentPadding = PaddingValues(bottom = 96.dp),
+        )
+    }
+}
+
+@Preview(widthDp = 402, heightDp = 874)
+@Composable
+private fun OverviewNoUsageAccessPreview() {
+    RecentrTheme {
+        InsightsOverviewScreen(
+            state = OverviewUiState(loading = false, usageAccess = false),
             actions = NoActions,
             contentPadding = PaddingValues(bottom = 96.dp),
         )

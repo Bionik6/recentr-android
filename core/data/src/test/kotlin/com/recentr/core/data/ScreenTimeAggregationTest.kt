@@ -213,6 +213,69 @@ class ScreenTimeAggregationTest {
     }
 
     @Test
+    fun `a OnePlus day with its app lock, calls and launcher counts its screen time`() {
+        // As ColorOS logs it (OnePlus 15, 21 October 2026): the app lock shows over WhatsApp before
+        // each unlock, activities of one app hand over to each other, the launcher in between.
+        fun t(hour: Int, minute: Int, second: Int) = at(monday, hour, minute) + second * 1_000L
+        val events = listOf(
+            ev(t(0, 9, 16), T.ScreenInteractive),
+            ev(t(0, 9, 19), T.ActivityResumed, WHATSAPP, CONVERSATION),
+            ev(t(0, 9, 19), T.ActivityPaused, WHATSAPP, CONVERSATION),
+            ev(t(0, 9, 19), T.ActivityResumed, APP_LOCK),
+            ev(t(0, 9, 20), T.KeyguardHidden),
+            ev(t(0, 9, 20), T.ActivityStopped, WHATSAPP, CONVERSATION),
+            ev(t(0, 9, 20), T.ActivityPaused, APP_LOCK),
+            ev(t(0, 9, 20), T.ActivityResumed, WHATSAPP, CONVERSATION),
+            ev(t(0, 9, 20), T.ActivityStopped, APP_LOCK),
+            ev(t(0, 9, 21), T.ActivityPaused, WHATSAPP, CONVERSATION),
+            ev(t(0, 9, 22), T.ActivityResumed, WHATSAPP, CALL),
+            ev(t(0, 9, 22), T.ActivityStopped, WHATSAPP, CONVERSATION),
+            ev(t(0, 10, 2), T.NotificationInterruption, WHATSAPP),
+            ev(t(0, 28, 21), T.ActivityPaused, WHATSAPP, CALL),
+            ev(t(0, 28, 21), T.ActivityResumed, WHATSAPP, CONVERSATION),
+            ev(t(0, 28, 21), T.ActivityStopped, WHATSAPP, CALL),
+            ev(t(0, 28, 22), T.ActivityPaused, WHATSAPP, CONVERSATION),
+            ev(t(0, 28, 22), T.ActivityResumed, WHATSAPP, CHATS),
+            ev(t(0, 28, 23), T.ActivityStopped, WHATSAPP, CONVERSATION),
+            ev(t(0, 28, 23), T.ScreenNonInteractive),
+            ev(t(0, 28, 23), T.KeyguardShown),
+            ev(t(0, 28, 23), T.ActivityPaused, WHATSAPP, CHATS),
+            ev(t(0, 28, 24), T.ActivityStopped, WHATSAPP, CHATS),
+            ev(t(0, 30, 0), T.NotificationInterruption, WHATSAPP),
+            ev(t(0, 31, 49), T.ScreenInteractive),
+            ev(t(0, 31, 50), T.ActivityResumed, APP_LOCK),
+            ev(t(0, 31, 50), T.KeyguardHidden),
+            ev(t(0, 31, 50), T.ActivityPaused, APP_LOCK),
+            ev(t(0, 31, 50), T.ActivityResumed, WHATSAPP, CHATS),
+            ev(t(0, 31, 51), T.ActivityStopped, APP_LOCK),
+            ev(t(0, 31, 51), T.ActivityPaused, WHATSAPP, CHATS),
+            ev(t(0, 31, 51), T.ActivityResumed, WHATSAPP, CONVERSATION),
+            ev(t(0, 31, 52), T.ActivityStopped, WHATSAPP, CHATS),
+            ev(t(0, 31, 55), T.ActivityResumed, ONEPLUS_LAUNCHER),
+            ev(t(0, 31, 56), T.ActivityPaused, WHATSAPP, CONVERSATION),
+            ev(t(0, 31, 56), T.ActivityStopped, WHATSAPP, CONVERSATION),
+            ev(t(0, 31, 56), T.ActivityPaused, ONEPLUS_LAUNCHER),
+            ev(t(0, 31, 56), T.ActivityResumed, RECENTR),
+            ev(t(0, 31, 56), T.ActivityStopped, ONEPLUS_LAUNCHER),
+            ev(t(0, 33, 0), T.ScreenNonInteractive),
+            ev(t(0, 33, 0), T.ActivityPaused, RECENTR),
+            ev(t(0, 33, 0), T.KeyguardShown),
+        )
+
+        val usage = day(monday, events, ignored = setOf(ONEPLUS_LAUNCHER, UsageStatsScreenTimeRepository.SYSTEM_UI))
+        val perApp = usage.sessions.groupBy { it.packageName }.mapValues { (_, s) -> s.sumOf { it.millis } }
+
+        // The call: 19 minutes of WhatsApp, then a minute of Recentr.
+        assertEquals(19, perApp.getValue(WHATSAPP).minutes)
+        assertEquals(1, perApp.getValue(RECENTR).minutes)
+        assertEquals(20, usage.screenMillis.minutes)
+        assertEquals(20, ScreenTimeAggregation.dayStats(usage, zone).minutes)
+        assertEquals(2, usage.pickups)
+        assertEquals(2, usage.notifications)
+        assertTrue(usage.hasData)
+    }
+
+    @Test
     fun `a day without events has no data`() {
         val usage = day(monday, emptyList())
 
@@ -444,5 +507,11 @@ class ScreenTimeAggregationTest {
         const val RECENTR = "com.recentr.app"
         const val LAUNCHER = "com.google.android.apps.nexuslauncher"
         const val HIDDEN = "com.example.hidden"
+        const val WHATSAPP = "com.whatsapp"
+        const val CONVERSATION = "com.whatsapp.Conversation"
+        const val CALL = "com.whatsapp.calling.ui.VoipActivityV2"
+        const val CHATS = "com.whatsapp.home.ui.HomeActivity"
+        const val APP_LOCK = "com.oplus.safecenter"
+        const val ONEPLUS_LAUNCHER = "com.android.launcher"
     }
 }
