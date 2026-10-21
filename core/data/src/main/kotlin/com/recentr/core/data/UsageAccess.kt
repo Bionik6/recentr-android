@@ -2,10 +2,14 @@ package com.recentr.core.data
 
 import android.Manifest
 import android.app.AppOpsManager
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Process
+import android.provider.Settings
 
 /**
  * Screen time on Android = the "Usage access" special app-op (`PACKAGE_USAGE_STATS`), granted by
@@ -28,5 +32,25 @@ object UsageAccess {
         } else {
             mode == AppOpsManager.MODE_ALLOWED
         }
+    }
+
+    /**
+     * Opens Settings › Usage access, on this app's page when the device supports it (`package:` uri),
+     * otherwise on the list. Returns false when no settings screen could be opened.
+     */
+    fun openSettings(context: Context): Boolean {
+        val withPackage = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS, Uri.parse("package:${context.packageName}"))
+        val generic = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+        for (intent in listOf(withPackage, generic)) {
+            try {
+                context.startActivity(intent)
+                return true
+            } catch (_: ActivityNotFoundException) {
+                // Try the next variant.
+            } catch (_: SecurityException) {
+                // Some OEM builds protect the per-app page; fall back to the list.
+            }
+        }
+        return false
     }
 }

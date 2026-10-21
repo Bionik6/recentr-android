@@ -41,6 +41,8 @@ data class HomeUiState(
     val period: UsagePeriod = UsagePeriod.Today,
     /** Last loaded numbers for [period]; null until the first sync completes. */
     val summary: ScreenTimeSummary? = null,
+    /** False when [summary] was read without usage access: its zeros aren't the user's usage. */
+    val usageAccess: Boolean = true,
     /** True while the repository aggregates screen time (Figma 29 · Syncing skeleton). */
     val isSyncing: Boolean = true,
     /** A pull to refresh is reading the numbers again (they stay on screen meanwhile). */
@@ -60,4 +62,10 @@ data class HomeUiState(
 ) {
     /** Skeleton shown while syncing (no stale numbers on screen). */
     val showSkeleton: Boolean get() = isSyncing || summary == null
+
+    /**
+     * No usage access: Home asks for it ("Connect Screen Time") in place of the numbers, which
+     * would read as a day without any screen time.
+     */
+    val needsUsageAccess: Boolean get() = !showSkeleton && !usageAccess
 }

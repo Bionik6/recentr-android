@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.ScreenTimeRepository
+import com.recentr.core.data.ScreenTimeSource
 import com.recentr.core.data.ScreenTimeState
 import com.recentr.core.model.AppCategory
 import com.recentr.core.model.DayStats
@@ -38,6 +39,8 @@ internal data class OverviewUiState(
     /** Numbers of the Day / Week tab ([ScreenTimeSummary.range] tells which); null while the first sync runs. */
     val summary: ScreenTimeSummary? = null,
     val loading: Boolean = true,
+    /** Whether the numbers shown were read with usage access (device numbers) or without (empty). */
+    val usageAccess: Boolean = true,
     val goalMinutes: Int = UserProfile().dailyGoalMinutes,
     /** Every day of the month shown (Month tab); null while loading. */
     val monthDays: List<DayStats>? = null,
@@ -54,6 +57,9 @@ internal data class OverviewUiState(
 
     val canGoForward: Boolean get() = range.hasNext(today)
 
+    /** No usage access: the tab asks for it ("Connect") in place of empty numbers. */
+    val needsUsageAccess: Boolean get() = !loading && !usageAccess
+
     /** Day with the least screen time so far (today only when it is the only day). */
     val bestDay: DayStats?
         get() = monthDays?.filter { it.hasData && !it.date.isAfter(today) }
@@ -67,7 +73,8 @@ internal data class OverviewUiState(
 /**
  * Insights overview: the summary of the day or week shown (with the repository's Syncing state),
  * or the days of the month shown for the calendar. The date selector walks back to the first
- * day the device has screen time for, and forward to today.
+ * day the device has screen time for, and forward to today. Without usage access the numbers are
+ * empty, and [OverviewUiState.needsUsageAccess] asks for it instead.
  */
 internal class InsightsOverviewViewModel(
     initialRange: UsageRange,
@@ -145,17 +152,21 @@ internal class InsightsOverviewViewModel(
             if (range.unit == RangeUnit.Month) {
                 local.update { it.copy(loading = it.monthDays == null, today = date) }
                 val days = screenTime.dailyStats(range.start, range.end)
-                local.update { it.copy(monthDays = days, loading = false) }
+                local.update { it.copy(monthDays = days, loading = false, usageAccess = hasUsageAccess()) }
             } else {
                 screenTime.summary(range).collect { result ->
                     when (result) {
                         ScreenTimeState.Syncing -> local.update { it.copy(loading = true, today = date) }
-                        is ScreenTimeState.Ready -> local.update { it.copy(summary = result.summary, loading = false) }
+                        is ScreenTimeState.Ready -> local.update {
+                            it.copy(summary = result.summary, loading = false, usageAccess = hasUsageAccess())
+                        }
                     }
                 }
             }
         }
     }
+
+    private fun hasUsageAccess(): Boolean = screenTime.source.value == ScreenTimeSource.Device
 
     companion object {
         fun factory(range: UsageRange) = viewModelFactory {

@@ -22,4 +22,9 @@
     <string name="ds_blocking_not_now">Not now</string>
     <string name="ds_blocking_off_title">Blocking is off</string>
     <string name="ds_blocking_off_body">Turn it on so your rules and focus sessions put apps on hold.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Connect Recentr to Screen Time</string>
+    <string name="ds_usage_access_body">Recentr needs Usage access to count your screen time, pickups and notifications. Everything stays on your phone.</string>
+    <string name="ds_usage_access_connect">Connect</string>
 </resources>
