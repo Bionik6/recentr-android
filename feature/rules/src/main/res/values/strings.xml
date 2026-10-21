@@ -5,7 +5,7 @@
     <string name="rules_templates_title">Templates</string>
     <string name="rules_subtitle_active">%1$d active</string>
     <string name="rules_subtitle_active_paused">%1$d active · %2$d paused</string>
-    <string name="rules_templates_subtitle">Ready-made routines · tap to start</string>
+    <string name="rules_templates_subtitle">Ready-made rules · tap to start</string>
     <string name="rules_group_locks">Locks</string>
     <string name="rules_group_sessions">Sessions</string>
     <string name="rules_group_limits">Limits</string>
@@ -113,8 +113,6 @@
         <item quantity="one">%d app</item>
         <item quantity="other">%d apps</item>
     </plurals>
-    <string name="rules_name_two">%1$s &amp; %2$s</string>
-    <string name="rules_name_more">%1$s &amp; %2$d more</string>
 
     <!-- Rule types -->
     <string name="rules_type_session">Session</string>
@@ -245,28 +243,38 @@
     <string name="rules_each_unlock_title">Each unlock lasts</string>
 
     <!-- Templates -->
-    <string name="rules_filter_all">All</string>
-    <string name="rules_filter_focus">Focus</string>
-    <string name="rules_filter_sleep">Sleep</string>
-    <string name="rules_filter_family">Family</string>
-    <string name="rules_filter_weekend">Weekend</string>
-    <string name="rules_tpl_deep_work">Deep Work</string>
-    <string name="rules_tpl_deep_work_body">Silence everything for focused time.</string>
-    <string name="rules_tpl_wind_down">Wind down</string>
-    <string name="rules_tpl_wind_down_body">No feeds after %1$s.</string>
-    <string name="rules_tpl_morning_calm">Morning calm</string>
-    <string name="rules_tpl_morning_calm_body">No feeds until %1$s.</string>
-    <string name="rules_tpl_dinner">Phone-free dinner</string>
-    <string name="rules_tpl_dinner_body">Share the table, not the feed.</string>
-    <string name="rules_tpl_me_time">Me time</string>
-    <string name="rules_tpl_me_time_body">45 quiet minutes, just for you.</string>
-    <string name="rules_tpl_study">Study</string>
-    <string name="rules_tpl_study_body">Notes open, feeds closed.</string>
-    <string name="rules_tpl_weekend">Weekend detox</string>
-    <string name="rules_tpl_weekend_body">Socials stay locked all weekend.</string>
-    <string name="rules_badge_daily">Daily</string>
-    <string name="rules_badge_weekend">Sat–Sun</string>
-    <string name="rules_templates_empty">No templates in this category yet.</string>
+    <string name="rules_section_focus">Focus</string>
+    <string name="rules_section_focus_body">For working, studying or getting a project done.</string>
+    <string name="rules_section_unwind">Unwind</string>
+    <string name="rules_section_unwind_body">Calmer evenings and gentler mornings.</string>
+    <string name="rules_section_be_present">Be Present</string>
+    <string name="rules_section_be_present_body">Attention for the people around you, or for yourself.</string>
+    <string name="rules_section_scroll_less">Scroll Less</string>
+    <string name="rules_section_scroll_less_body">Open your apps on purpose, not out of habit.</string>
+    <string name="rules_tpl_focus_sprint">Focus Sprint</string>
+    <string name="rules_tpl_focus_sprint_body">Distractions blocked, starting now.</string>
+    <string name="rules_tpl_study_hour">Study Hour</string>
+    <string name="rules_tpl_study_hour_body">An hour of study, starting now.</string>
+    <string name="rules_tpl_work_rhythm">Work Rhythm</string>
+    <string name="rules_tpl_work_rhythm_body">Distractions blocked on weekdays.</string>
+    <string name="rules_tpl_evening_calm">Evening Calm</string>
+    <string name="rules_tpl_evening_calm_body">No social or video apps, every evening.</string>
+    <string name="rules_tpl_night_pause">Night Pause</string>
+    <string name="rules_tpl_night_pause_body">Distractions blocked through the night.</string>
+    <string name="rules_tpl_slow_morning">Slow Morning</string>
+    <string name="rules_tpl_slow_morning_body">Start each day without social apps.</string>
+    <string name="rules_tpl_dinner_together">Dinner Together</string>
+    <string name="rules_tpl_dinner_together_body">Distractions blocked through dinner.</string>
+    <string name="rules_tpl_family_hour">Family Hour</string>
+    <string name="rules_tpl_family_hour_body">Sundays, kept for time together.</string>
+    <string name="rules_tpl_time_for_me">Time for Me</string>
+    <string name="rules_tpl_time_for_me_body">Read, create or just breathe.</string>
+    <string name="rules_tpl_walk_before_you_scroll">Walk Before You Scroll</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">Then 5 min in the app, 3 times a day.</string>
+    <string name="rules_tpl_pause_before_opening">Pause Before Opening</string>
+    <string name="rules_tpl_pause_before_opening_body">Then 5 min in the app, 3 times a day.</string>
+    <string name="rules_tpl_social_budget">Social Budget</string>
+    <string name="rules_tpl_social_budget_body">Shared, then blocked until midnight.</string>
 
     <!-- New rule -->
     <string name="rules_new_rule">New rule</string>

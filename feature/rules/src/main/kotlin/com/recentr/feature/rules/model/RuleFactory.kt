@@ -7,11 +7,16 @@ import com.recentr.core.model.RuleType
 import com.recentr.core.model.UnlockMethod
 import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
-import com.recentr.feature.rules.ui.appsName
+
+/** The session lengths the editor allows ("Active for"), in minutes. */
+internal const val SESSION_MIN_MINUTES = 5
+internal const val SESSION_MAX_MINUTES = 12 * 60
 
 /**
  * Builds new rules with the defaults of the Figma creation sheets — without apps: the user picks
- * them from the device — and the names derived from their content. None starts strict: Settings ›
+ * them from the device — or from a built-in template ([fromTemplate], some apps preselected). A
+ * lock is called "Lock" (or after its template), never after its apps, so the unlock screen reads
+ * "Instagram · locked by Lock" rather than naming the app twice. None starts strict: Settings ›
  * Strict mode decides for new sessions and routines. [string] resolves string resources (with
  * format args).
  */
@@ -33,7 +38,7 @@ internal class RuleFactory(
         RuleType.Lock -> Rule(
             id = newId(),
             type = RuleType.Lock,
-            name = lockName(emptyList()),
+            name = s(R.string.rules_lock_default_name),
             unlockMethod = UnlockMethod.Wait,
             waitSeconds = 10,
             unlocksPerDay = 5,
@@ -55,24 +60,29 @@ internal class RuleFactory(
         )
     }
 
-    /** A Routine with the template's schedule and sticker, blocking the template's [installed] apps. */
+    /**
+     * A new rule of the [template]'s kind, with its title, sticker and settings
+     * ([BuiltInTemplate.setup]), blocking its apps among the [installed] ones. Every other setting
+     * keeps the kind's default.
+     */
     fun fromTemplate(template: BuiltInTemplate, installed: List<UsageApp>): Rule {
-        val base = newRule(template.type)
-        val proto = template.prototype(base.id, s(template.title), installed)
-        return base.copy(
-            name = proto.name,
-            apps = proto.apps,
-            schedule = proto.schedule,
-            sticker = proto.sticker,
+        val base = newRule(template.type).copy(
+            name = s(template.title),
+            apps = template.apps.pick(installed),
+            sticker = template.sticker,
         )
+        return when (val setup = template.setup) {
+            is TemplateSetup.Session -> base.copy(durationMinutes = setup.minutes)
+            is TemplateSetup.Routine -> base.copy(schedule = setup.schedule)
+            is TemplateSetup.Lock -> base.copy(
+                unlockMethod = setup.unlockMethod,
+                waitSeconds = setup.waitSeconds,
+                unlocksPerDay = setup.unlocksPerDay,
+                unlockDurationMinutes = setup.unlockMinutes,
+            )
+            is TemplateSetup.Limit -> base.copy(limitMinutes = setup.minutes)
+        }
     }
-
-    /** "Instagram & X", "Instagram & 2 more". */
-    fun lockName(apps: List<UsageApp>): String = appsName(
-        apps,
-        two = { a, b -> s(R.string.rules_name_two, a, b) },
-        more = { a, n -> s(R.string.rules_name_more, a, n) },
-    ) ?: s(R.string.rules_lock_default_name)
 
     /** "Social time" when only social apps are limited, else "Limit". */
     fun limitName(apps: List<UsageApp>): String =

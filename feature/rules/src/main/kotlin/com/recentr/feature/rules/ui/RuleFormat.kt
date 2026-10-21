@@ -14,6 +14,7 @@ import com.recentr.core.data.RecentrData
 import com.recentr.core.data.Walk
 import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.designsystem.format.LocalUse24HourClock
+import com.recentr.core.designsystem.format.clockHours
 import com.recentr.core.designsystem.format.clockTimeOf
 import com.recentr.core.designsystem.format.clockTimeShort
 import com.recentr.core.designsystem.format.wallClockTime
@@ -166,6 +167,19 @@ internal fun daysLabel(days: Set<Int>): String = when (days) {
 internal fun timeRangeLabel(schedule: RuleSchedule): String =
     stringResource(R.string.rules_time_range, clockLabel(schedule.startMinute), clockLabel(schedule.endMinute))
 
+/**
+ * Compact [timeRangeLabel] (template chips): "10 – 11 PM", "7:30 – 8:15 PM" when both ends are in
+ * the same half of the day, else "9 AM – 12 PM", "11 PM – 7 AM" ("09:00 – 12:00" on the 24-hour
+ * clock).
+ */
+@Composable
+@ReadOnlyComposable
+internal fun compactTimeRangeLabel(schedule: RuleSchedule): String {
+    val start = schedule.startMinute
+    val sameHalf = !LocalUse24HourClock.current && !schedule.overnight && isPm(start) == isPm(schedule.endMinute)
+    return stringResource(R.string.rules_time_range, if (sameHalf) clockHours(start) else clockLabel(start), clockLabel(schedule.endMinute))
+}
+
 /** "9 AM – 5 PM · Weekdays", or "All day" for a full-day window. */
 @Composable
 @ReadOnlyComposable
@@ -219,20 +233,17 @@ internal fun appsCategoryLabel(apps: List<UsageApp>): String {
     }
 }
 
-/** Default rule name built from the blocked apps: "Instagram & X", "Instagram & 2 more". */
-internal fun appsName(apps: List<UsageApp>, two: (String, String) -> String, more: (String, Int) -> String): String? = when {
-    apps.isEmpty() -> null
-    apps.size == 1 -> apps.single().label
-    apps.size == 2 -> two(apps[0].label, apps[1].label)
-    else -> more(apps[0].label, apps.size - 1)
-}
-
 /* Rule options. */
 
 @Composable
 @ReadOnlyComposable
-internal fun unlockLabel(rule: Rule): String = when (rule.unlockMethod) {
-    UnlockMethod.Wait -> stringResource(R.string.rules_unlock_wait, rule.waitSecondsInUse)
+internal fun unlockLabel(rule: Rule): String = unlockLabel(rule.unlockMethod, rule.waitSecondsInUse)
+
+/** "Wait 10 s", "Re-type", "Scan code", "Walk 20 steps". */
+@Composable
+@ReadOnlyComposable
+internal fun unlockLabel(method: UnlockMethod, waitSeconds: Int): String = when (method) {
+    UnlockMethod.Wait -> stringResource(R.string.rules_unlock_wait, waitSeconds)
     UnlockMethod.Retype -> stringResource(R.string.rules_unlock_retype)
     UnlockMethod.ScanCode -> stringResource(R.string.rules_unlock_scan)
     UnlockMethod.Walk -> stringResource(R.string.rules_unlock_walk, Walk.STEPS)

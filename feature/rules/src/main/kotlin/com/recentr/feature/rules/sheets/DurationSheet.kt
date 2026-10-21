@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.feature.rules.R
+import com.recentr.feature.rules.model.SESSION_MAX_MINUTES
+import com.recentr.feature.rules.model.SESSION_MIN_MINUTES
 import com.recentr.feature.rules.ui.components.Gap
 import com.recentr.feature.rules.ui.components.PresetChips
 import com.recentr.feature.rules.ui.components.RulesSheet
@@ -24,8 +26,8 @@ import com.recentr.feature.rules.ui.wallClock
 
 private val Presets = listOf(15, 30, 45, 60, 120)
 private const val STEP = 5
-private const val MIN = 5
-private const val MAX = 12 * 60
+private const val MIN = SESSION_MIN_MINUTES
+private const val MAX = SESSION_MAX_MINUTES
 
 /** Figma 37 "Active for 45 min": stepper, presets, "Ends at 3:45 PM", Done. */
 @Composable

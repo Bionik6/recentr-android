@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,8 +63,7 @@ import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.model.BuiltInTemplate
-import com.recentr.feature.rules.model.TemplateCardUi
-import com.recentr.feature.rules.model.TemplateCategory
+import com.recentr.feature.rules.model.TemplateSection
 import com.recentr.feature.rules.model.toCard
 import com.recentr.feature.rules.ui.asSticker
 import com.recentr.feature.rules.ui.components.RuleGroupHeader
@@ -74,7 +74,6 @@ internal class RulesListActions(
     val onShowTemplates: (Boolean) -> Unit = {},
     val onToggleGroup: (RuleGroup) -> Unit = {},
     val onToggleTemplatesGroup: () -> Unit = {},
-    val onFilter: (TemplateCategory?) -> Unit = {},
     val onOpenRule: (String) -> Unit = {},
     val onCreate: (RuleType) -> Unit = {},
     val onTemplate: (String) -> Unit = {},
@@ -86,8 +85,8 @@ internal class RulesListActions(
 )
 
 /**
- * Rules tab (Figma 30 / 34 / 43): grouped rule cards or the templates grid, a compact header once
- * scrolled, the bottom fade with the "Start blocking" CTA and the confirmation toast.
+ * Rules tab (Figma 30 / 34 / 43): grouped rule cards or the template sections, a compact header
+ * once scrolled, the bottom fade with the "Start blocking" CTA and the confirmation toast.
  */
 @Composable
 internal fun RulesScreen(
@@ -105,7 +104,7 @@ internal fun RulesScreen(
     BackdropBox(Backdrop.Aurora, modifier) {
         Crossfade(targetState = state.showTemplates, label = "rulesTemplates") { templates ->
             if (templates) {
-                TemplatesList(state, templatesList, listBottom, actions)
+                TemplatesList(templatesList, listBottom, actions)
             } else {
                 RulesList(state, rulesList, listBottom, actions)
             }
@@ -218,33 +217,25 @@ private fun RulesList(state: RulesUiState, listState: LazyListState, bottom: and
         }
         if (!state.templatesCollapsed) {
             item(key = "templates-row") {
-                val cards = templateCards()
-                LazyRow(
-                    contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 28.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                TemplatesRow(
+                    templates = BuiltInTemplate.entries,
+                    onTemplate = actions.onTemplate,
+                    bottom = 28.dp,
                     modifier = Modifier.animateItem(),
-                ) {
-                    items(cards, key = { it.id }) { card ->
-                        TemplateCard(
-                            title = card.title,
-                            body = card.body,
-                            duration = card.badge,
-                            sticker = card.sticker.asSticker,
-                            color = card.color,
-                            onClick = { actions.onTemplate(card.id) },
-                            modifier = Modifier.size(width = 165.dp, height = 210.dp),
-                        )
-                    }
-                }
+                )
             }
         }
     }
 }
 
+/**
+ * Templates tab (Opal-like): the header, then each [TemplateSection]: its title and description
+ * over a row of its templates.
+ */
 @Composable
-private fun TemplatesList(state: RulesUiState, listState: LazyListState, bottom: androidx.compose.ui.unit.Dp, actions: RulesListActions) {
+private fun TemplatesList(listState: LazyListState, bottom: androidx.compose.ui.unit.Dp, actions: RulesListActions) {
     val statusBar = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val cards = templateCards().filter { state.filter == null || it.category == state.filter }
+    val colors = RecentrTheme.colors
     LazyColumn(
         state = listState,
         modifier = Modifier.fillMaxSize(),
@@ -259,65 +250,51 @@ private fun TemplatesList(state: RulesUiState, listState: LazyListState, bottom:
                 modifier = Modifier.padding(bottom = 11.dp),
             )
         }
-        item(key = "filters") {
-            TemplateFilters(
-                selected = state.filter,
-                onSelect = actions.onFilter,
-                modifier = Modifier.padding(bottom = 4.dp),
-            )
-        }
-        if (cards.isEmpty()) {
-            item(key = "empty") {
-                Text(
-                    stringResource(R.string.rules_templates_empty),
-                    style = RecentrTheme.typography.bodyRegular,
-                    color = RecentrTheme.colors.textSecondary,
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp),
-                )
-            }
-        }
-        items(cards.chunked(2), key = { row -> row.first().id }) { row ->
-            Row(
-                Modifier.padding(horizontal = 24.dp).fillMaxWidth().animateItem(),
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-            ) {
-                row.forEach { card ->
-                    TemplateCard(
-                        title = card.title,
-                        body = card.body,
-                        duration = card.badge,
-                        sticker = card.sticker.asSticker,
-                        color = card.color,
-                        onClick = { actions.onTemplate(card.id) },
-                        modifier = Modifier.weight(1f).height(230.dp),
+        items(TemplateSection.entries, key = { "section-${it.name}" }) { section ->
+            Column {
+                Column(Modifier.padding(horizontal = 24.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(
+                        stringResource(section.title),
+                        style = RecentrTheme.typography.title2,
+                        color = colors.textPrimary,
+                        modifier = Modifier.semantics { heading() },
                     )
+                    Text(stringResource(section.description), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary)
                 }
-                if (row.size == 1) Box(Modifier.weight(1f))
+                Spacer(Modifier.height(14.dp))
+                TemplatesRow(templates = section.templates, onTemplate = actions.onTemplate, bottom = 18.dp)
             }
         }
     }
 }
 
+/**
+ * A horizontal row of template cards, bleeding to the screen edges with the 24dp gutter as content
+ * padding; [bottom] leaves room for the cards' shadow.
+ */
 @Composable
-private fun templateCards(): List<TemplateCardUi> = BuiltInTemplate.entries.map { it.toCard() }
-
-@Composable
-private fun TemplateFilters(selected: TemplateCategory?, onSelect: (TemplateCategory?) -> Unit, modifier: Modifier = Modifier) {
-    val options = listOf<TemplateCategory?>(null) + TemplateCategory.entries
+private fun TemplatesRow(
+    templates: List<BuiltInTemplate>,
+    onTemplate: (String) -> Unit,
+    bottom: androidx.compose.ui.unit.Dp,
+    modifier: Modifier = Modifier,
+) {
+    val cards = templates.map { it.toCard() }
     LazyRow(
+        contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = bottom),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 24.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(options) { option ->
-            com.recentr.core.designsystem.component.RecentrChip(
-                label = stringResource(option?.label ?: R.string.rules_filter_all),
-                style = if (option == selected) {
-                    com.recentr.core.designsystem.component.RecentrChipStyle.Selected
-                } else {
-                    com.recentr.core.designsystem.component.RecentrChipStyle.Outline
-                },
-                onClick = { onSelect(option) },
+        items(cards, key = { it.id }) { card ->
+            TemplateCard(
+                title = card.title,
+                body = card.body,
+                duration = card.badge,
+                sticker = card.sticker.asSticker,
+                color = card.color,
+                onClick = { onTemplate(card.id) },
+                // Tall enough for a title and a body on two lines each.
+                modifier = Modifier.size(width = 165.dp, height = 240.dp),
             )
         }
     }
