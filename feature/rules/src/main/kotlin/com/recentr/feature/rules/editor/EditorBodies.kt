@@ -31,8 +31,7 @@ import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.R
-import com.recentr.feature.rules.model.BuiltInTemplate
-import com.recentr.feature.rules.model.toCard
+import com.recentr.feature.rules.model.SessionSuggestion
 import com.recentr.feature.rules.sheets.RuleSheet
 import com.recentr.feature.rules.sheets.TimesRow
 import com.recentr.feature.rules.ui.appsCategoryLabel
@@ -58,7 +57,8 @@ internal class EditorActions(
     val update: ((Rule) -> Rule) -> Unit,
     /** Strict mode toggle. */
     val onStrictChange: (Boolean) -> Unit,
-    val onSuggestion: (BuiltInTemplate) -> Unit,
+    /** A session "Suggestions" tile. */
+    val onSuggestion: (SessionSuggestion) -> Unit,
     val onCommit: () -> Unit,
 )
 
@@ -141,7 +141,10 @@ private fun LockedInCard(body: Int, icon: RecentrIcon) {
     }
 }
 
-/** Figma 31 "Session": suggestions, Block / Active (its length) / Unlock method, Strict mode. */
+/**
+ * Figma 31 "Session": suggestions for the moment it opens (a new session), Block / Active (its
+ * length) / Unlock method, Strict mode.
+ */
 @Composable
 internal fun ColumnScope.SessionEditor(state: RuleEditorUiState, title: String, actions: EditorActions) {
     val rule = state.draft
@@ -152,18 +155,18 @@ internal fun ColumnScope.SessionEditor(state: RuleEditorUiState, title: String, 
         actions = actions,
     )
     Gap(20.dp)
-    if (state.isNew) {
+    if (state.isNew && state.suggestions.isNotEmpty()) {
         SectionCaption(stringResource(R.string.rules_suggestions))
         Gap(8.dp)
-        androidx.compose.foundation.layout.Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            BuiltInTemplate.sessionSuggestions.forEach { template ->
-                val card = template.toCard()
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            state.suggestions.forEach { suggestion ->
+                val template = suggestion.template
                 MiniTemplateCard(
-                    title = card.title,
-                    badge = card.badge,
-                    sticker = card.sticker.asSticker,
-                    color = card.color,
-                    onClick = { actions.onSuggestion(template) },
+                    title = stringResource(template.title),
+                    badge = durationLabel(suggestion.minutes),
+                    sticker = template.sticker.asSticker,
+                    color = template.color,
+                    onClick = { actions.onSuggestion(suggestion) },
                     modifier = Modifier.weight(1f),
                 )
             }

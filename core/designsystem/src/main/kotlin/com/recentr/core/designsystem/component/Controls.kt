@@ -421,7 +421,7 @@ enum class TemplateColor(val brush: Brush) {
     Sunset(RecentrGradients.templateSunset),
 }
 
-/** Figma "Template Card" — gradient rule template tile (165×210 in the design). */
+/** Figma "Template Card" — gradient rule template tile (165×210 in the design), its body on up to 2 lines. */
 @Composable
 fun TemplateCard(
     title: String,
@@ -446,6 +446,6 @@ fun TemplateCard(
         Spacer(Modifier.weight(1f))
         StickerImage(sticker, size = 60.dp)
         Text(title, style = RecentrTheme.typography.title2, color = colors.textOnDark)
-        Text(body, style = RecentrTheme.typography.captionRegular, color = colors.textOnDarkMuted)
+        Text(body, style = RecentrTheme.typography.captionRegular, color = colors.textOnDarkMuted, maxLines = 2, overflow = TextOverflow.Ellipsis)
     }
 }

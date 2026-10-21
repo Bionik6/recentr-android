@@ -11,7 +11,6 @@ import com.recentr.core.data.RulesRepository
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.R
-import com.recentr.feature.rules.model.TemplateCategory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -50,7 +49,6 @@ internal data class RulesUiState(
     val showTemplates: Boolean = false,
     val collapsed: Set<RuleGroup> = emptySet(),
     val templatesCollapsed: Boolean = false,
-    val filter: TemplateCategory? = null,
     /** Whether app blocking (the accessibility service) is on. */
     val blockingOn: Boolean = true,
 )
@@ -59,7 +57,6 @@ private data class ListFlags(
     val showTemplates: Boolean = false,
     val collapsed: Set<RuleGroup> = emptySet(),
     val templatesCollapsed: Boolean = false,
-    val filter: TemplateCategory? = null,
 )
 
 internal class RulesViewModel(
@@ -108,7 +105,6 @@ internal class RulesViewModel(
             showTemplates = flags.showTemplates,
             collapsed = flags.collapsed,
             templatesCollapsed = flags.templatesCollapsed,
-            filter = flags.filter,
             blockingOn = blockingOn,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), RulesUiState())
@@ -120,8 +116,6 @@ internal class RulesViewModel(
     }
 
     fun toggleTemplatesGroup() = flags.update { it.copy(templatesCollapsed = !it.templatesCollapsed) }
-
-    fun setFilter(category: TemplateCategory?) = flags.update { it.copy(filter = category) }
 
     companion object {
         val Factory = viewModelFactory {

@@ -15,6 +15,8 @@ import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
+import com.recentr.feature.rules.model.BuiltInTemplate
+import java.time.ZoneId
 
 private val previewActions = EditorActions(
     open = {},
@@ -43,6 +45,7 @@ private fun SessionEditorPreview() = SheetPreview {
             Rule("1", RuleType.Session, "Focus session", apps = listOf(AppId.Instagram, AppId.X, AppId.TikTok).map { UsageApp.of(it) }, durationMinutes = 30),
             isNew = true,
             customTitle = false,
+            suggestions = BuiltInTemplate.sessionSuggestions(System.currentTimeMillis(), ZoneId.systemDefault()),
         ),
         title = "Session",
         actions = previewActions,

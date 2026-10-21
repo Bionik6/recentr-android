@@ -54,7 +54,7 @@ class NewRuleUnlocksTest {
 
     @Test
     fun `a routine from a template keeps the explicit unlock`() {
-        val routine = factory.fromTemplate(BuiltInTemplate.WindDown, installed = emptyList())
+        val routine = factory.fromTemplate(BuiltInTemplate.EveningCalm, installed = emptyList())
         assertEquals(RuleType.Bedtime, routine.type)
         assertEquals(UnlockMethod.Wait, routine.unlockMethod)
         assertFalse(routine.strictMode)

@@ -69,7 +69,6 @@ fun RulesTab(
             onShowTemplates = viewModel::showTemplates,
             onToggleGroup = viewModel::toggleGroup,
             onToggleTemplatesGroup = viewModel::toggleTemplatesGroup,
-            onFilter = viewModel::setFilter,
             onOpenRule = { navController.navigate(RuleDetailRoute(it)) },
             onCreate = { navController.navigateToNewRule(it) },
             onTemplate = { navController.navigateToTemplate(it) },
@@ -127,6 +126,7 @@ fun NavHostController.navigateToRuleEditor(ruleId: String) {
     navigate(RuleEditorRoute(type = type.name, ruleId = ruleId)) { launchSingleTop = true }
 }
 
+/** Opens the editor of a new rule made from a built-in template, of the template's kind. */
 private fun NavHostController.navigateToTemplate(templateId: String) {
     val type = BuiltInTemplate.byId(templateId)?.type ?: RuleType.Session
     navigate(RuleEditorRoute(type = type.name, templateId = templateId)) { launchSingleTop = true }
