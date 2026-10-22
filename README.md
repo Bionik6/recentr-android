@@ -25,6 +25,14 @@ adb shell am start -S -n com.recentr.app/.MainActivity --es start main --es tab 
 adb shell am start -S -n com.recentr.app/.MainActivity --es start onboarding
 ```
 
+A routine's reminder opens the rule's page, over the Rules tab: its intent carries
+`recentr://rules/<id>` as data (`NotificationLink`), read by `MainActivity` as it starts or, when
+it's already up, in `onNewIntent`. To try it without waiting for a reminder:
+
+```bash
+adb shell am start -n com.recentr.app/.MainActivity -a android.intent.action.VIEW -d recentr://rules/<id>
+```
+
 In debug builds, **Profile › Settings › Developer** has *Replay onboarding* and *Design system*
 (living catalogue of every token and component). The focus timer is the **Timer** tab. Insights open from the usage card on **Home** (Day / Week / Month follows the
 Home period); Pickups, Daily goal, Streak and Achievements are in its **⋯** menu, the streak

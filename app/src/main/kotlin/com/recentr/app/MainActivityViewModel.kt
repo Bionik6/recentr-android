@@ -9,8 +9,10 @@ import com.recentr.core.data.RecentrData
 import com.recentr.core.data.SettingsRepository
 import com.recentr.core.data.UserPreferencesRepository
 import com.recentr.core.model.AppSettings
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
@@ -34,6 +36,19 @@ class MainActivityViewModel(
      */
     val settings: StateFlow<AppSettings?> = settingsRepository.settings
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
+    private val _ruleToOpen = MutableStateFlow<String?>(null)
+
+    /** The rule whose page a tapped notification opens (NotificationLink), until the screens have. */
+    val ruleToOpen: StateFlow<String?> = _ruleToOpen.asStateFlow()
+
+    fun openRule(ruleId: String) {
+        _ruleToOpen.value = ruleId
+    }
+
+    fun ruleOpened() {
+        _ruleToOpen.value = null
+    }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

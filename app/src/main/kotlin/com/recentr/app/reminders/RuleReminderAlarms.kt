@@ -16,7 +16,9 @@ import android.window.SplashScreen
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.recentr.app.MainActivity
+import com.recentr.app.NotificationLink
 import com.recentr.app.R
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.nextRuleReminder
@@ -86,7 +88,6 @@ object RuleReminderAlarms {
         val settings = RecentrData.settings.settings.first()
         if (!settings.notifyBeforeRoutine || !canPostNotifications(context)) return
         val use24Hour = settings.timeFormat?.let { it == TimeFormat.TwentyFourHour } ?: DateFormat.is24HourFormat(context)
-        val open = openRecentr(context)
         val now = System.currentTimeMillis()
         ids.zip(startTimes.toList()).forEach { (id, start) ->
             val rule = RecentrData.rules.rule(id) ?: return@forEach
@@ -100,7 +101,7 @@ object RuleReminderAlarms {
                 .setContentText(context.getString(R.string.reminder_text, clockTimeOf(time.hour * 60 + time.minute, use24Hour)))
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(open)
+                .setContentIntent(openRule(context, id))
                 .setAutoCancel(true)
                 .build()
             @Suppress("MissingPermission") // Checked by canPostNotifications above.
@@ -109,22 +110,22 @@ object RuleReminderAlarms {
     }
 
     /**
-     * Opens Recentr from a notification. It names MainActivity rather than the launcher entry,
-     * which Settings › Appearance › App icon may have switched off by the time it's tapped. And it
-     * asks for the splash with the app's icon: launched from a notification, Android otherwise
-     * shows it plain, a blank page while the app starts.
+     * Opens Recentr on the rule's page from its notification ([NotificationLink]): MainActivity is
+     * created with the link, or gets it in onNewIntent when it's already up. It names MainActivity
+     * rather than the launcher entry, which Settings › Appearance › App icon may have switched off
+     * by the time it's tapped. And it asks for the splash with the app's icon: launched from a
+     * notification, Android otherwise shows it plain, a blank page while the app starts.
      */
-    private fun openRecentr(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-            .setAction(Intent.ACTION_MAIN)
-            .addCategory(Intent.CATEGORY_LAUNCHER)
+    private fun openRule(context: Context, ruleId: String): PendingIntent {
+        val intent = Intent(Intent.ACTION_VIEW, NotificationLink.rule(ruleId).toUri(), context, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val options = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityOptions.makeBasic().setSplashScreenStyle(SplashScreen.SPLASH_SCREEN_STYLE_ICON).toBundle()
         } else {
             null
         }
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT, options)
+        // One per rule, like the notification: each opens its own rule's page.
+        return PendingIntent.getActivity(context, ruleId.hashCode(), intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT, options)
     }
 
     private fun canPostNotifications(context: Context): Boolean =
