@@ -144,18 +144,23 @@ fun RuleCard(
             apps()
             Spacer(Modifier.weight(1f))
             if (value != null) {
-                // One line, flush right: it shrinks (to 70%, as on iOS) rather than losing its last
-                // word to a hidden second line when the apps leave it little room ("7:45:14 left").
-                // Tabular digits keep a countdown from shifting as it ticks.
+                // Title 2, 4sp smaller (18sp, as on iOS). One line, flush right: it shrinks (to 70%,
+                // as on iOS) rather than losing its last word to a hidden second line when the apps
+                // leave it little room ("7:45:14 left"). Tabular digits keep a countdown from
+                // shifting as it ticks.
+                val title2 = RecentrTheme.typography.title2
+                val scale = 18f / title2.fontSize.value
                 BasicText(
                     text = value,
-                    style = RecentrTheme.typography.title2.copy(
+                    style = title2.copy(
+                        fontSize = 18.sp,
+                        lineHeight = title2.lineHeight * scale,
                         color = valueColor ?: colors.textPrimary,
                         textAlign = TextAlign.End,
                         fontFeatureSettings = "tnum",
                     ),
                     maxLines = 1,
-                    autoSize = TextAutoSize.StepBased(minFontSize = 15.sp, maxFontSize = RecentrTheme.typography.title2.fontSize, stepSize = 1.sp),
+                    autoSize = TextAutoSize.StepBased(minFontSize = 13.sp, maxFontSize = 18.sp, stepSize = 1.sp),
                 )
             }
         }
