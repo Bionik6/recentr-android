@@ -42,8 +42,11 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
   Bitmaps rendered at 4× with transparency; the soft contact shadow overflows the slot like in Figma.
 * **Mascot** — `Mascot(MascotMood.Calm | Impatient | Dozing, width)` (160×200 artboard).
 * **Backdrops** — `BackdropBox(Backdrop.Sky | Backdrop.Aurora) { content }`: full-screen, anchored
-  top, page grey below. Each has a 3× render per palette (`backdrop_*_dark`, the same layers in the
-  Dark mode tokens); `Backdrop.drawable` picks the current one.
+  top, page grey below; `rememberBackdropPainter(backdrop)` for the current palette. Aurora is a 3×
+  render per palette (`backdrop_aurora_dark`, the same layers in the Dark mode tokens). Sky is drawn
+  natively like iOS (`Sky.kt`): its clouds drift with the wind and billow, rest as in Figma when
+  motion is reduced, and hold still while the battery runs low (`rememberBatteryLow`: Battery Saver,
+  or unplugged at 20% or less).
 * **Logo mark** — `LogoMark(width)` (Figma "Logo/Mark", the hourglass on its OFF toggle; with the
   `recentr` wordmark it makes the share card's "Logo/Lockup · On blue").
 * **Brand icon** — `BrandIconImage(BrandIcon.Sky | Night | Mint | Sunset, size)` (Figma "Logo/App

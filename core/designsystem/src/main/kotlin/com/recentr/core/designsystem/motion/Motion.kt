@@ -1,9 +1,15 @@
 package com.recentr.core.designsystem.motion
 
 import android.animation.ValueAnimator
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.database.ContentObserver
+import android.os.BatteryManager
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import android.provider.Settings
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseInOut
@@ -29,6 +35,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.haptics.rememberRecentrHaptics
 import kotlin.math.PI
@@ -76,6 +83,46 @@ private fun rememberSystemReducesMotion(): State<Boolean> {
         onDispose { context.contentResolver.unregisterContentObserver(observer) }
     }
     return state
+}
+
+/**
+ * Whether the battery runs low: Battery Saver is on, or the phone is unplugged at 20% or less, as on
+ * iOS. Decorative motion, like the sky's clouds, holds still then to spare it. Kept up to date while
+ * shown.
+ */
+@Composable
+fun rememberBatteryLow(): State<Boolean> {
+    val context = LocalContext.current
+    val state = remember { mutableStateOf(false) }
+    DisposableEffect(context) {
+        val powerManager = context.getSystemService(PowerManager::class.java)
+        var battery: Intent? = null
+        fun update() {
+            state.value = powerManager.isPowerSaveMode || battery?.isBatteryLow() == true
+        }
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (intent.action == Intent.ACTION_BATTERY_CHANGED) battery = intent
+                update()
+            }
+        }
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_BATTERY_CHANGED)
+            addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
+        }
+        // The battery broadcast is sticky: registering returns the latest one.
+        battery = ContextCompat.registerReceiver(context, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+        update()
+        onDispose { context.unregisterReceiver(receiver) }
+    }
+    return state
+}
+
+private fun Intent.isBatteryLow(): Boolean {
+    val level = getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+    val scale = getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+    val unplugged = getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) == 0
+    return unplugged && level >= 0 && scale > 0 && level * 5 <= scale
 }
 
 /**
