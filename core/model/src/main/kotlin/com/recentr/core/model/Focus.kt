@@ -77,6 +77,28 @@ data class FocusRun(
     /** Focus time so far, the current round included. */
     fun focusedMillis(now: Long): Long = completedFocusMillis +
         if (phase == FocusPhase.Focus) phaseLengthMillis - remainingMillis(now) else 0
+
+    /**
+     * When the session will be over, from [now]: what's left of this phase, then the breaks and
+     * rounds still to come. A projection: a round waiting for "Start round" (auto-start off) or a
+     * pause makes it later.
+     */
+    fun projectedEnd(now: Long): Long {
+        var end = now + remainingMillis(now)
+        var round = round
+        var phase = phase
+        while (true) {
+            if (phase == FocusPhase.Focus) {
+                if (round >= config.rounds) return end
+                end += config.breakMinutesAfter(round) * 60_000L
+                phase = FocusPhase.Break
+            } else {
+                round += 1
+                end += config.focusMinutes * 60_000L
+                phase = FocusPhase.Focus
+            }
+        }
+    }
 }
 
 /** A finished focus session (Figma 97 "Focus log"). */

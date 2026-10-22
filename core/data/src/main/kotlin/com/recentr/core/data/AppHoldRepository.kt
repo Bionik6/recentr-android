@@ -12,8 +12,9 @@ import kotlinx.coroutines.withContext
 
 /**
  * The app blocker's state: which opened app is on hold ([HoldState]) given the rules, the focus
- * session and the device's apps, the apps opened anyway, and the use of the apps of each limit
- * since its Start ([LimitUsage]). Read by the accessibility service and the hold screen.
+ * session, the device's apps and the apps always allowed, the apps opened anyway, and the use of
+ * the apps of each limit since its Start ([LimitUsage]). Read by the accessibility service and the
+ * hold screen.
  */
 class AppHoldRepository(
     private val rules: RulesRepository,
@@ -21,6 +22,7 @@ class AppHoldRepository(
     private val installedApps: InstalledAppsRepository,
     private val screenTime: ScreenTimeRepository,
     private val settings: SettingsRepository,
+    private val alwaysAllowed: AlwaysAllowedRepository,
     private val zone: () -> ZoneId = ZoneId::systemDefault,
     private val clock: () -> Long = System::currentTimeMillis,
 ) {
@@ -36,6 +38,7 @@ class AppHoldRepository(
         rules = rules.rules.value,
         focus = focus.run.value,
         protectedApps = installedApps.protectedPackages,
+        alwaysAllowed = alwaysAllowed.allowed.value,
         unlocks = _unlocks.value,
         limitUsage = limitUsage,
     )

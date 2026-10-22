@@ -33,8 +33,13 @@ object RecentrData {
     /** Device screen time when usage access is granted, empty numbers otherwise. */
     val screenTime: ScreenTimeRepository by screenTimeDelegate
 
+    /** The apps no rule and no focus session puts on hold (Settings › Always allowed). */
+    val alwaysAllowed: AlwaysAllowedRepository by lazy {
+        AlwaysAllowedRepository(File(appContext.filesDir, "always_allowed.json"), rules, focus)
+    }
+
     /** What the app blocker puts on hold, and the apps opened anyway. */
-    val holds: AppHoldRepository by lazy { AppHoldRepository(rules, focus, installedApps, screenTime, settings) }
+    val holds: AppHoldRepository by lazy { AppHoldRepository(rules, focus, installedApps, screenTime, settings, alwaysAllowed) }
 
     private val _blockingEnabled = MutableStateFlow(false)
 
@@ -71,11 +76,12 @@ object RecentrData {
         _blockingEnabled.value = BlockingAccess.isEnabled(appContext)
     }
 
-    /** "Delete account": erases the profile, preferences, rules, focus log and badges on this device. */
+    /** "Delete account": erases the profile, preferences, rules, apps always allowed, focus log and badges on this device. */
     suspend fun eraseAll() {
         userPreferences.reset()
         settings.reset()
         rules.reset()
+        alwaysAllowed.reset()
         focus.reset()
         achievements.reset()
     }

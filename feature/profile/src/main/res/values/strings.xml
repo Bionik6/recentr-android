@@ -118,6 +118,12 @@
     <string name="time_format_option">%1$s · %2$s</string>
     <string name="settings_strict_mode">Strict mode</string>
     <string name="settings_strict_caption">New sessions and routines start strict.</string>
+    <string name="settings_always_allowed">Always allowed</string>
+    <string name="settings_always_allowed_none">None</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d apps</item>
+    </plurals>
     <string name="settings_emergency_unlocks">Emergency unlocks</string>
     <string name="settings_unlocks_left">%d left</string>
     <string name="settings_app_blocking">App blocking</string>

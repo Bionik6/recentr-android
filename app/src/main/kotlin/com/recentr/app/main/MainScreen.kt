@@ -29,6 +29,7 @@ import com.recentr.feature.insights.navigateToAppInsights
 import com.recentr.feature.insights.navigateToStreak
 import com.recentr.feature.profile.navigateToProfile
 import com.recentr.feature.rules.RulesTab
+import com.recentr.feature.rules.navigateToAlwaysAllowed
 import com.recentr.feature.rules.navigateToStartSession
 
 /**
@@ -69,6 +70,7 @@ fun MainScreen(
                         onOpenStreak = { navController.navigateToStreak() },
                         onOpenProfile = { navController.navigateToProfile() },
                         onOpenApp = { packageName, period -> navController.navigateToAppInsights(packageName, period) },
+                        onSetUpAlwaysAllowed = { navController.navigateToAlwaysAllowed() },
                     )
                     RecentrTab.Rules -> RulesTab(navController = navController, contentPadding = tabBarPadding)
                     RecentrTab.Timer -> FocusTab(navController = navController, contentPadding = tabBarPadding)

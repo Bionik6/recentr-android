@@ -92,6 +92,26 @@ When a kept change applies:
   routines pause ("For 1 hour", "Until tomorrow", "Until I turn it back on"); during a window the
   pause starts when the window ends.
 
+## Always allowed
+
+The apps the person always allows (on iOS, websites too) are never blocked: no rule and no Timer
+run holds them, whatever its kind, its apps or its categories, "Block every app" included. Maps, a
+ride, a health app.
+
+- Settings › Protection › Always allowed lists them, adds some and removes one. Once there's a
+  rule, Home shows an Always allowed card: the apps allowed, or "No apps selected", with Set up.
+  Its × first says the list stays in Settings, then closes the card for good.
+- Only blocking leaves them out: a limit's budget still counts the time spent in its apps.
+- Removing an app applies now, even while others wait to join: wherever a rule or a run picked it,
+  it's blocked again.
+- Allowing an app makes the rules that block it easier. While one of them is engaged, or a strict
+  Timer run holds it, the app waits, and joins the list when the last of those engagements ends:
+  when the session ends, at the end of the routine's window, at midnight for a lock or a limit,
+  when the strict run is over. The apps allowed with it that nothing engaged blocks join now. The
+  apps that wait join together, at the latest of those ends.
+- The page says when they join ("Your changes apply at midnight"), and the kept change can be
+  dropped.
+
 ## Rules made before this
 
 - Locks with hours, and sessions with a weekly schedule (Android), become routines.

@@ -10,6 +10,7 @@ import com.recentr.core.data.ScreenTimeRepository
 import com.recentr.core.data.ScreenTimeSource
 import com.recentr.core.data.ScreenTimeState
 import com.recentr.core.data.heldUntil
+import com.recentr.core.model.AlwaysAllowed
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.ScreenTimeSummary
@@ -40,7 +41,12 @@ import kotlinx.coroutines.launch
  * again under its spinner, keeping the numbers on screen meanwhile. Without usage access the
  * numbers are empty, and [HomeUiState.needsUsageAccess] asks for it instead of showing them.
  *
+ * Once there's a rule, until the card is closed ([dismissAlwaysAllowedCard]), Home shows the apps
+ * always allowed, or that there are none yet ([HomeUiState.showAlwaysAllowedCard]).
+ *
  * @param profile the stored profile (daily goal, avatar); [saveGoal] stores a new daily goal.
+ * @param alwaysAllowed the apps always allowed; [alwaysAllowedCardDismissed] whether the card was
+ *   closed, which [dismissCard] stores.
  */
 class HomeViewModel(
     private val screenTime: ScreenTimeRepository,
@@ -50,6 +56,9 @@ class HomeViewModel(
     private val now: () -> LocalDateTime = LocalDateTime::now,
     showMascot: Flow<Boolean> = flowOf(true),
     clockTicks: Flow<Unit> = minuteTicks(),
+    alwaysAllowed: Flow<AlwaysAllowed> = flowOf(AlwaysAllowed()),
+    alwaysAllowedCardDismissed: Flow<Boolean> = flowOf(false),
+    private val dismissCard: suspend () -> Unit = {},
 ) : ViewModel() {
 
     private data class LocalState(
@@ -68,13 +77,16 @@ class HomeViewModel(
     private val local = MutableStateFlow(LocalState())
     private var syncJob: Job? = null
 
+    /** Settings › Appearance › "Show mascot on Home", the apps always allowed and whether their card was closed. */
+    private val preferences = combine(showMascot, alwaysAllowed, alwaysAllowedCardDismissed, ::Triple)
+
     val uiState: StateFlow<HomeUiState> = combine(
         local,
         profile,
         rules.rules,
-        showMascot,
+        preferences,
         clockTicks,
-    ) { local, profile, ruleList, mascot, _ ->
+    ) { local, profile, ruleList, (mascot, allowed, cardDismissed), _ ->
         val clock = now()
         HomeUiState(
             period = local.period,
@@ -90,6 +102,8 @@ class HomeViewModel(
             showMascot = mascot,
             avatarInitial = profile.initial,
             avatarColor = profile.avatarColor,
+            showAlwaysAllowedCard = showsAlwaysAllowedCard(ruleList, cardDismissed),
+            alwaysAllowedApps = allowed.settled(clock.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()).latestWish,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
@@ -108,6 +122,11 @@ class HomeViewModel(
         if (local.value.refreshing) return
         local.update { it.copy(refreshing = true) }
         sync(quiet = true)
+    }
+
+    /** The card's ×: it doesn't come back. */
+    fun dismissAlwaysAllowedCard() {
+        viewModelScope.launch { dismissCard() }
     }
 
     fun selectGrouping(grouping: UsageGrouping) {
@@ -161,9 +180,19 @@ class HomeViewModel(
                     saveGoal = RecentrData.userPreferences::setDailyGoal,
                     rules = RecentrData.rules,
                     showMascot = RecentrData.settings.settings.map { it.showMascotOnHome },
+                    alwaysAllowed = RecentrData.alwaysAllowed.allowed,
+                    alwaysAllowedCardDismissed = RecentrData.settings.settings.map { it.alwaysAllowedCardDismissed },
+                    dismissCard = { RecentrData.settings.update { it.copy(alwaysAllowedCardDismissed = true) } },
                 )
             }
         }
+
+        /**
+         * Whether Home shows the Always allowed card: once there's a rule (something blocks apps),
+         * until the card is closed. It shows the apps allowed, or says there are none yet.
+         */
+        internal fun showsAlwaysAllowedCard(rules: List<Rule>, dismissed: Boolean): Boolean =
+            !dismissed && rules.isNotEmpty()
 
         /**
          * What blocks apps right now and ends first, if anything: a running session, or a routine

@@ -18,6 +18,7 @@ import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RuleCard
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.theme.RecentrTheme
+import com.recentr.core.model.AlwaysAllowed
 import com.recentr.core.model.AppId
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
@@ -106,12 +107,27 @@ internal fun Rule.cardValue(now: Long, zone: ZoneId = ZoneId.systemDefault()): C
 /** App icons a rule card shows; the others read "+ N apps". */
 internal const val CARD_APPS = 5
 
-/** The apps whose icons a card shows, and how many more it has. */
-internal fun Rule.cardApps(): Pair<List<UsageApp>, Int> = apps.take(CARD_APPS) to (apps.size - CARD_APPS).coerceAtLeast(0)
+/**
+ * The apps whose icons a card shows, and how many more it has: the rule's apps but those always
+ * allowed at [now], which it never blocks even when they were picked for it.
+ */
+internal fun Rule.cardApps(alwaysAllowed: AlwaysAllowed = AlwaysAllowed(), now: Long = 0): Pair<List<UsageApp>, Int> {
+    val blocked = alwaysAllowed.blocked(apps, now)
+    return blocked.take(CARD_APPS) to (blocked.size - CARD_APPS).coerceAtLeast(0)
+}
 
-/** Figma "Rule Card" filled from a [Rule] at time [now] (status chip, schedule chip, value). */
+/**
+ * Figma "Rule Card" filled from a [Rule] at time [now] (status chip, schedule chip, value), its
+ * icons leaving out the apps [alwaysAllowed].
+ */
 @Composable
-internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: Modifier = Modifier) {
+internal fun RuleListCard(
+    rule: Rule,
+    now: Long,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    alwaysAllowed: AlwaysAllowed = AlwaysAllowed(),
+) {
     val colors = RecentrTheme.colors
     val status = rule.cardStatus(now)
     val running = rule.runsUntil(now) != null
@@ -130,7 +146,7 @@ internal fun RuleListCard(rule: Rule, now: Long, onClick: () -> Unit, modifier: 
         title = rule.name,
         sticker = rule.sticker.asSticker,
         streak = rule.streakDays.takeIf { it > 0 },
-        apps = { CardApps(rule) },
+        apps = { CardApps(rule, alwaysAllowed, now) },
         value = value,
         // A routine waiting for its window: its countdown in secondary.
         valueColor = colors.textSecondary.takeIf { cardValue is CardValue.StartsIn },
@@ -163,8 +179,8 @@ private fun statusLabel(rule: Rule, status: CardStatus): String = when (status) 
 
 /** Up to [CARD_APPS] overlapping icons, then "+ N apps". */
 @Composable
-private fun CardApps(rule: Rule) {
-    val (shown, more) = rule.cardApps()
+private fun CardApps(rule: Rule, alwaysAllowed: AlwaysAllowed, now: Long) {
+    val (shown, more) = rule.cardApps(alwaysAllowed, now)
     Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
         OverlappingInstalledAppIcons(shown.map { it.packageName }, size = 24.dp, overlap = 6.dp)
         if (more > 0) {

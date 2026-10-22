@@ -69,6 +69,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
             strictByDefault = this[Keys.strictByDefault] ?: defaults.strictByDefault,
             emergencyUnlocksUsed = this[Keys.emergencyUnlocksUsed] ?: defaults.emergencyUnlocksUsed,
             emergencyUnlocksMonth = this[Keys.emergencyUnlocksMonth],
+            alwaysAllowedCardDismissed = this[Keys.alwaysAllowedCardDismissed] ?: defaults.alwaysAllowedCardDismissed,
             plusPlan = PlusPlan.entries.firstOrNull { it.name == this[Keys.plusPlan] },
             plusRenewsAtMillis = this[Keys.plusRenewsAt],
         )
@@ -92,6 +93,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         this[Keys.strictByDefault] = s.strictByDefault
         this[Keys.emergencyUnlocksUsed] = s.emergencyUnlocksUsed
         s.emergencyUnlocksMonth?.let { this[Keys.emergencyUnlocksMonth] = it } ?: remove(Keys.emergencyUnlocksMonth)
+        this[Keys.alwaysAllowedCardDismissed] = s.alwaysAllowedCardDismissed
         s.plusPlan?.let { this[Keys.plusPlan] = it.name } ?: remove(Keys.plusPlan)
         s.plusRenewsAtMillis?.let { this[Keys.plusRenewsAt] = it } ?: remove(Keys.plusRenewsAt)
     }
@@ -117,6 +119,7 @@ class SettingsRepository internal constructor(private val dataStore: DataStore<P
         val strictByDefault = booleanPreferencesKey("strict_by_default")
         val emergencyUnlocksUsed = intPreferencesKey("emergency_unlocks_used")
         val emergencyUnlocksMonth = intPreferencesKey("emergency_unlocks_month")
+        val alwaysAllowedCardDismissed = booleanPreferencesKey("always_allowed_card_dismissed")
         val plusPlan = stringPreferencesKey("plus_plan")
         val plusRenewsAt = longPreferencesKey("plus_renews_at")
     }

@@ -23,6 +23,7 @@ import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
+import com.recentr.feature.rules.allowed.AlwaysAllowedDestination
 import com.recentr.feature.rules.detail.RuleDetailDestination
 import com.recentr.feature.rules.editor.RuleEditorDestination
 import com.recentr.feature.rules.list.NewRuleSheet
@@ -49,6 +50,10 @@ internal data class RuleEditorRoute(
 /** Full-screen rule detail (drawn above the tab bar). */
 @Serializable
 internal data class RuleDetailRoute(val ruleId: String)
+
+/** Settings › Always allowed (drawn above the tab bar), also opened from Home's card. */
+@Serializable
+internal data object AlwaysAllowedRoute
 
 /**
  * Rules tab content (rules list). Drawn under the floating tab bar: keep [contentPadding]
@@ -101,6 +106,7 @@ fun NavGraphBuilder.rulesDestinations(navController: NavHostController) {
             onEditSettings = { id -> navController.navigate(RuleEditorRoute(type = RuleType.Session.name, ruleId = id)) },
         )
     }
+    composable<AlwaysAllowedRoute> { AlwaysAllowedDestination(onBack = { navController.popBackStack() }) }
     dialog<RuleEditorRoute>(dialogProperties = DialogProperties(usePlatformDefaultWidth = false)) {
         RuleEditorDestination(
             onClose = { navController.popBackStack() },
@@ -120,6 +126,11 @@ fun NavHostController.navigateToRule(ruleId: String, navOptions: NavOptionsBuild
 /** The rule whose page is showing, if one is. */
 fun NavHostController.ruleShown(): String? =
     currentBackStackEntry?.takeIf { it.destination.hasRoute<RuleDetailRoute>() }?.toRoute<RuleDetailRoute>()?.ruleId
+
+/** Opens Settings › Always allowed: the apps no rule and no focus session puts on hold. */
+fun NavHostController.navigateToAlwaysAllowed() {
+    navigate(AlwaysAllowedRoute) { launchSingleTop = true }
+}
 
 /** "Start blocking": opens the new Session rule flow. */
 fun NavHostController.navigateToStartSession() {

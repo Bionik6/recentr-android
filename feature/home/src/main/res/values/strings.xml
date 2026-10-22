@@ -115,6 +115,21 @@
     <string name="home_info_offline_hints">What did you get done during this time? How did it make you feel?</string>
     <string name="home_info_got_it">Got it</string>
 
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">Always allowed</string>
+    <string name="home_always_allowed_subtitle">Apps that bypass your blocks</string>
+    <string name="home_always_allowed_empty_title">No apps selected</string>
+    <string name="home_always_allowed_empty_body">Choose apps that should stay available even when your blocks are on.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">%d app always allowed</item>
+        <item quantity="other">%d apps always allowed</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">Set up</string>
+    <string name="home_always_allowed_close">Close</string>
+    <string name="home_always_allowed_settings_title">Always allowed is in Settings</string>
+    <string name="home_always_allowed_settings_body">Whenever you need it, you’ll find it in Settings › Protection › Always allowed.</string>
+    <string name="home_always_allowed_settings_got_it">Got it</string>
+
     <!-- Period sheet -->
 
     <!-- Goal sheet -->

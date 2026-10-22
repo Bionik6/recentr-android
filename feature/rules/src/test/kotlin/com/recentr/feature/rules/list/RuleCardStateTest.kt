@@ -1,5 +1,7 @@
 package com.recentr.feature.rules.list
 
+import com.recentr.core.model.AllowedChange
+import com.recentr.core.model.AlwaysAllowed
 import com.recentr.core.model.AppCategory
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
@@ -133,6 +135,28 @@ class RuleCardStateTest {
         val (few, none) = limit.copy(apps = apps.take(4)).cardApps()
         assertEquals(4, few.size)
         assertEquals(0, none)
+    }
+
+    /** The apps always allowed aren't blocked, even when they were picked for the rule. */
+    @Test
+    fun `a card leaves out the apps always allowed`() {
+        val apps = (1..8).map { UsageApp("app.$it", "App $it", AppCategory.Other) }
+        val allowed = AlwaysAllowed(listOf(apps[0], apps[6], UsageApp("other", "Other", AppCategory.Other)))
+        val (shown, more) = limit.copy(apps = apps).cardApps(allowed, at(10))
+        assertEquals(listOf(apps[1], apps[2], apps[3], apps[4], apps[5]), shown)
+        assertEquals(1, more)
+        val (none, noMore) = limit.copy(apps = apps.take(1)).cardApps(allowed, at(10))
+        assertEquals(emptyList<UsageApp>(), none)
+        assertEquals(0, noMore)
+    }
+
+    /** An app waiting to join stays on the card until it has joined. */
+    @Test
+    fun `an app waiting to join leaves the card once it joins`() {
+        val apps = (1..3).map { UsageApp("app.$it", "App $it", AppCategory.Other) }
+        val waiting = AlwaysAllowed(pending = AllowedChange(at(12), listOf(apps[0])))
+        assertEquals(apps, limit.copy(apps = apps).cardApps(waiting, at(10)).first)
+        assertEquals(apps.drop(1), limit.copy(apps = apps).cardApps(waiting, at(12)).first)
     }
 
     @Test

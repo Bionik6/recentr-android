@@ -8,14 +8,17 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.recentr.core.data.RecentrData
 import com.recentr.core.data.RulesRepository
+import com.recentr.core.model.AlwaysAllowed
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleType
 import com.recentr.feature.rules.R
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -51,6 +54,8 @@ internal data class RulesUiState(
     val templatesCollapsed: Boolean = false,
     /** Whether app blocking (the accessibility service) is on. */
     val blockingOn: Boolean = true,
+    /** The apps always allowed: the cards' icons leave them out. */
+    val alwaysAllowed: AlwaysAllowed = AlwaysAllowed(),
 )
 
 private data class ListFlags(
@@ -64,6 +69,7 @@ internal class RulesViewModel(
     blockingEnabled: StateFlow<Boolean>,
     /** Re-reads the use of the started limits' apps ([com.recentr.core.data.AppHoldRepository.refreshUsage]). */
     private val refreshUsage: suspend () -> Unit = {},
+    alwaysAllowed: Flow<AlwaysAllowed> = flowOf(AlwaysAllowed()),
 ) : ViewModel() {
 
     private val flags = MutableStateFlow(ListFlags())
@@ -91,7 +97,8 @@ internal class RulesViewModel(
         clock,
         flags,
         blockingEnabled,
-    ) { rules, now, flags, blockingOn ->
+        alwaysAllowed,
+    ) { rules, now, flags, blockingOn, allowed ->
         val sections = RuleGroup.entries.mapNotNull { group ->
             val inGroup = rules.filter { it.type == group.type }.sortedByDescending { it.runsUntil(now) != null }
             if (inGroup.isEmpty() && !group.alwaysShown) null else RuleSection(group, inGroup)
@@ -106,6 +113,7 @@ internal class RulesViewModel(
             collapsed = flags.collapsed,
             templatesCollapsed = flags.templatesCollapsed,
             blockingOn = blockingOn,
+            alwaysAllowed = allowed,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), RulesUiState())
 
@@ -119,7 +127,9 @@ internal class RulesViewModel(
 
     companion object {
         val Factory = viewModelFactory {
-            initializer { RulesViewModel(RecentrData.rules, RecentrData.blockingEnabled, RecentrData.holds::refreshUsage) }
+            initializer {
+                RulesViewModel(RecentrData.rules, RecentrData.blockingEnabled, RecentrData.holds::refreshUsage, RecentrData.alwaysAllowed.allowed)
+            }
         }
 
         private const val USAGE_REFRESH_MILLIS = 30_000L

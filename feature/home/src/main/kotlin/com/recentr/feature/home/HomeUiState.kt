@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.ScreenTimeSummary
+import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UsagePeriod
 import java.time.DayOfWeek
 
@@ -59,6 +60,10 @@ data class HomeUiState(
     /** Header avatar: first letter of the name and its gradient (Profile › Edit profile). */
     val avatarInitial: String = "?",
     val avatarColor: AvatarColor = AvatarColor.Sunset,
+    /** The Always allowed card: there's a rule, and the card wasn't closed. */
+    val showAlwaysAllowedCard: Boolean = false,
+    /** The apps the card shows: allowed, or waiting to join. None yet, and it says so. */
+    val alwaysAllowedApps: List<UsageApp> = emptyList(),
 ) {
     /** Skeleton shown while syncing (no stale numbers on screen). */
     val showSkeleton: Boolean get() = isSyncing || summary == null

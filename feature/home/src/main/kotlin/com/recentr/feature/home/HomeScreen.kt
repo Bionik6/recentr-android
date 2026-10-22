@@ -74,6 +74,7 @@ import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.AvatarColor
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsagePeriod
+import com.recentr.feature.home.ui.components.AlwaysAllowedCard
 import com.recentr.feature.home.ui.components.HeroPage
 import com.recentr.feature.home.ui.components.HomeHero
 import com.recentr.feature.home.ui.components.HomeTodayCard
@@ -128,6 +129,8 @@ internal fun HomeScreen(
     onTurnOnBlocking: () -> Unit = {},
     onRefresh: () -> Unit = {},
     onConnectScreenTime: () -> Unit = {},
+    onSetUpAlwaysAllowed: () -> Unit = {},
+    onCloseAlwaysAllowed: () -> Unit = {},
     initialSheet: HomeSheet? = null,
     pagerState: PagerState = rememberPagerState { HeroPage.entries.size },
 ) {
@@ -260,6 +263,15 @@ internal fun HomeScreen(
                     } else {
                         BlockingOffBanner(
                             onClick = onTurnOnBlocking,
+                            modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
+                        )
+                    }
+                    if (state.showAlwaysAllowedCard) {
+                        Spacer(Modifier.height(HomeMetrics.cardToTiles))
+                        AlwaysAllowedCard(
+                            apps = state.alwaysAllowedApps,
+                            onSetUp = onSetUpAlwaysAllowed,
+                            onClose = onCloseAlwaysAllowed,
                             modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
                         )
                     }

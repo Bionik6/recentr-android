@@ -190,6 +190,7 @@ private fun RulesList(state: RulesUiState, listState: LazyListState, bottom: and
                     RuleListCard(
                         rule = rule,
                         now = state.now,
+                        alwaysAllowed = state.alwaysAllowed,
                         onClick = { actions.onOpenRule(rule.id) },
                         modifier = Modifier.padding(horizontal = 24.dp).animateItem(),
                     )
