@@ -11,9 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -108,16 +109,21 @@ private fun OverflowingImage(
     }
 }
 
-enum class Backdrop(@param:DrawableRes private val light: Int, @param:DrawableRes private val dark: Int) {
-    /** Home hero sky — blue gradient fading to page grey at ~78%, three soft clouds. */
-    Sky(R.drawable.backdrop_sky, R.drawable.backdrop_sky_dark),
+enum class Backdrop {
+    /** Home hero sky — blue gradient fading to page grey at ~78%, three soft clouds that drift. */
+    Sky,
     /** Neutral page backdrop: page grey + one faint blue glow behind the header. */
-    Aurora(R.drawable.backdrop_aurora, R.drawable.backdrop_aurora_dark),
-    ;
+    Aurora,
+}
 
-    /** The artwork for the current palette (Figma "Dark mode" renders the same layers in the dark tokens). */
-    val drawable: Int
-        @DrawableRes @Composable @ReadOnlyComposable get() = if (RecentrTheme.isDark) dark else light
+/**
+ * The 402×874 artwork for the current palette (Figma "Dark mode" renders the same layers in the dark
+ * tokens). The sky is drawn natively, so its clouds can move ([rememberSkyPainter]).
+ */
+@Composable
+fun rememberBackdropPainter(backdrop: Backdrop): Painter = when (backdrop) {
+    Backdrop.Sky -> rememberSkyPainter()
+    Backdrop.Aurora -> painterResource(if (RecentrTheme.isDark) R.drawable.backdrop_aurora_dark else R.drawable.backdrop_aurora)
 }
 
 /**
@@ -132,11 +138,12 @@ fun BackdropBox(
 ) {
     Box(modifier.fillMaxSize().background(RecentrTheme.colors.bgPage)) {
         Image(
-            painter = painterResource(backdrop.drawable),
+            painter = rememberBackdropPainter(backdrop),
             contentDescription = null,
             contentScale = ContentScale.FillWidth,
             alignment = Alignment.TopCenter,
-            modifier = Modifier.fillMaxWidth().aspectRatio(402f / 874f),
+            // In a layer of its own, so the drifting clouds redraw without the screen over them.
+            modifier = Modifier.fillMaxWidth().aspectRatio(402f / 874f).graphicsLayer {},
         )
         content()
     }

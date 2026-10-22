@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +27,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -43,12 +46,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,6 +68,7 @@ import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.illustration.StickerImage
+import com.recentr.core.designsystem.illustration.rememberBackdropPainter
 import com.recentr.core.designsystem.motion.pressScale
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
@@ -180,16 +182,22 @@ internal fun HomeScreen(
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val ctaReserve = contentPadding.calculateBottomPadding() + HomeMetrics.ctaToTabBar + RecentrTheme.sizes.button
             val firstScreenMinHeight = maxHeight - ctaReserve - HomeMetrics.tilesToCta
+            // The sky scrolls with the content, in a layer of its own so its drifting clouds
+            // redraw without the content over them.
+            Image(
+                painter = rememberBackdropPainter(Backdrop.Sky),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier
+                    .wrapContentHeight(align = Alignment.Top, unbounded = true)
+                    .fillMaxWidth()
+                    .aspectRatio(402f / 874f)
+                    .graphicsLayer { translationY = -scrollState.value.toFloat() },
+            )
             Column(
                 Modifier
                     .fillMaxSize()
-                    .verticalScroll(scrollState)
-                    .paint(
-                        painter = painterResource(Backdrop.Sky.drawable),
-                        sizeToIntrinsics = false,
-                        alignment = Alignment.TopCenter,
-                        contentScale = ContentScale.FillWidth,
-                    ),
+                    .verticalScroll(scrollState),
             ) {
                 Column(
                     Modifier
