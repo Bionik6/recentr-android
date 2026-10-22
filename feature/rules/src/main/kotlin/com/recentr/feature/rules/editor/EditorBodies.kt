@@ -49,6 +49,7 @@ import com.recentr.feature.rules.ui.components.StrictToggleRow
 import com.recentr.feature.rules.ui.components.UnlockMethodRow
 import com.recentr.feature.rules.ui.components.ValueStepper
 import com.recentr.feature.rules.ui.durationLabel
+import com.recentr.feature.rules.ui.reminderLabel
 import com.recentr.feature.rules.ui.unlocksPerDayLabel
 
 /** What the editor bodies can do. */
@@ -247,7 +248,7 @@ internal fun ColumnScope.LimitEditor(state: RuleEditorUiState, title: String, ac
     }
 }
 
-/** Figma 39 "Bedtime": FROM / UNTIL cards, weekday dots, Block / Unlock method / Strict mode. */
+/** Figma 39 "Bedtime": FROM / UNTIL cards, weekday dots, Block / Unlock method / Reminders / Strict mode. */
 @Composable
 internal fun ColumnScope.BedtimeEditor(state: RuleEditorUiState, title: String, actions: EditorActions) {
     val rule = state.draft
@@ -275,6 +276,7 @@ internal fun ColumnScope.BedtimeEditor(state: RuleEditorUiState, title: String, 
     SettingsGroup {
         EditorRow(R.string.rules_row_block, appsLabel(rule.apps), RecentrIcon.Apps) { actions.open(RuleSheet.Apps) }
         UnlockMethodRow(rule, onClick = { actions.open(RuleSheet.Unlock) })
+        EditorRow(R.string.rules_row_reminders, reminderLabel(rule.reminderMinutesBefore), RecentrIcon.Bell) { actions.open(RuleSheet.Reminders) }
         StrictToggleRow(rule.strictMode, actions.onStrictChange)
     }
 }
