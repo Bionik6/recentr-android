@@ -123,7 +123,7 @@ also from the Home streak tile.
     off. `Walk` shows whichever counted more. Both are in `:core:data`, pure and unit-tested. A
     phone without a step counter can't walk to unlock; debug builds without one (the emulator)
     pretend to walk two steps a second.
-- Always allowed (Settings › Protection, and Home's Always allowed card once there's a rule, until
+- Always allowed (Settings › Protection, and Home's Always allowed card from the second rule, until
   its × closes it, after a sheet saying the list stays in Settings): apps no rule and no focus
   session ever holds ([docs/RULES.md](docs/RULES.md) › "Always
   allowed"). Saved to `files/always_allowed.json` (`AlwaysAllowedRepository`). Removing one

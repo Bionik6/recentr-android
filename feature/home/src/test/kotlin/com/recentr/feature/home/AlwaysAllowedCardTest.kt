@@ -36,7 +36,7 @@ import org.junit.Before
 import org.junit.Test
 import java.time.LocalDate
 
-/** Home's Always allowed card: once there's a rule, until it's closed, with the apps allowed. */
+/** Home's Always allowed card: from the second rule, until it's closed, with the apps allowed. */
 @OptIn(ExperimentalCoroutinesApi::class)
 class AlwaysAllowedCardTest {
 
@@ -54,6 +54,7 @@ class AlwaysAllowedCardTest {
     private val maps = UsageApp("com.google.android.apps.maps", "Maps", AppCategory.Other)
     private val uber = UsageApp("com.ubercab", "Uber", AppCategory.Other)
     private val lock = Rule("l", RuleType.Lock, "Socials", apps = listOf(UsageApp("com.instagram.android", "Instagram", AppCategory.Social)))
+    private val videos = Rule("v", RuleType.Lock, "Videos", apps = listOf(UsageApp("com.google.android.youtube", "YouTube", AppCategory.Entertainment)))
 
     private val dispatcher = UnconfinedTestDispatcher()
     private val rules = RulesRepository(file = null)
@@ -84,16 +85,26 @@ class AlwaysAllowedCardTest {
     fun tearDown() = Dispatchers.resetMain()
 
     @Test
-    fun `it waits for the first rule`() = runTest(dispatcher) {
+    fun `it waits for the second rule`() = runTest(dispatcher) {
         val vm = viewModel()
         assertFalse(vm.shows)
         rules.upsert(lock)
+        assertFalse(vm.shows)
+        rules.upsert(videos)
         assertTrue(vm.shows)
+    }
+
+    @Test
+    fun `a paused rule was made all the same`() = runTest(dispatcher) {
+        rules.upsert(lock)
+        rules.upsert(videos.copy(enabled = false, pausedUntil = Long.MAX_VALUE))
+        assertTrue(viewModel().shows)
     }
 
     @Test
     fun `it shows the apps allowed, those waiting to join included`() = runTest(dispatcher) {
         rules.upsert(lock)
+        rules.upsert(videos)
         val vm = viewModel()
         assertEquals(emptyList<UsageApp>(), vm.uiState.value.alwaysAllowedApps)
         allowed.value = AlwaysAllowed(listOf(maps))
@@ -107,6 +118,7 @@ class AlwaysAllowedCardTest {
     @Test
     fun `closed, it doesn't come back`() = runTest(dispatcher) {
         rules.upsert(lock)
+        rules.upsert(videos)
         val vm = viewModel()
         vm.dismissAlwaysAllowedCard()
         assertFalse(vm.shows)

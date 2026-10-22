@@ -98,9 +98,10 @@ The apps the person always allows (on iOS, websites too) are never blocked: no r
 run holds them, whatever its kind, its apps or its categories, "Block every app" included. Maps, a
 ride, a health app.
 
-- Settings › Protection › Always allowed lists them, adds some and removes one. Once there's a
-  rule, Home shows an Always allowed card: the apps allowed, or "No apps selected", with Set up.
-  Its × first says the list stays in Settings, then closes the card for good.
+- Settings › Protection › Always allowed lists them, adds some and removes one. From the second
+  rule made (paused or not), Home shows an Always allowed card: the apps allowed, or "No apps
+  selected", with Set up. Its × first says the list stays in Settings, then closes the card for
+  good.
 - Only blocking leaves them out: a limit's budget still counts the time spent in its apps.
 - Removing an app applies now, even while others wait to join: wherever a rule or a run picked it,
   it's blocked again.

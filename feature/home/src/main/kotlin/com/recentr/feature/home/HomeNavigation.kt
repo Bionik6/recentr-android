@@ -27,7 +27,7 @@ import com.recentr.feature.home.ui.sheets.AlwaysAllowedInSettingsSheet
  * Pull to refresh reads the screen time and the app blocker's state again.
  * The usage card opens Insights ([onOpenInsights], with the period shown), the header's flame the
  * streak ([onOpenStreak]) and its avatar the profile ([onOpenProfile]), a "Most used" app its
- * own insights ([onOpenApp]). Once there's a rule, the Always allowed card sets up the apps never
+ * own insights ([onOpenApp]). From the second rule, the Always allowed card sets up the apps never
  * blocked ([onSetUpAlwaysAllowed]); its × says where to find them in Settings, then goes.
  */
 @Composable

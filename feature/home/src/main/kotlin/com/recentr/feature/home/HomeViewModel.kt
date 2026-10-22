@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
  * again under its spinner, keeping the numbers on screen meanwhile. Without usage access the
  * numbers are empty, and [HomeUiState.needsUsageAccess] asks for it instead of showing them.
  *
- * Once there's a rule, until the card is closed ([dismissAlwaysAllowedCard]), Home shows the apps
+ * From the second rule, until the card is closed ([dismissAlwaysAllowedCard]), Home shows the apps
  * always allowed, or that there are none yet ([HomeUiState.showAlwaysAllowedCard]).
  *
  * @param profile the stored profile (daily goal, avatar); [saveGoal] stores a new daily goal.
@@ -188,11 +188,12 @@ class HomeViewModel(
         }
 
         /**
-         * Whether Home shows the Always allowed card: once there's a rule (something blocks apps),
-         * until the card is closed. It shows the apps allowed, or says there are none yet.
+         * Whether Home shows the Always allowed card: from the second rule made, paused or not (the
+         * first one is enough to take in), until the card is closed. It shows the apps allowed, or
+         * says there are none yet.
          */
         internal fun showsAlwaysAllowedCard(rules: List<Rule>, dismissed: Boolean): Boolean =
-            !dismissed && rules.isNotEmpty()
+            !dismissed && rules.size >= 2
 
         /**
          * What blocks apps right now and ends first, if anything: a running session, or a routine
