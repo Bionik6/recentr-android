@@ -86,11 +86,13 @@ private fun ProfileDestination(navController: NavHostController) {
  * Full-screen Profile & Settings destinations (Figma 61–72), drawn above the tab bar.
  *
  * @param onSignedOut after "Log out" or "Delete account": the app goes back to the onboarding.
+ * @param onOpenAlwaysAllowed Settings › Always allowed, a Rules destination.
  * @param onReplayOnboarding / [onOpenDesignSystem] debug-only QA shortcuts listed in Settings.
  */
 fun NavGraphBuilder.profileDestinations(
     navController: NavHostController,
     onSignedOut: () -> Unit,
+    onOpenAlwaysAllowed: () -> Unit,
     onReplayOnboarding: (() -> Unit)? = null,
     onOpenDesignSystem: (() -> Unit)? = null,
 ) {
@@ -101,10 +103,12 @@ fun NavGraphBuilder.profileDestinations(
         val state by viewModel.state.collectAsStateWithLifecycle()
         val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
         val rules by RecentrData.rules.rules.collectAsStateWithLifecycle()
+        val allowed by RecentrData.alwaysAllowed.allowed.collectAsStateWithLifecycle()
         SettingsScreen(
             state = state,
             blockingOn = blockingOn,
             passRules = rules.filter { it.type != RuleType.Limit && it.unlockMethod == UnlockMethod.ScanCode },
+            alwaysAllowedCount = allowed.appsAt(System.currentTimeMillis()).size,
             actions = SettingsActions(
                 onBack = back,
                 onOpenNotifications = { navController.navigate(SettingsNotificationsRoute) { launchSingleTop = true } },
@@ -119,6 +123,7 @@ fun NavGraphBuilder.profileDestinations(
                 onLogOut = { viewModel.logOut(onSignedOut) },
                 onDeleteAccount = { viewModel.deleteAccount(onSignedOut) },
                 onOpenUnlockPass = { id -> navController.navigate(UnlockPassRoute(id)) { launchSingleTop = true } },
+                onOpenAlwaysAllowed = onOpenAlwaysAllowed,
                 onReplayOnboarding = onReplayOnboarding,
                 onOpenDesignSystem = onOpenDesignSystem,
             ),

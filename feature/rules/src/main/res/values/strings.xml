@@ -385,4 +385,22 @@
     <string name="rules_pending_keep_on">Keep it on</string>
     <string name="rules_pending_dont_pause">Don’t pause</string>
     <string name="rules_session_ended">Session ended</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">Always allowed</string>
+    <string name="rules_allowed_explainer">Recentr never blocks these apps, whatever the rule or the timer.</string>
+    <string name="rules_allowed_add">Add app</string>
+    <string name="rules_allowed_remove">Remove %1$s</string>
+    <string name="rules_allowed_section">Allowed</string>
+    <string name="rules_allowed_waiting">Joins later</string>
+    <string name="rules_allowed_none">No app yet. Maps, a ride or a health app are good ones.</string>
+    <string name="rules_allowed_changes_tomorrow">Your changes apply at %1$s tomorrow</string>
+    <string name="rules_allowed_changes_on">Your changes apply on %1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">Allow · %d app</item>
+        <item quantity="other">Allow · %d apps</item>
+    </plurals>
+    <string name="rules_allowed_done_none">Allow none</string>
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">Always allowed</string>
 </resources>

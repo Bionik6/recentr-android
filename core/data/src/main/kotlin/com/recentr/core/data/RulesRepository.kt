@@ -358,15 +358,6 @@ class RulesRepository(
 
         private fun JsonObject.string(key: String): String? = (get(key) as? JsonPrimitive)?.contentOrNull
 
-        /** Writes next to [file] first, then renames: a crash mid-write never leaves half a file. */
-        fun write(file: File, saved: SavedRules) {
-            file.parentFile?.mkdirs()
-            val temp = File(file.parentFile, file.name + ".tmp")
-            temp.writeText(json.encodeToString(saved))
-            if (!temp.renameTo(file)) {
-                file.delete()
-                temp.renameTo(file)
-            }
-        }
+        fun write(file: File, saved: SavedRules) = file.writeAtomically(json.encodeToString(saved))
     }
 }

@@ -1,5 +1,6 @@
 package com.recentr.core.data
 
+import com.recentr.core.model.AlwaysAllowed
 import com.recentr.core.model.FocusPhase
 import com.recentr.core.model.FocusRun
 import com.recentr.core.model.Rule
@@ -49,22 +50,28 @@ data class AppUnlocks(private val until: Map<String, Map<String, Long>> = emptyM
 
     /**
      * [rule]'s apps at [now], sorted by name, for its page's "Apps" sheet: the ones it keeps closed,
-     * and the ones unlocked past it for now, with when their unlock ends. Another rule's unlock of
-     * an app doesn't count; an unlock over by [now] puts the app back with the others.
+     * the ones unlocked past it for now, with when their unlock ends, and the ones always allowed
+     * ([alwaysAllowed]), which it never holds. Another rule's unlock of an app doesn't count; an
+     * unlock over by [now] puts the app back with the others.
      */
-    fun appsOf(rule: Rule, now: Long): RuleApps {
+    fun appsOf(rule: Rule, now: Long, alwaysAllowed: AlwaysAllowed = AlwaysAllowed()): RuleApps {
         val apps = rule.apps.distinctBy { it.packageName }.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.label })
-        val unlocked = apps.mapNotNull { app -> endOf(app.packageName, rule, now)?.let { UnlockedApp(app, it) } }
+        val held = alwaysAllowed.blocked(apps, now)
+        val allowed = apps - held.toSet()
+        val unlocked = held.mapNotNull { app -> endOf(app.packageName, rule, now)?.let { UnlockedApp(app, it) } }
         val open = unlocked.map { it.app.packageName }.toSet()
-        return RuleApps(blocked = apps.filterNot { it.packageName in open }, unlocked = unlocked)
+        return RuleApps(blocked = held.filterNot { it.packageName in open }, unlocked = unlocked, allowed = allowed)
     }
 }
 
 /** One of a rule's apps, unlocked past it until [until] (epoch millis). */
 data class UnlockedApp(val app: UsageApp, val until: Long)
 
-/** A rule's apps at a moment ([AppUnlocks.appsOf]): the ones it keeps closed, and the ones unlocked for now. */
-data class RuleApps(val blocked: List<UsageApp>, val unlocked: List<UnlockedApp>)
+/**
+ * A rule's apps at a moment ([AppUnlocks.appsOf]): the ones it keeps closed, the ones unlocked for
+ * now, and the ones always allowed.
+ */
+data class RuleApps(val blocked: List<UsageApp>, val unlocked: List<UnlockedApp>, val allowed: List<UsageApp> = emptyList())
 
 /** Everything that decides whether an opened app is put on hold. */
 data class HoldState(
@@ -72,6 +79,8 @@ data class HoldState(
     val focus: FocusRun?,
     /** Never put on hold: Recentr, the home screens, Settings and System UI. */
     val protectedApps: Set<String>,
+    /** Never put on hold either, by any rule or focus session: the person's choice (Settings › Always allowed). */
+    val alwaysAllowed: AlwaysAllowed = AlwaysAllowed(),
     /** Apps opened anyway, and past which rules. */
     val unlocks: AppUnlocks = AppUnlocks(),
     /**
@@ -81,14 +90,15 @@ data class HoldState(
     val limitUsage: LimitUsage? = null,
 ) {
     /**
-     * Why [packageName] is on hold at [now], or null when it may be used. A focus session holds
-     * its apps during focus rounds; an unlock lifts the rules it was granted past (not the
-     * session) until it runs out. When several rules hold the app, the strictest wins: one in
-     * Strict mode (only an emergency unlock gets past it, and past the others), then one without
-     * "Open anyway" (a limit, no unlocks left today), whatever their order.
+     * Why [packageName] is on hold at [now], or null when it may be used. An app always allowed
+     * never is. A focus session holds its apps during focus rounds; an unlock lifts the rules it
+     * was granted past (not the session) until it runs out. When several rules hold the app, the
+     * strictest wins: one in Strict mode (only an emergency unlock gets past it, and past the
+     * others), then one without "Open anyway" (a limit, no unlocks left today), whatever their
+     * order.
      */
     fun reasonFor(packageName: String, now: Long, zone: ZoneId): HoldReason? {
-        if (packageName in protectedApps) return null
+        if (isFree(packageName, now)) return null
         focus?.takeIf { run ->
             run.phase == FocusPhase.Focus && !run.isPaused && run.config.blockedApps.any { it.packageName == packageName }
         }?.let { return HoldReason.Focus(it) }
@@ -106,7 +116,11 @@ data class HoldState(
 
     /** The rules holding [packageName] at [now], unlocks aside. */
     fun holding(packageName: String, now: Long, zone: ZoneId): List<Rule> =
-        if (packageName in protectedApps) emptyList() else rules.filter { it.holds(packageName, now, zone) }
+        if (isFree(packageName, now)) emptyList() else rules.filter { it.holds(packageName, now, zone) }
+
+    /** Never held at [now]: protected, or always allowed. */
+    private fun isFree(packageName: String, now: Long): Boolean =
+        packageName in protectedApps || alwaysAllowed.allows(packageName, now)
 
     /**
      * The rules an "Unlock anyway" through [through] lifts at [now]: [through], and the other rules

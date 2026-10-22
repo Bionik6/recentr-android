@@ -1,5 +1,7 @@
 package com.recentr.core.data
 
+import com.recentr.core.model.AllowedChange
+import com.recentr.core.model.AlwaysAllowed
 import com.recentr.core.model.AppCategory
 import com.recentr.core.model.FocusConfig
 import com.recentr.core.model.FocusPhase
@@ -41,10 +43,12 @@ class AppHoldsTest {
         focus: FocusRun? = null,
         unlocks: AppUnlocks = AppUnlocks(),
         usedSinceStart: Map<String, Int>? = null,
+        alwaysAllowed: AlwaysAllowed = AlwaysAllowed(),
     ) = HoldState(
         rules = rules,
         focus = focus,
         protectedApps = setOf("com.recentr.app", settings),
+        alwaysAllowed = alwaysAllowed,
         unlocks = unlocks,
         limitUsage = usedSinceStart?.let { LimitUsage(mapOf(limit.activeSince!! to it)) },
     )
@@ -244,5 +248,53 @@ class AppHoldsTest {
         assertTrue(apps.unlocked.isEmpty())
         assertEquals(now + 5 * minute, unlocks.endOf(youTube.packageName, other, now))
         assertNull(unlocks.endOf(youTube.packageName, socials, now))
+    }
+
+    // Always allowed
+
+    private val focusRun = FocusRun(
+        config = FocusConfig(blockedApps = listOf(whatsApp, tiktok), strictMode = true),
+        startedAt = now,
+        round = 1,
+        phase = FocusPhase.Focus,
+        phaseEndsAt = now + 25 * minute,
+        pausedRemainingMillis = null,
+    )
+
+    @Test
+    fun `an app always allowed is never held, by any rule or focus session`() {
+        val session = Rule("s", RuleType.Session, "Focus", apps = listOf(whatsApp), durationMinutes = 30, activeSince = now, activeUntil = now + 30 * minute, strictMode = true)
+        val routine = Rule("b", RuleType.Bedtime, "Work", apps = listOf(whatsApp), schedule = RuleSchedule(9 * 60, 11 * 60), strictMode = true)
+        val allowed = AlwaysAllowed(listOf(whatsApp))
+        val rules = listOf(lock, session, routine, limit)
+        val holds = state(rules, focus = focusRun, usedSinceStart = mapOf(whatsApp.packageName to 90), alwaysAllowed = allowed)
+        assertNull(holds.reason(whatsApp.packageName))
+        assertTrue(holds.holding(whatsApp.packageName, now, zone).isEmpty())
+        // The others' apps stay on hold.
+        assertEquals(HoldReason.Focus(focusRun), holds.reason(tiktok.packageName))
+        assertTrue(state(rules, usedSinceStart = mapOf(tiktok.packageName to 90), alwaysAllowed = allowed).reason(tiktok.packageName) is HoldReason.ByRule)
+        // Without it, every one of them holds WhatsApp.
+        assertEquals(4, state(rules, usedSinceStart = mapOf(whatsApp.packageName to 90)).holding(whatsApp.packageName, now, zone).size)
+    }
+
+    @Test
+    fun `an app waiting to be always allowed stays held until it joins`() {
+        val waiting = AlwaysAllowed(pending = AllowedChange(midnight, listOf(whatsApp)))
+        assertEquals(HoldReason.ByRule(lock), state(listOf(lock), alwaysAllowed = waiting).reason(whatsApp.packageName))
+        assertTrue(state(listOf(lock), alwaysAllowed = waiting).reason(whatsApp.packageName, midnight - 1) is HoldReason.ByRule)
+        assertNull(state(listOf(lock), alwaysAllowed = waiting).reason(whatsApp.packageName, midnight))
+    }
+
+    @Test
+    fun `a rule's apps always allowed are listed apart`() {
+        val unlocks = AppUnlocks().open(youTube.packageName, listOf(socials), now + 5 * minute).open(tiktok.packageName, listOf(socials), now + 5 * minute)
+        val apps = unlocks.appsOf(socials, now, AlwaysAllowed(listOf(whatsApp, tiktok)))
+        assertEquals(listOf(instagram), apps.blocked)
+        assertEquals(listOf(UnlockedApp(youTube, now + 5 * minute)), apps.unlocked)
+        assertEquals(listOf(tiktok, whatsApp), apps.allowed)
+        // Waiting to join, WhatsApp is still blocked.
+        val waiting = AlwaysAllowed(pending = AllowedChange(midnight, listOf(whatsApp)))
+        assertEquals(listOf(instagram, tiktok, whatsApp, youTube), AppUnlocks().appsOf(socials, now, waiting).blocked)
+        assertEquals(listOf(whatsApp), AppUnlocks().appsOf(socials, midnight, waiting).allowed)
     }
 }

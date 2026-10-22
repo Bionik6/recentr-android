@@ -25,6 +25,7 @@ import com.recentr.feature.insights.insightsDestinations
 import com.recentr.feature.onboarding.OnboardingGraphRoute
 import com.recentr.feature.onboarding.onboardingGraph
 import com.recentr.feature.profile.profileDestinations
+import com.recentr.feature.rules.navigateToAlwaysAllowed
 import com.recentr.feature.rules.navigateToNewRule
 import com.recentr.feature.rules.navigateToRuleEditor
 import com.recentr.feature.rules.navigateToStartSession
@@ -90,6 +91,7 @@ fun RecentrNavHost(showOnboarding: Boolean, initialTab: RecentrTab = RecentrTab.
         profileDestinations(
             navController = navController,
             onSignedOut = { navController.restartOnboarding() },
+            onOpenAlwaysAllowed = { navController.navigateToAlwaysAllowed() },
             onReplayOnboarding = if (debugTools) {
                 {
                     scope.launch {

@@ -57,6 +57,8 @@ data class AppSettings(
     val emergencyUnlocksUsed: Int = 0,
     /** The month of [emergencyUnlocksUsed], as `year * 12 + month - 1`, or null when none were spent. */
     val emergencyUnlocksMonth: Int? = null,
+    /** Home's "Always allowed?" card was closed: it doesn't come back. */
+    val alwaysAllowedCardDismissed: Boolean = false,
     // Recentr Plus (no billing backend: kept on this device)
     val plusPlan: PlusPlan? = null,
     val plusRenewsAtMillis: Long? = null,

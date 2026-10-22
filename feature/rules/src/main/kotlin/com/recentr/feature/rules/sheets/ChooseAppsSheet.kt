@@ -62,14 +62,18 @@ import com.recentr.feature.rules.ui.title
  * Figma 36 "Choose apps", laid out like iOS' app picker: "All apps & categories", then the
  * device's launcher apps by category, Social first, all folded ([AppPicker]). A category's box
  * picks all of its apps (partly checked when only some are), its row unfolds them; a search lists
- * the matching apps. "Block · N apps". Chosen apps that are no longer installed stay listed so
- * they can be removed.
+ * the matching apps. "Block · N apps" ([doneText]), once an app is picked unless [allowsNone].
+ * Chosen apps that are no longer installed stay listed so they can be removed. Settings › Always
+ * allowed opens it with its own [title] and button.
  */
 @Composable
 internal fun ChooseAppsSheet(
     initial: List<UsageApp>,
     onDone: (List<UsageApp>) -> Unit,
     onDismiss: () -> Unit,
+    title: String = stringResource(R.string.rules_choose_apps),
+    doneText: @Composable (picked: Int) -> String = { pluralStringResource(R.plurals.rules_block_apps, it, it) },
+    allowsNone: Boolean = false,
 ) {
     var picks by remember { mutableStateOf(initial.map { it.packageName }.toSet()) }
     var query by rememberSaveable { mutableStateOf("") }
@@ -87,18 +91,18 @@ internal fun ChooseAppsSheet(
             horizontalAlignment = Alignment.Start,
             bottomBar = {
                 RecentrButton(
-                    text = pluralStringResource(R.plurals.rules_block_apps, picks.size, picks.size),
+                    text = doneText(picks.size),
                     onClick = {
                         val chosen = AppPicker.pickedApps(apps ?: initial, picks)
                         closer.close { onDone(chosen) }
                     },
-                    enabled = picks.isNotEmpty(),
+                    enabled = allowsNone || picks.isNotEmpty(),
                     modifier = Modifier.fillMaxWidth(),
                 )
             },
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.rules_choose_apps), style = RecentrTheme.typography.title1, color = RecentrTheme.colors.textPrimary, modifier = Modifier.weight(1f))
+                Text(title, style = RecentrTheme.typography.title1, color = RecentrTheme.colors.textPrimary, modifier = Modifier.weight(1f))
                 Text(
                     stringResource(R.string.rules_selected, picks.size),
                     style = RecentrTheme.typography.bodyMedium,

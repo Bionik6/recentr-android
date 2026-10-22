@@ -36,13 +36,15 @@ class HoldService : AccessibilityService() {
         val holds = RecentrData.holds
         scope.launch { RecentrData.installedApps.load() }
         scope.launch {
-            combine(RecentrData.rules.rules, RecentrData.focus.run, holds.unlocks) { _, _, _ -> }.collect { check() }
+            combine(RecentrData.rules.rules, RecentrData.focus.run, holds.unlocks, RecentrData.alwaysAllowed.allowed) { _, _, _, _ -> }
+                .collect { check() }
         }
         scope.launch {
             var usageReadAt = 0L
             while (isActive) {
                 val now = System.currentTimeMillis()
                 RecentrData.rules.settle(now)
+                RecentrData.alwaysAllowed.settle(now)
                 RecentrData.focus.advance(now)
                 if (now - usageReadAt >= USAGE_REFRESH_MILLIS) {
                     usageReadAt = now

@@ -151,9 +151,11 @@ internal fun RuleDetailDestination(
         if (rule.type.asksBeforeStart) confirmStart = true else startOrActivate()
     }
 
+    val allowed by RecentrData.alwaysAllowed.allowed.collectAsStateWithLifecycle()
     RuleDetailScreen(
         rule = rule,
         now = state.now,
+        blockedApps = allowed.blocked(rule.apps, state.now),
         actions = DetailActions(
             onBack = onBack,
             onOpen = { target -> sheet = target },
@@ -188,7 +190,7 @@ internal fun RuleDetailDestination(
     if (showApps) {
         // The app blocker's unlocks, live: an app whose unlock ends goes back with the blocked ones.
         val unlocks by RecentrData.holds.unlocks.collectAsStateWithLifecycle()
-        RuleAppsSheet(rule = rule, now = state.now, unlocks = unlocks, onDismiss = { showApps = false })
+        RuleAppsSheet(rule = rule, now = state.now, unlocks = unlocks, alwaysAllowed = allowed, onDismiss = { showApps = false })
     }
     if (pause) {
         PauseRuleSheet(
@@ -275,7 +277,14 @@ internal class DetailActions(
 )
 
 @Composable
-internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, modifier: Modifier = Modifier) {
+internal fun RuleDetailScreen(
+    rule: Rule,
+    now: Long,
+    actions: DetailActions,
+    modifier: Modifier = Modifier,
+    /** The Blocked tile's apps: the rule's, but for those always allowed. */
+    blockedApps: List<UsageApp> = rule.apps,
+) {
     SystemBarsAppearance(lightIcons = false)
     val colors = RecentrTheme.colors
     BackdropBox(Backdrop.Aurora, modifier) {
@@ -304,7 +313,7 @@ internal fun RuleDetailScreen(rule: Rule, now: Long, actions: DetailActions, mod
                     }
                 }
                 Gap(19.dp)
-                DetailCollage(rule, now, actions.onOpenApps)
+                DetailCollage(rule, now, blockedApps, actions.onOpenApps)
                 Gap(24.dp)
                 if (rule.pending != null) {
                     PendingCard(rule, actions.onDropPending)
@@ -500,7 +509,7 @@ private fun PendingCard(rule: Rule, onDrop: () -> Unit) {
  * the editor.
  */
 @Composable
-private fun DetailCollage(rule: Rule, now: Long, onOpenApps: () -> Unit) {
+private fun DetailCollage(rule: Rule, now: Long, blockedApps: List<UsageApp>, onOpenApps: () -> Unit) {
     val (label, value, caption) = timeTile(rule, now)
     Box(Modifier.fillMaxWidth().height(250.dp), contentAlignment = Alignment.Center) {
         // Fixed widths, the time card on the left edge and the apps tile on the right: a countdown
@@ -517,7 +526,7 @@ private fun DetailCollage(rule: Rule, now: Long, onOpenApps: () -> Unit) {
                 .entrance(50, from = DpOffset((-20).dp, 10.dp), blur = false),
         )
         AppsTile(
-            rule = rule,
+            apps = blockedApps,
             onClick = onOpenApps,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
@@ -602,11 +611,11 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> = wh
     }
 }
 
+/** The rule's [apps] it blocks: those always allowed aren't, even when they were picked for it. */
 @Composable
-private fun AppsTile(rule: Rule, onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun AppsTile(apps: List<UsageApp>, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(24.dp)
-    val apps = rule.apps
     Column(
         modifier = modifier
             .recentrShadow(RecentrElevation.float, shape)

@@ -87,8 +87,9 @@ internal fun HoldScreen(
     val rules by RecentrData.rules.rules.collectAsStateWithLifecycle()
     val run by RecentrData.focus.run.collectAsStateWithLifecycle()
     val unlocks by holds.unlocks.collectAsStateWithLifecycle()
+    val allowed by RecentrData.alwaysAllowed.allowed.collectAsStateWithLifecycle()
     val settings by RecentrData.settings.settings.collectAsStateWithLifecycle(AppSettings())
-    val reason = remember(packageName, now, rules, run, unlocks) { holds.reason(packageName, now) }
+    val reason = remember(packageName, now, rules, run, unlocks, allowed) { holds.reason(packageName, now) }
     val label = remember(packageName) { RecentrData.installedApps.app(packageName)?.label ?: packageName }
     val zone = ZoneId.systemDefault()
     val emergencyLeft = EmergencyUnlocks.left(settings, now, zone)

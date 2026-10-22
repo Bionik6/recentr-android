@@ -17,6 +17,7 @@ import com.recentr.core.data.RecentrData
 import com.recentr.core.data.UsageAccess
 import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.model.UsagePeriod
+import com.recentr.feature.home.ui.sheets.AlwaysAllowedInSettingsSheet
 
 /**
  * Home tab content (Home & Insight flow, Figma 22–29). Drawn under the floating tab bar:
@@ -26,7 +27,8 @@ import com.recentr.core.model.UsagePeriod
  * Pull to refresh reads the screen time and the app blocker's state again.
  * The usage card opens Insights ([onOpenInsights], with the period shown), the header's flame the
  * streak ([onOpenStreak]) and its avatar the profile ([onOpenProfile]), a "Most used" app its
- * own insights ([onOpenApp]).
+ * own insights ([onOpenApp]). Once there's a rule, the Always allowed card sets up the apps never
+ * blocked ([onSetUpAlwaysAllowed]); its × says where to find them in Settings, then goes.
  */
 @Composable
 fun HomeTab(
@@ -39,11 +41,13 @@ fun HomeTab(
     onOpenStreak: () -> Unit = onOpenRules,
     onOpenProfile: () -> Unit = {},
     onOpenApp: (packageName: String, period: UsagePeriod) -> Unit = { _, _ -> },
+    onSetUpAlwaysAllowed: () -> Unit = {},
 ) {
     val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val blockingOn by RecentrData.blockingEnabled.collectAsStateWithLifecycle()
     var explainBlocking by rememberSaveable { mutableStateOf(false) }
+    var closingAlwaysAllowed by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     HomeScreen(
         state = state,
@@ -64,8 +68,19 @@ fun HomeTab(
             viewModel.refresh()
         },
         onConnectScreenTime = { UsageAccess.openSettings(context) },
+        onSetUpAlwaysAllowed = onSetUpAlwaysAllowed,
+        onCloseAlwaysAllowed = { closingAlwaysAllowed = true },
         modifier = modifier,
     )
+    if (closingAlwaysAllowed) {
+        // Where to find it again first; the card goes with the sheet.
+        AlwaysAllowedInSettingsSheet(
+            onDismissRequest = {
+                closingAlwaysAllowed = false
+                viewModel.dismissAlwaysAllowedCard()
+            },
+        )
+    }
     if (explainBlocking) {
         BlockingAccessSheet(onOpenSettings = { BlockingAccess.openSettings(context) }, onDismissRequest = { explainBlocking = false })
     }

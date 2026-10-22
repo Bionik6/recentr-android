@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
@@ -57,6 +58,8 @@ internal class SettingsActions(
     val onDeleteAccount: () -> Unit,
     /** Opens a rule's unlock pass (53). */
     val onOpenUnlockPass: (ruleId: String) -> Unit = {},
+    /** Opens Settings › Always allowed. */
+    val onOpenAlwaysAllowed: () -> Unit = {},
     val onReplayOnboarding: (() -> Unit)? = null,
     val onOpenDesignSystem: (() -> Unit)? = null,
 )
@@ -73,6 +76,8 @@ internal fun SettingsScreen(
     blockingOn: Boolean = true,
     /** The rules unlocked by scanning a printed pass. */
     passRules: List<Rule> = emptyList(),
+    /** How many apps are always allowed now. */
+    alwaysAllowedCount: Int = 0,
 ) {
     val context = LocalContext.current
     val settings = state.settings
@@ -115,6 +120,16 @@ internal fun SettingsScreen(
                     iconBackground = RecentrTheme.colors.alphaTangerine14,
                     caption = stringResource(R.string.settings_strict_caption),
                     modifier = Modifier.fillMaxWidth(),
+                )
+                ValueRow(
+                    R.string.settings_always_allowed,
+                    if (alwaysAllowedCount == 0) {
+                        stringResource(R.string.settings_always_allowed_none)
+                    } else {
+                        pluralStringResource(R.plurals.settings_always_allowed_apps, alwaysAllowedCount, alwaysAllowedCount)
+                    },
+                    RecentrIcon.ShieldCheck,
+                    actions.onOpenAlwaysAllowed,
                 )
                 ValueRow(R.string.settings_emergency_unlocks, stringResource(R.string.settings_unlocks_left, emergencyLeft), RecentrIcon.Lock) {
                     overlay = SettingsOverlay.Emergency
