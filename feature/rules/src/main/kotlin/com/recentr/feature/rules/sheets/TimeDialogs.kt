@@ -2,7 +2,6 @@ package com.recentr.feature.rules.sheets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerColors
 import androidx.compose.material3.TimePickerDefaults
@@ -117,29 +115,5 @@ internal fun TimeOfDayDialog(
     )
     RulesDialog(title = title, onConfirm = { onConfirm(state.hour * 60 + state.minute) }, onDismiss = onDismiss) {
         TimePicker(state = state, colors = recentrTimePickerColors())
-    }
-}
-
-/** Hours / minutes entry for a custom session length. */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun DurationInputDialog(
-    initialMinutes: Int,
-    onConfirm: (Int) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val state = rememberTimePickerState(
-        initialHour = (initialMinutes / 60).coerceAtMost(23),
-        initialMinute = initialMinutes % 60,
-        is24Hour = true,
-    )
-    RulesDialog(
-        title = stringResource(R.string.rules_custom_length),
-        onConfirm = { onConfirm(state.hour * 60 + state.minute) },
-        onDismiss = onDismiss,
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            TimeInput(state = state, colors = recentrTimePickerColors())
-        }
     }
 }

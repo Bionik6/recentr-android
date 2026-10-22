@@ -85,7 +85,8 @@ Figma pt map 1:1 to dp; Figma px font sizes map 1:1 to sp.
 | Template Card (Sky / Night / Mint / Sunset) | `TemplateCard(title, body, duration, sticker, color, onClick)` |
 | Sheets (grabber + 36dp corners + scrim) | `RecentrBottomSheet(onDismissRequest) { … }` · `RecentrSheet(onDismissRequest) { controller -> … }` (animated `controller.close { then }`) · `SheetGrabber()` |
 | Surface card | `SurfaceCard(cornerRadius, onClick) { … }` |
-| Daily goal sheet (Figma 28, Home and Insights) | `DailyGoalSheet(currentGoalMinutes, onSave, onDismissRequest, formatMinutes)` |
+| Duration picker (ruler) | `DurationPicker(value, onValueChange, range, contentDescription, step, labelEvery, presets, presetsTitle, tickSpacing, format, compactFormat)` — the value, a ruler that drags and flings under a fixed needle and settles on a tick, and preset chips. `DurationScale(range, step, labelEvery)` is its ticks (pure, unit-tested). The daily goal, a session's length, a limit's budget and the onboarding goal use it |
+| Daily goal sheet (Figma 28, Home and Insights) | `DailyGoalSheet(currentGoalMinutes, onSave, onDismissRequest, formatMinutes)` — a `DurationPicker` in five minutes |
 
 A living catalogue of everything above: `DesignSystemCatalog()` (Profile tab → *Design system*).
 
@@ -123,7 +124,7 @@ Local components the feature flows had to add, to fold back into `:core:designsy
   `Modifier.figmaLineBox(72.dp)`; promote it (e.g. `Modifier.figmaLineHeight(style)`).
 * **Buttons** — the rules' danger pill (`RulesPillButton`, now `RecentrButtonStyle.Danger`), a "Soft but
   inactive" state for unanswered steps (`ContinueButton`), and a visual disabled state for
-  `RecentrIconButton`; long-press repeat for steppers (`StepperButton`).
+  `RecentrIconButton`.
 * **Charts** — per-bar colours and the Figma 13.2dp pitch for `HourlyUsageChart`
   (`HourlyBarsChart`), plus a weekly chart (`WeekBarsChart`).
 * **Rules pieces** — icon-tinted chip, small template card,

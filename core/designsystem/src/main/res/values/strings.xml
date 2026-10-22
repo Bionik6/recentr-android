@@ -10,9 +10,13 @@
     <string name="ds_more_options">More options</string>
     <string name="ds_goal_title">Daily goal</string>
     <string name="ds_goal_subtitle">Recentr nudges you when you get close.</string>
-    <string name="ds_goal_decrease">Decrease daily goal</string>
-    <string name="ds_goal_increase">Increase daily goal</string>
     <string name="ds_goal_save">Save goal</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Quick select</string>
+    <string name="ds_duration_minutes">%1$dm</string>
+    <string name="ds_duration_hours">%1$dh</string>
+    <string name="ds_duration_hours_minutes">%1$dh%2$02d</string>
 
     <!-- App blocking (Accessibility service) -->
     <string name="ds_blocking_title">Turn on app blocking</string>

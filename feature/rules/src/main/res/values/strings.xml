@@ -97,7 +97,6 @@
     <string name="rules_compact_minutes">%1$dm</string>
     <string name="rules_compact_hours">%1$dh</string>
     <string name="rules_compact_hours_minutes">%1$dh%2$02d</string>
-    <string name="rules_preset_custom">Custom</string>
 
     <!-- Common -->
     <string name="rules_none">None</string>
@@ -107,8 +106,6 @@
     <string name="rules_cancel">Cancel</string>
     <string name="rules_back">Back</string>
     <string name="rules_edit_name">Edit name and sticker</string>
-    <string name="rules_decrease">Decrease</string>
-    <string name="rules_increase">Increase</string>
     <plurals name="rules_apps_count">
         <item quantity="one">%d app</item>
         <item quantity="other">%d apps</item>
@@ -190,7 +187,6 @@
     <!-- Session length -->
     <string name="rules_active_for">Active for</string>
     <string name="rules_ends_at">Ends at %1$s</string>
-    <string name="rules_custom_length">Custom length</string>
     <string name="rules_hours_label">Hours</string>
     <string name="rules_minutes_label">Minutes</string>
 

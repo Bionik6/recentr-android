@@ -63,12 +63,8 @@ class OnboardingViewModel(
         )
     }
 
-    fun onDecreaseGoal() = edit {
-        it.copy(dailyGoalMinutes = (it.dailyGoalMinutes - GOAL_STEP_MINUTES).coerceAtLeast(MIN_GOAL_MINUTES), goalEdited = true)
-    }
-
-    fun onIncreaseGoal() = edit {
-        it.copy(dailyGoalMinutes = (it.dailyGoalMinutes + GOAL_STEP_MINUTES).coerceAtMost(MAX_GOAL_MINUTES), goalEdited = true)
+    fun onGoalChange(minutes: Int) = edit {
+        if (minutes == it.dailyGoalMinutes) it else it.copy(dailyGoalMinutes = minutes.coerceIn(MIN_GOAL_MINUTES, MAX_GOAL_MINUTES), goalEdited = true)
     }
 
     fun onNotificationsResult(enabled: Boolean) {

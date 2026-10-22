@@ -126,8 +126,7 @@ fun NavGraphBuilder.onboardingGraph(
             DailyGoalScreen(
                 progress = flow.progress,
                 state = flow.state,
-                onDecrease = flow.viewModel::onDecreaseGoal,
-                onIncrease = flow.viewModel::onIncreaseGoal,
+                onGoalChange = flow.viewModel::onGoalChange,
                 onBack = flow.back,
                 onContinue = flow.saveAndNext(OnboardingStep.Math),
             )

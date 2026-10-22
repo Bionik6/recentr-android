@@ -1,14 +1,7 @@
 package com.recentr.feature.rules.ui.components
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -31,9 +24,6 @@ import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,14 +46,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.recentr.core.data.unlockMethodEnabled
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
-import com.recentr.core.designsystem.component.RecentrIconButton
-import com.recentr.core.designsystem.component.RecentrIconButtonStyle
 import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.SettingToggleRow
 import com.recentr.core.designsystem.component.TemplateColor
@@ -373,69 +360,6 @@ internal fun RulesPillButton(
 }
 
 internal enum class RulesPillStyle { Danger }
-
-/**
- * "− value +" stepper with round icon buttons (session length, wait time, daily budget). Each step
- * ticks, and the value rolls up or down like the iOS numeric text.
- */
-@Composable
-internal fun ValueStepper(
-    value: String,
-    onDecrease: () -> Unit,
-    onIncrease: () -> Unit,
-    modifier: Modifier = Modifier,
-    buttonSize: Dp = 52.dp,
-    buttonStyle: RecentrIconButtonStyle = RecentrIconButtonStyle.Sunken,
-    decreaseEnabled: Boolean = true,
-    increaseEnabled: Boolean = true,
-) {
-    val haptics = LocalRecentrHaptics.current
-    var risingStep by remember { mutableStateOf(true) }
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        RecentrIconButton(
-            icon = RecentrIcon.Minus,
-            contentDescription = stringResource(R.string.rules_decrease),
-            onClick = {
-                risingStep = false
-                haptics.selection()
-                onDecrease()
-            },
-            style = buttonStyle,
-            size = buttonSize,
-            enabled = decreaseEnabled,
-        )
-        AnimatedContent(
-            targetState = value,
-            transitionSpec = {
-                val roll = MotionSpecs.snappy(0.3f, IntOffset.VisibilityThreshold)
-                val up = risingStep
-                (slideInVertically(roll) { if (up) it / 3 else -it / 3 } + fadeIn(MotionSpecs.smooth(0.25f))) togetherWith
-                    (slideOutVertically(roll) { if (up) -it / 3 else it / 3 } + fadeOut(MotionSpecs.smooth(0.2f)))
-            },
-            contentAlignment = Alignment.Center,
-            label = "stepperValue",
-            modifier = Modifier.weight(1f),
-        ) { shown ->
-            HeroValueText(shown, Modifier.fillMaxWidth())
-        }
-        RecentrIconButton(
-            icon = RecentrIcon.Plus,
-            contentDescription = stringResource(R.string.rules_increase),
-            onClick = {
-                risingStep = true
-                haptics.selection()
-                onIncrease()
-            },
-            style = buttonStyle,
-            size = buttonSize,
-            enabled = increaseEnabled,
-        )
-    }
-}
 
 /** Display/Hero value ("45 min", "5 seconds") shrinking to fit on narrow screens. */
 @Composable

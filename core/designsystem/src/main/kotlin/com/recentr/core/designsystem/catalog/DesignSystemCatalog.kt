@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.AddCard
 import com.recentr.core.designsystem.component.AppRow
+import com.recentr.core.designsystem.component.DurationPicker
 import com.recentr.core.designsystem.component.HourlyUsageChart
 import com.recentr.core.designsystem.component.MiniTile
 import com.recentr.core.designsystem.component.OnboardingHeader
@@ -90,6 +91,7 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
     var toggle by remember { mutableStateOf(true) }
     var checked by remember { mutableStateOf(true) }
     var segment by remember { mutableIntStateOf(0) }
+    var minutes by remember { mutableIntStateOf(45) }
     var name by remember { mutableStateOf("") }
     var option by remember { mutableStateOf(true) }
     var alert by remember { mutableStateOf(false) }
@@ -222,6 +224,7 @@ fun DesignSystemCatalog(modifier: Modifier = Modifier) {
             SettingRow("Block", "3 apps", onClick = {}, icon = RecentrIcon.Apps, modifier = Modifier.fillMaxWidth())
             SettingToggleRow("Block", toggle, { toggle = it }, icon = RecentrIcon.Apps, modifier = Modifier.fillMaxWidth())
             RecentrSegmented(listOf("Before", "During", "Always"), segment, { segment = it }, Modifier.fillMaxWidth())
+            DurationPicker(minutes, { minutes = it }, 5..480, "Duration", labelEvery = 30, presets = listOf(15, 30, 45, 60, 120))
             AppRow("Chrome", checked, { checked = it }) { InstalledAppIcon(CatalogApps.first()) }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 TemplateColor.entries.forEach {

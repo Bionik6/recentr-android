@@ -87,8 +87,6 @@
     <string name="onb_goal_tone_bold">Bold target!</string>
     <string name="onb_goal_tone_balanced">Nice balance</string>
     <string name="onb_goal_tone_easy">Easy start</string>
-    <string name="onb_goal_decrease">Decrease daily goal</string>
-    <string name="onb_goal_increase">Increase daily goal</string>
     <string name="onb_goal_your_goal">Your goal</string>
     <string name="onb_goal_today">Today</string>
     <string name="onb_goal_note">This won’t block apps — it’s just a guide.</string>
