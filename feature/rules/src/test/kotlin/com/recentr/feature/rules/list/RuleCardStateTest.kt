@@ -63,12 +63,15 @@ class RuleCardStateTest {
     }
 
     @Test
-    fun `a routine waiting for its window counts down to its start`() {
+    fun `a routine waiting for its window counts down to its start in the last hour`() {
         assertEquals(CardStatus.Upcoming, routine.cardStatus(at(13), zone))
         assertFalse(routine.cardStatus(at(13), zone).active)
-        // 13:00 → 20:10 tonight.
-        assertEquals(CardValue.StartsIn(7 * HOUR + 10 * MINUTE), routine.cardValue(at(13), zone))
-        assertEquals(CardValue.StartsIn(7 * HOUR + 10 * MINUTE), routine.copy(usedMinutes = 12).cardValue(at(13), zone))
+        // 19:11 → 20:10 tonight.
+        assertEquals(CardValue.StartsIn(59 * MINUTE), routine.cardValue(at(19, 11), zone))
+        assertEquals(CardValue.StartsIn(59 * MINUTE), routine.copy(usedMinutes = 12).cardValue(at(19, 11), zone))
+        // Further off, only its chip says when it starts.
+        assertNull(routine.cardValue(at(19, 10), zone))
+        assertNull(routine.cardValue(at(13), zone))
     }
 
     @Test
@@ -76,13 +79,15 @@ class RuleCardStateTest {
         val saturdayNoon = LocalDate.of(2026, 10, 24).atTime(12, 0).atZone(zone).toInstant().toEpochMilli()
         val monday = LocalDate.of(2026, 10, 26).atTime(20, 10).atZone(zone).toInstant().toEpochMilli()
         // 57h10, not 56h10: the clocks go back an hour on Sunday.
-        assertEquals(CardValue.StartsIn(monday - saturdayNoon), routine.cardValue(saturdayNoon, zone))
+        assertEquals(monday, routine.schedule?.nextStartAfter(saturdayNoon, zone))
         assertEquals(57 * HOUR + 10 * MINUTE, monday - saturdayNoon)
+        assertNull(routine.cardValue(saturdayNoon, zone))
+        assertEquals(CardValue.StartsIn(40 * MINUTE), routine.cardValue(monday - 40 * MINUTE, zone))
     }
 
     @Test
     fun `a routine turned off doesn't count down`() {
-        assertNull(routine.copy(enabled = false).cardValue(at(13), zone))
+        assertNull(routine.copy(enabled = false).cardValue(at(19, 30), zone))
     }
 
     @Test

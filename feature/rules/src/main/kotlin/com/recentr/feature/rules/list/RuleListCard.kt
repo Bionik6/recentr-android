@@ -75,7 +75,7 @@ internal sealed interface CardValue {
     data object Paused : CardValue
     /** A running session or routine: the countdown to its end. */
     data class Left(val millis: Long) : CardValue
-    /** A routine waiting for its window: the countdown to its start. */
+    /** A routine waiting for its window, less than an hour away: the countdown to its start. */
     data class StartsIn(val millis: Long) : CardValue
     data object Locked : CardValue
     /** A lock waiting for Activate. */
@@ -85,10 +85,13 @@ internal sealed interface CardValue {
     data class Minutes(val minutes: Int) : CardValue
 }
 
+/** A routine counts down to its start in this last stretch only: further off, its chip says when. */
+private const val START_COUNTDOWN_MILLIS = 60 * 60_000L
+
 /**
  * The card's value, or null for nothing: a routine waiting for its window counts down to its
- * start, a started limit reads "used / budget" and one waiting for Start its budget; a saved
- * session waiting for Start has its length on its chip already.
+ * start in the last hour, a started limit reads "used / budget" and one waiting for Start its
+ * budget; a saved session waiting for Start has its length on its chip already.
  */
 internal fun Rule.cardValue(now: Long, zone: ZoneId = ZoneId.systemDefault()): CardValue? {
     if (isPaused(now)) return CardValue.Paused
@@ -100,7 +103,9 @@ internal fun Rule.cardValue(now: Long, zone: ZoneId = ZoneId.systemDefault()): C
         RuleType.Bedtime -> schedule
             ?.takeIf { enabled && !it.isActiveAt(now, zone) }
             ?.nextStartAfter(now, zone)
-            ?.let { CardValue.StartsIn(it - now) }
+            ?.let { it - now }
+            ?.takeIf { it < START_COUNTDOWN_MILLIS }
+            ?.let { CardValue.StartsIn(it) }
     }
 }
 
