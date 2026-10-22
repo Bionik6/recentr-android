@@ -144,4 +144,25 @@ class InsightsOverviewViewModelTest {
         vm.show(UsagePeriod.Today)
         assertEquals(UsageRange.of(RangeUnit.Day, today), vm.now.range)
     }
+
+    @Test
+    fun `See more lists five more apps`() = runTest(dispatcher) {
+        val vm = viewModel()
+        assertEquals(5, vm.now.topAppsShown)
+        vm.seeMoreApps()
+        assertEquals(10, vm.now.topAppsShown)
+        vm.seeMoreApps()
+        assertEquals(15, vm.now.topAppsShown)
+    }
+
+    @Test
+    fun `another day or week lists five apps again`() = runTest(dispatcher) {
+        val vm = viewModel()
+        vm.seeMoreApps()
+        vm.previous()
+        assertEquals(5, vm.now.topAppsShown)
+        vm.seeMoreApps()
+        vm.selectTab(RangeUnit.Week)
+        assertEquals(5, vm.now.topAppsShown)
+    }
 }

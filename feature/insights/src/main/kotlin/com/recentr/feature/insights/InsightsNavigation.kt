@@ -111,6 +111,7 @@ fun InsightsOverviewTab(
             onPrevious = viewModel::previous,
             onNext = viewModel::next,
             onOpenApp = { packageName, range -> open(AppDetailRoute(packageName, range)) },
+            onSeeMoreApps = viewModel::seeMoreApps,
             onOpenDailyGoal = { open(DailyGoalRoute) },
             onOpenPickups = { open(PickupsRoute(it)) },
             onOpenStreak = { open(StreakRoute) },

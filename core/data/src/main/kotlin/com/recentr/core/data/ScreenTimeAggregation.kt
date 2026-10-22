@@ -463,9 +463,10 @@ internal object ScreenTimeAggregation {
         val apps = appMillis.keys.associateWith(resolveApp)
         val categoryOf = { pkg: String -> apps[pkg]?.category ?: AppCategory.Other }
 
+        // A minute or more on screen, so no app reads "0m" or a rounded-up "1m".
         val mostUsed = appMillis.entries
+            .filter { (_, millis) -> millis >= 60_000 }
             .mapNotNull { (pkg, millis) -> apps[pkg]?.let { AppUsage(it, millis.roundedMinutes()) } }
-            .filter { it.minutes > 0 }
             .sortedWith(compareByDescending<AppUsage> { it.minutes }.thenBy { it.app.label })
 
         val groupMillis = QualityGroup.entries.map { group ->

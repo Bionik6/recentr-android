@@ -45,6 +45,8 @@ internal data class OverviewUiState(
     /** Every day of the month shown (Month tab); null while loading. */
     val monthDays: List<DayStats>? = null,
     val today: LocalDate = LocalDate.now(),
+    /** Apps listed under "Top apps": [TOP_APPS_PAGE], as many more on each "See more", and again for another range. */
+    val topAppsShown: Int = TOP_APPS_PAGE,
 ) {
     val tab: RangeUnit get() = range.unit
 
@@ -124,6 +126,11 @@ internal class InsightsOverviewViewModel(
     /** Home's usage card: its period (today, this week…). */
     fun show(period: UsagePeriod) = show(UsageRange.of(period, today()))
 
+    /** "See more" under "Top apps": the next [TOP_APPS_PAGE] apps. */
+    fun seeMoreApps() {
+        local.update { it.copy(topAppsShown = it.topAppsShown + TOP_APPS_PAGE) }
+    }
+
     /** Re-reads the numbers (back from another screen, the day may have changed). */
     fun refresh() = load()
 
@@ -134,6 +141,7 @@ internal class InsightsOverviewViewModel(
                 range = range,
                 summary = null,
                 monthDays = if (range.unit == RangeUnit.Month && range.month == it.month) it.monthDays else null,
+                topAppsShown = TOP_APPS_PAGE,
             )
         }
         load()
@@ -176,6 +184,9 @@ internal class InsightsOverviewViewModel(
         }
     }
 }
+
+/** Apps listed under "Top apps" at first, and added by each "See more". */
+internal const val TOP_APPS_PAGE = 5
 
 /** A segment of "By category": a category, or the rest when [category] is null. */
 internal data class CategoryShare(val category: AppCategory?, val minutes: Int, val percent: Int)

@@ -34,8 +34,8 @@ adb shell am start -n com.recentr.app/.MainActivity -a android.intent.action.VIE
 ```
 
 In debug builds, **Profile › Settings › Developer** has *Replay onboarding* and *Design system*
-(living catalogue of every token and component). The focus timer is the **Timer** tab. Insights open from the usage card on **Home** (Day / Week / Month follows the
-Home period); Pickups, Daily goal, Streak and Achievements are in its **⋯** menu, the streak
+(living catalogue of every token and component). The focus timer is the **Timer** tab. The **Insights** tab opens on Day, today, as on iOS; the
+usage card on **Home** opens it on the Home period (Day / Week / Month); Pickups, Daily goal, Streak and Achievements are in its **⋯** menu, the streak
 also from the Home streak tile.
 
 ## Modules
@@ -81,6 +81,9 @@ also from the Home streak tile.
   the focus log and the rules; with device numbers their earned days are kept (DataStore), demo
   numbers are evaluated on the fly. A badge already met before the user started counts from the
   first day; each new badge is celebrated once (the newest one when several arrive together).
+  *Top apps* lists the five most used apps, five more on each *See more* until every app is
+  listed, and five again for another day or week, as on iOS. *Top apps* and Home's *Most used*
+  only list apps with a minute or more on screen (`ScreenTimeSummary.mostUsed`), as on iOS.
   *Set a limit* and *Block* work for any app with a launcher entry.
 - Share cards are rendered to a PNG (`FileProvider`, cache): Stories / Post / Facebook open the app
   when it is installed, the share sheet otherwise; *Save* writes to Pictures/Recentr (Android 10+,

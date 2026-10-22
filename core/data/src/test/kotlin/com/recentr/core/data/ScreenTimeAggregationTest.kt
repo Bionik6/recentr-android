@@ -394,6 +394,24 @@ class ScreenTimeAggregationTest {
     }
 
     @Test
+    fun `apps under a minute are not listed`() {
+        val start = at(monday, 9, 0)
+        fun brief(pkg: String, from: Long, seconds: Int) = listOf(
+            ev(from, T.ScreenInteractive),
+            ev(from, T.ActivityResumed, pkg),
+            ev(from + seconds * 1_000L, T.ActivityPaused, pkg),
+            ev(from + seconds * 1_000L, T.ScreenNonInteractive),
+        )
+        val events = use(monday, X, 8, 0, 8, 38) +
+            brief(INSTAGRAM, start, 59) +
+            brief(GMAIL, start + 60_000, 60)
+        val summary = summarize(UsagePeriod.Today, listOf(day(monday, events)))
+
+        assertEquals(listOf(X, GMAIL), summary.mostUsed.map { it.app.packageName })
+        assertEquals(listOf(38, 1), summary.mostUsed.map { it.minutes })
+    }
+
+    @Test
     fun `quality split and focus hours follow the app categories`() {
         val events = use(monday, X, 8, 0, 8, 30) + // Social.
             use(monday, YOUTUBE, 9, 0, 9, 20) + // Fun.
