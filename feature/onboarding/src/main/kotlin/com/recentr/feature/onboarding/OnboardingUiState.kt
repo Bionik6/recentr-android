@@ -35,7 +35,7 @@ enum class UsageBucket(val id: String, @param:StringRes val label: Int, val aver
     Under1("under_1h", R.string.onb_usage_under_1, 45),
     ;
 
-    /** Suggested goal: ~72% of the average, rounded to the stepper step (6h → 4h20). */
+    /** Suggested goal: ~72% of the average, rounded to the ruler's step (6h → 4h20). */
     val suggestedGoalMinutes: Int
         get() = ((averageMinutes * 0.72f / GOAL_STEP_MINUTES).roundToInt() * GOAL_STEP_MINUTES)
             .coerceIn(MIN_GOAL_MINUTES, MAX_GOAL_MINUTES)
@@ -72,7 +72,7 @@ data class OnboardingUiState(
     val painPoints: Set<PainPoint> = emptySet(),
     val usageBucket: UsageBucket? = null,
     val dailyGoalMinutes: Int = UsageBucket.From5To7.suggestedGoalMinutes,
-    /** True once the user moved the stepper: the goal no longer follows the usage answer. */
+    /** True once the user moved the ruler: the goal no longer follows the usage answer. */
     val goalEdited: Boolean = false,
     val notificationsEnabled: Boolean = false,
 ) {
@@ -82,8 +82,6 @@ data class OnboardingUiState(
     /** Daily average used for the projections (falls back to the Figma 6h when unanswered). */
     val averageMinutes: Int get() = (usageBucket ?: UsageBucket.From5To7).averageMinutes
 
-    val canDecreaseGoal: Boolean get() = dailyGoalMinutes > MIN_GOAL_MINUTES
-    val canIncreaseGoal: Boolean get() = dailyGoalMinutes < MAX_GOAL_MINUTES
 
     val goalTone: GoalTone
         get() {

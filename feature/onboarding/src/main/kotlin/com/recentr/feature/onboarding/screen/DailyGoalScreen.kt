@@ -2,13 +2,10 @@ package com.recentr.feature.onboarding.screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,26 +22,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.LiveRegionMode
-import androidx.compose.ui.semantics.liveRegion
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.component.DurationPicker
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
-import com.recentr.core.designsystem.component.RecentrIconButton
-import com.recentr.core.designsystem.component.RecentrIconButtonStyle
-import com.recentr.core.designsystem.haptics.SensoryFeedback
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.motion.LocalReduceMotion
@@ -55,6 +45,9 @@ import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.theme.recentrShadow
+import com.recentr.feature.onboarding.GOAL_STEP_MINUTES
+import com.recentr.feature.onboarding.MAX_GOAL_MINUTES
+import com.recentr.feature.onboarding.MIN_GOAL_MINUTES
 import com.recentr.feature.onboarding.OnboardingUiState
 import com.recentr.feature.onboarding.R
 import com.recentr.feature.onboarding.UsageBucket
@@ -62,16 +55,14 @@ import com.recentr.feature.onboarding.component.HeaderProgress
 import com.recentr.feature.onboarding.component.OnboardingHeading
 import com.recentr.feature.onboarding.component.OnboardingPage
 import com.recentr.feature.onboarding.component.compactDuration
-import com.recentr.feature.onboarding.component.figmaLineBox
 import kotlinx.coroutines.delay
 
-/** 12 · Onboarding — Daily goal (Figma 2023:1150). 10-minute stepper, 30m … 12h. */
+/** 12 · Onboarding — Daily goal (Figma 2023:1150). A ruler in 10 minutes, 30m … 12h. */
 @Composable
 internal fun DailyGoalScreen(
     progress: HeaderProgress,
     state: OnboardingUiState,
-    onDecrease: () -> Unit,
-    onIncrease: () -> Unit,
+    onGoalChange: (Int) -> Unit,
     onBack: () -> Unit,
     onContinue: () -> Unit,
 ) {
@@ -89,7 +80,7 @@ internal fun DailyGoalScreen(
             subtitle = stringResource(R.string.onb_goal_subtitle, compactDuration(state.averageMinutes)),
         )
         Spacer(Modifier.height(58.dp))
-        GoalCard(state, onDecrease, onIncrease, Modifier.entrance(250, from = DpOffset(0.dp, 40.dp), blur = false))
+        GoalCard(state, onGoalChange, Modifier.entrance(250, from = DpOffset(0.dp, 40.dp), blur = false))
         Spacer(Modifier.height(20.dp))
         Row(
             modifier = Modifier.entrance(450),
@@ -106,12 +97,10 @@ internal fun DailyGoalScreen(
 @Composable
 private fun GoalCard(
     state: OnboardingUiState,
-    onDecrease: () -> Unit,
-    onIncrease: () -> Unit,
+    onGoalChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val colors = RecentrTheme.colors
-    SensoryFeedback(trigger = state.dailyGoalMinutes) { selection() }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -134,50 +123,15 @@ private fun GoalCard(
         ) { tone ->
             RecentrChip(label = stringResource(tone.label), style = RecentrChipStyle.Selected, icon = tone.icon)
         }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            RecentrIconButton(
-                icon = RecentrIcon.Minus,
-                contentDescription = stringResource(R.string.onb_goal_decrease),
-                onClick = onDecrease,
-                style = RecentrIconButtonStyle.Sunken,
-                size = 48.dp,
-                enabled = state.canDecreaseGoal,
-            )
-            val goal = state.dailyGoalMinutes
-            AnimatedContent(
-                targetState = goal,
-                transitionSpec = {
-                    // The iOS numeric text: digits roll up when the goal grows, down when it shrinks.
-                    val up = targetState > initialState
-                    val roll = MotionSpecs.snappy(visibilityThreshold = IntOffset.VisibilityThreshold)
-                    (slideInVertically(roll) { if (up) it / 3 else -it / 3 } + fadeIn(MotionSpecs.smooth(0.25f))) togetherWith
-                        (slideOutVertically(roll) { if (up) -it / 3 else it / 3 } + fadeOut(MotionSpecs.smooth(0.2f)))
-                },
-                contentAlignment = Alignment.Center,
-                label = "goalValue",
-                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
-            ) { minutes ->
-                Text(
-                    text = compactDuration(minutes),
-                    style = RecentrTheme.typography.displayHero,
-                    color = colors.textPrimary,
-                    maxLines = 1,
-                    modifier = Modifier.figmaLineBox(72.dp),
-                )
-            }
-            RecentrIconButton(
-                icon = RecentrIcon.Plus,
-                contentDescription = stringResource(R.string.onb_goal_increase),
-                onClick = onIncrease,
-                style = RecentrIconButtonStyle.Sunken,
-                size = 48.dp,
-                enabled = state.canIncreaseGoal,
-            )
-        }
+        DurationPicker(
+            value = state.dailyGoalMinutes,
+            onValueChange = onGoalChange,
+            range = MIN_GOAL_MINUTES..MAX_GOAL_MINUTES,
+            contentDescription = stringResource(R.string.onb_goal_your_goal),
+            step = GOAL_STEP_MINUTES,
+            labelEvery = 60,
+            format = { compactDuration(it) },
+        )
         Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             CompareRow(
                 label = stringResource(R.string.onb_goal_your_goal),
@@ -245,8 +199,7 @@ private fun DailyGoalScreenPreview() {
         DailyGoalScreen(
             HeaderProgress(0.9f),
             OnboardingUiState(usageBucket = UsageBucket.From5To7),
-            onDecrease = {},
-            onIncrease = {},
+            onGoalChange = {},
             onBack = {},
             onContinue = {},
         )

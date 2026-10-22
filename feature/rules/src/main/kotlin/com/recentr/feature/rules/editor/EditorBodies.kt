@@ -18,9 +18,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.recentr.core.designsystem.component.DurationPicker
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrHoldButton
-import com.recentr.core.designsystem.component.RecentrIconButtonStyle
 import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.StickyNote
 import com.recentr.core.designsystem.icon.RecentrIcon
@@ -47,7 +47,6 @@ import com.recentr.feature.rules.ui.components.SectionCaption
 import com.recentr.feature.rules.ui.components.SettingsGroup
 import com.recentr.feature.rules.ui.components.StrictToggleRow
 import com.recentr.feature.rules.ui.components.UnlockMethodRow
-import com.recentr.feature.rules.ui.components.ValueStepper
 import com.recentr.feature.rules.ui.durationLabel
 import com.recentr.feature.rules.ui.reminderLabel
 import com.recentr.feature.rules.ui.unlocksPerDayLabel
@@ -210,7 +209,7 @@ private const val LIMIT_MIN = 15
 private const val LIMIT_MAX = 12 * 60
 
 /**
- * Figma 38 "Limit": the budget for today (stepper), then the Apps row and "Resets automatically at
+ * Figma 38 "Limit": the budget for today (a ruler), then the Apps row and "Resets automatically at
  * midnight.": started by hand, a limit runs for today only. No unlocks: only an emergency unlock
  * gets past it.
  */
@@ -231,14 +230,14 @@ internal fun ColumnScope.LimitEditor(state: RuleEditorUiState, title: String, ac
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         Text(stringResource(R.string.rules_budget_today), style = RecentrTheme.typography.captionMedium, color = colors.brandSky)
-        ValueStepper(
-            value = compactDuration(limit),
-            onDecrease = { actions.update { it.copy(limitMinutes = (limit - LIMIT_STEP).coerceAtLeast(LIMIT_MIN)) } },
-            onIncrease = { actions.update { it.copy(limitMinutes = (limit + LIMIT_STEP).coerceAtMost(LIMIT_MAX)) } },
-            buttonSize = 48.dp,
-            buttonStyle = RecentrIconButtonStyle.Surface,
-            decreaseEnabled = limit > LIMIT_MIN,
-            increaseEnabled = limit < LIMIT_MAX,
+        DurationPicker(
+            value = limit,
+            onValueChange = { minutes -> actions.update { it.copy(limitMinutes = minutes) } },
+            range = LIMIT_MIN..LIMIT_MAX,
+            contentDescription = stringResource(R.string.rules_budget_today),
+            step = LIMIT_STEP,
+            labelEvery = 60,
+            format = { compactDuration(it) },
         )
     }
     Gap(14.dp)
