@@ -87,6 +87,7 @@
     <string name="insights_no_usage">No screen time yet.</string>
     <string name="insights_top_apps">Top apps</string>
     <string name="insights_no_apps">No app used yet.</string>
+    <string name="insights_see_more">See more</string>
     <string name="insights_category_social">Social</string>
     <string name="insights_category_video">Video</string>
     <string name="insights_category_music">Music</string>

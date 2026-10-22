@@ -42,6 +42,7 @@ import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrSegmented
+import com.recentr.core.designsystem.component.RecentrTextButton
 import com.recentr.core.designsystem.component.UsageAccessCard
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Sticker
@@ -80,6 +81,8 @@ internal class OverviewActions(
     val onPrevious: () -> Unit,
     val onNext: () -> Unit,
     val onOpenApp: (packageName: String, range: UsageRange) -> Unit,
+    /** "See more" under "Top apps". */
+    val onSeeMoreApps: () -> Unit,
     val onOpenDailyGoal: () -> Unit,
     val onOpenPickups: (UsageRange) -> Unit,
     val onOpenStreak: () -> Unit,
@@ -156,7 +159,12 @@ internal fun InsightsOverviewScreen(
                         } else {
                             UsageCard(state, summary, onClick = actions.onOpenDailyGoal)
                             CategoryCard(summary)
-                            TopAppsCard(summary.mostUsed.take(TOP_APPS), onOpenApp = { actions.onOpenApp(it, state.range) })
+                            TopAppsCard(
+                                apps = summary.mostUsed,
+                                shown = state.topAppsShown,
+                                onOpenApp = { actions.onOpenApp(it, state.range) },
+                                onSeeMore = actions.onSeeMoreApps,
+                            )
                         }
                     }
                 }
@@ -314,11 +322,9 @@ private fun CategoryCard(summary: ScreenTimeSummary) {
     }
 }
 
-/** Apps listed under "Top apps", most used first. */
-private const val TOP_APPS = 5
-
+/** The [shown] most used of [apps] (most used first), and "See more" while others are left. */
 @Composable
-private fun TopAppsCard(apps: List<AppUsage>, onOpenApp: (String) -> Unit) {
+private fun TopAppsCard(apps: List<AppUsage>, shown: Int, onOpenApp: (String) -> Unit, onSeeMore: () -> Unit) {
     val colors = RecentrTheme.colors
     val top = apps.maxOfOrNull { it.minutes }?.coerceAtLeast(1) ?: 1
     InsightsCard(spacing = 10.dp, contentPadding = PaddingValues(horizontal = 18.dp, vertical = 16.dp)) {
@@ -326,7 +332,7 @@ private fun TopAppsCard(apps: List<AppUsage>, onOpenApp: (String) -> Unit) {
         if (apps.isEmpty()) {
             Text(stringResource(R.string.insights_no_apps), style = RecentrTheme.typography.captionRegular, color = colors.textSecondary)
         }
-        apps.forEach { usage ->
+        apps.take(shown).forEach { usage ->
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -343,6 +349,14 @@ private fun TopAppsCard(apps: List<AppUsage>, onOpenApp: (String) -> Unit) {
                 }
                 Text(duration(usage.minutes), style = RecentrTheme.typography.headline, color = colors.textPrimary, maxLines = 1)
             }
+        }
+        if (apps.size > shown) {
+            RecentrTextButton(
+                text = stringResource(R.string.insights_see_more),
+                onClick = onSeeMore,
+                modifier = Modifier.fillMaxWidth(),
+                color = colors.brandSky,
+            )
         }
     }
 }
@@ -378,7 +392,7 @@ private fun MonthContent(state: OverviewUiState) {
     }
 }
 
-private val NoActions = OverviewActions({}, {}, {}, { _, _ -> }, {}, {}, {}, {}, {})
+private val NoActions = OverviewActions({}, {}, {}, { _, _ -> }, {}, {}, {}, {}, {}, {})
 
 @Preview(widthDp = 402, heightDp = 874)
 @Composable

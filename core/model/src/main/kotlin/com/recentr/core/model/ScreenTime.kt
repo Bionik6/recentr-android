@@ -55,7 +55,7 @@ data class ScreenTimeSummary(
     val hourlyMinutes: List<Int>,
     /** 7 values Monday → Sunday: minutes per day (week / month views). */
     val dailyMinutes: List<Int>,
-    /** Most used apps first. */
+    /** Apps with a minute or more on screen, most used first. */
     val mostUsed: List<AppUsage>,
     /** Longest stretch without the phone today, in minutes. */
     val longestOfflineMinutes: Int,
