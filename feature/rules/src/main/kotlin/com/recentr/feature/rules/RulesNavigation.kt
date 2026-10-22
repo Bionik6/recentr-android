@@ -11,10 +11,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
+import androidx.navigation.toRoute
 import com.recentr.core.data.BlockingAccess
 import com.recentr.core.data.RecentrData
 import com.recentr.core.designsystem.component.BlockingAccessSheet
@@ -108,6 +111,15 @@ fun NavGraphBuilder.rulesDestinations(navController: NavHostController) {
         )
     }
 }
+
+/** Opens a rule's page (a rule's notification), with [navOptions] for the screens it replaces. */
+fun NavHostController.navigateToRule(ruleId: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
+    navigate(RuleDetailRoute(ruleId), navOptions)
+}
+
+/** The rule whose page is showing, if one is. */
+fun NavHostController.ruleShown(): String? =
+    currentBackStackEntry?.takeIf { it.destination.hasRoute<RuleDetailRoute>() }?.toRoute<RuleDetailRoute>()?.ruleId
 
 /** "Start blocking": opens the new Session rule flow. */
 fun NavHostController.navigateToStartSession() {

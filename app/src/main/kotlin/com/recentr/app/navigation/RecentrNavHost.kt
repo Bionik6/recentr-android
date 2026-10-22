@@ -7,13 +7,18 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.recentr.app.NotificationLink
 import com.recentr.app.leavesRestoredOnboarding
 import com.recentr.app.main.MainScreen
 import com.recentr.core.data.RecentrData
@@ -26,8 +31,10 @@ import com.recentr.feature.onboarding.OnboardingGraphRoute
 import com.recentr.feature.onboarding.onboardingGraph
 import com.recentr.feature.profile.profileDestinations
 import com.recentr.feature.rules.navigateToNewRule
+import com.recentr.feature.rules.navigateToRule
 import com.recentr.feature.rules.navigateToRuleEditor
 import com.recentr.feature.rules.navigateToStartSession
+import com.recentr.feature.rules.ruleShown
 import com.recentr.feature.rules.rulesDestinations
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -44,11 +51,20 @@ private val PopExit = slideOutHorizontally(tween(300)) { it / 3 } + fadeOut(twee
  * Root navigation: onboarding graph → main tabs. Feature modules contribute their own full-screen
  * destinations (rule editors, settings, focus timer…) at this level so they are drawn above the
  * tab bar. [debugTools] adds the QA shortcuts (replay onboarding, design system) to Settings.
+ * [ruleToOpen] is a tapped notification's rule (NotificationLink): its page opens over the Rules
+ * tab, then [onRuleOpened].
  */
 @Composable
-fun RecentrNavHost(showOnboarding: Boolean, initialTab: RecentrTab = RecentrTab.Home, debugTools: Boolean = false) {
+fun RecentrNavHost(
+    showOnboarding: Boolean,
+    initialTab: RecentrTab = RecentrTab.Home,
+    debugTools: Boolean = false,
+    ruleToOpen: String? = null,
+    onRuleOpened: () -> Unit = {},
+) {
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
+    var tab by rememberSaveable { mutableStateOf(initialTab) }
     NavHost(
         navController = navController,
         startDestination = if (showOnboarding) OnboardingGraphRoute else MainRoute,
@@ -76,7 +92,7 @@ fun RecentrNavHost(showOnboarding: Boolean, initialTab: RecentrTab = RecentrTab.
             },
         )
         composable<MainRoute> {
-            MainScreen(navController = navController, initialTab = initialTab)
+            MainScreen(navController = navController, selected = tab, onSelect = { tab = it })
         }
         composable<DesignSystemRoute> { DesignSystemCatalog() }
         homeDestinations(navController)
@@ -110,12 +126,23 @@ fun RecentrNavHost(showOnboarding: Boolean, initialTab: RecentrTab = RecentrTab.
     // A screen brought back on the onboarding (left there by a QA shortcut, or an older screen of
     // the task) when the stored profile finished it since: straight to Home.
     LaunchedEffect(navController) {
-        val onOnboarding = navController.currentDestination?.hierarchy?.any { it.hasRoute(OnboardingGraphRoute::class) } == true
-        if (leavesRestoredOnboarding(showOnboarding, onOnboarding)) {
+        if (leavesRestoredOnboarding(showOnboarding, navController.isOnOnboarding())) {
             navController.navigate(MainRoute) { popUpTo(navController.graph.id) { inclusive = true } }
         }
     }
+    // A tapped rule notification: the rule's page over Rules, in place of any screen over the tabs.
+    LaunchedEffect(ruleToOpen) {
+        val ruleId = ruleToOpen ?: return@LaunchedEffect
+        if (NotificationLink.opensRulePage(navController.isOnOnboarding(), navController.ruleShown(), ruleId)) {
+            tab = RecentrTab.Rules
+            navController.navigateToRule(ruleId) { popUpTo<MainRoute>() }
+        }
+        onRuleOpened()
+    }
 }
+
+private fun NavHostController.isOnOnboarding(): Boolean =
+    currentDestination?.hierarchy?.any { it.hasRoute(OnboardingGraphRoute::class) } == true
 
 /** Clears the whole back stack and starts the onboarding again. */
 private fun NavHostController.restartOnboarding() {

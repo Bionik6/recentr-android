@@ -33,17 +33,18 @@ import com.recentr.feature.rules.navigateToStartSession
 
 /**
  * Main shell: the floating tab bar is drawn over the tab content, which receives the space it
- * occupies as [PaddingValues] (bottom) so scrolling content can clear it.
+ * occupies as [PaddingValues] (bottom) so scrolling content can clear it. The [selected] tab is
+ * kept by RecentrNavHost, so a rule's notification can pick Rules under the rule's page.
  */
 @Composable
 fun MainScreen(
     navController: NavHostController,
-    initialTab: RecentrTab,
+    selected: RecentrTab,
+    onSelect: (RecentrTab) -> Unit,
 ) {
-    var selected by rememberSaveable { mutableStateOf(initialTab) }
     // Home's usage card: the Insights tab opens on the tab of that period.
     var insightsPeriod by rememberSaveable { mutableStateOf<UsagePeriod?>(null) }
-    BackHandler(enabled = selected != RecentrTab.Home) { selected = RecentrTab.Home }
+    BackHandler(enabled = selected != RecentrTab.Home) { onSelect(RecentrTab.Home) }
 
     val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     // Top gap 6 + pill 68 + bottom gap (max(nav inset, 20dp)) — see RecentrTabBar.
@@ -60,10 +61,10 @@ fun MainScreen(
                         navController = navController,
                         contentPadding = tabBarPadding,
                         onStartBlocking = { navController.navigateToStartSession() },
-                        onOpenRules = { selected = RecentrTab.Rules },
+                        onOpenRules = { onSelect(RecentrTab.Rules) },
                         onOpenInsights = {
                             insightsPeriod = it
-                            selected = RecentrTab.Insights
+                            onSelect(RecentrTab.Insights)
                         },
                         onOpenStreak = { navController.navigateToStreak() },
                         onOpenProfile = { navController.navigateToProfile() },
@@ -82,7 +83,7 @@ fun MainScreen(
         }
         RecentrTabBar(
             selected = selected,
-            onSelect = { selected = it },
+            onSelect = onSelect,
             modifier = Modifier.align(Alignment.BottomCenter),
         )
     }

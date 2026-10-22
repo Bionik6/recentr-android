@@ -41,16 +41,19 @@ class MainActivity : ComponentActivity() {
             RecentrData.settings.settings.map { it.theme }.distinctUntilChanged().collect { applyNightMode(it) }
         }
 
-        // Debug-only QA shortcuts (QaShortcuts), for the launch that carries them only: a task
-        // brought back after process death or from Recents is recreated with its first intent.
+        // Debug-only QA shortcuts (QaShortcuts) and a tapped notification's rule (NotificationLink),
+        // for the launch that carries them only: a task brought back after process death or from
+        // Recents is recreated with its first intent.
         val debuggable = applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+        val freshLaunch = savedInstanceState == null && intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY == 0
         val qa = QaShortcuts.of(
             debuggable = debuggable,
-            freshLaunch = savedInstanceState == null && intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY == 0,
+            freshLaunch = freshLaunch,
             start = intent.getStringExtra("start"),
             tab = intent.getStringExtra("tab"),
         )
         val initialTab = qa.tab ?: RecentrTab.Home
+        NotificationLink.ruleToOpen(freshLaunch, intent.dataString)?.let(viewModel::openRule)
 
         setContent {
             // Settings › Appearance: Theme, Reduce motion and Haptics apply to every screen. Screens
@@ -66,13 +69,26 @@ class MainActivity : ComponentActivity() {
                         // Settings › Time format, else the device's 24-hour setting.
                         val use24Hour = settings.timeFormat?.let { it == TimeFormat.TwentyFourHour }
                             ?: DateFormat.is24HourFormat(LocalContext.current)
+                        val ruleToOpen = viewModel.ruleToOpen.collectAsStateWithLifecycle().value
                         CompositionLocalProvider(LocalUse24HourClock provides use24Hour) {
-                            RecentrNavHost(showOnboarding = showOnboarding, initialTab = initialTab, debugTools = debuggable)
+                            RecentrNavHost(
+                                showOnboarding = showOnboarding,
+                                initialTab = initialTab,
+                                debugTools = debuggable,
+                                ruleToOpen = ruleToOpen,
+                                onRuleOpened = viewModel::ruleOpened,
+                            )
                         }
                     }
                 }
             }
         }
+    }
+
+    /** A notification tapped while Recentr is open, or in the background (singleTask): its rule's page. */
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        NotificationLink.ruleId(intent.dataString)?.let(viewModel::openRule)
     }
 
     /** Latest Settings › Appearance › App icon choice, applied when the app goes to the background. */
