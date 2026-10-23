@@ -1,6 +1,7 @@
 package com.recentr.feature.onboarding.screen
 
 import android.graphics.BlurMaskFilter
+import android.graphics.Paint
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
@@ -33,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
@@ -133,9 +133,9 @@ private fun ProgressRing(progress: Float, modifier: Modifier = Modifier) {
             if (sweep > 0f) {
                 // Glow/Sky: 0 10 24 · sky 35% — a blurred copy of the arc drawn below it.
                 drawIntoCanvas { canvas ->
-                    val paint = Paint().asFrameworkPaint().apply {
+                    val paint = Paint().apply {
                         isAntiAlias = true
-                        style = android.graphics.Paint.Style.STROKE
+                        style = Paint.Style.STROKE
                         strokeWidth = stroke
                         color = glow.toArgb()
                         maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
