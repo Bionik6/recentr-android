@@ -12,6 +12,7 @@ enum class RangeUnit { Day, Week, Month }
  * A calendar day, week (Monday → Sunday) or month: the current one or one before it (Insights'
  * date selector). [start] is the day itself, the week's Monday or the month's 1st ([of] makes one).
  */
+@ConsistentCopyVisibility
 data class UsageRange private constructor(val unit: RangeUnit, val start: LocalDate) {
 
     /** The last day of the range, inclusive. */
