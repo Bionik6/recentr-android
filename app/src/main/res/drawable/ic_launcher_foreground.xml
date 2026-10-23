@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 108dp adaptive icon layer; the mascot fits the 66dp safe zone. -->
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/mascot_calm"
-    android:insetLeft="34dp"
-    android:insetRight="34dp"
-    android:insetTop="28dp"
-    android:insetBottom="28dp" />
