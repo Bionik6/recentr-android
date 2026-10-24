@@ -1,6 +1,7 @@
 package com.recentr.core.model
 
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import kotlinx.serialization.Serializable
@@ -73,7 +74,7 @@ data class RuleSchedule(
         if (allDay) return today.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
         val minute = time.hour * 60 + time.minute
         val endDate = if (overnight && minute >= startMinute) today.plusDays(1) else today
-        return endDate.atStartOfDay(zone).plusMinutes(endMinute.toLong()).toInstant().toEpochMilli()
+        return endDate.atMinute(endMinute, zone)
     }
 
     /** When the window next starts after [epochMillis], within a week; null without days. */
@@ -82,7 +83,7 @@ data class RuleSchedule(
         return (0..7).asSequence()
             .map { today.plusDays(it.toLong()) }
             .filter { it.dayOfWeek.value in days }
-            .map { it.atStartOfDay(zone).plusMinutes(startMinute.toLong()).toInstant().toEpochMilli() }
+            .map { it.atMinute(startMinute, zone) }
             .firstOrNull { it > epochMillis }
     }
 
@@ -255,3 +256,11 @@ data class Rule(
             Instant.ofEpochMilli(epochMillis).atZone(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
     }
 }
+
+/**
+ * [minute] minutes past midnight on this day's clock in [zone] (epoch millis), as a routine's
+ * hours read: the night the clocks change, a window still starts and ends at its hour, not one
+ * off. A time the clocks skip is the first moment after it.
+ */
+fun LocalDate.atMinute(minute: Int, zone: ZoneId): Long =
+    atStartOfDay().plusMinutes(minute.toLong()).atZone(zone).toInstant().toEpochMilli()

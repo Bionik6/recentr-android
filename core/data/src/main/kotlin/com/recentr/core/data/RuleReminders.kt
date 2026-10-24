@@ -1,6 +1,7 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.Rule
+import com.recentr.core.model.atMinute
 import com.recentr.core.model.RuleType
 import java.time.Instant
 import java.time.ZoneId
@@ -27,7 +28,7 @@ fun nextRuleReminder(rules: List<Rule>, now: Long, zone: ZoneId = ZoneId.systemD
         (0..8).asSequence()
             .map { today.plusDays(it.toLong()) }
             .filter { it.dayOfWeek.value in schedule.days }
-            .map { it.atStartOfDay(zone).plusMinutes(schedule.startMinute.toLong()).toInstant().toEpochMilli() }
+            .map { it.atMinute(schedule.startMinute, zone) }
             .filter { start -> !rule.isPaused(start) }
             .map { start -> start - before * 60_000L to start }
             .firstOrNull { (at, _) -> at > now }
