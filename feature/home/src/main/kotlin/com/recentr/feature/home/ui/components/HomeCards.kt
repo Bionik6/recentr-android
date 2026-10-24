@@ -170,7 +170,10 @@ internal fun skeletonPulse(): () -> Float {
     return { alpha }
 }
 
-/** Full-width next rule tile, or the running session's countdown ("Loading…" while syncing). */
+/**
+ * Full-width next rule tile, or the running session's countdown ("Loading…" while syncing). A rule's
+ * tile shows it on Rules ([onShowRule]); with none, the tile opens Rules ([onOpenRules]).
+ */
 @Composable
 internal fun NextRuleTile(
     nextRule: NextRuleUi?,
@@ -178,6 +181,7 @@ internal fun NextRuleTile(
     onOpenRules: () -> Unit,
     modifier: Modifier = Modifier,
     activeSession: ActiveSessionUi? = null,
+    onShowRule: (ruleId: String) -> Unit = { onOpenRules() },
 ) {
     val dayNames = stringArrayResource(R.array.home_day_short)
     // Live countdown of the running session or routine (ticks every second while it runs).
@@ -212,7 +216,7 @@ internal fun NextRuleTile(
                 label = stringResource(if (activeSession.type == RuleType.Bedtime) R.string.home_tile_blocking else R.string.home_tile_ongoing),
                 value = stringResource(R.string.home_tile_left, left),
                 sticker = activeSession.type.sticker,
-                onClick = onOpenRules,
+                onClick = { onShowRule(activeSession.ruleId) },
                 modifier = tileModifier,
             )
         }
@@ -223,7 +227,7 @@ internal fun NextRuleTile(
                 label = stringResource(R.string.home_tile_next, whenText),
                 value = nextRule.name,
                 sticker = nextRule.type.sticker,
-                onClick = onOpenRules,
+                onClick = { onShowRule(nextRule.ruleId) },
                 modifier = tileModifier,
             )
         }

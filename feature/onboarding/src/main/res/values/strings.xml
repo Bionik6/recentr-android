@@ -178,4 +178,8 @@
     <string name="onb_reason_hours">Notice my time before it slips away.</string>
     <string name="onb_reason_fine">A little more balance, every day.</string>
     <string name="onb_all_set_cta">Start my first session</string>
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">Working Time</string>
+    <string name="onb_routine_night_pause">Night Pause</string>
+    <string name="onb_routine_weekend_zen">Weekend Zen</string>
 </resources>

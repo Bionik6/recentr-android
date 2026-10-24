@@ -1,13 +1,19 @@
 package com.recentr.feature.onboarding
 
+import android.provider.Telephony
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.recentr.core.data.RecentrData
+import com.recentr.core.data.RulesRepository
 import com.recentr.core.data.UserPreferencesRepository
+import com.recentr.core.model.StarterRoutine
+import com.recentr.core.model.UsageApp
 import com.recentr.core.model.UserProfile
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,12 +23,20 @@ import kotlinx.coroutines.launch
 
 /**
  * Single ViewModel of the onboarding flow, scoped to the onboarding navigation graph so every
- * screen shares the same answers. Answers are written to [UserPreferencesRepository] as the user
- * confirms each step ([save]) so they survive process death; the stored profile pre-fills the
- * flow when it is replayed.
+ * screen shares the same answers. Answers are written to the stored [profile]
+ * ([UserPreferencesRepository], through [updateProfile]) as the user confirms each step ([save]) so
+ * they survive process death; the stored profile pre-fills the flow when it is replayed.
+ * Completing it sets up the starter routines in [rules], blocking the social apps among the
+ * [installedApps] but the default SMS app ([smsApp]), each called by [routineName].
  */
 class OnboardingViewModel(
-    private val preferences: UserPreferencesRepository,
+    private val profile: Flow<UserProfile>,
+    private val updateProfile: suspend (transform: (UserProfile) -> UserProfile) -> Unit,
+    private val rules: RulesRepository,
+    private val installedApps: suspend () -> List<UsageApp>,
+    private val routineName: (StarterRoutine) -> String,
+    /** The default SMS app's package, if there's one. */
+    private val smsApp: () -> String? = { null },
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OnboardingUiState())
@@ -39,8 +53,8 @@ class OnboardingViewModel(
 
     init {
         viewModelScope.launch {
-            val profile = preferences.profile.first()
-            if (!touched) _uiState.value = profile.toUiState()
+            val stored = profile.first()
+            if (!touched) _uiState.value = stored.toUiState()
         }
     }
 
@@ -75,22 +89,38 @@ class OnboardingViewModel(
     /** Persists the current answers. Called whenever a step is confirmed. */
     fun save() {
         val state = _uiState.value
-        viewModelScope.launch { preferences.update { it.withAnswers(state) } }
+        viewModelScope.launch { updateProfile { it.withAnswers(state) } }
     }
 
-    /** Persists everything, marks onboarding as done, then calls [onDone] (navigates to Home). */
+    /**
+     * Persists everything, marks onboarding as done, sets up the starter routines, then calls
+     * [onDone] (navigates to Home).
+     */
     fun complete(onDone: () -> Unit) {
         if (completing) return
         completing = true
         val state = _uiState.value
         viewModelScope.launch {
-            preferences.update {
+            updateProfile {
                 it.withAnswers(state).copy(
                     onboardingCompleted = true,
                     joinedAtMillis = it.joinedAtMillis ?: System.currentTimeMillis(),
                 )
             }
+            setUpStarterRoutines()
             onDone()
+        }
+    }
+
+    /**
+     * Working Time, Night Pause and Weekend Zen, blocking the social apps installed but the SMS
+     * app. Only for someone without rules: back from logging out, the rules kept stay as they are.
+     */
+    private suspend fun setUpStarterRoutines() {
+        if (rules.rules.value.isNotEmpty()) return
+        val apps = StarterRoutine.apps(installedApps(), smsApp())
+        StarterRoutine.entries.forEach { routine ->
+            rules.create(routine.rule(rules.newId(), routineName(routine), apps))
         }
     }
 
@@ -103,10 +133,29 @@ class OnboardingViewModel(
         const val MAX_NAME_LENGTH = 30
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer { OnboardingViewModel(RecentrData.userPreferences) }
+            initializer {
+                val application = checkNotNull(this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
+                OnboardingViewModel(
+                    profile = RecentrData.userPreferences.profile,
+                    updateProfile = RecentrData.userPreferences::update,
+                    rules = RecentrData.rules,
+                    installedApps = RecentrData.installedApps::load,
+                    routineName = { application.getString(it.title) },
+                    smsApp = { Telephony.Sms.getDefaultSmsPackage(application) },
+                )
+            }
         }
     }
 }
+
+/** The starter routine's name, as Rules lists it. */
+@get:StringRes
+private val StarterRoutine.title: Int
+    get() = when (this) {
+        StarterRoutine.WorkingTime -> R.string.onb_routine_working_time
+        StarterRoutine.NightPause -> R.string.onb_routine_night_pause
+        StarterRoutine.WeekendZen -> R.string.onb_routine_weekend_zen
+    }
 
 private fun UserProfile.toUiState(): OnboardingUiState {
     val bucket = UsageBucket.fromId(reportedUsageBucket)

@@ -35,7 +35,9 @@ import com.recentr.feature.rules.navigateToStartSession
 /**
  * Main shell: the floating tab bar is drawn over the tab content, which receives the space it
  * occupies as [PaddingValues] (bottom) so scrolling content can clear it. The [selected] tab is
- * kept by RecentrNavHost, so a rule's notification can pick Rules under the rule's page.
+ * kept by RecentrNavHost, so a rule's notification can pick Rules under the rule's page. Home's
+ * next rule tile picks Rules, scrolled to its rule, and its "Start blocking" Rules under the new
+ * session sheet.
  */
 @Composable
 fun MainScreen(
@@ -45,6 +47,8 @@ fun MainScreen(
 ) {
     // Home's usage card: the Insights tab opens on the tab of that period.
     var insightsPeriod by rememberSaveable { mutableStateOf<UsagePeriod?>(null) }
+    // Home's next rule tile: the Rules tab scrolls to that rule.
+    var ruleToShow by rememberSaveable { mutableStateOf<String?>(null) }
     BackHandler(enabled = selected != RecentrTab.Home) { onSelect(RecentrTab.Home) }
 
     val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
@@ -61,8 +65,16 @@ fun MainScreen(
                     RecentrTab.Home -> HomeTab(
                         navController = navController,
                         contentPadding = tabBarPadding,
-                        onStartBlocking = { navController.navigateToStartSession() },
+                        // Start blocking: the new session sheet, over Rules.
+                        onStartBlocking = {
+                            onSelect(RecentrTab.Rules)
+                            navController.navigateToStartSession()
+                        },
                         onOpenRules = { onSelect(RecentrTab.Rules) },
+                        onShowRule = {
+                            ruleToShow = it
+                            onSelect(RecentrTab.Rules)
+                        },
                         onOpenInsights = {
                             insightsPeriod = it
                             onSelect(RecentrTab.Insights)
@@ -72,7 +84,12 @@ fun MainScreen(
                         onOpenApp = { packageName, period -> navController.navigateToAppInsights(packageName, period) },
                         onSetUpAlwaysAllowed = { navController.navigateToAlwaysAllowed() },
                     )
-                    RecentrTab.Rules -> RulesTab(navController = navController, contentPadding = tabBarPadding)
+                    RecentrTab.Rules -> RulesTab(
+                        navController = navController,
+                        contentPadding = tabBarPadding,
+                        ruleToShow = ruleToShow,
+                        onRuleShown = { ruleToShow = null },
+                    )
                     RecentrTab.Timer -> FocusTab(navController = navController, contentPadding = tabBarPadding)
                     RecentrTab.Insights -> InsightsOverviewTab(
                         navController = navController,

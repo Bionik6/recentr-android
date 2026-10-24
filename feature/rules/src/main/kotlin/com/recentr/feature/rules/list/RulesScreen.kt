@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -36,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
@@ -77,16 +79,18 @@ internal class RulesListActions(
     val onOpenRule: (String) -> Unit = {},
     val onCreate: (RuleType) -> Unit = {},
     val onTemplate: (String) -> Unit = {},
-    val onStartBlocking: () -> Unit = {},
-    /** The header "+": the "New rule" sheet. */
+    /** The header "+" and the "New rule" CTA: the "New rule" sheet. */
     val onNewRule: () -> Unit = {},
     /** "Blocking is off" banner: explains app blocking, then opens Settings. */
     val onTurnOnBlocking: () -> Unit = {},
+    /** The list scrolled to [RulesUiState.ruleToShow]. */
+    val onRuleShown: () -> Unit = {},
 )
 
 /**
  * Rules tab (Figma 30 / 34 / 43): grouped rule cards or the template sections, a compact header
- * once scrolled, the bottom fade with the "Start blocking" CTA and the confirmation toast.
+ * once scrolled, the bottom fade with the "New rule" CTA (the "New rule" sheet, as the header's
+ * "+" and on iOS) and the confirmation toast.
  */
 @Composable
 internal fun RulesScreen(
@@ -133,8 +137,8 @@ internal fun RulesScreen(
                 .padding(bottom = bottomInset + 8.dp + 54.dp + 12.dp),
         )
         RecentrButton(
-            text = stringResource(R.string.rules_start_blocking),
-            onClick = actions.onStartBlocking,
+            text = stringResource(R.string.rules_new_rule),
+            onClick = actions.onNewRule,
             style = RecentrButtonStyle.Brand,
             icon = RecentrIcon.Plus,
             modifier = Modifier
@@ -148,77 +152,65 @@ internal fun RulesScreen(
 @Composable
 private fun RulesList(state: RulesUiState, listState: LazyListState, bottom: androidx.compose.ui.unit.Dp, actions: RulesListActions) {
     val statusBar = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+    // Home's next rule tile: once the rule's card is listed, the list scrolls to it, clear of the
+    // compact header.
+    val indexToShow = state.ruleToShow?.let(state::indexOfRule)
+    val headerClearance = with(LocalDensity.current) { CompactHeaderHeight.roundToPx() }
+    LaunchedEffect(indexToShow) {
+        indexToShow ?: return@LaunchedEffect
+        listState.animateScrollToItem(indexToShow, scrollOffset = -headerClearance)
+        actions.onRuleShown()
+    }
     LazyColumn(
         state = listState,
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(top = statusBar + 12.dp, bottom = bottom),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        item(key = "header") {
-            RulesHeader(
-                showTemplates = false,
-                subtitle = if (state.pausedCount > 0) {
-                    stringResource(R.string.rules_subtitle_active_paused, state.activeCount, state.pausedCount)
-                } else {
-                    stringResource(R.string.rules_subtitle_active, state.activeCount)
-                },
-                actions = actions,
-                modifier = Modifier.padding(bottom = 9.dp),
-            )
-        }
-        if (!state.blockingOn) {
-            item(key = "blocking-off") {
-                BlockingOffBanner(
+        items(state.listItems, key = { it.key }) { item ->
+            when (item) {
+                RulesListItem.Header -> RulesHeader(
+                    showTemplates = false,
+                    subtitle = if (state.pausedCount > 0) {
+                        stringResource(R.string.rules_subtitle_active_paused, state.activeCount, state.pausedCount)
+                    } else {
+                        stringResource(R.string.rules_subtitle_active, state.activeCount)
+                    },
+                    actions = actions,
+                    modifier = Modifier.padding(bottom = 9.dp),
+                )
+                RulesListItem.BlockingOff -> BlockingOffBanner(
                     onClick = actions.onTurnOnBlocking,
                     modifier = Modifier.padding(horizontal = 24.dp).animateItem(),
                 )
-            }
-        }
-        state.sections.forEach { section ->
-            val expanded = section.group !in state.collapsed
-            item(key = "group-${section.group}") {
-                RuleGroupHeader(
-                    label = stringResource(section.group.label),
-                    count = section.rules.size.takeIf { it > 0 },
-                    expanded = expanded,
-                    onToggle = { actions.onToggleGroup(section.group) },
+                is RulesListItem.GroupHeader -> RuleGroupHeader(
+                    label = stringResource(item.section.group.label),
+                    count = item.section.rules.size.takeIf { it > 0 },
+                    expanded = item.expanded,
+                    onToggle = { actions.onToggleGroup(item.section.group) },
                     modifier = Modifier.padding(horizontal = 24.dp).animateItem(),
                 )
-            }
-            if (expanded) {
-                items(section.rules, key = { it.id }) { rule ->
-                    RuleListCard(
-                        rule = rule,
-                        now = state.now,
-                        alwaysAllowed = state.alwaysAllowed,
-                        onClick = { actions.onOpenRule(rule.id) },
-                        modifier = Modifier.padding(horizontal = 24.dp).animateItem(),
-                    )
-                }
-                if (section.group.addTitle != null && section.group.addHint != null) {
-                    item(key = "add-${section.group}") {
-                        AddCard(
-                            title = stringResource(section.group.addTitle),
-                            hint = stringResource(section.group.addHint),
-                            onClick = { actions.onCreate(section.group.type) },
-                            modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth().animateItem(),
-                        )
-                    }
-                }
-            }
-        }
-        item(key = "templates-header") {
-            RuleGroupHeader(
-                label = stringResource(R.string.rules_group_templates),
-                count = null,
-                expanded = !state.templatesCollapsed,
-                onToggle = actions.onToggleTemplatesGroup,
-                modifier = Modifier.padding(horizontal = 24.dp).animateItem(),
-            )
-        }
-        if (!state.templatesCollapsed) {
-            item(key = "templates-row") {
-                TemplatesRow(
+                is RulesListItem.Card -> RuleListCard(
+                    rule = item.rule,
+                    now = state.now,
+                    alwaysAllowed = state.alwaysAllowed,
+                    onClick = { actions.onOpenRule(item.rule.id) },
+                    modifier = Modifier.padding(horizontal = 24.dp).animateItem(),
+                )
+                is RulesListItem.Add -> AddCard(
+                    title = stringResource(checkNotNull(item.group.addTitle)),
+                    hint = stringResource(checkNotNull(item.group.addHint)),
+                    onClick = { actions.onCreate(item.group.type) },
+                    modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth().animateItem(),
+                )
+                RulesListItem.TemplatesHeader -> RuleGroupHeader(
+                    label = stringResource(R.string.rules_group_templates),
+                    count = null,
+                    expanded = !state.templatesCollapsed,
+                    onToggle = actions.onToggleTemplatesGroup,
+                    modifier = Modifier.padding(horizontal = 24.dp).animateItem(),
+                )
+                RulesListItem.Templates -> TemplatesRow(
                     templates = BuiltInTemplate.entries,
                     onTemplate = actions.onTemplate,
                     bottom = 28.dp,
@@ -339,6 +331,9 @@ private fun RulesHeader(showTemplates: Boolean, subtitle: String, actions: Rules
     }
 }
 
+/** The compact header's height under the status bar. */
+private val CompactHeaderHeight = 50.dp
+
 /** Blurred-looking compact title bar shown once the large header scrolled away (Figma 30). */
 @Composable
 private fun CompactHeader(title: String, listState: LazyListState) {
@@ -351,7 +346,7 @@ private fun CompactHeader(title: String, listState: LazyListState) {
                 .fillMaxWidth()
                 .background(RecentrTheme.colors.bgSurface.copy(alpha = 0.96f))
                 .statusBarsPadding()
-                .height(50.dp),
+                .height(CompactHeaderHeight),
             contentAlignment = Alignment.BottomCenter,
         ) {
             Text(

@@ -16,6 +16,10 @@ export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 ./gradlew :app:installDebug
 ```
 
+Android backs up the app's data (rules, profile, settings) and restores it on a new phone or a
+reinstall. Debug builds aren't backed up (`allowBackup` is off for them in `app/build.gradle.kts`),
+so a debug build reinstalled starts from the onboarding rather than with an earlier install's rules.
+
 Debug-only shortcuts (QA):
 
 ```bash
@@ -88,7 +92,15 @@ also from the Home streak tile.
 - Share cards are rendered to a PNG (`FileProvider`, cache): Stories / Post / Facebook open the app
   when it is installed, the share sheet otherwise; *Save* writes to Pictures/Recentr (Android 10+,
   the share sheet before).
-- The app starts empty: no rules, focus log or blocked apps until the user creates them.
+- Completing the onboarding sets up three routines blocking the social apps installed, but the
+  default SMS app (`Telephony.Sms.getDefaultSmsPackage`): Working Time (weekdays, 9–5), Night
+  Pause (every day, 11 PM–7 AM) and Weekend Zen (weekends, 9–12), none strict, each with a
+  10-second wait to unlock (`StarterRoutine` in `:core:model`, [docs/RULES.md](docs/RULES.md) ›
+  Starter routines). Someone who already has rules gets none. Home's next rule tile shows its rule
+  on Rules: the list opens its group and scrolls to the card.
+- Home's "+ Start blocking" opens the new session sheet over the Rules tab; the Rules tab's
+  "+ New rule" opens the New rule sheet (a kind, or Browse templates), as its header's "+" does
+  and as on iOS.
 - App pickers (Rules › Choose apps, Focus › Block) list the device's launcher apps
   (`InstalledAppsRepository`, `PackageManager`), grouped by their declared `android:appCategory`
   (catalogue packages keep their Figma category); rules and focus sessions keep the chosen apps'

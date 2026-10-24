@@ -56,12 +56,72 @@ internal data class RulesUiState(
     val blockingOn: Boolean = true,
     /** The apps always allowed: the cards' icons leave them out. */
     val alwaysAllowed: AlwaysAllowed = AlwaysAllowed(),
-)
+    /** The rule to scroll to, once: Home's next rule tile asked to see it. */
+    val ruleToShow: String? = null,
+) {
+    /**
+     * The rows of the rules list, in order: the header, the "Blocking is off" banner, each group's
+     * header, its cards when it's open and its add card, then the templates.
+     */
+    val listItems: List<RulesListItem>
+        get() = buildList {
+            add(RulesListItem.Header)
+            if (!blockingOn) add(RulesListItem.BlockingOff)
+            sections.forEach { section ->
+                val expanded = section.group !in collapsed
+                add(RulesListItem.GroupHeader(section, expanded))
+                if (expanded) {
+                    section.rules.forEach { add(RulesListItem.Card(it)) }
+                    if (section.group.addTitle != null && section.group.addHint != null) add(RulesListItem.Add(section.group))
+                }
+            }
+            add(RulesListItem.TemplatesHeader)
+            if (!templatesCollapsed) add(RulesListItem.Templates)
+        }
+
+    /** Where the card of the rule [ruleId] is in [listItems], or null when it isn't listed. */
+    fun indexOfRule(ruleId: String): Int? =
+        listItems.indexOfFirst { it is RulesListItem.Card && it.rule.id == ruleId }.takeIf { it >= 0 }
+}
+
+/** A row of the rules list ([RulesUiState.listItems]), with its key in the list. */
+internal sealed interface RulesListItem {
+    val key: String
+
+    data object Header : RulesListItem {
+        override val key get() = "header"
+    }
+
+    data object BlockingOff : RulesListItem {
+        override val key get() = "blocking-off"
+    }
+
+    data class GroupHeader(val section: RuleSection, val expanded: Boolean) : RulesListItem {
+        override val key get() = "group-${section.group}"
+    }
+
+    data class Card(val rule: Rule) : RulesListItem {
+        override val key get() = rule.id
+    }
+
+    data class Add(val group: RuleGroup) : RulesListItem {
+        override val key get() = "add-$group"
+    }
+
+    data object TemplatesHeader : RulesListItem {
+        override val key get() = "templates-header"
+    }
+
+    data object Templates : RulesListItem {
+        override val key get() = "templates-row"
+    }
+}
 
 private data class ListFlags(
     val showTemplates: Boolean = false,
     val collapsed: Set<RuleGroup> = emptySet(),
     val templatesCollapsed: Boolean = false,
+    val ruleToShow: String? = null,
 )
 
 internal class RulesViewModel(
@@ -114,6 +174,7 @@ internal class RulesViewModel(
             templatesCollapsed = flags.templatesCollapsed,
             blockingOn = blockingOn,
             alwaysAllowed = allowed,
+            ruleToShow = flags.ruleToShow,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), RulesUiState())
 
@@ -124,6 +185,22 @@ internal class RulesViewModel(
     }
 
     fun toggleTemplatesGroup() = flags.update { it.copy(templatesCollapsed = !it.templatesCollapsed) }
+
+    /**
+     * Home's next rule tile: the rules, scrolled to the rule [id], its group open. A rule since
+     * deleted leaves the list as it is.
+     */
+    fun showRule(id: String) {
+        val rule = repository.rule(id)
+        flags.update { flags ->
+            if (rule == null) return@update flags.copy(showTemplates = false)
+            val group = RuleGroup.entries.first { it.type == rule.type }
+            flags.copy(showTemplates = false, collapsed = flags.collapsed - group, ruleToShow = id)
+        }
+    }
+
+    /** The list scrolled to the rule Home asked for. */
+    fun ruleShown() = flags.update { it.copy(ruleToShow = null) }
 
     companion object {
         val Factory = viewModelFactory {

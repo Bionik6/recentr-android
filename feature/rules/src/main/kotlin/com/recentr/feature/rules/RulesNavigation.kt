@@ -2,6 +2,7 @@ package com.recentr.feature.rules
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,9 +36,9 @@ import kotlinx.serialization.Serializable
 
 /**
  * Rule editor sheet (create / edit). A `dialog` destination hosting a bottom sheet, so it can be
- * opened from Home ("Start blocking") and Insights as well as from the Rules tab and the rule
- * detail. A rule it creates then opens on its [RuleDetailRoute]. [apps] preselects the apps of a
- * new rule (comma-separated package names).
+ * opened from Home ("Start blocking", over the Rules tab) and Insights as well as from the Rules
+ * tab and the rule detail. A rule it creates then opens on its [RuleDetailRoute]. [apps]
+ * preselects the apps of a new rule (comma-separated package names).
  */
 @Serializable
 internal data class RuleEditorRoute(
@@ -57,16 +58,24 @@ internal data object AlwaysAllowedRoute
 
 /**
  * Rules tab content (rules list). Drawn under the floating tab bar: keep [contentPadding]
- * (bottom) clear of interactive content. The header "+" opens the "New rule" sheet.
+ * (bottom) clear of interactive content. The header "+" opens the "New rule" sheet. [ruleToShow]
+ * is the rule Home's next rule tile shows: the list scrolls to it, then [onRuleShown].
  */
 @Composable
 fun RulesTab(
     navController: NavHostController,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
+    ruleToShow: String? = null,
+    onRuleShown: () -> Unit = {},
 ) {
     val viewModel: RulesViewModel = viewModel(factory = RulesViewModel.Factory)
     val state by viewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(ruleToShow) {
+        ruleToShow ?: return@LaunchedEffect
+        viewModel.showRule(ruleToShow)
+        onRuleShown()
+    }
     var newRule by rememberSaveable { mutableStateOf(false) }
     var explainBlocking by rememberSaveable { mutableStateOf(false) }
     RulesScreen(
@@ -80,9 +89,9 @@ fun RulesTab(
             onOpenRule = { navController.navigate(RuleDetailRoute(it)) },
             onCreate = { navController.navigateToNewRule(it) },
             onTemplate = { navController.navigateToTemplate(it) },
-            onStartBlocking = { navController.navigateToStartSession() },
             onNewRule = { newRule = true },
             onTurnOnBlocking = { explainBlocking = true },
+            onRuleShown = viewModel::ruleShown,
         ),
     )
     if (explainBlocking) {
