@@ -1,6 +1,7 @@
 package com.recentr.core.data
 
 import com.recentr.core.model.Rule
+import com.recentr.core.model.atMinute
 import com.recentr.core.model.RuleType
 import java.time.Instant
 import java.time.LocalDate
@@ -101,15 +102,16 @@ internal object RuleStreaks {
 
     /** The window of [rule] starting on [date], if any. */
     private fun Rule.windowOn(date: LocalDate, zone: ZoneId): Window? {
-        fun at(day: LocalDate, minute: Int = 0) = day.atStartOfDay(zone).plusMinutes(minute.toLong()).toInstant().toEpochMilli()
+        fun at(day: LocalDate, minute: Int = 0) = day.atMinute(minute, zone)
         return when (type) {
             RuleType.Bedtime -> {
                 val schedule = schedule?.takeIf { date.dayOfWeek.value in it.days } ?: return null
                 if (schedule.allDay) {
                     Window(at(date), at(date.plusDays(1)))
                 } else {
-                    val start = date.atStartOfDay(zone).plusMinutes(schedule.startMinute.toLong())
-                    Window(start.toInstant().toEpochMilli(), start.plusMinutes(schedule.lengthMinutes.toLong()).toInstant().toEpochMilli())
+                    // Ends at its hour on the clock, the next day for an overnight window.
+                    val endDay = if (schedule.overnight) date.plusDays(1) else date
+                    Window(at(date, schedule.startMinute), at(endDay, schedule.endMinute))
                 }
             }
             // Each day the lock is on: its first from Activate, none past a kept turn-off or delete.

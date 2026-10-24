@@ -4,6 +4,7 @@ import com.recentr.core.model.AlwaysAllowed
 import com.recentr.core.model.FocusPhase
 import com.recentr.core.model.FocusRun
 import com.recentr.core.model.Rule
+import com.recentr.core.model.atMinute
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
 import java.time.Instant
@@ -184,7 +185,7 @@ fun Rule.blockStart(now: Long, zone: ZoneId): Long? {
             if (window.allDay) return today
             val minute = time.hour * 60 + time.minute
             val startDate = if (window.overnight && minute < window.endMinute) time.toLocalDate().minusDays(1) else time.toLocalDate()
-            startDate.atStartOfDay(zone).plusMinutes(window.startMinute.toLong()).toInstant().toEpochMilli()
+            startDate.atMinute(window.startMinute, zone)
         }
     }
 }
