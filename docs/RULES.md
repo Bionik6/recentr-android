@@ -113,6 +113,26 @@ ride, a health app.
 - The page says when they join ("Your changes apply at midnight"), and the kept change can be
   dropped.
 
+## Starter routines
+
+Onboarding sets up three routines, so Rules isn't empty the first time:
+
+| Routine | Days | Hours |
+|---|---|---|
+| Working Time | Weekdays | 9 AM – 5 PM |
+| Night Pause | Every day | 11 PM – 7 AM |
+| Weekend Zen | Weekends | 9 AM – 12 PM |
+
+- They block social apps. On Android, the social apps installed, but the default SMS app (Google
+  Messages says it's social): texts and sign-in codes stay at hand. On iOS, the apps or categories
+  picked on the onboarding's apps step, right after Screen Time: only Screen Time's own picker
+  lists them. Without Screen Time on iOS there's nothing to pick, so there's no routine.
+- None is strict, and each unlocks after a 10-second wait, so their apps can be changed at any
+  time.
+- Someone who already has rules (back from logging out) gets none.
+- Home's tile with the next rule, or the one blocking now, shows that rule on Rules: the list opens
+  its section and scrolls to it.
+
 ## Rules made before this
 
 - Locks with hours, and sessions with a weekly schedule (Android), become routines.

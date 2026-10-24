@@ -19,7 +19,6 @@
     <string name="rules_add_lock_hint">E.g. “Keep TikTok closed all day”</string>
     <string name="rules_add_limit">Add a limit</string>
     <string name="rules_add_limit_hint">E.g. “1 hour of YouTube a day”</string>
-    <string name="rules_start_blocking">Start blocking</string>
     <string name="rules_more">More options</string>
     <string name="rules_empty_title">No rules yet</string>
     <string name="rules_empty_body">Start a session or pick a template to begin.</string>

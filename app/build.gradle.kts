@@ -14,9 +14,17 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0.0"
+        // Android backs up the rules and the profile, and restores them on a new phone or a
+        // reinstall.
+        manifestPlaceholders["allowBackup"] = "true"
     }
 
     buildTypes {
+        debug {
+            // A debug build reinstalled starts afresh, from the onboarding, rather than with the
+            // rules and profile of an earlier install restored from the backup.
+            manifestPlaceholders["allowBackup"] = "false"
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true

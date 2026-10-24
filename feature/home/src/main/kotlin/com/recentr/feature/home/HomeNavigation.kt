@@ -21,13 +21,14 @@ import com.recentr.feature.home.ui.sheets.AlwaysAllowedInSettingsSheet
 
 /**
  * Home tab content (Home & Insight flow, Figma 22–29). Drawn under the floating tab bar:
- * [contentPadding] (bottom) is kept clear for it; the "Start blocking" CTA sits right above.
+ * [contentPadding] (bottom) is kept clear for it; the "Start blocking" CTA sits right above
+ * ([onStartBlocking]: the new session sheet, over Rules).
  * While the app blocker is off, the "Blocking is off" card explains how to turn it on; without
  * usage access, "Connect" opens Settings › Usage access (back on Home, the device numbers load).
  * Pull to refresh reads the screen time and the app blocker's state again.
  * The usage card opens Insights ([onOpenInsights], with the period shown), the header's flame the
  * streak ([onOpenStreak]) and its avatar the profile ([onOpenProfile]), a "Most used" app its
- * own insights ([onOpenApp]). From the second rule, the Always allowed card sets up the apps never
+ * own insights ([onOpenApp]), the next rule tile that rule on Rules ([onShowRule]). From the second rule, the Always allowed card sets up the apps never
  * blocked ([onSetUpAlwaysAllowed]); its × says where to find them in Settings, then goes.
  */
 @Composable
@@ -37,6 +38,7 @@ fun HomeTab(
     onStartBlocking: () -> Unit,
     onOpenRules: () -> Unit,
     modifier: Modifier = Modifier,
+    onShowRule: (ruleId: String) -> Unit = { onOpenRules() },
     onOpenInsights: (UsagePeriod) -> Unit = {},
     onOpenStreak: () -> Unit = onOpenRules,
     onOpenProfile: () -> Unit = {},
@@ -56,6 +58,7 @@ fun HomeTab(
         onSelectGrouping = viewModel::selectGrouping,
         onStartBlocking = onStartBlocking,
         onOpenRules = onOpenRules,
+        onShowRule = onShowRule,
         onOpenInsights = { onOpenInsights(state.period) },
         onOpenStreak = onOpenStreak,
         onOpenProfile = onOpenProfile,

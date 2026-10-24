@@ -112,7 +112,8 @@ private object HomeMetrics {
  * Home tab (Figma "Home & Insight" 22–29). Scrollable: the sky, header, hero pager, usage card and
  * next rule tile fill the first screen above the pinned "Start blocking" CTA; "Most used" follows
  * below. Without usage access ([HomeUiState.needsUsageAccess]) the usage card asks for it
- * ([onConnectScreenTime]) and no number is shown.
+ * ([onConnectScreenTime]) and no number is shown. The tile shows its rule on Rules ([onShowRule]),
+ * or opens Rules when there's none.
  */
 @Composable
 internal fun HomeScreen(
@@ -123,6 +124,7 @@ internal fun HomeScreen(
     onStartBlocking: () -> Unit,
     onOpenRules: () -> Unit,
     modifier: Modifier = Modifier,
+    onShowRule: (ruleId: String) -> Unit = { onOpenRules() },
     onOpenInsights: () -> Unit = {},
     onOpenStreak: () -> Unit = onOpenRules,
     onOpenProfile: () -> Unit = {},
@@ -266,6 +268,7 @@ internal fun HomeScreen(
                             activeSession = state.activeSession,
                             loading = showSkeleton,
                             onOpenRules = onOpenRules,
+                            onShowRule = onShowRule,
                             modifier = Modifier.padding(horizontal = RecentrTheme.spacing.screenGutter),
                         )
                     } else {
