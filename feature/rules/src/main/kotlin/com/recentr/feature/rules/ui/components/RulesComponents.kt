@@ -405,6 +405,23 @@ internal fun TimeCard(
     rotation: Float,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+) = TimeCard(label, value, rotation, modifier, onClick = onClick) {
+    Text(caption, style = RecentrTheme.typography.captionRegular, color = RecentrTheme.colors.textTertiary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+}
+
+/**
+ * A time card with any [footer] under its value: a caption, or a chip saying how things stand.
+ * [outline] borders it in a colour, as a running rule's card.
+ */
+@Composable
+internal fun TimeCard(
+    label: String,
+    value: String,
+    rotation: Float,
+    modifier: Modifier = Modifier,
+    outline: Color? = null,
+    onClick: (() -> Unit)? = null,
+    footer: @Composable () -> Unit,
 ) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(24.dp)
@@ -415,6 +432,7 @@ internal fun TimeCard(
             .clip(shape)
             .background(colors.bgSurface)
             .border(1.dp, colors.borderSubtle, shape)
+            .then(if (outline != null) Modifier.border(2.dp, outline, shape) else Modifier)
             .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
             .padding(horizontal = 16.dp, vertical = 14.dp),
     ) {
@@ -427,7 +445,7 @@ internal fun TimeCard(
             maxLines = 1,
             autoSize = TextAutoSize.StepBased(minFontSize = 17.sp, maxFontSize = RecentrTheme.typography.displayLarge.fontSize, stepSize = 1.sp),
         )
-        Text(caption, style = RecentrTheme.typography.captionRegular, color = colors.textTertiary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        footer()
     }
 }
 

@@ -26,9 +26,9 @@ import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import com.recentr.feature.rules.ui.asSticker
 import com.recentr.feature.rules.ui.compactDuration
-import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.PendingKind
 import com.recentr.feature.rules.ui.durationLabel
+import com.recentr.feature.rules.ui.leftCountdown
 import com.recentr.feature.rules.ui.pendingKind
 import com.recentr.feature.rules.ui.scheduleLabel
 import com.recentr.feature.rules.ui.startCountdown
@@ -55,6 +55,9 @@ internal enum class CardStatus {
 
     val active: Boolean get() = this == Ongoing || this == Blocking
 }
+
+/** Its card's status chip reads green: the rule is on now. Its page shows that chip too. */
+internal fun Rule.isOngoing(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean = enabled && cardStatus(now, zone).active
 
 internal fun Rule.cardStatus(now: Long, zone: ZoneId = ZoneId.systemDefault()): CardStatus = when {
     isPaused(now) -> CardStatus.Paused
@@ -140,7 +143,7 @@ internal fun RuleListCard(
     val value = when (val v = cardValue) {
         null -> null
         CardValue.Paused -> stringResource(R.string.rules_value_paused)
-        is CardValue.Left -> stringResource(R.string.rules_value_left, countdown(v.millis))
+        is CardValue.Left -> stringResource(R.string.rules_value_left, leftCountdown(v.millis))
         is CardValue.StartsIn -> stringResource(R.string.rules_value_starts_in, startCountdown(v.millis))
         CardValue.Locked -> stringResource(R.string.rules_value_locked)
         CardValue.Off -> stringResource(R.string.rules_value_off)
@@ -160,7 +163,7 @@ internal fun RuleListCard(
             .fillMaxWidth()
             .then(if (running) Modifier.overlayBorder(colors.feedbackSuccess, 2.dp, 24.dp) else Modifier),
     ) {
-        RecentrChip(statusLabel(rule, status), style = if (status.active && rule.enabled) RecentrChipStyle.Success else RecentrChipStyle.Neutral)
+        RecentrChip(statusLabel(rule, status), style = if (rule.isOngoing(now)) RecentrChipStyle.Success else RecentrChipStyle.Neutral)
         if (running && rule.strictMode) {
             IconTintChip(stringResource(R.string.rules_strict_mode), RecentrIcon.Shield, colors.accentTangerine)
         } else {
@@ -169,8 +172,9 @@ internal fun RuleListCard(
     }
 }
 
+/** "Ongoing", "Blocking", "Upcoming", "Paused"…: the card's status chip, also on the rule's page. */
 @Composable
-private fun statusLabel(rule: Rule, status: CardStatus): String = when (status) {
+internal fun statusLabel(rule: Rule, status: CardStatus): String = when (status) {
     CardStatus.Paused -> stringResource(R.string.rules_status_paused)
     CardStatus.Ongoing -> stringResource(R.string.rules_status_ongoing)
     CardStatus.Blocking -> stringResource(R.string.rules_status_blocking)

@@ -310,7 +310,6 @@
     <string name="rules_why">Why</string>
     <string name="rules_why_placeholder">Tap to write down why this matters.</string>
     <string name="rules_why_empty">No reason written down yet.</string>
-    <string name="rules_tile_to">%1$s to %2$s</string>
     <string name="rules_tile_now">NOW</string>
     <string name="rules_tile_left_of">left of %1$s</string>
     <string name="rules_tile_used">%1$s used</string>
@@ -318,16 +317,14 @@
     <string name="rules_tile_not_started">Not started yet</string>
     <string name="rules_tile_unlocks_today">UNLOCKS TODAY</string>
     <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
-    <string name="rules_tile_all_day_caption">Unlocks %1$s / day</string>
     <string name="rules_reminder_off">Off</string>
     <string name="rules_reminder_before">%1$d min before</string>
     <string name="rules_reminders_title">Remind me before it starts</string>
-    <string name="rules_pause">Pause</string>
-    <string name="rules_resume">Resume</string>
-    <string name="rules_edit_rule">Edit rule</string>
     <string name="rules_activate">Activate</string>
     <string name="rules_turn_off">Turn off</string>
     <string name="rules_menu_edit_settings">Edit rule</string>
+    <string name="rules_menu_pause">Pause rule</string>
+    <string name="rules_menu_resume">Resume rule</string>
     <string name="rules_menu_delete">Delete rule</string>
     <string name="rules_pause_title">Pause %1$s?</string>
     <string name="rules_pause_hour">For 1 hour</string>
