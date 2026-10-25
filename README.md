@@ -92,10 +92,10 @@ also from the Home streak tile.
 - Share cards are rendered to a PNG (`FileProvider`, cache): Stories / Post / Facebook open the app
   when it is installed, the share sheet otherwise; *Save* writes to Pictures/Recentr (Android 10+,
   the share sheet before).
-- Completing the onboarding sets up three routines blocking the social apps installed, but the
-  default SMS app (`Telephony.Sms.getDefaultSmsPackage`): Working Time (weekdays, 9–5), Night
-  Pause (every day, 11 PM–7 AM) and Weekend Zen (weekends, 9–12), none strict, each with a
-  10-second wait to unlock (`StarterRoutine` in `:core:model`, [docs/RULES.md](docs/RULES.md) ›
+- Completing the onboarding sets up three routines blocking the apps the user picks on its apps
+  step ("What pulls you in?", right after Screen Time, as on iOS; nothing is picked for them):
+  Working Time (weekdays, 9–5), Night Pause (every day, 11 PM–7 AM) and Weekend Zen (weekends,
+  9–12), none strict, each with a 10-second wait to unlock (`StarterRoutine` in `:core:model`, [docs/RULES.md](docs/RULES.md) ›
   Starter routines). Someone who already has rules gets none. Home's next rule tile shows its rule
   on Rules: the list opens its group and scrolls to the card.
 - Home's "+ Start blocking" opens the new session sheet over the Rules tab; the Rules tab's
@@ -149,7 +149,8 @@ also from the Home streak tile.
   unlocked, other than with an emergency unlock (turning it on while the rule already blocks asks
   first; turning it off waits for the end). Settings › Strict mode makes new sessions and
   routines start strict. Every toggle is the native Material 3 switch.
-- No account backend: "Save your progress" and "I already have an account" only move the flow on.
+- No account backend: the onboarding has no account screens ("Save your progress", "I already
+  have an account"), as on iOS.
 - Profile & Settings: no billing or account backend. *Start 7-day free trial* keeps the Recentr Plus
   plan on the device (`AppSettings.plusPlan`), *Invoices* opens the Play subscriptions page, *Log
   out* clears the email and replays the onboarding (rules stay), *Delete account* erases every

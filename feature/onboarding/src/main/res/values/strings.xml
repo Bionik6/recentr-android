@@ -30,7 +30,6 @@
     <string name="onb_welcome_title">Screen time, on your terms.</string>
     <string name="onb_welcome_subtitle">Block the apps that pull you in — gently, with a pause, not a fight.</string>
     <string name="onb_welcome_get_started">Get started</string>
-    <string name="onb_welcome_have_account">I already have an account</string>
 
     <!-- 06 · A little friction -->
     <string name="onb_friction_title">Recentr adds a pause before the apps that pull you in</string>
@@ -141,6 +140,20 @@
     <string name="onb_screen_time_alert_allow">Continue</string>
     <string name="onb_screen_time_alert_deny">Don’t allow</string>
 
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">What pulls you in?</string>
+    <string name="onb_apps_subtitle">Social apps, or any others. Three routines pause them, with a 10-second wait to get through. You can change them anytime.</string>
+    <string name="onb_apps_choose">Choose apps</string>
+    <plurals name="onb_apps_count">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d apps</item>
+    </plurals>
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s – %2$s · %3$s</string>
+    <string name="onb_days_weekdays">Weekdays</string>
+    <string name="onb_days_every_day">Every day</string>
+    <string name="onb_days_weekends">Weekends</string>
+
     <!-- 19 · Notifications -->
     <string name="onb_notif_title">Stay one step ahead</string>
     <string name="onb_notif_subtitle">Gentle nudges before a routine starts or a limit runs out.</string>
@@ -151,13 +164,6 @@
     <string name="onb_notif_banner2_body">Wrap up — X locks at 2h15.</string>
     <string name="onb_notif_banner3_title">3-day streak!</string>
     <string name="onb_notif_banner3_body">You stayed under %1$s again.</string>
-
-    <!-- 20 · Save progress -->
-    <string name="onb_save_title">Save your progress</string>
-    <string name="onb_save_subtitle">Create an account so your rules and streaks follow you to a new phone.</string>
-    <string name="onb_save_email">Continue with email</string>
-    <string name="onb_save_phone">Continue with phone number</string>
-    <string name="onb_save_terms">By continuing you agree to the Terms and Privacy Policy.</string>
 
     <!-- 21 · All set -->
     <string name="onb_all_set_title">You’re all set, %1$s</string>

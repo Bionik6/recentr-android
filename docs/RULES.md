@@ -123,10 +123,10 @@ Onboarding sets up three routines, so Rules isn't empty the first time:
 | Night Pause | Every day | 11 PM – 7 AM |
 | Weekend Zen | Weekends | 9 AM – 12 PM |
 
-- They block social apps. On Android, the social apps installed, but the default SMS app (Google
-  Messages says it's social): texts and sign-in codes stay at hand. On iOS, the apps or categories
-  picked on the onboarding's apps step, right after Screen Time: only Screen Time's own picker
-  lists them. Without Screen Time on iOS there's nothing to pick, so there's no routine.
+- They block the apps (or, on iOS, categories) the user picks on the onboarding's apps step,
+  right after Screen Time. Nothing is picked for them: Continue waits for a pick. On iOS only
+  Screen Time's own picker lists apps, so without Screen Time there's nothing to pick, and no
+  routine.
 - None is strict, and each unlocks after a 10-second wait, so their apps can be changed at any
   time.
 - Someone who already has rules (back from logging out) gets none.

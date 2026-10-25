@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Sticker
+import com.recentr.core.model.UsageApp
 import kotlin.math.roundToInt
 
 /** Answers of "So, what's wrong with your phone time?" — [id] is what gets persisted. */
@@ -75,8 +76,13 @@ data class OnboardingUiState(
     /** True once the user moved the ruler: the goal no longer follows the usage answer. */
     val goalEdited: Boolean = false,
     val notificationsEnabled: Boolean = false,
+    /** The apps the starter routines block, picked on the apps step: none until the user picks. */
+    val apps: List<UsageApp> = emptyList(),
 ) {
     val isNameValid: Boolean get() = name.isNotBlank()
+
+    /** The apps step goes on once there's an app to block. */
+    val hasApps: Boolean get() = apps.isNotEmpty()
     val trimmedName: String get() = name.trim()
 
     /** Daily average used for the projections (falls back to the Figma 6h when unanswered). */

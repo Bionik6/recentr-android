@@ -10,10 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,7 +34,9 @@ import kotlinx.coroutines.delay
 
 /**
  * 09 · Onboarding — Name (Figma 2023:901). The iOS keyboard mock-up is the Android IME: the field
- * is focused on entry and the Continue button rides 14dp above the keyboard.
+ * is focused on entry and the Continue button rides 14dp above the keyboard. The field asks for a
+ * first name, so the autofill service can offer the person's own above the keys (iOS: the
+ * `givenName` content type).
  */
 @Composable
 internal fun NameScreen(
@@ -81,7 +86,8 @@ internal fun NameScreen(
                 .fillMaxWidth()
                 .padding(horizontal = RecentrTheme.spacing.screenGutter)
                 .entrance(200)
-                .focusRequester(focusRequester),
+                .focusRequester(focusRequester)
+                .semantics { contentType = ContentType.PersonFirstName },
         )
     }
 }

@@ -3,7 +3,10 @@ package com.recentr.feature.onboarding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.dropUnlessResumed
@@ -15,8 +18,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.onboarding.component.HeaderProgress
 import com.recentr.feature.onboarding.screen.AllSetScreen
+import com.recentr.feature.onboarding.screen.AppsScreen
 import com.recentr.feature.onboarding.screen.DailyGoalScreen
 import com.recentr.feature.onboarding.screen.FrictionScreen
 import com.recentr.feature.onboarding.screen.HonestNewsScreen
@@ -25,7 +30,6 @@ import com.recentr.feature.onboarding.screen.MathScreen
 import com.recentr.feature.onboarding.screen.NameScreen
 import com.recentr.feature.onboarding.screen.NotificationsRoute
 import com.recentr.feature.onboarding.screen.PainPointsScreen
-import com.recentr.feature.onboarding.screen.SaveProgressScreen
 import com.recentr.feature.onboarding.screen.ScreenTimeRoute
 import com.recentr.feature.onboarding.screen.SocialProofScreen
 import com.recentr.feature.onboarding.screen.TimeSpentScreen
@@ -39,8 +43,9 @@ import kotlinx.serialization.Serializable
 @Serializable data object OnboardingGraphRoute
 
 /**
- * The 17 onboarding steps, in Figma order (artboards 05 → 21). [progress] is the header bar
- * value of the design (null = the artboard has no header).
+ * The 17 onboarding steps, in Figma order (artboards 05 → 21), with the apps step that isn't in
+ * Figma (as on iOS) and without 20, saving progress: Recentr has no accounts. [progress] is the
+ * header bar value of the design (null = the artboard has no header).
  */
 @Serializable
 internal sealed interface OnboardingStep {
@@ -60,29 +65,28 @@ internal sealed interface OnboardingStep {
     @Serializable data object WayOut : OnboardingStep
     @Serializable data object HowItWorks : OnboardingStep { override val progress get() = 0.9f }
     @Serializable data object ScreenTime : OnboardingStep { override val progress get() = 0.9f }
+    /** The apps the starter routines block. Not in Figma. */
+    @Serializable data object Apps : OnboardingStep { override val progress get() = 0.95f }
     @Serializable data object Notifications : OnboardingStep { override val progress get() = 1f }
-    @Serializable data object SaveProgress : OnboardingStep { override val progress get() = 1f }
     @Serializable data object AllSet : OnboardingStep
 }
 
 /**
  * Onboarding flow (17 screens). Every step is a nested type-safe destination sharing one
- * [OnboardingViewModel] scoped to this graph. Calls [onFinished] once onboarding is persisted as
- * completed (last screen, or "I already have an account" on Welcome).
+ * [OnboardingViewModel] scoped to this graph. Once onboarding is persisted as completed, on the
+ * last screen, calls [onStartFirstSession] ([onFinished] unless given).
  */
 fun NavGraphBuilder.onboardingGraph(
     navController: NavHostController,
+    /** "Choose apps" over the apps step: [initial] picked, then the apps picked, or dismissed. */
+    chooseApps: @Composable (initial: List<UsageApp>, onDone: (List<UsageApp>) -> Unit, onDismiss: () -> Unit) -> Unit,
     onFinished: () -> Unit,
     /** "Start my first session" on the last screen; defaults to just finishing. */
     onStartFirstSession: () -> Unit = onFinished,
 ) {
     navigation<OnboardingGraphRoute>(startDestination = OnboardingStep.Welcome) {
         step<OnboardingStep.Welcome>(navController) { flow ->
-            WelcomeScreen(
-                onGetStarted = flow.next(OnboardingStep.Friction),
-                // No account backend yet: an existing user simply skips the questions.
-                onHaveAccount = { flow.viewModel.complete(onFinished) },
-            )
+            WelcomeScreen(onGetStarted = flow.next(OnboardingStep.Friction))
         }
         step<OnboardingStep.Friction>(navController) { flow ->
             FrictionScreen(flow.progress, onBack = flow.back, onContinue = flow.next(OnboardingStep.SocialProof))
@@ -156,11 +160,31 @@ fun NavGraphBuilder.onboardingGraph(
             HowItWorksScreen(flow.progress, onBack = flow.back, onContinue = flow.next(OnboardingStep.ScreenTime))
         }
         step<OnboardingStep.ScreenTime>(navController) { flow ->
-            val goNext = flow.nextFromCallback(OnboardingStep.Notifications)
+            val goNext = flow.nextFromCallback(OnboardingStep.Apps)
             ScreenTimeRoute(flow.progress, onBack = flow.back, onContinue = { goNext() })
         }
+        step<OnboardingStep.Apps>(navController) { flow ->
+            var choosing by rememberSaveable { mutableStateOf(false) }
+            AppsScreen(
+                progress = flow.progress,
+                apps = flow.state.apps,
+                onChooseApps = { choosing = true },
+                onBack = flow.back,
+                onContinue = flow.next(OnboardingStep.Notifications),
+            )
+            if (choosing) {
+                chooseApps(
+                    flow.state.apps,
+                    { apps ->
+                        flow.viewModel.onAppsPicked(apps)
+                        choosing = false
+                    },
+                    { choosing = false },
+                )
+            }
+        }
         step<OnboardingStep.Notifications>(navController) { flow ->
-            val goNext = flow.nextFromCallback(OnboardingStep.SaveProgress)
+            val goNext = flow.nextFromCallback(OnboardingStep.AllSet)
             NotificationsRoute(
                 progress = flow.progress,
                 dailyGoalMinutes = flow.state.dailyGoalMinutes,
@@ -169,15 +193,6 @@ fun NavGraphBuilder.onboardingGraph(
                     flow.viewModel.onNotificationsResult(enabled)
                     goNext()
                 },
-            )
-        }
-        step<OnboardingStep.SaveProgress>(navController) { flow ->
-            val goNext = flow.next(OnboardingStep.AllSet)
-            SaveProgressScreen(
-                progress = flow.progress,
-                onBack = flow.back,
-                onContinueWithEmail = goNext,
-                onContinueWithPhone = goNext,
             )
         }
         step<OnboardingStep.AllSet>(navController) { flow ->

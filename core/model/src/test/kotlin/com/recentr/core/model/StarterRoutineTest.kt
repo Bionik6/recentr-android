@@ -18,26 +18,8 @@ class StarterRoutineTest {
 
     private val instagram = UsageApp("com.instagram.android", "Instagram", AppCategory.Social)
     private val tiktok = UsageApp("com.zhiliaoapp.musically", "TikTok", AppCategory.Social)
-    private val youtube = UsageApp("com.google.android.youtube", "YouTube", AppCategory.Entertainment)
-    private val maps = UsageApp("com.google.android.apps.maps", "Maps", AppCategory.Other)
-    private val messages = UsageApp("com.google.android.apps.messaging", "Messages", AppCategory.Social)
 
     private fun StarterRoutine.blocksAt(epochMillis: Long) = rule("id", name, listOf(instagram)).isEnforcing(epochMillis, zone)
-
-    @Test
-    fun `they block the social apps installed`() {
-        assertEquals(listOf(instagram, tiktok), StarterRoutine.apps(listOf(instagram, maps, tiktok, youtube)))
-        assertEquals(emptyList<UsageApp>(), StarterRoutine.apps(listOf(maps, youtube)))
-    }
-
-    /** Google Messages says it's social: texts and sign-in codes stay at hand all the same. */
-    @Test
-    fun `they leave the default SMS app out`() {
-        val installed = listOf(instagram, maps, messages, tiktok)
-        assertEquals(listOf(instagram, tiktok), StarterRoutine.apps(installed, smsApp = messages.packageName))
-        assertEquals(listOf(instagram, messages, tiktok), StarterRoutine.apps(installed, smsApp = null))
-        assertEquals(emptyList<UsageApp>(), StarterRoutine.apps(listOf(messages, maps), smsApp = messages.packageName))
-    }
 
     @Test
     fun `each is a routine with a 10-second wait, never strict`() {
