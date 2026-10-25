@@ -160,9 +160,9 @@ class OverlappingRulesTest {
         // Strict mode: the lock's unlock leaves the routine holding.
         assertEquals(listOf(lock), state(listOf(lock, bedtime)).liftedBy(lock, yt, now, zone))
         assertEquals(HoldReason.ByRule(bedtime), state(listOf(lock, bedtime)).unlockThrough(lock, now, minutes = 15).reason(now))
-        // No unlocks left today.
-        val spent = softBedtime.copy(unlocksPerDay = 2, unlocksUsedToday = 2)
-        assertEquals(HoldReason.ByRule(spent), state(listOf(lock, spent)).unlockThrough(lock, now, minutes = 15).reason(now))
+        // A lock with no unlocks left today.
+        val spent = lock.copy(id = "spent", unlocksPerDay = 2, unlocksUsedToday = 2)
+        assertEquals(HoldReason.ByRule(spent), state(listOf(softBedtime, spent)).unlockThrough(softBedtime, now, minutes = 15).reason(now))
         // A limit.
         assertEquals(HoldReason.ByRule(limit), state(listOf(lock, limit), used = 75).unlockThrough(lock, now, minutes = 15).reason(now))
     }
@@ -173,6 +173,32 @@ class OverlappingRulesTest {
         val unlocked = state(listOf(bedtime, limit, late), used = 75).emergencyUnlock(at(22, 50))
         assertNull(unlocked.reason(at(22, 51)))
         assertEquals(HoldReason.ByRule(late), unlocked.reason(at(22, 52)))
+    }
+
+    /**
+     * A session's unlocks don't run out: only a lock counts them. Five unlocks through the session
+     * still leave it unlockable, and the routine starting meanwhile is lifted with it.
+     */
+    @Test
+    fun `a session unlocked five times still unlocks, and lifts the routine with it`() {
+        val session = Rule(
+            "session", RuleType.Session, "Focus", apps = listOf(youTube), durationMinutes = 120,
+            activeSince = at(21, 0), unlocksUsedToday = 5, unlockMethod = UnlockMethod.Wait,
+        )
+        val holds = state(listOf(session, softBedtime))
+        assertEquals(HoldReason.ByRule(session), holds.reason(at(22, 0)))
+        assertEquals(UnlockStep.Wait, session.unlockStep(at(22, 0), emergencyUnlocksLeft = 3, zone))
+        assertEquals(listOf(session, softBedtime), holds.liftedBy(session, yt, at(22, 0), zone))
+        assertNull(holds.unlockThrough(session, at(22, 0), minutes = 5).reason(at(22, 4)))
+    }
+
+    /** A lock that's run out is the one shown: the routine's unlock would leave it holding. */
+    @Test
+    fun `a lock with no unlocks left wins over a routine`() {
+        val spent = lock.copy(unlocksPerDay = 5, unlocksUsedToday = 5)
+        assertEquals(HoldReason.ByRule(spent), state(listOf(softBedtime, spent)).reason(at(22, 0)))
+        assertNull(spent.unlockStep(at(22, 0), emergencyUnlocksLeft = 3, zone))
+        assertEquals(HoldReason.ByRule(softBedtime), state(listOf(softBedtime, lock)).reason(at(22, 0)))
     }
 
     @Test

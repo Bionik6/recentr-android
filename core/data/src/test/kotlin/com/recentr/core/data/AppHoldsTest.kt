@@ -155,6 +155,22 @@ class AppHoldsTest {
         assertNull(state(focus = run).reason(whatsApp.packageName))
     }
 
+    /** Only a lock counts its unlocks: "Unlocks per day" is a lock's setting (docs/RULES.md). */
+    @Test
+    fun `only a lock runs out of unlocks`() {
+        val session = Rule("s", RuleType.Session, "Focus", apps = listOf(whatsApp), durationMinutes = 30, activeSince = now, unlocksPerDay = 5, unlocksUsedToday = 5)
+        val routine = Rule("r", RuleType.Bedtime, "Bedtime", apps = listOf(whatsApp), schedule = RuleSchedule(0, 23 * 60 + 59), unlocksPerDay = 5, unlocksUsedToday = 9)
+        listOf(session, routine).forEach { rule ->
+            assertNull(rule.unlocksLeft)
+            assertTrue(rule.canOpenAnyway(now, zone))
+        }
+        val spent = lock.copy(unlocksPerDay = 5, unlocksUsedToday = 5)
+        assertEquals(0, spent.unlocksLeft)
+        assertFalse(spent.canOpenAnyway(now, zone))
+        assertEquals(3, lock.copy(unlocksPerDay = 5, unlocksUsedToday = 2).unlocksLeft)
+        assertNull(lock.copy(unlocksPerDay = null, unlocksUsedToday = 9).unlocksLeft)
+    }
+
     @Test
     fun `open anyway needs unlocks left, no strict mode, and never a limit`() {
         val wait = lock.copy(unlockMethod = UnlockMethod.Wait, unlocksPerDay = 2)

@@ -102,7 +102,10 @@ internal val WaitPresets = listOf(MIN_WAIT_SECONDS, 10, 30, 60)
 internal val UnlocksPerDayOptions = listOf(1, 3, 5, 10, null)
 internal val UnlockLengthOptions = listOf(1, 5, 10, 15, 30)
 
-/** Figma 42 "Wait before unlocking · 5 seconds" with daily unlock settings. */
+/**
+ * Figma 42 "Wait before unlocking · 5 seconds" with how long each unlock lasts, and for a lock
+ * ([showsPerDay]) its unlocks per day: only a lock counts them.
+ */
 @Composable
 internal fun WaitSettingsSheet(
     initialSeconds: Int,
@@ -110,6 +113,7 @@ internal fun WaitSettingsSheet(
     initialLength: Int,
     onSave: (seconds: Int, perDay: Int?, lengthMinutes: Int) -> Unit,
     onDismiss: () -> Unit,
+    showsPerDay: Boolean = true,
 ) {
     var seconds by rememberSaveable { mutableIntStateOf(initialSeconds.coerceAtLeast(MIN_WAIT_SECONDS)) }
     var perDay by rememberSaveable { mutableStateOf(initialPerDay) }
@@ -143,13 +147,15 @@ internal fun WaitSettingsSheet(
             )
             Gap(18.dp)
             SettingsGroup {
-                SettingRow(
-                    label = stringResource(R.string.rules_row_unlocks_per_day),
-                    value = unlocksPerDayLabel(perDay),
-                    onClick = { picker = WaitPicker.PerDay },
-                    icon = RecentrIcon.Refresh,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                if (showsPerDay) {
+                    SettingRow(
+                        label = stringResource(R.string.rules_row_unlocks_per_day),
+                        value = unlocksPerDayLabel(perDay),
+                        onClick = { picker = WaitPicker.PerDay },
+                        icon = RecentrIcon.Refresh,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
                 SettingRow(
                     label = stringResource(R.string.rules_row_each_unlock),
                     value = durationLabel(length),

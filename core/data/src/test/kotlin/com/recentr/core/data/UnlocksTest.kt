@@ -107,7 +107,8 @@ class UnlocksTest {
         assertEquals(UnlockStep.Retype, routine(UnlockMethod.Retype).unlockStep(now, 3, zone))
         assertEquals(UnlockStep.Scan, routine(UnlockMethod.ScanCode).unlockStep(now, 3, zone))
         assertEquals(UnlockStep.Wait, routine(UnlockMethod.Wait).unlockStep(now, 3, zone))
-        assertNull(routine(UnlockMethod.Retype).copy(unlocksUsedToday = 5).unlockStep(now, 3, zone))
+        // Only a lock counts its unlocks: a routine's never run out.
+        assertEquals(UnlockStep.Retype, routine(UnlockMethod.Retype).copy(unlocksUsedToday = 5).unlockStep(now, 3, zone))
     }
 
     @Test

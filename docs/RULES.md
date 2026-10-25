@@ -50,6 +50,14 @@ iOS and Android apps both follow this page: change it in both repositories toget
   unlock (three a month, across every rule).
 - "How do you unlock?" has no "No unlocks": Strict mode is the way to have none.
 
+### Unlocks
+
+- "Unlock anyway" lets one app through for a few minutes, past the rule's unlock method.
+- Only a lock counts its unlocks: a few a day ("Unlocks per day"), and once they're used its shield
+  has no "Unlock anyway" until midnight. A session's or a routine's unlocks never run out.
+- A limit has no unlocks, and Strict mode leaves none while the rule is engaged: only an emergency
+  unlock gets past them.
+
 ## Changing a rule while it's engaged
 
 A rule is engaged:
@@ -91,6 +99,19 @@ When a kept change applies:
 - Sessions and limits can't be stopped: they end on their own. A lock turns off at midnight. Only
   routines pause ("For 1 hour", "Until tomorrow", "Until I turn it back on"); during a window the
   pause starts when the window ends.
+
+## Rules holding the same app
+
+When several rules hold an app at once:
+
+- Its shield shows the hardest one to get past: Strict mode first, then a limit or a lock with no
+  unlock left today, then the others.
+- "Unlock anyway" through that rule lets the app past it and past every other rule holding the app
+  that could be unlocked too. Only that rule's unlock counts. A rule that can't be unlocked (Strict
+  mode, a limit, a lock with none left) keeps the app on hold.
+- An emergency unlock lets the app past every rule holding it.
+- A rule that starts holding the app during the unlock isn't let past by it, and every rule holds
+  the app again once the unlock ends ("Lock it again" ends it early).
 
 ## Always allowed
 
