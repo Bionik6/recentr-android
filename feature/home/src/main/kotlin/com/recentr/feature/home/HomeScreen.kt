@@ -59,10 +59,7 @@ import com.recentr.core.data.DemoScreenTimeRepository
 import com.recentr.core.designsystem.component.BlockingOffBanner
 import com.recentr.core.designsystem.component.DailyGoalSheet
 import com.recentr.core.designsystem.component.RecentrAvatar
-import com.recentr.core.designsystem.component.RecentrButton
-import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.UsageAccessCard
-import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
@@ -99,8 +96,7 @@ private object HomeMetrics {
     val headerToHero = 48.dp
     val heroToCard = 83.dp
     val cardToTiles = 11.dp
-    val tilesToCta = 17.dp
-    val ctaToTabBar = 8.dp
+    val tilesToTabBar = 17.dp
     val tilesToMostUsed = 24.dp
     /** Mascot instance: 108.8 × 136, 6dp in from the card's right edge, 10dp over its top. */
     val mascotWidth = 108.8.dp
@@ -110,8 +106,7 @@ private object HomeMetrics {
 
 /**
  * Home tab (Figma "Home & Insight" 22–29). Scrollable: the sky, header, hero pager, usage card and
- * next rule tile fill the first screen above the pinned "Start blocking" CTA; "Most used" follows
- * below. Without usage access ([HomeUiState.needsUsageAccess]) the usage card asks for it
+ * rule tile fill the first screen above the tab bar; "Most used" follows below. Without usage access ([HomeUiState.needsUsageAccess]) the usage card asks for it
  * ([onConnectScreenTime]) and no number is shown. The tile shows its rule on Rules ([onShowRule]),
  * or opens Rules when there's none.
  */
@@ -121,7 +116,6 @@ internal fun HomeScreen(
     contentPadding: PaddingValues,
     onSaveGoal: (Int) -> Unit,
     onSelectGrouping: (UsageGrouping) -> Unit,
-    onStartBlocking: () -> Unit,
     onOpenRules: () -> Unit,
     modifier: Modifier = Modifier,
     onShowRule: (ruleId: String) -> Unit = { onOpenRules() },
@@ -182,8 +176,8 @@ internal fun HomeScreen(
         },
     ) {
         BoxWithConstraints(Modifier.fillMaxSize()) {
-            val ctaReserve = contentPadding.calculateBottomPadding() + HomeMetrics.ctaToTabBar + RecentrTheme.sizes.button
-            val firstScreenMinHeight = maxHeight - ctaReserve - HomeMetrics.tilesToCta
+            val tabBarReserve = contentPadding.calculateBottomPadding()
+            val firstScreenMinHeight = maxHeight - tabBarReserve - HomeMetrics.tilesToTabBar
             // The sky scrolls with the content, in a layer of its own so its drifting clouds
             // redraw without the content over them.
             Image(
@@ -301,7 +295,7 @@ internal fun HomeScreen(
                             .graphicsLayer { alpha = listAlpha },
                     )
                 }
-                Spacer(Modifier.height(ctaReserve + HomeMetrics.tilesToMostUsed))
+                Spacer(Modifier.height(tabBarReserve + HomeMetrics.tilesToMostUsed))
             }
 
             // Figma 23 "Top blur": frosted strip behind the status bar once content scrolls under it.
@@ -314,33 +308,21 @@ internal fun HomeScreen(
                     .height(6.dp),
             )
 
-            // Scrolled content fades into the page grey in the gap above the pinned CTA and stays
-            // hidden behind it and the floating tab bar (the first-screen tiles end above the fade).
-            val fadeHeight = HomeMetrics.tilesToCta - 1.dp
+            // Scrolled content fades into the page grey in the gap above the floating tab bar and
+            // stays hidden behind it (the first-screen tiles end above the fade).
+            val fadeHeight = HomeMetrics.tilesToTabBar - 1.dp
             Box(
                 Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .height(ctaReserve + fadeHeight)
+                    .height(tabBarReserve + fadeHeight)
                     .background(
                         Brush.verticalGradient(
                             0f to colors.bgPage.copy(alpha = 0f),
-                            fadeHeight / (ctaReserve + fadeHeight) to colors.bgPage,
+                            fadeHeight / (tabBarReserve + fadeHeight) to colors.bgPage,
                             1f to colors.bgPage,
                         ),
                     ),
-            )
-
-            RecentrButton(
-                text = stringResource(R.string.home_start_blocking),
-                onClick = onStartBlocking,
-                style = RecentrButtonStyle.Brand,
-                icon = RecentrIcon.Plus,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = contentPadding.calculateBottomPadding() + HomeMetrics.ctaToTabBar)
-                    .padding(horizontal = RecentrTheme.spacing.screenGutter)
-                    .fillMaxWidth(),
             )
         }
     }
@@ -484,7 +466,6 @@ private fun HomePreviewHost(state: HomeUiState, page: HeroPage = HeroPage.Screen
             contentPadding = PaddingValues(bottom = 96.dp),
             onSaveGoal = {},
             onSelectGrouping = {},
-            onStartBlocking = {},
             onOpenRules = {},
             pagerState = rememberPagerState(initialPage = page.ordinal) { HeroPage.entries.size },
         )
