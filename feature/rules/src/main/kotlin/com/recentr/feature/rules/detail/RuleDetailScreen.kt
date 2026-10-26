@@ -348,7 +348,7 @@ internal fun RuleDetailScreen(
                     if (ongoing != null && !stacked) RecentrChip(ongoing, style = RecentrChipStyle.Success)
                 }
                 Gap(19.dp)
-                DetailCollage(rule, now, blockedApps, actions.onOpenApps, stacked)
+                DetailCollage(rule, now, blockedApps, actions.onOpenApps, onOpenNote = { actions.onOpen(RuleSheet.Note) }, stacked)
                 Gap(24.dp)
                 if (rule.pending != null) {
                     PendingCard(rule, actions.onDropPending)
@@ -501,12 +501,19 @@ private fun PendingCard(rule: Rule, onDrop: () -> Unit) {
 
 /**
  * Tilted collage: time card, blocked apps, "Why" note and streak (positions from Figma 44). The
- * pieces drop into place one after the other when the page opens. Read-only: "Edit rule" opens
- * the editor. As text grows the pieces move apart; [stacked], they line up straight across the
- * width.
+ * pieces drop into place one after the other when the page opens. The apps tile opens the apps,
+ * the note its reason to write, keyboard up; "Edit rule" opens the editor for the rest. As text
+ * grows the pieces move apart; [stacked], they line up straight across the width.
  */
 @Composable
-private fun DetailCollage(rule: Rule, now: Long, blockedApps: List<UsageApp>, onOpenApps: () -> Unit, stacked: Boolean) {
+private fun DetailCollage(
+    rule: Rule,
+    now: Long,
+    blockedApps: List<UsageApp>,
+    onOpenApps: () -> Unit,
+    onOpenNote: () -> Unit,
+    stacked: Boolean,
+) {
     val (label, value, footer) = timeTile(rule, now)
     // Green outlined while it runs, as its card on Rules.
     val outline = RecentrTheme.colors.feedbackSuccess.takeIf { rule.runsUntil(now) != null }
@@ -518,7 +525,7 @@ private fun DetailCollage(rule: Rule, now: Long, blockedApps: List<UsageApp>, on
                 TimeTileFooter(footer)
             }
             AppsTile(blockedApps, onOpenApps, Modifier.fillMaxWidth().entrance(120, blur = false))
-            StickyNote(title = stringResource(R.string.rules_why), body = note, modifier = Modifier.fillMaxWidth().entrance(200, blur = false))
+            StickyNote(title = stringResource(R.string.rules_why), body = note, onClick = onOpenNote, modifier = Modifier.fillMaxWidth().entrance(200, blur = false))
             MiniTile(label = stringResource(R.string.rules_streak), value = streak, sticker = Sticker.Flame, modifier = Modifier.fillMaxWidth().entrance(280, blur = false))
         }
         return
@@ -556,6 +563,7 @@ private fun DetailCollage(rule: Rule, now: Long, blockedApps: List<UsageApp>, on
         StickyNote(
             title = stringResource(R.string.rules_why),
             body = note,
+            onClick = onOpenNote,
             maxBodyLines = 3,
             modifier = Modifier
                 .align(Alignment.TopCenter)
