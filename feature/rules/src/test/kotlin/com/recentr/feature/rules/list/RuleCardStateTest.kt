@@ -7,6 +7,7 @@ import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
+import com.recentr.feature.rules.ui.leftCountdown
 import com.recentr.feature.rules.ui.startCountdown
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -102,6 +103,14 @@ class RuleCardStateTest {
     }
 
     @Test
+    fun `what's left counts down to the second, as on iOS`() {
+        assertEquals("42s", leftCountdown(42_000))
+        assertEquals("32m43s", leftCountdown(32 * MINUTE + 42_400))
+        assertEquals("1h00m00s", leftCountdown(HOUR))
+        assertEquals("6h12m03s", leftCountdown(6 * HOUR + 12 * MINUTE + 3_000))
+    }
+
+    @Test
     fun `a routine in its window is blocking, in green, counting down to its end`() {
         val status = routine.cardStatus(at(21), zone)
         assertEquals(CardStatus.Blocking, status)
@@ -115,6 +124,15 @@ class RuleCardStateTest {
         val paused = routine.copy(pausedUntil = Long.MAX_VALUE)
         assertEquals(CardStatus.Paused, paused.cardStatus(at(21), zone))
         assertEquals(CardValue.Paused, paused.cardValue(at(21), zone))
+    }
+
+    @Test
+    fun `a rule is ongoing, its page says too, while its chip is green`() {
+        assertTrue(routine.isOngoing(at(21), zone))
+        assertTrue(limit.isOngoing(at(13), zone))
+        assertFalse(routine.isOngoing(at(13), zone))
+        assertFalse(routine.copy(pausedUntil = Long.MAX_VALUE).isOngoing(at(21), zone))
+        assertFalse(limit.copy(usedMinutes = 30).isOngoing(at(13), zone))
     }
 
     @Test

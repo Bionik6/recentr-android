@@ -70,7 +70,8 @@ A rule is engaged:
 The protection holds from the moment the rule is engaged, not once its unlocks or its budget are
 used up: otherwise five unlocks a day could become ten after the fourth, and so on.
 
-"Edit rule" is always there. What changes is when an edit applies:
+"Edit rule" is always there, in the ⋯ menu of the rule's page, with a routine's Pause, a lock's
+Turn off and Delete. What changes is when an edit applies:
 
 | Change | While the rule is engaged |
 |---|---|

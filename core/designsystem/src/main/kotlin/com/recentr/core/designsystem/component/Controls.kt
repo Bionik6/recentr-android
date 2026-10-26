@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.style.TextOverflow
@@ -201,7 +202,8 @@ private fun SettingIcon(icon: RecentrIcon, tint: Color, background: Color) {
  * Figma "Setting Row" (Trailing = Value) — label, value and chevron. A null or empty [value] only
  * keeps the chevron. [iconTint] / [iconBackground] recolour the icon tile (tangerine "Strict
  * mode"), [labelColor] the label (danger "Cancel subscription"). A [caption] shows under the label;
- * a disabled row is dimmed and can't be opened, its caption saying why.
+ * a disabled row is dimmed and can't be opened, its caption saying why. With large text the value
+ * goes under the label, which keeps the width.
  */
 @Composable
 fun SettingRow(
@@ -219,6 +221,9 @@ fun SettingRow(
 ) {
     val colors = RecentrTheme.colors
     val dimmed = Modifier.alpha(if (enabled) 1f else DISABLED_ALPHA)
+    val stacked = LocalDensity.current.fontScale > STACKED_FONT_SCALE
+    @Composable
+    fun value(value: String) = Text(value, style = RecentrTheme.typography.bodyRegular, color = valueColor, modifier = dimmed, maxLines = 1)
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
@@ -230,20 +235,29 @@ fun SettingRow(
     ) {
         if (icon != null) Box(dimmed) { SettingIcon(icon, iconTint, iconBackground) }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text(label, style = RecentrTheme.typography.bodyMedium, color = labelColor, modifier = dimmed, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(
+                label,
+                style = RecentrTheme.typography.bodyMedium,
+                color = labelColor,
+                modifier = dimmed,
+                maxLines = if (stacked) Int.MAX_VALUE else 1,
+                overflow = TextOverflow.Ellipsis,
+            )
             if (caption != null) {
                 Text(caption, style = RecentrTheme.typography.captionRegular, color = colors.textSecondary)
             }
+            if (stacked && !value.isNullOrEmpty()) value(value)
         }
-        if (!value.isNullOrEmpty()) {
-            Text(value, style = RecentrTheme.typography.bodyRegular, color = valueColor, modifier = dimmed, maxLines = 1)
-        }
+        if (!stacked && !value.isNullOrEmpty()) value(value)
         RecentrIconImage(RecentrIcon.ChevronRight, tint = colors.textTertiary, size = 19.2.dp, modifier = dimmed)
     }
 }
 
 /** A disabled setting row's label, value and icons (the 0.4 of a disabled button). */
 private const val DISABLED_ALPHA = 0.4f
+
+/** Past this font scale a setting row's value goes under its label. */
+private const val STACKED_FONT_SCALE = 1.3f
 
 /**
  * Figma "Setting Row" (Trailing = Toggle). [iconTint] / [iconBackground] recolour the icon tile

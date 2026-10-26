@@ -129,6 +129,19 @@ internal fun countdown(millis: Long): String {
     return if (h > 0) "%d:%02d:%02d".format(h, m, s) else "%d:%02d".format(m, s)
 }
 
+/** "32m43s", "1h02m03s", "42s": what's left of a running rule, to the second, as on iOS. */
+internal fun leftCountdown(millis: Long): String {
+    val total = max(0L, (millis + 999) / 1000)
+    val h = total / 3600
+    val m = (total % 3600) / 60
+    val s = total % 60
+    return when {
+        h > 0 -> "%dh%02dm%02ds".format(h, m, s)
+        m > 0 -> "%dm%02ds".format(m, s)
+        else -> "${s}s"
+    }
+}
+
 /** "23m42s", "2h32m", "2d 3h": how long until a routine starts, to the second only in its last hour. */
 internal fun startCountdown(millis: Long): String {
     val seconds = max(0L, (millis + 999) / 1000)

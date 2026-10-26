@@ -1,12 +1,13 @@
 package com.recentr.feature.rules.detail
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -51,7 +53,8 @@ import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.designsystem.component.MiniTile
 import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrButton
-import com.recentr.core.designsystem.component.RecentrButtonStyle
+import com.recentr.core.designsystem.component.RecentrChip
+import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrTextButton
 import com.recentr.core.designsystem.component.SettingRow
@@ -77,6 +80,10 @@ import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
 import com.recentr.core.model.latestWish
 import com.recentr.feature.rules.R
+import com.recentr.feature.rules.list.cardStatus
+import com.recentr.feature.rules.list.isOngoing
+import com.recentr.feature.rules.list.runsUntil
+import com.recentr.feature.rules.list.statusLabel
 import com.recentr.feature.rules.sheets.BlockRightAwayDialog
 import com.recentr.feature.rules.sheets.RuleSheet
 import com.recentr.feature.rules.sheets.RuleSheetsHost
@@ -84,7 +91,6 @@ import com.recentr.feature.rules.sheets.StartConfirmDialog
 import com.recentr.feature.rules.sheets.StrictConfirmDialog
 import com.recentr.feature.rules.ui.PendingKind
 import com.recentr.feature.rules.ui.asSticker
-import com.recentr.feature.rules.ui.clockLabel
 import com.recentr.feature.rules.ui.compactDuration
 import com.recentr.feature.rules.ui.components.Gap
 import com.recentr.feature.rules.ui.components.RulesToastHost
@@ -96,6 +102,7 @@ import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.daysLabel
 import com.recentr.feature.rules.ui.durationLabel
 import com.recentr.feature.rules.ui.label
+import com.recentr.feature.rules.ui.leftCountdown
 import com.recentr.feature.rules.ui.pendingKind
 import com.recentr.feature.rules.ui.pendingWhenText
 import com.recentr.feature.rules.ui.rememberWallClock
@@ -168,7 +175,6 @@ internal fun RuleDetailDestination(
                 }
             },
             onPause = { if (rule.isPaused(state.now)) viewModel.resume() else pause = true },
-            onEditRule = { onEditSettings(rule.id) },
             onStart = ::askThenStart,
             onTurnOff = viewModel::turnOff,
             onEditSettings = { onEditSettings(rule.id) },
@@ -258,16 +264,35 @@ internal val RuleType.asksBeforeStart: Boolean
 /** A saved session not running: it can be started. */
 internal fun Rule.startable(now: Long): Boolean = type == RuleType.Session && !isRunning(now)
 
+/**
+ * The one button at the bottom of the page, if any: Start a saved session or a limit not started
+ * today, Activate a lock that's off. Once going, they end on their own (a lock at midnight once
+ * turned off); the rest is in the ⋯ menu.
+ */
+@StringRes
+internal fun Rule.startLabel(now: Long): Int? = when {
+    startable(now) || (type == RuleType.Limit && !isEnforcing(now)) -> R.string.rules_start
+    type == RuleType.Lock && activeSince == null -> R.string.rules_activate
+    else -> null
+}
+
+/** In the ⋯ menu: a lock that's on turns off, at midnight, unless it's turning off already. */
+internal fun Rule.canTurnOff(): Boolean = type == RuleType.Lock && activeSince != null && pendingKind != PendingKind.TurnOff
+
+/** Past this font scale the collage's cards don't fit their places any more: they stack. */
+private const val STACKED_FONT_SCALE = 1.3f
+
 internal class DetailActions(
     val onBack: () -> Unit = {},
     val onOpen: (RuleSheet) -> Unit = {},
     val onStrictChange: (Boolean) -> Unit = {},
+    /** A routine's Pause or Resume, in the ⋯ menu. */
     val onPause: () -> Unit = {},
-    val onEditRule: () -> Unit = {},
     /** Start (sessions, limits) or Activate (locks). */
     val onStart: () -> Unit = {},
-    /** A lock's "Turn off". */
+    /** A lock's Turn off, in the ⋯ menu. */
     val onTurnOff: () -> Unit = {},
+    /** "Edit rule", in the ⋯ menu. */
     val onEditSettings: () -> Unit = {},
     val onDelete: () -> Unit = {},
     /** "Drop changes", "Keep rule", "Keep it on", "Cancel" of the change kept for later. */
@@ -287,6 +312,8 @@ internal fun RuleDetailScreen(
 ) {
     SystemBarsAppearance(lightIcons = false)
     val colors = RecentrTheme.colors
+    val start = rule.startLabel(now)
+    val stacked = LocalDensity.current.fontScale > STACKED_FONT_SCALE
     BackdropBox(Backdrop.Aurora, modifier) {
         Column(Modifier.fillMaxSize()) {
             Column(
@@ -296,24 +323,32 @@ internal fun RuleDetailScreen(
                     .statusBarsPadding()
                     .padding(horizontal = 24.dp),
             ) {
-                DetailNav(actions)
+                DetailNav(rule, now, actions)
                 Gap(14.dp)
+                // While it runs, its card's green chip, as on Rules: on the right, across from the
+                // name, or under it with large text.
+                val ongoing = if (rule.isOngoing(now)) statusLabel(rule, rule.cardStatus(now)) else null
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
                     StickerImage(rule.sticker.asSticker, size = 50.4.dp)
-                    Column {
+                    Column(Modifier.weight(1f)) {
                         Text(
                             rule.name,
                             style = RecentrTheme.typography.displayLarge,
                             color = colors.textPrimary,
-                            maxLines = 1,
+                            maxLines = if (stacked) 3 else 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.semantics { heading() },
                         )
                         Text(detailSubtitle(rule, now), style = RecentrTheme.typography.captionRegular, color = colors.textSecondary)
+                        if (ongoing != null && stacked) {
+                            Gap(6.dp)
+                            RecentrChip(ongoing, style = RecentrChipStyle.Success)
+                        }
                     }
+                    if (ongoing != null && !stacked) RecentrChip(ongoing, style = RecentrChipStyle.Success)
                 }
                 Gap(19.dp)
-                DetailCollage(rule, now, blockedApps, actions.onOpenApps)
+                DetailCollage(rule, now, blockedApps, actions.onOpenApps, onOpenNote = { actions.onOpen(RuleSheet.Note) }, stacked)
                 Gap(24.dp)
                 if (rule.pending != null) {
                     PendingCard(rule, actions.onDropPending)
@@ -322,15 +357,18 @@ internal fun RuleDetailScreen(
                 // The settings as last wished: what waits for later is in the card above.
                 DetailSettings(rule.latestWish, actions)
                 Gap(16.dp)
+                // With no button below, the page scrolls clear of the navigation bar.
+                if (start == null) Spacer(Modifier.navigationBarsPadding())
             }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .navigationBarsPadding()
-                    .padding(start = 24.dp, end = 24.dp, top = 8.dp, bottom = 14.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                DetailButtons(rule, now, actions)
+            if (start != null) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding()
+                        .padding(start = 24.dp, end = 24.dp, top = 8.dp, bottom = 14.dp),
+                ) {
+                    RecentrButton(text = stringResource(start), onClick = actions.onStart, modifier = Modifier.fillMaxWidth())
+                }
             }
         }
         RulesToastHost(
@@ -342,57 +380,9 @@ internal fun RuleDetailScreen(
     }
 }
 
-/**
- * The bottom bar. Session: Start, then nothing to stop: it ends on its own. Routine: Pause or
- * Resume. Lock: Activate, then Turn off. Limit: Start, for today. "Edit rule" is always there.
- */
+/** Back, and the ⋯ menu: edit, pause or resume a routine, turn off a lock that's on, delete. */
 @Composable
-private fun RowScope.DetailButtons(rule: Rule, now: Long, actions: DetailActions) {
-    @Composable
-    fun edit(style: RecentrButtonStyle) = RecentrButton(
-        text = stringResource(R.string.rules_edit_rule),
-        onClick = actions.onEditRule,
-        style = style,
-        modifier = Modifier.weight(1f),
-    )
-    @Composable
-    fun soft(text: Int, onClick: () -> Unit) = RecentrButton(
-        text = stringResource(text),
-        onClick = onClick,
-        style = RecentrButtonStyle.Soft,
-        modifier = Modifier.weight(1f),
-    )
-    @Composable
-    fun primary(text: Int, onClick: () -> Unit) = RecentrButton(text = stringResource(text), onClick = onClick, modifier = Modifier.weight(1f))
-    when (rule.type) {
-        RuleType.Session -> if (rule.isRunning(now)) {
-            edit(RecentrButtonStyle.Primary)
-        } else {
-            edit(RecentrButtonStyle.Soft)
-            primary(R.string.rules_start, actions.onStart)
-        }
-        RuleType.Bedtime -> {
-            soft(if (rule.isPaused(now)) R.string.rules_resume else R.string.rules_pause, actions.onPause)
-            edit(RecentrButtonStyle.Primary)
-        }
-        RuleType.Lock -> if (rule.activeSince != null) {
-            soft(R.string.rules_turn_off, actions.onTurnOff)
-            edit(RecentrButtonStyle.Primary)
-        } else {
-            edit(RecentrButtonStyle.Soft)
-            primary(R.string.rules_activate, actions.onStart)
-        }
-        RuleType.Limit -> if (rule.isEnforcing(now)) {
-            edit(RecentrButtonStyle.Primary)
-        } else {
-            edit(RecentrButtonStyle.Soft)
-            primary(R.string.rules_start, actions.onStart)
-        }
-    }
-}
-
-@Composable
-private fun DetailNav(actions: DetailActions) {
+private fun DetailNav(rule: Rule, now: Long, actions: DetailActions) {
     var menu by remember { mutableStateOf(false) }
     Row(
         Modifier.fillMaxWidth().padding(top = 8.dp).height(44.dp),
@@ -408,13 +398,19 @@ private fun DetailNav(actions: DetailActions) {
                 containerColor = RecentrTheme.colors.bgSurface,
                 shape = RoundedCornerShape(16.dp),
             ) {
-                DropdownMenuItem(
-                    text = { Text(stringResource(R.string.rules_menu_edit_settings), style = RecentrTheme.typography.bodyMedium) },
+                @Composable
+                fun item(text: Int, onClick: () -> Unit) = DropdownMenuItem(
+                    text = { Text(stringResource(text), style = RecentrTheme.typography.bodyMedium) },
                     onClick = {
                         menu = false
-                        actions.onEditSettings()
+                        onClick()
                     },
                 )
+                item(R.string.rules_menu_edit_settings, actions.onEditSettings)
+                if (rule.type == RuleType.Bedtime) {
+                    item(if (rule.isPaused(now)) R.string.rules_menu_resume else R.string.rules_menu_pause, actions.onPause)
+                }
+                if (rule.canTurnOff()) item(R.string.rules_turn_off, actions.onTurnOff)
                 DropdownMenuItem(
                     text = {
                         Text(
@@ -505,32 +501,59 @@ private fun PendingCard(rule: Rule, onDrop: () -> Unit) {
 
 /**
  * Tilted collage: time card, blocked apps, "Why" note and streak (positions from Figma 44). The
- * pieces drop into place one after the other when the page opens. Read-only: "Edit rule" opens
- * the editor.
+ * pieces drop into place one after the other when the page opens. The apps tile opens the apps,
+ * the note its reason to write, keyboard up; "Edit rule" opens the editor for the rest. As text
+ * grows the pieces move apart; [stacked], they line up straight across the width.
  */
 @Composable
-private fun DetailCollage(rule: Rule, now: Long, blockedApps: List<UsageApp>, onOpenApps: () -> Unit) {
-    val (label, value, caption) = timeTile(rule, now)
-    Box(Modifier.fillMaxWidth().height(250.dp), contentAlignment = Alignment.Center) {
+private fun DetailCollage(
+    rule: Rule,
+    now: Long,
+    blockedApps: List<UsageApp>,
+    onOpenApps: () -> Unit,
+    onOpenNote: () -> Unit,
+    stacked: Boolean,
+) {
+    val (label, value, footer) = timeTile(rule, now)
+    // Green outlined while it runs, as its card on Rules.
+    val outline = RecentrTheme.colors.feedbackSuccess.takeIf { rule.runsUntil(now) != null }
+    val note = rule.note?.takeIf { it.isNotBlank() } ?: stringResource(R.string.rules_why_empty)
+    val streak = pluralStringResource(R.plurals.rules_streak_days, rule.streakDays, rule.streakDays)
+    if (stacked) {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            TimeCard(label, value, rotation = 0f, modifier = Modifier.fillMaxWidth().entrance(50, blur = false), outline = outline) {
+                TimeTileFooter(footer)
+            }
+            AppsTile(blockedApps, onOpenApps, Modifier.fillMaxWidth().entrance(120, blur = false))
+            StickyNote(title = stringResource(R.string.rules_why), body = note, onClick = onOpenNote, modifier = Modifier.fillMaxWidth().entrance(200, blur = false))
+            MiniTile(label = stringResource(R.string.rules_streak), value = streak, sticker = Sticker.Flame, modifier = Modifier.fillMaxWidth().entrance(280, blur = false))
+        }
+        return
+    }
+    // The places are for the default font size: they spread as much as the text grows.
+    val spread = LocalDensity.current.fontScale.coerceAtLeast(1f)
+    Box(Modifier.fillMaxWidth().height(250.dp * spread), contentAlignment = Alignment.Center) {
         // Fixed widths, the time card on the left edge and the apps tile on the right: a countdown
         // doesn't make them grow and shrink, and a long value ("14:56:36") shrinks to fit.
         TimeCard(
             label = label,
             value = value,
-            caption = caption,
             rotation = 4f,
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .offset(y = (-54.7).dp)
+                .offset(y = (-54.7).dp * spread)
                 .width(164.dp)
                 .entrance(50, from = DpOffset((-20).dp, 10.dp), blur = false),
-        )
+            outline = outline,
+        ) {
+            TimeTileFooter(footer)
+        }
         AppsTile(
             apps = blockedApps,
             onClick = onOpenApps,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
-                .offset(x = (-12).dp, y = (-69.16).dp)
+                .offset(x = (-12).dp, y = (-69.16).dp * spread)
                 .width(148.dp)
                 .entrance(120, from = DpOffset(20.dp, 10.dp), blur = false)
                 .graphicsLayer { rotationZ = -5f },
@@ -539,21 +562,22 @@ private fun DetailCollage(rule: Rule, now: Long, blockedApps: List<UsageApp>, on
         // capped at three lines, so a long reason grows downwards instead of over the apps.
         StickyNote(
             title = stringResource(R.string.rules_why),
-            body = rule.note?.takeIf { it.isNotBlank() } ?: stringResource(R.string.rules_why_empty),
+            body = note,
+            onClick = onOpenNote,
             maxBodyLines = 3,
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .offset(x = 86.dp, y = 126.dp)
+                .offset(x = 86.dp, y = 126.dp * spread)
                 .entrance(200, blur = false)
                 .width(180.dp)
                 .graphicsLayer { rotationZ = 3f },
         )
         MiniTile(
             label = stringResource(R.string.rules_streak),
-            value = pluralStringResource(R.plurals.rules_streak_days, rule.streakDays, rule.streakDays),
+            value = streak,
             sticker = Sticker.Flame,
             modifier = Modifier
-                .offset(x = (-80.38).dp, y = 71.6.dp)
+                .offset(x = (-80.38).dp, y = 71.6.dp * spread)
                 .entrance(280, blur = false)
                 .width(171.dp)
                 .graphicsLayer { rotationZ = -2f },
@@ -561,53 +585,74 @@ private fun DetailCollage(rule: Rule, now: Long, blockedApps: List<UsageApp>, on
     }
 }
 
+/** Under the time card's value: a caption, or a routine's status chip out of its window. */
+private sealed interface TimeFooter {
+    data class Caption(val text: String) : TimeFooter
+    data class Status(val label: String) : TimeFooter
+}
+
 @Composable
-private fun timeTile(rule: Rule, now: Long): Triple<String, String, String> = when (rule.type) {
+private fun TimeTileFooter(footer: TimeFooter) = when (footer) {
+    is TimeFooter.Caption -> Text(
+        footer.text,
+        style = RecentrTheme.typography.captionRegular,
+        color = RecentrTheme.colors.textTertiary,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+    )
+    is TimeFooter.Status -> RecentrChip(footer.label, Modifier.padding(top = 4.dp))
+}
+
+@Composable
+private fun timeTile(rule: Rule, now: Long): Triple<String, String, TimeFooter> = when (rule.type) {
     RuleType.Session -> {
         val end = rule.sessionEndsAt
         if (end != null && rule.isRunning(now)) {
             Triple(
                 stringResource(R.string.rules_tile_now),
                 countdown(end - now),
-                stringResource(R.string.rules_tile_left_of, durationLabel(((end - (rule.activeSince ?: end)) / 60_000L).toInt())),
+                TimeFooter.Caption(stringResource(R.string.rules_tile_left_of, durationLabel(((end - (rule.activeSince ?: end)) / 60_000L).toInt()))),
             )
         } else {
             Triple(
                 stringResource(R.string.rules_tile_ready),
                 durationLabel(rule.durationMinutes ?: 0),
-                stringResource(R.string.rules_session_title),
+                TimeFooter.Caption(stringResource(R.string.rules_session_title)),
             )
         }
     }
     RuleType.Limit -> Triple(
         stringResource(R.string.rules_tile_today),
         compactDuration(rule.limitMinutes ?: 0),
-        if (rule.isEnforcing(now)) {
-            stringResource(R.string.rules_tile_used, compactDuration(rule.usedMinutes))
-        } else {
-            stringResource(R.string.rules_tile_not_started)
-        },
+        TimeFooter.Caption(
+            if (rule.isEnforcing(now)) {
+                stringResource(R.string.rules_tile_used, compactDuration(rule.usedMinutes))
+            } else {
+                stringResource(R.string.rules_tile_not_started)
+            },
+        ),
     )
     RuleType.Lock -> Triple(
         stringResource(R.string.rules_tile_unlocks_today),
         rule.unlocksPerDay?.let { stringResource(R.string.rules_tile_unlocks_of, rule.unlocksUsedToday, it) } ?: rule.unlocksUsedToday.toString(),
-        stringResource(if (rule.activeSince != null) R.string.rules_value_locked else R.string.rules_detail_off),
+        TimeFooter.Caption(stringResource(if (rule.activeSince != null) R.string.rules_value_locked else R.string.rules_detail_off)),
     )
     RuleType.Bedtime -> {
         val schedule = rule.schedule
-        if (schedule == null || schedule.allDay) {
-            Triple(
-                daysLabel(schedule?.days ?: (1..7).toSet()).uppercase(),
-                stringResource(R.string.rules_all_day),
-                stringResource(R.string.rules_tile_all_day_caption, unlocksPerDayLabel(rule.unlocksPerDay)),
-            )
-        } else {
-            Triple(
-                daysLabel(schedule.days).uppercase(),
-                stringResource(R.string.rules_time_range, clockHours(schedule.startMinute), clockHours(schedule.endMinute)),
-                stringResource(R.string.rules_tile_to, clockLabel(schedule.startMinute), clockLabel(schedule.endMinute)),
-            )
-        }
+        // The value has the hours already: under them, what's left of the window while it runs,
+        // otherwise how it stands, as on its card ("Upcoming", "Paused").
+        val footer = rule.runsUntil(now)
+            ?.let { TimeFooter.Caption(stringResource(R.string.rules_value_left, leftCountdown(it - now))) }
+            ?: TimeFooter.Status(statusLabel(rule, rule.cardStatus(now)))
+        Triple(
+            daysLabel(schedule?.days ?: (1..7).toSet()).uppercase(),
+            if (schedule == null || schedule.allDay) {
+                stringResource(R.string.rules_all_day)
+            } else {
+                stringResource(R.string.rules_time_range, clockHours(schedule.startMinute), clockHours(schedule.endMinute))
+            },
+            footer,
+        )
     }
 }
 
