@@ -17,6 +17,7 @@ import androidx.core.net.toUri
 import com.recentr.core.data.waitSecondsInUse
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSticker
+import com.recentr.core.model.RuleType
 import com.recentr.core.model.UnlockMethod
 import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
@@ -118,6 +119,7 @@ internal fun RuleSheetsHost(
                 onUpdate { it.copy(waitSeconds = seconds, unlocksPerDay = perDay, unlockDurationMinutes = length) }
             },
             onDismiss = close,
+            showsPerDay = rule.type == RuleType.Lock,
         )
         RuleSheet.UnlocksPerDay -> OptionPickerSheet(
             title = stringResource(R.string.rules_unlocks_per_day_title),

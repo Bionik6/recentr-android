@@ -245,10 +245,11 @@ private fun Shield(
             primary = stringResource(R.string.shield_got_this)
             onPrimary = onClose
             rule.unlockStep(now, emergencyLeft)?.let { step ->
+                val left = rule.unlocksLeft
                 val text = when {
                     step == UnlockStep.Emergency -> stringResource(R.string.shield_emergency)
-                    rule.unlocksPerDay != null ->
-                        stringResource(R.string.shield_unlock_anyway_left, rule.unlocksLeft ?: 0, rule.unlocksPerDay ?: 0)
+                    // A lock's unlocks for today; the other kinds don't count them.
+                    left != null -> stringResource(R.string.shield_unlock_anyway_left, left, rule.unlocksPerDay ?: 0)
                     else -> stringResource(R.string.shield_unlock_anyway)
                 }
                 links += text to { onUnlock(step) }

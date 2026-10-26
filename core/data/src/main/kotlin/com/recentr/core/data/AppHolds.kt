@@ -144,16 +144,19 @@ data class HoldState(
 fun Rule.usedOf(minutesByPackage: Map<String, Int>): Int = apps.sumOf { minutesByPackage[it.packageName] ?: 0 }
 
 /**
- * Whether the hold screen offers "Unlock anyway" for this rule at [now]: unlocks left today, no
- * Strict mode holding and not a limit (a limit has no unlocks). Strict mode and limits are only
- * passed with an emergency unlock ([unlockStep]).
+ * Whether the hold screen offers "Unlock anyway" for this rule at [now]: no Strict mode holding,
+ * not a limit (a limit has no unlocks), and for a lock an unlock left today. Strict mode and limits
+ * are only passed with an emergency unlock ([unlockStep]).
  */
 fun Rule.canOpenAnyway(now: Long, zone: ZoneId = ZoneId.systemDefault()): Boolean =
-    type != RuleType.Limit && !isStrictLocked(now, zone) && (unlocksPerDay?.let { unlocksUsedToday < it } ?: true)
+    type != RuleType.Limit && !isStrictLocked(now, zone) && unlocksLeft != 0
 
-/** Unlocks left today, or null when unlimited. */
+/**
+ * A lock's unlocks left today, or null when they're unlimited. Only a lock counts them
+ * (docs/RULES.md): the other kinds' [Rule.unlocksPerDay] is never shown, and never holds.
+ */
 val Rule.unlocksLeft: Int?
-    get() = unlocksPerDay?.let { (it - unlocksUsedToday).coerceAtLeast(0) }
+    get() = unlocksPerDay?.takeIf { type == RuleType.Lock }?.let { (it - unlocksUsedToday).coerceAtLeast(0) }
 
 /**
  * When the rule stops holding apps (epoch millis): the end of the running session or of the
