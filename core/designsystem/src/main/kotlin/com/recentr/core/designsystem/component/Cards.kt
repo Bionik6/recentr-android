@@ -146,7 +146,7 @@ fun RuleCard(
             if (value != null) {
                 // Title 2, 4sp smaller (18sp, as on iOS). One line, flush right: it shrinks (to 70%,
                 // as on iOS) rather than losing its last word to a hidden second line when the apps
-                // leave it little room ("7:45:14 left"). Tabular digits keep a countdown from
+                // leave it little room ("7h45m left"). Tabular digits keep a countdown from
                 // shifting as it ticks.
                 val title2 = RecentrTheme.typography.title2
                 val scale = 18f / title2.fontSize.value

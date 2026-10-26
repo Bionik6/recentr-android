@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.MiniTile
 import com.recentr.core.designsystem.component.TodayCard
 import com.recentr.core.designsystem.component.TodayStat
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
@@ -48,7 +49,6 @@ import com.recentr.feature.home.R
 import com.recentr.feature.home.ui.formatClock
 import com.recentr.feature.home.ui.formatDuration
 import com.recentr.feature.home.ui.sticker
-import com.recentr.feature.home.ui.timeLeft
 import kotlinx.coroutines.delay
 
 /**
@@ -173,7 +173,7 @@ internal fun skeletonPulse(): () -> Float {
 
 /**
  * Full-width tile with the rule running now and the time it has left ("Ongoing · Focus",
- * "27m08s left"), else the next routine to start ("Loading…" while syncing), as on iOS. A rule's
+ * "27m left"), else the next routine to start ("Loading…" while syncing), as on iOS. A rule's
  * tile shows it on Rules ([onShowRule]); with none, the tile opens Rules ([onOpenRules]).
  */
 @Composable
@@ -213,7 +213,7 @@ internal fun NextRuleTile(
                     if (activeSession.type == RuleType.Bedtime) R.string.home_tile_blocking else R.string.home_tile_ongoing,
                     activeSession.name,
                 ),
-                value = stringResource(R.string.home_tile_left, timeLeft(remainingMillis)),
+                value = stringResource(R.string.home_tile_left, countdown(remainingMillis)),
                 sticker = activeSession.type.sticker,
                 onClick = { onShowRule(activeSession.ruleId) },
                 modifier = tileModifier,

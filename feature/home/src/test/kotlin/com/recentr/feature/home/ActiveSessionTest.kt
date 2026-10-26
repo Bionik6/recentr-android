@@ -3,7 +3,6 @@ package com.recentr.feature.home
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
-import com.recentr.feature.home.ui.timeLeft
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -12,7 +11,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 /**
- * The Home tile's "Ongoing · Focus", "2h04m08s left": running sessions, and routines in their
+ * The Home tile's "Ongoing · Focus", "2h04m left": running sessions, and routines in their
  * window, the one ending first.
  */
 class ActiveSessionTest {
@@ -95,12 +94,5 @@ class ActiveSessionTest {
         assertEquals("s", active(listOf(bedtime, session), now)?.ruleId)
         val long = session.copy(durationMinutes = 12 * 60)
         assertEquals("b", active(listOf(bedtime, long), now)?.ruleId)
-    }
-
-    @Test
-    fun `the time left counts to the second, as on a rule's card`() {
-        assertEquals("42s", timeLeft(42_000))
-        assertEquals("32m43s", timeLeft(32 * minute + 42_400))
-        assertEquals("2h04m08s", timeLeft(124 * minute + 8_000))
     }
 }

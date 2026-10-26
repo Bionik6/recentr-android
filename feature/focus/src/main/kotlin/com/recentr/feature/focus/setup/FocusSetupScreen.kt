@@ -47,6 +47,7 @@ import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrToggle
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
@@ -64,7 +65,6 @@ import com.recentr.feature.focus.ui.FocusCard
 import com.recentr.feature.focus.ui.FocusDial
 import com.recentr.feature.focus.ui.FocusMenu
 import com.recentr.feature.focus.ui.RowLabel
-import com.recentr.feature.focus.ui.formatCountdown
 import com.recentr.feature.focus.ui.label
 import kotlinx.coroutines.delay
 
@@ -302,7 +302,7 @@ private fun StartButton(run: FocusRun?, onStart: () -> Unit, onResume: () -> Uni
     }
     val left = run.remainingMillis(now)
     RecentrButton(
-        text = if (left > 0) stringResource(R.string.focus_back_to_focus_left, formatCountdown(left)) else stringResource(R.string.focus_back_to_focus),
+        text = if (left > 0) stringResource(R.string.focus_back_to_focus_left, countdown(left)) else stringResource(R.string.focus_back_to_focus),
         onClick = onResume,
         style = RecentrButtonStyle.Brand,
         icon = RecentrIcon.Hourglass,

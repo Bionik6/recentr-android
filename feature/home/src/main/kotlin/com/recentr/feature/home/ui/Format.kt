@@ -23,19 +23,6 @@ internal fun formatDuration(minutes: Int): String {
     }
 }
 
-/** "32m43s", "1h02m03s", "42s": the time a running rule has left, to the second, as on its card. */
-internal fun timeLeft(millis: Long): String {
-    val total = maxOf(0L, (millis + 999) / 1000)
-    val h = total / 3600
-    val m = (total % 3600) / 60
-    val s = total % 60
-    return when {
-        h > 0 -> "%dh%02dm%02ds".format(h, m, s)
-        m > 0 -> "%dm%02ds".format(m, s)
-        else -> "${s}s"
-    }
-}
-
 /** "9:00 AM" (or "09:00") for a minute-of-day. */
 @Composable
 @ReadOnlyComposable

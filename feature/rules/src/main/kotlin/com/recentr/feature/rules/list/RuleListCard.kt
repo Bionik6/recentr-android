@@ -16,6 +16,7 @@ import com.recentr.core.designsystem.component.OverlappingInstalledAppIcons
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
 import com.recentr.core.designsystem.component.RuleCard
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AlwaysAllowed
@@ -28,10 +29,8 @@ import com.recentr.feature.rules.ui.asSticker
 import com.recentr.feature.rules.ui.compactDuration
 import com.recentr.feature.rules.ui.PendingKind
 import com.recentr.feature.rules.ui.durationLabel
-import com.recentr.feature.rules.ui.leftCountdown
 import com.recentr.feature.rules.ui.pendingKind
 import com.recentr.feature.rules.ui.scheduleLabel
-import com.recentr.feature.rules.ui.startCountdown
 import com.recentr.feature.rules.ui.components.IconTintChip
 import com.recentr.feature.rules.ui.components.overlayBorder
 import java.time.ZoneId
@@ -143,8 +142,8 @@ internal fun RuleListCard(
     val value = when (val v = cardValue) {
         null -> null
         CardValue.Paused -> stringResource(R.string.rules_value_paused)
-        is CardValue.Left -> stringResource(R.string.rules_value_left, leftCountdown(v.millis))
-        is CardValue.StartsIn -> stringResource(R.string.rules_value_starts_in, startCountdown(v.millis))
+        is CardValue.Left -> stringResource(R.string.rules_value_left, countdown(v.millis))
+        is CardValue.StartsIn -> stringResource(R.string.rules_value_starts_in, countdown(v.millis))
         CardValue.Locked -> stringResource(R.string.rules_value_locked)
         CardValue.Off -> stringResource(R.string.rules_value_off)
         is CardValue.UsedOf -> stringResource(R.string.rules_value_used_of, compactDuration(v.usedMinutes), compactDuration(v.totalMinutes))

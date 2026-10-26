@@ -17,15 +17,6 @@ import com.recentr.core.model.FocusSound
 import com.recentr.core.model.UsageApp
 import com.recentr.feature.focus.R
 
-/** Countdown "45:00", "3:00", "1:30:00" (seconds rounded up so 0:00 only shows at the end). */
-internal fun formatCountdown(millis: Long): String {
-    val totalSeconds = ((millis + 999) / 1000).coerceAtLeast(0)
-    val h = totalSeconds / 3600
-    val m = totalSeconds % 3600 / 60
-    val s = totalSeconds % 60
-    return if (h > 0) "%d:%02d:%02d".format(h, m, s) else "%d:%02d".format(m, s)
-}
-
 /** "10:42 AM" (or "10:42"). */
 @Composable
 @ReadOnlyComposable

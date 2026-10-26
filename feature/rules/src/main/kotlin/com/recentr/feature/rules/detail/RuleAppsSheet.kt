@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.recentr.core.data.AppUnlocks
 import com.recentr.core.data.RuleApps
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.illustration.InstalledAppIcon
 import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.model.AlwaysAllowed
@@ -37,7 +38,6 @@ import com.recentr.feature.rules.R
 import com.recentr.feature.rules.ui.components.Gap
 import com.recentr.feature.rules.ui.components.RulesSheet
 import com.recentr.feature.rules.ui.components.SheetBody
-import com.recentr.feature.rules.ui.countdown
 
 /**
  * "Apps" (the rule page's "Blocked" tile): the rule's apps, the ones it keeps closed, the ones

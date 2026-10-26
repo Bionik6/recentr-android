@@ -60,6 +60,7 @@ import com.recentr.core.designsystem.component.RecentrTextButton
 import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.StickyNote
 import com.recentr.core.designsystem.format.clockHours
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Backdrop
@@ -98,11 +99,9 @@ import com.recentr.feature.rules.ui.components.SettingsGroup
 import com.recentr.feature.rules.ui.components.StrictToggleRow
 import com.recentr.feature.rules.ui.components.TimeCard
 import com.recentr.feature.rules.ui.components.UnlockMethodRow
-import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.daysLabel
 import com.recentr.feature.rules.ui.durationLabel
 import com.recentr.feature.rules.ui.label
-import com.recentr.feature.rules.ui.leftCountdown
 import com.recentr.feature.rules.ui.pendingKind
 import com.recentr.feature.rules.ui.pendingWhenText
 import com.recentr.feature.rules.ui.rememberWallClock
@@ -534,7 +533,7 @@ private fun DetailCollage(
     val spread = LocalDensity.current.fontScale.coerceAtLeast(1f)
     Box(Modifier.fillMaxWidth().height(250.dp * spread), contentAlignment = Alignment.Center) {
         // Fixed widths, the time card on the left edge and the apps tile on the right: a countdown
-        // doesn't make them grow and shrink, and a long value ("14:56:36") shrinks to fit.
+        // doesn't make them grow and shrink, and a long value ("14h56m") shrinks to fit.
         TimeCard(
             label = label,
             value = value,
@@ -642,7 +641,7 @@ private fun timeTile(rule: Rule, now: Long): Triple<String, String, TimeFooter> 
         // The value has the hours already: under them, what's left of the window while it runs,
         // otherwise how it stands, as on its card ("Upcoming", "Paused").
         val footer = rule.runsUntil(now)
-            ?.let { TimeFooter.Caption(stringResource(R.string.rules_value_left, leftCountdown(it - now))) }
+            ?.let { TimeFooter.Caption(stringResource(R.string.rules_value_left, countdown(it - now))) }
             ?: TimeFooter.Status(statusLabel(rule, rule.cardStatus(now)))
         Triple(
             daysLabel(schedule?.days ?: (1..7).toSet()).uppercase(),

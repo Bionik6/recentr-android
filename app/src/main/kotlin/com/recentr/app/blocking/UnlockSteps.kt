@@ -90,6 +90,7 @@ import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrChip
 import com.recentr.core.designsystem.component.RecentrChipStyle
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.haptics.SensoryFeedback
 import com.recentr.core.designsystem.icon.RecentrIcon
@@ -578,8 +579,6 @@ private fun HoldToUnlock(enabled: Boolean, onComplete: () -> Unit) {
 @Composable
 internal fun UnlockedStep(packageName: String, label: String, until: Long, now: Long, onOpen: () -> Unit, onLockAgain: () -> Unit) {
     val colors = RecentrTheme.colors
-    val secondsLeft = ((until - now + 999) / 1_000L).coerceAtLeast(0)
-    val countdown = "%d:%02d".format(secondsLeft / 60, secondsLeft % 60)
     UnlockPage(
         actions = {
             RecentrButton(
@@ -621,7 +620,7 @@ internal fun UnlockedStep(packageName: String, label: String, until: Long, now: 
                     color = colors.textPrimary,
                     textAlign = TextAlign.Center,
                 )
-                RecentrChip(stringResource(R.string.unlock_time_left, countdown), style = RecentrChipStyle.Success, icon = RecentrIcon.Clock)
+                RecentrChip(stringResource(R.string.unlock_time_left, countdown(until - now)), style = RecentrChipStyle.Success, icon = RecentrIcon.Clock)
                 Text(
                     stringResource(R.string.unlock_open_caption),
                     style = RecentrTheme.typography.captionRegular,

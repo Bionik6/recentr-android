@@ -53,6 +53,7 @@ import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.component.RecentrCheckbox
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrIconButtonStyle
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
@@ -72,7 +73,6 @@ import com.recentr.feature.focus.ui.FocusMenu
 import com.recentr.feature.focus.ui.FocusTopBar
 import com.recentr.feature.focus.ui.drawFocusRing
 import com.recentr.feature.focus.ui.formatClock
-import com.recentr.feature.focus.ui.formatCountdown
 import com.recentr.feature.focus.ui.label
 import com.recentr.feature.focus.ui.sticker
 
@@ -177,7 +177,7 @@ internal fun FocusRunningContent(
                     )
                 }
                 Spacer(Modifier.height(34.dp))
-                Text(formatCountdown(remaining), style = RecentrTheme.typography.displayHero, color = colors.textOnDark, maxLines = 1)
+                Text(countdown(remaining), style = RecentrTheme.typography.displayHero, color = colors.textOnDark, maxLines = 1)
                 Text(
                     if (run.isPaused) stringResource(R.string.focus_paused) else stringResource(R.string.focus_left_ends, formatClock(now + remaining)),
                     style = RecentrTheme.typography.bodyMedium,
@@ -340,7 +340,7 @@ internal fun FocusBreakContent(
                         )
                     }
                     Column(Modifier.align(Alignment.TopCenter).padding(top = 70.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(formatCountdown(remaining), style = RecentrTheme.typography.displayHero, color = colors.textPrimary, maxLines = 1)
+                        Text(countdown(remaining), style = RecentrTheme.typography.displayHero, color = colors.textPrimary, maxLines = 1)
                         Text(stringResource(R.string.break_until, run.round + 1), style = RecentrTheme.typography.bodyMedium, color = colors.textSecondary)
                     }
                     Mascot(MascotMood.Dozing, width = 57.6.dp, modifier = Modifier.offset(x = 230.dp, y = 178.dp))

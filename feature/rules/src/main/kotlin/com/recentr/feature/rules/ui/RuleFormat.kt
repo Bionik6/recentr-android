@@ -30,7 +30,6 @@ import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.R
 import java.time.Instant
 import java.time.ZoneId
-import kotlin.math.max
 
 /* Mappings between the shared model and the design system. */
 
@@ -118,38 +117,6 @@ internal fun compactDuration(minutes: Int): String {
         m == 0 -> stringResource(R.string.rules_compact_hours, h)
         else -> stringResource(R.string.rules_compact_hours_minutes, h, m)
     }
-}
-
-/** Countdown "24:18" (or "1:04:18" over an hour). */
-internal fun countdown(millis: Long): String {
-    val total = max(0L, (millis + 999) / 1000)
-    val h = total / 3600
-    val m = (total % 3600) / 60
-    val s = total % 60
-    return if (h > 0) "%d:%02d:%02d".format(h, m, s) else "%d:%02d".format(m, s)
-}
-
-/** "32m43s", "1h02m03s", "42s": what's left of a running rule, to the second, as on iOS. */
-internal fun leftCountdown(millis: Long): String {
-    val total = max(0L, (millis + 999) / 1000)
-    val h = total / 3600
-    val m = (total % 3600) / 60
-    val s = total % 60
-    return when {
-        h > 0 -> "%dh%02dm%02ds".format(h, m, s)
-        m > 0 -> "%dm%02ds".format(m, s)
-        else -> "${s}s"
-    }
-}
-
-/** "23m42s", "2h32m", "2d 3h": how long until a routine starts, to the second only in its last hour. */
-internal fun startCountdown(millis: Long): String {
-    val seconds = max(0L, (millis + 999) / 1000)
-    if (seconds < 3600) return if (seconds < 60) "${seconds}s" else "%dm%02ds".format(seconds / 60, seconds % 60)
-    val minutes = (seconds + 59) / 60
-    if (minutes < 24 * 60) return "%dh%02dm".format(minutes / 60, minutes % 60)
-    val hours = (minutes + 59) / 60
-    return if (hours % 24 == 0L) "${hours / 24}d" else "${hours / 24}d ${hours % 24}h"
 }
 
 /* Times & days. */
