@@ -57,6 +57,7 @@ import com.recentr.core.designsystem.component.RecentrTextButton
 import com.recentr.core.designsystem.component.SettingRow
 import com.recentr.core.designsystem.component.StickyNote
 import com.recentr.core.designsystem.format.clockHours
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.icon.RecentrIcon
 import com.recentr.core.designsystem.icon.RecentrIconImage
 import com.recentr.core.designsystem.illustration.Backdrop
@@ -92,7 +93,6 @@ import com.recentr.feature.rules.ui.components.SettingsGroup
 import com.recentr.feature.rules.ui.components.StrictToggleRow
 import com.recentr.feature.rules.ui.components.TimeCard
 import com.recentr.feature.rules.ui.components.UnlockMethodRow
-import com.recentr.feature.rules.ui.countdown
 import com.recentr.feature.rules.ui.daysLabel
 import com.recentr.feature.rules.ui.durationLabel
 import com.recentr.feature.rules.ui.label
@@ -513,7 +513,7 @@ private fun DetailCollage(rule: Rule, now: Long, blockedApps: List<UsageApp>, on
     val (label, value, caption) = timeTile(rule, now)
     Box(Modifier.fillMaxWidth().height(250.dp), contentAlignment = Alignment.Center) {
         // Fixed widths, the time card on the left edge and the apps tile on the right: a countdown
-        // doesn't make them grow and shrink, and a long value ("14:56:36") shrinks to fit.
+        // doesn't make them grow and shrink, and a long value ("14h56m") shrinks to fit.
         TimeCard(
             label = label,
             value = value,

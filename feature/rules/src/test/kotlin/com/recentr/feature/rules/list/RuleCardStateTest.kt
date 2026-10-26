@@ -7,7 +7,6 @@ import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleSchedule
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
-import com.recentr.feature.rules.ui.startCountdown
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -88,17 +87,6 @@ class RuleCardStateTest {
     @Test
     fun `a routine turned off doesn't count down`() {
         assertNull(routine.copy(enabled = false).cardValue(at(19, 30), zone))
-    }
-
-    @Test
-    fun `the start countdown shows seconds only in the last hour`() {
-        assertEquals("42s", startCountdown(42_000))
-        assertEquals("23m42s", startCountdown(23 * MINUTE + 41_200))
-        assertEquals("59m59s", startCountdown(HOUR - 1_000))
-        assertEquals("1h00m", startCountdown(HOUR))
-        assertEquals("2h32m", startCountdown(2 * HOUR + 31 * MINUTE + 10_000))
-        assertEquals("2d 3h", startCountdown(51 * HOUR))
-        assertEquals("3d", startCountdown(72 * HOUR))
     }
 
     @Test

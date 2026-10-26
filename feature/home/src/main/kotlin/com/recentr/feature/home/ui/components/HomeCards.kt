@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.MiniTile
 import com.recentr.core.designsystem.component.TodayCard
 import com.recentr.core.designsystem.component.TodayStat
+import com.recentr.core.designsystem.format.countdown
 import com.recentr.core.designsystem.illustration.Sticker
 import com.recentr.core.designsystem.theme.RecentrElevation
 import com.recentr.core.designsystem.theme.RecentrShapes
@@ -205,16 +206,10 @@ internal fun NextRuleTile(
             modifier = tileModifier,
         )
         activeSession != null && remainingMillis > 0 -> {
-            val totalSeconds = (remainingMillis + 999) / 1000
-            val left = if (totalSeconds >= 3600) {
-                "%d:%02d:%02d".format(totalSeconds / 3600, totalSeconds % 3600 / 60, totalSeconds % 60)
-            } else {
-                "%d:%02d".format(totalSeconds / 60, totalSeconds % 60)
-            }
             MiniTile(
                 // Routines read "Blocking", like their chip on the Rules list.
                 label = stringResource(if (activeSession.type == RuleType.Bedtime) R.string.home_tile_blocking else R.string.home_tile_ongoing),
-                value = stringResource(R.string.home_tile_left, left),
+                value = stringResource(R.string.home_tile_left, countdown(remainingMillis)),
                 sticker = activeSession.type.sticker,
                 onClick = { onShowRule(activeSession.ruleId) },
                 modifier = tileModifier,
