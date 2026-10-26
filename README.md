@@ -98,9 +98,10 @@ also from the Home streak tile.
   10-second wait to unlock (`StarterRoutine` in `:core:model`, [docs/RULES.md](docs/RULES.md) ›
   Starter routines). Someone who already has rules gets none. Home's next rule tile shows its rule
   on Rules: the list opens its group and scrolls to the card.
-- Home's "+ Start blocking" opens the new session sheet over the Rules tab; the Rules tab's
-  "+ New rule" opens the New rule sheet (a kind, or Browse templates), as its header's "+" does
-  and as on iOS.
+- Home's rule tile shows the rule blocking now and the time it has left ("Ongoing · Focus",
+  "27m08s left"; a routine in its window reads "Blocking"), the one ending first, else the next
+  routine to start, as on iOS. Home has no "Start blocking" button: the Rules tab's "+ New rule"
+  opens the New rule sheet (a kind, or Browse templates), as its header's "+" does.
 - App pickers (Rules › Choose apps, Focus › Block) list the device's launcher apps
   (`InstalledAppsRepository`, `PackageManager`), grouped by their declared `android:appCategory`
   (catalogue packages keep their Figma category); rules and focus sessions keep the chosen apps'

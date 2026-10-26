@@ -21,8 +21,7 @@ import com.recentr.feature.home.ui.sheets.AlwaysAllowedInSettingsSheet
 
 /**
  * Home tab content (Home & Insight flow, Figma 22–29). Drawn under the floating tab bar:
- * [contentPadding] (bottom) is kept clear for it; the "Start blocking" CTA sits right above
- * ([onStartBlocking]: the new session sheet, over Rules).
+ * [contentPadding] (bottom) is kept clear for it.
  * While the app blocker is off, the "Blocking is off" card explains how to turn it on; without
  * usage access, "Connect" opens Settings › Usage access (back on Home, the device numbers load).
  * Pull to refresh reads the screen time and the app blocker's state again.
@@ -35,7 +34,6 @@ import com.recentr.feature.home.ui.sheets.AlwaysAllowedInSettingsSheet
 fun HomeTab(
     navController: NavHostController,
     contentPadding: PaddingValues,
-    onStartBlocking: () -> Unit,
     onOpenRules: () -> Unit,
     modifier: Modifier = Modifier,
     onShowRule: (ruleId: String) -> Unit = { onOpenRules() },
@@ -56,7 +54,6 @@ fun HomeTab(
         contentPadding = contentPadding,
         onSaveGoal = viewModel::saveDailyGoal,
         onSelectGrouping = viewModel::selectGrouping,
-        onStartBlocking = onStartBlocking,
         onOpenRules = onOpenRules,
         onShowRule = onShowRule,
         onOpenInsights = { onOpenInsights(state.period) },

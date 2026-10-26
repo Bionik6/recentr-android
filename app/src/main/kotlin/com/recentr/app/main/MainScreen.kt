@@ -30,7 +30,6 @@ import com.recentr.feature.insights.navigateToStreak
 import com.recentr.feature.profile.navigateToProfile
 import com.recentr.feature.rules.RulesTab
 import com.recentr.feature.rules.navigateToAlwaysAllowed
-import com.recentr.feature.rules.navigateToStartSession
 
 /**
  * Main shell: the floating tab bar is drawn over the tab content, which receives the space it
@@ -65,11 +64,6 @@ fun MainScreen(
                     RecentrTab.Home -> HomeTab(
                         navController = navController,
                         contentPadding = tabBarPadding,
-                        // Start blocking: the new session sheet, over Rules.
-                        onStartBlocking = {
-                            onSelect(RecentrTab.Rules)
-                            navController.navigateToStartSession()
-                        },
                         onOpenRules = { onSelect(RecentrTab.Rules) },
                         onShowRule = {
                             ruleToShow = it

@@ -18,8 +18,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,12 +43,13 @@ import com.recentr.core.designsystem.theme.recentrShadow
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.ScreenTimeSummary
 import com.recentr.feature.home.ActiveSessionUi
-import kotlinx.coroutines.delay
 import com.recentr.feature.home.NextRuleUi
 import com.recentr.feature.home.R
 import com.recentr.feature.home.ui.formatClock
 import com.recentr.feature.home.ui.formatDuration
 import com.recentr.feature.home.ui.sticker
+import com.recentr.feature.home.ui.timeLeft
+import kotlinx.coroutines.delay
 
 /**
  * Figma "Today Card" for a single day (today / yesterday). On the Quality hero page (22) the
@@ -171,7 +172,8 @@ internal fun skeletonPulse(): () -> Float {
 }
 
 /**
- * Full-width next rule tile, or the running session's countdown ("Loading…" while syncing). A rule's
+ * Full-width tile with the rule running now and the time it has left ("Ongoing · Focus",
+ * "27m08s left"), else the next routine to start ("Loading…" while syncing), as on iOS. A rule's
  * tile shows it on Rules ([onShowRule]); with none, the tile opens Rules ([onOpenRules]).
  */
 @Composable
@@ -205,16 +207,13 @@ internal fun NextRuleTile(
             modifier = tileModifier,
         )
         activeSession != null && remainingMillis > 0 -> {
-            val totalSeconds = (remainingMillis + 999) / 1000
-            val left = if (totalSeconds >= 3600) {
-                "%d:%02d:%02d".format(totalSeconds / 3600, totalSeconds % 3600 / 60, totalSeconds % 60)
-            } else {
-                "%d:%02d".format(totalSeconds / 60, totalSeconds % 60)
-            }
             MiniTile(
                 // Routines read "Blocking", like their chip on the Rules list.
-                label = stringResource(if (activeSession.type == RuleType.Bedtime) R.string.home_tile_blocking else R.string.home_tile_ongoing),
-                value = stringResource(R.string.home_tile_left, left),
+                label = stringResource(
+                    if (activeSession.type == RuleType.Bedtime) R.string.home_tile_blocking else R.string.home_tile_ongoing,
+                    activeSession.name,
+                ),
+                value = stringResource(R.string.home_tile_left, timeLeft(remainingMillis)),
                 sticker = activeSession.type.sticker,
                 onClick = { onShowRule(activeSession.ruleId) },
                 modifier = tileModifier,
