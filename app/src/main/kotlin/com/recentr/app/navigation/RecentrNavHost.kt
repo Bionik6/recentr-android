@@ -30,6 +30,7 @@ import com.recentr.feature.insights.insightsDestinations
 import com.recentr.feature.onboarding.OnboardingGraphRoute
 import com.recentr.feature.onboarding.onboardingGraph
 import com.recentr.feature.profile.profileDestinations
+import com.recentr.feature.rules.ChooseAppsPicker
 import com.recentr.feature.rules.navigateToAlwaysAllowed
 import com.recentr.feature.rules.navigateToNewRule
 import com.recentr.feature.rules.navigateToRule
@@ -80,6 +81,7 @@ fun RecentrNavHost(
     ) {
         onboardingGraph(
             navController = navController,
+            chooseApps = { initial, onDone, onDismiss -> ChooseAppsPicker(initial, onDone, onDismiss) },
             onFinished = {
                 navController.navigate(MainRoute) {
                     popUpTo(OnboardingGraphRoute) { inclusive = true }

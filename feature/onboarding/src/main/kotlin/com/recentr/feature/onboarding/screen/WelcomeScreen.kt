@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.recentr.core.designsystem.component.RecentrButton
-import com.recentr.core.designsystem.component.RecentrButtonStyle
 import com.recentr.core.designsystem.illustration.Backdrop
 import com.recentr.core.designsystem.illustration.Mascot
 import com.recentr.core.designsystem.illustration.MascotMood
@@ -53,7 +52,6 @@ import kotlinx.coroutines.delay
 @Composable
 internal fun WelcomeScreen(
     onGetStarted: () -> Unit,
-    onHaveAccount: () -> Unit,
 ) {
     val colors = RecentrTheme.colors
     OnboardingPage(
@@ -65,14 +63,6 @@ internal fun WelcomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .entrance(750),
-            )
-            RecentrButton(
-                text = stringResource(R.string.onb_welcome_have_account),
-                onClick = onHaveAccount,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .entrance(850, blur = false),
-                style = RecentrButtonStyle.Secondary,
             )
         },
     ) {
@@ -226,5 +216,5 @@ private fun Bar(height: Dp, color: Color, delayMillis: Int) {
 @Preview(widthDp = 402, heightDp = 874)
 @Composable
 private fun WelcomeScreenPreview() {
-    RecentrTheme { WelcomeScreen(onGetStarted = {}, onHaveAccount = {}) }
+    RecentrTheme { WelcomeScreen(onGetStarted = {}) }
 }

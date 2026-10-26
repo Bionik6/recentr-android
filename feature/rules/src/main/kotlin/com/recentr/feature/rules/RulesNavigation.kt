@@ -32,6 +32,7 @@ import com.recentr.feature.rules.list.RulesListActions
 import com.recentr.feature.rules.list.RulesScreen
 import com.recentr.feature.rules.list.RulesViewModel
 import com.recentr.feature.rules.model.BuiltInTemplate
+import com.recentr.feature.rules.sheets.ChooseAppsSheet
 import kotlinx.serialization.Serializable
 
 /**
@@ -105,6 +106,15 @@ fun RulesTab(
             onDismiss = { newRule = false },
         )
     }
+}
+
+/**
+ * "Choose apps" over another feature's screen (the onboarding's apps step): [initial] picked,
+ * "Block · N apps" hands back the apps picked.
+ */
+@Composable
+fun ChooseAppsPicker(initial: List<UsageApp>, onDone: (List<UsageApp>) -> Unit, onDismiss: () -> Unit) {
+    ChooseAppsSheet(initial = initial, onDone = onDone, onDismiss = onDismiss)
 }
 
 /** Full-screen rule destinations (editors, detail…) pushed above the tab bar. */

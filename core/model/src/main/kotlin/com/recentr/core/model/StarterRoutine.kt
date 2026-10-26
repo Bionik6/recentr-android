@@ -2,8 +2,8 @@ package com.recentr.core.model
 
 /**
  * A routine onboarding sets up (docs/RULES.md › Starter routines), in the order Rules lists them,
- * blocking the social apps installed ([apps]). None is strict, and each lets an app through after
- * a 10-second wait, so its apps can be changed at any time. Their names are the onboarding's
+ * blocking the apps the user picks on its apps step. None is strict, and each lets an app through
+ * after a 10-second wait, so its apps can be changed at any time. Their names are the onboarding's
  * strings.
  */
 enum class StarterRoutine(val schedule: RuleSchedule, val sticker: RuleSticker) {
@@ -27,13 +27,4 @@ enum class StarterRoutine(val schedule: RuleSchedule, val sticker: RuleSticker) 
         waitSeconds = 10,
         sticker = sticker,
     )
-
-    companion object {
-        /**
-         * The apps they block: the social apps among [installed], but the default SMS app [smsApp]
-         * (Google Messages says it's social), so texts and sign-in codes stay at hand.
-         */
-        fun apps(installed: List<UsageApp>, smsApp: String? = null): List<UsageApp> =
-            installed.filter { it.category == AppCategory.Social && it.packageName != smsApp }
-    }
 }

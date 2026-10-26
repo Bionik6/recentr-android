@@ -26,8 +26,8 @@ import org.junit.Before
 import org.junit.Test
 
 /**
- * Completing the onboarding sets up Working Time, Night Pause and Weekend Zen, blocking the social
- * apps installed (docs/RULES.md › Starter routines).
+ * Completing the onboarding sets up Working Time, Night Pause and Weekend Zen, blocking the apps
+ * the user picked on its apps step: nothing is picked for them (docs/RULES.md › Starter routines).
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class StarterRoutinesTest {
@@ -35,14 +35,10 @@ class StarterRoutinesTest {
     private val instagram = UsageApp("com.instagram.android", "Instagram", AppCategory.Social)
     private val tiktok = UsageApp("com.zhiliaoapp.musically", "TikTok", AppCategory.Social)
     private val youtube = UsageApp("com.google.android.youtube", "YouTube", AppCategory.Entertainment)
-    private val maps = UsageApp("com.google.android.apps.maps", "Maps", AppCategory.Other)
-    private val messages = UsageApp("com.google.android.apps.messaging", "Messages", AppCategory.Social)
 
     private val dispatcher = UnconfinedTestDispatcher()
     private val profile = MutableStateFlow(UserProfile())
     private val rules = RulesRepository(file = null)
-    private var installed = listOf(instagram, maps, tiktok, youtube)
-    private var smsApp: String? = null
 
     private val names = mapOf(
         StarterRoutine.WorkingTime to "Working Time",
@@ -54,10 +50,11 @@ class StarterRoutinesTest {
         profile = profile,
         updateProfile = { transform -> profile.update(transform) },
         rules = rules,
-        installedApps = { installed },
         routineName = names::getValue,
-        smsApp = { smsApp },
     )
+
+    /** Picks [apps] on the apps step. */
+    private fun OnboardingViewModel.picking(vararg apps: UsageApp) = apply { onAppsPicked(apps.toList()) }
 
     /** Completes the onboarding, and says whether it moved on. */
     private fun OnboardingViewModel.completed(): Boolean {
@@ -73,8 +70,8 @@ class StarterRoutinesTest {
     fun tearDown() = Dispatchers.resetMain()
 
     @Test
-    fun `completing sets up the three routines, blocking the social apps`() = runTest(dispatcher) {
-        assertTrue(viewModel().completed())
+    fun `completing sets up the three routines, blocking the apps picked`() = runTest(dispatcher) {
+        assertTrue(viewModel().picking(instagram, youtube).completed())
 
         assertTrue(profile.value.onboardingCompleted)
         val routines = rules.rules.value
@@ -91,26 +88,26 @@ class StarterRoutinesTest {
         assertEquals(3, routines.map(Rule::id).toSet().size)
         routines.forEach { routine ->
             assertEquals(RuleType.Bedtime, routine.type)
-            assertEquals(listOf(instagram, tiktok), routine.apps)
+            assertEquals(listOf(instagram, youtube), routine.apps)
             assertTrue(routine.enabled)
         }
     }
 
-    /** Google Messages says it's social, but as the SMS app it stays at hand: texts, sign-in codes. */
+    /** No social app is picked for the user: they choose what pulls them in. */
     @Test
-    fun `the default SMS app isn't blocked`() = runTest(dispatcher) {
-        installed = listOf(instagram, messages, tiktok)
-        smsApp = messages.packageName
+    fun `the apps step starts with nothing picked`() = runTest(dispatcher) {
+        val viewModel = viewModel()
+        assertEquals(emptyList<UsageApp>(), viewModel.uiState.value.apps)
+        assertFalse(viewModel.uiState.value.hasApps)
 
-        viewModel().completed()
-
-        assertEquals(3, rules.rules.value.size)
-        rules.rules.value.forEach { routine -> assertEquals(listOf(instagram, tiktok), routine.apps) }
+        viewModel.picking(tiktok)
+        assertEquals(listOf(tiktok), viewModel.uiState.value.apps)
+        assertTrue(viewModel.uiState.value.hasApps)
     }
 
     @Test
     fun `no routine is strict, and each unlocks after a 10-second wait`() = runTest(dispatcher) {
-        viewModel().completed()
+        viewModel().picking(instagram).completed()
 
         val routines = rules.rules.value
         assertEquals(3, routines.size)
@@ -122,10 +119,9 @@ class StarterRoutinesTest {
         }
     }
 
+    /** The pick is lost with the process: the routines are set up all the same, for the user to fill. */
     @Test
-    fun `without social apps the routines are set up all the same, for the user to fill`() = runTest(dispatcher) {
-        installed = listOf(maps, youtube)
-
+    fun `without a pick the routines block nothing yet`() = runTest(dispatcher) {
         viewModel().completed()
 
         assertEquals(listOf("Working Time", "Night Pause", "Weekend Zen"), rules.rules.value.map { it.name })
@@ -138,15 +134,15 @@ class StarterRoutinesTest {
         val focus = Rule("focus", RuleType.Session, "Focus", apps = listOf(instagram), durationMinutes = 30)
         rules.create(focus)
 
-        assertTrue(viewModel().completed())
+        assertTrue(viewModel().picking(tiktok).completed())
 
         assertEquals(listOf("Focus"), rules.rules.value.map { it.name })
     }
 
     @Test
     fun `completing twice sets them up once`() = runTest(dispatcher) {
-        viewModel().completed()
-        viewModel().completed()
+        viewModel().picking(instagram).completed()
+        viewModel().picking(instagram).completed()
 
         assertEquals(3, rules.rules.value.size)
     }
