@@ -16,7 +16,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.decodeFromJsonElement
 import java.io.File
 import java.time.DayOfWeek
 import java.time.Instant
@@ -33,8 +36,8 @@ import java.util.UUID
  * The session runs on the wall clock ([FocusRun.phaseEndsAt]), so it keeps going while the
  * screen is off; [advance] settles finished phases and is called by the screens' clock.
  *
- * The sounds mixed are saved to [soundsFile] after every change, so each session starts with the
- * last mix, however long ago.
+ * The sounds mixed, and the ones muted in the sounds sheet, are saved to [soundsFile] after every
+ * change, so each session starts with the last mix, however long ago.
  */
 class FocusRepository(
     /** Where the sound mix is saved, or null to keep it in memory only (previews, tests). */
@@ -42,7 +45,11 @@ class FocusRepository(
     private val zone: () -> ZoneId = { ZoneId.systemDefault() },
     writeDispatcher: CoroutineDispatcher = Dispatchers.IO.limitedParallelism(1),
 ) {
-    private val _config = MutableStateFlow(FocusConfig(sounds = soundsFile?.let(::readSounds) ?: FocusSoundLayer.DefaultMix))
+    private val _config = MutableStateFlow(
+        soundsFile?.let(::readSounds).let { saved ->
+            FocusConfig(sounds = saved?.mix ?: FocusSoundLayer.DefaultMix, mutedSounds = saved?.muted.orEmpty())
+        },
+    )
     val config: StateFlow<FocusConfig> = _config.asStateFlow()
 
     /** One write at a time, each with the latest mix. */
@@ -60,8 +67,9 @@ class FocusRepository(
     val lastCompleted: StateFlow<FocusSessionRecord?> = _lastCompleted.asStateFlow()
 
     fun updateConfig(transform: (FocusConfig) -> FocusConfig) {
-        val sounds = _config.value.sounds
-        if (_config.updateAndGet(transform).sounds != sounds) persistSounds()
+        val before = _config.value
+        val after = _config.updateAndGet(transform)
+        if (after.sounds != before.sounds || after.mutedSounds != before.mutedSounds) persistSounds()
     }
 
     /**
@@ -216,7 +224,10 @@ class FocusRepository(
 
     private fun persistSounds() {
         val target = soundsFile ?: return
-        writes.launch { target.writeAtomically(json.encodeToString(_config.value.sounds)) }
+        writes.launch {
+            val config = _config.value
+            target.writeAtomically(json.encodeToString(SavedSounds(config.sounds, config.mutedSounds)))
+        }
     }
 
     private fun FocusRun.nextRound(startAt: Long, autoStart: Boolean): FocusRun {
@@ -252,12 +263,19 @@ class FocusRepository(
 
     private fun Long.toDate(): LocalDate = Instant.ofEpochMilli(this).atZone(zone()).toLocalDate()
 
+    /** What [soundsFile] holds: the mix, and the sounds muted in the sounds sheet. */
+    @Serializable
+    private class SavedSounds(val mix: List<FocusSoundLayer>, val muted: List<FocusSoundLayer> = emptyList())
+
     private companion object {
         val json = Json { ignoreUnknownKeys = true }
 
-        /** The saved mix, or null when there's none yet (or the file can't be read). */
-        fun readSounds(file: File): List<FocusSoundLayer>? = runCatching {
-            if (file.exists()) json.decodeFromString<List<FocusSoundLayer>>(file.readText()) else null
+        /** The saved sounds, or null when there are none yet (or the file can't be read). */
+        fun readSounds(file: File): SavedSounds? = runCatching {
+            if (!file.exists()) return@runCatching null
+            val saved = json.parseToJsonElement(file.readText())
+            // Saved before sounds could be muted: the mix alone.
+            if (saved is JsonArray) SavedSounds(json.decodeFromJsonElement(saved)) else json.decodeFromJsonElement<SavedSounds>(saved)
         }.getOrNull()
     }
 }

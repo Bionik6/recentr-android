@@ -95,21 +95,21 @@ import kotlin.math.roundToInt
 /**
  * 93 · Focus — Sounds: every recording by kind, one to a row, each at its own volume. The art
  * turns a sound on, mutes it or brings it back; the slider sets how loud it plays and turns it on.
- * With [preview], the sheet plays the mix while it's up, from the first change; otherwise the
- * session itself plays the changes.
+ * Every change goes to [onChange], the [muted] sounds too, so they're still muted next time. With
+ * [preview], the sheet plays the mix while it's up, from the first change; otherwise the session
+ * itself plays the changes.
  */
 @Composable
 internal fun SoundsSheet(
     mix: List<FocusSoundLayer>,
-    onMixChange: (List<FocusSoundLayer>) -> Unit,
+    muted: List<FocusSoundLayer>,
+    onChange: (mix: List<FocusSoundLayer>, muted: List<FocusSoundLayer>) -> Unit,
     onDismissRequest: () -> Unit,
     preview: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
     val context = LocalContext.current
     val haptics = LocalRecentrHaptics.current
-    // The sounds muted here, at the volume they come back at: forgotten once the sheet closes.
-    var muted by remember { mutableStateOf(emptyList<FocusSoundLayer>()) }
     var touched by remember { mutableStateOf(false) }
     val mixer = remember(preview) { if (preview) AmbientMixer(context) else null }
     DisposableEffect(mixer) {
@@ -120,13 +120,12 @@ internal fun SoundsSheet(
         }
     }
     LaunchedEffect(mixer, mix, touched) { if (touched) mixer?.play(mix) }
-    val sounds = SoundsMix(mix, muted)
+    // A sound in the mix is on, even if it's also among the muted ones.
+    val sounds = SoundsMix(mix, muted.filterNot { layer -> mix.any { it.sound == layer.sound } })
     fun change(updated: SoundsMix) {
-        muted = updated.muted
-        if (updated.on != mix) {
-            touched = true
-            onMixChange(updated.on)
-        }
+        if (updated == sounds) return
+        if (updated.on != mix) touched = true
+        onChange(updated.on, updated.muted)
     }
 
     RecentrSheet(onDismissRequest = onDismissRequest) { controller ->

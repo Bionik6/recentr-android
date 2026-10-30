@@ -274,7 +274,8 @@ internal fun FocusSetupScreen(
     when (sheet) {
         SetupSheet.Sounds -> SoundsSheet(
             mix = config.sounds,
-            onMixChange = { mix -> onUpdate { it.copy(sounds = mix) } },
+            muted = config.mutedSounds,
+            onChange = { mix, muted -> onUpdate { it.copy(sounds = mix, mutedSounds = muted) } },
             onDismissRequest = { sheet = null },
         )
         SetupSheet.Block -> chooseApps(

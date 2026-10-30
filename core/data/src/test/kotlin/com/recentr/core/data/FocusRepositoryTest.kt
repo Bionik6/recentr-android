@@ -194,6 +194,22 @@ class FocusRepositoryTest {
     }
 
     @Test
+    fun `muted sounds are kept too, and a mix saved before them still reads`() {
+        val file = folder.root.resolve("focus_sounds.json")
+        file.writeText("""[{"sound":"Thunder","volume":0.3}]""")
+        val repo = FocusRepository(file, zone = { zone }, writeDispatcher = Dispatchers.Unconfined)
+        assertEquals(listOf(FocusSoundLayer(FocusSound.Thunder, 0.3f)), repo.config.value.sounds)
+        assertEquals(emptyList<FocusSoundLayer>(), repo.config.value.mutedSounds)
+
+        val muted = listOf(FocusSoundLayer(FocusSound.Thunder, 0.3f))
+        repo.updateConfig { it.copy(sounds = emptyList(), mutedSounds = muted) }
+
+        val reopened = FocusRepository(file, zone = { zone }).config.value
+        assertEquals(emptyList<FocusSoundLayer>(), reopened.sounds)
+        assertEquals(muted, reopened.mutedSounds)
+    }
+
+    @Test
     fun `restart starts the round over, running, and its minutes don't count`() {
         val repo = repository()
         repo.start(now)

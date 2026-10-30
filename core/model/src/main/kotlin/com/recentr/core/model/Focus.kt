@@ -69,6 +69,8 @@ data class FocusConfig(
     val autoStartNextRound: Boolean = true,
     /** The sounds mixed while a round runs, each at its own volume. None for silence. */
     val sounds: List<FocusSoundLayer> = FocusSoundLayer.DefaultMix,
+    /** The sounds muted in the sounds sheet, at the volume they come back at: still muted the next time it opens. */
+    val mutedSounds: List<FocusSoundLayer> = emptyList(),
     /** Apps put on hold during the session, picked from the device's apps (none at first). */
     val blockedApps: List<UsageApp> = emptyList(),
     /**

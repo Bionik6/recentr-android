@@ -114,7 +114,7 @@ internal class FocusSessionViewModel(private val repository: FocusRepository) : 
         // Sound changes apply to the running session too.
         val run = repository.run.value ?: return
         val updated = transform(run.config)
-        repository.updateRun { it.copy(config = run.config.copy(sounds = updated.sounds)) }
+        repository.updateRun { it.copy(config = run.config.copy(sounds = updated.sounds, mutedSounds = updated.mutedSounds)) }
     }
 
     companion object {

@@ -13,8 +13,8 @@ internal enum class MuteLink { MuteAll, UnmuteAll }
 
 /**
  * What the sounds sheet (Figma 93) holds: the sounds [on], in the order they were turned on, and
- * the ones [muted] there, at the volume they come back at, in the order they were muted. The
- * muted ones are forgotten once the sheet closes.
+ * the ones [muted] there, at the volume they come back at, in the order they were muted. Both are
+ * saved with the set-up, so muted sounds are still muted the next time the sheet opens.
  */
 internal data class SoundsMix(val on: List<FocusSoundLayer>, val muted: List<FocusSoundLayer> = emptyList()) {
 

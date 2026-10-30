@@ -211,7 +211,8 @@ private fun FocusSessionDestination(
         // During a round the session plays the changes; on a break or a pause, the sheet previews them.
         SessionOverlay.Sounds -> SoundsSheet(
             mix = run.config.sounds,
-            onMixChange = { mix -> viewModel.updateConfig { it.copy(sounds = mix) } },
+            muted = run.config.mutedSounds,
+            onChange = { mix, muted -> viewModel.updateConfig { it.copy(sounds = mix, mutedSounds = muted) } },
             onDismissRequest = { overlay = null },
             preview = run.phase != FocusPhase.Focus || run.isPaused,
         )
