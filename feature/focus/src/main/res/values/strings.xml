@@ -34,33 +34,72 @@
     <!-- 92 · Focus — Running -->
     <string name="focus_round_of">Round %1$d of %2$d</string>
     <string name="focus_left_ends">left · ends %s</string>
-    <string name="focus_paused">paused</string>
+    <string name="focus_paused_round_of">Paused · round %1$d of %2$d</string>
+    <string name="focus_ready_round_of">Ready for round %1$d of %2$d</string>
+    <string name="focus_round_n">Round %d</string>
+    <string name="focus_take_your_time">Take your time</string>
+    <string name="focus_paused_for">paused for %s</string>
     <plurals name="focus_apps_on_hold">
         <item quantity="one">%d app on hold</item>
         <item quantity="other">%d apps on hold</item>
     </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="one">%d app still on hold</item>
+        <item quantity="other">%d apps still on hold</item>
+    </plurals>
     <string name="focus_pause">Pause</string>
     <string name="focus_resume">Resume</string>
     <string name="focus_start_round">Start round</string>
-    <string name="focus_end">End</string>
+    <string name="focus_end_session">End session</string>
+    <string name="focus_restart_round">Restart round</string>
+    <string name="focus_round_restarted">Round %d restarted</string>
+    <string name="focus_undo">Undo</string>
 
     <!-- 93 · Focus — Sounds -->
     <string name="sounds_title">Focus sounds</string>
-    <string name="sounds_subtitle">Plays only while a session runs.</string>
-    <string name="sound_rain">Rain on window</string>
-    <string name="sound_rain_hint">Soft &amp; steady</string>
-    <string name="sound_forest">Forest</string>
-    <string name="sound_forest_hint">Birds, wind</string>
-    <string name="sound_night">Night</string>
-    <string name="sound_night_hint">Crickets</string>
-    <string name="sound_fireplace">Fireplace</string>
-    <string name="sound_fireplace_hint">Warm crackle</string>
-    <string name="sound_clock">Clock</string>
-    <string name="sound_clock_hint">Slow tick</string>
-    <string name="sound_silence">Silence</string>
-    <string name="sound_silence_hint">Just you</string>
+    <string name="sounds_subtitle_none">Turn on as many as you like.</string>
+    <string name="sounds_subtitle_on">%1$s on</string>
+    <string name="sounds_turn_all_off">Turn all off</string>
     <string name="sounds_volume">Volume</string>
+    <string name="sounds_volume_of">%1$s volume</string>
     <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">Off</string>
+    <string name="sound_state_on">On, %d%%</string>
+    <string name="sound_mix_off">Off</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">Add a sound</string>
+    <string name="sound_category_rain">Rain</string>
+    <string name="sound_category_water">Water</string>
+    <string name="sound_category_nature">Nature</string>
+    <string name="sound_category_places">Places</string>
+    <string name="sound_category_steady">Ticks &amp; noise</string>
+    <string name="sound_soft_rain">Soft rain</string>
+    <string name="sound_heavy_rain">Heavy rain</string>
+    <string name="sound_forest_rain">Forest rain</string>
+    <string name="sound_rain_village">Village rain</string>
+    <string name="sound_thunder">Thunder</string>
+    <string name="sound_river">River</string>
+    <string name="sound_small_river">Stream</string>
+    <string name="sound_beach">Beach</string>
+    <string name="sound_sea_beach">Seaside</string>
+    <string name="sound_soft_beach">Calm shore</string>
+    <string name="sound_whale">Whales</string>
+    <string name="sound_forest_night">Night forest</string>
+    <string name="sound_birds">Birds</string>
+    <string name="sound_crickets">Crickets</string>
+    <string name="sound_cicada_birds">Cicadas</string>
+    <string name="sound_farm">Farm</string>
+    <string name="sound_wind">Wind</string>
+    <string name="sound_campfire">Campfire</string>
+    <string name="sound_coffee_shop">Coffee shop</string>
+    <string name="sound_office">Office</string>
+    <string name="sound_street_traffic">Street</string>
+    <string name="sound_construction">Construction</string>
+    <string name="sound_keyboard_typing">Typing</string>
+    <string name="sound_clock_tick">Clock</string>
+    <string name="sound_clock_stopwatch">Stopwatch</string>
+    <string name="sound_white_noise">White noise</string>
+    <string name="sound_pink_noise">Pink noise</string>
     <string name="sounds_done">Done</string>
 
     <!-- 94 · Focus — Break -->
@@ -110,6 +149,13 @@
     <string name="hold_leave_body">Your apps stay on hold until %s. Stick with it — you’re doing great.</string>
     <string name="hold_back">Back to focus</string>
     <string name="hold_end">End session early</string>
+    <string name="hold_keep_focusing">Keep focusing</string>
+    <string name="hold_end_now">End now?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="one">End now and your app comes back.</item>
+        <item quantity="other">End now and your %d apps come back.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s The %2$d min still count.</string>
 
     <!-- 97 · Focus — History -->
     <string name="history_title">Focus log</string>
@@ -145,19 +191,13 @@
     <string name="rounds_increase">Increase %s</string>
 
     <!-- Block apps -->
-    <string name="block_title">Block during focus</string>
-    <string name="block_subtitle">These apps stay on hold until the session ends.</string>
-    <string name="block_done">Done</string>
-    <string name="block_search">Search apps</string>
-    <string name="block_no_apps">No apps match “%1$s”.</string>
-    <string name="block_cat_social">SOCIAL</string>
-    <string name="block_cat_entertainment">ENTERTAINMENT</string>
-    <string name="block_cat_music">MUSIC</string>
-    <string name="block_cat_games">GAMES</string>
-    <string name="block_cat_productivity">PRODUCTIVITY</string>
-    <string name="block_cat_other">OTHER APPS</string>
 
     <string name="duration_h">%1$dh</string>
     <string name="duration_m">%1$dm</string>
     <string name="duration_h_m">%1$dh %2$dm</string>
+    <string name="focus_notification_channel">Focus timer</string>
+    <string name="focus_notification_channel_description">The session going on, while its sounds play with Recentr closed.</string>
+    <string name="focus_notification_round">Round %1$d of %2$d</string>
+    <string name="focus_notification_break">Break · round %1$d next</string>
+    <string name="focus_notification_paused">Paused · round %1$d of %2$d</string>
 </resources>

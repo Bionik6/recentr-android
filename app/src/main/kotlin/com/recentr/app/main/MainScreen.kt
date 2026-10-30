@@ -28,6 +28,7 @@ import com.recentr.feature.insights.InsightsOverviewTab
 import com.recentr.feature.insights.navigateToAppInsights
 import com.recentr.feature.insights.navigateToStreak
 import com.recentr.feature.profile.navigateToProfile
+import com.recentr.feature.rules.ChooseAppsPicker
 import com.recentr.feature.rules.RulesTab
 import com.recentr.feature.rules.navigateToAlwaysAllowed
 
@@ -84,7 +85,11 @@ fun MainScreen(
                         ruleToShow = ruleToShow,
                         onRuleShown = { ruleToShow = null },
                     )
-                    RecentrTab.Timer -> FocusTab(navController = navController, contentPadding = tabBarPadding)
+                    RecentrTab.Timer -> FocusTab(
+                        navController = navController,
+                        contentPadding = tabBarPadding,
+                        chooseApps = { initial, onDone, onDismiss -> ChooseAppsPicker(initial, onDone, onDismiss) },
+                    )
                     RecentrTab.Insights -> InsightsOverviewTab(
                         navController = navController,
                         contentPadding = tabBarPadding,

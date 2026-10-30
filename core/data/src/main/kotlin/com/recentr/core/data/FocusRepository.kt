@@ -5,10 +5,19 @@ import com.recentr.core.model.FocusPhase
 import com.recentr.core.model.FocusRecordKind
 import com.recentr.core.model.FocusRun
 import com.recentr.core.model.FocusSessionRecord
+import com.recentr.core.model.FocusSoundLayer
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import java.io.File
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
@@ -23,12 +32,21 @@ import java.util.UUID
  *
  * The session runs on the wall clock ([FocusRun.phaseEndsAt]), so it keeps going while the
  * screen is off; [advance] settles finished phases and is called by the screens' clock.
+ *
+ * The sounds mixed are saved to [soundsFile] after every change, so each session starts with the
+ * last mix, however long ago.
  */
 class FocusRepository(
+    /** Where the sound mix is saved, or null to keep it in memory only (previews, tests). */
+    private val soundsFile: File? = null,
     private val zone: () -> ZoneId = { ZoneId.systemDefault() },
+    writeDispatcher: CoroutineDispatcher = Dispatchers.IO.limitedParallelism(1),
 ) {
-    private val _config = MutableStateFlow(FocusConfig())
+    private val _config = MutableStateFlow(FocusConfig(sounds = soundsFile?.let(::readSounds) ?: FocusSoundLayer.DefaultMix))
     val config: StateFlow<FocusConfig> = _config.asStateFlow()
+
+    /** One write at a time, each with the latest mix. */
+    private val writes = CoroutineScope(SupervisorJob() + writeDispatcher)
 
     private val _run = MutableStateFlow<FocusRun?>(null)
     val run: StateFlow<FocusRun?> = _run.asStateFlow()
@@ -41,7 +59,10 @@ class FocusRepository(
     private val _lastCompleted = MutableStateFlow<FocusSessionRecord?>(null)
     val lastCompleted: StateFlow<FocusSessionRecord?> = _lastCompleted.asStateFlow()
 
-    fun updateConfig(transform: (FocusConfig) -> FocusConfig) = _config.update(transform)
+    fun updateConfig(transform: (FocusConfig) -> FocusConfig) {
+        val sounds = _config.value.sounds
+        if (_config.updateAndGet(transform).sounds != sounds) persistSounds()
+    }
 
     /**
      * Starts a session with the current set-up ([rounds] overrides the number of rounds). Strict
@@ -63,11 +84,45 @@ class FocusRepository(
 
     /** Pauses the round, unless Strict mode holds the session. */
     fun pause(now: Long) = _run.update { run ->
-        if (run == null || run.isPaused || run.isStrict) run else run.copy(phaseEndsAt = null, pausedRemainingMillis = run.remainingMillis(now))
+        if (run == null || run.isPaused || run.isStrict) {
+            run
+        } else {
+            run.copy(phaseEndsAt = null, pausedRemainingMillis = run.remainingMillis(now), pausedAt = now)
+        }
     }
 
+    /** Resumes a paused round, or starts the round waiting for "Start round". */
     fun resume(now: Long) = _run.update { run ->
-        if (run == null || !run.isPaused) run else run.copy(phaseEndsAt = now + run.remainingMillis(now), pausedRemainingMillis = null)
+        if (run == null || !run.isPaused) {
+            run
+        } else {
+            run.copy(phaseEndsAt = now + run.remainingMillis(now), pausedRemainingMillis = null, pausedAt = null, awaitingStart = false)
+        }
+    }
+
+    /**
+     * "Restart" (Figma 92C): the round going on starts over at once, running, its time so far let
+     * go of (it doesn't count as focus). Returns the session as it was, for Undo; null when there's
+     * no round to restart: a break, a round waiting to start, or Strict mode.
+     */
+    fun restartRound(now: Long): FocusRun? {
+        val before = _run.value ?: return null
+        if (before.phase != FocusPhase.Focus || before.awaitingStart || before.isStrict) return null
+        _run.value = before.copy(
+            phaseEndsAt = now + before.phaseLengthMillis,
+            pausedRemainingMillis = null,
+            pausedAt = null,
+        )
+        return before
+    }
+
+    /** The restart toast's "Undo": the round's time left, and its pause, as they were before [restartRound]. */
+    fun undoRestart(before: FocusRun) = _run.update { run ->
+        if (run == null || run.startedAt != before.startedAt || run.round != before.round || run.phase != FocusPhase.Focus) {
+            run
+        } else {
+            before.copy(config = run.config, urgesResisted = run.urgesResisted)
+        }
     }
 
     /** Ends the break now and starts the next round. */
@@ -156,6 +211,12 @@ class FocusRepository(
         _run.value = null
         _lastCompleted.value = null
         _history.value = emptyList()
+        persistSounds()
+    }
+
+    private fun persistSounds() {
+        val target = soundsFile ?: return
+        writes.launch { target.writeAtomically(json.encodeToString(_config.value.sounds)) }
     }
 
     private fun FocusRun.nextRound(startAt: Long, autoStart: Boolean): FocusRun {
@@ -165,6 +226,8 @@ class FocusRepository(
             phase = FocusPhase.Focus,
             phaseEndsAt = if (autoStart) startAt + length else null,
             pausedRemainingMillis = if (autoStart) null else length,
+            pausedAt = null,
+            awaitingStart = !autoStart,
         )
     }
 
@@ -188,4 +251,13 @@ class FocusRepository(
     }
 
     private fun Long.toDate(): LocalDate = Instant.ofEpochMilli(this).atZone(zone()).toLocalDate()
+
+    private companion object {
+        val json = Json { ignoreUnknownKeys = true }
+
+        /** The saved mix, or null when there's none yet (or the file can't be read). */
+        fun readSounds(file: File): List<FocusSoundLayer>? = runCatching {
+            if (file.exists()) json.decodeFromString<List<FocusSoundLayer>>(file.readText()) else null
+        }.getOrNull()
+    }
 }

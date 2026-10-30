@@ -153,6 +153,11 @@ class AppHoldsTest {
         assertEquals(HoldReason.Focus(run), state(focus = run, unlocks = AppUnlocks().open(tiktok.packageName, emptyList(), now + minute)).reason(tiktok.packageName))
         assertNull(state(focus = run.copy(phase = FocusPhase.Break)).reason(tiktok.packageName))
         assertNull(state(focus = run).reason(whatsApp.packageName))
+        // Paused, or waiting for "Start round", the apps stay on hold (Figma 92B, 92E).
+        val paused = run.copy(phaseEndsAt = null, pausedRemainingMillis = 20 * minute, pausedAt = now)
+        assertEquals(HoldReason.Focus(paused), state(focus = paused).reason(tiktok.packageName))
+        val waiting = run.copy(round = 2, phaseEndsAt = null, pausedRemainingMillis = 45 * minute, awaitingStart = true)
+        assertEquals(HoldReason.Focus(waiting), state(focus = waiting).reason(tiktok.packageName))
     }
 
     /** Only a lock counts its unlocks: "Unlocks per day" is a lock's setting (docs/RULES.md). */

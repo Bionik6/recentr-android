@@ -35,6 +35,9 @@ object RecentrElevation {
 
     /** Strict button glow (0 10 12 · tangerine 35%). */
     val glowStrict = Shadow(radius = 12.dp, color = Color(0x59FF661A), offset = DpOffset(0.dp, 10.dp))
+
+    /** Timer Control, primary (0 8 16 · sky-light 45%). */
+    val glowControl = Shadow(radius = 16.dp, color = Color(0x737CB8FF), offset = DpOffset(0.dp, 8.dp))
 }
 
 /** Applies a design-system shadow behind [shape]. */

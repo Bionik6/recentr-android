@@ -26,4 +26,16 @@ class CountdownTest {
         assertEquals("1h02m", countdown(3_723_000))
         assertEquals("26h00m", countdown(26 * 3_600_000L))
     }
+
+    @Test
+    fun `the focus timer's clock shows the seconds, and the hours from an hour on`() {
+        assertEquals("00:00", clockCountdown(-5_000))
+        assertEquals("00:00", clockCountdown(0))
+        assertEquals("00:01", clockCountdown(200))
+        assertEquals("01:00", clockCountdown(59_400))
+        assertEquals("24:38", clockCountdown((24 * 60 + 38) * 1_000L))
+        assertEquals("59:59", clockCountdown(3_599_000))
+        assertEquals("01:00:00", clockCountdown(3_600_000))
+        assertEquals("03:24:57", clockCountdown((3 * 3_600 + 24 * 60 + 57) * 1_000L))
+    }
 }

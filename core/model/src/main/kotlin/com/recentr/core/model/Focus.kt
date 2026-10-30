@@ -1,7 +1,62 @@
 package com.recentr.core.model
 
-/** Ambient sounds of the focus timer (Figma "Focus sounds"). */
-enum class FocusSound { Rain, Forest, Night, Fireplace, Clock, Silence }
+import kotlinx.serialization.Serializable
+
+/** Ambient sounds of the focus timer (Figma "Focus sounds"): recordings that loop while a round runs. */
+@Serializable
+enum class FocusSound(val category: FocusSoundCategory) {
+    SoftRain(FocusSoundCategory.Rain),
+    HeavyRain(FocusSoundCategory.Rain),
+    ForestRain(FocusSoundCategory.Rain),
+    RainVillage(FocusSoundCategory.Rain),
+    Thunder(FocusSoundCategory.Rain),
+    River(FocusSoundCategory.Water),
+    SmallRiver(FocusSoundCategory.Water),
+    Beach(FocusSoundCategory.Water),
+    SeaBeach(FocusSoundCategory.Water),
+    SoftBeach(FocusSoundCategory.Water),
+    Whale(FocusSoundCategory.Water),
+    ForestNight(FocusSoundCategory.Nature),
+    Birds(FocusSoundCategory.Nature),
+    Crickets(FocusSoundCategory.Nature),
+    CicadaBirds(FocusSoundCategory.Nature),
+    Farm(FocusSoundCategory.Nature),
+    Wind(FocusSoundCategory.Nature),
+    Campfire(FocusSoundCategory.Nature),
+    CoffeeShop(FocusSoundCategory.Places),
+    Office(FocusSoundCategory.Places),
+    StreetTraffic(FocusSoundCategory.Places),
+    Construction(FocusSoundCategory.Places),
+    KeyboardTyping(FocusSoundCategory.Places),
+    ClockTick(FocusSoundCategory.Steady),
+    ClockStopwatch(FocusSoundCategory.Steady),
+    WhiteNoise(FocusSoundCategory.Steady),
+    PinkNoise(FocusSoundCategory.Steady),
+}
+
+/** How the sounds sheet groups the [FocusSound]s. */
+enum class FocusSoundCategory {
+    Rain,
+    Water,
+    Nature,
+    Places,
+    Steady,
+    ;
+
+    val sounds: List<FocusSound> get() = FocusSound.entries.filter { it.category == this }
+}
+
+/** One sound of a focus mix, and how loud it plays (0 – 1). */
+@Serializable
+data class FocusSoundLayer(val sound: FocusSound, val volume: Float = DEFAULT_VOLUME) {
+    companion object {
+        /** How loud a sound comes in when it's turned on. */
+        const val DEFAULT_VOLUME = 0.6f
+
+        /** What a first session plays. */
+        val DefaultMix = listOf(FocusSoundLayer(FocusSound.SoftRain))
+    }
+}
 
 /** How a focus session is set up (Figma 91 "Focus — Set up" + 98 "Rounds"). */
 data class FocusConfig(
@@ -12,9 +67,8 @@ data class FocusConfig(
     val rounds: Int = 4,
     val longBreakMinutes: Int = 15,
     val autoStartNextRound: Boolean = true,
-    val sound: FocusSound = FocusSound.Rain,
-    /** 0 – 1. */
-    val volume: Float = 0.6f,
+    /** The sounds mixed while a round runs, each at its own volume. None for silence. */
+    val sounds: List<FocusSoundLayer> = FocusSoundLayer.DefaultMix,
     /** Apps put on hold during the session, picked from the device's apps (none at first). */
     val blockedApps: List<UsageApp> = emptyList(),
     /**
@@ -59,6 +113,10 @@ data class FocusRun(
     val urgesResisted: Int = 0,
     /** "Open anyway" / early ends — always 0 for now. */
     val unlocks: Int = 0,
+    /** When the person paused (wall clock): "paused for 0:42". Null while running or waiting. */
+    val pausedAt: Long? = null,
+    /** Auto-start is off and this round waits for "Start round" (Figma 92E). */
+    val awaitingStart: Boolean = false,
 ) {
     val isPaused: Boolean get() = phaseEndsAt == null
 

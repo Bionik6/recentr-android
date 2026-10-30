@@ -1,7 +1,11 @@
 package com.recentr.feature.focus.setup
 
+import android.os.Handler
+import android.os.Looper
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,16 +23,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,114 +44,210 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.setProgress
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.recentr.core.designsystem.component.AppRow
 import com.recentr.core.designsystem.component.RecentrButton
 import com.recentr.core.designsystem.component.RecentrIconButton
 import com.recentr.core.designsystem.component.RecentrSheet
 import com.recentr.core.designsystem.component.RecentrTextField
 import com.recentr.core.designsystem.component.RecentrToggle
+import com.recentr.core.designsystem.haptics.LocalRecentrHaptics
 import com.recentr.core.designsystem.icon.RecentrIcon
-import com.recentr.core.designsystem.illustration.InstalledAppIcon
-import com.recentr.core.designsystem.illustration.StickerImage
 import com.recentr.core.designsystem.theme.RecentrShapes
 import com.recentr.core.designsystem.theme.RecentrTheme
-import com.recentr.core.model.AppCategory
 import com.recentr.core.model.FocusConfig
 import com.recentr.core.model.FocusSound
-import com.recentr.core.model.UsageApp
+import com.recentr.core.model.FocusSoundCategory
+import com.recentr.core.model.FocusSoundLayer
 import com.recentr.feature.focus.R
+import com.recentr.feature.focus.sound.AmbientMixer
 import com.recentr.feature.focus.ui.CardDivider
 import com.recentr.feature.focus.ui.FocusSheetContent
 import com.recentr.feature.focus.ui.FocusSheetHeading
+import com.recentr.feature.focus.ui.art
 import com.recentr.feature.focus.ui.formatDuration
-import com.recentr.feature.focus.ui.hint
 import com.recentr.feature.focus.ui.label
-import com.recentr.feature.focus.ui.rememberInstalledApps
-import com.recentr.feature.focus.ui.sectionLabel
-import com.recentr.feature.focus.ui.sticker
+import com.recentr.feature.focus.ui.mixTitle
 import kotlin.math.roundToInt
 
-/** 93 · Focus — Sounds: 3 × 2 grid of ambient sounds and the volume slider. */
+/**
+ * 93 · Focus — Sounds: every recording by kind, three to a row. Any of them can be on, each with
+ * its own volume under it. With [preview], the sheet plays the mix while it's up, from the first
+ * change; otherwise the session itself plays the changes.
+ */
 @Composable
 internal fun SoundsSheet(
-    sound: FocusSound,
-    volume: Float,
-    onSound: (FocusSound) -> Unit,
-    onVolume: (Float) -> Unit,
+    mix: List<FocusSoundLayer>,
+    onMixChange: (List<FocusSoundLayer>) -> Unit,
     onDismissRequest: () -> Unit,
+    preview: Boolean = true,
 ) {
     val colors = RecentrTheme.colors
+    val context = LocalContext.current
+    val haptics = LocalRecentrHaptics.current
+    // The volume of each sound turned off here, for when it comes back on.
+    val volumes = remember { mutableMapOf<FocusSound, Float>() }
+    var touched by remember { mutableStateOf(false) }
+    val mixer = remember(preview) { if (preview) AmbientMixer(context) else null }
+    DisposableEffect(mixer) {
+        onDispose {
+            mixer?.stop()
+            // Once faded out.
+            mixer?.let { Handler(Looper.getMainLooper()).postDelayed(it::release, 1_000) }
+        }
+    }
+    LaunchedEffect(mixer, mix, touched) { if (touched) mixer?.play(mix) }
+    fun change(updated: List<FocusSoundLayer>) {
+        touched = true
+        onMixChange(updated)
+    }
+    fun volumeOf(sound: FocusSound) =
+        mix.firstOrNull { it.sound == sound }?.volume ?: volumes[sound] ?: FocusSoundLayer.DEFAULT_VOLUME
+
     RecentrSheet(onDismissRequest = onDismissRequest) { controller ->
-        FocusSheetContent(topGap = 22.dp) {
-            FocusSheetHeading(stringResource(R.string.sounds_title), stringResource(R.string.sounds_subtitle))
-            Spacer(Modifier.height(18.dp))
-            Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                FocusSound.entries.chunked(3).forEach { row ->
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        row.forEach { item ->
-                            SoundTile(item, selected = item == sound, onClick = { onSound(item) }, modifier = Modifier.weight(1f))
+        Column(Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 16.dp, bottom = 10.dp)) {
+            Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
+                Row(verticalAlignment = Alignment.Top) {
+                    Box(Modifier.weight(1f)) {
+                        FocusSheetHeading(
+                            stringResource(R.string.sounds_title),
+                            if (mix.isEmpty()) {
+                                stringResource(R.string.sounds_subtitle_none)
+                            } else {
+                                stringResource(R.string.sounds_subtitle_on, mixTitle(mix))
+                            },
+                        )
+                    }
+                    if (mix.isNotEmpty()) {
+                        Text(
+                            stringResource(R.string.sounds_turn_all_off),
+                            style = RecentrTheme.typography.captionMedium,
+                            color = colors.brandSky,
+                            modifier = Modifier
+                                .padding(top = 6.dp)
+                                .clip(RecentrShapes.full)
+                                .clickable(role = Role.Button) {
+                                    mix.forEach { volumes[it.sound] = it.volume }
+                                    haptics.selection()
+                                    change(emptyList())
+                                }
+                                .padding(horizontal = 8.dp, vertical = 4.dp),
+                        )
+                    }
+                }
+                FocusSoundCategory.entries.forEach { category ->
+                    Spacer(Modifier.height(22.dp))
+                    Text(
+                        stringResource(category.label),
+                        style = RecentrTheme.typography.captionMedium,
+                        color = colors.textSecondary,
+                        modifier = Modifier.semantics { heading() },
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        category.sounds.chunked(3).forEach { row ->
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                row.forEach { sound ->
+                                    val on = mix.any { it.sound == sound }
+                                    SoundTile(
+                                        sound = sound,
+                                        on = on,
+                                        volume = volumeOf(sound),
+                                        onToggle = {
+                                            haptics.selection()
+                                            if (on) {
+                                                volumes[sound] = volumeOf(sound)
+                                                change(mix.filterNot { it.sound == sound })
+                                            } else {
+                                                change(mix + FocusSoundLayer(sound, volumeOf(sound)))
+                                            }
+                                        },
+                                        onVolume = { volume ->
+                                            change(mix.map { if (it.sound == sound) it.copy(volume = volume) else it })
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                    )
+                                }
+                                repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
+                            }
                         }
                     }
                 }
+                Spacer(Modifier.height(16.dp))
             }
-            Spacer(Modifier.height(16.dp))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.sounds_volume), style = RecentrTheme.typography.captionMedium, color = colors.textSecondary)
-                VolumeSlider(volume, onVolume, Modifier.weight(1f))
-                Text(
-                    stringResource(R.string.sounds_volume_value, (volume * 100).roundToInt()),
-                    style = RecentrTheme.typography.captionMedium,
-                    color = colors.textSecondary,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier.width(36.dp),
-                )
-            }
-            Spacer(Modifier.height(18.dp))
+            Spacer(Modifier.height(8.dp))
             RecentrButton(text = stringResource(R.string.sounds_done), onClick = { controller.close() }, modifier = Modifier.fillMaxWidth())
         }
     }
 }
 
-/** "Sound · Rain on window": 124dp tile, sky outline when selected, sunken otherwise. */
+/**
+ * "Sound · Soft rain": the illustration and name, a sky outline while on with the volume under it,
+ * sunken while off. A tap turns it on or off; the bar sets how loud it plays.
+ */
 @Composable
-private fun SoundTile(sound: FocusSound, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun SoundTile(
+    sound: FocusSound,
+    on: Boolean,
+    volume: Float,
+    onToggle: () -> Unit,
+    onVolume: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val colors = RecentrTheme.colors
     val shape = RoundedCornerShape(20.dp)
-    val border = if (selected) 2.dp else 0.dp
-    Column(
+    val name = stringResource(sound.label)
+    val state = if (on) stringResource(R.string.sound_state_on, (volume * 100).roundToInt()) else stringResource(R.string.sound_state_off)
+    Box(
         modifier
-            .height(124.dp)
+            .height(128.dp)
             .clip(shape)
-            .background(if (selected) colors.alphaSky12 else colors.bgSunken)
-            .then(if (selected) Modifier.border(border, colors.brandSky, shape) else Modifier)
-            .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
-            // Fixed 124dp tile, content from the top: a two-line name eats into the bottom padding.
-            .padding(start = 12.dp + border, end = 12.dp + border, top = 14.dp + border),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+            .background(if (on) colors.alphaSky12 else colors.bgSunken)
+            .then(if (on) Modifier.border(2.dp, colors.brandSky, shape) else Modifier),
     ) {
-        StickerImage(sound.sticker, size = 44.dp)
-        Text(stringResource(sound.label), style = RecentrTheme.typography.captionMedium, color = colors.textPrimary, maxLines = 2)
-        Text(stringResource(sound.hint), style = RecentrTheme.typography.labelSmall, color = colors.textSecondary, maxLines = 1)
+        Column(
+            Modifier
+                .fillMaxSize()
+                .toggleable(value = on, role = Role.Switch, onValueChange = { onToggle() })
+                .semantics { stateDescription = state }
+                .padding(start = 8.dp, end = 8.dp, top = 14.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            Image(painterResource(sound.art), contentDescription = null, modifier = Modifier.size(52.dp))
+            Text(name, style = RecentrTheme.typography.captionMedium, color = colors.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+        // Above the tile's toggle, so a drag on the bar doesn't turn the sound off.
+        if (on) {
+            VolumeSlider(
+                value = volume,
+                onValueChange = onVolume,
+                description = stringResource(R.string.sounds_volume_of, name),
+                modifier = Modifier.align(Alignment.BottomCenter).padding(start = 12.dp, end = 12.dp, bottom = 6.dp).fillMaxWidth(),
+            )
+        }
     }
 }
 
 /** 6dp sunken track with a sky fill; tap or drag to set. */
 @Composable
-private fun VolumeSlider(value: Float, onValueChange: (Float) -> Unit, modifier: Modifier = Modifier) {
+private fun VolumeSlider(value: Float, onValueChange: (Float) -> Unit, description: String, modifier: Modifier = Modifier) {
     val colors = RecentrTheme.colors
     val onChange by rememberUpdatedState(onValueChange)
-    val description = stringResource(R.string.sounds_volume)
     BoxWithConstraints(
         modifier
             .height(24.dp)
@@ -157,82 +258,16 @@ private fun VolumeSlider(value: Float, onValueChange: (Float) -> Unit, modifier:
             }
             .pointerInput(Unit) { detectTapGestures { onChange((it.x / size.width).coerceIn(0f, 1f)) } }
             .pointerInput(Unit) {
-                detectHorizontalDragGestures { change, _ -> onChange((change.position.x / size.width).coerceIn(0f, 1f)) }
+                detectHorizontalDragGestures { change, _ ->
+                    change.consume()
+                    onChange((change.position.x / size.width).coerceIn(0f, 1f))
+                }
             },
         contentAlignment = Alignment.CenterStart,
     ) {
         val fill = maxWidth * value
-        Box(Modifier.fillMaxWidth().height(6.dp).clip(RecentrShapes.full).background(colors.bgSunken)) {
+        Box(Modifier.fillMaxWidth().height(6.dp).clip(RecentrShapes.full).background(colors.bgSurface)) {
             Box(Modifier.fillMaxHeight().width(fill).clip(RecentrShapes.full).background(colors.brandSky))
-        }
-    }
-}
-
-/**
- * Apps put on hold during focus: the device's launcher apps by category, with a search field.
- * Chosen apps that are no longer installed stay listed so they can be removed.
- */
-@Composable
-internal fun BlockAppsSheet(
-    selected: List<UsageApp>,
-    onChange: (List<UsageApp>) -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-    val colors = RecentrTheme.colors
-    val installed = rememberInstalledApps(refresh = true)
-    var query by rememberSaveable { mutableStateOf("") }
-    RecentrSheet(onDismissRequest = onDismissRequest) { controller ->
-        Column(Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 16.dp, bottom = 10.dp)) {
-            FocusSheetHeading(stringResource(R.string.block_title), stringResource(R.string.block_subtitle))
-            Spacer(Modifier.height(14.dp))
-            RecentrTextField(
-                value = query,
-                onValueChange = { query = it },
-                placeholder = stringResource(R.string.block_search),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                modifier = Modifier.fillMaxWidth(),
-            )
-            Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
-                if (installed == null) {
-                    CircularProgressIndicator(
-                        color = colors.brandSky,
-                        strokeWidth = 3.dp,
-                        modifier = Modifier.padding(vertical = 24.dp).size(28.dp).align(Alignment.CenterHorizontally),
-                    )
-                } else {
-                    val apps = remember(installed) {
-                        installed + selected.filter { chosen -> installed.none { it.packageName == chosen.packageName } }
-                    }
-                    val search = query.trim()
-                    val matches = AppCategory.entries.map { category ->
-                        category to apps.filter { it.category == category && (search.isEmpty() || it.label.contains(search, ignoreCase = true)) }
-                    }.filter { it.second.isNotEmpty() }
-                    if (matches.isEmpty()) {
-                        Spacer(Modifier.height(16.dp))
-                        Text(stringResource(R.string.block_no_apps, search), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary)
-                    }
-                    matches.forEach { (category, categoryApps) ->
-                        Spacer(Modifier.height(16.dp))
-                        Text(stringResource(category.sectionLabel), style = RecentrTheme.typography.captionMedium, color = colors.textTertiary)
-                        Spacer(Modifier.height(4.dp))
-                        categoryApps.forEach { app ->
-                            key(app.packageName) {
-                                AppRow(
-                                    name = app.label,
-                                    checked = selected.any { it.packageName == app.packageName },
-                                    onCheckedChange = { checked ->
-                                        onChange(if (checked) selected + app else selected.filterNot { it.packageName == app.packageName })
-                                    },
-                                ) {
-                                    InstalledAppIcon(app.packageName, size = 32.dp)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            Spacer(Modifier.height(18.dp))
-            RecentrButton(text = stringResource(R.string.block_done), onClick = { controller.close() }, modifier = Modifier.fillMaxWidth())
         }
     }
 }
