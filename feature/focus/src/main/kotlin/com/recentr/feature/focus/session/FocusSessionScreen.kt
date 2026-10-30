@@ -44,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -56,7 +57,10 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.painterResource
@@ -103,6 +107,26 @@ private val RunningBackground = Brush.verticalGradient(listOf(Color(0xFF1B3A8C),
 /** Paused (Figma 92B): the sky greys over. */
 private val PausedBackground = Brush.verticalGradient(listOf(Color(0xFF262B42), Color(0xFF0E1220)))
 
+/** Figma "Glow": 420dp sky disc (45%) blurred by 60, centred 70dp under the ring's [ringCenter]. */
+private fun DrawScope.drawRingGlow(ringCenter: Offset) {
+    val center = ringCenter + Offset(0f, 70.dp.toPx())
+    val radius = 330.dp.toPx()
+    val glow = Color(0xFF2F7BF6)
+    drawCircle(
+        Brush.radialGradient(
+            0f to glow.copy(alpha = 0.45f),
+            0.455f to glow.copy(alpha = 0.38f),
+            0.636f to glow.copy(alpha = 0.225f),
+            0.818f to glow.copy(alpha = 0.07f),
+            1f to glow.copy(alpha = 0f),
+            center = center,
+            radius = radius,
+        ),
+        radius = radius,
+        center = center,
+    )
+}
+
 /** Callbacks of the session screens. */
 internal class FocusSessionActions(
     val onClose: () -> Unit,
@@ -140,7 +164,20 @@ internal fun FocusRunningContent(
     val waiting = run.awaitingStart
     val paused = run.isPaused && !waiting
     var menu by rememberSaveable { mutableStateOf(false) }
-    Box(modifier.fillMaxSize().background(if (paused) PausedBackground else RunningBackground)) {
+    // The ring's glow is drawn behind the whole screen: behind the ring, the scrolling Column
+    // around it cut it off right above the apps on hold, which looked like a band behind them.
+    var screenOrigin by remember { mutableStateOf<Offset?>(null) }
+    var ringCenter by remember { mutableStateOf<Offset?>(null) }
+    Box(
+        modifier
+            .fillMaxSize()
+            .background(if (paused) PausedBackground else RunningBackground)
+            .onGloballyPositioned { screenOrigin = it.positionInRoot() }
+            .drawBehind {
+                val origin = screenOrigin ?: return@drawBehind
+                ringCenter?.let { drawRingGlow(it - origin) }
+            },
+    ) {
         Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding(), horizontalAlignment = Alignment.CenterHorizontally) {
             Column(
                 Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()),
@@ -182,24 +219,8 @@ internal fun FocusRunningContent(
                 Box(
                     Modifier
                         .size(280.dp)
-                        .drawBehind {
-                            // Figma "Glow": 420dp sky disc (45%) blurred by 60, centred 70dp under the ring centre.
-                            val center = Offset(size.width / 2, size.height / 2 + 70.dp.toPx())
-                            val radius = 330.dp.toPx()
-                            val glow = Color(0xFF2F7BF6)
-                            drawCircle(
-                                Brush.radialGradient(
-                                    0f to glow.copy(alpha = 0.45f),
-                                    0.455f to glow.copy(alpha = 0.38f),
-                                    0.636f to glow.copy(alpha = 0.225f),
-                                    0.818f to glow.copy(alpha = 0.07f),
-                                    1f to glow.copy(alpha = 0f),
-                                    center = center,
-                                    radius = radius,
-                                ),
-                                radius = radius,
-                                center = center,
-                            )
+                        .onGloballyPositioned { ring ->
+                            ringCenter = ring.positionInRoot() + Offset(ring.size.width / 2f, ring.size.height / 2f)
                         },
                     contentAlignment = Alignment.Center,
                 ) {
