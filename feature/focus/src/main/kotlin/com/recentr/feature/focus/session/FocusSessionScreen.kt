@@ -284,8 +284,11 @@ internal fun FocusRunningContent(
             // Figma 92C: a restarted round's toast stands where the apps on hold were, for 5 s.
             Box(Modifier.height(22.dp), contentAlignment = Alignment.Center) {
                 if (restartedRound == null && run.config.blockedApps.isNotEmpty()) {
+                    // Unbounded: its padding spills over the 22dp slot rather than squeezing the
+                    // icons to 14dp, which left their rounded clip in the air beside them.
                     Row(
                         Modifier
+                            .wrapContentSize(unbounded = true)
                             .clip(RecentrShapes.full)
                             .clickable(role = Role.Button, onClick = actions.onBlockedApps)
                             .padding(horizontal = 8.dp, vertical = 4.dp),
