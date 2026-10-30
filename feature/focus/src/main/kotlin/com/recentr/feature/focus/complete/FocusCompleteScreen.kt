@@ -1,5 +1,6 @@
 package com.recentr.feature.focus.complete
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -154,14 +156,14 @@ internal fun FocusCompleteScreen(
     }
 }
 
-/** Figma "Art" (220×150): 130dp headphones rising in, and two tilted stars bobbing out of step. */
+/** Figma "Art" (220×150): a 130dp target rising in, and two tilted stars bobbing out of step. */
 @Composable
 private fun CelebrationArt() {
     Box(Modifier.size(width = 220.dp, height = 150.dp)) {
-        StickerImage(
-            Sticker.Headphones,
-            size = 130.dp,
-            modifier = Modifier.offset(x = 45.dp, y = 10.dp).entrance(from = DpOffset(0.dp, 30.dp)),
+        Image(
+            painterResource(R.drawable.complete_target),
+            contentDescription = null,
+            modifier = Modifier.offset(x = 45.dp, y = 10.dp).size(130.dp).entrance(from = DpOffset(0.dp, 30.dp)),
         )
         // Bounding-box centres (29.1, 17.5) and (197.1, 40.2) of the rotated 48 / 34dp stars.
         StickerImage(
