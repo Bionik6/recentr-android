@@ -92,7 +92,8 @@ data class HoldState(
 ) {
     /**
      * Why [packageName] is on hold at [now], or null when it may be used. An app always allowed
-     * never is. A focus session holds its apps during focus rounds; an unlock lifts the rules it
+     * never is. A focus session holds its apps through its rounds, paused or waiting to start
+     * included (Figma 92B, 92E), and lets them go on its breaks; an unlock lifts the rules it
      * was granted past (not the session) until it runs out. When several rules hold the app, the
      * strictest wins: one in Strict mode (only an emergency unlock gets past it, and past the
      * others), then one without "Open anyway" (a limit, no unlocks left today), whatever their
@@ -101,7 +102,7 @@ data class HoldState(
     fun reasonFor(packageName: String, now: Long, zone: ZoneId): HoldReason? {
         if (isFree(packageName, now)) return null
         focus?.takeIf { run ->
-            run.phase == FocusPhase.Focus && !run.isPaused && run.config.blockedApps.any { it.packageName == packageName }
+            run.phase == FocusPhase.Focus && run.config.blockedApps.any { it.packageName == packageName }
         }?.let { return HoldReason.Focus(it) }
         val rule = holding(packageName, now, zone)
             .filterNot { unlocks.lifts(packageName, it, now) }

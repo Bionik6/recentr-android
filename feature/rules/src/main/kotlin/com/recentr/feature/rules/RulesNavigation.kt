@@ -25,6 +25,7 @@ import com.recentr.core.designsystem.component.BlockingAccessSheet
 import com.recentr.core.model.RuleType
 import com.recentr.core.model.UsageApp
 import com.recentr.feature.rules.allowed.AlwaysAllowedDestination
+import com.recentr.feature.rules.detail.FocusAppsSheet
 import com.recentr.feature.rules.detail.RuleDetailDestination
 import com.recentr.feature.rules.editor.RuleEditorDestination
 import com.recentr.feature.rules.list.NewRuleSheet
@@ -115,6 +116,16 @@ fun RulesTab(
 @Composable
 fun ChooseAppsPicker(initial: List<UsageApp>, onDone: (List<UsageApp>) -> Unit, onDismiss: () -> Unit) {
     ChooseAppsSheet(initial = initial, onDone = onDone, onDismiss = onDismiss)
+}
+
+/**
+ * The apps a focus session holds, over its screen, on the sheet a rule's page lists its own with:
+ * [apps] on hold, those always allowed apart.
+ */
+@Composable
+fun FocusAppsList(apps: List<UsageApp>, onDismiss: () -> Unit) {
+    val allowed by RecentrData.alwaysAllowed.allowed.collectAsStateWithLifecycle()
+    FocusAppsSheet(apps = apps, now = System.currentTimeMillis(), alwaysAllowed = allowed, onDismiss = onDismiss)
 }
 
 /** Full-screen rule destinations (editors, detail…) pushed above the tab bar. */

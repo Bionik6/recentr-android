@@ -53,32 +53,37 @@ internal fun DrawScope.drawFocusRing(
     progress: Brush,
     knobRadius: Dp,
     secondLap: Brush? = null,
+    /** Off for an empty ring (a round waiting to start): no arc, no knob. */
+    showsProgress: Boolean = true,
+    /** The arc and knob's opacity: 40% on a paused round (Figma 92B). */
+    progressAlpha: Float = 1f,
 ) {
     val stroke = strokeWidth.toPx()
     val inset = stroke / 2
     val arcSize = Size(size.width - stroke, size.height - stroke)
     val topLeft = Offset(inset, inset)
     drawArc(track, startAngle = 0f, sweepAngle = 360f, useCenter = false, topLeft = topLeft, size = arcSize, style = Stroke(stroke))
+    if (!showsProgress) return
     val laps = if (secondLap != null && fraction > 1f) ceil(fraction).toInt() - 1 else 0
     val lapBrush = { lap: Int -> if (lap % 2 == 0 || secondLap == null) progress else secondLap }
     if (laps > 0) {
-        drawArc(lapBrush(laps - 1), -90f, 360f, false, topLeft, arcSize, style = Stroke(stroke, cap = StrokeCap.Butt))
+        drawArc(lapBrush(laps - 1), -90f, 360f, false, topLeft, arcSize, alpha = progressAlpha, style = Stroke(stroke, cap = StrokeCap.Butt))
     }
     val current = (fraction - laps).coerceIn(0f, 1f)
-    drawArc(lapBrush(laps), -90f, 360f * current, false, topLeft, arcSize, style = Stroke(stroke, cap = StrokeCap.Butt))
+    drawArc(lapBrush(laps), -90f, 360f * current, false, topLeft, arcSize, alpha = progressAlpha, style = Stroke(stroke, cap = StrokeCap.Butt))
     // Knob at the end of the arc, on the stroke centre line.
     val angle = Math.toRadians((360.0 * (fraction % 1f).let { if (fraction > 0f && it == 0f) 1f else it }) - 90.0)
     val radius = (size.minDimension - stroke) / 2
     val center = Offset(size.width / 2 + radius * cos(angle).toFloat(), size.height / 2 + radius * sin(angle).toFloat())
-    drawKnob(center, knobRadius.toPx())
+    drawKnob(center, knobRadius.toPx(), progressAlpha)
 }
 
-private fun DrawScope.drawKnob(center: Offset, radius: Float) {
+private fun DrawScope.drawKnob(center: Offset, radius: Float, alpha: Float = 1f) {
     drawIntoCanvas { canvas ->
         val paint = android.graphics.Paint().apply {
             isAntiAlias = true
-            color = Color.White.toArgb()
-            setShadowLayer(6.dp.toPx(), 0f, 2.dp.toPx(), KnobShadowColor.toArgb())
+            color = Color.White.copy(alpha = alpha).toArgb()
+            if (alpha == 1f) setShadowLayer(6.dp.toPx(), 0f, 2.dp.toPx(), KnobShadowColor.toArgb())
         }
         canvas.nativeCanvas.drawCircle(center.x, center.y, radius, paint)
     }

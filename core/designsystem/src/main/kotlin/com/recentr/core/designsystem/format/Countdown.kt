@@ -13,3 +13,13 @@ fun countdown(millis: Long): String {
         else -> "%dh%02dm".format(seconds / 3600, minutes)
     }
 }
+
+/**
+ * A countdown on a clock, to the second: "24:38", or "03:24:57" from an hour on. The seconds go
+ * up, so "00:00" shows at the end only.
+ */
+fun clockCountdown(millis: Long): String {
+    val seconds = ((millis + 999) / 1000).coerceAtLeast(0)
+    val (hours, minutes, rest) = Triple(seconds / 3600, seconds / 60 % 60, seconds % 60)
+    return if (hours > 0) "%02d:%02d:%02d".format(hours, minutes, rest) else "%02d:%02d".format(minutes, rest)
+}

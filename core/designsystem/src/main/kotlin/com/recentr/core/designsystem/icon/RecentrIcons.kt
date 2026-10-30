@@ -55,6 +55,15 @@ enum class RecentrIcon(@param:DrawableRes val drawable: Int) {
     Minus(R.drawable.ic_minus),
     Sun(R.drawable.ic_sun),
     Settings(R.drawable.ic_settings),
+    /** The Focus timer's controls: filled glyphs (Components › Timer Control). */
+    Pause(R.drawable.ic_pause),
+    Play(R.drawable.ic_play),
+    Stop(R.drawable.ic_stop),
+    Restart(R.drawable.ic_restart),
+    SkipForward(R.drawable.ic_skip_forward),
+    /** A Focus sound's badge (Components › Sound Row): 13dp speakers, playing or muted. */
+    Volume(R.drawable.ic_volume),
+    VolumeOff(R.drawable.ic_volume_off),
 }
 
 /**

@@ -59,13 +59,14 @@ import com.recentr.core.designsystem.theme.RecentrTheme
 import com.recentr.core.designsystem.util.SystemBarsAppearance
 import com.recentr.core.model.FocusConfig
 import com.recentr.core.model.FocusRun
+import com.recentr.core.model.UsageApp
 import com.recentr.feature.focus.R
 import com.recentr.feature.focus.ui.CardDivider
 import com.recentr.feature.focus.ui.FocusCard
 import com.recentr.feature.focus.ui.FocusDial
 import com.recentr.feature.focus.ui.FocusMenu
 import com.recentr.feature.focus.ui.RowLabel
-import com.recentr.feature.focus.ui.label
+import com.recentr.feature.focus.ui.mixTitle
 import kotlinx.coroutines.delay
 
 private val Presets = listOf(25, 45, 60, 90)
@@ -90,6 +91,8 @@ internal fun FocusSetupScreen(
     /** Whether app blocking (the accessibility service) is on: blocked apps need it. */
     blockingOn: Boolean = true,
     onTurnOnBlocking: () -> Unit = {},
+    /** The rules' "Choose apps" ([initial] picked), for the apps on hold: the apps picked, or dismissed. */
+    chooseApps: @Composable (initial: List<UsageApp>, onDone: (List<UsageApp>) -> Unit, onDismiss: () -> Unit) -> Unit = { _, _, _ -> },
 ) {
     val haptics = LocalRecentrHaptics.current
     SystemBarsAppearance(lightIcons = false)
@@ -178,7 +181,7 @@ internal fun FocusSetupScreen(
                 Spacer(Modifier.height(28.dp))
                 FocusCard {
                     SetupRow(Sticker.Headphones, stringResource(R.string.focus_sound), onClick = { sheet = SetupSheet.Sounds }) {
-                        Text(stringResource(config.sound.label), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary, maxLines = 1)
+                        Text(mixTitle(config.sounds), style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary, maxLines = 1)
                     }
                     CardDivider()
                     SetupRow(Sticker.Lock, stringResource(R.string.focus_block), onClick = { sheet = SetupSheet.Block }) {
@@ -270,16 +273,18 @@ internal fun FocusSetupScreen(
     }
     when (sheet) {
         SetupSheet.Sounds -> SoundsSheet(
-            sound = config.sound,
-            volume = config.volume,
-            onSound = { sound -> onUpdate { it.copy(sound = sound) } },
-            onVolume = { volume -> onUpdate { it.copy(volume = volume) } },
+            mix = config.sounds,
+            muted = config.mutedSounds,
+            onChange = { mix, muted -> onUpdate { it.copy(sounds = mix, mutedSounds = muted) } },
             onDismissRequest = { sheet = null },
         )
-        SetupSheet.Block -> BlockAppsSheet(
-            selected = config.blockedApps,
-            onChange = { apps -> onUpdate { it.copy(blockedApps = apps) } },
-            onDismissRequest = { sheet = null },
+        SetupSheet.Block -> chooseApps(
+            config.blockedApps,
+            { apps ->
+                onUpdate { it.copy(blockedApps = apps) }
+                sheet = null
+            },
+            { sheet = null },
         )
         SetupSheet.Rounds -> RoundsSheet(config = config, onSave = { saved -> onUpdate { saved } }, onDismissRequest = { sheet = null })
         SetupSheet.Rename -> RenameSheet(label = config.label, onSave = { label -> onUpdate { it.copy(label = label) } }, onDismissRequest = { sheet = null })

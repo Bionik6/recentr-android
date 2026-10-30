@@ -395,4 +395,6 @@
     <string name="rules_allowed_done_none">Allow none</string>
     <!-- The rule page's "Apps" sheet -->
     <string name="rules_apps_always_allowed">Always allowed</string>
+    <string name="focus_apps_subtitle">On hold during the rounds, free on breaks.</string>
+    <string name="focus_apps_on_hold">On hold</string>
 </resources>

@@ -17,7 +17,7 @@ object RecentrData {
     lateinit var settings: SettingsRepository
         private set
     val rules: RulesRepository by lazy { RulesRepository(File(appContext.filesDir, "rules.json")) }
-    val focus: FocusRepository by lazy { FocusRepository() }
+    val focus: FocusRepository by lazy { FocusRepository(File(appContext.filesDir, "focus_sounds.json")) }
 
     /** The device's launcher apps, offered by the Rules and Focus app pickers. */
     val installedApps: InstalledAppsRepository by lazy { InstalledAppsRepository(appContext) }

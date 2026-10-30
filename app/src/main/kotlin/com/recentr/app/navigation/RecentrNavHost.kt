@@ -31,6 +31,7 @@ import com.recentr.feature.onboarding.OnboardingGraphRoute
 import com.recentr.feature.onboarding.onboardingGraph
 import com.recentr.feature.profile.profileDestinations
 import com.recentr.feature.rules.ChooseAppsPicker
+import com.recentr.feature.rules.FocusAppsList
 import com.recentr.feature.rules.navigateToAlwaysAllowed
 import com.recentr.feature.rules.navigateToNewRule
 import com.recentr.feature.rules.navigateToRule
@@ -100,7 +101,10 @@ fun RecentrNavHost(
         composable<DesignSystemRoute> { DesignSystemCatalog() }
         homeDestinations(navController)
         rulesDestinations(navController)
-        focusDestinations(navController)
+        focusDestinations(
+            navController,
+            appsOnHold = { apps, onDismiss -> FocusAppsList(apps, onDismiss) },
+        )
         insightsDestinations(
             navController = navController,
             onCreateRule = { type, apps -> navController.navigateToNewRule(type, apps) },

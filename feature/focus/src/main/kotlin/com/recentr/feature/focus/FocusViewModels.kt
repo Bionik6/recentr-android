@@ -13,7 +13,9 @@ import com.recentr.core.model.FocusSessionRecord
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -21,6 +23,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 /** Set-up (91) and its sheets: edits the [FocusConfig] and starts a session. */
 internal class FocusSetupViewModel(private val repository: FocusRepository) : ViewModel() {
@@ -43,6 +46,8 @@ internal data class FocusSessionUiState(
     val run: FocusRun?,
     val now: Long,
     val reduceMotion: Boolean = false,
+    /** The round just restarted, while its toast offers to undo it (Figma 92C). */
+    val restartedRound: Int? = null,
 )
 
 /**
@@ -58,12 +63,17 @@ internal class FocusSessionViewModel(private val repository: FocusRepository) : 
         }
     }.onEach { repository.advance(it) }
 
+    /** The session before its round was restarted, for Undo, while the toast shows. */
+    private val restarted = MutableStateFlow<FocusRun?>(null)
+    private var restartToast: Job? = null
+
     val state: StateFlow<FocusSessionUiState> = combine(
         repository.run,
         clock,
         RecentrData.settings.settings.map { it.reduceMotion },
-    ) { run, now, reduceMotion ->
-        FocusSessionUiState(run = run, now = now, reduceMotion = reduceMotion)
+        restarted,
+    ) { run, now, reduceMotion, before ->
+        FocusSessionUiState(run = run, now = now, reduceMotion = reduceMotion, restartedRound = before?.round)
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5_000),
@@ -78,7 +88,23 @@ internal class FocusSessionViewModel(private val repository: FocusRepository) : 
 
     fun skipBreak() = repository.skipBreak(System.currentTimeMillis())
 
-    fun resistUrge() = repository.resistUrge()
+    /** "Restart": the round starts over at once; a toast offers Undo for [RESTART_TOAST_MILLIS]. */
+    fun restartRound() {
+        val before = repository.restartRound(System.currentTimeMillis()) ?: return
+        restarted.value = before
+        restartToast?.cancel()
+        restartToast = viewModelScope.launch {
+            delay(RESTART_TOAST_MILLIS)
+            restarted.value = null
+        }
+    }
+
+    fun undoRestart() {
+        val before = restarted.value ?: return
+        restarted.value = null
+        restartToast?.cancel()
+        repository.undoRestart(before)
+    }
 
     /** Ends now; returns true when something was logged (→ "Session complete"). */
     fun end(): Boolean = repository.end(System.currentTimeMillis()) != null
@@ -88,11 +114,12 @@ internal class FocusSessionViewModel(private val repository: FocusRepository) : 
         // Sound changes apply to the running session too.
         val run = repository.run.value ?: return
         val updated = transform(run.config)
-        repository.updateRun { it.copy(config = run.config.copy(sound = updated.sound, volume = updated.volume)) }
+        repository.updateRun { it.copy(config = run.config.copy(sounds = updated.sounds, mutedSounds = updated.mutedSounds)) }
     }
 
     companion object {
         val Factory = viewModelFactory { initializer { FocusSessionViewModel(RecentrData.focus) } }
+        const val RESTART_TOAST_MILLIS = 5_000L
     }
 }
 
