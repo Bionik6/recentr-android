@@ -36,7 +36,10 @@ import org.junit.Before
 import org.junit.Test
 import java.time.LocalDate
 
-/** Home's Always allowed card: from the second rule, until it's closed, with the apps allowed. */
+/**
+ * Home's Always allowed card: from the end of onboarding, rules or not, until it's closed, with the
+ * apps allowed.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
 class AlwaysAllowedCardTest {
 
@@ -85,26 +88,29 @@ class AlwaysAllowedCardTest {
     fun tearDown() = Dispatchers.resetMain()
 
     @Test
-    fun `it waits for the second rule`() = runTest(dispatcher) {
+    fun `it shows right after onboarding, with no rule`() = runTest(dispatcher) {
         val vm = viewModel()
-        assertFalse(vm.shows)
+        assertTrue(vm.shows)
+        assertEquals(emptyList<UsageApp>(), vm.uiState.value.alwaysAllowedApps)
+    }
+
+    @Test
+    fun `rules don't change it`() = runTest(dispatcher) {
+        val vm = viewModel()
         rules.upsert(lock)
-        assertFalse(vm.shows)
-        rules.upsert(videos)
+        assertTrue(vm.shows)
+        rules.upsert(videos.copy(enabled = false, pausedUntil = Long.MAX_VALUE))
         assertTrue(vm.shows)
     }
 
     @Test
-    fun `a paused rule was made all the same`() = runTest(dispatcher) {
-        rules.upsert(lock)
-        rules.upsert(videos.copy(enabled = false, pausedUntil = Long.MAX_VALUE))
-        assertTrue(viewModel().shows)
+    fun `only closing it hides it`() {
+        assertTrue(HomeViewModel.showsAlwaysAllowedCard(dismissed = false))
+        assertFalse(HomeViewModel.showsAlwaysAllowedCard(dismissed = true))
     }
 
     @Test
     fun `it shows the apps allowed, those waiting to join included`() = runTest(dispatcher) {
-        rules.upsert(lock)
-        rules.upsert(videos)
         val vm = viewModel()
         assertEquals(emptyList<UsageApp>(), vm.uiState.value.alwaysAllowedApps)
         allowed.value = AlwaysAllowed(listOf(maps))
@@ -117,12 +123,22 @@ class AlwaysAllowedCardTest {
 
     @Test
     fun `closed, it doesn't come back`() = runTest(dispatcher) {
-        rules.upsert(lock)
-        rules.upsert(videos)
         val vm = viewModel()
+        assertTrue(vm.shows)
         vm.dismissAlwaysAllowedCard()
         assertFalse(vm.shows)
-        rules.upsert(lock.copy(id = "other"))
+        rules.upsert(lock)
+        rules.upsert(videos)
+        assertFalse(vm.shows)
+    }
+
+    @Test
+    fun `closed before, it stays hidden on the next launch`() = runTest(dispatcher) {
+        dismissed.value = true
+        val vm = viewModel()
+        allowed.value = AlwaysAllowed(listOf(maps))
+        // The state was worked out (the apps are there), and the card still isn't.
+        assertEquals(listOf(maps), vm.uiState.value.alwaysAllowedApps)
         assertFalse(vm.shows)
     }
 }

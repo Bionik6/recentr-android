@@ -60,7 +60,7 @@ data class HomeUiState(
     /** Header avatar: first letter of the name and its gradient (Profile › Edit profile). */
     val avatarInitial: String = "?",
     val avatarColor: AvatarColor = AvatarColor.Sunset,
-    /** The Always allowed card: there's a rule, and the card wasn't closed. */
+    /** The Always allowed card: from the end of onboarding, rules or not, until it's closed. */
     val showAlwaysAllowedCard: Boolean = false,
     /** The apps the card shows: allowed, or waiting to join. None yet, and it says so. */
     val alwaysAllowedApps: List<UsageApp> = emptyList(),
