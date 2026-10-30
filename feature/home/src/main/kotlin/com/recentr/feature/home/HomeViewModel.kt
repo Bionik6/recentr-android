@@ -41,8 +41,8 @@ import kotlinx.coroutines.launch
  * again under its spinner, keeping the numbers on screen meanwhile. Without usage access the
  * numbers are empty, and [HomeUiState.needsUsageAccess] asks for it instead of showing them.
  *
- * From the second rule, until the card is closed ([dismissAlwaysAllowedCard]), Home shows the apps
- * always allowed, or that there are none yet ([HomeUiState.showAlwaysAllowedCard]).
+ * From the end of onboarding, rules or not, until the card is closed ([dismissAlwaysAllowedCard]),
+ * Home shows the apps always allowed, or that there are none yet ([HomeUiState.showAlwaysAllowedCard]).
  *
  * @param profile the stored profile (daily goal, avatar); [saveGoal] stores a new daily goal.
  * @param alwaysAllowed the apps always allowed; [alwaysAllowedCardDismissed] whether the card was
@@ -102,7 +102,7 @@ class HomeViewModel(
             showMascot = mascot,
             avatarInitial = profile.initial,
             avatarColor = profile.avatarColor,
-            showAlwaysAllowedCard = showsAlwaysAllowedCard(ruleList, cardDismissed),
+            showAlwaysAllowedCard = showsAlwaysAllowedCard(cardDismissed),
             alwaysAllowedApps = allowed.settled(clock.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()).latestWish,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
@@ -188,12 +188,11 @@ class HomeViewModel(
         }
 
         /**
-         * Whether Home shows the Always allowed card: from the second rule made, paused or not (the
-         * first one is enough to take in), until the card is closed. It shows the apps allowed, or
-         * says there are none yet.
+         * Whether Home shows the Always allowed card: from the end of onboarding (Home comes right
+         * after it), before any rule, so apps can be let through from the start, until the card is
+         * closed. It shows the apps allowed, or says there are none yet.
          */
-        internal fun showsAlwaysAllowedCard(rules: List<Rule>, dismissed: Boolean): Boolean =
-            !dismissed && rules.size >= 2
+        internal fun showsAlwaysAllowedCard(dismissed: Boolean): Boolean = !dismissed
 
         /**
          * What blocks apps right now and ends first, if anything: a running session, or a routine
