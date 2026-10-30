@@ -61,6 +61,9 @@ enum class RecentrIcon(@param:DrawableRes val drawable: Int) {
     Stop(R.drawable.ic_stop),
     Restart(R.drawable.ic_restart),
     SkipForward(R.drawable.ic_skip_forward),
+    /** A Focus sound's badge (Components › Sound Row): 13dp speakers, playing or muted. */
+    Volume(R.drawable.ic_volume),
+    VolumeOff(R.drawable.ic_volume_off),
 }
 
 /**

@@ -38,6 +38,15 @@ object RecentrElevation {
 
     /** Timer Control, primary (0 8 16 · sky-light 45%). */
     val glowControl = Shadow(radius = 16.dp, color = Color(0x737CB8FF), offset = DpOffset(0.dp, 8.dp))
+
+    /** Badges pinned on a tile, like a Focus sound's speaker (0 1 3 · ink 12%). */
+    val badge = Shadow(radius = 3.dp, color = Color(0x1F0E1220), offset = DpOffset(0.dp, 1.dp))
+
+    /** Volume Knob at rest (0 1 4 · ink 16%). */
+    val knob = Shadow(radius = 4.dp, color = Color(0x290E1220), offset = DpOffset(0.dp, 1.dp))
+
+    /** Volume Knob while it's dragged (0 2 8 · ink 18%). */
+    val knobPressed = Shadow(radius = 8.dp, color = Color(0x2E0E1220), offset = DpOffset(0.dp, 2.dp))
 }
 
 /** Applies a design-system shadow behind [shape]. */
