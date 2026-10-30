@@ -145,7 +145,6 @@
 
     <!-- 96 · Focus — App on hold -->
     <string name="hold_title">You’re %d min into focus</string>
-    <string name="hold_body">%1$s is on hold until %2$s. It’ll still be there — promise.</string>
     <string name="hold_leave_body">Your apps stay on hold until %s. Stick with it — you’re doing great.</string>
     <string name="hold_back">Back to focus</string>
     <string name="hold_end">End session early</string>

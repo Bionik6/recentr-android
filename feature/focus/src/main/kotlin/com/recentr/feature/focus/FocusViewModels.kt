@@ -106,8 +106,6 @@ internal class FocusSessionViewModel(private val repository: FocusRepository) : 
         repository.undoRestart(before)
     }
 
-    fun resistUrge() = repository.resistUrge()
-
     /** Ends now; returns true when something was logged (→ "Session complete"). */
     fun end(): Boolean = repository.end(System.currentTimeMillis()) != null
 

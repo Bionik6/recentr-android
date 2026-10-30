@@ -85,8 +85,12 @@ fun FocusTab(
 }
 
 /** Focus timer destinations (Figma "Focus timer" 92–98), drawn above the tab bar. */
-fun NavGraphBuilder.focusDestinations(navController: NavHostController) {
-    composable<FocusSessionRoute> { FocusSessionDestination(navController) }
+fun NavGraphBuilder.focusDestinations(
+    navController: NavHostController,
+    /** The session's apps on hold, all of them, on the sheet a rule's page lists its own with. */
+    appsOnHold: @Composable (apps: List<UsageApp>, onDismiss: () -> Unit) -> Unit,
+) {
+    composable<FocusSessionRoute> { FocusSessionDestination(navController, appsOnHold) }
     composable<FocusCompleteRoute> {
         val viewModel: FocusCompleteViewModel = viewModel(factory = FocusCompleteViewModel.Factory)
         val state by viewModel.state.collectAsStateWithLifecycle()
@@ -107,11 +111,14 @@ fun NavGraphBuilder.focusDestinations(navController: NavHostController) {
     }
 }
 
-private enum class SessionOverlay { AppOnHold, Leave, Ending, Sounds }
+private enum class SessionOverlay { Apps, Leave, Ending, Sounds }
 
 /** Running ⇄ Break of one session, the focus sounds and the "on hold" dialogs. */
 @Composable
-private fun FocusSessionDestination(navController: NavHostController) {
+private fun FocusSessionDestination(
+    navController: NavHostController,
+    appsOnHold: @Composable (apps: List<UsageApp>, onDismiss: () -> Unit) -> Unit,
+) {
     val viewModel: FocusSessionViewModel = viewModel(factory = FocusSessionViewModel.Factory)
     val state by viewModel.state.collectAsStateWithLifecycle()
     val run = state.run
@@ -147,7 +154,7 @@ private fun FocusSessionDestination(navController: NavHostController) {
         onRestart = viewModel::restartRound,
         onUndoRestart = viewModel::undoRestart,
         onSkipBreak = viewModel::skipBreak,
-        onBlockedApps = { overlay = SessionOverlay.AppOnHold },
+        onBlockedApps = { overlay = SessionOverlay.Apps },
         onChangeSound = { overlay = SessionOverlay.Sounds },
         onOpenLog = { navController.navigate(FocusHistoryRoute) { launchSingleTop = true } },
     )
@@ -167,30 +174,21 @@ private fun FocusSessionDestination(navController: NavHostController) {
     val focusedMinutes = (run.focusedMillis(state.now) / 60_000L).toInt()
     val endsAt = formatClock(state.now + run.remainingMillis(state.now))
     when (overlay) {
-        SessionOverlay.AppOnHold, SessionOverlay.Leave -> {
-            val app = if (overlay == SessionOverlay.AppOnHold) run.config.blockedApps.firstOrNull() else null
-            AppOnHoldDialog(
-                title = stringResource(R.string.hold_title, focusedMinutes),
-                body = if (app != null) {
-                    stringResource(R.string.hold_body, app.label, endsAt)
-                } else {
-                    stringResource(R.string.hold_leave_body, endsAt)
-                },
-                backText = stringResource(R.string.hold_back),
-                endText = stringResource(R.string.hold_end),
-                app = app,
-                onBack = {
-                    if (app != null) viewModel.resistUrge()
-                    overlay = null
-                },
-                onEnd = {
-                    overlay = null
-                    viewModel.end()
-                },
-                onDismissRequest = { overlay = null },
-                strict = run.isStrict,
-            )
-        }
+        SessionOverlay.Apps -> appsOnHold(run.config.blockedApps) { overlay = null }
+        SessionOverlay.Leave -> AppOnHoldDialog(
+            title = stringResource(R.string.hold_title, focusedMinutes),
+            body = stringResource(R.string.hold_leave_body, endsAt),
+            backText = stringResource(R.string.hold_back),
+            endText = stringResource(R.string.hold_end),
+            app = null,
+            onBack = { overlay = null },
+            onEnd = {
+                overlay = null
+                viewModel.end()
+            },
+            onDismissRequest = { overlay = null },
+            strict = run.isStrict,
+        )
         // From End (Figma 92D): "Keep focusing" stays the main action, "End session" the other.
         SessionOverlay.Ending -> {
             val count = run.config.blockedApps.size

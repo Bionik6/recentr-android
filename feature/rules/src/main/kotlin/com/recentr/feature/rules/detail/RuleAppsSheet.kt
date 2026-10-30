@@ -49,13 +49,39 @@ import com.recentr.feature.rules.ui.components.SheetBody
 internal fun RuleAppsSheet(rule: Rule, now: Long, unlocks: AppUnlocks, alwaysAllowed: AlwaysAllowed, onDismiss: () -> Unit) {
     RulesSheet(onDismissRequest = onDismiss) {
         SheetBody(figmaHeight = null, topGap = 18.dp, wrapContent = true, horizontalAlignment = Alignment.Start, bottomBar = {}) {
-            RuleAppsContent(holding = rule.isHolding(now), apps = unlocks.appsOf(rule, now, alwaysAllowed), now = now)
+            val holding = rule.isHolding(now)
+            RuleAppsContent(
+                subtitle = stringResource(if (holding) R.string.rules_apps_blocking else R.string.rules_apps_not_blocking),
+                blockedTitle = stringResource(if (holding) R.string.rules_apps_blocked else R.string.rules_apps_blocked_when_on),
+                apps = unlocks.appsOf(rule, now, alwaysAllowed),
+                now = now,
+            )
+        }
+    }
+}
+
+/**
+ * The same sheet for a focus session's apps on hold (Figma 92): every one of them, and those
+ * always allowed apart. An unlock doesn't get past a session, so there's no "Unlocked for now".
+ */
+@Composable
+internal fun FocusAppsSheet(apps: List<UsageApp>, now: Long, alwaysAllowed: AlwaysAllowed, onDismiss: () -> Unit) {
+    RulesSheet(onDismissRequest = onDismiss) {
+        SheetBody(figmaHeight = null, topGap = 18.dp, wrapContent = true, horizontalAlignment = Alignment.Start, bottomBar = {}) {
+            val (allowed, held) = apps.partition { alwaysAllowed.allows(it.packageName, now) }
+            RuleAppsContent(
+                subtitle = stringResource(R.string.focus_apps_subtitle),
+                blockedTitle = stringResource(R.string.focus_apps_on_hold),
+                apps = RuleApps(blocked = held, unlocked = emptyList(), allowed = allowed),
+                now = now,
+                showsUnlocked = false,
+            )
         }
     }
 }
 
 @Composable
-private fun ColumnScope.RuleAppsContent(holding: Boolean, apps: RuleApps, now: Long) {
+private fun ColumnScope.RuleAppsContent(subtitle: String, blockedTitle: String, apps: RuleApps, now: Long, showsUnlocked: Boolean = true) {
     val colors = RecentrTheme.colors
     Text(
         stringResource(R.string.rules_apps_title),
@@ -64,26 +90,21 @@ private fun ColumnScope.RuleAppsContent(holding: Boolean, apps: RuleApps, now: L
         modifier = Modifier.semantics { heading() },
     )
     Gap(2.dp)
-    Text(
-        stringResource(if (holding) R.string.rules_apps_blocking else R.string.rules_apps_not_blocking),
-        style = RecentrTheme.typography.bodyRegular,
-        color = colors.textSecondary,
-    )
+    Text(subtitle, style = RecentrTheme.typography.bodyRegular, color = colors.textSecondary)
     Gap(16.dp)
     // Scrolls when the rule has many apps; the sheet otherwise hugs them.
     Column(Modifier.heightIn(max = 520.dp).verticalScroll(rememberScrollState())) {
-        SectionHeader(
-            stringResource(if (holding) R.string.rules_apps_blocked else R.string.rules_apps_blocked_when_on),
-            apps.blocked.size,
-        )
+        SectionHeader(blockedTitle, apps.blocked.size)
         AppsCard(empty = stringResource(R.string.rules_apps_none_blocked).takeIf { apps.blocked.isEmpty() }) {
             apps.blocked.forEach { app -> key(app.packageName) { AppRow(app, trailing = null) } }
         }
-        Gap(18.dp)
-        SectionHeader(stringResource(R.string.rules_apps_unlocked), apps.unlocked.size)
-        AppsCard(empty = stringResource(R.string.rules_apps_none_unlocked).takeIf { apps.unlocked.isEmpty() }) {
-            apps.unlocked.forEach { (app, until) ->
-                key(app.packageName) { AppRow(app, trailing = stringResource(R.string.rules_value_left, countdown(until - now))) }
+        if (showsUnlocked) {
+            Gap(18.dp)
+            SectionHeader(stringResource(R.string.rules_apps_unlocked), apps.unlocked.size)
+            AppsCard(empty = stringResource(R.string.rules_apps_none_unlocked).takeIf { apps.unlocked.isEmpty() }) {
+                apps.unlocked.forEach { (app, until) ->
+                    key(app.packageName) { AppRow(app, trailing = stringResource(R.string.rules_value_left, countdown(until - now))) }
+                }
             }
         }
         if (apps.allowed.isNotEmpty()) {
@@ -160,7 +181,12 @@ private fun RuleAppsPreview() {
     val unlocks = AppUnlocks().open(apps[2].packageName, listOf(rule), 272_000L)
     RecentrTheme {
         Column(Modifier.background(RecentrTheme.colors.bgSurface).padding(24.dp)) {
-            RuleAppsContent(holding = true, apps = unlocks.appsOf(rule, 0L, AlwaysAllowed(listOf(apps[3]))), now = 0L)
+            RuleAppsContent(
+                subtitle = stringResource(R.string.rules_apps_blocking),
+                blockedTitle = stringResource(R.string.rules_apps_blocked),
+                apps = unlocks.appsOf(rule, 0L, AlwaysAllowed(listOf(apps[3]))),
+                now = 0L,
+            )
         }
     }
 }
