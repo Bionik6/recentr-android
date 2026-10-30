@@ -593,10 +593,11 @@ internal fun FocusBreakContent(
     }
 }
 
+/** Each idea's own drawing, title and hint. */
 private val BreakIdeaList = listOf(
-    Triple(Sticker.Leaf, R.string.break_idea_window, R.string.break_idea_window_hint),
-    Triple(Sticker.Target, R.string.break_idea_water, R.string.break_idea_water_hint),
-    Triple(Sticker.Heart, R.string.break_idea_stretch, R.string.break_idea_stretch_hint),
+    Triple(R.drawable.break_window, R.string.break_idea_window, R.string.break_idea_window_hint),
+    Triple(R.drawable.break_water_glass, R.string.break_idea_water, R.string.break_idea_water_hint),
+    Triple(R.drawable.break_shoulders, R.string.break_idea_stretch, R.string.break_idea_stretch_hint),
 )
 
 /** "Try this instead of scrolling" card with three checkable ideas. */
@@ -616,7 +617,7 @@ private fun BreakIdeas(done: Set<Int>, onToggle: (Int) -> Unit) {
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         Text(stringResource(R.string.break_ideas_title), style = RecentrTheme.typography.headline, color = colors.textPrimary)
-        BreakIdeaList.forEachIndexed { index, (sticker, title, hint) ->
+        BreakIdeaList.forEachIndexed { index, (illustration, title, hint) ->
             Row(
                 Modifier.fillMaxWidth().clickable(role = Role.Checkbox) {
                     haptics.selection()
@@ -625,7 +626,7 @@ private fun BreakIdeas(done: Set<Int>, onToggle: (Int) -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                StickerImage(sticker, size = 40.dp)
+                Image(painterResource(illustration), contentDescription = null, modifier = Modifier.size(40.dp))
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Text(stringResource(title), style = RecentrTheme.typography.bodyMedium, color = colors.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text(stringResource(hint), style = RecentrTheme.typography.captionRegular, color = colors.textSecondary, maxLines = 1, overflow = TextOverflow.Ellipsis)
