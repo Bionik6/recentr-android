@@ -18,16 +18,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.longOrNull
 import java.io.File
 import java.time.Instant
 import java.time.LocalDate
@@ -53,22 +43,17 @@ class RulesRepository(
     writeDispatcher: CoroutineDispatcher = Dispatchers.IO.limitedParallelism(1),
     private val clock: () -> Long = System::currentTimeMillis,
 ) {
-    private val saved = file?.let { read(it, now) }
+    private val saved = file?.let { read(it) }
 
     private val _rules = MutableStateFlow(saved?.rules.orEmpty())
     val rules: StateFlow<List<Rule>> = _rules.asStateFlow()
 
     /** When the counters were last settled (epoch millis): their day is that of this moment. */
     @Volatile
-    private var settledAt: Long = saved?.settledAt ?: saved?.countersDay?.let(::startOfDay) ?: now
+    private var settledAt: Long = saved?.settledAt ?: now
 
     /** One write at a time, each with the latest state. */
     private val writes = CoroutineScope(SupervisorJob() + writeDispatcher)
-
-    init {
-        // Rules made before this version were migrated on reading: saved as they are now.
-        if (saved != null && saved.version < VERSION) persist()
-    }
 
     fun rule(id: String): Rule? = _rules.value.firstOrNull { it.id == id }
 
@@ -265,24 +250,19 @@ class RulesRepository(
     private fun persist() {
         val target = file ?: return
         val at = settledAt
-        writes.launch { write(target, SavedRules(_rules.value, countersDay = epochDay(at), settledAt = at, version = VERSION)) }
+        writes.launch { write(target, SavedRules(_rules.value, settledAt = at, version = VERSION)) }
     }
 
-    /**
-     * Files written before templates went away still have a "templates" list: it's ignored. Older
-     * files only have [countersDay]; it's still written for them. Files without a [version] were
-     * written before the four kinds of rule settled ([migrated]).
-     */
+    /** What [file] holds: the rules, when their counters were last settled, and its format. */
     @Serializable
     private data class SavedRules(
         val rules: List<Rule> = emptyList(),
-        val countersDay: Long? = null,
         val settledAt: Long? = null,
         val version: Int = 0,
     )
 
     private companion object {
-        /** The rules file's format: 1 since the four kinds of rule (docs/RULES.md › "Rules made before this"). */
+        /** The rules file's format. Recentr hasn't shipped: a file of another one isn't read. */
         const val VERSION = 1
 
         val json = Json {
@@ -291,72 +271,13 @@ class RulesRepository(
         }
 
         /**
-         * The saved rules, or null when there are none yet (or the file can't be read). A file of
-         * an older [VERSION] is [migrated] first: decoding it as it is would fail on a kind or an
-         * unlock method that is gone, and lose every rule.
+         * The saved rules, or null when there are none yet (or the file can't be read, or is of
+         * another [VERSION]: the next save writes over it).
          */
-        fun read(file: File, now: Long): SavedRules? = runCatching {
+        fun read(file: File): SavedRules? = runCatching {
             if (!file.exists()) return@runCatching null
-            val saved = json.parseToJsonElement(file.readText()).jsonObject
-            val version = saved["version"]?.jsonPrimitive?.intOrNull ?: 0
-            json.decodeFromJsonElement<SavedRules>(if (version < VERSION) migrated(saved, now) else saved)
+            json.decodeFromString<SavedRules>(file.readText()).takeIf { it.version == VERSION }
         }.getOrNull()
-
-        /**
-         * Rules made before the four kinds settled, as they are now (version 0 → 1): habits are
-         * gone; locks with hours and sessions with a weekly schedule become routines (keeping their
-         * sticker); a lock without hours stays on from [now] (off when it was paused until turned
-         * back on); a limit waits for Start; only routines pause; Strict mode is off on locks and
-         * limits; "No unlocks" becomes the default (wait, five unlocks a day) and "Give a good
-         * reason" waits too. Its version stays the file's, so the repository saves it again.
-         */
-        fun migrated(saved: JsonObject, now: Long): JsonObject {
-            val rules = (saved["rules"] as? JsonArray)?.mapNotNull { (it as? JsonObject)?.let { rule -> migratedRule(rule, now) } }
-                ?: return saved
-            return JsonObject(saved + ("rules" to JsonArray(rules)))
-        }
-
-        private fun migratedRule(rule: JsonObject, now: Long): JsonObject? {
-            val fields = rule.toMutableMap()
-            listOf("limitReset", "limitAction", "habitTasks", "habitRepeat", "oneShot").forEach(fields::remove)
-            val type = rule.string("type")
-            val scheduled = rule["schedule"].let { it != null && it !is JsonNull }
-            val newType = when {
-                type == "Habit" -> return null
-                (type == "Session" || type == "Lock") && scheduled -> "Bedtime"
-                else -> type
-            }
-            if (newType != type) {
-                fields["type"] = JsonPrimitive(newType)
-                // Their sticker stays a bolt or a lock, not a routine's moon.
-                if (rule["sticker"] == null) fields["sticker"] = JsonPrimitive(if (type == "Session") "Bolt" else "Lock")
-            }
-            val pausedUntil = rule["pausedUntil"]?.let { it as? JsonPrimitive }?.longOrNull
-            when (newType) {
-                "Lock" -> fields["activeSince"] = if (pausedUntil == Long.MAX_VALUE) JsonNull else JsonPrimitive(now)
-                "Limit" -> {
-                    fields["activeSince"] = JsonNull
-                    fields["usedMinutes"] = JsonPrimitive(0)
-                }
-                "Bedtime" -> {
-                    fields.remove("activeSince")
-                    fields.remove("activeUntil")
-                }
-            }
-            if (newType != "Bedtime") fields.remove("pausedUntil")
-            if (newType == "Lock" || newType == "Limit") fields["strictMode"] = JsonPrimitive(false)
-            when (rule.string("unlockMethod")) {
-                // "No unlocks" becomes the default: wait, five unlocks a day.
-                "None", "Strict" -> {
-                    fields["unlockMethod"] = JsonPrimitive("Wait")
-                    fields["unlocksPerDay"] = JsonPrimitive(5)
-                }
-                "Reason" -> fields["unlockMethod"] = JsonPrimitive("Wait")
-            }
-            return JsonObject(fields)
-        }
-
-        private fun JsonObject.string(key: String): String? = (get(key) as? JsonPrimitive)?.contentOrNull
 
         fun write(file: File, saved: SavedRules) = file.writeAtomically(json.encodeToString(saved))
     }
