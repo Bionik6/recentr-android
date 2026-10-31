@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">プロフィール</string>
+    <string name="profile_edit">プロフィールを編集</string>
+    <string name="profile_add_name">名前を追加</string>
+    <string name="profile_open_settings">設定</string>
+    <plurals name="profile_member_days">
+        <item quantity="other">Recentr歴 %d日</item>
+    </plurals>
+    <string name="profile_before">以前</string>
+    <string name="profile_now">今</string>
+    <string name="profile_daily_average">1日の平均</string>
+    <string name="profile_today">今日</string>
+    <plurals name="profile_last_days">
+        <item quantity="other">過去%d日</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">このペースなら</string>
+    <plurals name="profile_life_years">
+        <item quantity="other">人生の%d年分を取り戻しています</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="other">人生の%dか月分を取り戻しています</item>
+    </plurals>
+    <string name="profile_life_none">スマホから離れた1時間は、すべてあなたの時間です</string>
+    <string name="profile_best_streak">最長の連続記録</string>
+    <plurals name="profile_days">
+        <item quantity="other">%d日</item>
+    </plurals>
+    <string name="profile_urges">誘惑に勝った回数</string>
+    <string name="profile_recap_ready">週間まとめが届きました</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">プロフィールを編集</string>
+    <string name="edit_name">名前</string>
+    <string name="edit_email">メール</string>
+    <string name="edit_name_placeholder">名前</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">変更を保存</string>
+    <string name="edit_avatar_colour">アバターの色を変更</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">閉じる</string>
+    <string name="recap_over_name">%sさんの1週間</string>
+    <string name="recap_over">あなたの1週間</string>
+    <string name="recap_less">先週よりスクリーンタイムが少ない</string>
+    <string name="recap_more">先週よりスクリーンタイムが多い</string>
+    <string name="recap_same">先週と同じスクリーンタイム</string>
+    <string name="recap_saved">節約した時間</string>
+    <string name="recap_best_day">ベストな日</string>
+    <string name="recap_streak">連続記録</string>
+    <string name="recap_share">今週を共有</string>
+    <string name="recap_share_text">Recentrでの私の1週間：先週比のスクリーンタイムは%1$s、節約できたのは%2$s、ベストな日は%3$sでした。</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">おだやかな毎日のための、すべてのツール</string>
+    <string name="plus_benefit_rules">ルールとルーティンが無制限</string>
+    <string name="plus_benefit_strict">厳格モードと緊急解除</string>
+    <string name="plus_benefit_recaps">週間まとめとふり返り</string>
+    <string name="plus_yearly">年払い</string>
+    <string name="plus_monthly">月払い</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_per_month">$2.50 / 月</string>
+    <string name="plus_billed_monthly">月ごとのお支払い</string>
+    <string name="plus_start_trial">7日間の無料トライアルを始める</string>
+    <string name="plus_cancel_anytime">いつでもキャンセル可能 ·\u0020</string>
+    <string name="plus_restore">購入を復元</string>
+    <string name="plus_restore_none_title">復元するものがありません</string>
+    <string name="plus_restore_none_body">このアカウントでは、Recentr Plusの購入が見つかりませんでした。</string>
+    <string name="plus_restore_ok_title">購入を復元しました</string>
+    <string name="plus_restore_ok_body">このスマホでRecentr Plusが有効になりました。</string>
+    <string name="plus_trial_started">Recentr Plusがオンになりました — 無料の1週間をお楽しみください</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">定期購入</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">%sに更新</string>
+    <string name="sub_change_plan">プランを変更</string>
+    <string name="sub_restore">購入を復元</string>
+    <string name="sub_invoices">領収書</string>
+    <string name="sub_cancel">定期購入を解約</string>
+    <string name="sub_change_title">%sに切り替えますか？</string>
+    <string name="sub_change_body">新しいプランは、現在の期間が終わると始まります。</string>
+    <string name="sub_change_confirm">切り替える</string>
+    <string name="sub_cancel_title">Recentr Plusを解約しますか？</string>
+    <string name="sub_cancel_body">現在の期間が終わるまではPlusを使え、その後は無料プランに戻ります。</string>
+    <string name="sub_cancel_confirm">プランを解約</string>
+    <string name="sub_keep">Plusを続ける</string>
+    <string name="sub_not_now">今はしない</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">設定</string>
+    <string name="settings_general">一般</string>
+    <string name="settings_protection">保護</string>
+    <string name="settings_support">サポート</string>
+    <string name="settings_account">アカウント</string>
+    <string name="settings_developer">開発者</string>
+    <string name="settings_notifications">通知</string>
+    <string name="settings_on">オン</string>
+    <string name="settings_off">オフ</string>
+    <string name="settings_appearance">外観</string>
+    <string name="settings_app_icon">アプリアイコン</string>
+    <string name="settings_language">言語</string>
+    <string name="settings_time_format">時刻の形式</string>
+    <string name="time_format_am_pm">午前/午後</string>
+    <string name="time_format_24h">24時間</string>
+    <string name="time_format_body">Recentr全体での時刻の表示方法です。</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">厳格モード</string>
+    <string name="settings_strict_caption">新しいセッションとルーティンは、厳格モードで始まります。</string>
+    <string name="settings_always_allowed">常に許可</string>
+    <string name="settings_always_allowed_none">なし</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="other">%d個のアプリ</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">緊急解除</string>
+    <string name="settings_unlocks_left">残り%d回</string>
+    <string name="settings_app_blocking">アプリのブロック</string>
+    <string name="settings_unlock_pass">解除パス</string>
+    <string name="settings_pass_none">なし</string>
+    <string name="settings_pass_rules">ルール%d件</string>
+    <string name="settings_help">ヘルプとフィードバック</string>
+    <string name="settings_rate">Recentrを評価</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">無料</string>
+    <string name="settings_log_out">ログアウト</string>
+    <string name="settings_delete_account">アカウントを削除</string>
+    <string name="settings_replay_onboarding">オンボーディングをもう一度見る</string>
+    <string name="settings_design_system">デザインシステム</string>
+    <string name="emergency_title">緊急解除</string>
+    <string name="emergency_body">今月の緊急解除は、%2$d回中%1$d回が残っています。厳格モードや使い切った制限でアプリが保留されていても、1回につき5分間だけ開けます。%3$sに回復します。</string>
+    <string name="unlock_pass_title">解除パス</string>
+    <string name="unlock_pass_none">パスを求めるルールはまだありません。ルールの解除方法で「別の場所に置いたコードをスキャン」を選ぶと、ここでパスを印刷できます。</string>
+    <string name="unlock_pass_body">ルールのパスを印刷して、スマホから離れた場所に置きましょう。スキャンすれば解除できます。</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">あなたの解除パス</string>
+    <string name="unlock_pass_screen_body">印刷して、ベッドから遠い場所に置いてください。解除する方法はスキャンだけです。</string>
+    <string name="unlock_pass_caption">Recentr · パス #%1$s</string>
+    <string name="unlock_pass_share">共有</string>
+    <string name="unlock_pass_print">パスを印刷</string>
+    <string name="unlock_pass_document">Recentr 解除パス</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">ヘルプとフィードバック</string>
+    <string name="help_subtitle">届いたメッセージは、すべて読んでいます。</string>
+    <string name="help_not_blocking">Recentrがアプリをブロックしていません</string>
+    <string name="help_not_blocking_body">ブロックには「使用状況へのアクセス」と、Recentrのバックグラウンド実行が必要です。「設定」›「アプリ」›「Recentr」を確認し、バッテリーの最適化をオフにしてください。</string>
+    <string name="help_strict">厳格モードについて</string>
+    <string name="help_strict_body">セッションやルーティンで厳格モードをオンにすると、終了するまでそのアプリは解除できません（緊急解除を除く）。オフにする操作も、終了まで待つことになります。「設定」›「厳格モード」で、今後作るすべてに適用できます。</string>
+    <string name="help_billing">お支払いとRecentr Plus</string>
+    <string name="help_billing_body">Recentr Plusのお支払いはGoogle Playを通じて行われます。「設定」›「Recentr Plus」またはPlayの定期購入から、いつでも解約できます。</string>
+    <string name="help_note_section">メッセージを送る</string>
+    <string name="help_note_title">Recentrへのアイデア</string>
+    <string name="help_note_placeholder">みんなで一緒にロックする「友だちと勉強」セッションがあったら嬉しいです。</string>
+    <string name="help_send">フィードバックを送信</string>
+    <string name="help_feedback_subject">Recentrのフィードバック</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">外観</string>
+    <string name="appearance_theme">テーマ</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="theme_auto">自動</string>
+    <string name="appearance_app_icon">アプリアイコン</string>
+    <string name="icon_sky">スカイ</string>
+    <string name="icon_night">ナイト</string>
+    <string name="icon_mint">ミント</string>
+    <string name="icon_sunset">サンセット</string>
+    <string name="appearance_mascot">ホームにマスコットを表示</string>
+    <string name="appearance_reduce_motion">動きを減らす</string>
+    <string name="appearance_haptics">触覚フィードバック</string>
+    <string name="appearance_haptics_caption">選択、切り替え、お祝いのときに、小さな振動でお知らせ</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">通知</string>
+    <string name="notifications_subtitle">やさしいお知らせだけ。うるさくはしません。</string>
+    <string name="notifications_reminders">リマインダー</string>
+    <string name="notifications_routine">ルーティン開始前</string>
+    <string name="notifications_limit">制限まであと少し</string>
+    <string name="notifications_goal">1日の目標チェック</string>
+    <string name="notifications_celebrations">お祝い</string>
+    <string name="notifications_streaks">連続記録とマイルストーン</string>
+    <string name="notifications_recap">週間まとめ</string>
+    <string name="notifications_quiet_hours">静かな時間</string>
+    <string name="notifications_dont_notify">通知しない</string>
+    <string name="notifications_range">%1$s～%2$s</string>
+    <string name="notifications_system_off">このスマホでは、Recentrの通知がオフになっています。</string>
+    <string name="notifications_turn_on">オンにする</string>
+    <string name="quiet_title">静かな時間</string>
+    <string name="quiet_subtitle">この時間帯はお知らせしません。</string>
+    <string name="quiet_from">開始</string>
+    <string name="quiet_to">終了</string>
+    <string name="quiet_save">保存</string>
+    <string name="time_dialog_cancel">キャンセル</string>
+    <string name="time_dialog_ok">OK</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">言語</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">システムの言語</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Recentrからログアウトしますか？</string>
+    <string name="logout_body">ルールはこのスマホで動き続けます。いつでもログインし直して同期できます。</string>
+    <string name="logout_confirm">ログアウト</string>
+    <string name="logout_stay">このまま</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">アカウントを削除しますか？</string>
+    <string name="delete_body">すべてのルール、連続記録、ふり返りが消去されます。確認のため「DELETE」と入力してください。</string>
+    <string name="delete_placeholder">DELETEと入力</string>
+    <string name="delete_confirm">アカウントを削除</string>
+    <string name="delete_cancel">キャンセル</string>
+    <string name="back">戻る</string>
+    <string name="duration_h">%1$d時間</string>
+    <string name="duration_m">%1$d分</string>
+    <string name="duration_h_m_compact">%1$d時間%2$02d分</string>
+    <string name="duration_h_m">%1$d時間%2$d分</string>
+</resources>

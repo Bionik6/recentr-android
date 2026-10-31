@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese. -->
+<resources>
+    <!-- Shared -->
+    <string name="onb_continue">続ける</string>
+
+    <!-- Durations: compact (4h20 · 6h · 45m) and spelled out (6 hours · 45 minutes) -->
+    <string name="onb_duration_hm">%1$d時間%2$02d分</string>
+    <string name="onb_duration_h">%1$d時間</string>
+    <string name="onb_duration_m">%1$d分</string>
+    <plurals name="onb_hours">
+        <item quantity="other">%d時間</item>
+    </plurals>
+    <plurals name="onb_minutes">
+        <item quantity="other">%d分</item>
+    </plurals>
+
+    <!-- 05 · Welcome -->
+    <string name="onb_welcome_stat_people_value">25万+</string>
+    <string name="onb_welcome_stat_people_label">集中している人</string>
+    <string name="onb_welcome_stat_time_value">11時間</string>
+    <string name="onb_welcome_stat_time_label">毎週取り戻す時間</string>
+    <string name="onb_welcome_before">以前</string>
+    <string name="onb_welcome_before_value">7時間40分</string>
+    <string name="onb_welcome_now">今</string>
+    <string name="onb_welcome_now_value">2時間10分</string>
+    <string name="onb_welcome_title">スクリーンタイムを、自分のペースで。</string>
+    <string name="onb_welcome_subtitle">引き込まれるアプリをブロック — 闘うのではなく、やさしくひと呼吸おいて。</string>
+    <string name="onb_welcome_get_started">はじめる</string>
+
+    <!-- 06 · A little friction -->
+    <string name="onb_friction_title">Recentrは、引き込まれるアプリを開く前にひと呼吸おきます</string>
+    <string name="onb_friction_shield_message">Instagramから6時間15分離れていられました</string>
+    <string name="onb_friction_shield_primary">がんばります</string>
+    <string name="onb_friction_shield_secondary">それでも解除（4/5）</string>
+
+    <!-- 07 · Social proof -->
+    <string name="onb_social_title">25万人がRecentrで時間を取り戻しています</string>
+    <string name="onb_social_score">4.8</string>
+    <string name="onb_social_count">7,000件以上のレビューより</string>
+    <string name="onb_social_rating_description">5点中4.8点の評価</string>
+    <string name="onb_review1_title">夜の時間が戻ってきた</string>
+    <string name="onb_review1_body">1日7時間から3時間未満になりました。Xを開く前のちょっとした間が天才的です。</string>
+    <string name="onb_review1_name">ジョナ R.</string>
+    <string name="onb_review2_title">唯一続いたアプリ</string>
+    <string name="onb_review2_body">ほかのブロックアプリはすぐ消しました。これはやさしい感じがして、使い続けています。</string>
+    <string name="onb_review2_name">プリヤ S.</string>
+    <string name="onb_review3_title">眠りが戻ってきた</string>
+    <string name="onb_review3_body">ナイトルーティンが夜11時にすべてロックしてくれます。朝の時間が、また自分のものになりました。</string>
+    <string name="onb_review3_name">レオ M.</string>
+
+    <!-- 08 · Your turn -->
+    <string name="onb_your_turn_overline">さあ、あなたの番です</string>
+    <string name="onb_your_turn_title">Recentrをあなたの毎日に合わせましょう</string>
+    <string name="onb_your_turn_cta">はじめましょう</string>
+
+    <!-- 09 · Name -->
+    <string name="onb_name_title">なんとお呼びしましょうか？</string>
+    <string name="onb_name_placeholder">名前</string>
+
+    <!-- 10 · What’s wrong -->
+    <string name="onb_pain_title">スマホの時間、何が気になりますか？</string>
+    <string name="onb_pain_subtitle">当てはまるものをすべて選んでください。</string>
+    <string name="onb_pain_sleep">睡眠に影響している</string>
+    <string name="onb_pain_focus">集中できない</string>
+    <string name="onb_pain_scroll">無意識にスクロールしてしまう</string>
+    <string name="onb_pain_notifications">通知で気が散る</string>
+    <string name="onb_pain_hours">気づくと何時間も経っている</string>
+    <string name="onb_pain_fine">正直、問題ないかな…</string>
+
+    <!-- 11 · Time spent -->
+    <string name="onb_usage_title">スマホにどのくらい時間を使っていますか？</string>
+    <string name="onb_usage_subtitle">1日あたり、だいたいで大丈夫です。責めたりしません。</string>
+    <string name="onb_usage_over_7">7時間より多い</string>
+    <string name="onb_usage_5_7">5～7時間</string>
+    <string name="onb_usage_3_5">3～5時間</string>
+    <string name="onb_usage_1_3">1～3時間</string>
+    <string name="onb_usage_under_1">1時間未満</string>
+
+    <!-- 12 · Daily goal -->
+    <string name="onb_goal_title">1日の目標を決めましょう</string>
+    <string name="onb_goal_subtitle">平均は1日%1$sです。もう少し減らしてみましょう。</string>
+    <string name="onb_goal_tone_bold">大胆な目標！</string>
+    <string name="onb_goal_tone_balanced">ちょうどいいバランス</string>
+    <string name="onb_goal_tone_easy">気軽なスタート</string>
+    <string name="onb_goal_your_goal">あなたの目標</string>
+    <string name="onb_goal_today">今日</string>
+    <string name="onb_goal_note">アプリはブロックされません。目安にするだけです。</string>
+
+    <!-- 13 · Doing the math -->
+    <string name="onb_math_title">計算してみましょう</string>
+    <string name="onb_math_percent">%1$d%%</string>
+    <string name="onb_math_step_habits">習慣を読み取り中</string>
+    <string name="onb_math_step_goal">目標に合わせています</string>
+    <string name="onb_math_step_plan">プランを作成中</string>
+
+    <!-- 14 · Honest news -->
+    <string name="onb_news_overline">では、正直にお伝えします</string>
+    <string name="onb_news_title">いいニュースと、あまりよくないニュースがあります</string>
+    <string name="onb_news_cta">くわしく聞く</string>
+
+    <!-- 15 · Years on phone -->
+    <string name="onb_years_lead">このままだと、あなたは</string>
+    <plurals name="onb_years_number">
+        <item quantity="other">%d年</item>
+    </plurals>
+    <string name="onb_years_tail">分の人生をスマホで過ごします</string>
+    <string name="onb_years_every_day">毎日</string>
+    <string name="onb_years_every_year">毎年</string>
+    <plurals name="onb_days">
+        <item quantity="other">%d日</item>
+    </plurals>
+
+    <!-- 16 · A way out -->
+    <string name="onb_way_out_title">いいニュースは、1日%1$sを取り戻せること。</string>
+    <string name="onb_way_out_subtitle">だからRecentrを作りました — やさしい抜け道であって、新しい面倒ごとではありません。</string>
+    <string name="onb_way_out_cta">しくみを見る</string>
+
+    <!-- 17 · How it works -->
+    <string name="onb_how_title">Recentrのしくみ</string>
+    <string name="onb_how_step">ステップ %1$d</string>
+    <string name="onb_how_step1_title">引き込まれるものを選ぶ</string>
+    <string name="onb_how_step1_body">アプリを選んで、ロック・セッション・制限のどれかを選びます。</string>
+    <string name="onb_how_step2_title">壁ではなく、ひと呼吸に出会う</string>
+    <string name="onb_how_step2_body">開く前に、深呼吸できる数秒があります。</string>
+    <string name="onb_how_step3_title">おだやかな毎日を育てる</string>
+    <string name="onb_how_step3_body">目標以内をキープして、連続記録を伸ばしましょう。</string>
+
+    <!-- 18 · Screen Time access -->
+    <string name="onb_screen_time_title">Recentrをスクリーンタイムに接続</string>
+    <string name="onb_screen_time_subtitle">制限を設定するために必要です。すべてスマホの中に保存されます。</string>
+    <string name="onb_screen_time_cta">接続</string>
+    <string name="onb_screen_time_alert_title">「Recentr」がスクリーンタイムへのアクセスを求めています</string>
+    <string name="onb_screen_time_alert_body">制限の設定と使用状況の確認に使います。データがこのスマホの外に出ることはありません。</string>
+    <string name="onb_screen_time_alert_allow">続ける</string>
+    <string name="onb_screen_time_alert_deny">許可しない</string>
+
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">何に引き込まれますか？</string>
+    <string name="onb_apps_subtitle">SNSアプリでも、ほかのアプリでも。3つのルーティンがアプリを一時停止し、通り抜けるには10秒待ちます。いつでも変更できます。</string>
+    <string name="onb_apps_choose">アプリを選ぶ</string>
+    <plurals name="onb_apps_count">
+        <item quantity="other">%d個のアプリ</item>
+    </plurals>
+
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s～%2$s · %3$s</string>
+    <string name="onb_days_weekdays">平日</string>
+    <string name="onb_days_every_day">毎日</string>
+    <string name="onb_days_weekends">週末</string>
+
+    <!-- 19 · Notifications -->
+    <string name="onb_notif_title">一歩先を行きましょう</string>
+    <string name="onb_notif_subtitle">ルーティンの開始前や制限の終了前に、やさしくお知らせします。</string>
+    <string name="onb_notif_now">今</string>
+    <string name="onb_notif_banner1_title">ナイトルーティンが10分後に始まります</string>
+    <string name="onb_notif_banner1_body">午後11時からスマホはお休み。おやすみなさい。</string>
+    <string name="onb_notif_banner2_title">SNSの時間、残り5分</string>
+    <string name="onb_notif_banner2_body">そろそろ切り上げを — Xは2時間15分でロックされます。</string>
+    <string name="onb_notif_banner3_title">3日連続！</string>
+    <string name="onb_notif_banner3_body">また%1$s以内に収まりました。</string>
+
+    <!-- 21 · All set -->
+    <string name="onb_all_set_title">準備完了です、%1$sさん</string>
+    <string name="onb_all_set_title_no_name">準備完了です</string>
+    <string name="onb_all_set_subtitle">今週のプランはこちらです。</string>
+    <string name="onb_all_set_daily_goal">1日の目標</string>
+    <string name="onb_all_set_first_rule">最初のルール</string>
+    <string name="onb_rule_bedtime">就寝</string>
+    <string name="onb_rule_focus">集中タイム</string>
+    <string name="onb_rule_social">SNS制限</string>
+    <string name="onb_rule_quiet">静かな時間</string>
+    <string name="onb_rule_daily_limit">時間の予算</string>
+    <string name="onb_all_set_note_title">取り組む理由</string>
+    <string name="onb_reason_scroll">外で過ごす夜を増やして、TikTokの時間を減らす。</string>
+    <string name="onb_reason_sleep">おだやかな夜、スマホなしの朝。</string>
+    <string name="onb_reason_focus">まず集中して仕事、フィードはそのあとで。</string>
+    <string name="onb_reason_notifications">通知を減らして、今ここにいる時間を増やす。</string>
+    <string name="onb_reason_hours">時間が消える前に、気づけるように。</string>
+    <string name="onb_reason_fine">毎日、少しずつバランスよく。</string>
+    <string name="onb_all_set_cta">最初のセッションを始める</string>
+
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">ワークタイム</string>
+    <string name="onb_routine_night_pause">ナイトポーズ</string>
+    <string name="onb_routine_weekend_zen">週末ゼン</string>
+</resources>

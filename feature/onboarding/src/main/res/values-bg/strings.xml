@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bulgarian. -->
+<resources>
+    <!-- Shared -->
+    <string name="onb_continue">Продължи</string>
+
+    <!-- Durations: compact (4h20 · 6h · 45m) and spelled out (6 hours · 45 minutes) -->
+    <string name="onb_duration_hm">%1$d ч %2$02d</string>
+    <string name="onb_duration_h">%1$d ч</string>
+    <string name="onb_duration_m">%1$d мин</string>
+    <plurals name="onb_hours">
+        <item quantity="one">%d час</item>
+        <item quantity="other">%d часа</item>
+    </plurals>
+    <plurals name="onb_minutes">
+        <item quantity="one">%d минута</item>
+        <item quantity="other">%d минути</item>
+    </plurals>
+
+    <!-- 05 · Welcome -->
+    <string name="onb_welcome_stat_people_value">250 хил.+</string>
+    <string name="onb_welcome_stat_people_label">хора във фокус</string>
+    <string name="onb_welcome_stat_time_value">11 ч</string>
+    <string name="onb_welcome_stat_time_label">върнати всяка седмица</string>
+    <string name="onb_welcome_before">Преди</string>
+    <string name="onb_welcome_before_value">7 ч 40 мин</string>
+    <string name="onb_welcome_now">Сега</string>
+    <string name="onb_welcome_now_value">2 ч 10 мин</string>
+    <string name="onb_welcome_title">Екранно време по твои условия.</string>
+    <string name="onb_welcome_subtitle">Блокирай приложенията, които те засмукват — нежно, с пауза, а не с борба.</string>
+    <string name="onb_welcome_get_started">Започни</string>
+
+    <!-- 06 · A little friction -->
+    <string name="onb_friction_title">Recentr добавя пауза пред приложенията, които те засмукват</string>
+    <string name="onb_friction_shield_message">Вече 6 ч 15 си далеч от Instagram</string>
+    <string name="onb_friction_shield_primary">Справям се</string>
+    <string name="onb_friction_shield_secondary">Отключи все пак (4/5)</string>
+
+    <!-- 07 · Social proof -->
+    <string name="onb_social_title">250 000 души използват Recentr, за да си върнат времето</string>
+    <string name="onb_social_score">4,8</string>
+    <string name="onb_social_count">от над 7 000 отзива</string>
+    <string name="onb_social_rating_description">Оценка 4,8 от 5</string>
+    <string name="onb_review1_title">Върнах си вечерите</string>
+    <string name="onb_review1_body">От 7 часа на ден слязох под 3. Малката пауза преди отваряне на X е гениална.</string>
+    <string name="onb_review1_name">Йоан Р.</string>
+    <string name="onb_review2_title">Единственото, което се задържа</string>
+    <string name="onb_review2_body">Другите блокери просто ги изтрих. Този е мил с мен, затова го запазих.</string>
+    <string name="onb_review2_name">Прия С.</string>
+    <string name="onb_review3_title">Сънят се върна</string>
+    <string name="onb_review3_body">Нощната рутина заключва всичко в 11. Утрините ми отново са мои.</string>
+    <string name="onb_review3_name">Лео М.</string>
+
+    <!-- 08 · Your turn -->
+    <string name="onb_your_turn_overline">Сега е твой ред</string>
+    <string name="onb_your_turn_title">Нека настроим Recentr към твоите дни</string>
+    <string name="onb_your_turn_cta">Хайде</string>
+
+    <!-- 09 · Name -->
+    <string name="onb_name_title">Как да те наричаме?</string>
+    <string name="onb_name_placeholder">Малкото ти име</string>
+
+    <!-- 10 · What’s wrong -->
+    <string name="onb_pain_title">И така, какво не е наред с времето ти на телефона?</string>
+    <string name="onb_pain_subtitle">Избери всичко подходящо.</string>
+    <string name="onb_pain_sleep">Вреди на съня ми</string>
+    <string name="onb_pain_focus">Трудно ми е да се концентрирам</string>
+    <string name="onb_pain_scroll">Скролвам, без да мисля</string>
+    <string name="onb_pain_notifications">Известията ме разсейват</string>
+    <string name="onb_pain_hours">Часове изчезват незабелязано</string>
+    <string name="onb_pain_fine">Честно, всичко е наред…</string>
+
+    <!-- 11 · Time spent -->
+    <string name="onb_usage_title">Колко време прекарваш на телефона?</string>
+    <string name="onb_usage_subtitle">На ден, приблизително — без осъждане.</string>
+    <string name="onb_usage_over_7">Над 7 часа</string>
+    <string name="onb_usage_5_7">5 – 7 часа</string>
+    <string name="onb_usage_3_5">3 – 5 часа</string>
+    <string name="onb_usage_1_3">1 – 3 часа</string>
+    <string name="onb_usage_under_1">Под 1 час</string>
+
+    <!-- 12 · Daily goal -->
+    <string name="onb_goal_title">Задай дневната си цел</string>
+    <string name="onb_goal_subtitle">Средно прекарваш %1$s на ден. Нека се целим по-ниско.</string>
+    <string name="onb_goal_tone_bold">Смела цел!</string>
+    <string name="onb_goal_tone_balanced">Добър баланс</string>
+    <string name="onb_goal_tone_easy">Лесен старт</string>
+    <string name="onb_goal_your_goal">Твоята цел</string>
+    <string name="onb_goal_today">Днес</string>
+    <string name="onb_goal_note">Това няма да блокира приложения — то е само ориентир.</string>
+
+    <!-- 13 · Doing the math -->
+    <string name="onb_math_title">Да направим сметката</string>
+    <string name="onb_math_percent">%1$d%%</string>
+    <string name="onb_math_step_habits">Разчитаме навиците ти</string>
+    <string name="onb_math_step_goal">Съобразяваме целта ти</string>
+    <string name="onb_math_step_plan">Изграждаме плана ти</string>
+
+    <!-- 14 · Honest news -->
+    <string name="onb_news_overline">Добре, нека бъдем честни</string>
+    <string name="onb_news_title">Имаме добри… и не толкова добри новини</string>
+    <string name="onb_news_cta">Кажи ми повече</string>
+
+    <!-- 15 · Years on phone -->
+    <string name="onb_years_lead">При това темпо ще прекараш</string>
+    <plurals name="onb_years_number">
+        <item quantity="one">%d година</item>
+        <item quantity="other">%d години</item>
+    </plurals>
+    <string name="onb_years_tail">от живота си на телефона</string>
+    <string name="onb_years_every_day">Всеки ден</string>
+    <string name="onb_years_every_year">Всяка година</string>
+    <plurals name="onb_days">
+        <item quantity="one">%d ден</item>
+        <item quantity="other">%d дни</item>
+    </plurals>
+
+    <!-- 16 · A way out -->
+    <string name="onb_way_out_title">Добрата новина? Можеш да си върнеш %1$s на ден.</string>
+    <string name="onb_way_out_subtitle">Затова създадохме Recentr — нежен изход, а не поредното задължение.</string>
+    <string name="onb_way_out_cta">Как работи?</string>
+
+    <!-- 17 · How it works -->
+    <string name="onb_how_title">Как работи Recentr</string>
+    <string name="onb_how_step">Стъпка %1$d</string>
+    <string name="onb_how_step1_title">Избери какво те засмуква</string>
+    <string name="onb_how_step1_body">Избери приложения, после Заключване, Сесия или Лимит.</string>
+    <string name="onb_how_step2_title">Срещни пауза, а не стена</string>
+    <string name="onb_how_step2_body">Няколко секунди да си поемеш дъх, преди да го отвориш.</string>
+    <string name="onb_how_step3_title">Изграждай по-спокойни дни</string>
+    <string name="onb_how_step3_body">Остани под целта си и поддържай серията жива.</string>
+
+    <!-- 18 · Screen Time access -->
+    <string name="onb_screen_time_title">Свържи Recentr с екранното време</string>
+    <string name="onb_screen_time_subtitle">Нужно ни е това, за да задаваме лимити. Всичко остава на телефона ти.</string>
+    <string name="onb_screen_time_cta">Свържи</string>
+    <string name="onb_screen_time_alert_title">„Recentr“ иска достъп до екранното време</string>
+    <string name="onb_screen_time_alert_body">Recentr използва това, за да задава лимити и да вижда използването ти. Данните ти никога не напускат този телефон.</string>
+    <string name="onb_screen_time_alert_allow">Продължи</string>
+    <string name="onb_screen_time_alert_deny">Не разрешавай</string>
+
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">Какво те засмуква?</string>
+    <string name="onb_apps_subtitle">Социални приложения или други. Три рутини ги слагат на пауза, с 10 секунди изчакване, за да минеш. Можеш да ги промениш по всяко време.</string>
+    <string name="onb_apps_choose">Избери приложения</string>
+    <plurals name="onb_apps_count">
+        <item quantity="one">%d приложение</item>
+        <item quantity="other">%d приложения</item>
+    </plurals>
+
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s – %2$s · %3$s</string>
+    <string name="onb_days_weekdays">Делнични дни</string>
+    <string name="onb_days_every_day">Всеки ден</string>
+    <string name="onb_days_weekends">Почивни дни</string>
+
+    <!-- 19 · Notifications -->
+    <string name="onb_notif_title">Бъди крачка напред</string>
+    <string name="onb_notif_subtitle">Нежни напомняния, преди да започне рутина или да изтече лимит.</string>
+    <string name="onb_notif_now">сега</string>
+    <string name="onb_notif_banner1_title">Нощната рутина започва след 10 мин</string>
+    <string name="onb_notif_banner1_body">Без телефон от 23:00. Сладки сънища.</string>
+    <string name="onb_notif_banner2_title">Още 5 мин за Социално време</string>
+    <string name="onb_notif_banner2_body">Приключвай — X се заключва при 2 ч 15.</string>
+    <string name="onb_notif_banner3_title">Серия от 3 дни!</string>
+    <string name="onb_notif_banner3_body">Отново остана под %1$s.</string>
+
+    <!-- 21 · All set -->
+    <string name="onb_all_set_title">Всичко е готово, %1$s</string>
+    <string name="onb_all_set_title_no_name">Всичко е готово</string>
+    <string name="onb_all_set_subtitle">Ето плана ти за тази седмица.</string>
+    <string name="onb_all_set_daily_goal">Дневна цел</string>
+    <string name="onb_all_set_first_rule">Първо правило</string>
+    <string name="onb_rule_bedtime">Лягане</string>
+    <string name="onb_rule_focus">Време за фокус</string>
+    <string name="onb_rule_social">Лимит за социални</string>
+    <string name="onb_rule_quiet">Тихи часове</string>
+    <string name="onb_rule_daily_limit">Времеви бюджет</string>
+    <string name="onb_all_set_note_title">Защо го правя</string>
+    <string name="onb_reason_scroll">Повече вечери навън, по-малко часове в TikTok.</string>
+    <string name="onb_reason_sleep">По-спокойни нощи, утрини без телефон.</string>
+    <string name="onb_reason_focus">Първо дълбока работа, после лентите.</string>
+    <string name="onb_reason_notifications">По-малко известия, повече присъствие.</string>
+    <string name="onb_reason_hours">Да забелязвам времето си, преди да е изтекло.</string>
+    <string name="onb_reason_fine">Малко повече баланс всеки ден.</string>
+    <string name="onb_all_set_cta">Започни първата ми сесия</string>
+
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">Работно време</string>
+    <string name="onb_routine_night_pause">Нощна пауза</string>
+    <string name="onb_routine_weekend_zen">Уикенд дзен</string>
+</resources>

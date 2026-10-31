@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- German. -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">Recentr App-Blocker</string>
+    <string name="hold_service_summary">Legt Apps auf Eis, die deine Regeln und Fokus-Sitzungen blockieren.</string>
+    <string name="hold_service_description">Recentr legt die Apps auf Eis, die von deinen Regeln und Fokus-Sitzungen blockiert werden. Es sieht nur, welche App du öffnest – nie, was auf deinem Bildschirm ist – und nichts verlässt dein Handy.</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">%1$s ruht gerade</string>
+    <string name="shield_on_hold">%1$s liegt auf Eis</string>
+    <string name="shield_until">%1$s · bis %2$s</string>
+    <string name="shield_until_tomorrow">%1$s · bis morgen %2$s</string>
+    <string name="shield_limit">%1$s · heute %2$s genutzt</string>
+    <string name="shield_stayed_off">Du hältst dich schon %1$s fern</string>
+    <string name="shield_focus_minutes">Du bist seit %1$d min im Fokus</string>
+    <string name="shield_focus_started">Dein Fokus hat gerade begonnen</string>
+    <string name="shield_got_this">Ich schaff das</string>
+    <string name="shield_back_to_focus">Zurück zum Fokus</string>
+    <string name="shield_end_focus">Fokus vorzeitig beenden</string>
+    <string name="shield_unlock_anyway">Trotzdem entsperren</string>
+    <string name="shield_unlock_anyway_left">Trotzdem entsperren (noch %1$d von %2$d)</string>
+    <string name="shield_emergency">Notfall-Entsperrung</string>
+    <string name="duration_h">%1$d h</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_h_m">%1$d h %2$d min</string>
+    <string name="stayed_off_h_m">%1$d h %2$02d</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · gesperrt durch %2$s</string>
+    <string name="unlock_strict_on">%1$s · Strikter Modus an</string>
+    <string name="unlock_wait_overline">Willst du trotzdem rein?</string>
+    <string name="unlock_wait_title">Wähle deine Entsperrzeit</string>
+    <string name="unlock_wait_breath">Atme kurz durch…</string>
+    <string name="unlock_wait_done">Du hast dir einen Moment genommen. Schön.</string>
+    <string name="unlock_minutes_chip">%1$d min</string>
+    <string name="unlock_nevermind">Doch nicht</string>
+    <string name="unlock_unlock">Entsperren</string>
+    <string name="unlock_retype_title">Tippe das ein, um zu entsperren</string>
+    <string name="unlock_retype_text">Ich entscheide mich für einen Feed statt für die Arbeit, die mir heute wichtig war – und ich weiß das.</string>
+    <string name="unlock_quote">„%1$s“</string>
+    <string name="unlock_retype_hint">Fang an zu tippen…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">Tippfehler – fang noch mal von vorn an</string>
+    <string name="unlock_retype_start_over">Von vorn</string>
+    <string name="unlock_scan_title">Scanne deinen Recentr-Code</string>
+    <string name="unlock_scan_subtitle">Den, den du an den Kühlschrank geklebt hast.</string>
+    <string name="unlock_scan_steady">Halt ruhig…</string>
+    <string name="unlock_scan_wrong_pass">Das ist der Pass einer anderen Regel</string>
+    <string name="unlock_scan_no_camera">Recentr braucht die Kamera, um deinen Pass zu scannen.</string>
+    <string name="unlock_scan_allow_camera">Kamera erlauben</string>
+    <string name="unlock_scan_use_passcode">Stattdessen Code eingeben</string>
+    <string name="unlock_close">Schließen</string>
+    <string name="unlock_passcode_title">Gib deinen Pass-Code ein</string>
+    <string name="unlock_passcode_subtitle">Es ist die Nummer unter dem QR-Code.</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">Das ist nicht der Code auf deinem Pass.</string>
+    <string name="unlock_emergency_title">Notfall-Entsperrung</string>
+    <string name="unlock_emergency_body">Der Strikte Modus ist an. Nutze das nur, wenn es wirklich wichtig ist – du hast diesen Monat noch %1$d übrig.</string>
+    <string name="unlock_emergency_spent">Der Strikte Modus ist an, und deine Notfall-Entsperrungen für diesen Monat sind aufgebraucht.</string>
+    <string name="unlock_emergency_limit_body">Die Zeit für heute ist um, und bei einem Limit gibt es keine Entsperrungen. Nutze das nur, wenn es wirklich wichtig ist – du hast diesen Monat noch %1$d übrig.</string>
+    <string name="unlock_emergency_limit_spent">Die Zeit für heute ist um, und deine Notfall-Entsperrungen für diesen Monat sind aufgebraucht.</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="one">%d Notfall-Entsperrung übrig</item>
+        <item quantity="other">%d Notfall-Entsperrungen übrig</item>
+    </plurals>
+    <string name="unlock_hold">Halten zum Entsperren · %1$d s</string>
+    <string name="unlock_hold_none">Keine Notfall-Entsperrungen mehr</string>
+    <string name="unlock_cancel">Abbrechen</string>
+    <string name="unlock_open_title">%1$s ist offen</string>
+    <string name="unlock_time_left">noch %1$s</string>
+    <string name="unlock_open_caption">Wir sperren sie wieder, wenn der Timer abläuft.</string>
+    <string name="unlock_open_app">%1$s öffnen</string>
+    <string name="unlock_lock_again">Wieder sperren</string>
+    <string name="unlock_walk_title">Schritte zum Entsperren: %1$d</string>
+    <string name="unlock_walk_subtitle">Ein kleiner Spaziergang vor dem Scrollen. Schaffe das Schrittziel (%1$d), dann bekommst du %2$s.</string>
+    <string name="unlock_walking_title">Noch ein paar Schritte</string>
+    <string name="unlock_walking_subtitle">%1$s bleibt gesperrt, bis du dein Schrittziel (%2$d) erreichst. Lass dir Zeit.</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">Schritte · bereit, wenn du es bist</string>
+    <string name="unlock_walk_more_to_go">Schritte · noch %1$d</string>
+    <string name="unlock_walk_goal_reached">Schritte · Ziel erreicht</string>
+    <string name="unlock_walk_locked_until">Gesperrt bis Schrittziel (%1$d)</string>
+    <string name="unlock_walk_complete_chip">Schritte geschafft: %1$d</string>
+    <string name="unlock_walk_safety_title">Handy weg. Augen auf.</string>
+    <string name="unlock_walk_safety_body">Geh an einem sicheren, freien Ort. Bleib stehen, bevor du deinen Fortschritt prüfst.</string>
+    <string name="unlock_walk_no_permission_title">Recentr kann deine Schritte nicht zählen</string>
+    <string name="unlock_walk_no_permission_body">Erlaube „Körperliche Aktivität“ für Recentr und geh dann noch einmal los.</string>
+    <string name="unlock_walk_no_sensor_title">Dieses Handy kann keine Schritte zählen</string>
+    <string name="unlock_walk_no_sensor_body">Wähle auf der Seite der Regel eine andere Art zu entsperren.</string>
+    <string name="unlock_walk_start">Losgehen</string>
+    <string name="unlock_walk_cancel">Spaziergang abbrechen</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="one">Noch %1$d Schritt zum Entsperren</item>
+        <item quantity="other">Noch %1$d Schritte zum Entsperren</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · Entsperrung für %2$d min</string>
+    <string name="unlock_walk_done_title">%1$s ist entsperrt</string>
+    <string name="unlock_walk_done_subtitle">Schritte: %1$d. Ein kleiner Neustart. Deine %2$d-Minuten-Pause ist bereit.</string>
+    <string name="unlock_walk_done_note_body">Wir sperren sie wieder, wenn der Timer abläuft. Bleib stehen, bevor du %1$s öffnest.</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="one">%1$d Minute, nur für dich</item>
+        <item quantity="other">%1$d Minuten, nur für dich</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="one">%1$d Minute</item>
+        <item quantity="other">%1$d Minuten</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">Erinnerungen zu Regeln</string>
+    <string name="reminder_channel_description">Ein Hinweis, bevor eine Routine Apps blockiert.</string>
+    <string name="reminder_title">%1$s startet in %2$d min</string>
+    <string name="reminder_text">Apps werden um %1$s blockiert.</string>
+</resources>

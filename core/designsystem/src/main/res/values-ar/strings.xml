@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic. -->
+<resources>
+    <string name="ds_tab_home">الرئيسية</string>
+    <string name="ds_tab_rules">القواعد</string>
+    <string name="ds_tab_timer">المؤقت</string>
+    <string name="ds_tab_insights">الإحصاءات</string>
+    <string name="ds_skip">تخطي</string>
+    <string name="ds_back">رجوع</string>
+    <string name="ds_clear">مسح</string>
+    <string name="ds_more_options">المزيد من الخيارات</string>
+    <string name="ds_goal_title">الهدف اليومي</string>
+    <string name="ds_goal_subtitle">ينبّهك Recentr عندما تقترب من هدفك.</string>
+    <string name="ds_goal_save">حفظ الهدف</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">اختيار سريع</string>
+    <string name="ds_duration_minutes">%1$d د</string>
+    <string name="ds_duration_hours">%1$d س</string>
+    <string name="ds_duration_hours_minutes">%1$d س %2$02d د</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">فعّل حظر التطبيقات</string>
+    <string name="ds_blocking_body">لتعليق التطبيقات التي تحظرها، يستخدم Recentr خدمة إمكانية الوصول في Android. لا يرى سوى التطبيق الذي تفتحه — وليس ما على شاشتك أبدًا — ولا يغادر أي شيء هاتفك.</string>
+    <string name="ds_blocking_steps">في الإعدادات › إمكانية الوصول، افتح «حظر تطبيقات Recentr» (ضمن التطبيقات المثبّتة أو التي تم تنزيلها) ثم فعّله.</string>
+    <string name="ds_blocking_open_settings">فتح الإعدادات</string>
+    <string name="ds_blocking_not_now">ليس الآن</string>
+    <string name="ds_blocking_off_title">الحظر متوقف</string>
+    <string name="ds_blocking_off_body">فعّله لكي تعلّق قواعدك وجلسات التركيز التطبيقات.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">اربط Recentr بوقت الشاشة</string>
+    <string name="ds_usage_access_body">يحتاج Recentr إلى إذن «الوصول إلى بيانات الاستخدام» لاحتساب وقت الشاشة وعمليات الالتقاط والإشعارات. كل شيء يبقى على هاتفك.</string>
+    <string name="ds_usage_access_connect">ربط</string>
+</resources>

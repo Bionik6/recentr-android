@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Swedish. -->
+<resources>
+    <!-- Shared -->
+    <string name="onb_continue">Fortsätt</string>
+
+    <!-- Durations: compact (4h20 · 6h · 45m) and spelled out (6 hours · 45 minutes) -->
+    <string name="onb_duration_hm">%1$d h %2$02d</string>
+    <string name="onb_duration_h">%1$d h</string>
+    <string name="onb_duration_m">%1$d min</string>
+    <plurals name="onb_hours">
+        <item quantity="one">%d timme</item>
+        <item quantity="other">%d timmar</item>
+    </plurals>
+    <plurals name="onb_minutes">
+        <item quantity="one">%d minut</item>
+        <item quantity="other">%d minuter</item>
+    </plurals>
+
+    <!-- 05 · Welcome -->
+    <string name="onb_welcome_stat_people_value">250K+</string>
+    <string name="onb_welcome_stat_people_label">fokuserade personer</string>
+    <string name="onb_welcome_stat_time_value">11 h</string>
+    <string name="onb_welcome_stat_time_label">återvunna per vecka</string>
+    <string name="onb_welcome_before">Före</string>
+    <string name="onb_welcome_before_value">7 h 40 min</string>
+    <string name="onb_welcome_now">Nu</string>
+    <string name="onb_welcome_now_value">2 h 10 min</string>
+    <string name="onb_welcome_title">Skärmtid på dina villkor.</string>
+    <string name="onb_welcome_subtitle">Blockera de appar som drar in dig – varsamt, med en paus, inte en kamp.</string>
+    <string name="onb_welcome_get_started">Kom igång</string>
+
+    <!-- 06 · A little friction -->
+    <string name="onb_friction_title">Recentr lägger in en paus före de appar som drar in dig</string>
+    <string name="onb_friction_shield_message">Du har hållit dig borta från Instagram i 6 h 15</string>
+    <string name="onb_friction_shield_primary">Jag klarar det</string>
+    <string name="onb_friction_shield_secondary">Lås upp ändå (4/5)</string>
+
+    <!-- 07 · Social proof -->
+    <string name="onb_social_title">250 000 personer använder Recentr för att ta tillbaka sin tid</string>
+    <string name="onb_social_score">4,8</string>
+    <string name="onb_social_count">från över 7 000 recensioner</string>
+    <string name="onb_social_rating_description">Betyg 4,8 av 5</string>
+    <string name="onb_review1_title">Fick tillbaka mina kvällar</string>
+    <string name="onb_review1_body">Jag gick från 7 timmar om dagen till under 3. Den lilla pausen innan jag öppnar X är genial.</string>
+    <string name="onb_review1_name">Jonah R.</string>
+    <string name="onb_review2_title">Den enda som fastnade</string>
+    <string name="onb_review2_body">De andra blockerarna raderade jag bara. Den här känns snäll, så jag behåller den.</string>
+    <string name="onb_review2_name">Priya S.</string>
+    <string name="onb_review3_title">Sömnen är tillbaka</string>
+    <string name="onb_review3_body">Nattrutinen låser allt kl. 23. Mina morgnar är mina igen.</string>
+    <string name="onb_review3_name">Leo M.</string>
+
+    <!-- 08 · Your turn -->
+    <string name="onb_your_turn_overline">Nu är det din tur</string>
+    <string name="onb_your_turn_title">Låt oss anpassa Recentr efter dina dagar</string>
+    <string name="onb_your_turn_cta">Nu kör vi</string>
+
+    <!-- 09 · Name -->
+    <string name="onb_name_title">Vad ska vi kalla dig?</string>
+    <string name="onb_name_placeholder">Ditt förnamn</string>
+
+    <!-- 10 · What’s wrong -->
+    <string name="onb_pain_title">Så, vad är problemet med din telefontid?</string>
+    <string name="onb_pain_subtitle">Välj alla som stämmer.</string>
+    <string name="onb_pain_sleep">Den stör min sömn</string>
+    <string name="onb_pain_focus">Jag har svårt att fokusera</string>
+    <string name="onb_pain_scroll">Jag scrollar utan att tänka</string>
+    <string name="onb_pain_notifications">Aviseringar stör mig</string>
+    <string name="onb_pain_hours">Timmar försvinner utan att jag märker det</string>
+    <string name="onb_pain_fine">Ärligt talat, det är okej…</string>
+
+    <!-- 11 · Time spent -->
+    <string name="onb_usage_title">Hur mycket tid lägger du på telefonen?</string>
+    <string name="onb_usage_subtitle">Per dag, ungefär – ingen dömer.</string>
+    <string name="onb_usage_over_7">Mer än 7 timmar</string>
+    <string name="onb_usage_5_7">5 – 7 timmar</string>
+    <string name="onb_usage_3_5">3 – 5 timmar</string>
+    <string name="onb_usage_1_3">1 – 3 timmar</string>
+    <string name="onb_usage_under_1">Under 1 timme</string>
+
+    <!-- 12 · Daily goal -->
+    <string name="onb_goal_title">Sätt ditt dagliga mål</string>
+    <string name="onb_goal_subtitle">Du ligger på %1$s om dagen i snitt. Låt oss sikta lägre.</string>
+    <string name="onb_goal_tone_bold">Djärvt mål!</string>
+    <string name="onb_goal_tone_balanced">Fin balans</string>
+    <string name="onb_goal_tone_easy">Lätt start</string>
+    <string name="onb_goal_your_goal">Ditt mål</string>
+    <string name="onb_goal_today">Idag</string>
+    <string name="onb_goal_note">Det här blockerar inga appar – det är bara en vägledning.</string>
+
+    <!-- 13 · Doing the math -->
+    <string name="onb_math_title">Vi räknar på det</string>
+    <string name="onb_math_percent">%1$d %%</string>
+    <string name="onb_math_step_habits">Läser av dina vanor</string>
+    <string name="onb_math_step_goal">Anpassar efter ditt mål</string>
+    <string name="onb_math_step_plan">Bygger din plan</string>
+
+    <!-- 14 · Honest news -->
+    <string name="onb_news_overline">Okej, nu är vi ärliga</string>
+    <string name="onb_news_title">Vi har goda… och mindre goda nyheter</string>
+    <string name="onb_news_cta">Berätta mer</string>
+
+    <!-- 15 · Years on phone -->
+    <string name="onb_years_lead">I den här takten ägnar du</string>
+    <plurals name="onb_years_number">
+        <item quantity="one">%d år</item>
+        <item quantity="other">%d år</item>
+    </plurals>
+    <string name="onb_years_tail">av ditt liv åt telefonen</string>
+    <string name="onb_years_every_day">Varje dag</string>
+    <string name="onb_years_every_year">Varje år</string>
+    <plurals name="onb_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+
+    <!-- 16 · A way out -->
+    <string name="onb_way_out_title">Goda nyheter? Du kan vinna tillbaka %1$s om dagen.</string>
+    <string name="onb_way_out_subtitle">Därför skapade vi Recentr – en mild väg ut, inte ännu en syssla.</string>
+    <string name="onb_way_out_cta">Hur funkar det?</string>
+
+    <!-- 17 · How it works -->
+    <string name="onb_how_title">Så funkar Recentr</string>
+    <string name="onb_how_step">Steg %1$d</string>
+    <string name="onb_how_step1_title">Välj det som drar in dig</string>
+    <string name="onb_how_step1_body">Välj appar, sedan ett Lås, en Session eller en Gräns.</string>
+    <string name="onb_how_step2_title">Möt en paus, inte en vägg</string>
+    <string name="onb_how_step2_body">Några sekunder att andas innan du öppnar den.</string>
+    <string name="onb_how_step3_title">Odla lugnare dagar</string>
+    <string name="onb_how_step3_body">Håll dig under ditt mål och håll sviten vid liv.</string>
+
+    <!-- 18 · Screen Time access -->
+    <string name="onb_screen_time_title">Koppla Recentr till skärmtid</string>
+    <string name="onb_screen_time_subtitle">Vi behöver det här för att sätta gränser. Allt stannar på din telefon.</string>
+    <string name="onb_screen_time_cta">Koppla</string>
+    <string name="onb_screen_time_alert_title">”Recentr” vill få åtkomst till skärmtid</string>
+    <string name="onb_screen_time_alert_body">Recentr använder det här för att sätta gränser och se din användning. Dina data lämnar aldrig den här telefonen.</string>
+    <string name="onb_screen_time_alert_allow">Fortsätt</string>
+    <string name="onb_screen_time_alert_deny">Tillåt inte</string>
+
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">Vad drar in dig?</string>
+    <string name="onb_apps_subtitle">Sociala appar eller andra. Tre rutiner lägger dem på is, med 10 sekunders väntan för att ta sig förbi. Du kan ändra dem när som helst.</string>
+    <string name="onb_apps_choose">Välj appar</string>
+    <plurals name="onb_apps_count">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d appar</item>
+    </plurals>
+
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s – %2$s · %3$s</string>
+    <string name="onb_days_weekdays">Vardagar</string>
+    <string name="onb_days_every_day">Varje dag</string>
+    <string name="onb_days_weekends">Helger</string>
+
+    <!-- 19 · Notifications -->
+    <string name="onb_notif_title">Ligg steget före</string>
+    <string name="onb_notif_subtitle">Milda knuffar innan en rutin börjar eller en gräns tar slut.</string>
+    <string name="onb_notif_now">nu</string>
+    <string name="onb_notif_banner1_title">Nattrutinen startar om 10 min</string>
+    <string name="onb_notif_banner1_body">Telefonfritt från kl. 23. Sov gott.</string>
+    <string name="onb_notif_banner2_title">5 min kvar på Social tid</string>
+    <string name="onb_notif_banner2_body">Avrunda – X låses vid 2 h 15.</string>
+    <string name="onb_notif_banner3_title">3 dagars svit!</string>
+    <string name="onb_notif_banner3_body">Du höll dig under %1$s igen.</string>
+
+    <!-- 21 · All set -->
+    <string name="onb_all_set_title">Nu är du redo, %1$s</string>
+    <string name="onb_all_set_title_no_name">Nu är du redo</string>
+    <string name="onb_all_set_subtitle">Här är din plan för den här veckan.</string>
+    <string name="onb_all_set_daily_goal">Dagligt mål</string>
+    <string name="onb_all_set_first_rule">Första regel</string>
+    <string name="onb_rule_bedtime">Läggdags</string>
+    <string name="onb_rule_focus">Fokustid</string>
+    <string name="onb_rule_social">Social gräns</string>
+    <string name="onb_rule_quiet">Tysta timmar</string>
+    <string name="onb_rule_daily_limit">Tidsbudget</string>
+    <string name="onb_all_set_note_title">Därför gör jag det här</string>
+    <string name="onb_reason_scroll">Fler kvällar utomhus, färre timmar på TikTok.</string>
+    <string name="onb_reason_sleep">Lugnare nätter, telefonfria morgnar.</string>
+    <string name="onb_reason_focus">Djupt arbete först, flöden sen.</string>
+    <string name="onb_reason_notifications">Färre pip, mer närvaro.</string>
+    <string name="onb_reason_hours">Lägga märke till min tid innan den rinner iväg.</string>
+    <string name="onb_reason_fine">Lite mer balans, varje dag.</string>
+    <string name="onb_all_set_cta">Starta min första session</string>
+
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">Arbetstid</string>
+    <string name="onb_routine_night_pause">Nattpaus</string>
+    <string name="onb_routine_weekend_zen">Helg-zen</string>
+</resources>

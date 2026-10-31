@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turkish. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_edit">Profili düzenle</string>
+    <string name="profile_add_name">Adını ekle</string>
+    <string name="profile_open_settings">Ayarlar</string>
+    <plurals name="profile_member_days">
+        <item quantity="one">%d gündür Recentr ile</item>
+        <item quantity="other">%d gündür Recentr ile</item>
+    </plurals>
+    <string name="profile_before">Önce</string>
+    <string name="profile_now">Şimdi</string>
+    <string name="profile_daily_average">günlük ortalama</string>
+    <string name="profile_today">bugün</string>
+    <plurals name="profile_last_days">
+        <item quantity="one">son %d gün</item>
+        <item quantity="other">son %d gün</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">Bu hızla</string>
+    <plurals name="profile_life_years">
+        <item quantity="one">Hayatının %d yılını geri kazanıyorsun</item>
+        <item quantity="other">Hayatının %d yılını geri kazanıyorsun</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="one">Hayatının %d ayını geri kazanıyorsun</item>
+        <item quantity="other">Hayatının %d ayını geri kazanıyorsun</item>
+    </plurals>
+    <string name="profile_life_none">Telefondan uzak geçirdiğin her saat yeniden senin</string>
+    <string name="profile_best_streak">En iyi seri</string>
+    <plurals name="profile_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <string name="profile_urges">Direnilen dürtüler</string>
+    <string name="profile_recap_ready">Haftalık özetin hazır</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">Profili düzenle</string>
+    <string name="edit_name">Ad</string>
+    <string name="edit_email">E-posta</string>
+    <string name="edit_name_placeholder">Adın</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">Değişiklikleri kaydet</string>
+    <string name="edit_avatar_colour">Avatar rengini değiştir</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">Kapat</string>
+    <string name="recap_over_name">Haftan, %s</string>
+    <string name="recap_over">Haftan</string>
+    <string name="recap_less">geçen haftadan daha az ekran süresi</string>
+    <string name="recap_more">geçen haftadan daha fazla ekran süresi</string>
+    <string name="recap_same">geçen haftayla aynı ekran süresi</string>
+    <string name="recap_saved">Kazanılan</string>
+    <string name="recap_best_day">En iyi gün</string>
+    <string name="recap_streak">Seri</string>
+    <string name="recap_share">Haftamı paylaş</string>
+    <string name="recap_share_text">Haftam, Recentr ile: geçen haftaya göre %1$s ekran süresi, %2$s kazanç ve en iyi günüm %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">Daha sakin günler için her araç</string>
+    <string name="plus_benefit_rules">Sınırsız kural ve rutin</string>
+    <string name="plus_benefit_strict">Katı mod ve acil kilit açma</string>
+    <string name="plus_benefit_recaps">Haftalık özetler ve notlar</string>
+    <string name="plus_yearly">Yıllık</string>
+    <string name="plus_monthly">Aylık</string>
+    <string name="plus_yearly_discount">−%50</string>
+    <string name="plus_yearly_per_month">$2,50 / ay</string>
+    <string name="plus_billed_monthly">aylık faturalanır</string>
+    <string name="plus_start_trial">7 günlük ücretsiz denemeyi başlat</string>
+    <string name="plus_cancel_anytime">İstediğin zaman iptal et ·\u0020</string>
+    <string name="plus_restore">Satın alımı geri yükle</string>
+    <string name="plus_restore_none_title">Geri yüklenecek bir şey yok</string>
+    <string name="plus_restore_none_body">Bu hesapta Recentr Plus satın alımı bulunamadı.</string>
+    <string name="plus_restore_ok_title">Satın alım geri yüklendi</string>
+    <string name="plus_restore_ok_body">Recentr Plus bu telefonda etkin.</string>
+    <string name="plus_trial_started">Recentr Plus açık — ücretsiz haftanın tadını çıkar</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">Abonelik</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">Yenilenme tarihi: %s</string>
+    <string name="sub_change_plan">Planı değiştir</string>
+    <string name="sub_restore">Satın alımı geri yükle</string>
+    <string name="sub_invoices">Faturalar</string>
+    <string name="sub_cancel">Aboneliği iptal et</string>
+    <string name="sub_change_title">%s planına geçilsin mi?</string>
+    <string name="sub_change_body">Yeni planın, mevcut dönem bitince başlar.</string>
+    <string name="sub_change_confirm">Geç</string>
+    <string name="sub_cancel_title">Recentr Plus iptal edilsin mi?</string>
+    <string name="sub_cancel_body">Mevcut dönemin sonuna kadar Plus’ı kullanmaya devam edersin, sonra ücretsiz plana dönersin.</string>
+    <string name="sub_cancel_confirm">Planı iptal et</string>
+    <string name="sub_keep">Plus kalsın</string>
+    <string name="sub_not_now">Şimdi değil</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_general">Genel</string>
+    <string name="settings_protection">Koruma</string>
+    <string name="settings_support">Destek</string>
+    <string name="settings_account">Hesap</string>
+    <string name="settings_developer">Geliştirici</string>
+    <string name="settings_notifications">Bildirimler</string>
+    <string name="settings_on">Açık</string>
+    <string name="settings_off">Kapalı</string>
+    <string name="settings_appearance">Görünüm</string>
+    <string name="settings_app_icon">Uygulama simgesi</string>
+    <string name="settings_language">Dil</string>
+    <string name="settings_time_format">Saat biçimi</string>
+    <string name="time_format_am_pm">ÖÖ/ÖS</string>
+    <string name="time_format_24h">24 sa</string>
+    <string name="time_format_body">Saatlerin uygulamada nasıl görüneceği.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">Katı mod</string>
+    <string name="settings_strict_caption">Yeni seanslar ve rutinler katı başlar.</string>
+    <string name="settings_always_allowed">Her zaman izinli</string>
+    <string name="settings_always_allowed_none">Yok</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="one">%d uygulama</item>
+        <item quantity="other">%d uygulama</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">Acil kilit açma</string>
+    <string name="settings_unlocks_left">%d kaldı</string>
+    <string name="settings_app_blocking">Uygulama engelleme</string>
+    <string name="settings_unlock_pass">Kilit açma kartı</string>
+    <string name="settings_pass_none">Yok</string>
+    <string name="settings_pass_rules">%d kural</string>
+    <string name="settings_help">Yardım ve geri bildirim</string>
+    <string name="settings_rate">Uygulamayı puanla</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">Ücretsiz</string>
+    <string name="settings_log_out">Çıkış yap</string>
+    <string name="settings_delete_account">Hesabı sil</string>
+    <string name="settings_replay_onboarding">Tanıtımı yeniden oynat</string>
+    <string name="settings_design_system">Tasarım sistemi</string>
+    <string name="emergency_title">Acil kilit açma</string>
+    <string name="emergency_body">Bu ay %2$d acil kilit açma hakkından %1$d tanesi kaldı. Katı mod ya da dolmuş bir limit bir uygulamayı tuttuğunda, her biri onu yine de 5 dakikalığına açar. Yenilenme tarihi: %3$s.</string>
+    <string name="unlock_pass_title">Kilit açma kartı</string>
+    <string name="unlock_pass_none">Henüz kart isteyen bir kural yok. Bir kuralın kilit açma yöntemi olarak “Başka yerde sakladığın bir kodu tara” seç, sonra kartını burada yazdır.</string>
+    <string name="unlock_pass_body">Bir kuralın kartını yazdır ve telefonundan uzakta sakla. İçeri girmenin yolu onu taramak.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">Kilit açma kartın</string>
+    <string name="unlock_pass_screen_body">Yazdır ve yatağından uzakta sakla. Kilidi açmanın tek yolu onu taramak.</string>
+    <string name="unlock_pass_caption">Recentr · kart #%1$s</string>
+    <string name="unlock_pass_share">Paylaş</string>
+    <string name="unlock_pass_print">Kartı yazdır</string>
+    <string name="unlock_pass_document">Recentr kilit açma kartı</string>
+    <string name="dialog_ok">Tamam</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">Yardım ve geri bildirim</string>
+    <string name="help_subtitle">Her mesajı okuyoruz.</string>
+    <string name="help_not_blocking">Recentr bir uygulamayı engellemiyor</string>
+    <string name="help_not_blocking_body">Engelleme için Kullanım erişimi gerekir ve uygulamanın arka planda çalışması şart. Ayarlar › Uygulamalar › Recentr bölümünü kontrol et ve pil optimizasyonunu kapat.</string>
+    <string name="help_strict">Katı mod hakkında sorular</string>
+    <string name="help_strict_body">Bir seans ya da rutin için Katı modu aç; bitene kadar uygulamalarının kilidi, acil kilit açma dışında açılamaz. Kapatmak da bitişi bekler. Ayarlar › Katı mod, yeni olanların hepsi için açar.</string>
+    <string name="help_billing">Faturalandırma ve Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus, Google Play üzerinden faturalandırılır. İstediğin zaman Ayarlar › Recentr Plus veya Play aboneliklerinden iptal edebilirsin.</string>
+    <string name="help_note_section">Bize not gönder</string>
+    <string name="help_note_title">Recentr için fikir</string>
+    <string name="help_note_placeholder">Hep birlikte kilitlendiğimiz bir “arkadaşlarla ders çalış” seansı çok iyi olurdu.</string>
+    <string name="help_send">Geri bildirim gönder</string>
+    <string name="help_feedback_subject">Recentr geri bildirimi</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">Görünüm</string>
+    <string name="appearance_theme">Tema</string>
+    <string name="theme_light">Açık</string>
+    <string name="theme_dark">Koyu</string>
+    <string name="theme_auto">Otomatik</string>
+    <string name="appearance_app_icon">Uygulama simgesi</string>
+    <string name="icon_sky">Gökyüzü</string>
+    <string name="icon_night">Gece</string>
+    <string name="icon_mint">Nane</string>
+    <string name="icon_sunset">Gün batımı</string>
+    <string name="appearance_mascot">Ana sayfada maskotu göster</string>
+    <string name="appearance_reduce_motion">Hareketi azalt</string>
+    <string name="appearance_haptics">Dokunsal geri bildirim</string>
+    <string name="appearance_haptics_caption">Seçerken, açıp kapatırken ya da kutlarken küçük titreşimler</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">Bildirimler</string>
+    <string name="notifications_subtitle">Nazik hatırlatmalar, gürültü yok.</string>
+    <string name="notifications_reminders">Hatırlatıcılar</string>
+    <string name="notifications_routine">Bir rutin başlamadan önce</string>
+    <string name="notifications_limit">Limite yaklaşıldı</string>
+    <string name="notifications_goal">Günlük hedef kontrolü</string>
+    <string name="notifications_celebrations">Kutlamalar</string>
+    <string name="notifications_streaks">Seriler ve kilometre taşları</string>
+    <string name="notifications_recap">Haftalık özet</string>
+    <string name="notifications_quiet_hours">Sessiz saatler</string>
+    <string name="notifications_dont_notify">Bana bildirim gönderme</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">Bu telefonda Recentr için bildirimler kapalı.</string>
+    <string name="notifications_turn_on">Aç</string>
+    <string name="quiet_title">Sessiz saatler</string>
+    <string name="quiet_subtitle">Bu saatler arasında hatırlatma yok.</string>
+    <string name="quiet_from">Başlangıç</string>
+    <string name="quiet_to">Bitiş</string>
+    <string name="quiet_save">Kaydet</string>
+    <string name="time_dialog_cancel">İptal</string>
+    <string name="time_dialog_ok">Tamam</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">Dil</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">Sistem dili</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Çıkış yapılsın mı?</string>
+    <string name="logout_body">Kuralların bu telefonda çalışmaya devam eder. Eşitlemek için istediğin zaman yeniden giriş yap.</string>
+    <string name="logout_confirm">Çıkış yap</string>
+    <string name="logout_stay">Kal</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">Hesabın silinsin mi?</string>
+    <string name="delete_body">Tüm kurallar, seriler ve notlar silinecek. Onaylamak için DELETE yaz.</string>
+    <string name="delete_placeholder">DELETE yaz</string>
+    <string name="delete_confirm">Hesabı sil</string>
+    <string name="delete_cancel">İptal</string>
+    <string name="back">Geri</string>
+    <string name="duration_h">%1$d sa</string>
+    <string name="duration_m">%1$d dk</string>
+    <string name="duration_h_m_compact">%1$d sa %2$02d</string>
+    <string name="duration_h_m">%1$d sa %2$d dk</string>
+</resources>

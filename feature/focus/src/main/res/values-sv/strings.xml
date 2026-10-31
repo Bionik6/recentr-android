@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Swedish. -->
+<resources>
+    <string name="focus_title">Timer</string>
+    <string name="focus_more">Fler alternativ</string>
+    <string name="focus_close">Stäng</string>
+    <string name="focus_back">Tillbaka</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d min</string>
+    <string name="focus_dial_description">Fokuslängd: %d minuter. Dra för att ändra.</string>
+    <string name="focus_sound">Ljud</string>
+    <string name="focus_block">Blockera</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">Inga</string>
+    <string name="focus_rounds">Omgångar</string>
+    <string name="focus_rounds_value">%1$d × %2$d min</string>
+    <string name="focus_start">Starta fokus</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">Strikt läge</string>
+    <string name="focus_strict_caption">Strikt läge: ingen paus eller tidigt avslut</string>
+    <string name="focus_strict_note">Strikt läge: det här fokuset slutar av sig självt</string>
+    <string name="focus_strict_confirm_title">Slå på Strikt läge?</string>
+    <string name="focus_strict_confirm_body">Du kan inte pausa eller avsluta det här fokuset i förtid. Rasterna kommer ändå.</string>
+    <string name="focus_strict_turn_on">Slå på</string>
+    <string name="focus_cancel">Avbryt</string>
+    <string name="focus_back_to_focus">Tillbaka till fokus</string>
+    <string name="focus_back_to_focus_left">Tillbaka till fokus · %1$s</string>
+    <string name="focus_rename">Byt namn</string>
+    <string name="focus_rename_title">Namnge sessionen</string>
+    <string name="focus_rename_save">Spara</string>
+    <string name="focus_log">Fokuslogg</string>
+    <string name="focus_change_sound">Byt ljud</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">Omgång %1$d av %2$d</string>
+    <string name="focus_left_ends">kvar · slutar %s</string>
+    <string name="focus_paused_round_of">Pausad · omgång %1$d av %2$d</string>
+    <string name="focus_ready_round_of">Redo för omgång %1$d av %2$d</string>
+    <string name="focus_round_n">Omgång %d</string>
+    <string name="focus_take_your_time">Ta den tid du behöver</string>
+    <string name="focus_paused_for">pausad i %s</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="one">%d app på is</item>
+        <item quantity="other">%d appar på is</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="one">%d app fortfarande på is</item>
+        <item quantity="other">%d appar fortfarande på is</item>
+    </plurals>
+    <string name="focus_pause">Pausa</string>
+    <string name="focus_resume">Fortsätt</string>
+    <string name="focus_start_round">Starta omgång</string>
+    <string name="focus_end_session">Avsluta sessionen</string>
+    <string name="focus_restart_round">Starta om omgången</string>
+    <string name="focus_round_restarted">Omgång %d omstartad</string>
+    <string name="focus_undo">Ångra</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">Fokusljud</string>
+    <string name="sounds_subtitle_none">Slå på så många du vill.</string>
+    <string name="sounds_subtitle_on">%1$s på</string>
+    <string name="sounds_subtitle_on_muted">%1$s på · tystat: %2$d</string>
+    <string name="sounds_subtitle_muted">Inget spelas · tystat: %d</string>
+    <string name="sounds_mute_all">Tysta alla</string>
+    <string name="sounds_unmute_all">Slå på alla ljud</string>
+    <string name="sounds_on_count">%d på</string>
+    <string name="sounds_volume">Volym</string>
+    <string name="sounds_volume_value">%d %%</string>
+    <string name="sound_state_off">Av</string>
+    <string name="sound_state_muted">Tystat</string>
+    <string name="sound_turn_on">Slå på</string>
+    <string name="sound_mute">Tysta</string>
+    <string name="sound_unmute">Slå på ljud</string>
+    <string name="sound_mix_off">Av</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">Lägg till ett ljud</string>
+    <string name="sound_category_rain">Regn</string>
+    <string name="sound_category_water">Vatten</string>
+    <string name="sound_category_nature">Natur</string>
+    <string name="sound_category_places">Platser</string>
+    <string name="sound_category_steady">Tickande &amp; brus</string>
+    <string name="sound_soft_rain">Mjukt regn</string>
+    <string name="sound_heavy_rain">Kraftigt regn</string>
+    <string name="sound_forest_rain">Skogsregn</string>
+    <string name="sound_rain_village">Regn i byn</string>
+    <string name="sound_thunder">Åska</string>
+    <string name="sound_river">Flod</string>
+    <string name="sound_small_river">Bäck</string>
+    <string name="sound_beach">Strand</string>
+    <string name="sound_sea_beach">Havsstrand</string>
+    <string name="sound_soft_beach">Lugn kust</string>
+    <string name="sound_whale">Valar</string>
+    <string name="sound_forest_night">Skog på natten</string>
+    <string name="sound_birds">Fåglar</string>
+    <string name="sound_crickets">Syrsor</string>
+    <string name="sound_cicada_birds">Cikador</string>
+    <string name="sound_farm">Bondgård</string>
+    <string name="sound_wind">Vind</string>
+    <string name="sound_campfire">Lägereld</string>
+    <string name="sound_coffee_shop">Kafé</string>
+    <string name="sound_office">Kontor</string>
+    <string name="sound_street_traffic">Gata</string>
+    <string name="sound_construction">Byggarbetsplats</string>
+    <string name="sound_keyboard_typing">Tangentbord</string>
+    <string name="sound_clock_tick">Klocka</string>
+    <string name="sound_clock_stopwatch">Stoppur</string>
+    <string name="sound_white_noise">Vitt brus</string>
+    <string name="sound_pink_noise">Rosa brus</string>
+    <string name="sounds_done">Klart</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">Rast</string>
+    <string name="break_round_done">Omgång %1$d klar · %2$d kvar</string>
+    <string name="break_until">tills omgång %d</string>
+    <string name="break_ideas_title">Gör det här i stället för att scrolla</string>
+    <string name="break_idea_window">Titta ut genom ett fönster</string>
+    <string name="break_idea_window_hint">20 sekunder, 20 meter bort</string>
+    <string name="break_idea_water">Drick ett glas vatten</string>
+    <string name="break_idea_water_hint">Din hjärna kommer att tacka dig</string>
+    <string name="break_idea_stretch">Sträck på axlarna</string>
+    <string name="break_idea_stretch_hint">Rulla bakåt 5 gånger</string>
+    <string name="break_skip">Hoppa över rasten</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="one">%1$d minut av %2$s</item>
+        <item quantity="other">%1$d minuter av %2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="one">%d omgång</item>
+        <item quantity="other">%d omgångar</item>
+    </plurals>
+    <string name="complete_zero_unlocks">inga upplåsningar</string>
+    <plurals name="complete_unlocks">
+        <item quantity="one">%d upplåsning</item>
+        <item quantity="other">%d upplåsningar</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. Det är din längsta den här veckan.</string>
+    <string name="complete_focus_streak">Fokussvit</string>
+    <plurals name="complete_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+    <string name="complete_urges">Motstådda impulser</string>
+    <string name="complete_urges_today">%d idag</string>
+    <string name="complete_note_title">Vad blev du klar med?</string>
+    <string name="complete_note_placeholder">Disposition till kapitel 3 + två sidor. Telefonen låg med skärmen nedåt.</string>
+    <string name="complete_another">Starta en omgång till</string>
+    <string name="complete_done">Klart</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">Du är %d min in i fokuset</string>
+    <string name="hold_leave_body">Dina appar ligger kvar på is till %s. Håll ut – du gör det jättebra.</string>
+    <string name="hold_back">Tillbaka till fokus</string>
+    <string name="hold_end">Avsluta sessionen i förtid</string>
+    <string name="hold_keep_focusing">Fortsätt fokusera</string>
+    <string name="hold_end_now">Avsluta nu?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="one">Avsluta nu så kommer din app tillbaka.</item>
+        <item quantity="other">Avsluta nu så kommer dina %d appar tillbaka.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s Dina %2$d min räknas ändå.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">Fokuslogg</string>
+    <string name="history_this_week">Den här veckan</string>
+    <string name="history_sessions">Sessioner</string>
+    <string name="history_today">Idag, %s</string>
+    <string name="history_yesterday">Igår, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">Inga sessioner än. Dina fokussessioner dyker upp här.</string>
+    <string name="history_clear">Rensa loggen</string>
+    <string-array name="focus_day_letters">
+        <item>M</item>
+        <item>T</item>
+        <item>O</item>
+        <item>T</item>
+        <item>F</item>
+        <item>L</item>
+        <item>S</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">Omgångar</string>
+    <string name="rounds_subtitle">Jobba i omgångar med korta raster emellan.</string>
+    <string name="rounds_focus">Fokus</string>
+    <string name="rounds_short_break">Kort rast</string>
+    <string name="rounds_count">Omgångar</string>
+    <string name="rounds_long_break">Lång rast</string>
+    <string name="rounds_minutes">%d min</string>
+    <string name="rounds_auto_start">Starta nästa omgång automatiskt</string>
+    <string name="rounds_total">Totalt: %s med raster</string>
+    <string name="rounds_save">Spara omgångar</string>
+    <string name="rounds_decrease">Minska %s</string>
+    <string name="rounds_increase">Öka %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d h</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_h_m">%1$d h %2$d min</string>
+    <string name="focus_notification_channel">Fokustimer</string>
+    <string name="focus_notification_channel_description">Sessionen som pågår, medan dess ljud spelas även när Recentr är stängt.</string>
+    <string name="focus_notification_round">Omgång %1$d av %2$d</string>
+    <string name="focus_notification_break">Rast · nästa är omgång %1$d</string>
+    <string name="focus_notification_paused">Pausad · omgång %1$d av %2$d</string>
+</resources>

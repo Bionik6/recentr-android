@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bulgarian. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">Отвори профила</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d ч %2$02d</string>
+    <string name="home_duration_hours">%1$d ч</string>
+    <string name="home_duration_minutes">%1$d мин</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">Екранно време днес</string>
+    <string name="home_hero_screen_time_yesterday">Екранно време вчера</string>
+    <string name="home_hero_average_week">Средно на ден · тази седмица</string>
+    <string name="home_hero_average_month">Средно на ден · този месец</string>
+    <string name="home_goal_under">Под целта ти от %1$s</string>
+    <string name="home_goal_over">Над целта ти от %1$s</string>
+    <string name="home_compare_less_week">%1$d%% по-малко от миналата седмица</string>
+    <string name="home_compare_more_week">%1$d%% повече от миналата седмица</string>
+    <string name="home_compare_less_month">%1$d%% по-малко от миналия месец</string>
+    <string name="home_compare_more_month">%1$d%% повече от миналия месец</string>
+    <string name="home_syncing">Синхронизиране на екранното време…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">Не е свързано</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">Качество днес</string>
+    <string name="home_hero_quality_yesterday">Качество вчера</string>
+    <string name="home_hero_quality_week">Качество · тази седмица</string>
+    <string name="home_hero_quality_month">Качество · този месец</string>
+    <string name="home_quality_focused">Фокусирано</string>
+    <string name="home_quality_balanced">Балансирано</string>
+    <string name="home_quality_distracted">Разсеяно</string>
+    <string name="home_split_focus">Фокус %1$d%%</string>
+    <string name="home_split_social">Социални %1$d%%</string>
+    <string name="home_split_fun">Забавление %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">Най-дълго без телефон днес</string>
+    <string name="home_hero_offline_yesterday">Най-дълго без телефон вчера</string>
+    <string name="home_hero_offline_week">Най-дълго без телефон · тази седмица</string>
+    <string name="home_hero_offline_month">Най-дълго без телефон · този месец</string>
+    <string name="home_offline_chip">Период без телефон</string>
+    <string name="home_hero_details">Покажи подробности</string>
+    <string name="home_hero_page">Страница %1$d от %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">Намаление</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">Вдигания</string>
+    <string name="home_stat_notifications">Известия</string>
+    <string name="home_stat_total">Общо</string>
+    <string name="home_stat_best_day">Най-добър ден</string>
+    <string-array name="home_day_letters">
+        <item>п</item>
+        <item>в</item>
+        <item>с</item>
+        <item>ч</item>
+        <item>п</item>
+        <item>с</item>
+        <item>н</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>пн</item>
+        <item>вт</item>
+        <item>ср</item>
+        <item>чт</item>
+        <item>пт</item>
+        <item>сб</item>
+        <item>нд</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">Серия</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">%d ден</item>
+        <item quantity="other">%d дни</item>
+    </plurals>
+    <string name="home_tile_next">Следва · %1$s</string>
+    <string name="home_tile_ongoing">В момента · %1$s</string>
+    <string name="home_tile_blocking">Блокира · %1$s</string>
+    <string name="home_tile_left">Още %1$s</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">Следва</string>
+    <string name="home_tile_no_rule">Няма планирано правило</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">Зареждане…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">Най-използвани</string>
+    <string name="home_filter_apps">Приложения</string>
+    <string name="home_filter_categories">Категории</string>
+    <string name="home_category_social">Социални</string>
+    <string name="home_category_entertainment">Забавление</string>
+    <string name="home_category_games">Игри</string>
+    <string name="home_category_productivity">Продуктивност</string>
+    <string name="home_category_music">Музика</string>
+    <string name="home_category_other">Други</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s, прекарани залепени за екрана</string>
+    <string name="home_info_glued_average">%1$s на ден, залепени за екрана</string>
+    <string name="home_info_hints_title">Въпроси за размисъл</string>
+    <string name="home_info_glued_hints">Колко пъти те прекъсваха? Защо посягаш към телефона? Наистина ли беше важно?</string>
+    <string name="home_info_offline">%1$s без телефон</string>
+    <string name="home_info_offline_today">Най-дългият ти период без телефон днес.</string>
+    <string name="home_info_offline_yesterday">Най-дългият ти период без телефон вчера.</string>
+    <string name="home_info_offline_week">Най-дългият ти период без телефон тази седмица.</string>
+    <string name="home_info_offline_month">Най-дългият ти период без телефон този месец.</string>
+    <string name="home_info_offline_hints">Какво свърши през това време? Как се почувства?</string>
+    <string name="home_info_got_it">Разбрах</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">Винаги разрешени</string>
+    <string name="home_always_allowed_subtitle">Приложения, които заобикалят блокирането</string>
+    <string name="home_always_allowed_empty_title">Няма избрани приложения</string>
+    <string name="home_always_allowed_empty_body">Избери приложения, които да остават достъпни, дори когато блокирането е включено.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">%d приложение винаги разрешено</item>
+        <item quantity="other">%d приложения винаги разрешени</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">Настрой</string>
+    <string name="home_always_allowed_close">Затвори</string>
+    <string name="home_always_allowed_settings_title">„Винаги разрешени“ е в Настройки</string>
+    <string name="home_always_allowed_settings_body">Когато ти потрябва, ще го намериш в Настройки › Защита › Винаги разрешени.</string>
+    <string name="home_always_allowed_settings_got_it">Разбрах</string>
+</resources>

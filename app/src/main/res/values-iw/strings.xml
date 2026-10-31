@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hebrew. -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">חסימת אפליקציות של Recentr</string>
+    <string name="hold_service_summary">האפליקציות שהכללים וסשני הפוקוס שלך חוסמים עוברות להמתנה.</string>
+    <string name="hold_service_description">Recentr מעמידה בהמתנה את האפליקציות שהכללים וסשני הפוקוס שלך חוסמים. היא רואה רק איזו אפליקציה נפתחת — אף פעם לא מה שמופיע במסך — ושום דבר לא יוצא מהטלפון שלך.</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">%1$s במנוחה</string>
+    <string name="shield_on_hold">%1$s בהמתנה</string>
+    <string name="shield_until">%1$s · עד %2$s</string>
+    <string name="shield_until_tomorrow">%1$s · עד %2$s מחר</string>
+    <string name="shield_limit">%1$s · נוצלו היום %2$s</string>
+    <string name="shield_stayed_off">כבר %1$s בלי האפליקציה</string>
+    <string name="shield_focus_minutes">%1$d דק׳ בפוקוס</string>
+    <string name="shield_focus_started">הפוקוס שלך בדיוק התחיל</string>
+    <string name="shield_got_this">זה בידיים שלי</string>
+    <string name="shield_back_to_focus">חזרה לפוקוס</string>
+    <string name="shield_end_focus">סיום מוקדם של הפוקוס</string>
+    <string name="shield_unlock_anyway">לפתוח בכל זאת</string>
+    <string name="shield_unlock_anyway_left">לפתוח בכל זאת (נותרו %1$d מתוך %2$d)</string>
+    <string name="shield_emergency">פתיחת חירום</string>
+    <string name="duration_h">%1$d שע׳</string>
+    <string name="duration_m">%1$d דק׳</string>
+    <string name="duration_h_m">%1$d שע׳ %2$d דק׳</string>
+    <string name="stayed_off_h_m">%1$d שע׳ %2$02d</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · ננעלה על ידי %2$s</string>
+    <string name="unlock_strict_on">%1$s · מצב קפדני פעיל</string>
+    <string name="unlock_wait_overline">בכל זאת להיכנס?</string>
+    <string name="unlock_wait_title">בחירת משך הפתיחה</string>
+    <string name="unlock_wait_breath">נושמים עמוק…</string>
+    <string name="unlock_wait_done">עצרת לרגע. יפה.</string>
+    <string name="unlock_minutes_chip">%1$d דק׳</string>
+    <string name="unlock_nevermind">לא משנה</string>
+    <string name="unlock_unlock">פתיחה</string>
+    <string name="unlock_retype_title">להקליד את זה כדי לפתוח</string>
+    <string name="unlock_retype_text">בחרתי בפיד על פני העבודה שאמרתי שחשובה לי היום, ובחרתי בזה בעיניים פקוחות.</string>
+    <string name="unlock_quote">“%1$s”</string>
+    <string name="unlock_retype_hint">מתחילים להקליד…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">טעות הקלדה — מתחילים מההתחלה</string>
+    <string name="unlock_retype_start_over">מתחילים מחדש</string>
+    <string name="unlock_scan_title">סריקת קוד ה-Recentr שלך</string>
+    <string name="unlock_scan_subtitle">זה שהדבקת על המקרר.</string>
+    <string name="unlock_scan_steady">מחזיקים יציב…</string>
+    <string name="unlock_scan_wrong_pass">זה הכרטיס של כלל אחר</string>
+    <string name="unlock_scan_no_camera">Recentr צריכה את המצלמה כדי לסרוק את הכרטיס.</string>
+    <string name="unlock_scan_allow_camera">אישור גישה למצלמה</string>
+    <string name="unlock_scan_use_passcode">שימוש בקוד במקום</string>
+    <string name="unlock_close">סגירה</string>
+    <string name="unlock_passcode_title">הקלדת קוד הכרטיס</string>
+    <string name="unlock_passcode_subtitle">זה המספר שמודפס מתחת לקוד ה-QR.</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">זה לא הקוד שעל הכרטיס שלך.</string>
+    <string name="unlock_emergency_title">פתיחת חירום</string>
+    <string name="unlock_emergency_body">מצב קפדני פעיל. כדאי להשתמש בזה רק כשזה באמת חשוב — נותרו לך החודש: %1$d.</string>
+    <string name="unlock_emergency_spent">מצב קפדני פעיל, ופתיחות החירום של החודש נוצלו.</string>
+    <string name="unlock_emergency_limit_body">הזמן להיום נגמר, ולמגבלה אין פתיחות. כדאי להשתמש בזה רק כשזה באמת חשוב — נותרו לך החודש: %1$d.</string>
+    <string name="unlock_emergency_limit_spent">הזמן להיום נגמר, ופתיחות החירום של החודש נוצלו.</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="one">פתיחת חירום אחת נותרה</item>
+        <item quantity="two">שתי פתיחות חירום נותרו</item>
+        <item quantity="other">%d פתיחות חירום נותרו</item>
+    </plurals>
+    <string name="unlock_hold">להחזיק לפתיחה · %1$d שנ׳</string>
+    <string name="unlock_hold_none">לא נותרו פתיחות חירום</string>
+    <string name="unlock_cancel">ביטול</string>
+    <string name="unlock_open_title">%1$s פתוחה</string>
+    <string name="unlock_time_left">עוד %1$s</string>
+    <string name="unlock_open_caption">נחסום אותה שוב כשהטיימר יסתיים.</string>
+    <string name="unlock_open_app">פתיחת %1$s</string>
+    <string name="unlock_lock_again">לנעול שוב</string>
+    <string name="unlock_walk_title">צעדים לפתיחה: %1$d</string>
+    <string name="unlock_walk_subtitle">הליכה קטנה לפני הגלילה. צריך להשלים את כל הצעדים (%1$d) כדי לקבל %2$s.</string>
+    <string name="unlock_walking_title">עוד כמה צעדים</string>
+    <string name="unlock_walking_subtitle">הגישה ל-%1$s נעולה עד יעד הצעדים (%2$d). בלי לחץ.</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">צעדים · אפשר להתחיל</string>
+    <string name="unlock_walk_more_to_go">צעדים · נותרו: %1$d</string>
+    <string name="unlock_walk_goal_reached">צעדים · היעד הושג</string>
+    <string name="unlock_walk_locked_until">נעול עד יעד הצעדים: %1$d</string>
+    <string name="unlock_walk_complete_chip">צעדים שהושלמו: %1$d</string>
+    <string name="unlock_walk_safety_title">טלפון בצד. עיניים קדימה.</string>
+    <string name="unlock_walk_safety_body">ללכת במקום בטוח ופנוי. לעצור לפני שבודקים את ההתקדמות.</string>
+    <string name="unlock_walk_no_permission_title">Recentr לא יכולה לספור את הצעדים שלך</string>
+    <string name="unlock_walk_no_permission_body">יש לאשר ל-Recentr גישה לפעילות גופנית, ואז להתחיל ללכת שוב.</string>
+    <string name="unlock_walk_no_sensor_title">הטלפון הזה לא יכול לספור צעדים</string>
+    <string name="unlock_walk_no_sensor_body">אפשר לבחור דרך פתיחה אחרת בדף הכלל.</string>
+    <string name="unlock_walk_start">התחלת הליכה</string>
+    <string name="unlock_walk_cancel">ביטול ההליכה</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="one">צעד אחד לפתיחה</item>
+        <item quantity="two">שני צעדים לפתיחה</item>
+        <item quantity="other">%1$d צעדים לפתיחה</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · פתיחה ל-%2$d דק׳</string>
+    <string name="unlock_walk_done_title">%1$s נפתחה</string>
+    <string name="unlock_walk_done_subtitle">צעדים: %1$d. איפוס קטן. ההפסקה שלך (%2$d דק׳) מוכנה.</string>
+    <string name="unlock_walk_done_note_body">נחסום אותה שוב כשהטיימר יסתיים. כדאי להפסיק ללכת לפני הפתיחה של %1$s.</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="one">דקה אחת, רק בשבילך</item>
+        <item quantity="two">שתי דקות, רק בשבילך</item>
+        <item quantity="other">%1$d דקות, רק בשבילך</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="one">דקה אחת</item>
+        <item quantity="two">שתי דקות</item>
+        <item quantity="other">%1$d דקות</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">תזכורות לכללים</string>
+    <string name="reminder_channel_description">התראה מוקדמת לפני ששגרה מתחילה לחסום אפליקציות.</string>
+    <string name="reminder_title">%1$s מתחילה בעוד %2$d דק׳</string>
+    <string name="reminder_text">האפליקציות ייחסמו ב-%1$s.</string>
+</resources>

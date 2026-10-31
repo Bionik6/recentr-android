@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Korean. -->
+<resources>
+    <string name="focus_title">타이머</string>
+    <string name="focus_more">더보기</string>
+    <string name="focus_close">닫기</string>
+    <string name="focus_back">뒤로</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d분</string>
+    <string name="focus_dial_description">집중 시간: %d분. 드래그해서 바꿀 수 있어요.</string>
+    <string name="focus_sound">소리</string>
+    <string name="focus_block">차단</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">없음</string>
+    <string name="focus_rounds">라운드</string>
+    <string name="focus_rounds_value">%1$d × %2$d분</string>
+    <string name="focus_start">집중 시작</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">엄격 모드</string>
+    <string name="focus_strict_caption">엄격 모드: 일시정지와 일찍 끝내기 불가</string>
+    <string name="focus_strict_note">엄격 모드: 이 집중은 저절로 끝나요</string>
+    <string name="focus_strict_confirm_title">엄격 모드를 켤까요?</string>
+    <string name="focus_strict_confirm_body">이 집중을 일시정지하거나 일찍 끝낼 수 없어요. 휴식은 그대로 와요.</string>
+    <string name="focus_strict_turn_on">켜기</string>
+    <string name="focus_cancel">취소</string>
+    <string name="focus_back_to_focus">집중으로 돌아가기</string>
+    <string name="focus_back_to_focus_left">집중으로 돌아가기 · %1$s</string>
+    <string name="focus_rename">이름 바꾸기</string>
+    <string name="focus_rename_title">세션 이름 정하기</string>
+    <string name="focus_rename_save">저장</string>
+    <string name="focus_log">집중 기록</string>
+    <string name="focus_change_sound">소리 변경</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">라운드 %1$d / %2$d</string>
+    <string name="focus_left_ends">남음 · %s 종료</string>
+    <string name="focus_paused_round_of">일시정지 · 라운드 %1$d / %2$d</string>
+    <string name="focus_ready_round_of">라운드 %1$d / %2$d 준비 완료</string>
+    <string name="focus_round_n">라운드 %d</string>
+    <string name="focus_take_your_time">천천히 하세요</string>
+    <string name="focus_paused_for">%s 동안 일시정지</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="other">일시 중지된 앱 %d개</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="other">여전히 일시 중지된 앱 %d개</item>
+    </plurals>
+    <string name="focus_pause">일시정지</string>
+    <string name="focus_resume">다시 시작</string>
+    <string name="focus_start_round">라운드 시작</string>
+    <string name="focus_end_session">세션 종료</string>
+    <string name="focus_restart_round">라운드 다시 시작</string>
+    <string name="focus_round_restarted">라운드 %d 다시 시작됨</string>
+    <string name="focus_undo">실행 취소</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">집중 소리</string>
+    <string name="sounds_subtitle_none">원하는 만큼 켜 보세요.</string>
+    <string name="sounds_subtitle_on">%1$s 켜짐</string>
+    <string name="sounds_subtitle_on_muted">%1$s 켜짐 · %2$d개 음소거</string>
+    <string name="sounds_subtitle_muted">재생 중인 소리 없음 · %d개 음소거</string>
+    <string name="sounds_mute_all">모두 음소거</string>
+    <string name="sounds_unmute_all">모두 음소거 해제</string>
+    <string name="sounds_on_count">%d개 켜짐</string>
+    <string name="sounds_volume">볼륨</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">꺼짐</string>
+    <string name="sound_state_muted">음소거</string>
+    <string name="sound_turn_on">켜기</string>
+    <string name="sound_mute">음소거</string>
+    <string name="sound_unmute">음소거 해제</string>
+    <string name="sound_mix_off">꺼짐</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">소리 추가</string>
+    <string name="sound_category_rain">비</string>
+    <string name="sound_category_water">물</string>
+    <string name="sound_category_nature">자연</string>
+    <string name="sound_category_places">장소</string>
+    <string name="sound_category_steady">똑딱 소리 &amp; 노이즈</string>
+    <string name="sound_soft_rain">부슬비</string>
+    <string name="sound_heavy_rain">폭우</string>
+    <string name="sound_forest_rain">숲속 빗소리</string>
+    <string name="sound_rain_village">마을의 비</string>
+    <string name="sound_thunder">천둥</string>
+    <string name="sound_river">강</string>
+    <string name="sound_small_river">시냇물</string>
+    <string name="sound_beach">해변</string>
+    <string name="sound_sea_beach">바닷가</string>
+    <string name="sound_soft_beach">잔잔한 해안</string>
+    <string name="sound_whale">고래</string>
+    <string name="sound_forest_night">밤의 숲</string>
+    <string name="sound_birds">새소리</string>
+    <string name="sound_crickets">귀뚜라미</string>
+    <string name="sound_cicada_birds">매미</string>
+    <string name="sound_farm">농장</string>
+    <string name="sound_wind">바람</string>
+    <string name="sound_campfire">모닥불</string>
+    <string name="sound_coffee_shop">카페</string>
+    <string name="sound_office">사무실</string>
+    <string name="sound_street_traffic">거리</string>
+    <string name="sound_construction">공사장</string>
+    <string name="sound_keyboard_typing">타자 소리</string>
+    <string name="sound_clock_tick">시계</string>
+    <string name="sound_clock_stopwatch">스톱워치</string>
+    <string name="sound_white_noise">화이트 노이즈</string>
+    <string name="sound_pink_noise">핑크 노이즈</string>
+    <string name="sounds_done">완료</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">휴식</string>
+    <string name="break_round_done">라운드 %1$d 완료 · %2$d라운드 남음</string>
+    <string name="break_until">라운드 %d까지</string>
+    <string name="break_ideas_title">스크롤하는 대신 이렇게 해 봐요</string>
+    <string name="break_idea_window">창밖 바라보기</string>
+    <string name="break_idea_window_hint">20초 동안, 20미터 떨어진 곳을</string>
+    <string name="break_idea_water">물 한 잔 마시기</string>
+    <string name="break_idea_water_hint">뇌가 고마워할 거예요</string>
+    <string name="break_idea_stretch">어깨 스트레칭</string>
+    <string name="break_idea_stretch_hint">어깨를 뒤로 5번 돌려요</string>
+    <string name="break_skip">휴식 건너뛰기</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="other">%2$s %1$d분</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="other">%d라운드</item>
+    </plurals>
+    <string name="complete_zero_unlocks">잠금 해제 0회</string>
+    <plurals name="complete_unlocks">
+        <item quantity="other">잠금 해제 %d회</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. 이번 주 최장 기록이에요.</string>
+    <string name="complete_focus_streak">집중 연속 기록</string>
+    <plurals name="complete_days">
+        <item quantity="other">%d일</item>
+    </plurals>
+    <string name="complete_urges">참아낸 충동</string>
+    <string name="complete_urges_today">오늘 %d회</string>
+    <string name="complete_note_title">무엇을 끝냈나요?</string>
+    <string name="complete_note_placeholder">3장 개요와 두 페이지. 폰은 계속 엎어 뒀어요.</string>
+    <string name="complete_another">한 라운드 더</string>
+    <string name="complete_done">완료</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">집중한 지 %d분째예요</string>
+    <string name="hold_leave_body">%s까지 앱은 계속 일시 중지돼요. 조금만 더 힘내요, 정말 잘하고 있어요.</string>
+    <string name="hold_back">집중으로 돌아가기</string>
+    <string name="hold_end">세션 일찍 끝내기</string>
+    <string name="hold_keep_focusing">계속 집중하기</string>
+    <string name="hold_end_now">지금 끝낼까요?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="other">지금 끝내면 앱 %d개가 돌아와요.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s %2$d분은 그대로 기록돼요.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">집중 기록</string>
+    <string name="history_this_week">이번 주</string>
+    <string name="history_sessions">세션</string>
+    <string name="history_today">오늘, %s</string>
+    <string name="history_yesterday">어제, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">아직 세션이 없어요. 집중 세션이 여기에 표시돼요.</string>
+    <string name="history_clear">기록 지우기</string>
+    <string-array name="focus_day_letters">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">라운드</string>
+    <string name="rounds_subtitle">중간중간 짧게 쉬면서 라운드로 집중해요.</string>
+    <string name="rounds_focus">집중</string>
+    <string name="rounds_short_break">짧은 휴식</string>
+    <string name="rounds_count">라운드 수</string>
+    <string name="rounds_long_break">긴 휴식</string>
+    <string name="rounds_minutes">%d분</string>
+    <string name="rounds_auto_start">다음 라운드 자동 시작</string>
+    <string name="rounds_total">총 %s (휴식 포함)</string>
+    <string name="rounds_save">라운드 저장</string>
+    <string name="rounds_decrease">%s 줄이기</string>
+    <string name="rounds_increase">%s 늘리기</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d시간</string>
+    <string name="duration_m">%1$d분</string>
+    <string name="duration_h_m">%1$d시간 %2$d분</string>
+    <string name="focus_notification_channel">집중 타이머</string>
+    <string name="focus_notification_channel_description">진행 중인 세션을 보여 주고, Recentr를 닫아도 소리가 계속 재생돼요.</string>
+    <string name="focus_notification_round">라운드 %1$d / %2$d</string>
+    <string name="focus_notification_break">휴식 · 다음은 라운드 %1$d</string>
+    <string name="focus_notification_paused">일시정지 · 라운드 %1$d / %2$d</string>
+</resources>

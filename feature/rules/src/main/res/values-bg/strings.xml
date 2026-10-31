@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bulgarian. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">Правила</string>
+    <string name="rules_templates_title">Шаблони</string>
+    <string name="rules_subtitle_active">Активни: %1$d</string>
+    <string name="rules_subtitle_active_paused">Активни: %1$d · на пауза: %2$d</string>
+    <string name="rules_templates_subtitle">Готови правила · докосни, за да започнеш</string>
+    <string name="rules_group_locks">Заключвания</string>
+    <string name="rules_group_sessions">Сесии</string>
+    <string name="rules_group_limits">Лимити</string>
+    <string name="rules_group_routines">Рутини</string>
+    <string name="rules_group_templates">Шаблони</string>
+    <string name="rules_add_session">Добави сесия</string>
+    <string name="rules_add_session_hint">Напр. „Блокирай приложения за следващите 30 мин“</string>
+    <string name="rules_add_routine">Добави рутина</string>
+    <string name="rules_add_routine_hint">Напр. „Без телефон по време на вечеря“</string>
+    <string name="rules_add_lock">Добави заключване</string>
+    <string name="rules_add_lock_hint">Напр. „Дръж TikTok затворен цял ден“</string>
+    <string name="rules_add_limit">Добави лимит</string>
+    <string name="rules_add_limit_hint">Напр. „1 час YouTube на ден“</string>
+    <string name="rules_more">Още опции</string>
+    <string name="rules_empty_title">Още няма правила</string>
+    <string name="rules_empty_body">Започни сесия или избери шаблон, за да почнеш.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">В ход</string>
+    <string name="rules_status_upcoming">Предстои</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Готово</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d приложение</item>
+        <item quantity="other">+ %d приложения</item>
+    </plurals>
+    <string name="rules_tile_ready">ГОТОВО</string>
+    <string name="rules_status_blocking">Блокира</string>
+    <string name="rules_status_paused">На пауза</string>
+    <string name="rules_status_times_up">Времето изтече</string>
+    <string name="rules_status_unlocks">Отключвания %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">Неограничени отключвания</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">Изкл.</string>
+    <string name="rules_all_day">Цял ден</string>
+    <string name="rules_strict_mode">Строг режим</string>
+    <string name="rules_value_locked">Заключено</string>
+    <string name="rules_value_off">Изкл.</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">До полунощ</string>
+    <string name="rules_budget_today">Бюджет за днес</string>
+    <string name="rules_value_left">Още %1$s</string>
+    <string name="rules_value_starts_in">след %1$s</string>
+    <string name="rules_value_paused">На пауза</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">Всеки ден</string>
+    <string name="rules_days_weekdays">Делнични дни</string>
+    <string name="rules_days_weekends">Почивни дни</string>
+    <string-array name="rules_day_short">
+        <item>пн</item>
+        <item>вт</item>
+        <item>ср</item>
+        <item>чт</item>
+        <item>пт</item>
+        <item>сб</item>
+        <item>нд</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>понеделник</item>
+        <item>вторник</item>
+        <item>сряда</item>
+        <item>четвъртък</item>
+        <item>петък</item>
+        <item>събота</item>
+        <item>неделя</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>п</item>
+        <item>в</item>
+        <item>с</item>
+        <item>ч</item>
+        <item>п</item>
+        <item>с</item>
+        <item>н</item>
+    </string-array>
+    <string name="rules_am">пр.об.</string>
+    <string name="rules_pm">сл.об.</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d мин</string>
+    <string name="rules_hours_short">%1$d ч</string>
+    <string name="rules_hours_minutes">%1$d ч %2$d мин</string>
+    <string name="rules_compact_seconds">%1$d сек</string>
+    <string name="rules_compact_minutes">%1$d мин</string>
+    <string name="rules_compact_hours">%1$d ч</string>
+    <string name="rules_compact_hours_minutes">%1$d ч %2$02d</string>
+
+    <!-- Common -->
+    <string name="rules_none">Няма</string>
+    <string name="rules_save">Запази</string>
+    <string name="rules_done">Готово</string>
+    <string name="rules_continue">Продължи</string>
+    <string name="rules_cancel">Отказ</string>
+    <string name="rules_back">Назад</string>
+    <string name="rules_edit_name">Промени име и стикер</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">%d приложение</item>
+        <item quantity="other">%d приложения</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">Сесия</string>
+    <string name="rules_type_lock">Заключване</string>
+    <string name="rules_type_limit">Лимит</string>
+    <string name="rules_type_routine">Рутина</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">Блокиране</string>
+    <string name="rules_row_active">Активно</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">Начин на отключване</string>
+    <string name="rules_row_unlocks_per_day">Отключвания на ден</string>
+    <string name="rules_row_apps">Приложения</string>
+    <string name="rules_row_reminders">Напомняния</string>
+    <string name="rules_row_each_unlock">Всяко отключване трае</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">Сесия</string>
+    <string name="rules_session_subtitle">Блокирай приложения за %1$s, след като я стартираш.</string>
+    <string name="rules_session_default_name">Фокус сесия</string>
+    <string name="rules_suggestions">ПРЕДЛОЖЕНИЯ</string>
+    <string name="rules_start">Старт</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">Без отключвания до края.</string>
+    <string name="rules_unlock_strict_caption">Отключванията не са налични в Строг режим.</string>
+    <string name="rules_strict_confirm_title">Включи Строгия режим?</string>
+    <string name="rules_strict_confirm_body">Няма да можеш да отключиш тези приложения до края, освен със спешно отключване.</string>
+    <string name="rules_turn_on">Включи</string>
+    <string name="rules_not_now">Не сега</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">Блокиране на тези приложения сега?</string>
+    <string name="rules_block_now_body">Правилото блокира: добавените приложения се блокират веднага.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">Включване на %1$s?</string>
+    <string name="rules_lock_confirm_body">След като го включиш, всичко, което го облекчава — премахване на приложения, повече отключвания, изключване — важи едва в полунощ.</string>
+    <string name="rules_limit_confirm_title">Стартиране на %1$s?</string>
+    <string name="rules_limit_confirm_body">След като го стартираш, всичко, което го облекчава — по-голям бюджет, премахване на приложения — важи едва в полунощ, когато се нулира.</string>
+    <string name="rules_block_now">Блокирай сега</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">Заключване</string>
+    <string name="rules_lock_subtitle">Дръж избрани приложения затворени, с няколко кратки отключвания на ден.</string>
+    <string name="rules_lock_note_title">Защо това заключване?</string>
+    <string name="rules_hold_create_lock">Задръж, за да създадеш заключване</string>
+    <string name="rules_hold_create_session">Задръж, за да създадеш сесия</string>
+    <string name="rules_unlock_wait">Чакай %1$d сек</string>
+    <string name="rules_unlock_retype">Препиши</string>
+    <string name="rules_unlock_scan">Сканирай код</string>
+    <string name="rules_unlock_walk">Стъпки: %1$d</string>
+    <string name="rules_unlimited">Неограничено</string>
+    <string name="rules_lock_default_name">Заключване</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">Избери приложения</string>
+    <string name="rules_selected">Избрани: %1$d</string>
+    <string name="rules_search_apps">Търси приложения</string>
+    <string name="rules_category_social">Социални</string>
+    <string name="rules_category_entertainment">Забавление</string>
+    <string name="rules_category_music">Музика</string>
+    <string name="rules_category_games">Игри</string>
+    <string name="rules_category_productivity">Продуктивност</string>
+    <string name="rules_category_other">Други</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="one">Блокирай · %d приложение</item>
+        <item quantity="other">Блокирай · %d приложения</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">Всички приложения и категории</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">Всички</string>
+    <string name="rules_no_apps_found">Няма приложения, съвпадащи с „%1$s“.</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">Активно за</string>
+    <string name="rules_ends_at">Свършва в %1$s</string>
+    <string name="rules_hours_label">Часове</string>
+    <string name="rules_minutes_label">Минути</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">Лимит</string>
+    <string name="rules_limit_subtitle">Времеви бюджет за днес — за приложения, които ти изяждат деня.</string>
+    <string name="rules_hold_create_limit">Задръж, за да създадеш лимит</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">Заключено до полунощ</string>
+    <string name="rules_locked_in_lock">Включва се веднага щом бъде създадено. Облекчаването му — премахване на приложения, повече отключвания, изключване — или изтриването му важи едва след дневното нулиране в полунощ.</string>
+    <string name="rules_locked_in_limit">Стартира веднага щом бъде създаден. Облекчаването му — по-голям бюджет, премахване на приложения — или изтриването му важи едва след дневното нулиране в полунощ.</string>
+    <string name="rules_limit_resets">Нулира се автоматично в полунощ.</string>
+    <string name="rules_limit_default_name">Лимит</string>
+    <string name="rules_limit_social_name">Социално време</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">Лягане</string>
+    <string name="rules_bedtime_subtitle">Блокирай приложения по график.</string>
+    <string name="rules_from">ОТ</string>
+    <string name="rules_until">ДО</string>
+    <string name="rules_tonight">%1$s · тази вечер</string>
+    <string name="rules_today">%1$s · днес</string>
+    <string name="rules_tomorrow">%1$s · утре</string>
+    <string name="rules_tonight_alone">Тази вечер</string>
+    <string name="rules_today_alone">Днес</string>
+    <string name="rules_tomorrow_alone">Утре</string>
+    <string name="rules_hold_create_routine">Задръж, за да създадеш рутина</string>
+    <string name="rules_starts_at">Започва в</string>
+    <string name="rules_ends_at_title">Свършва в</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">Как отключваш?</string>
+    <string name="rules_unlock_subtitle">Избери вида пречка, която ти действа.</string>
+    <string name="rules_unlock_option_wait">Изчакай няколко секунди</string>
+    <string name="rules_unlock_option_retype">Препиши неудобен текст</string>
+    <string name="rules_unlock_option_scan">Сканирай код, който пазиш другаде</string>
+    <string name="rules_unlock_option_walk">Извърви стъпки: %1$d</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">Изчакай преди отключване</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">%d секунда</item>
+        <item quantity="other">%d секунди</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 минута</string>
+    <string name="rules_seconds_chip">%1$d сек</string>
+    <string name="rules_one_min_chip">1 мин</string>
+    <string name="rules_unlocks_per_day_title">Отключвания на ден</string>
+    <string name="rules_each_unlock_title">Всяко отключване трае</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">Фокус</string>
+    <string name="rules_section_focus_body">За работа, учене или довършване на проект.</string>
+    <string name="rules_section_unwind">Отпускане</string>
+    <string name="rules_section_unwind_body">По-спокойни вечери и по-меки утрини.</string>
+    <string name="rules_section_be_present">Тук и сега</string>
+    <string name="rules_section_be_present_body">Внимание за хората около теб или за самия теб.</string>
+    <string name="rules_section_scroll_less">Скролвай по-малко</string>
+    <string name="rules_section_scroll_less_body">Отваряй приложенията си нарочно, а не по навик.</string>
+    <string name="rules_tpl_focus_sprint">Фокус спринт</string>
+    <string name="rules_tpl_focus_sprint_body">Разсейванията са блокирани, от сега.</string>
+    <string name="rules_tpl_study_hour">Час за учене</string>
+    <string name="rules_tpl_study_hour_body">Час за учене, от сега.</string>
+    <string name="rules_tpl_work_rhythm">Работен ритъм</string>
+    <string name="rules_tpl_work_rhythm_body">Разсейванията са блокирани в делнични дни.</string>
+    <string name="rules_tpl_evening_calm">Вечерен покой</string>
+    <string name="rules_tpl_evening_calm_body">Без социални и видео приложения, всяка вечер.</string>
+    <string name="rules_tpl_night_pause">Нощна пауза</string>
+    <string name="rules_tpl_night_pause_body">Разсейванията са блокирани през нощта.</string>
+    <string name="rules_tpl_slow_morning">Бавна утрин</string>
+    <string name="rules_tpl_slow_morning_body">Започвай всеки ден без социални приложения.</string>
+    <string name="rules_tpl_dinner_together">Вечеря заедно</string>
+    <string name="rules_tpl_dinner_together_body">Разсейванията са блокирани по време на вечеря.</string>
+    <string name="rules_tpl_family_hour">Семеен час</string>
+    <string name="rules_tpl_family_hour_body">Неделите — за време заедно.</string>
+    <string name="rules_tpl_time_for_me">Време за мен</string>
+    <string name="rules_tpl_time_for_me_body">Четене, творене или просто дишане.</string>
+    <string name="rules_tpl_walk_before_you_scroll">Походи, преди да скролнеш</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">След това 5 мин в приложението, 3 пъти на ден.</string>
+    <string name="rules_tpl_pause_before_opening">Пауза преди отваряне</string>
+    <string name="rules_tpl_pause_before_opening_body">След това 5 мин в приложението, 3 пъти на ден.</string>
+    <string name="rules_tpl_social_budget">Социален бюджет</string>
+    <string name="rules_tpl_social_budget_body">Споделен, после блокиран до полунощ.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">Ново правило</string>
+    <string name="rules_new_rule_subtitle">Какво искаш да настроиш?</string>
+    <string name="rules_browse_templates">Разгледай шаблони</string>
+    <string name="rules_kind_routine_body">Блокира приложения по график, като за лягане или работно време.</string>
+    <string name="rules_kind_session_body">Блокира приложения толкова дълго, колкото избереш, след като я стартираш.</string>
+    <string name="rules_kind_lock_body">Държи приложения затворени от момента, в който го включиш, с няколко кратки отключвания на ден.</string>
+    <string name="rules_kind_limit_body">Времеви бюджет за днес. Щом се изразходи, приложенията остават блокирани до полунощ.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">Активно: %1$s</string>
+    <string name="rules_detail_running">В ход сега</string>
+    <string name="rules_detail_paused">На пауза</string>
+    <string name="rules_detail_paused_until">На пауза до %1$s</string>
+    <string name="rules_detail_on">Вкл.</string>
+    <string name="rules_detail_off">Изкл.</string>
+    <string name="rules_blocked">Блокирани</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">Приложения</string>
+    <string name="rules_apps_blocking">Блокирани в момента</string>
+    <string name="rules_apps_not_blocking">Не блокира в момента</string>
+    <string name="rules_apps_blocked">Блокирани</string>
+    <string name="rules_apps_blocked_when_on">Блокирани, когато е включено</string>
+    <string name="rules_apps_unlocked">Отключени засега</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">Нищо не е блокирано в момента.</string>
+    <string name="rules_apps_none_unlocked">Няма отключено приложение в момента.</string>
+    <string name="rules_streak">Серия</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">%d ден</item>
+        <item quantity="other">%d дни</item>
+    </plurals>
+    <string name="rules_why">Защо</string>
+    <string name="rules_why_placeholder">Докосни, за да запишеш защо това е важно.</string>
+    <string name="rules_why_empty">Още няма записана причина.</string>
+    <string name="rules_tile_now">СЕГА</string>
+    <string name="rules_tile_left_of">остатък от %1$s</string>
+    <string name="rules_tile_used">Използвани: %1$s</string>
+    <string name="rules_tile_today">ДНЕС</string>
+    <string name="rules_tile_not_started">Още не е стартирано</string>
+    <string name="rules_tile_unlocks_today">ОТКЛЮЧВАНИЯ ДНЕС</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">Изкл.</string>
+    <string name="rules_reminder_before">%1$d мин преди</string>
+    <string name="rules_reminders_title">Напомни ми преди началото</string>
+    <string name="rules_activate">Активирай</string>
+    <string name="rules_turn_off">Изключи</string>
+    <string name="rules_menu_edit_settings">Редактирай правилото</string>
+    <string name="rules_menu_pause">Паузирай правилото</string>
+    <string name="rules_menu_resume">Продължи правилото</string>
+    <string name="rules_menu_delete">Изтрий правилото</string>
+    <string name="rules_pause_title">Паузиране на %1$s?</string>
+    <string name="rules_pause_hour">За 1 час</string>
+    <string name="rules_pause_tomorrow">До утре</string>
+    <string name="rules_pause_manual">Докато не го включа отново</string>
+    <string name="rules_pause_rule">Паузирай правилото</string>
+    <string name="rules_pause_later">Паузата започва, когато този период свърши.</string>
+    <string name="rules_paused_toast">%1$s е на пауза</string>
+    <string name="rules_resumed_toast">%1$s отново е включено</string>
+    <string name="rules_edit_title">Редактиране на правило</string>
+    <string name="rules_sticker">СТИКЕР</string>
+    <string name="rules_name_placeholder">Име на правило</string>
+    <string name="rules_more_stickers">Още стикери</string>
+    <string name="rules_more_stickers_soon">Още стикери скоро</string>
+    <string name="rules_delete_title">Изтриване на %1$s?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">Серията ти от %d ден по това правило ще бъде загубена. Това не може да се отмени.</item>
+        <item quantity="other">Серията ти от %d дни по това правило ще бъде загубена. Това не може да се отмени.</item>
+    </plurals>
+    <string name="rules_delete_body">Това правило и историята му ще бъдат премахнати. Това не може да се отмени.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">Продължава да блокира до полунощ, после се изтрива.</string>
+    <string name="rules_delete_body_later_session">Продължава да блокира до края на сесията, после се изтрива.</string>
+    <string name="rules_delete_body_later_at">Продължава да блокира до %1$s, после се изтрива.</string>
+    <string name="rules_delete_rule">Изтрий правилото</string>
+    <string name="rules_keep_it">Запази го</string>
+    <string name="rules_deleted_toast">Изтрито: %1$s</string>
+    <string name="rules_note_title">Защо това правило?</string>
+    <string name="rules_note_placeholder">Запиши го…</string>
+    <string name="rules_session_started">Сесията започна · %1$s</string>
+    <string name="rules_limit_started">Лимитът стартира · %1$s за днес</string>
+    <string name="rules_lock_activated">Включено: %1$s</string>
+    <string name="rules_rule_created">Създадено: %1$s</string>
+    <string name="rules_rule_saved">Промените са запазени</string>
+    <string name="rules_saved_later_midnight">Запазено · някои промени важат от полунощ</string>
+    <string name="rules_saved_later_session">Запазено · някои промени важат, когато сесията свърши</string>
+    <string name="rules_saved_later_at">Запазено · някои промени важат от %1$s</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">Промените ти важат от полунощ</string>
+    <string name="rules_pending_changes_session">Промените ти важат, когато сесията свърши</string>
+    <string name="rules_pending_changes_at">Промените ти важат от %1$s</string>
+    <string name="rules_pending_delete_midnight">Изтрива се в полунощ</string>
+    <string name="rules_pending_delete_session">Изтрива се, когато сесията свърши</string>
+    <string name="rules_pending_delete_at">Изтрива се в %1$s</string>
+    <string name="rules_pending_turn_off">Изключва се в полунощ</string>
+    <string name="rules_pending_pause">Паузира се, когато този период свърши</string>
+    <string name="rules_pending_drop">Откажи промените</string>
+    <string name="rules_pending_keep_rule">Запази правилото</string>
+    <string name="rules_pending_keep_on">Остави го включено</string>
+    <string name="rules_pending_dont_pause">Не паузирай</string>
+    <string name="rules_session_ended">Сесията свърши</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">Винаги разрешени</string>
+    <string name="rules_allowed_explainer">Recentr никога не блокира тези приложения, независимо от правилото или таймера.</string>
+    <string name="rules_allowed_add">Добави приложение</string>
+    <string name="rules_allowed_remove">Премахни %1$s</string>
+    <string name="rules_allowed_section">Разрешени</string>
+    <string name="rules_allowed_waiting">Присъединява се по-късно</string>
+    <string name="rules_allowed_none">Още няма приложение. Карти, превоз или здравно приложение са добър избор.</string>
+    <string name="rules_allowed_changes_tomorrow">Промените ти важат от %1$s утре</string>
+    <string name="rules_allowed_changes_on">Промените ти важат на %1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">Разреши · %d приложение</item>
+        <item quantity="other">Разреши · %d приложения</item>
+    </plurals>
+    <string name="rules_allowed_done_none">Не разрешавай нито едно</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">Винаги разрешени</string>
+    <string name="focus_apps_subtitle">На изчакване по време на рундовете, свободни по време на почивките.</string>
+    <string name="focus_apps_on_hold">На изчакване</string>
+</resources>

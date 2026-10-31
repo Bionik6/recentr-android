@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hebrew. -->
+<resources>
+    <string name="ds_tab_home">בית</string>
+    <string name="ds_tab_rules">כללים</string>
+    <string name="ds_tab_timer">טיימר</string>
+    <string name="ds_tab_insights">תובנות</string>
+    <string name="ds_skip">דילוג</string>
+    <string name="ds_back">חזרה</string>
+    <string name="ds_clear">ניקוי</string>
+    <string name="ds_more_options">אפשרויות נוספות</string>
+    <string name="ds_goal_title">יעד יומי</string>
+    <string name="ds_goal_subtitle">Recentr תיתן לך רמז כשהיעד קרוב.</string>
+    <string name="ds_goal_save">שמירת היעד</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">בחירה מהירה</string>
+    <string name="ds_duration_minutes">%1$d דק׳</string>
+    <string name="ds_duration_hours">%1$d שע׳</string>
+    <string name="ds_duration_hours_minutes">%1$d שע׳ %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">הפעלת חסימת אפליקציות</string>
+    <string name="ds_blocking_body">כדי להעמיד בהמתנה את האפליקציות החסומות, Recentr משתמשת בשירות הנגישות של Android. היא רואה רק איזו אפליקציה נפתחת — אף פעם לא מה שבמסך — ושום דבר לא יוצא מהטלפון שלך.</string>
+    <string name="ds_blocking_steps">בהגדרות › נגישות, יש לפתוח את “חסימת אפליקציות של Recentr” (תחת אפליקציות מותקנות או אפליקציות שהורדו) ולהפעיל אותה.</string>
+    <string name="ds_blocking_open_settings">פתיחת ההגדרות</string>
+    <string name="ds_blocking_not_now">לא עכשיו</string>
+    <string name="ds_blocking_off_title">החסימה כבויה</string>
+    <string name="ds_blocking_off_body">כדאי להפעיל אותה כדי שהכללים וסשני הפוקוס יעמידו אפליקציות בהמתנה.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">חיבור Recentr לזמן מסך</string>
+    <string name="ds_usage_access_body">Recentr צריכה גישה לנתוני שימוש כדי לספור את זמן המסך, ההרמות וההתראות שלך. הכול נשאר בטלפון שלך.</string>
+    <string name="ds_usage_access_connect">חיבור</string>
+</resources>

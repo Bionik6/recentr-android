@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turkish. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">Kurallar</string>
+    <string name="rules_templates_title">Şablonlar</string>
+    <string name="rules_subtitle_active">Etkin: %1$d</string>
+    <string name="rules_subtitle_active_paused">Etkin: %1$d · Duraklatılan: %2$d</string>
+    <string name="rules_templates_subtitle">Hazır kurallar · başlamak için dokun</string>
+    <string name="rules_group_locks">Kilitler</string>
+    <string name="rules_group_sessions">Seanslar</string>
+    <string name="rules_group_limits">Limitler</string>
+    <string name="rules_group_routines">Rutinler</string>
+    <string name="rules_group_templates">Şablonlar</string>
+    <string name="rules_add_session">Seans ekle</string>
+    <string name="rules_add_session_hint">Örn. “Önümüzdeki 30 dk uygulamaları engelle”</string>
+    <string name="rules_add_routine">Rutin ekle</string>
+    <string name="rules_add_routine_hint">Örn. “Akşam yemeğinde telefon yok”</string>
+    <string name="rules_add_lock">Kilit ekle</string>
+    <string name="rules_add_lock_hint">Örn. “TikTok’u bütün gün kapalı tut”</string>
+    <string name="rules_add_limit">Limit ekle</string>
+    <string name="rules_add_limit_hint">Örn. “Günde 1 saat YouTube”</string>
+    <string name="rules_more">Diğer seçenekler</string>
+    <string name="rules_empty_title">Henüz kural yok</string>
+    <string name="rules_empty_body">Başlamak için bir seans başlat ya da bir şablon seç.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">Sürüyor</string>
+    <string name="rules_status_upcoming">Yaklaşan</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Hazır</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d uygulama</item>
+        <item quantity="other">+ %d uygulama</item>
+    </plurals>
+    <string name="rules_tile_ready">HAZIR</string>
+    <string name="rules_status_blocking">Engelliyor</string>
+    <string name="rules_status_paused">Duraklatıldı</string>
+    <string name="rules_status_times_up">Süre doldu</string>
+    <string name="rules_status_unlocks">Kilit açma %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">Sınırsız kilit açma</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">Kapalı</string>
+    <string name="rules_all_day">Bütün gün</string>
+    <string name="rules_strict_mode">Katı mod</string>
+    <string name="rules_value_locked">Kilitli</string>
+    <string name="rules_value_off">Kapalı</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">Gece yarısına kadar</string>
+    <string name="rules_budget_today">Bugünün bütçesi</string>
+    <string name="rules_value_left">%1$s kaldı</string>
+    <string name="rules_value_starts_in">%1$s sonra</string>
+    <string name="rules_value_paused">Duraklatıldı</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">Her gün</string>
+    <string name="rules_days_weekdays">Hafta içi</string>
+    <string name="rules_days_weekends">Hafta sonu</string>
+    <string-array name="rules_day_short">
+        <item>Pzt</item>
+        <item>Sal</item>
+        <item>Çar</item>
+        <item>Per</item>
+        <item>Cum</item>
+        <item>Cmt</item>
+        <item>Paz</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>Pazartesi</item>
+        <item>Salı</item>
+        <item>Çarşamba</item>
+        <item>Perşembe</item>
+        <item>Cuma</item>
+        <item>Cumartesi</item>
+        <item>Pazar</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>P</item>
+        <item>S</item>
+        <item>Ç</item>
+        <item>P</item>
+        <item>C</item>
+        <item>C</item>
+        <item>P</item>
+    </string-array>
+    <string name="rules_am">ÖÖ</string>
+    <string name="rules_pm">ÖS</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d dk</string>
+    <string name="rules_hours_short">%1$d sa</string>
+    <string name="rules_hours_minutes">%1$d sa %2$d dk</string>
+    <string name="rules_compact_seconds">%1$d sn</string>
+    <string name="rules_compact_minutes">%1$d dk</string>
+    <string name="rules_compact_hours">%1$d sa</string>
+    <string name="rules_compact_hours_minutes">%1$d sa %2$02d</string>
+
+    <!-- Common -->
+    <string name="rules_none">Yok</string>
+    <string name="rules_save">Kaydet</string>
+    <string name="rules_done">Bitti</string>
+    <string name="rules_continue">Devam</string>
+    <string name="rules_cancel">İptal</string>
+    <string name="rules_back">Geri</string>
+    <string name="rules_edit_name">Adı ve çıkartmayı düzenle</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">%d uygulama</item>
+        <item quantity="other">%d uygulama</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">Seans</string>
+    <string name="rules_type_lock">Kilit</string>
+    <string name="rules_type_limit">Limit</string>
+    <string name="rules_type_routine">Rutin</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">Engelle</string>
+    <string name="rules_row_active">Etkin</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">Kilit açma yöntemi</string>
+    <string name="rules_row_unlocks_per_day">Günlük kilit açma</string>
+    <string name="rules_row_apps">Uygulamalar</string>
+    <string name="rules_row_reminders">Hatırlatıcılar</string>
+    <string name="rules_row_each_unlock">Her kilit açma süresi</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">Seans</string>
+    <string name="rules_session_subtitle">Başlattığında uygulamalar %1$s boyunca engellenir.</string>
+    <string name="rules_session_default_name">Odak seansı</string>
+    <string name="rules_suggestions">ÖNERİLER</string>
+    <string name="rules_start">Başlat</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">Bitene kadar kilit açma yok.</string>
+    <string name="rules_unlock_strict_caption">Katı modda kilit açma kullanılamaz.</string>
+    <string name="rules_strict_confirm_title">Katı mod açılsın mı?</string>
+    <string name="rules_strict_confirm_body">Bitene kadar bu uygulamaların kilidini, acil kilit açma dışında açamazsın.</string>
+    <string name="rules_turn_on">Aç</string>
+    <string name="rules_not_now">Şimdi değil</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">Bu uygulamalar şimdi engellensin mi?</string>
+    <string name="rules_block_now_body">Kural engelliyor: eklediğin uygulamalar hemen engellenir.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">%1$s açılsın mı?</string>
+    <string name="rules_lock_confirm_body">Açıldıktan sonra işi kolaylaştıran değişiklikler — uygulama çıkarma, daha fazla kilit açma, kapatma — yalnızca gece yarısı uygulanır.</string>
+    <string name="rules_limit_confirm_title">%1$s başlatılsın mı?</string>
+    <string name="rules_limit_confirm_body">Başladıktan sonra işi kolaylaştıran değişiklikler — daha büyük bütçe, uygulama çıkarma — yalnızca sıfırlandığı gece yarısı uygulanır.</string>
+    <string name="rules_block_now">Şimdi engelle</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">Kilit</string>
+    <string name="rules_lock_subtitle">Seçtiğin uygulamaları kapalı tut; günde birkaç kısa kilit açma hakkıyla.</string>
+    <string name="rules_lock_note_title">Bu kilit neden?</string>
+    <string name="rules_hold_create_lock">Kilidi oluşturmak için basılı tut</string>
+    <string name="rules_hold_create_session">Seansı oluşturmak için basılı tut</string>
+    <string name="rules_unlock_wait">%1$d sn bekle</string>
+    <string name="rules_unlock_retype">Yeniden yaz</string>
+    <string name="rules_unlock_scan">Kodu tara</string>
+    <string name="rules_unlock_walk">%1$d adım yürü</string>
+    <string name="rules_unlimited">Sınırsız</string>
+    <string name="rules_lock_default_name">Kilit</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">Uygulama seç</string>
+    <string name="rules_selected">%1$d seçildi</string>
+    <string name="rules_search_apps">Uygulama ara</string>
+    <string name="rules_category_social">Sosyal</string>
+    <string name="rules_category_entertainment">Eğlence</string>
+    <string name="rules_category_music">Müzik</string>
+    <string name="rules_category_games">Oyunlar</string>
+    <string name="rules_category_productivity">Üretkenlik</string>
+    <string name="rules_category_other">Diğer</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="one">Engelle · %d uygulama</item>
+        <item quantity="other">Engelle · %d uygulama</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">Tüm uygulamalar ve kategoriler</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">Tümü</string>
+    <string name="rules_no_apps_found">“%1$s” ile eşleşen uygulama yok.</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">Etkin süre</string>
+    <string name="rules_ends_at">Bitiş: %1$s</string>
+    <string name="rules_hours_label">Saat</string>
+    <string name="rules_minutes_label">Dakika</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">Limit</string>
+    <string name="rules_limit_subtitle">Gününü yiyen uygulamalar için bugünlük bir süre bütçesi.</string>
+    <string name="rules_hold_create_limit">Limiti oluşturmak için basılı tut</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">Gece yarısına kadar kilitli</string>
+    <string name="rules_locked_in_lock">Oluşturulur oluşturulmaz açılır. Hafifletmek — uygulama çıkarmak, daha fazla kilit açma, kapatmak — ya da silmek yalnızca günlük sıfırlamadan, yani gece yarısından sonra uygulanır.</string>
+    <string name="rules_locked_in_limit">Oluşturulur oluşturulmaz başlar. Hafifletmek — daha büyük bütçe, uygulama çıkarmak — ya da silmek yalnızca günlük sıfırlamadan, yani gece yarısından sonra uygulanır.</string>
+    <string name="rules_limit_resets">Gece yarısı otomatik sıfırlanır.</string>
+    <string name="rules_limit_default_name">Limit</string>
+    <string name="rules_limit_social_name">Sosyal zaman</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">Uyku vakti</string>
+    <string name="rules_bedtime_subtitle">Uygulamaları belirli saatlerde engelle.</string>
+    <string name="rules_from">BAŞLANGIÇ</string>
+    <string name="rules_until">BİTİŞ</string>
+    <string name="rules_tonight">%1$s · bu gece</string>
+    <string name="rules_today">%1$s · bugün</string>
+    <string name="rules_tomorrow">%1$s · yarın</string>
+    <string name="rules_tonight_alone">Bu gece</string>
+    <string name="rules_today_alone">Bugün</string>
+    <string name="rules_tomorrow_alone">Yarın</string>
+    <string name="rules_hold_create_routine">Rutini oluşturmak için basılı tut</string>
+    <string name="rules_starts_at">Başlangıç saati</string>
+    <string name="rules_ends_at_title">Bitiş saati</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">Kilidi nasıl açacaksın?</string>
+    <string name="rules_unlock_subtitle">Sana uygun sürtünme türünü seç.</string>
+    <string name="rules_unlock_option_wait">Birkaç saniye bekle</string>
+    <string name="rules_unlock_option_retype">Zor bir metni yeniden yaz</string>
+    <string name="rules_unlock_option_scan">Başka yerde sakladığın bir kodu tara</string>
+    <string name="rules_unlock_option_walk">%1$d adım yürü</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">Kilidi açmadan önce bekle</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">%d saniye</item>
+        <item quantity="other">%d saniye</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 dakika</string>
+    <string name="rules_seconds_chip">%1$d sn</string>
+    <string name="rules_one_min_chip">1 dk</string>
+    <string name="rules_unlocks_per_day_title">Günlük kilit açma</string>
+    <string name="rules_each_unlock_title">Her kilit açma süresi</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">Odak</string>
+    <string name="rules_section_focus_body">Çalışmak, ders çalışmak ya da bir projeyi bitirmek için.</string>
+    <string name="rules_section_unwind">Dinlen</string>
+    <string name="rules_section_unwind_body">Daha sakin akşamlar, daha yumuşak sabahlar.</string>
+    <string name="rules_section_be_present">Anda Ol</string>
+    <string name="rules_section_be_present_body">Çevrendeki insanlara ya da kendine ayıracağın dikkat.</string>
+    <string name="rules_section_scroll_less">Daha Az Kaydır</string>
+    <string name="rules_section_scroll_less_body">Uygulamalarını alışkanlıkla değil, bilerek aç.</string>
+    <string name="rules_tpl_focus_sprint">Odak Koşusu</string>
+    <string name="rules_tpl_focus_sprint_body">Dikkat dağıtanlar engelli, hemen şimdi başlıyor.</string>
+    <string name="rules_tpl_study_hour">Ders Saati</string>
+    <string name="rules_tpl_study_hour_body">Bir saatlik ders, hemen şimdi başlıyor.</string>
+    <string name="rules_tpl_work_rhythm">Çalışma Ritmi</string>
+    <string name="rules_tpl_work_rhythm_body">Hafta içi dikkat dağıtanlar engelli.</string>
+    <string name="rules_tpl_evening_calm">Akşam Sakinliği</string>
+    <string name="rules_tpl_evening_calm_body">Her akşam sosyal ve video uygulamaları yok.</string>
+    <string name="rules_tpl_night_pause">Gece Duraklaması</string>
+    <string name="rules_tpl_night_pause_body">Gece boyunca dikkat dağıtanlar engelli.</string>
+    <string name="rules_tpl_slow_morning">Yavaş Sabah</string>
+    <string name="rules_tpl_slow_morning_body">Her güne sosyal uygulamalar olmadan başla.</string>
+    <string name="rules_tpl_dinner_together">Birlikte Akşam Yemeği</string>
+    <string name="rules_tpl_dinner_together_body">Akşam yemeği boyunca dikkat dağıtanlar engelli.</string>
+    <string name="rules_tpl_family_hour">Aile Saati</string>
+    <string name="rules_tpl_family_hour_body">Pazarlar, birlikte geçirilecek vakit için ayrıldı.</string>
+    <string name="rules_tpl_time_for_me">Bana Zaman</string>
+    <string name="rules_tpl_time_for_me_body">Oku, üret ya da sadece nefes al.</string>
+    <string name="rules_tpl_walk_before_you_scroll">Kaydırmadan Önce Yürü</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">Sonra uygulamada 5 dk, günde 3 kez.</string>
+    <string name="rules_tpl_pause_before_opening">Açmadan Önce Dur</string>
+    <string name="rules_tpl_pause_before_opening_body">Sonra uygulamada 5 dk, günde 3 kez.</string>
+    <string name="rules_tpl_social_budget">Sosyal Bütçe</string>
+    <string name="rules_tpl_social_budget_body">Paylaşılır, sonra gece yarısına kadar engellenir.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">Yeni kural</string>
+    <string name="rules_new_rule_subtitle">Ne kurmak istiyorsun?</string>
+    <string name="rules_browse_templates">Şablonlara göz at</string>
+    <string name="rules_kind_routine_body">Uygulamaları uyku vakti ya da iş saatleri gibi belirli saatlerde engeller.</string>
+    <string name="rules_kind_session_body">Başlattığında uygulamaları seçtiğin süre boyunca engeller.</string>
+    <string name="rules_kind_lock_body">Açtığın andan itibaren uygulamaları kapalı tutar; günde birkaç kısa kilit açma hakkıyla.</string>
+    <string name="rules_kind_limit_body">Bugün için bir süre bütçesi. Bittiğinde uygulamalar gece yarısına kadar engelli kalır.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">Etkin: %1$s</string>
+    <string name="rules_detail_running">Şu an çalışıyor</string>
+    <string name="rules_detail_paused">Duraklatıldı</string>
+    <string name="rules_detail_paused_until">Şu zamana kadar duraklatıldı: %1$s</string>
+    <string name="rules_detail_on">Açık</string>
+    <string name="rules_detail_off">Kapalı</string>
+    <string name="rules_blocked">Engellenen</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">Uygulamalar</string>
+    <string name="rules_apps_blocking">Şu an engellenenler</string>
+    <string name="rules_apps_not_blocking">Şu an engellemiyor</string>
+    <string name="rules_apps_blocked">Engellenen</string>
+    <string name="rules_apps_blocked_when_on">Açıkken engellenenler</string>
+    <string name="rules_apps_unlocked">Şimdilik kilidi açık</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">Şu an engellenen bir şey yok.</string>
+    <string name="rules_apps_none_unlocked">Şu an kilidi açık uygulama yok.</string>
+    <string name="rules_streak">Seri</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <string name="rules_why">Neden</string>
+    <string name="rules_why_placeholder">Bunun neden önemli olduğunu yazmak için dokun.</string>
+    <string name="rules_why_empty">Henüz yazılmış bir neden yok.</string>
+    <string name="rules_tile_now">ŞİMDİ</string>
+    <string name="rules_tile_left_of">kaldı · toplam %1$s</string>
+    <string name="rules_tile_used">%1$s kullanıldı</string>
+    <string name="rules_tile_today">BUGÜN</string>
+    <string name="rules_tile_not_started">Henüz başlamadı</string>
+    <string name="rules_tile_unlocks_today">BUGÜNKÜ KİLİT AÇMA</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">Kapalı</string>
+    <string name="rules_reminder_before">%1$d dk önce</string>
+    <string name="rules_reminders_title">Başlamadan önce hatırlat</string>
+    <string name="rules_activate">Etkinleştir</string>
+    <string name="rules_turn_off">Kapat</string>
+    <string name="rules_menu_edit_settings">Kuralı düzenle</string>
+    <string name="rules_menu_pause">Kuralı duraklat</string>
+    <string name="rules_menu_resume">Kurala devam et</string>
+    <string name="rules_menu_delete">Kuralı sil</string>
+    <string name="rules_pause_title">%1$s duraklatılsın mı?</string>
+    <string name="rules_pause_hour">1 saatliğine</string>
+    <string name="rules_pause_tomorrow">Yarına kadar</string>
+    <string name="rules_pause_manual">Ben yeniden açana kadar</string>
+    <string name="rules_pause_rule">Kuralı duraklat</string>
+    <string name="rules_pause_later">Duraklatma, bu zaman aralığı bitince başlar.</string>
+    <string name="rules_paused_toast">%1$s duraklatıldı</string>
+    <string name="rules_resumed_toast">%1$s yeniden açık</string>
+    <string name="rules_edit_title">Kuralı düzenle</string>
+    <string name="rules_sticker">ÇIKARTMA</string>
+    <string name="rules_name_placeholder">Kural adı</string>
+    <string name="rules_more_stickers">Daha fazla çıkartma</string>
+    <string name="rules_more_stickers_soon">Daha fazla çıkartma yolda</string>
+    <string name="rules_delete_title">%1$s silinsin mi?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">Bu kuraldaki %d günlük serin kaybolacak. Bu işlem geri alınamaz.</item>
+        <item quantity="other">Bu kuraldaki %d günlük serin kaybolacak. Bu işlem geri alınamaz.</item>
+    </plurals>
+    <string name="rules_delete_body">Bu kural ve geçmişi kaldırılacak. Bu işlem geri alınamaz.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">Gece yarısına kadar engellemeye devam eder, sonra silinir.</string>
+    <string name="rules_delete_body_later_session">Seans bitene kadar engellemeye devam eder, sonra silinir.</string>
+    <string name="rules_delete_body_later_at">%1$s olana kadar engellemeye devam eder, sonra silinir.</string>
+    <string name="rules_delete_rule">Kuralı sil</string>
+    <string name="rules_keep_it">Kalsın</string>
+    <string name="rules_deleted_toast">%1$s silindi</string>
+    <string name="rules_note_title">Bu kural neden?</string>
+    <string name="rules_note_placeholder">Yaz…</string>
+    <string name="rules_session_started">Seans başladı · %1$s</string>
+    <string name="rules_limit_started">Limit başladı · bugün için %1$s</string>
+    <string name="rules_lock_activated">%1$s açık</string>
+    <string name="rules_rule_created">%1$s oluşturuldu</string>
+    <string name="rules_rule_saved">Değişiklikler kaydedildi</string>
+    <string name="rules_saved_later_midnight">Kaydedildi · bazı değişiklikler gece yarısı uygulanır</string>
+    <string name="rules_saved_later_session">Kaydedildi · bazı değişiklikler seans bitince uygulanır</string>
+    <string name="rules_saved_later_at">Kaydedildi · bazı değişiklikler %1$s olunca uygulanır</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">Değişikliklerin gece yarısı uygulanır</string>
+    <string name="rules_pending_changes_session">Değişikliklerin seans bitince uygulanır</string>
+    <string name="rules_pending_changes_at">Değişikliklerin %1$s olunca uygulanır</string>
+    <string name="rules_pending_delete_midnight">Gece yarısı silinir</string>
+    <string name="rules_pending_delete_session">Seans bitince silinir</string>
+    <string name="rules_pending_delete_at">%1$s olunca silinir</string>
+    <string name="rules_pending_turn_off">Gece yarısı kapanır</string>
+    <string name="rules_pending_pause">Bu zaman aralığı bitince duraklar</string>
+    <string name="rules_pending_drop">Değişiklikleri at</string>
+    <string name="rules_pending_keep_rule">Kuralı koru</string>
+    <string name="rules_pending_keep_on">Açık kalsın</string>
+    <string name="rules_pending_dont_pause">Duraklatma</string>
+    <string name="rules_session_ended">Seans bitti</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">Her zaman izinli</string>
+    <string name="rules_allowed_explainer">Recentr bu uygulamaları, kural ya da zamanlayıcı ne olursa olsun asla engellemez.</string>
+    <string name="rules_allowed_add">Uygulama ekle</string>
+    <string name="rules_allowed_remove">Kaldır: %1$s</string>
+    <string name="rules_allowed_section">İzinli</string>
+    <string name="rules_allowed_waiting">Sonra katılır</string>
+    <string name="rules_allowed_none">Henüz uygulama yok. Harita, yolculuk ya da sağlık uygulamaları iyi örneklerdir.</string>
+    <string name="rules_allowed_changes_tomorrow">Değişikliklerin yarın %1$s olunca uygulanır</string>
+    <string name="rules_allowed_changes_on">Değişikliklerin %1$s tarihinde uygulanır</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">İzin ver · %d uygulama</item>
+        <item quantity="other">İzin ver · %d uygulama</item>
+    </plurals>
+    <string name="rules_allowed_done_none">Hiçbirine izin verme</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">Her zaman izinli</string>
+    <string name="focus_apps_subtitle">Turlar boyunca beklemede, molalarda serbest.</string>
+    <string name="focus_apps_on_hold">Beklemede</string>
+</resources>

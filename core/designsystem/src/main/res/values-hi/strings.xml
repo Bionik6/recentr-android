@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hindi. -->
+<resources>
+    <string name="ds_tab_home">होम</string>
+    <string name="ds_tab_rules">नियम</string>
+    <string name="ds_tab_timer">टाइमर</string>
+    <string name="ds_tab_insights">इनसाइट्स</string>
+    <string name="ds_skip">छोड़ें</string>
+    <string name="ds_back">वापस</string>
+    <string name="ds_clear">साफ़ करें</string>
+    <string name="ds_more_options">और विकल्प</string>
+    <string name="ds_goal_title">रोज़ का लक्ष्य</string>
+    <string name="ds_goal_subtitle">लक्ष्य के क़रीब पहुँचने पर Recentr आपको हल्का संकेत देता है।</string>
+    <string name="ds_goal_save">लक्ष्य सेव करें</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">जल्दी चुनें</string>
+    <string name="ds_duration_minutes">%1$d मि</string>
+    <string name="ds_duration_hours">%1$d घं</string>
+    <string name="ds_duration_hours_minutes">%1$d घं %2$02d मि</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">ऐप ब्लॉकिंग चालू करें</string>
+    <string name="ds_blocking_body">आपके ब्लॉक किए ऐप्स को होल्ड पर रखने के लिए, Recentr Android की एक्सेसिबिलिटी सेवा इस्तेमाल करता है। यह सिर्फ़ यह देखती है कि आप कौन-सा ऐप खोलते हैं — आपकी स्क्रीन पर क्या है, यह कभी नहीं — और कुछ भी आपके फ़ोन से बाहर नहीं जाता।</string>
+    <string name="ds_blocking_steps">सेटिंग › एक्सेसिबिलिटी में जाकर, “Recentr ऐप ब्लॉकिंग” (इंस्टॉल किए गए या डाउनलोड किए गए ऐप्स के अंतर्गत) खोलें और उसे चालू करें।</string>
+    <string name="ds_blocking_open_settings">सेटिंग खोलें</string>
+    <string name="ds_blocking_not_now">अभी नहीं</string>
+    <string name="ds_blocking_off_title">ब्लॉकिंग बंद है</string>
+    <string name="ds_blocking_off_body">इसे चालू करें ताकि आपके नियम और फ़ोकस सेशन ऐप्स को होल्ड पर रख सकें।</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Recentr को स्क्रीन टाइम से जोड़ें</string>
+    <string name="ds_usage_access_body">आपका स्क्रीन टाइम, पिकअप और नोटिफ़िकेशन गिनने के लिए Recentr को उपयोग एक्सेस चाहिए। सब कुछ आपके फ़ोन पर ही रहता है।</string>
+    <string name="ds_usage_access_connect">जोड़ें</string>
+</resources>

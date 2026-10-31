@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Italian. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">Indietro</string>
+    <string name="insights_close">Chiudi</string>
+    <string name="insights_more">Altre opzioni</string>
+    <string name="insights_duration_m">%1$d min</string>
+    <string name="insights_duration_h">%1$d h</string>
+    <string name="insights_duration_h_m">%1$d h %2$02d min</string>
+    <string name="insights_duration_compact">%1$d h %2$02d</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d%%</string>
+    <string name="insights_date">%2$d %1$s</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>G</item>
+        <item>V</item>
+        <item>S</item>
+        <item>D</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>lun</item>
+        <item>mar</item>
+        <item>mer</item>
+        <item>gio</item>
+        <item>ven</item>
+        <item>sab</item>
+        <item>dom</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>lunedì</item>
+        <item>martedì</item>
+        <item>mercoledì</item>
+        <item>giovedì</item>
+        <item>venerdì</item>
+        <item>sabato</item>
+        <item>domenica</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>gennaio</item>
+        <item>febbraio</item>
+        <item>marzo</item>
+        <item>aprile</item>
+        <item>maggio</item>
+        <item>giugno</item>
+        <item>luglio</item>
+        <item>agosto</item>
+        <item>settembre</item>
+        <item>ottobre</item>
+        <item>novembre</item>
+        <item>dicembre</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>gen</item>
+        <item>feb</item>
+        <item>mar</item>
+        <item>apr</item>
+        <item>mag</item>
+        <item>giu</item>
+        <item>lug</item>
+        <item>ago</item>
+        <item>set</item>
+        <item>ott</item>
+        <item>nov</item>
+        <item>dic</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">Statistiche</string>
+    <string name="insights_tab_day">Giorno</string>
+    <string name="insights_tab_week">Settimana</string>
+    <string name="insights_tab_month">Mese</string>
+    <string name="insights_daily_average">Media giornaliera</string>
+    <string name="insights_screen_time_today">Tempo di utilizzo oggi</string>
+    <string name="insights_screen_time_yesterday">Tempo di utilizzo ieri</string>
+    <string name="insights_screen_time">Tempo di utilizzo</string>
+    <string name="insights_vs_last_week">%1$s rispetto alla settimana scorsa</string>
+    <string name="insights_vs_yesterday">%1$s rispetto a ieri</string>
+    <string name="insights_vs_day_before">%1$s rispetto al giorno prima</string>
+    <string name="insights_vs_week_before">%1$s rispetto alla settimana prima</string>
+    <string name="insights_goal_line">Obiettivo %1$s</string>
+    <string name="insights_by_category">Per categoria</string>
+    <string name="insights_no_usage">Ancora nessun utilizzo.</string>
+    <string name="insights_top_apps">App più usate</string>
+    <string name="insights_no_apps">Ancora nessuna app usata.</string>
+    <string name="insights_see_more">Mostra altro</string>
+    <string name="insights_category_social">Social</string>
+    <string name="insights_category_video">Video</string>
+    <string name="insights_category_music">Musica</string>
+    <string name="insights_category_games">Giochi</string>
+    <string name="insights_category_productivity">Produttività</string>
+    <string name="insights_category_other">Altro</string>
+    <string name="insights_menu_pickups">Prese in mano</string>
+    <string name="insights_menu_daily_goal">Obiettivo giornaliero</string>
+    <string name="insights_menu_streak">Serie</string>
+    <string name="insights_menu_achievements">Traguardi</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">Sotto l’obiettivo</string>
+    <string name="insights_less">Meno</string>
+    <string name="insights_more_legend">Più</string>
+    <string name="insights_best_day">Giorno migliore</string>
+    <string name="insights_toughest_day">Giorno più difficile</string>
+    <string name="insights_see_report">Vedi il report di %1$s</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: nessun dato</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">Oggi</string>
+    <string name="insights_period_yesterday">Ieri</string>
+    <string name="insights_period_week">Questa settimana</string>
+    <string name="insights_period_month">Questo mese</string>
+    <string name="insights_period_last_week">Settimana scorsa</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s, %2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s %2$d</string>
+    <string name="insights_previous">Precedente</string>
+    <string name="insights_next">Successivo</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="one">%d apertura</item>
+        <item quantity="many">%d aperture</item>
+        <item quantity="other">%d aperture</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · %2$s oltre il limite</string>
+    <string name="insights_left_in_limit">%1$s · ancora %2$s nel tuo limite</string>
+    <string name="insights_by_hour">Per ora</string>
+    <string name="insights_longest_session">Sessione più lunga</string>
+    <string name="insights_first_open">Prima apertura</string>
+    <string name="insights_usual_first_open">Prima apertura abituale</string>
+    <string name="insights_noticed">Recentr ha notato</string>
+    <string name="insights_noticed_idle">Hai aperto %1$s a malapena. Continua così.</string>
+    <string name="insights_noticed_checks">Apri %1$s %2$d volte al giorno per visite brevi. Qualche secondo di pausa prima che si apra spezza il riflesso.</string>
+    <string name="insights_noticed_night">Gran parte del tuo tempo su %1$s è dopo le %2$s. Una routine per la notte potrebbe aiutarti a recuperarlo.</string>
+    <string name="insights_noticed_morning">Gran parte del tuo tempo su %1$s è prima delle %2$s. Una routine mattutina tranquilla potrebbe aiutarti a recuperarlo.</string>
+    <string name="insights_noticed_work">Gran parte del tuo tempo su %1$s è durante la giornata di lavoro. Una sessione focus potrebbe aiutarti a recuperarlo.</string>
+    <string name="insights_noticed_evening">Gran parte del tuo tempo su %1$s è la sera. Un limite potrebbe aiutarti a recuperarlo.</string>
+    <string name="insights_noticed_spread">Il tuo tempo su %1$s è distribuito nell’arco della giornata. Un limite lo tiene sotto controllo.</string>
+    <string name="insights_set_limit">Imposta un limite</string>
+    <string name="insights_edit_limit">Modifica il limite</string>
+    <string name="insights_block_app">Blocca %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">Prese in mano</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="one">presa in mano oggi</item>
+        <item quantity="many">prese in mano oggi</item>
+        <item quantity="other">prese in mano oggi</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="one">presa in mano ieri</item>
+        <item quantity="many">prese in mano ieri</item>
+        <item quantity="other">prese in mano ieri</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="one">presa in mano quel giorno</item>
+        <item quantity="many">prese in mano quel giorno</item>
+        <item quantity="other">prese in mano quel giorno</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="one">presa in mano al giorno</item>
+        <item quantity="many">prese in mano al giorno</item>
+        <item quantity="other">prese in mano al giorno</item>
+    </plurals>
+    <string name="insights_first_pickup">Prima alle %1$s</string>
+    <string name="insights_usual_first_pickup">Di solito la prima alle %1$s</string>
+    <string name="insights_no_pickup">Ancora nessuna presa in mano</string>
+    <string name="insights_when_pick_up">Quando prendi in mano il telefono</string>
+    <string name="insights_opened_first">Prima app aperta dopo una presa in mano</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">Ancora nessuna app aperta dopo una presa in mano.</string>
+    <string name="insights_tip_bedroom">Carica il telefono fuori dalla camera da letto — la presa in mano delle %1$s diventa più facile da evitare.</string>
+    <string name="insights_tip_reflex">%1$s è la prima cosa che apri. Togli la sua icona dalla Home per spezzare il riflesso.</string>
+    <string name="insights_tip_evening">Le sere sono il momento con più prese in mano. Una routine per la notte aiuta a tenere giù il telefono.</string>
+    <string name="insights_tip_default">Ogni presa in mano che salti è una vittoria. Prova a lasciare il telefono a faccia in giù.</string>
+    <string name="insights_start_bedtime">Avvia una routine per la notte</string>
+    <string name="insights_heat_cd">Da %1$s a %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">Report di %1$s</string>
+    <plurals name="insights_hours">
+        <item quantity="one">%d ora</item>
+        <item quantity="many">%d ore</item>
+        <item quantity="other">%d ore</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="one">%d minuto</item>
+        <item quantity="many">%d minuti</item>
+        <item quantity="other">%d minuti</item>
+    </plurals>
+    <string name="insights_won_back_month">di tempo recuperato questo mese</string>
+    <string name="insights_pickups_a_day_label">Prese in mano al giorno</string>
+    <string name="insights_best_streak">Serie migliore</string>
+    <plurals name="insights_days">
+        <item quantity="one">%d giorno</item>
+        <item quantity="many">%d giorni</item>
+        <item quantity="other">%d giorni</item>
+    </plurals>
+    <string name="insights_new">nuovo</string>
+    <string name="insights_share_month">Condividi il mio mese</string>
+    <string name="insights_replay">Rivedi</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">Obiettivo giornaliero</string>
+    <string name="insights_edit_goal">Modifica l’obiettivo giornaliero</string>
+    <string name="insights_days_on_target">Giorni in obiettivo: %1$d su %2$d</string>
+    <string name="insights_goal_under">Obiettivo: meno di %1$s al giorno</string>
+    <string name="insights_adjust_goal">Modifica obiettivo</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">Traguardi</string>
+    <string name="achievements_earned_count">Ottenuti: %1$d su %2$d</string>
+    <string name="achievements_level">Livello %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>Nuovo inizio</item>
+        <item>In cerca di calma</item>
+        <item>Mano ferma</item>
+        <item>Custode della calma</item>
+        <item>Concentrazione profonda</item>
+        <item>Maestro zen</item>
+        <item>Leggenda offline</item>
+    </string-array>
+    <string name="achievements_points">%1$d / %2$d punti calma</string>
+    <string name="achievements_points_max">%1$d punti calma</string>
+    <string name="achievements_all">Tutti</string>
+    <string name="achievements_earned">Ottenuti</string>
+    <string name="achievements_next_up">Prossimi</string>
+    <string name="achievements_none_earned">Il tuo primo badge è dietro l’angolo.</string>
+    <string name="achievements_all_earned">Hai ottenuto tutti i badge. Wow.</string>
+    <string name="achievements_progress_days">%1$d / %2$d giorni</string>
+    <string name="achievements_progress_nights">%1$d / %2$d notti</string>
+    <string name="achievements_progress_mornings">%1$d / %2$d mattine</string>
+    <string name="achievements_progress_hours">%1$d / %2$d ore</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">%1$d di %2$d giorni</string>
+    <string name="achievements_of_nights">%1$d di %2$d notti</string>
+    <string name="achievements_of_mornings">%1$d di %2$d mattine</string>
+    <string name="achievements_of_hours">%1$d di %2$d ore</string>
+    <string name="achievements_of_urges">%1$d di %2$d impulsi</string>
+    <string name="achievements_not_yet">Non ancora ottenuto</string>
+    <string name="achievements_points_reward">+%1$d punti calma</string>
+    <string name="achievements_got_it">Ho capito</string>
+    <string name="achievements_locked_cd">%1$s, bloccato, %2$s</string>
+    <string name="achievements_earned_cd">%1$s, ottenuto il %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">Nuovo badge</string>
+    <string name="achievements_earned_on">Ottenuto il %1$s</string>
+    <string name="achievements_nice">Ottimo!</string>
+    <string name="achievements_share_badge">Condividi il badge</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">Primo lucchetto</string>
+    <string name="badge_first_lock_goal">Blocca le app con la tua prima regola.</string>
+    <string name="badge_first_lock_cheer">La tua prima regola è attiva. Piccoli lucchetti, grandi vittorie.</string>
+    <string name="badge_first_lock_milestone">Hai bloccato %1$s per la prima volta.</string>
+    <string name="badge_first_lock_milestone_any">Hai creato la tua prima regola di blocco.</string>
+    <string name="badge_note_to_self">Appunto per me</string>
+    <string name="badge_note_to_self_goal">Scrivi il perché su una delle tue regole.</string>
+    <string name="badge_note_to_self_cheer">Il tuo motivo è scritto nero su bianco. Ti aiuterà a restare coerente.</string>
+    <string name="badge_note_to_self_milestone">Hai scritto perché lo stai facendo.</string>
+    <string name="badge_first_focus">Primo focus</string>
+    <string name="badge_first_focus_goal">Completa la tua prima sessione focus.</string>
+    <string name="badge_first_focus_cheer">Una sessione fatta. Il tuo muscolo del focus si sta scaldando.</string>
+    <string name="badge_first_focus_milestone">La tua prima sessione focus.</string>
+    <string name="badge_focus_ten_hours">10 ore di focus</string>
+    <string name="badge_focus_ten_hours_goal">Trascorri 10 ore in sessioni focus.</string>
+    <string name="badge_focus_ten_hours_cheer">Dieci ore di concentrazione profonda. È un’intera giornata di lavoro recuperata.</string>
+    <string name="badge_focus_ten_hours_milestone">10 ore trascorse in sessioni focus.</string>
+    <string name="badge_seven_day_streak">Serie di 7 giorni</string>
+    <string name="badge_seven_day_streak_goal">Mantieni la tua serie per 7 giorni.</string>
+    <string name="badge_seven_day_streak_cheer">Una settimana intera sotto l’obiettivo. Tieni vivo il fuoco.</string>
+    <string name="badge_seven_day_streak_milestone">Una settimana intera sotto l’obiettivo.</string>
+    <string name="badge_goal_crusher">Obiettivo schiacciato</string>
+    <string name="badge_goal_crusher_goal">Resta sotto il tuo obiettivo giornaliero per 7 giorni di fila.</string>
+    <string name="badge_goal_crusher_cheer">Sette giorni sotto l’obiettivo, senza bisogno di salvaserie. Schiacciato.</string>
+    <string name="badge_goal_crusher_milestone">7 giorni sotto l’obiettivo senza un salvaserie.</string>
+    <string name="badge_two_calm_weeks">Due settimane di calma</string>
+    <string name="badge_two_calm_weeks_goal">Mantieni la tua serie per 14 giorni.</string>
+    <string name="badge_two_calm_weeks_cheer">Due settimane di calma. Sta diventando un’abitudine.</string>
+    <string name="badge_two_calm_weeks_milestone">14 giorni di fila sotto l’obiettivo.</string>
+    <string name="badge_calm_month">Un mese di calma</string>
+    <string name="badge_calm_month_goal">Mantieni la tua serie per 30 giorni.</string>
+    <string name="badge_calm_month_cheer">Un mese intero di calma. Leggendario.</string>
+    <string name="badge_calm_month_milestone">30 giorni di fila sotto l’obiettivo.</string>
+    <string name="badge_night_owl">Gufo notturno in pensione</string>
+    <string name="badge_night_owl_goal">7 notti di fila senza schermi dopo le %1$s.</string>
+    <string name="badge_night_owl_cheer">7 notti di fila senza schermi dopo le %1$s. Il tuo sonno ringrazia.</string>
+    <string name="badge_night_owl_milestone">Niente schermi dopo le %1$s per 7 notti.</string>
+    <string name="badge_slow_mornings">Mattine lente</string>
+    <string name="badge_slow_mornings_goal">5 mattine di fila senza schermi prima delle %1$s.</string>
+    <string name="badge_slow_mornings_cheer">Cinque mattine lente. La tua giornata inizia con te, non con il tuo feed.</string>
+    <string name="badge_slow_mornings_milestone">Niente schermi prima delle %1$s per 5 mattine.</string>
+    <string name="badge_screen_free_sunday">Domenica senza schermi</string>
+    <string name="badge_screen_free_sunday_goal">Passa una domenica con meno di 30 minuti di tempo di utilizzo.</string>
+    <string name="badge_screen_free_sunday_cheer">Una domenica quasi fuori dalla rete. Non ti sembra di respirare meglio?</string>
+    <string name="badge_screen_free_sunday_milestone">Una domenica con meno di 30 minuti di tempo di utilizzo.</string>
+    <string name="badge_gentle_day">Giornata leggera</string>
+    <string name="badge_gentle_day_goal">Passa un’intera giornata con meno di 1 ora di tempo di utilizzo.</string>
+    <string name="badge_gentle_day_cheer">Meno di un’ora in tutta la giornata. Gentile con gli occhi e con la mente.</string>
+    <string name="badge_gentle_day_milestone">Un’intera giornata sotto 1 ora.</string>
+    <string name="badge_hands_off">Giù le mani</string>
+    <string name="badge_hands_off_goal">Prendi in mano il telefono meno di 20 volte in un giorno.</string>
+    <string name="badge_hands_off_cheer">Meno di 20 prese in mano in un giorno. Le tue mani hanno trovato di meglio da fare.</string>
+    <string name="badge_hands_off_milestone">Meno di 20 prese in mano in un giorno.</string>
+    <string name="badge_urges_resisted">100 impulsi resistiti</string>
+    <string name="badge_urges_resisted_goal">Scegli la pausa 100 volte durante le sessioni focus.</string>
+    <string name="badge_urges_resisted_cheer">100 impulsi, 100 pause. Sei tu al comando.</string>
+    <string name="badge_urges_resisted_milestone">Hai scelto la pausa 100 volte.</string>
+    <string name="badge_ten_hours_won_back">10 ore recuperate</string>
+    <string name="badge_ten_hours_won_back_goal">Recupera 10 ore dalla tua vecchia abitudine da telefono.</string>
+    <string name="badge_ten_hours_won_back_cheer">10 ore tornate nella tua vita. Cosa ne farai?</string>
+    <string name="badge_ten_hours_won_back_milestone">10 ore recuperate dalla tua vecchia abitudine.</string>
+    <string name="badge_fifty_hours_won_back">50 ore recuperate</string>
+    <string name="badge_fifty_hours_won_back_goal">Recupera 50 ore dalla tua vecchia abitudine da telefono.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50 ore recuperate. È più di una settimana lavorativa.</string>
+    <string name="badge_fifty_hours_won_back_milestone">50 ore recuperate dalla tua vecchia abitudine.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">Serie</string>
+    <string name="streak_best_yet">serie di giorni · la tua migliore finora</string>
+    <string name="streak_best">serie di giorni · migliore: %1$s</string>
+    <string name="streak_this_week">Questa settimana</string>
+    <plurals name="streak_savers_left">
+        <item quantity="one">%d salvaserie rimasto</item>
+        <item quantity="many">%d salvaserie rimasti</item>
+        <item quantity="other">%d salvaserie rimasti</item>
+    </plurals>
+    <string name="streak_saver_used">Ne hai usato uno il %1$s — la tua serie è salva.</string>
+    <string name="streak_saver_unused">Un giorno oltre l’obiettivo? Un salvaserie mette al sicuro la tua serie.</string>
+    <string name="streak_savers_out">Nessun salvaserie rimasto questo mese. Quelli nuovi arrivano il 1°.</string>
+    <plurals name="streak_days_to">
+        <item quantity="one">%1$d giorno a «%2$s»</item>
+        <item quantity="many">%1$d giorni a «%2$s»</item>
+        <item quantity="other">%1$d giorni a «%2$s»</item>
+    </plurals>
+    <string name="streak_all_done">Hai ottenuto tutti i badge della serie. Continua così!</string>
+    <string name="streak_help">Come funzionano le serie</string>
+    <string name="streak_help_body">Ogni giorno sotto il tuo obiettivo giornaliero aggiunge un punto alla serie. Hai superato l’obiettivo? Un salvaserie copre quel giorno — ne ricevi 3 ogni mese.</string>
+    <string name="streak_help_ok">Ho capito</string>
+    <string name="streak_day_on_target">%1$s: sotto l’obiettivo</string>
+    <string name="streak_day_saved">%1$s: salvato da un salvaserie</string>
+    <string name="streak_day_missed">%1$s: oltre l’obiettivo</string>
+    <string name="streak_day_today">%1$s: oggi</string>
+    <string name="streak_day_empty">%1$s: nessun dato</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">Tappe</string>
+    <plurals name="milestones_since">
+        <item quantity="one">Da quando hai iniziato · %d giorno</item>
+        <item quantity="many">Da quando hai iniziato · %d giorni</item>
+        <item quantity="other">Da quando hai iniziato · %d giorni</item>
+    </plurals>
+    <string name="milestones_next">Prossima</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">Condividi</string>
+    <string name="share_won_back">Ho recuperato</string>
+    <string name="share_in_month">in %1$s con Recentr</string>
+    <string name="share_earned">Ho ottenuto</string>
+    <string name="share_with_recentr">con Recentr</string>
+    <string name="share_streak_chip">Serie di %1$d gg</string>
+    <string name="share_daily_chip">%1$s al giorno</string>
+    <string name="share_level_chip">Livello %1$d</string>
+    <string name="share_stories">Storie</string>
+    <string name="share_post">Post</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">Copia il link</string>
+    <string name="share_save">Salva</string>
+    <string name="share_done">Fatto</string>
+    <string name="share_text_month">Ho recuperato %1$s in %2$s con Recentr. %3$s</string>
+    <string name="share_text_badge">Ho ottenuto «%1$s» con Recentr. %2$s</string>
+    <string name="share_copied">Copiato</string>
+    <string name="share_saved">Salvata in Immagini</string>
+    <string name="share_save_failed">Impossibile salvare l’immagine</string>
+</resources>

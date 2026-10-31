@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Swedish. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">Tillbaka</string>
+    <string name="insights_close">Stäng</string>
+    <string name="insights_more">Fler alternativ</string>
+    <string name="insights_duration_m">%1$d min</string>
+    <string name="insights_duration_h">%1$d h</string>
+    <string name="insights_duration_h_m">%1$d h %2$02d min</string>
+    <string name="insights_duration_compact">%1$d h %2$02d</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d %%</string>
+    <string name="insights_date">%2$d %1$s</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>M</item>
+        <item>T</item>
+        <item>O</item>
+        <item>T</item>
+        <item>F</item>
+        <item>L</item>
+        <item>S</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>mån</item>
+        <item>tis</item>
+        <item>ons</item>
+        <item>tors</item>
+        <item>fre</item>
+        <item>lör</item>
+        <item>sön</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>måndag</item>
+        <item>tisdag</item>
+        <item>onsdag</item>
+        <item>torsdag</item>
+        <item>fredag</item>
+        <item>lördag</item>
+        <item>söndag</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>januari</item>
+        <item>februari</item>
+        <item>mars</item>
+        <item>april</item>
+        <item>maj</item>
+        <item>juni</item>
+        <item>juli</item>
+        <item>augusti</item>
+        <item>september</item>
+        <item>oktober</item>
+        <item>november</item>
+        <item>december</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>jan.</item>
+        <item>feb.</item>
+        <item>mars</item>
+        <item>apr.</item>
+        <item>maj</item>
+        <item>juni</item>
+        <item>juli</item>
+        <item>aug.</item>
+        <item>sep.</item>
+        <item>okt.</item>
+        <item>nov.</item>
+        <item>dec.</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">Insikter</string>
+    <string name="insights_tab_day">Dag</string>
+    <string name="insights_tab_week">Vecka</string>
+    <string name="insights_tab_month">Månad</string>
+    <string name="insights_daily_average">Dagligt snitt</string>
+    <string name="insights_screen_time_today">Skärmtid idag</string>
+    <string name="insights_screen_time_yesterday">Skärmtid igår</string>
+    <string name="insights_screen_time">Skärmtid</string>
+    <string name="insights_vs_last_week">%1$s jämfört med förra veckan</string>
+    <string name="insights_vs_yesterday">%1$s jämfört med igår</string>
+    <string name="insights_vs_day_before">%1$s jämfört med dagen innan</string>
+    <string name="insights_vs_week_before">%1$s jämfört med veckan innan</string>
+    <string name="insights_goal_line">Mål %1$s</string>
+    <string name="insights_by_category">Per kategori</string>
+    <string name="insights_no_usage">Ingen skärmtid än.</string>
+    <string name="insights_top_apps">Toppappar</string>
+    <string name="insights_no_apps">Ingen app har använts än.</string>
+    <string name="insights_see_more">Visa mer</string>
+    <string name="insights_category_social">Socialt</string>
+    <string name="insights_category_video">Video</string>
+    <string name="insights_category_music">Musik</string>
+    <string name="insights_category_games">Spel</string>
+    <string name="insights_category_productivity">Produktivitet</string>
+    <string name="insights_category_other">Övrigt</string>
+    <string name="insights_menu_pickups">Upplockningar</string>
+    <string name="insights_menu_daily_goal">Dagligt mål</string>
+    <string name="insights_menu_streak">Svit</string>
+    <string name="insights_menu_achievements">Prestationer</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">Under målet</string>
+    <string name="insights_less">Mindre</string>
+    <string name="insights_more_legend">Mer</string>
+    <string name="insights_best_day">Bästa dag</string>
+    <string name="insights_toughest_day">Tuffaste dag</string>
+    <string name="insights_see_report">Se rapport för %1$s</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: inga data</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">Idag</string>
+    <string name="insights_period_yesterday">Igår</string>
+    <string name="insights_period_week">Den här veckan</string>
+    <string name="insights_period_month">Den här månaden</string>
+    <string name="insights_period_last_week">Förra veckan</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s %2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s %2$d</string>
+    <string name="insights_previous">Föregående</string>
+    <string name="insights_next">Nästa</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="one">%d öppning</item>
+        <item quantity="other">%d öppningar</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · %2$s över din gräns</string>
+    <string name="insights_left_in_limit">%1$s · %2$s kvar av din gräns</string>
+    <string name="insights_by_hour">Per timme</string>
+    <string name="insights_longest_session">Längsta session</string>
+    <string name="insights_first_open">Första öppning</string>
+    <string name="insights_usual_first_open">Vanlig första öppning</string>
+    <string name="insights_noticed">Recentr noterade</string>
+    <string name="insights_noticed_idle">Du har knappt öppnat %1$s. Fortsätt så.</string>
+    <string name="insights_noticed_checks">Du öppnar %1$s %2$d gånger om dagen för korta besök. Några sekunders paus innan den öppnas bryter reflexen.</string>
+    <string name="insights_noticed_night">Det mesta av din tid i %1$s ligger efter %2$s. En läggdagsrutin kan vinna tillbaka den.</string>
+    <string name="insights_noticed_morning">Det mesta av din tid i %1$s ligger före %2$s. En lugn morgonrutin kan vinna tillbaka den.</string>
+    <string name="insights_noticed_work">Det mesta av din tid i %1$s ligger under arbetsdagen. En fokussession kan vinna tillbaka den.</string>
+    <string name="insights_noticed_evening">Det mesta av din tid i %1$s ligger på kvällen. En gräns kan vinna tillbaka den.</string>
+    <string name="insights_noticed_spread">Din tid i %1$s är utspridd över dagen. En gräns håller den i schack.</string>
+    <string name="insights_set_limit">Sätt en gräns</string>
+    <string name="insights_edit_limit">Redigera gräns</string>
+    <string name="insights_block_app">Blockera %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">Upplockningar</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="one">upplockning idag</item>
+        <item quantity="other">upplockningar idag</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="one">upplockning igår</item>
+        <item quantity="other">upplockningar igår</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="one">upplockning den dagen</item>
+        <item quantity="other">upplockningar den dagen</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="one">upplockning om dagen</item>
+        <item quantity="other">upplockningar om dagen</item>
+    </plurals>
+    <string name="insights_first_pickup">Först kl. %1$s</string>
+    <string name="insights_usual_first_pickup">Vanligtvis först kl. %1$s</string>
+    <string name="insights_no_pickup">Ingen upplockning än</string>
+    <string name="insights_when_pick_up">När du tar upp telefonen</string>
+    <string name="insights_opened_first">Öppnas först efter en upplockning</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">Ingen app har öppnats efter en upplockning än.</string>
+    <string name="insights_tip_bedroom">Ladda telefonen utanför sovrummet – upplockningen vid %1$s blir lättare.</string>
+    <string name="insights_tip_reflex">%1$s är det första du öppnar. Flytta den från startskärmen för att bryta reflexen.</string>
+    <string name="insights_tip_evening">Kvällarna är när du tar upp telefonen mest. En läggdagsrutin håller den nere.</string>
+    <string name="insights_tip_default">Varje upplockning du hoppar över är en vinst. Prova att lägga telefonen med skärmen nedåt.</string>
+    <string name="insights_start_bedtime">Starta en läggdagsrutin</string>
+    <string name="insights_heat_cd">%1$s till %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">Rapport för %1$s</string>
+    <plurals name="insights_hours">
+        <item quantity="one">%d timme</item>
+        <item quantity="other">%d timmar</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="one">%d minut</item>
+        <item quantity="other">%d minuter</item>
+    </plurals>
+    <string name="insights_won_back_month">återvunnet den här månaden</string>
+    <string name="insights_pickups_a_day_label">Upplockningar per dag</string>
+    <string name="insights_best_streak">Bästa svit</string>
+    <plurals name="insights_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+    <string name="insights_new">ny</string>
+    <string name="insights_share_month">Dela min månad</string>
+    <string name="insights_replay">Spela upp igen</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">Dagligt mål</string>
+    <string name="insights_edit_goal">Redigera dagligt mål</string>
+    <string name="insights_days_on_target">%1$d av %2$d dagar inom målet</string>
+    <string name="insights_goal_under">Mål: under %1$s om dagen</string>
+    <string name="insights_adjust_goal">Justera målet</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">Prestationer</string>
+    <string name="achievements_earned_count">%1$d av %2$d uppnådda</string>
+    <string name="achievements_level">Nivå %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>Nystart</item>
+        <item>Hitta lugnet</item>
+        <item>Stadig hand</item>
+        <item>Lugnets väktare</item>
+        <item>Djupt fokus</item>
+        <item>Zenmästare</item>
+        <item>Offlinelegend</item>
+    </string-array>
+    <string name="achievements_points">%1$d / %2$d lugnpoäng</string>
+    <string name="achievements_points_max">%1$d lugnpoäng</string>
+    <string name="achievements_all">Alla</string>
+    <string name="achievements_earned">Uppnådda</string>
+    <string name="achievements_next_up">Härnäst</string>
+    <string name="achievements_none_earned">Ditt första märke är inom räckhåll.</string>
+    <string name="achievements_all_earned">Du har fått alla märken. Wow.</string>
+    <string name="achievements_progress_days">%1$d / %2$d dagar</string>
+    <string name="achievements_progress_nights">%1$d / %2$d nätter</string>
+    <string name="achievements_progress_mornings">%1$d / %2$d morgnar</string>
+    <string name="achievements_progress_hours">%1$d / %2$d timmar</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">%1$d av %2$d dagar</string>
+    <string name="achievements_of_nights">%1$d av %2$d nätter</string>
+    <string name="achievements_of_mornings">%1$d av %2$d morgnar</string>
+    <string name="achievements_of_hours">%1$d av %2$d timmar</string>
+    <string name="achievements_of_urges">%1$d av %2$d impulser</string>
+    <string name="achievements_not_yet">Inte uppnådd än</string>
+    <string name="achievements_points_reward">+%1$d lugnpoäng</string>
+    <string name="achievements_got_it">Uppfattat</string>
+    <string name="achievements_locked_cd">%1$s, låst, %2$s</string>
+    <string name="achievements_earned_cd">%1$s, uppnådd %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">Nytt märke</string>
+    <string name="achievements_earned_on">Uppnådd %1$s</string>
+    <string name="achievements_nice">Snyggt!</string>
+    <string name="achievements_share_badge">Dela märket</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">Första låset</string>
+    <string name="badge_first_lock_goal">Blockera appar med din första regel.</string>
+    <string name="badge_first_lock_cheer">Din första regel är igång. Små lås, stora segrar.</string>
+    <string name="badge_first_lock_milestone">Du blockerade %1$s för första gången.</string>
+    <string name="badge_first_lock_milestone_any">Du skapade din första blockeringsregel.</string>
+    <string name="badge_note_to_self">Lapp till mig själv</string>
+    <string name="badge_note_to_self_goal">Skriv ner varför på en av dina regler.</string>
+    <string name="badge_note_to_self_cheer">Din anledning är nedskriven. Den håller dig ärlig.</string>
+    <string name="badge_note_to_self_milestone">Du skrev ner varför du gör det här.</string>
+    <string name="badge_first_focus">Första fokuset</string>
+    <string name="badge_first_focus_goal">Slutför din första fokussession.</string>
+    <string name="badge_first_focus_cheer">En session avklarad. Din fokusmuskel värms upp.</string>
+    <string name="badge_first_focus_milestone">Din första fokussession.</string>
+    <string name="badge_focus_ten_hours">Fokus i 10 timmar</string>
+    <string name="badge_focus_ten_hours_goal">Tillbringa 10 timmar i fokussessioner.</string>
+    <string name="badge_focus_ten_hours_cheer">Tio timmars djupt fokus. Det är en hel arbetsdag som du fått tillbaka.</string>
+    <string name="badge_focus_ten_hours_milestone">10 timmar i fokussessioner.</string>
+    <string name="badge_seven_day_streak">7 dagars svit</string>
+    <string name="badge_seven_day_streak_goal">Håll din svit vid liv i 7 dagar.</string>
+    <string name="badge_seven_day_streak_cheer">En hel vecka under ditt mål. Håll elden vid liv.</string>
+    <string name="badge_seven_day_streak_milestone">En hel vecka under ditt mål.</string>
+    <string name="badge_goal_crusher">Målkrossaren</string>
+    <string name="badge_goal_crusher_goal">Håll dig under ditt dagliga mål 7 dagar i rad.</string>
+    <string name="badge_goal_crusher_cheer">Sju dagar under ditt mål, utan svitskydd. Krossat.</string>
+    <string name="badge_goal_crusher_milestone">7 dagar under ditt mål utan svitskydd.</string>
+    <string name="badge_two_calm_weeks">Två lugna veckor</string>
+    <string name="badge_two_calm_weeks_goal">Håll din svit vid liv i 14 dagar.</string>
+    <string name="badge_two_calm_weeks_cheer">Två lugna veckor. Det här håller på att bli en vana.</string>
+    <string name="badge_two_calm_weeks_milestone">14 dagar i rad under ditt mål.</string>
+    <string name="badge_calm_month">Lugn månad</string>
+    <string name="badge_calm_month_goal">Håll din svit vid liv i 30 dagar.</string>
+    <string name="badge_calm_month_cheer">En hel månad av lugn. Legendariskt.</string>
+    <string name="badge_calm_month_milestone">30 dagar i rad under ditt mål.</string>
+    <string name="badge_night_owl">Nattuggla, pensionerad</string>
+    <string name="badge_night_owl_goal">7 nätter i rad utan skärmar efter %1$s.</string>
+    <string name="badge_night_owl_cheer">7 nätter i rad utan skärmar efter %1$s. Din sömn tackar.</string>
+    <string name="badge_night_owl_milestone">Inga skärmar efter %1$s i 7 nätter.</string>
+    <string name="badge_slow_mornings">Långsamma morgnar</string>
+    <string name="badge_slow_mornings_goal">5 morgnar i rad utan skärmar före %1$s.</string>
+    <string name="badge_slow_mornings_cheer">Fem långsamma morgnar. Din dag börjar med dig, inte ditt flöde.</string>
+    <string name="badge_slow_mornings_milestone">Inga skärmar före %1$s i 5 morgnar.</string>
+    <string name="badge_screen_free_sunday">Skärmfri söndag</string>
+    <string name="badge_screen_free_sunday_goal">Tillbringa en söndag med under 30 minuters skärmtid.</string>
+    <string name="badge_screen_free_sunday_cheer">En söndag nästan utanför nätet. Känns det inte lättare?</string>
+    <string name="badge_screen_free_sunday_milestone">En söndag med under 30 minuters skärmtid.</string>
+    <string name="badge_gentle_day">Mild dag</string>
+    <string name="badge_gentle_day_goal">Tillbringa en hel dag med under 1 timmes skärmtid.</string>
+    <string name="badge_gentle_day_cheer">Under en timme hela dagen. Skonsamt för ögon och sinne.</string>
+    <string name="badge_gentle_day_milestone">En hel dag under 1 timme.</string>
+    <string name="badge_hands_off">Händerna av</string>
+    <string name="badge_hands_off_goal">Ta upp telefonen färre än 20 gånger på en dag.</string>
+    <string name="badge_hands_off_cheer">Färre än 20 upplockningar på en dag. Dina händer hittade bättre saker att göra.</string>
+    <string name="badge_hands_off_milestone">Färre än 20 upplockningar på en dag.</string>
+    <string name="badge_urges_resisted">100 motstådda impulser</string>
+    <string name="badge_urges_resisted_goal">Välj pausen 100 gånger under fokussessioner.</string>
+    <string name="badge_urges_resisted_cheer">100 impulser, 100 pauser. Det är du som bestämmer.</string>
+    <string name="badge_urges_resisted_milestone">Du valde pausen 100 gånger.</string>
+    <string name="badge_ten_hours_won_back">10 timmar återvunna</string>
+    <string name="badge_ten_hours_won_back_goal">Vinn tillbaka 10 timmar från din gamla telefonvana.</string>
+    <string name="badge_ten_hours_won_back_cheer">10 timmar tillbaka i ditt liv. Vad ska du göra med dem?</string>
+    <string name="badge_ten_hours_won_back_milestone">10 timmar återvunna från din gamla vana.</string>
+    <string name="badge_fifty_hours_won_back">50 timmar återvunna</string>
+    <string name="badge_fifty_hours_won_back_goal">Vinn tillbaka 50 timmar från din gamla telefonvana.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50 timmar återvunna. Det är mer än en arbetsvecka.</string>
+    <string name="badge_fifty_hours_won_back_milestone">50 timmar återvunna från din gamla vana.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">Svit</string>
+    <string name="streak_best_yet">dagars svit · din bästa hittills</string>
+    <string name="streak_best">dagars svit · bäst %1$s</string>
+    <string name="streak_this_week">Den här veckan</string>
+    <plurals name="streak_savers_left">
+        <item quantity="one">%d svitskydd kvar</item>
+        <item quantity="other">%d svitskydd kvar</item>
+    </plurals>
+    <string name="streak_saver_used">Svitskydd använt %1$s – din svit är räddad.</string>
+    <string name="streak_saver_unused">Över ditt mål en dag? Ett svitskydd räddar din svit.</string>
+    <string name="streak_savers_out">Inga svitskydd kvar den här månaden. Nya kommer den 1:a.</string>
+    <plurals name="streak_days_to">
+        <item quantity="one">%1$d dag till ”%2$s”</item>
+        <item quantity="other">%1$d dagar till ”%2$s”</item>
+    </plurals>
+    <string name="streak_all_done">Alla svitmärken uppnådda. Fortsätt så!</string>
+    <string name="streak_help">Så fungerar sviter</string>
+    <string name="streak_help_body">Varje dag under ditt dagliga mål ger +1 på din svit. Gick du över? Ett svitskydd täcker dagen – du får 3 varje månad.</string>
+    <string name="streak_help_ok">Uppfattat</string>
+    <string name="streak_day_on_target">%1$s: under ditt mål</string>
+    <string name="streak_day_saved">%1$s: räddad av ett svitskydd</string>
+    <string name="streak_day_missed">%1$s: över ditt mål</string>
+    <string name="streak_day_today">%1$s: idag</string>
+    <string name="streak_day_empty">%1$s: inga data</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">Milstolpar</string>
+    <plurals name="milestones_since">
+        <item quantity="one">Sedan du började · %d dag</item>
+        <item quantity="other">Sedan du började · %d dagar</item>
+    </plurals>
+    <string name="milestones_next">Nästa</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">Dela</string>
+    <string name="share_won_back">Jag vann tillbaka</string>
+    <string name="share_in_month">i %1$s med Recentr</string>
+    <string name="share_earned">Jag fick märket</string>
+    <string name="share_with_recentr">med Recentr</string>
+    <string name="share_streak_chip">%1$d dagars svit</string>
+    <string name="share_daily_chip">%1$s om dagen</string>
+    <string name="share_level_chip">Nivå %1$d</string>
+    <string name="share_stories">Stories</string>
+    <string name="share_post">Inlägg</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">Kopiera länk</string>
+    <string name="share_save">Spara</string>
+    <string name="share_done">Klart</string>
+    <string name="share_text_month">Jag vann tillbaka %1$s i %2$s med Recentr. %3$s</string>
+    <string name="share_text_badge">Jag fick märket ”%1$s” med Recentr. %2$s</string>
+    <string name="share_copied">Kopierat</string>
+    <string name="share_saved">Sparad i Bilder</string>
+    <string name="share_save_failed">Kunde inte spara bilden</string>
+</resources>

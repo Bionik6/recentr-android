@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">プロフィールを開く</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d時間%2$02d分</string>
+    <string name="home_duration_hours">%1$d時間</string>
+    <string name="home_duration_minutes">%1$d分</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">今日のスクリーンタイム</string>
+    <string name="home_hero_screen_time_yesterday">昨日のスクリーンタイム</string>
+    <string name="home_hero_average_week">1日の平均 · 今週</string>
+    <string name="home_hero_average_month">1日の平均 · 今月</string>
+    <string name="home_goal_under">目標の%1$s未満</string>
+    <string name="home_goal_over">目標の%1$sを超過</string>
+    <string name="home_compare_less_week">先週より%1$d%%少ない</string>
+    <string name="home_compare_more_week">先週より%1$d%%多い</string>
+    <string name="home_compare_less_month">先月より%1$d%%少ない</string>
+    <string name="home_compare_more_month">先月より%1$d%%多い</string>
+    <string name="home_syncing">スクリーンタイムを同期中…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">未接続</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">今日のクオリティ</string>
+    <string name="home_hero_quality_yesterday">昨日のクオリティ</string>
+    <string name="home_hero_quality_week">クオリティ · 今週</string>
+    <string name="home_hero_quality_month">クオリティ · 今月</string>
+    <string name="home_quality_focused">集中できた</string>
+    <string name="home_quality_balanced">バランス良好</string>
+    <string name="home_quality_distracted">気が散った</string>
+    <string name="home_split_focus">集中 %1$d%%</string>
+    <string name="home_split_social">SNS %1$d%%</string>
+    <string name="home_split_fun">娯楽 %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">今日いちばん長く離れた時間</string>
+    <string name="home_hero_offline_yesterday">昨日いちばん長く離れた時間</string>
+    <string name="home_hero_offline_week">いちばん長く離れた時間 · 今週</string>
+    <string name="home_hero_offline_month">いちばん長く離れた時間 · 今月</string>
+    <string name="home_offline_chip">スマホから離れた時間</string>
+    <string name="home_hero_details">詳細を表示</string>
+    <string name="home_hero_page">%2$dページ中%1$dページ</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">減少</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">持ち上げ回数</string>
+    <string name="home_stat_notifications">通知</string>
+    <string name="home_stat_total">合計</string>
+    <string name="home_stat_best_day">ベストな日</string>
+    <string-array name="home_day_letters">
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">連続記録</string>
+    <plurals name="home_streak_days">
+        <item quantity="other">%d日</item>
+    </plurals>
+    <string name="home_tile_next">次 · %1$s</string>
+    <string name="home_tile_ongoing">実行中 · %1$s</string>
+    <string name="home_tile_blocking">ブロック中 · %1$s</string>
+    <string name="home_tile_left">残り%1$s</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">次</string>
+    <string name="home_tile_no_rule">予定のルールなし</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">読み込み中…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">よく使うもの</string>
+    <string name="home_filter_apps">アプリ</string>
+    <string name="home_filter_categories">カテゴリ</string>
+    <string name="home_category_social">SNS</string>
+    <string name="home_category_entertainment">エンタメ</string>
+    <string name="home_category_games">ゲーム</string>
+    <string name="home_category_productivity">仕事効率化</string>
+    <string name="home_category_music">音楽</string>
+    <string name="home_category_other">その他</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s、画面に釘付けでした</string>
+    <string name="home_info_glued_average">1日あたり%1$s、画面に釘付け</string>
+    <string name="home_info_hints_title">ふり返りのヒント</string>
+    <string name="home_info_glued_hints">どのくらい中断されましたか？なぜスマホに手が伸びたのでしょう？本当に大事なことでしたか？</string>
+    <string name="home_info_offline">%1$s離れていました</string>
+    <string name="home_info_offline_today">今日、スマホなしで過ごしたいちばん長い時間です。</string>
+    <string name="home_info_offline_yesterday">昨日、スマホなしで過ごしたいちばん長い時間です。</string>
+    <string name="home_info_offline_week">今週、スマホなしで過ごしたいちばん長い時間です。</string>
+    <string name="home_info_offline_month">今月、スマホなしで過ごしたいちばん長い時間です。</string>
+    <string name="home_info_offline_hints">その間に何ができましたか？どんな気分でしたか？</string>
+    <string name="home_info_got_it">わかりました</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">常に許可</string>
+    <string name="home_always_allowed_subtitle">ブロックの対象外になるアプリ</string>
+    <string name="home_always_allowed_empty_title">アプリが選ばれていません</string>
+    <string name="home_always_allowed_empty_body">ブロック中でも使えるようにしておきたいアプリを選んでください。</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="other">常に許可：%d個のアプリ</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">設定する</string>
+    <string name="home_always_allowed_close">閉じる</string>
+    <string name="home_always_allowed_settings_title">「常に許可」は設定にあります</string>
+    <string name="home_always_allowed_settings_body">必要になったら、「設定」›「保護」›「常に許可」からいつでも開けます。</string>
+    <string name="home_always_allowed_settings_got_it">わかりました</string>
+</resources>

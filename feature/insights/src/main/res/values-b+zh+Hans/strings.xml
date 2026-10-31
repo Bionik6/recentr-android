@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified). -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">返回</string>
+    <string name="insights_close">关闭</string>
+    <string name="insights_more">更多选项</string>
+    <string name="insights_duration_m">%1$d分钟</string>
+    <string name="insights_duration_h">%1$d小时</string>
+    <string name="insights_duration_h_m">%1$d小时%2$02d分钟</string>
+    <string name="insights_duration_compact">%1$d小时%2$02d分</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d%%</string>
+    <string name="insights_date">%1$s%2$d日</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>日</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>一月</item>
+        <item>二月</item>
+        <item>三月</item>
+        <item>四月</item>
+        <item>五月</item>
+        <item>六月</item>
+        <item>七月</item>
+        <item>八月</item>
+        <item>九月</item>
+        <item>十月</item>
+        <item>十一月</item>
+        <item>十二月</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">洞察</string>
+    <string name="insights_tab_day">日</string>
+    <string name="insights_tab_week">周</string>
+    <string name="insights_tab_month">月</string>
+    <string name="insights_daily_average">日均</string>
+    <string name="insights_screen_time_today">今日屏幕使用时间</string>
+    <string name="insights_screen_time_yesterday">昨日屏幕使用时间</string>
+    <string name="insights_screen_time">屏幕使用时间</string>
+    <string name="insights_vs_last_week">较上周 %1$s</string>
+    <string name="insights_vs_yesterday">较昨天 %1$s</string>
+    <string name="insights_vs_day_before">较前一天 %1$s</string>
+    <string name="insights_vs_week_before">较前一周 %1$s</string>
+    <string name="insights_goal_line">目标 %1$s</string>
+    <string name="insights_by_category">按类别</string>
+    <string name="insights_no_usage">还没有屏幕使用记录。</string>
+    <string name="insights_top_apps">常用应用</string>
+    <string name="insights_no_apps">还没有使用过应用。</string>
+    <string name="insights_see_more">查看更多</string>
+    <string name="insights_category_social">社交</string>
+    <string name="insights_category_video">视频</string>
+    <string name="insights_category_music">音乐</string>
+    <string name="insights_category_games">游戏</string>
+    <string name="insights_category_productivity">效率</string>
+    <string name="insights_category_other">其他</string>
+    <string name="insights_menu_pickups">拿起次数</string>
+    <string name="insights_menu_daily_goal">每日目标</string>
+    <string name="insights_menu_streak">连续记录</string>
+    <string name="insights_menu_achievements">成就</string>
+    <string name="insights_chart_cd">%1$s：%2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">低于目标</string>
+    <string name="insights_less">少</string>
+    <string name="insights_more_legend">多</string>
+    <string name="insights_best_day">最佳日</string>
+    <string name="insights_toughest_day">最难熬的一天</string>
+    <string name="insights_see_report">查看 %1$s 报告</string>
+    <string name="insights_day_cd">%1$s：%2$s</string>
+    <string name="insights_day_cd_none">%1$s：无数据</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">今天</string>
+    <string name="insights_period_yesterday">昨天</string>
+    <string name="insights_period_week">本周</string>
+    <string name="insights_period_month">本月</string>
+    <string name="insights_period_last_week">上周</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s，%2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s，%2$d 年</string>
+    <string name="insights_previous">上一个</string>
+    <string name="insights_next">下一个</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="other">打开 %d 次</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · 超出限额 %2$s</string>
+    <string name="insights_left_in_limit">%1$s · 限额还剩 %2$s</string>
+    <string name="insights_by_hour">按小时</string>
+    <string name="insights_longest_session">单次最长使用</string>
+    <string name="insights_first_open">首次打开</string>
+    <string name="insights_usual_first_open">通常首次打开</string>
+    <string name="insights_noticed">Recentr 发现</string>
+    <string name="insights_noticed_idle">你几乎没打开 %1$s。继续保持。</string>
+    <string name="insights_noticed_checks">你每天打开 %1$s %2$d 次，每次都很短。在它打开前停顿几秒，就能打破这种条件反射。</string>
+    <string name="insights_noticed_night">你使用 %1$s 的时间大多在 %2$s 之后。睡前例程也许能把这些时间赢回来。</string>
+    <string name="insights_noticed_morning">你使用 %1$s 的时间大多在 %2$s 之前。宁静的晨间例程也许能把这些时间赢回来。</string>
+    <string name="insights_noticed_work">你使用 %1$s 的时间大多在工作日白天。专注时段也许能把这些时间赢回来。</string>
+    <string name="insights_noticed_evening">你使用 %1$s 的时间大多在晚上。设一个限额也许能把这些时间赢回来。</string>
+    <string name="insights_noticed_spread">你使用 %1$s 的时间分散在一整天。设一个限额能帮你把它管住。</string>
+    <string name="insights_set_limit">设置限额</string>
+    <string name="insights_edit_limit">编辑限额</string>
+    <string name="insights_block_app">屏蔽 %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">拿起次数</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="other">今日拿起次数</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="other">昨日拿起次数</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="other">当天拿起次数</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="other">日均拿起次数</item>
+    </plurals>
+    <string name="insights_first_pickup">首次在 %1$s</string>
+    <string name="insights_usual_first_pickup">通常首次在 %1$s</string>
+    <string name="insights_no_pickup">还没拿起过手机</string>
+    <string name="insights_when_pick_up">你拿起手机的时间</string>
+    <string name="insights_opened_first">拿起后最先打开</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">拿起手机后还没打开过应用。</string>
+    <string name="insights_tip_bedroom">把手机放到卧室外充电，%1$s 的那次拿起就容易戒了。</string>
+    <string name="insights_tip_reflex">%1$s 是你最先打开的应用。把它从主屏幕移走，打破这种条件反射。</string>
+    <string name="insights_tip_evening">晚上是你拿起手机最频繁的时候。睡前例程能帮你放下手机。</string>
+    <string name="insights_tip_default">你每忍住一次，都是一次胜利。试试把手机屏幕朝下放。</string>
+    <string name="insights_start_bedtime">开启睡前例程</string>
+    <string name="insights_heat_cd">%1$s 至 %2$s：%3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">%1$s 报告</string>
+    <plurals name="insights_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="other">%d 分钟</item>
+    </plurals>
+    <string name="insights_won_back_month">本月赢回</string>
+    <string name="insights_pickups_a_day_label">日均拿起次数</string>
+    <string name="insights_best_streak">最长连续记录</string>
+    <plurals name="insights_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <string name="insights_new">新</string>
+    <string name="insights_share_month">分享我的这个月</string>
+    <string name="insights_replay">重播</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">每日目标</string>
+    <string name="insights_edit_goal">编辑每日目标</string>
+    <string name="insights_days_on_target">%1$d / %2$d 天达标</string>
+    <string name="insights_goal_under">目标：每天低于 %1$s</string>
+    <string name="insights_adjust_goal">调整目标</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">成就</string>
+    <string name="achievements_earned_count">已获得 %1$d / %2$d</string>
+    <string name="achievements_level">等级 %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>全新开始</item>
+        <item>寻找平静</item>
+        <item>稳如泰山</item>
+        <item>平静守护者</item>
+        <item>深度专注</item>
+        <item>禅意大师</item>
+        <item>离线传奇</item>
+    </string-array>
+    <string name="achievements_points">%1$d / %2$d 平静积分</string>
+    <string name="achievements_points_max">%1$d 平静积分</string>
+    <string name="achievements_all">全部</string>
+    <string name="achievements_earned">已获得</string>
+    <string name="achievements_next_up">即将达成</string>
+    <string name="achievements_none_earned">你的第一枚徽章就在不远处。</string>
+    <string name="achievements_all_earned">你集齐了所有徽章，太棒了！</string>
+    <string name="achievements_progress_days">%1$d / %2$d 天</string>
+    <string name="achievements_progress_nights">%1$d / %2$d 晚</string>
+    <string name="achievements_progress_mornings">%1$d / %2$d 个早晨</string>
+    <string name="achievements_progress_hours">%1$d / %2$d 小时</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">%1$d / %2$d 天</string>
+    <string name="achievements_of_nights">%1$d / %2$d 晚</string>
+    <string name="achievements_of_mornings">%1$d / %2$d 个早晨</string>
+    <string name="achievements_of_hours">%1$d / %2$d 小时</string>
+    <string name="achievements_of_urges">%1$d / %2$d 次冲动</string>
+    <string name="achievements_not_yet">尚未获得</string>
+    <string name="achievements_points_reward">+%1$d 平静积分</string>
+    <string name="achievements_got_it">知道了</string>
+    <string name="achievements_locked_cd">%1$s，未解锁，%2$s</string>
+    <string name="achievements_earned_cd">%1$s，获得于 %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">新徽章</string>
+    <string name="achievements_earned_on">获得于 %1$s</string>
+    <string name="achievements_nice">太棒了！</string>
+    <string name="achievements_share_badge">分享徽章</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">首次锁定</string>
+    <string name="badge_first_lock_goal">用你的第一条规则屏蔽应用。</string>
+    <string name="badge_first_lock_cheer">你的第一条规则已生效。小小的锁定，大大的胜利。</string>
+    <string name="badge_first_lock_milestone">你第一次屏蔽了 %1$s。</string>
+    <string name="badge_first_lock_milestone_any">你设置了第一条屏蔽规则。</string>
+    <string name="badge_note_to_self">给自己的话</string>
+    <string name="badge_note_to_self_goal">在你的某条规则上写下原因。</string>
+    <string name="badge_note_to_self_cheer">原因已经写下，它会时刻提醒你。</string>
+    <string name="badge_note_to_self_milestone">你写下了自己为什么要这样做。</string>
+    <string name="badge_first_focus">首次专注</string>
+    <string name="badge_first_focus_goal">完成你的第一个专注时段。</string>
+    <string name="badge_first_focus_cheer">完成一个时段啦。你的专注力正在热身。</string>
+    <string name="badge_first_focus_milestone">你的第一个专注时段。</string>
+    <string name="badge_focus_ten_hours">专注 10 小时</string>
+    <string name="badge_focus_ten_hours_goal">累计在专注时段中度过 10 小时。</string>
+    <string name="badge_focus_ten_hours_cheer">十小时的深度专注，相当于夺回了整整一个工作日。</string>
+    <string name="badge_focus_ten_hours_milestone">在专注时段中累计 10 小时。</string>
+    <string name="badge_seven_day_streak">连续 7 天</string>
+    <string name="badge_seven_day_streak_goal">保持连续记录 7 天。</string>
+    <string name="badge_seven_day_streak_cheer">整整一周都低于目标。让这团火继续烧下去。</string>
+    <string name="badge_seven_day_streak_milestone">整整一周都低于目标。</string>
+    <string name="badge_goal_crusher">目标达人</string>
+    <string name="badge_goal_crusher_goal">连续 7 天低于每日目标。</string>
+    <string name="badge_goal_crusher_cheer">七天都低于目标，一张保护卡都没用。太强了！</string>
+    <string name="badge_goal_crusher_milestone">连续 7 天低于目标，且未使用保护卡。</string>
+    <string name="badge_two_calm_weeks">平静两周</string>
+    <string name="badge_two_calm_weeks_goal">保持连续记录 14 天。</string>
+    <string name="badge_two_calm_weeks_cheer">平静的两周。这正在变成习惯。</string>
+    <string name="badge_two_calm_weeks_milestone">连续 14 天低于目标。</string>
+    <string name="badge_calm_month">平静一个月</string>
+    <string name="badge_calm_month_goal">保持连续记录 30 天。</string>
+    <string name="badge_calm_month_cheer">整整一个月的平静。传奇！</string>
+    <string name="badge_calm_month_milestone">连续 30 天低于目标。</string>
+    <string name="badge_night_owl">夜猫子退休</string>
+    <string name="badge_night_owl_goal">连续 7 个夜晚，%1$s 之后不碰屏幕。</string>
+    <string name="badge_night_owl_cheer">连续 7 个夜晚，%1$s 之后不碰屏幕。你的睡眠向你道谢。</string>
+    <string name="badge_night_owl_milestone">7 个夜晚，%1$s 之后不碰屏幕。</string>
+    <string name="badge_slow_mornings">慢悠悠的早晨</string>
+    <string name="badge_slow_mornings_goal">连续 5 个早晨，%1$s 之前不碰屏幕。</string>
+    <string name="badge_slow_mornings_cheer">五个慢悠悠的早晨。你的一天从你自己开始，而不是从信息流开始。</string>
+    <string name="badge_slow_mornings_milestone">5 个早晨，%1$s 之前不碰屏幕。</string>
+    <string name="badge_screen_free_sunday">无屏周日</string>
+    <string name="badge_screen_free_sunday_goal">度过一个屏幕使用时间不到 30 分钟的周日。</string>
+    <string name="badge_screen_free_sunday_cheer">几乎与网络断开的周日。是不是感觉轻盈多了？</string>
+    <string name="badge_screen_free_sunday_milestone">屏幕使用时间不到 30 分钟的一个周日。</string>
+    <string name="badge_gentle_day">温柔的一天</string>
+    <string name="badge_gentle_day_goal">整整一天屏幕使用时间不到 1 小时。</string>
+    <string name="badge_gentle_day_cheer">一整天不到一小时。对你的眼睛和心情都很温柔。</string>
+    <string name="badge_gentle_day_milestone">整整一天不到 1 小时。</string>
+    <string name="badge_hands_off">放下手机</string>
+    <string name="badge_hands_off_goal">一天内拿起手机少于 20 次。</string>
+    <string name="badge_hands_off_cheer">一天拿起不到 20 次。你的双手找到了更好的事做。</string>
+    <string name="badge_hands_off_milestone">一天拿起少于 20 次。</string>
+    <string name="badge_urges_resisted">抵住 100 次冲动</string>
+    <string name="badge_urges_resisted_goal">在专注时段中选择“停一停” 100 次。</string>
+    <string name="badge_urges_resisted_cheer">100 次冲动，100 次停顿。做主的人是你。</string>
+    <string name="badge_urges_resisted_milestone">你选择了 100 次停顿。</string>
+    <string name="badge_ten_hours_won_back">赢回 10 小时</string>
+    <string name="badge_ten_hours_won_back_goal">从旧的手机习惯中赢回 10 小时。</string>
+    <string name="badge_ten_hours_won_back_cheer">10 小时回到了你的生活。你打算用来做什么？</string>
+    <string name="badge_ten_hours_won_back_milestone">从旧习惯中赢回了 10 小时。</string>
+    <string name="badge_fifty_hours_won_back">赢回 50 小时</string>
+    <string name="badge_fifty_hours_won_back_goal">从旧的手机习惯中赢回 50 小时。</string>
+    <string name="badge_fifty_hours_won_back_cheer">赢回了 50 小时，比一周的工作时间还多。</string>
+    <string name="badge_fifty_hours_won_back_milestone">从旧习惯中赢回了 50 小时。</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">连续记录</string>
+    <string name="streak_best_yet">天连续 · 你的最佳纪录</string>
+    <string name="streak_best">天连续 · 最佳 %1$s</string>
+    <string name="streak_this_week">本周</string>
+    <plurals name="streak_savers_left">
+        <item quantity="other">剩余 %d 张保护卡</item>
+    </plurals>
+    <string name="streak_saver_used">在 %1$s 用了一张——你的连续记录安然无恙。</string>
+    <string name="streak_saver_unused">某天超出目标了？保护卡能保住你的连续记录。</string>
+    <string name="streak_savers_out">本月没有保护卡了。新的会在 1 号送到。</string>
+    <plurals name="streak_days_to">
+        <item quantity="other">距离“%2$s”还有 %1$d 天</item>
+    </plurals>
+    <string name="streak_all_done">所有连续记录徽章都已获得。继续保持！</string>
+    <string name="streak_help">连续记录如何运作</string>
+    <string name="streak_help_body">每天低于每日目标，连续记录就加一。超标了？保护卡会替你保住那一天——每月有 3 张。</string>
+    <string name="streak_help_ok">知道了</string>
+    <string name="streak_day_on_target">%1$s：低于目标</string>
+    <string name="streak_day_saved">%1$s：由保护卡保住</string>
+    <string name="streak_day_missed">%1$s：超出目标</string>
+    <string name="streak_day_today">%1$s：今天</string>
+    <string name="streak_day_empty">%1$s：无数据</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">里程碑</string>
+    <plurals name="milestones_since">
+        <item quantity="other">自你开始 · %d 天</item>
+    </plurals>
+    <string name="milestones_next">下一个</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">分享</string>
+    <string name="share_won_back">我赢回了</string>
+    <string name="share_in_month">在 %1$s，靠 Recentr</string>
+    <string name="share_earned">我获得了</string>
+    <string name="share_with_recentr">来自 Recentr</string>
+    <string name="share_streak_chip">连续 %1$d 天</string>
+    <string name="share_daily_chip">每天 %1$s</string>
+    <string name="share_level_chip">等级 %1$d</string>
+    <string name="share_stories">快拍</string>
+    <string name="share_post">动态</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">复制链接</string>
+    <string name="share_save">保存</string>
+    <string name="share_done">完成</string>
+    <string name="share_text_month">我靠 Recentr 在 %2$s 赢回了 %1$s。%3$s</string>
+    <string name="share_text_badge">我在 Recentr 获得了“%1$s”。%2$s</string>
+    <string name="share_copied">已复制</string>
+    <string name="share_saved">已保存到“图片”</string>
+    <string name="share_save_failed">无法保存图片</string>
+</resources>

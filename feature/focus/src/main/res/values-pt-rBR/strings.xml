@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Portuguese (Brazil). -->
+<resources>
+    <string name="focus_title">Timer</string>
+    <string name="focus_more">Mais opções</string>
+    <string name="focus_close">Fechar</string>
+    <string name="focus_back">Voltar</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d min</string>
+    <string name="focus_dial_description">Duração do foco: %d minutos. Arraste para alterar.</string>
+    <string name="focus_sound">Som</string>
+    <string name="focus_block">Bloquear</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">Nenhum</string>
+    <string name="focus_rounds">Rodadas</string>
+    <string name="focus_rounds_value">%1$d × %2$d min</string>
+    <string name="focus_start">Iniciar foco</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">Modo rígido</string>
+    <string name="focus_strict_caption">Modo rígido: sem pausar nem encerrar antes</string>
+    <string name="focus_strict_note">Modo rígido: este foco termina sozinho</string>
+    <string name="focus_strict_confirm_title">Ativar o Modo rígido?</string>
+    <string name="focus_strict_confirm_body">Você não poderá pausar nem encerrar este foco antes da hora. As pausas continuam acontecendo.</string>
+    <string name="focus_strict_turn_on">Ativar</string>
+    <string name="focus_cancel">Cancelar</string>
+    <string name="focus_back_to_focus">Voltar ao foco</string>
+    <string name="focus_back_to_focus_left">Voltar ao foco · %1$s</string>
+    <string name="focus_rename">Renomear</string>
+    <string name="focus_rename_title">Dê um nome a esta sessão</string>
+    <string name="focus_rename_save">Salvar</string>
+    <string name="focus_log">Registro de foco</string>
+    <string name="focus_change_sound">Trocar som</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">Rodada %1$d de %2$d</string>
+    <string name="focus_left_ends">restantes · termina às %s</string>
+    <string name="focus_paused_round_of">Pausado · rodada %1$d de %2$d</string>
+    <string name="focus_ready_round_of">Pronto para a rodada %1$d de %2$d</string>
+    <string name="focus_round_n">Rodada %d</string>
+    <string name="focus_take_your_time">Sem pressa</string>
+    <string name="focus_paused_for">pausado há %s</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="one">%d app em espera</item>
+        <item quantity="many">%d apps em espera</item>
+        <item quantity="other">%d apps em espera</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="one">%d app ainda em espera</item>
+        <item quantity="many">%d apps ainda em espera</item>
+        <item quantity="other">%d apps ainda em espera</item>
+    </plurals>
+    <string name="focus_pause">Pausar</string>
+    <string name="focus_resume">Retomar</string>
+    <string name="focus_start_round">Iniciar rodada</string>
+    <string name="focus_end_session">Encerrar sessão</string>
+    <string name="focus_restart_round">Reiniciar rodada</string>
+    <string name="focus_round_restarted">Rodada %d reiniciada</string>
+    <string name="focus_undo">Desfazer</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">Sons de foco</string>
+    <string name="sounds_subtitle_none">Ative quantos quiser.</string>
+    <string name="sounds_subtitle_on">Ligado: %1$s</string>
+    <string name="sounds_subtitle_on_muted">Ligado: %1$s · Silenciados: %2$d</string>
+    <string name="sounds_subtitle_muted">Nada tocando · Silenciados: %d</string>
+    <string name="sounds_mute_all">Silenciar tudo</string>
+    <string name="sounds_unmute_all">Reativar tudo</string>
+    <string name="sounds_on_count">Ligados: %d</string>
+    <string name="sounds_volume">Volume</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">Desligado</string>
+    <string name="sound_state_muted">Silenciado</string>
+    <string name="sound_turn_on">Ligar</string>
+    <string name="sound_mute">Silenciar</string>
+    <string name="sound_unmute">Reativar</string>
+    <string name="sound_mix_off">Desligado</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">Adicionar um som</string>
+    <string name="sound_category_rain">Chuva</string>
+    <string name="sound_category_water">Água</string>
+    <string name="sound_category_nature">Natureza</string>
+    <string name="sound_category_places">Lugares</string>
+    <string name="sound_category_steady">Tique-taques e ruídos</string>
+    <string name="sound_soft_rain">Chuva fraca</string>
+    <string name="sound_heavy_rain">Chuva forte</string>
+    <string name="sound_forest_rain">Chuva na floresta</string>
+    <string name="sound_rain_village">Chuva na vila</string>
+    <string name="sound_thunder">Trovão</string>
+    <string name="sound_river">Rio</string>
+    <string name="sound_small_river">Riacho</string>
+    <string name="sound_beach">Praia</string>
+    <string name="sound_sea_beach">Beira-mar</string>
+    <string name="sound_soft_beach">Costa calma</string>
+    <string name="sound_whale">Baleias</string>
+    <string name="sound_forest_night">Floresta à noite</string>
+    <string name="sound_birds">Pássaros</string>
+    <string name="sound_crickets">Grilos</string>
+    <string name="sound_cicada_birds">Cigarras</string>
+    <string name="sound_farm">Fazenda</string>
+    <string name="sound_wind">Vento</string>
+    <string name="sound_campfire">Fogueira</string>
+    <string name="sound_coffee_shop">Cafeteria</string>
+    <string name="sound_office">Escritório</string>
+    <string name="sound_street_traffic">Rua</string>
+    <string name="sound_construction">Obra</string>
+    <string name="sound_keyboard_typing">Digitação</string>
+    <string name="sound_clock_tick">Relógio</string>
+    <string name="sound_clock_stopwatch">Cronômetro</string>
+    <string name="sound_white_noise">Ruído branco</string>
+    <string name="sound_pink_noise">Ruído rosa</string>
+    <string name="sounds_done">Pronto</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">Pausa</string>
+    <string name="break_round_done">Rodada %1$d concluída · restantes: %2$d</string>
+    <string name="break_until">até a rodada %d</string>
+    <string name="break_ideas_title">Tente isto em vez de rolar a tela</string>
+    <string name="break_idea_window">Olhe pela janela</string>
+    <string name="break_idea_window_hint">20 segundos, a 20 metros</string>
+    <string name="break_idea_water">Beba um copo d’água</string>
+    <string name="break_idea_water_hint">Seu cérebro agradece</string>
+    <string name="break_idea_stretch">Alongue os ombros</string>
+    <string name="break_idea_stretch_hint">Gire para trás 5 vezes</string>
+    <string name="break_skip">Pular pausa</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="one">%1$d minuto de %2$s</item>
+        <item quantity="many">%1$d minutos de %2$s</item>
+        <item quantity="other">%1$d minutos de %2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="one">%d rodada</item>
+        <item quantity="many">%d rodadas</item>
+        <item quantity="other">%d rodadas</item>
+    </plurals>
+    <string name="complete_zero_unlocks">zero desbloqueios</string>
+    <plurals name="complete_unlocks">
+        <item quantity="one">%d desbloqueio</item>
+        <item quantity="many">%d desbloqueios</item>
+        <item quantity="other">%d desbloqueios</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. Foi a sua mais longa da semana.</string>
+    <string name="complete_focus_streak">Sequência de foco</string>
+    <plurals name="complete_days">
+        <item quantity="one">%d dia</item>
+        <item quantity="many">%d dias</item>
+        <item quantity="other">%d dias</item>
+    </plurals>
+    <string name="complete_urges">Impulsos resistidos</string>
+    <string name="complete_urges_today">%d hoje</string>
+    <string name="complete_note_title">O que você concluiu?</string>
+    <string name="complete_note_placeholder">Esboço do capítulo 3 + duas páginas. O celular ficou virado para baixo.</string>
+    <string name="complete_another">Começar outra rodada</string>
+    <string name="complete_done">Pronto</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">Você está há %d min em foco</string>
+    <string name="hold_leave_body">Seus apps ficam em espera até %s. Continue assim — você está indo muito bem.</string>
+    <string name="hold_back">Voltar ao foco</string>
+    <string name="hold_end">Encerrar sessão antes</string>
+    <string name="hold_keep_focusing">Continuar focando</string>
+    <string name="hold_end_now">Encerrar agora?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="one">Encerre agora e seu app volta.</item>
+        <item quantity="many">Encerre agora e seus %d apps voltam.</item>
+        <item quantity="other">Encerre agora e seus %d apps voltam.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s Os %2$d min continuam valendo.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">Registro de foco</string>
+    <string name="history_this_week">Esta semana</string>
+    <string name="history_sessions">Sessões</string>
+    <string name="history_today">Hoje, %s</string>
+    <string name="history_yesterday">Ontem, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">Nenhuma sessão ainda. Suas sessões de foco vão aparecer aqui.</string>
+    <string name="history_clear">Limpar o registro</string>
+    <string-array name="focus_day_letters">
+        <item>S</item>
+        <item>T</item>
+        <item>Q</item>
+        <item>Q</item>
+        <item>S</item>
+        <item>S</item>
+        <item>D</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">Rodadas</string>
+    <string name="rounds_subtitle">Trabalhe em rodadas com pausas curtas entre elas.</string>
+    <string name="rounds_focus">Foco</string>
+    <string name="rounds_short_break">Pausa curta</string>
+    <string name="rounds_count">Rodadas</string>
+    <string name="rounds_long_break">Pausa longa</string>
+    <string name="rounds_minutes">%d min</string>
+    <string name="rounds_auto_start">Iniciar a próxima rodada sozinho</string>
+    <string name="rounds_total">Total: %s com as pausas</string>
+    <string name="rounds_save">Salvar rodadas</string>
+    <string name="rounds_decrease">Diminuir %s</string>
+    <string name="rounds_increase">Aumentar %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d h</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_h_m">%1$d h %2$d min</string>
+    <string name="focus_notification_channel">Timer de foco</string>
+    <string name="focus_notification_channel_description">A sessão em andamento, enquanto os sons tocam com o Recentr fechado.</string>
+    <string name="focus_notification_round">Rodada %1$d de %2$d</string>
+    <string name="focus_notification_break">Pausa · próxima: rodada %1$d</string>
+    <string name="focus_notification_paused">Pausado · rodada %1$d de %2$d</string>
+</resources>

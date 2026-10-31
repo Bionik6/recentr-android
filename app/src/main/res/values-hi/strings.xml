@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hindi. -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">Recentr ऐप ब्लॉकिंग</string>
+    <string name="hold_service_summary">आपके नियमों और फ़ोकस सेशन से ब्लॉक किए गए ऐप्स को होल्ड पर रखता है।</string>
+    <string name="hold_service_description">Recentr आपके नियमों और फ़ोकस सेशन से ब्लॉक किए गए ऐप्स को होल्ड पर रखता है। यह सिर्फ़ यह देखता है कि आप कौन-सा ऐप खोलते हैं — आपकी स्क्रीन पर क्या है, यह कभी नहीं — और कुछ भी आपके फ़ोन से बाहर नहीं जाता।</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">%1$s अभी आराम पर है</string>
+    <string name="shield_on_hold">%1$s होल्ड पर है</string>
+    <string name="shield_until">%1$s · %2$s तक</string>
+    <string name="shield_until_tomorrow">%1$s · कल %2$s तक</string>
+    <string name="shield_limit">%1$s · आज के %2$s इस्तेमाल हो चुके</string>
+    <string name="shield_stayed_off">आपको दूर रहे %1$s हो गए हैं</string>
+    <string name="shield_focus_minutes">फ़ोकस में आपके %1$d मिनट हो चुके हैं</string>
+    <string name="shield_focus_started">आपका फ़ोकस अभी शुरू हुआ है</string>
+    <string name="shield_got_this">मुझसे हो जाएगा</string>
+    <string name="shield_back_to_focus">फ़ोकस पर लौटें</string>
+    <string name="shield_end_focus">फ़ोकस जल्दी खत्म करें</string>
+    <string name="shield_unlock_anyway">फिर भी अनलॉक करें</string>
+    <string name="shield_unlock_anyway_left">फिर भी अनलॉक करें (%2$d में से %1$d बचे)</string>
+    <string name="shield_emergency">इमरजेंसी अनलॉक</string>
+    <string name="duration_h">%1$d घं</string>
+    <string name="duration_m">%1$d मि</string>
+    <string name="duration_h_m">%1$d घं %2$d मि</string>
+    <string name="stayed_off_h_m">%1$d घं %2$02d मि</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · %2$s द्वारा लॉक</string>
+    <string name="unlock_strict_on">%1$s · सख़्त मोड चालू</string>
+    <string name="unlock_wait_overline">फिर भी खोलना है?</string>
+    <string name="unlock_wait_title">अनलॉक का समय चुनें</string>
+    <string name="unlock_wait_breath">एक गहरी साँस लें…</string>
+    <string name="unlock_wait_done">आपने एक पल ठहरकर सोचा। बढ़िया।</string>
+    <string name="unlock_minutes_chip">%1$d मिनट</string>
+    <string name="unlock_nevermind">रहने दें</string>
+    <string name="unlock_unlock">अनलॉक करें</string>
+    <string name="unlock_retype_title">अनलॉक के लिए यह टाइप करें</string>
+    <string name="unlock_retype_text">मैंने आज के ज़रूरी काम की जगह फ़ीड को चुना है, और मुझे यह पता है।</string>
+    <string name="unlock_quote">“%1$s”</string>
+    <string name="unlock_retype_hint">टाइप करना शुरू करें…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">गलती हुई — शुरुआत से फिर टाइप करें</string>
+    <string name="unlock_retype_start_over">फिर से शुरू करें</string>
+    <string name="unlock_scan_title">अपना Recentr कोड स्कैन करें</string>
+    <string name="unlock_scan_subtitle">वही, जो आपने फ़्रिज पर चिपकाया है।</string>
+    <string name="unlock_scan_steady">ज़रा स्थिर रखें…</string>
+    <string name="unlock_scan_wrong_pass">यह किसी और नियम का पास है</string>
+    <string name="unlock_scan_no_camera">आपका पास स्कैन करने के लिए Recentr को कैमरा चाहिए।</string>
+    <string name="unlock_scan_allow_camera">कैमरे की अनुमति दें</string>
+    <string name="unlock_scan_use_passcode">इसके बजाय पासकोड इस्तेमाल करें</string>
+    <string name="unlock_close">बंद करें</string>
+    <string name="unlock_passcode_title">अपना पास कोड टाइप करें</string>
+    <string name="unlock_passcode_subtitle">यह QR कोड के नीचे छपा नंबर है।</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">यह आपके पास पर छपा कोड नहीं है।</string>
+    <string name="unlock_emergency_title">इमरजेंसी अनलॉक</string>
+    <string name="unlock_emergency_body">सख़्त मोड चालू है। इसे तभी इस्तेमाल करें जब सच में ज़रूरी हो — इस महीने आपके %1$d बचे हैं।</string>
+    <string name="unlock_emergency_spent">सख़्त मोड चालू है, और इस महीने के इमरजेंसी अनलॉक खत्म हो चुके हैं।</string>
+    <string name="unlock_emergency_limit_body">आज का समय खत्म हो गया है, और लिमिट में अनलॉक नहीं मिलता। इसे तभी इस्तेमाल करें जब सच में ज़रूरी हो — इस महीने आपके %1$d बचे हैं।</string>
+    <string name="unlock_emergency_limit_spent">आज का समय खत्म हो गया है, और इस महीने के इमरजेंसी अनलॉक खत्म हो चुके हैं।</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="one">%d इमरजेंसी अनलॉक बचा</item>
+        <item quantity="other">%d इमरजेंसी अनलॉक बचे</item>
+    </plurals>
+    <string name="unlock_hold">अनलॉक के लिए दबाए रखें · %1$d सेक</string>
+    <string name="unlock_hold_none">कोई इमरजेंसी अनलॉक नहीं बचा</string>
+    <string name="unlock_cancel">रद्द करें</string>
+    <string name="unlock_open_title">%1$s खुला है</string>
+    <string name="unlock_time_left">%1$s बचे</string>
+    <string name="unlock_open_caption">टाइमर खत्म होते ही हम इसे फिर लॉक कर देंगे।</string>
+    <string name="unlock_open_app">%1$s खोलें</string>
+    <string name="unlock_lock_again">फिर से लॉक करें</string>
+    <string name="unlock_walk_title">अनलॉक के लिए %1$d कदम चलें</string>
+    <string name="unlock_walk_subtitle">स्क्रॉल करने से पहले थोड़ी सैर। %2$s पाने के लिए सभी %1$d कदम पूरे करें।</string>
+    <string name="unlock_walking_title">कुछ कदम और</string>
+    <string name="unlock_walking_subtitle">%2$d कदम पूरे होने तक %1$s लॉक रहेगा। आराम से चलें।</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">कदम · जब आप तैयार हों</string>
+    <string name="unlock_walk_more_to_go">कदम · %1$d और बाकी</string>
+    <string name="unlock_walk_goal_reached">कदम · लक्ष्य पूरा</string>
+    <string name="unlock_walk_locked_until">%1$d कदम तक लॉक</string>
+    <string name="unlock_walk_complete_chip">%1$d कदम पूरे</string>
+    <string name="unlock_walk_safety_title">फ़ोन दूर, नज़र ऊपर।</string>
+    <string name="unlock_walk_safety_body">सुरक्षित, खुली जगह में चलें। प्रगति देखने से पहले रुक जाएँ।</string>
+    <string name="unlock_walk_no_permission_title">Recentr आपके कदम नहीं गिन सकता</string>
+    <string name="unlock_walk_no_permission_body">Recentr को शारीरिक गतिविधि की अनुमति दें, फिर दोबारा चलना शुरू करें।</string>
+    <string name="unlock_walk_no_sensor_title">यह फ़ोन कदम नहीं गिन सकता</string>
+    <string name="unlock_walk_no_sensor_body">नियम के पेज पर अनलॉक का कोई और तरीका चुनें।</string>
+    <string name="unlock_walk_start">चलना शुरू करें</string>
+    <string name="unlock_walk_cancel">चलना रद्द करें</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="one">अनलॉक के लिए %1$d कदम बाकी</item>
+        <item quantity="other">अनलॉक के लिए %1$d कदम बाकी</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · %2$d मिनट का अनलॉक</string>
+    <string name="unlock_walk_done_title">%1$s अनलॉक हो गया</string>
+    <string name="unlock_walk_done_subtitle">%1$d कदम। थोड़ा रीसेट। आपका %2$d मिनट का ब्रेक तैयार है।</string>
+    <string name="unlock_walk_done_note_body">टाइमर खत्म होते ही हम इसे फिर लॉक कर देंगे। %1$s खोलने से पहले चलना बंद करें।</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="one">%1$d मिनट, सिर्फ़ आपके लिए</item>
+        <item quantity="other">%1$d मिनट, सिर्फ़ आपके लिए</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="one">%1$d मिनट</item>
+        <item quantity="other">%1$d मिनट</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">नियम रिमाइंडर</string>
+    <string name="reminder_channel_description">रूटीन के ऐप्स ब्लॉक करना शुरू करने से पहले एक हल्का संकेत।</string>
+    <string name="reminder_title">%1$s %2$d मिनट में शुरू होगा</string>
+    <string name="reminder_text">%1$s पर ऐप्स ब्लॉक हो जाएँगे।</string>
+</resources>

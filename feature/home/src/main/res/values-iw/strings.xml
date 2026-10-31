@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hebrew. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">פתיחת הפרופיל</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d שע׳ %2$02d</string>
+    <string name="home_duration_hours">%1$d שע׳</string>
+    <string name="home_duration_minutes">%1$d דק׳</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">זמן מסך היום</string>
+    <string name="home_hero_screen_time_yesterday">זמן מסך אתמול</string>
+    <string name="home_hero_average_week">ממוצע יומי · השבוע</string>
+    <string name="home_hero_average_month">ממוצע יומי · החודש</string>
+    <string name="home_goal_under">מתחת ליעד של %1$s</string>
+    <string name="home_goal_over">מעל היעד של %1$s</string>
+    <string name="home_compare_less_week">%1$d%% פחות משבוע שעבר</string>
+    <string name="home_compare_more_week">%1$d%% יותר משבוע שעבר</string>
+    <string name="home_compare_less_month">%1$d%% פחות מחודש שעבר</string>
+    <string name="home_compare_more_month">%1$d%% יותר מחודש שעבר</string>
+    <string name="home_syncing">סנכרון זמן המסך…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">לא מחובר</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">איכות היום</string>
+    <string name="home_hero_quality_yesterday">איכות אתמול</string>
+    <string name="home_hero_quality_week">איכות · השבוע</string>
+    <string name="home_hero_quality_month">איכות · החודש</string>
+    <string name="home_quality_focused">ממוקד</string>
+    <string name="home_quality_balanced">מאוזן</string>
+    <string name="home_quality_distracted">מוסח</string>
+    <string name="home_split_focus">פוקוס %1$d%%</string>
+    <string name="home_split_social">חברתי %1$d%%</string>
+    <string name="home_split_fun">כיף %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">הניתוק הארוך ביותר היום</string>
+    <string name="home_hero_offline_yesterday">הניתוק הארוך ביותר אתמול</string>
+    <string name="home_hero_offline_week">הניתוק הארוך ביותר · השבוע</string>
+    <string name="home_hero_offline_month">הניתוק הארוך ביותר · החודש</string>
+    <string name="home_offline_chip">זמן ללא טלפון</string>
+    <string name="home_hero_details">הצגת פרטים</string>
+    <string name="home_hero_page">עמוד %1$d מתוך %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">ירידה</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">הרמות</string>
+    <string name="home_stat_notifications">התראות</string>
+    <string name="home_stat_total">סה״כ</string>
+    <string name="home_stat_best_day">היום הטוב ביותר</string>
+    <string-array name="home_day_letters">
+        <item>ב׳</item>
+        <item>ג׳</item>
+        <item>ד׳</item>
+        <item>ה׳</item>
+        <item>ו׳</item>
+        <item>ש׳</item>
+        <item>א׳</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>יום ב׳</item>
+        <item>יום ג׳</item>
+        <item>יום ד׳</item>
+        <item>יום ה׳</item>
+        <item>יום ו׳</item>
+        <item>שבת</item>
+        <item>יום א׳</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">רצף</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">יום אחד</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%d ימים</item>
+    </plurals>
+    <string name="home_tile_next">הבא · %1$s</string>
+    <string name="home_tile_ongoing">מתנהל · %1$s</string>
+    <string name="home_tile_blocking">חוסם · %1$s</string>
+    <string name="home_tile_left">עוד %1$s</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">הבא</string>
+    <string name="home_tile_no_rule">אין כלל מתוכנן</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">בטעינה…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">הכי בשימוש</string>
+    <string name="home_filter_apps">אפליקציות</string>
+    <string name="home_filter_categories">קטגוריות</string>
+    <string name="home_category_social">חברתי</string>
+    <string name="home_category_entertainment">בידור</string>
+    <string name="home_category_games">משחקים</string>
+    <string name="home_category_productivity">פרודוקטיביות</string>
+    <string name="home_category_music">מוזיקה</string>
+    <string name="home_category_other">אחר</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">זמן צמוד למסך: %1$s</string>
+    <string name="home_info_glued_average">בממוצע ביום, זמן צמוד למסך: %1$s</string>
+    <string name="home_info_hints_title">שאלות למחשבה</string>
+    <string name="home_info_glued_hints">כמה פעמים הופרעת? מה גרם לך להושיט יד אל הטלפון? האם זה באמת היה חשוב?</string>
+    <string name="home_info_offline">%1$s ללא טלפון</string>
+    <string name="home_info_offline_today">הזמן הארוך ביותר שלך ללא הטלפון היום.</string>
+    <string name="home_info_offline_yesterday">הזמן הארוך ביותר שלך ללא הטלפון אתמול.</string>
+    <string name="home_info_offline_week">הזמן הארוך ביותר שלך ללא הטלפון השבוע.</string>
+    <string name="home_info_offline_month">הזמן הארוך ביותר שלך ללא הטלפון החודש.</string>
+    <string name="home_info_offline_hints">מה הספקת לעשות בזמן הזה? איך זה הרגיש?</string>
+    <string name="home_info_got_it">הבנתי</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">תמיד מותרות</string>
+    <string name="home_always_allowed_subtitle">אפליקציות שעוקפות את החסימות</string>
+    <string name="home_always_allowed_empty_title">לא נבחרו אפליקציות</string>
+    <string name="home_always_allowed_empty_body">אפשר לבחור אפליקציות שיישארו זמינות גם כשהחסימות פועלות.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">אפליקציה אחת תמיד מותרת</item>
+        <item quantity="two">שתי אפליקציות תמיד מותרות</item>
+        <item quantity="other">%d אפליקציות תמיד מותרות</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">הגדרה</string>
+    <string name="home_always_allowed_close">סגירה</string>
+    <string name="home_always_allowed_settings_title">“תמיד מותרות” נמצאת בהגדרות</string>
+    <string name="home_always_allowed_settings_body">כשצריך, אפשר למצוא אותה בהגדרות › הגנה › תמיד מותרות.</string>
+    <string name="home_always_allowed_settings_got_it">הבנתי</string>
+</resources>

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">Правила</string>
+    <string name="rules_templates_title">Шаблони</string>
+    <string name="rules_subtitle_active">Активних: %1$d</string>
+    <string name="rules_subtitle_active_paused">Активних: %1$d · призупинених: %2$d</string>
+    <string name="rules_templates_subtitle">Готові правила · торкнись, щоб почати</string>
+    <string name="rules_group_locks">Блокування</string>
+    <string name="rules_group_sessions">Сесії</string>
+    <string name="rules_group_limits">Ліміти</string>
+    <string name="rules_group_routines">Рутини</string>
+    <string name="rules_group_templates">Шаблони</string>
+    <string name="rules_add_session">Додати сесію</string>
+    <string name="rules_add_session_hint">Напр. «Блокувати додатки на наступні 30 хв»</string>
+    <string name="rules_add_routine">Додати рутину</string>
+    <string name="rules_add_routine_hint">Напр. «Без телефона під час вечері»</string>
+    <string name="rules_add_lock">Додати блокування</string>
+    <string name="rules_add_lock_hint">Напр. «Тримати TikTok закритим увесь день»</string>
+    <string name="rules_add_limit">Додати ліміт</string>
+    <string name="rules_add_limit_hint">Напр. «1 година YouTube на день»</string>
+    <string name="rules_more">Більше опцій</string>
+    <string name="rules_empty_title">Правил поки немає</string>
+    <string name="rules_empty_body">Почни сесію або обери шаблон.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">Триває</string>
+    <string name="rules_status_upcoming">Незабаром</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Готово</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d додаток</item>
+        <item quantity="few">+ %d додатки</item>
+        <item quantity="many">+ %d додатків</item>
+        <item quantity="other">+ %d додатків</item>
+    </plurals>
+    <string name="rules_tile_ready">ГОТОВО</string>
+    <string name="rules_status_blocking">Блокує</string>
+    <string name="rules_status_paused">Призупинено</string>
+    <string name="rules_status_times_up">Час вийшов</string>
+    <string name="rules_status_unlocks">Розблокувань %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">Розблокування без обмежень</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">Вимкнено</string>
+    <string name="rules_all_day">Увесь день</string>
+    <string name="rules_strict_mode">Суворий режим</string>
+    <string name="rules_value_locked">Заблоковано</string>
+    <string name="rules_value_off">Вимкнено</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">До опівночі</string>
+    <string name="rules_budget_today">Бюджет на сьогодні</string>
+    <string name="rules_value_left">Залишилось %1$s</string>
+    <string name="rules_value_starts_in">через %1$s</string>
+    <string name="rules_value_paused">Призупинено</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">Щодня</string>
+    <string name="rules_days_weekdays">Будні</string>
+    <string name="rules_days_weekends">Вихідні</string>
+    <string-array name="rules_day_short">
+        <item>пн</item>
+        <item>вт</item>
+        <item>ср</item>
+        <item>чт</item>
+        <item>пт</item>
+        <item>сб</item>
+        <item>нд</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>понеділок</item>
+        <item>вівторок</item>
+        <item>середа</item>
+        <item>четвер</item>
+        <item>пʼятниця</item>
+        <item>субота</item>
+        <item>неділя</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>П</item>
+        <item>В</item>
+        <item>С</item>
+        <item>Ч</item>
+        <item>П</item>
+        <item>С</item>
+        <item>Н</item>
+    </string-array>
+    <string name="rules_am">дп</string>
+    <string name="rules_pm">пп</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d хв</string>
+    <string name="rules_hours_short">%1$d год</string>
+    <string name="rules_hours_minutes">%1$d год %2$d хв</string>
+    <string name="rules_compact_seconds">%1$d с</string>
+    <string name="rules_compact_minutes">%1$d хв</string>
+    <string name="rules_compact_hours">%1$d год</string>
+    <string name="rules_compact_hours_minutes">%1$d год %2$02d хв</string>
+
+    <!-- Common -->
+    <string name="rules_none">Немає</string>
+    <string name="rules_save">Зберегти</string>
+    <string name="rules_done">Готово</string>
+    <string name="rules_continue">Продовжити</string>
+    <string name="rules_cancel">Скасувати</string>
+    <string name="rules_back">Назад</string>
+    <string name="rules_edit_name">Змінити назву та стікер</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">%d додаток</item>
+        <item quantity="few">%d додатки</item>
+        <item quantity="many">%d додатків</item>
+        <item quantity="other">%d додатків</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">Сесія</string>
+    <string name="rules_type_lock">Блокування</string>
+    <string name="rules_type_limit">Ліміт</string>
+    <string name="rules_type_routine">Рутина</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">Блокувати</string>
+    <string name="rules_row_active">Активне</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">Спосіб розблокування</string>
+    <string name="rules_row_unlocks_per_day">Розблокувань на день</string>
+    <string name="rules_row_apps">Додатки</string>
+    <string name="rules_row_reminders">Нагадування</string>
+    <string name="rules_row_each_unlock">Кожне розблокування триває</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">Сесія</string>
+    <string name="rules_session_subtitle">Блокує додатки на %1$s після запуску.</string>
+    <string name="rules_session_default_name">Сесія фокусу</string>
+    <string name="rules_suggestions">ПІДКАЗКИ</string>
+    <string name="rules_start">Почати</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">Жодних розблокувань до завершення.</string>
+    <string name="rules_unlock_strict_caption">У суворому режимі розблокування недоступні.</string>
+    <string name="rules_strict_confirm_title">Увімкнути Суворий режим?</string>
+    <string name="rules_strict_confirm_body">Ти не зможеш розблокувати ці додатки до завершення, окрім як екстреним розблокуванням.</string>
+    <string name="rules_turn_on">Увімкнути</string>
+    <string name="rules_not_now">Не зараз</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">Заблокувати ці додатки зараз?</string>
+    <string name="rules_block_now_body">Правило блокує: додані тобою додатки блокуються одразу.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">Увімкнути %1$s?</string>
+    <string name="rules_lock_confirm_body">Щойно його ввімкнено, усе, що його полегшує — вилучення додатків, більше розблокувань, вимкнення — діє лише опівночі.</string>
+    <string name="rules_limit_confirm_title">Запустити %1$s?</string>
+    <string name="rules_limit_confirm_body">Щойно його запущено, усе, що його полегшує — більший бюджет, вилучення додатків — діє лише опівночі, коли він скидається.</string>
+    <string name="rules_block_now">Заблокувати зараз</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">Блокування</string>
+    <string name="rules_lock_subtitle">Тримай обрані додатки закритими, з кількома короткими розблокуваннями на день.</string>
+    <string name="rules_lock_note_title">Навіщо це блокування?</string>
+    <string name="rules_hold_create_lock">Утримуй, щоб створити блокування</string>
+    <string name="rules_hold_create_session">Утримуй, щоб створити сесію</string>
+    <string name="rules_unlock_wait">Зачекати %1$d с</string>
+    <string name="rules_unlock_retype">Переписати</string>
+    <string name="rules_unlock_scan">Сканувати код</string>
+    <string name="rules_unlock_walk">Кроки: %1$d</string>
+    <string name="rules_unlimited">Без обмежень</string>
+    <string name="rules_lock_default_name">Блокування</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">Обрати додатки</string>
+    <string name="rules_selected">Обрано: %1$d</string>
+    <string name="rules_search_apps">Пошук додатків</string>
+    <string name="rules_category_social">Соцмережі</string>
+    <string name="rules_category_entertainment">Розваги</string>
+    <string name="rules_category_music">Музика</string>
+    <string name="rules_category_games">Ігри</string>
+    <string name="rules_category_productivity">Продуктивність</string>
+    <string name="rules_category_other">Інше</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="one">Блокувати · %d додаток</item>
+        <item quantity="few">Блокувати · %d додатки</item>
+        <item quantity="many">Блокувати · %d додатків</item>
+        <item quantity="other">Блокувати · %d додатків</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">Усі додатки та категорії</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">Усі</string>
+    <string name="rules_no_apps_found">Жоден додаток не збігається з «%1$s».</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">Активне протягом</string>
+    <string name="rules_ends_at">Завершується о %1$s</string>
+    <string name="rules_hours_label">Години</string>
+    <string name="rules_minutes_label">Хвилини</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">Ліміт</string>
+    <string name="rules_limit_subtitle">Бюджет часу на сьогодні для додатків, що з’їдають твій день.</string>
+    <string name="rules_hold_create_limit">Утримуй, щоб створити ліміт</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">Зафіксовано до опівночі</string>
+    <string name="rules_locked_in_lock">Воно діє одразу після створення. Полегшення — вилучення додатків, більше розблокувань, вимкнення — або видалення діє лише після щоденного скидання опівночі.</string>
+    <string name="rules_locked_in_limit">Він запускається одразу після створення. Полегшення — більший бюджет, вилучення додатків — або видалення діє лише після щоденного скидання опівночі.</string>
+    <string name="rules_limit_resets">Автоматично скидається опівночі.</string>
+    <string name="rules_limit_default_name">Ліміт</string>
+    <string name="rules_limit_social_name">Час у соцмережах</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">Час сну</string>
+    <string name="rules_bedtime_subtitle">Блокуй додатки за розкладом.</string>
+    <string name="rules_from">ВІД</string>
+    <string name="rules_until">ДО</string>
+    <string name="rules_tonight">%1$s · сьогодні ввечері</string>
+    <string name="rules_today">%1$s · сьогодні</string>
+    <string name="rules_tomorrow">%1$s · завтра</string>
+    <string name="rules_tonight_alone">Сьогодні ввечері</string>
+    <string name="rules_today_alone">Сьогодні</string>
+    <string name="rules_tomorrow_alone">Завтра</string>
+    <string name="rules_hold_create_routine">Утримуй, щоб створити рутину</string>
+    <string name="rules_starts_at">Починається о</string>
+    <string name="rules_ends_at_title">Завершується о</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">Як розблоковувати?</string>
+    <string name="rules_unlock_subtitle">Обери перешкоду, яка тобі підходить.</string>
+    <string name="rules_unlock_option_wait">Зачекати кілька секунд</string>
+    <string name="rules_unlock_option_retype">Переписати болісний текст</string>
+    <string name="rules_unlock_option_scan">Сканувати код, який ти зберігаєш окремо</string>
+    <string name="rules_unlock_option_walk">Кроки пішки: %1$d</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">Очікування перед розблокуванням</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">%d секунда</item>
+        <item quantity="few">%d секунди</item>
+        <item quantity="many">%d секунд</item>
+        <item quantity="other">%d секунд</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 хвилина</string>
+    <string name="rules_seconds_chip">%1$d с</string>
+    <string name="rules_one_min_chip">1 хв</string>
+    <string name="rules_unlocks_per_day_title">Розблокувань на день</string>
+    <string name="rules_each_unlock_title">Кожне розблокування триває</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">Фокус</string>
+    <string name="rules_section_focus_body">Для роботи, навчання чи завершення проєкту.</string>
+    <string name="rules_section_unwind">Розслабитися</string>
+    <string name="rules_section_unwind_body">Спокійніші вечори та м’якші ранки.</string>
+    <string name="rules_section_be_present">Бути поруч</string>
+    <string name="rules_section_be_present_body">Увага — людям навколо чи собі.</string>
+    <string name="rules_section_scroll_less">Менше скролінгу</string>
+    <string name="rules_section_scroll_less_body">Відкривай додатки свідомо, а не зі звички.</string>
+    <string name="rules_tpl_focus_sprint">Фокус-спринт</string>
+    <string name="rules_tpl_focus_sprint_body">Відволікання заблоковано, починаючи просто зараз.</string>
+    <string name="rules_tpl_study_hour">Година навчання</string>
+    <string name="rules_tpl_study_hour_body">Година навчання, що починається зараз.</string>
+    <string name="rules_tpl_work_rhythm">Робочий ритм</string>
+    <string name="rules_tpl_work_rhythm_body">Відволікання заблоковано в будні.</string>
+    <string name="rules_tpl_evening_calm">Спокійний вечір</string>
+    <string name="rules_tpl_evening_calm_body">Жодних соцмереж і відео щовечора.</string>
+    <string name="rules_tpl_night_pause">Нічна пауза</string>
+    <string name="rules_tpl_night_pause_body">Відволікання заблоковано всю ніч.</string>
+    <string name="rules_tpl_slow_morning">Неквапливий ранок</string>
+    <string name="rules_tpl_slow_morning_body">Починай кожен день без соцмереж.</string>
+    <string name="rules_tpl_dinner_together">Вечеря разом</string>
+    <string name="rules_tpl_dinner_together_body">Відволікання заблоковано на час вечері.</string>
+    <string name="rules_tpl_family_hour">Година з родиною</string>
+    <string name="rules_tpl_family_hour_body">Неділі, збережені для спільного часу.</string>
+    <string name="rules_tpl_time_for_me">Час для себе</string>
+    <string name="rules_tpl_time_for_me_body">Читай, твори чи просто дихай.</string>
+    <string name="rules_tpl_walk_before_you_scroll">Прогулянка перед скролінгом</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">Потім 5 хв у додатку, тричі на день.</string>
+    <string name="rules_tpl_pause_before_opening">Пауза перед відкриттям</string>
+    <string name="rules_tpl_pause_before_opening_body">Потім 5 хв у додатку, тричі на день.</string>
+    <string name="rules_tpl_social_budget">Бюджет на соцмережі</string>
+    <string name="rules_tpl_social_budget_body">Спільний, потім заблоковано до опівночі.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">Нове правило</string>
+    <string name="rules_new_rule_subtitle">Що ти хочеш налаштувати?</string>
+    <string name="rules_browse_templates">Переглянути шаблони</string>
+    <string name="rules_kind_routine_body">Блокує додатки за розкладом, як-от час сну чи робочі години.</string>
+    <string name="rules_kind_session_body">Блокує додатки на обраний тобою час після запуску.</string>
+    <string name="rules_kind_lock_body">Тримає додатки закритими з моменту ввімкнення, з кількома короткими розблокуваннями на день.</string>
+    <string name="rules_kind_limit_body">Бюджет часу на сьогодні. Щойно його вичерпано, додатки лишаються заблокованими до опівночі.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">Активне: %1$s</string>
+    <string name="rules_detail_running">Працює зараз</string>
+    <string name="rules_detail_paused">Призупинено</string>
+    <string name="rules_detail_paused_until">Призупинено до %1$s</string>
+    <string name="rules_detail_on">Увімкнено</string>
+    <string name="rules_detail_off">Вимкнено</string>
+    <string name="rules_blocked">Заблоковано</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">Додатки</string>
+    <string name="rules_apps_blocking">Заблоковано просто зараз</string>
+    <string name="rules_apps_not_blocking">Зараз не блокує</string>
+    <string name="rules_apps_blocked">Заблоковано</string>
+    <string name="rules_apps_blocked_when_on">Блокуються, коли ввімкнено</string>
+    <string name="rules_apps_unlocked">Тимчасово розблоковано</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">Зараз нічого не заблоковано.</string>
+    <string name="rules_apps_none_unlocked">Жоден додаток зараз не розблоковано.</string>
+    <string name="rules_streak">Серія</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
+    </plurals>
+    <string name="rules_why">Навіщо</string>
+    <string name="rules_why_placeholder">Торкнись, щоб записати, чому це важливо.</string>
+    <string name="rules_why_empty">Причину поки не записано.</string>
+    <string name="rules_tile_now">ЗАРАЗ</string>
+    <string name="rules_tile_left_of">залишилось із %1$s</string>
+    <string name="rules_tile_used">використано %1$s</string>
+    <string name="rules_tile_today">СЬОГОДНІ</string>
+    <string name="rules_tile_not_started">Ще не розпочато</string>
+    <string name="rules_tile_unlocks_today">РОЗБЛОКУВАНЬ СЬОГОДНІ</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">Вимкнено</string>
+    <string name="rules_reminder_before">За %1$d хв до початку</string>
+    <string name="rules_reminders_title">Нагадати перед початком</string>
+    <string name="rules_activate">Активувати</string>
+    <string name="rules_turn_off">Вимкнути</string>
+    <string name="rules_menu_edit_settings">Змінити правило</string>
+    <string name="rules_menu_pause">Призупинити правило</string>
+    <string name="rules_menu_resume">Відновити правило</string>
+    <string name="rules_menu_delete">Видалити правило</string>
+    <string name="rules_pause_title">Призупинити %1$s?</string>
+    <string name="rules_pause_hour">На 1 годину</string>
+    <string name="rules_pause_tomorrow">До завтра</string>
+    <string name="rules_pause_manual">Доки я не ввімкну знову</string>
+    <string name="rules_pause_rule">Призупинити правило</string>
+    <string name="rules_pause_later">Пауза почнеться, коли завершиться це вікно.</string>
+    <string name="rules_paused_toast">%1$s призупинено</string>
+    <string name="rules_resumed_toast">%1$s знову ввімкнено</string>
+    <string name="rules_edit_title">Змінити правило</string>
+    <string name="rules_sticker">СТІКЕР</string>
+    <string name="rules_name_placeholder">Назва правила</string>
+    <string name="rules_more_stickers">Більше стікерів</string>
+    <string name="rules_more_stickers_soon">Більше стікерів уже в дорозі</string>
+    <string name="rules_delete_title">Видалити %1$s?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">Твою %d-денну серію на цьому правилі буде втрачено. Це неможливо скасувати.</item>
+        <item quantity="few">Твою %d-денну серію на цьому правилі буде втрачено. Це неможливо скасувати.</item>
+        <item quantity="many">Твою %d-денну серію на цьому правилі буде втрачено. Це неможливо скасувати.</item>
+        <item quantity="other">Твою %d-денну серію на цьому правилі буде втрачено. Це неможливо скасувати.</item>
+    </plurals>
+    <string name="rules_delete_body">Це правило та його історію буде вилучено. Це неможливо скасувати.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">Воно блокуватиме до опівночі, а потім буде видалене.</string>
+    <string name="rules_delete_body_later_session">Воно блокуватиме до завершення сесії, а потім буде видалене.</string>
+    <string name="rules_delete_body_later_at">Воно блокуватиме до %1$s, а потім буде видалене.</string>
+    <string name="rules_delete_rule">Видалити правило</string>
+    <string name="rules_keep_it">Залишити</string>
+    <string name="rules_deleted_toast">%1$s видалено</string>
+    <string name="rules_note_title">Навіщо це правило?</string>
+    <string name="rules_note_placeholder">Запиши…</string>
+    <string name="rules_session_started">Сесію розпочато · %1$s</string>
+    <string name="rules_limit_started">Ліміт розпочато · %1$s на сьогодні</string>
+    <string name="rules_lock_activated">%1$s увімкнено</string>
+    <string name="rules_rule_created">%1$s створено</string>
+    <string name="rules_rule_saved">Зміни збережено</string>
+    <string name="rules_saved_later_midnight">Збережено · деякі зміни діятимуть опівночі</string>
+    <string name="rules_saved_later_session">Збережено · деякі зміни діятимуть після завершення сесії</string>
+    <string name="rules_saved_later_at">Збережено · деякі зміни діятимуть о %1$s</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">Твої зміни діятимуть опівночі</string>
+    <string name="rules_pending_changes_session">Твої зміни діятимуть після завершення сесії</string>
+    <string name="rules_pending_changes_at">Твої зміни діятимуть о %1$s</string>
+    <string name="rules_pending_delete_midnight">Буде видалено опівночі</string>
+    <string name="rules_pending_delete_session">Буде видалено після завершення сесії</string>
+    <string name="rules_pending_delete_at">Буде видалено о %1$s</string>
+    <string name="rules_pending_turn_off">Вимкнеться опівночі</string>
+    <string name="rules_pending_pause">Призупиниться, коли завершиться це вікно</string>
+    <string name="rules_pending_drop">Скасувати зміни</string>
+    <string name="rules_pending_keep_rule">Залишити правило</string>
+    <string name="rules_pending_keep_on">Залишити ввімкненим</string>
+    <string name="rules_pending_dont_pause">Не призупиняти</string>
+    <string name="rules_session_ended">Сесію завершено</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">Завжди дозволені</string>
+    <string name="rules_allowed_explainer">Recentr ніколи не блокує ці додатки, незалежно від правила чи таймера.</string>
+    <string name="rules_allowed_add">Додати додаток</string>
+    <string name="rules_allowed_remove">Вилучити %1$s</string>
+    <string name="rules_allowed_section">Дозволені</string>
+    <string name="rules_allowed_waiting">Додасться пізніше</string>
+    <string name="rules_allowed_none">Поки що жодного. Підійдуть карти, виклик таксі чи додаток для здоров’я.</string>
+    <string name="rules_allowed_changes_tomorrow">Твої зміни діятимуть завтра о %1$s</string>
+    <string name="rules_allowed_changes_on">Твої зміни діятимуть %1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">Дозволити · %d додаток</item>
+        <item quantity="few">Дозволити · %d додатки</item>
+        <item quantity="many">Дозволити · %d додатків</item>
+        <item quantity="other">Дозволити · %d додатків</item>
+    </plurals>
+    <string name="rules_allowed_done_none">Не дозволяти нічого</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">Завжди дозволені</string>
+    <string name="focus_apps_subtitle">На паузі під час раундів, вільні на перервах.</string>
+    <string name="focus_apps_on_hold">На паузі</string>
+</resources>

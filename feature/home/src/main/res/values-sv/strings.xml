@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Swedish. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">Öppna profil</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d h %2$02d</string>
+    <string name="home_duration_hours">%1$d h</string>
+    <string name="home_duration_minutes">%1$d min</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">Skärmtid idag</string>
+    <string name="home_hero_screen_time_yesterday">Skärmtid igår</string>
+    <string name="home_hero_average_week">Dagligt snitt · den här veckan</string>
+    <string name="home_hero_average_month">Dagligt snitt · den här månaden</string>
+    <string name="home_goal_under">Under ditt mål på %1$s</string>
+    <string name="home_goal_over">Över ditt mål på %1$s</string>
+    <string name="home_compare_less_week">%1$d %% mindre än förra veckan</string>
+    <string name="home_compare_more_week">%1$d %% mer än förra veckan</string>
+    <string name="home_compare_less_month">%1$d %% mindre än förra månaden</string>
+    <string name="home_compare_more_month">%1$d %% mer än förra månaden</string>
+    <string name="home_syncing">Synkar skärmtid…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">Inte kopplad</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">Kvalitet idag</string>
+    <string name="home_hero_quality_yesterday">Kvalitet igår</string>
+    <string name="home_hero_quality_week">Kvalitet · den här veckan</string>
+    <string name="home_hero_quality_month">Kvalitet · den här månaden</string>
+    <string name="home_quality_focused">Fokuserad</string>
+    <string name="home_quality_balanced">Balanserad</string>
+    <string name="home_quality_distracted">Distraherad</string>
+    <string name="home_split_focus">Fokus %1$d %%</string>
+    <string name="home_split_social">Socialt %1$d %%</string>
+    <string name="home_split_fun">Nöje %1$d %%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">Längst offline idag</string>
+    <string name="home_hero_offline_yesterday">Längst offline igår</string>
+    <string name="home_hero_offline_week">Längst offline · den här veckan</string>
+    <string name="home_hero_offline_month">Längst offline · den här månaden</string>
+    <string name="home_offline_chip">Telefonfri period</string>
+    <string name="home_hero_details">Visa detaljer</string>
+    <string name="home_hero_page">Sida %1$d av %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">Minskning</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">Upplockningar</string>
+    <string name="home_stat_notifications">Aviseringar</string>
+    <string name="home_stat_total">Totalt</string>
+    <string name="home_stat_best_day">Bästa dag</string>
+    <string-array name="home_day_letters">
+        <item>M</item>
+        <item>T</item>
+        <item>O</item>
+        <item>T</item>
+        <item>F</item>
+        <item>L</item>
+        <item>S</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>mån</item>
+        <item>tis</item>
+        <item>ons</item>
+        <item>tors</item>
+        <item>fre</item>
+        <item>lör</item>
+        <item>sön</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">Svit</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+    <string name="home_tile_next">Nästa · %1$s</string>
+    <string name="home_tile_ongoing">Pågår · %1$s</string>
+    <string name="home_tile_blocking">Blockerar · %1$s</string>
+    <string name="home_tile_left">%1$s kvar</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">Nästa</string>
+    <string name="home_tile_no_rule">Ingen regel planerad</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">Laddar…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">Mest använda</string>
+    <string name="home_filter_apps">Appar</string>
+    <string name="home_filter_categories">Kategorier</string>
+    <string name="home_category_social">Socialt</string>
+    <string name="home_category_entertainment">Underhållning</string>
+    <string name="home_category_games">Spel</string>
+    <string name="home_category_productivity">Produktivitet</string>
+    <string name="home_category_music">Musik</string>
+    <string name="home_category_other">Övrigt</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s fastklistrad vid skärmen</string>
+    <string name="home_info_glued_average">%1$s om dagen fastklistrad vid skärmen</string>
+    <string name="home_info_hints_title">Att fundera på</string>
+    <string name="home_info_glued_hints">Hur ofta blev du avbruten? Varför tar du upp telefonen? Var det verkligen viktigt?</string>
+    <string name="home_info_offline">%1$s offline</string>
+    <string name="home_info_offline_today">Din längsta stund utan telefonen idag.</string>
+    <string name="home_info_offline_yesterday">Din längsta stund utan telefonen igår.</string>
+    <string name="home_info_offline_week">Din längsta stund utan telefonen den här veckan.</string>
+    <string name="home_info_offline_month">Din längsta stund utan telefonen den här månaden.</string>
+    <string name="home_info_offline_hints">Vad hann du göra under den tiden? Hur kändes det?</string>
+    <string name="home_info_got_it">Uppfattat</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">Alltid tillåtna</string>
+    <string name="home_always_allowed_subtitle">Appar som slipper dina blockeringar</string>
+    <string name="home_always_allowed_empty_title">Inga appar valda</string>
+    <string name="home_always_allowed_empty_body">Välj appar som ska vara tillgängliga även när dina blockeringar är på.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">%d app alltid tillåten</item>
+        <item quantity="other">%d appar alltid tillåtna</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">Ställ in</string>
+    <string name="home_always_allowed_close">Stäng</string>
+    <string name="home_always_allowed_settings_title">Alltid tillåtna finns i Inställningar</string>
+    <string name="home_always_allowed_settings_body">Behöver du ändra något hittar du det under Inställningar › Skydd › Alltid tillåtna.</string>
+    <string name="home_always_allowed_settings_got_it">Uppfattat</string>
+</resources>

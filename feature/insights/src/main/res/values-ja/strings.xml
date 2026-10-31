@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">戻る</string>
+    <string name="insights_close">閉じる</string>
+    <string name="insights_more">その他のオプション</string>
+    <string name="insights_duration_m">%1$d分</string>
+    <string name="insights_duration_h">%1$d時間</string>
+    <string name="insights_duration_h_m">%1$d時間%2$02d分</string>
+    <string name="insights_duration_compact">%1$d時間%2$02d分</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d%%</string>
+    <string name="insights_date">%1$s%2$d日</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>月曜日</item>
+        <item>火曜日</item>
+        <item>水曜日</item>
+        <item>木曜日</item>
+        <item>金曜日</item>
+        <item>土曜日</item>
+        <item>日曜日</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">インサイト</string>
+    <string name="insights_tab_day">日</string>
+    <string name="insights_tab_week">週</string>
+    <string name="insights_tab_month">月</string>
+    <string name="insights_daily_average">1日の平均</string>
+    <string name="insights_screen_time_today">今日のスクリーンタイム</string>
+    <string name="insights_screen_time_yesterday">昨日のスクリーンタイム</string>
+    <string name="insights_screen_time">スクリーンタイム</string>
+    <string name="insights_vs_last_week">先週比 %1$s</string>
+    <string name="insights_vs_yesterday">昨日比 %1$s</string>
+    <string name="insights_vs_day_before">前日比 %1$s</string>
+    <string name="insights_vs_week_before">前週比 %1$s</string>
+    <string name="insights_goal_line">目標 %1$s</string>
+    <string name="insights_by_category">カテゴリ別</string>
+    <string name="insights_no_usage">スクリーンタイムはまだありません。</string>
+    <string name="insights_top_apps">上位のアプリ</string>
+    <string name="insights_no_apps">まだ使ったアプリがありません。</string>
+    <string name="insights_see_more">もっと見る</string>
+    <string name="insights_category_social">SNS</string>
+    <string name="insights_category_video">動画</string>
+    <string name="insights_category_music">音楽</string>
+    <string name="insights_category_games">ゲーム</string>
+    <string name="insights_category_productivity">仕事効率化</string>
+    <string name="insights_category_other">その他</string>
+    <string name="insights_menu_pickups">持ち上げ回数</string>
+    <string name="insights_menu_daily_goal">1日の目標</string>
+    <string name="insights_menu_streak">連続記録</string>
+    <string name="insights_menu_achievements">実績</string>
+    <string name="insights_chart_cd">%1$s：%2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">目標未満</string>
+    <string name="insights_less">少ない</string>
+    <string name="insights_more_legend">多い</string>
+    <string name="insights_best_day">ベストな日</string>
+    <string name="insights_toughest_day">いちばん大変だった日</string>
+    <string name="insights_see_report">%1$sのレポートを見る</string>
+    <string name="insights_day_cd">%1$s：%2$s</string>
+    <string name="insights_day_cd_none">%1$s：データなし</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">今日</string>
+    <string name="insights_period_yesterday">昨日</string>
+    <string name="insights_period_week">今週</string>
+    <string name="insights_period_month">今月</string>
+    <string name="insights_period_last_week">先週</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%2$s（%1$s）</string>
+    <string name="insights_range_span">%1$s～%2$s</string>
+    <string name="insights_with_year">%2$d年%1$s</string>
+    <string name="insights_previous">前へ</string>
+    <string name="insights_next">次へ</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="other">%d回起動</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · 制限を%2$s超過</string>
+    <string name="insights_left_in_limit">%1$s · 制限まであと%2$s</string>
+    <string name="insights_by_hour">時間帯別</string>
+    <string name="insights_longest_session">最長の連続使用</string>
+    <string name="insights_first_open">最初に開いた時刻</string>
+    <string name="insights_usual_first_open">いつも最初に開く時刻</string>
+    <string name="insights_noticed">Recentrの気づき</string>
+    <string name="insights_noticed_idle">%1$sはほとんど開いていません。その調子です。</string>
+    <string name="insights_noticed_checks">%1$sを1日に%2$d回、ちょっとだけ開いています。開く前に数秒の間をおくと、無意識のクセが止まります。</string>
+    <string name="insights_noticed_night">%1$sの利用は、%2$s以降が大半です。就寝前のルーティンで取り戻せるかもしれません。</string>
+    <string name="insights_noticed_morning">%1$sの利用は、%2$sより前が大半です。おだやかな朝のルーティンで取り戻せるかもしれません。</string>
+    <string name="insights_noticed_work">%1$sの利用は、日中の仕事時間が大半です。集中セッションで取り戻せるかもしれません。</string>
+    <string name="insights_noticed_evening">%1$sの利用は、夕方から夜が大半です。制限で取り戻せるかもしれません。</string>
+    <string name="insights_noticed_spread">%1$sの利用は、一日じゅうに散らばっています。制限をかけると、ほどよく抑えられます。</string>
+    <string name="insights_set_limit">制限を設定</string>
+    <string name="insights_edit_limit">制限を編集</string>
+    <string name="insights_block_app">%1$sをブロック</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">持ち上げ回数</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="other">今日の持ち上げ回数</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="other">昨日の持ち上げ回数</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="other">その日の持ち上げ回数</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="other">1日あたりの持ち上げ回数</item>
+    </plurals>
+    <string name="insights_first_pickup">最初は%1$s</string>
+    <string name="insights_usual_first_pickup">いつも最初は%1$s</string>
+    <string name="insights_no_pickup">まだ持ち上げていません</string>
+    <string name="insights_when_pick_up">手に取る時間帯</string>
+    <string name="insights_opened_first">手に取って最初に開くアプリ</string>
+    <string name="insights_open_count">%1$d回</string>
+    <string name="insights_no_first_open">持ち上げ後に開いたアプリはまだありません。</string>
+    <string name="insights_tip_bedroom">スマホは寝室の外で充電しましょう。%1$sの持ち上げも減らしやすくなります。</string>
+    <string name="insights_tip_reflex">最初に開くのは%1$sです。ホーム画面から外すと、無意識のクセが止まります。</string>
+    <string name="insights_tip_evening">持ち上げがいちばん多いのは夜です。就寝前のルーティンで、スマホを置いておけます。</string>
+    <string name="insights_tip_default">手に取らなかった1回は、すべて勝ちです。スマホを伏せて置いてみましょう。</string>
+    <string name="insights_start_bedtime">就寝ルーティンを始める</string>
+    <string name="insights_heat_cd">%1$s～%2$s：%3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">%1$sのレポート</string>
+    <plurals name="insights_hours">
+        <item quantity="other">%d時間</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="other">%d分</item>
+    </plurals>
+    <string name="insights_won_back_month">今月取り戻した時間</string>
+    <string name="insights_pickups_a_day_label">1日の持ち上げ回数</string>
+    <string name="insights_best_streak">最長の連続記録</string>
+    <plurals name="insights_days">
+        <item quantity="other">%d日</item>
+    </plurals>
+    <string name="insights_new">新記録</string>
+    <string name="insights_share_month">今月を共有</string>
+    <string name="insights_replay">もう一度見る</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">1日の目標</string>
+    <string name="insights_edit_goal">1日の目標を編集</string>
+    <string name="insights_days_on_target">目標達成：%2$d日中%1$d日</string>
+    <string name="insights_goal_under">目標：1日%1$s未満</string>
+    <string name="insights_adjust_goal">目標を調整</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">実績</string>
+    <string name="achievements_earned_count">%2$d個中%1$d個を獲得</string>
+    <string name="achievements_level">レベル %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>新たなスタート</item>
+        <item>落ち着きを探して</item>
+        <item>揺るがない手</item>
+        <item>平穏の守り手</item>
+        <item>深い集中</item>
+        <item>禅マスター</item>
+        <item>オフラインの伝説</item>
+    </string-array>
+    <string name="achievements_points">%1$d / %2$d カームポイント</string>
+    <string name="achievements_points_max">%1$d カームポイント</string>
+    <string name="achievements_all">すべて</string>
+    <string name="achievements_earned">獲得済み</string>
+    <string name="achievements_next_up">次の目標</string>
+    <string name="achievements_none_earned">最初のバッジはもうすぐです。</string>
+    <string name="achievements_all_earned">すべてのバッジを獲得しました。すごい！</string>
+    <string name="achievements_progress_days">%1$d / %2$d日</string>
+    <string name="achievements_progress_nights">%1$d / %2$d晩</string>
+    <string name="achievements_progress_mornings">%1$d / %2$d日（朝）</string>
+    <string name="achievements_progress_hours">%1$d / %2$d時間</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">%2$d日中%1$d日</string>
+    <string name="achievements_of_nights">%2$d晩中%1$d晩</string>
+    <string name="achievements_of_mornings">%2$d日中%1$d日（朝）</string>
+    <string name="achievements_of_hours">%2$d時間中%1$d時間</string>
+    <string name="achievements_of_urges">誘惑 %1$d / %2$d回</string>
+    <string name="achievements_not_yet">まだ獲得していません</string>
+    <string name="achievements_points_reward">+%1$d カームポイント</string>
+    <string name="achievements_got_it">わかりました</string>
+    <string name="achievements_locked_cd">%1$s、未獲得、%2$s</string>
+    <string name="achievements_earned_cd">%1$s、%2$sに獲得</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">新しいバッジ</string>
+    <string name="achievements_earned_on">%1$sに獲得</string>
+    <string name="achievements_nice">やったね！</string>
+    <string name="achievements_share_badge">バッジを共有</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">はじめてのロック</string>
+    <string name="badge_first_lock_goal">最初のルールでアプリをブロックしましょう。</string>
+    <string name="badge_first_lock_cheer">最初のルールが動き出しました。小さなロックが、大きな成果に。</string>
+    <string name="badge_first_lock_milestone">初めて%1$sをブロックしました。</string>
+    <string name="badge_first_lock_milestone_any">最初のブロックルールを設定しました。</string>
+    <string name="badge_note_to_self">自分へのメモ</string>
+    <string name="badge_note_to_self_goal">ルールのひとつに、その理由を書き留めましょう。</string>
+    <string name="badge_note_to_self_cheer">理由を書き留めました。初心を忘れずにいられますね。</string>
+    <string name="badge_note_to_self_milestone">なぜ取り組むのか、書き留めました。</string>
+    <string name="badge_first_focus">はじめての集中</string>
+    <string name="badge_first_focus_goal">最初の集中セッションを終えましょう。</string>
+    <string name="badge_first_focus_cheer">1セッション完了。集中力の筋肉があたたまってきました。</string>
+    <string name="badge_first_focus_milestone">最初の集中セッション。</string>
+    <string name="badge_focus_ten_hours">集中10時間</string>
+    <string name="badge_focus_ten_hours_goal">集中セッションで合計10時間を過ごしましょう。</string>
+    <string name="badge_focus_ten_hours_cheer">10時間の深い集中。まる1日分の仕事時間を取り戻しました。</string>
+    <string name="badge_focus_ten_hours_milestone">集中セッションで10時間を過ごしました。</string>
+    <string name="badge_seven_day_streak">7日連続</string>
+    <string name="badge_seven_day_streak_goal">連続記録を7日間続けましょう。</string>
+    <string name="badge_seven_day_streak_cheer">まる1週間、目標以内に収めました。この調子で、火を絶やさずに。</string>
+    <string name="badge_seven_day_streak_milestone">まる1週間、目標以内に収めました。</string>
+    <string name="badge_goal_crusher">目標クラッシャー</string>
+    <string name="badge_goal_crusher_goal">1日の目標以内を7日連続で守りましょう。</string>
+    <string name="badge_goal_crusher_cheer">セーバーなしで、7日間目標以内。お見事です。</string>
+    <string name="badge_goal_crusher_milestone">連続記録セーバーを使わずに、7日間目標以内でした。</string>
+    <string name="badge_two_calm_weeks">おだやかな2週間</string>
+    <string name="badge_two_calm_weeks_goal">連続記録を14日間続けましょう。</string>
+    <string name="badge_two_calm_weeks_cheer">おだやかな2週間。習慣になってきましたね。</string>
+    <string name="badge_two_calm_weeks_milestone">14日連続で目標以内でした。</string>
+    <string name="badge_calm_month">おだやかな1か月</string>
+    <string name="badge_calm_month_goal">連続記録を30日間続けましょう。</string>
+    <string name="badge_calm_month_cheer">まる1か月、おだやかに過ごしました。伝説級です。</string>
+    <string name="badge_calm_month_milestone">30日連続で目標以内でした。</string>
+    <string name="badge_night_owl">夜ふかし卒業</string>
+    <string name="badge_night_owl_goal">%1$s以降に画面を見ない夜を、7晩連続で。</string>
+    <string name="badge_night_owl_cheer">%1$s以降に画面を見ない夜が7晩連続。睡眠も喜んでいます。</string>
+    <string name="badge_night_owl_milestone">%1$s以降は7晩、画面なしで過ごしました。</string>
+    <string name="badge_slow_mornings">ゆっくりな朝</string>
+    <string name="badge_slow_mornings_goal">%1$sより前に画面を見ない朝を、5日連続で。</string>
+    <string name="badge_slow_mornings_cheer">ゆっくりな朝が5日連続。あなたの一日は、フィードではなく、あなたから始まります。</string>
+    <string name="badge_slow_mornings_milestone">%1$sより前は、5日の朝、画面なしで過ごしました。</string>
+    <string name="badge_screen_free_sunday">スクリーンフリーな日曜日</string>
+    <string name="badge_screen_free_sunday_goal">日曜日のスクリーンタイムを30分未満にしましょう。</string>
+    <string name="badge_screen_free_sunday_cheer">ほとんど画面を見なかった日曜日。心が軽くなりませんでしたか？</string>
+    <string name="badge_screen_free_sunday_milestone">スクリーンタイムが30分未満の日曜日。</string>
+    <string name="badge_gentle_day">やさしい一日</string>
+    <string name="badge_gentle_day_goal">スクリーンタイムを、まる1日1時間未満にしましょう。</string>
+    <string name="badge_gentle_day_cheer">一日じゅう1時間未満。目にも心にもやさしい日でした。</string>
+    <string name="badge_gentle_day_milestone">まる1日、1時間未満。</string>
+    <string name="badge_hands_off">手を休めて</string>
+    <string name="badge_hands_off_goal">スマホを手に取るのを、1日20回未満にしましょう。</string>
+    <string name="badge_hands_off_cheer">1日の持ち上げが20回未満。あなたの手は、もっと素敵なことを見つけました。</string>
+    <string name="badge_hands_off_milestone">1日の持ち上げが20回未満。</string>
+    <string name="badge_urges_resisted">誘惑に100回勝った</string>
+    <string name="badge_urges_resisted_goal">集中セッション中に、ひと呼吸おく選択を100回しましょう。</string>
+    <string name="badge_urges_resisted_cheer">100回の誘惑、100回のひと呼吸。主導権はあなたにあります。</string>
+    <string name="badge_urges_resisted_milestone">100回、ひと呼吸おくことを選びました。</string>
+    <string name="badge_ten_hours_won_back">10時間を取り戻した</string>
+    <string name="badge_ten_hours_won_back_goal">以前のスマホ習慣から、10時間を取り戻しましょう。</string>
+    <string name="badge_ten_hours_won_back_cheer">10時間があなたの人生に戻ってきました。何に使いますか？</string>
+    <string name="badge_ten_hours_won_back_milestone">以前の習慣から10時間を取り戻しました。</string>
+    <string name="badge_fifty_hours_won_back">50時間を取り戻した</string>
+    <string name="badge_fifty_hours_won_back_goal">以前のスマホ習慣から、50時間を取り戻しましょう。</string>
+    <string name="badge_fifty_hours_won_back_cheer">50時間を取り戻しました。1週間分の勤務時間より長いですよ。</string>
+    <string name="badge_fifty_hours_won_back_milestone">以前の習慣から50時間を取り戻しました。</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">連続記録</string>
+    <string name="streak_best_yet">日連続 · 自己ベスト</string>
+    <string name="streak_best">日連続 · ベスト %1$s</string>
+    <string name="streak_this_week">今週</string>
+    <plurals name="streak_savers_left">
+        <item quantity="other">連続記録セーバー 残り%d個</item>
+    </plurals>
+    <string name="streak_saver_used">%1$sに1つ使いました — 連続記録は守られました。</string>
+    <string name="streak_saver_unused">ある日目標を超えても、セーバーが連続記録を守ってくれます。</string>
+    <string name="streak_savers_out">今月のセーバーはもうありません。新しいセーバーは1日に届きます。</string>
+    <plurals name="streak_days_to">
+        <item quantity="other">「%2$s」まであと%1$d日</item>
+    </plurals>
+    <string name="streak_all_done">連続記録のバッジをすべて獲得しました。この調子で！</string>
+    <string name="streak_help">連続記録のしくみ</string>
+    <string name="streak_help_body">1日の目標以内で過ごした日ごとに、連続記録が1つ増えます。超えてしまっても、セーバーがその日をカバーします — 毎月3個もらえます。</string>
+    <string name="streak_help_ok">わかりました</string>
+    <string name="streak_day_on_target">%1$s：目標以内</string>
+    <string name="streak_day_saved">%1$s：セーバーで保護</string>
+    <string name="streak_day_missed">%1$s：目標超過</string>
+    <string name="streak_day_today">%1$s：今日</string>
+    <string name="streak_day_empty">%1$s：データなし</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">マイルストーン</string>
+    <plurals name="milestones_since">
+        <item quantity="other">開始から · %d日</item>
+    </plurals>
+    <string name="milestones_next">次</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">共有</string>
+    <string name="share_won_back">取り戻したのは</string>
+    <string name="share_in_month">%1$s、Recentrで</string>
+    <string name="share_earned">獲得したのは</string>
+    <string name="share_with_recentr">Recentrで</string>
+    <string name="share_streak_chip">%1$d日連続</string>
+    <string name="share_daily_chip">1日%1$s</string>
+    <string name="share_level_chip">レベル %1$d</string>
+    <string name="share_stories">ストーリーズ</string>
+    <string name="share_post">投稿</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">リンクをコピー</string>
+    <string name="share_save">保存</string>
+    <string name="share_done">完了</string>
+    <string name="share_text_month">Recentrで%2$sに%1$sを取り戻しました。%3$s</string>
+    <string name="share_text_badge">Recentrで「%1$s」を獲得しました。%2$s</string>
+    <string name="share_copied">コピーしました</string>
+    <string name="share_saved">ピクチャに保存しました</string>
+    <string name="share_save_failed">画像を保存できませんでした</string>
+</resources>

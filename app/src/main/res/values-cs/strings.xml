@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">Blokování aplikací Recentr</string>
+    <string name="hold_service_summary">Pozastaví aplikace, které blokují tvá pravidla a sezení soustředění.</string>
+    <string name="hold_service_description">Recentr pozastavuje aplikace blokované tvými pravidly a sezeními soustředění. Vidí jen to, kterou aplikaci otevřeš — nikdy ne to, co máš na obrazovce — a nic neopouští tvůj telefon.</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">Aplikace %1$s odpočívá</string>
+    <string name="shield_on_hold">Aplikace %1$s je pozastavená</string>
+    <string name="shield_until">%1$s · do %2$s</string>
+    <string name="shield_until_tomorrow">%1$s · do %2$s zítra</string>
+    <string name="shield_limit">%1$s · dnes využito %2$s</string>
+    <string name="shield_stayed_off">Držíš se stranou už %1$s</string>
+    <string name="shield_focus_minutes">Soustředíš se už %1$d min</string>
+    <string name="shield_focus_started">Tvé soustředění právě začalo</string>
+    <string name="shield_got_this">Zvládnu to</string>
+    <string name="shield_back_to_focus">Zpět k soustředění</string>
+    <string name="shield_end_focus">Ukončit soustředění dřív</string>
+    <string name="shield_unlock_anyway">Přesto odemknout</string>
+    <string name="shield_unlock_anyway_left">Přesto odemknout (zbývá %1$d z %2$d)</string>
+    <string name="shield_emergency">Nouzové odemknutí</string>
+    <string name="duration_h">%1$d h</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_h_m">%1$d h %2$d min</string>
+    <string name="stayed_off_h_m">%1$d h %2$02d</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · zamčeno: %2$s</string>
+    <string name="unlock_strict_on">%1$s · Přísný režim zapnutý</string>
+    <string name="unlock_wait_overline">Pořád chceš dovnitř?</string>
+    <string name="unlock_wait_title">Vyber délku odemknutí</string>
+    <string name="unlock_wait_breath">Nadechni se…</string>
+    <string name="unlock_wait_done">Chvilka pro sebe je za tebou. Fajn.</string>
+    <string name="unlock_minutes_chip">%1$d min</string>
+    <string name="unlock_nevermind">Radši ne</string>
+    <string name="unlock_unlock">Odemknout</string>
+    <string name="unlock_retype_title">Pro odemknutí opiš tuto větu</string>
+    <string name="unlock_retype_text">Vybírám si sociální sítě místo práce, na které mi dnes záleželo, a vím to.</string>
+    <string name="unlock_quote">„%1$s“</string>
+    <string name="unlock_retype_hint">Začni psát…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">Překlep — začni znovu od začátku</string>
+    <string name="unlock_retype_start_over">Začít znovu</string>
+    <string name="unlock_scan_title">Naskenuj svůj kód Recentr</string>
+    <string name="unlock_scan_subtitle">Ten, co máš nalepený na lednici.</string>
+    <string name="unlock_scan_steady">Drž klidně…</string>
+    <string name="unlock_scan_wrong_pass">To je karta jiného pravidla</string>
+    <string name="unlock_scan_no_camera">Ke skenování karty potřebuje Recentr přístup k fotoaparátu.</string>
+    <string name="unlock_scan_allow_camera">Povolit fotoaparát</string>
+    <string name="unlock_scan_use_passcode">Místo toho zadat kód</string>
+    <string name="unlock_close">Zavřít</string>
+    <string name="unlock_passcode_title">Zadej kód karty</string>
+    <string name="unlock_passcode_subtitle">Je to číslo vytištěné pod QR kódem.</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">To není kód z tvé karty.</string>
+    <string name="unlock_emergency_title">Nouzové odemknutí</string>
+    <string name="unlock_emergency_body">Přísný režim je zapnutý. Použij to jen v opravdové nouzi — tento měsíc ti zbývá: %1$d.</string>
+    <string name="unlock_emergency_spent">Přísný režim je zapnutý a nouzová odemknutí na tento měsíc jsou vyčerpaná.</string>
+    <string name="unlock_emergency_limit_body">Dnešní čas vypršel a limit se odemknout nedá. Použij to jen v opravdové nouzi — tento měsíc ti zbývá: %1$d.</string>
+    <string name="unlock_emergency_limit_spent">Dnešní čas vypršel a nouzová odemknutí na tento měsíc jsou vyčerpaná.</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="one">Zbývá %d nouzové odemknutí</item>
+        <item quantity="few">Zbývají %d nouzová odemknutí</item>
+        <item quantity="many">Zbývá %d nouzového odemknutí</item>
+        <item quantity="other">Zbývá %d nouzových odemknutí</item>
+    </plurals>
+    <string name="unlock_hold">Podrž pro odemknutí · %1$d s</string>
+    <string name="unlock_hold_none">Nouzová odemknutí došla</string>
+    <string name="unlock_cancel">Zrušit</string>
+    <string name="unlock_open_title">Aplikace %1$s je otevřená</string>
+    <string name="unlock_time_left">Zbývá %1$s</string>
+    <string name="unlock_open_caption">Až doběhne časovač, zamkneme ji znovu.</string>
+    <string name="unlock_open_app">Otevřít %1$s</string>
+    <string name="unlock_lock_again">Zamknout znovu</string>
+    <string name="unlock_walk_title">Kroky k odemknutí: %1$d</string>
+    <string name="unlock_walk_subtitle">Malá procházka před scrollováním. Dokonči všechny kroky (%1$d) a získáš %2$s.</string>
+    <string name="unlock_walking_title">Ještě pár kroků</string>
+    <string name="unlock_walking_subtitle">Aplikace %1$s zůstane zamčená, dokud nesplníš cíl (kroky: %2$d). Nespěchej.</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">kroků · můžeš vyrazit</string>
+    <string name="unlock_walk_more_to_go">kroků · zbývá %1$d</string>
+    <string name="unlock_walk_goal_reached">kroků · cíl splněn</string>
+    <string name="unlock_walk_locked_until">Zamčeno · kroky: %1$d</string>
+    <string name="unlock_walk_complete_chip">Kroky splněny: %1$d</string>
+    <string name="unlock_walk_safety_title">Telefon pryč. Hlavu nahoru.</string>
+    <string name="unlock_walk_safety_body">Choď na bezpečném, volném místě. Než se podíváš na postup, zastav se.</string>
+    <string name="unlock_walk_no_permission_title">Recentr nemůže počítat tvé kroky</string>
+    <string name="unlock_walk_no_permission_body">Povol pro Recentr oprávnění „Fyzická aktivita“ a pak vyraž znovu.</string>
+    <string name="unlock_walk_no_sensor_title">Tenhle telefon neumí počítat kroky</string>
+    <string name="unlock_walk_no_sensor_body">Jiný způsob odemknutí vyber na stránce pravidla.</string>
+    <string name="unlock_walk_start">Vyrazit</string>
+    <string name="unlock_walk_cancel">Zrušit chůzi</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="one">Zbývá %1$d krok k odemknutí</item>
+        <item quantity="few">Zbývají %1$d kroky k odemknutí</item>
+        <item quantity="many">Zbývá %1$d kroku k odemknutí</item>
+        <item quantity="other">Zbývá %1$d kroků k odemknutí</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · odemknutí na %2$d min</string>
+    <string name="unlock_walk_done_title">Aplikace %1$s je odemčená</string>
+    <string name="unlock_walk_done_subtitle">Kroky: %1$d. Malý restart. Čeká tě přestávka na %2$d min.</string>
+    <string name="unlock_walk_done_note_body">Až doběhne časovač, zamkneme ji znovu. Než otevřeš %1$s, zastav se.</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="one">%1$d minuta jen pro tebe</item>
+        <item quantity="few">%1$d minuty jen pro tebe</item>
+        <item quantity="many">%1$d minuty jen pro tebe</item>
+        <item quantity="other">%1$d minut jen pro tebe</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="one">%1$d minuta</item>
+        <item quantity="few">%1$d minuty</item>
+        <item quantity="many">%1$d minuty</item>
+        <item quantity="other">%1$d minut</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">Připomínky pravidel</string>
+    <string name="reminder_channel_description">Upozornění, než rutina začne blokovat aplikace.</string>
+    <string name="reminder_title">%1$s začíná za %2$d min</string>
+    <string name="reminder_text">Aplikace se zablokují v %1$s.</string>
+</resources>

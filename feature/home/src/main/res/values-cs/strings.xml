@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">Otevřít profil</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d h %2$02d</string>
+    <string name="home_duration_hours">%1$d h</string>
+    <string name="home_duration_minutes">%1$d min</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">Čas u obrazovky dnes</string>
+    <string name="home_hero_screen_time_yesterday">Čas u obrazovky včera</string>
+    <string name="home_hero_average_week">Denní průměr · tento týden</string>
+    <string name="home_hero_average_month">Denní průměr · tento měsíc</string>
+    <string name="home_goal_under">Pod cílem %1$s</string>
+    <string name="home_goal_over">Nad cílem %1$s</string>
+    <string name="home_compare_less_week">O %1$d %% méně než minulý týden</string>
+    <string name="home_compare_more_week">O %1$d %% více než minulý týden</string>
+    <string name="home_compare_less_month">O %1$d %% méně než minulý měsíc</string>
+    <string name="home_compare_more_month">O %1$d %% více než minulý měsíc</string>
+    <string name="home_syncing">Synchronizace času u obrazovky…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">Nepřipojeno</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">Kvalita dnes</string>
+    <string name="home_hero_quality_yesterday">Kvalita včera</string>
+    <string name="home_hero_quality_week">Kvalita · tento týden</string>
+    <string name="home_hero_quality_month">Kvalita · tento měsíc</string>
+    <string name="home_quality_focused">Soustředěná</string>
+    <string name="home_quality_balanced">Vyvážená</string>
+    <string name="home_quality_distracted">Roztěkaná</string>
+    <string name="home_split_focus">Soustředění %1$d %%</string>
+    <string name="home_split_social">Sítě %1$d %%</string>
+    <string name="home_split_fun">Zábava %1$d %%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">Nejdelší offline dnes</string>
+    <string name="home_hero_offline_yesterday">Nejdelší offline včera</string>
+    <string name="home_hero_offline_week">Nejdelší offline · tento týden</string>
+    <string name="home_hero_offline_month">Nejdelší offline · tento měsíc</string>
+    <string name="home_offline_chip">Úsek bez telefonu</string>
+    <string name="home_hero_details">Zobrazit podrobnosti</string>
+    <string name="home_hero_page">Strana %1$d z %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">Pokles</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">Zvednutí</string>
+    <string name="home_stat_notifications">Oznámení</string>
+    <string name="home_stat_total">Celkem</string>
+    <string name="home_stat_best_day">Nejlepší den</string>
+    <string-array name="home_day_letters">
+        <item>P</item>
+        <item>Ú</item>
+        <item>S</item>
+        <item>Č</item>
+        <item>P</item>
+        <item>S</item>
+        <item>N</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>po</item>
+        <item>út</item>
+        <item>st</item>
+        <item>čt</item>
+        <item>pá</item>
+        <item>so</item>
+        <item>ne</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">Série</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="many">%d dne</item>
+        <item quantity="other">%d dní</item>
+    </plurals>
+    <string name="home_tile_next">Další · %1$s</string>
+    <string name="home_tile_ongoing">Probíhá · %1$s</string>
+    <string name="home_tile_blocking">Blokuje · %1$s</string>
+    <string name="home_tile_left">Zbývá %1$s</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">Další</string>
+    <string name="home_tile_no_rule">Žádné pravidlo v plánu</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">Načítání…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">Nejpoužívanější</string>
+    <string name="home_filter_apps">Aplikace</string>
+    <string name="home_filter_categories">Kategorie</string>
+    <string name="home_category_social">Sociální sítě</string>
+    <string name="home_category_entertainment">Zábava</string>
+    <string name="home_category_games">Hry</string>
+    <string name="home_category_productivity">Produktivita</string>
+    <string name="home_category_music">Hudba</string>
+    <string name="home_category_other">Ostatní</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">Přilepení k obrazovce: %1$s</string>
+    <string name="home_info_glued_average">Přilepení k obrazovce denně: %1$s</string>
+    <string name="home_info_hints_title">Podněty k zamyšlení</string>
+    <string name="home_info_glued_hints">Jak často tě něco vyrušilo? Proč sahaš po telefonu? Bylo to opravdu důležité?</string>
+    <string name="home_info_offline">Offline: %1$s</string>
+    <string name="home_info_offline_today">Tvůj nejdelší úsek bez telefonu dnes.</string>
+    <string name="home_info_offline_yesterday">Tvůj nejdelší úsek bez telefonu včera.</string>
+    <string name="home_info_offline_week">Tvůj nejdelší úsek bez telefonu tento týden.</string>
+    <string name="home_info_offline_month">Tvůj nejdelší úsek bez telefonu tento měsíc.</string>
+    <string name="home_info_offline_hints">Co se ti za tu dobu povedlo udělat? Jaký to byl pocit?</string>
+    <string name="home_info_got_it">Rozumím</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">Vždy povoleno</string>
+    <string name="home_always_allowed_subtitle">Aplikace, které blokování obcházejí</string>
+    <string name="home_always_allowed_empty_title">Žádné vybrané aplikace</string>
+    <string name="home_always_allowed_empty_body">Vyber aplikace, které mají zůstat dostupné, i když je blokování zapnuté.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">%d aplikace vždy povolena</item>
+        <item quantity="few">%d aplikace vždy povoleny</item>
+        <item quantity="many">%d aplikace vždy povolena</item>
+        <item quantity="other">%d aplikací vždy povoleno</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">Nastavit</string>
+    <string name="home_always_allowed_close">Zavřít</string>
+    <string name="home_always_allowed_settings_title">„Vždy povoleno“ najdeš v Nastavení</string>
+    <string name="home_always_allowed_settings_body">Kdykoli to budeš potřebovat, najdeš to v Nastavení › Ochrana › Vždy povoleno.</string>
+    <string name="home_always_allowed_settings_got_it">Rozumím</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian. -->
+<resources>
+    <string name="ds_tab_home">Головна</string>
+    <string name="ds_tab_rules">Правила</string>
+    <string name="ds_tab_timer">Таймер</string>
+    <string name="ds_tab_insights">Статистика</string>
+    <string name="ds_skip">Пропустити</string>
+    <string name="ds_back">Назад</string>
+    <string name="ds_clear">Очистити</string>
+    <string name="ds_more_options">Більше опцій</string>
+    <string name="ds_goal_title">Щоденна ціль</string>
+    <string name="ds_goal_subtitle">Recentr нагадає, коли ти наблизишся до неї.</string>
+    <string name="ds_goal_save">Зберегти ціль</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Швидкий вибір</string>
+    <string name="ds_duration_minutes">%1$d хв</string>
+    <string name="ds_duration_hours">%1$d год</string>
+    <string name="ds_duration_hours_minutes">%1$d год %2$02d хв</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Увімкни блокування додатків</string>
+    <string name="ds_blocking_body">Щоб ставити заблоковані додатки на паузу, Recentr використовує службу спеціальних можливостей Android. Вона бачить лише, який додаток ти відкриваєш, — ніколи не вміст екрана — і нічого не залишає твій телефон.</string>
+    <string name="ds_blocking_steps">Відкрий Налаштування › Спеціальні можливості, знайди «Блокування додатків Recentr» (у розділі «Установлені додатки» або «Завантажені додатки») і ввімкни його.</string>
+    <string name="ds_blocking_open_settings">Відкрити налаштування</string>
+    <string name="ds_blocking_not_now">Не зараз</string>
+    <string name="ds_blocking_off_title">Блокування вимкнено</string>
+    <string name="ds_blocking_off_body">Ввімкни його, щоб твої правила та сесії фокусу ставили додатки на паузу.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Підключи Recentr до екранного часу</string>
+    <string name="ds_usage_access_body">Recentr потрібен доступ до даних про використання, щоб рахувати твій екранний час, підняття та сповіщення. Усе залишається на твоєму телефоні.</string>
+    <string name="ds_usage_access_connect">Підключити</string>
+</resources>

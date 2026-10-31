@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. -->
+<resources>
+    <string name="ds_tab_home">Domů</string>
+    <string name="ds_tab_rules">Pravidla</string>
+    <string name="ds_tab_timer">Časovač</string>
+    <string name="ds_tab_insights">Statistiky</string>
+    <string name="ds_skip">Přeskočit</string>
+    <string name="ds_back">Zpět</string>
+    <string name="ds_clear">Vymazat</string>
+    <string name="ds_more_options">Další možnosti</string>
+    <string name="ds_goal_title">Denní cíl</string>
+    <string name="ds_goal_subtitle">Recentr tě jemně upozorní, když se budeš blížit.</string>
+    <string name="ds_goal_save">Uložit cíl</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Rychlý výběr</string>
+    <string name="ds_duration_minutes">%1$d min</string>
+    <string name="ds_duration_hours">%1$d h</string>
+    <string name="ds_duration_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Zapni blokování aplikací</string>
+    <string name="ds_blocking_body">K pozastavení aplikací, které blokuješ, využívá Recentr službu Přístupnost systému Android. Vidí jen to, kterou aplikaci otevřeš — nikdy ne to, co máš na obrazovce — a nic neopouští tvůj telefon.</string>
+    <string name="ds_blocking_steps">V Nastavení › Přístupnost otevři „Blokování aplikací Recentr“ (v části Nainstalované nebo Stažené aplikace) a zapni ji.</string>
+    <string name="ds_blocking_open_settings">Otevřít Nastavení</string>
+    <string name="ds_blocking_not_now">Teď ne</string>
+    <string name="ds_blocking_off_title">Blokování je vypnuté</string>
+    <string name="ds_blocking_off_body">Zapni ho, aby tvá pravidla a sezení soustředění pozastavovala aplikace.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Připoj Recentr k času u obrazovky</string>
+    <string name="ds_usage_access_body">Ke sledování času u obrazovky, zvednutí telefonu a oznámení potřebuje Recentr přístup k údajům o využití. Vše zůstává v tvém telefonu.</string>
+    <string name="ds_usage_access_connect">Připojit</string>
+</resources>

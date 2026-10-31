@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turkish. -->
+<resources>
+    <string name="ds_tab_home">Ana sayfa</string>
+    <string name="ds_tab_rules">Kurallar</string>
+    <string name="ds_tab_timer">Zamanlayıcı</string>
+    <string name="ds_tab_insights">İçgörüler</string>
+    <string name="ds_skip">Atla</string>
+    <string name="ds_back">Geri</string>
+    <string name="ds_clear">Temizle</string>
+    <string name="ds_more_options">Diğer seçenekler</string>
+    <string name="ds_goal_title">Günlük hedef</string>
+    <string name="ds_goal_subtitle">Recentr, hedefe yaklaşınca seni dürter.</string>
+    <string name="ds_goal_save">Hedefi kaydet</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Hızlı seçim</string>
+    <string name="ds_duration_minutes">%1$d dk</string>
+    <string name="ds_duration_hours">%1$d sa</string>
+    <string name="ds_duration_hours_minutes">%1$d sa %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Uygulama engellemeyi aç</string>
+    <string name="ds_blocking_body">Engellediğin uygulamaları beklemeye almak için Recentr, Android’in Erişilebilirlik hizmetini kullanır. Yalnızca hangi uygulamayı açtığını görür — ekranında ne olduğunu asla görmez — ve hiçbir şey telefonundan çıkmaz.</string>
+    <string name="ds_blocking_steps">Ayarlar › Erişilebilirlik bölümünde “Recentr uygulama engelleme” öğesini aç (Yüklü ya da İndirilen uygulamalar altında) ve etkinleştir.</string>
+    <string name="ds_blocking_open_settings">Ayarlar’ı aç</string>
+    <string name="ds_blocking_not_now">Şimdi değil</string>
+    <string name="ds_blocking_off_title">Engelleme kapalı</string>
+    <string name="ds_blocking_off_body">Kurallarının ve odak seanslarının uygulamaları beklemeye alması için aç.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Recentr için Ekran Süresi’ni bağla</string>
+    <string name="ds_usage_access_body">Recentr, ekran süreni, telefon almalarını ve bildirimlerini saymak için Kullanım erişimine ihtiyaç duyar. Her şey telefonunda kalır.</string>
+    <string name="ds_usage_access_connect">Bağla</string>
+</resources>

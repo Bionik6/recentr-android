@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hebrew. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">פרופיל</string>
+    <string name="profile_edit">עריכת פרופיל</string>
+    <string name="profile_add_name">הוספת השם שלך</string>
+    <string name="profile_open_settings">הגדרות</string>
+    <plurals name="profile_member_days">
+        <item quantity="one">יום אחד עם Recentr</item>
+        <item quantity="two">יומיים עם Recentr</item>
+        <item quantity="other">%d ימים עם Recentr</item>
+    </plurals>
+    <string name="profile_before">לפני</string>
+    <string name="profile_now">עכשיו</string>
+    <string name="profile_daily_average">ממוצע יומי</string>
+    <string name="profile_today">היום</string>
+    <plurals name="profile_last_days">
+        <item quantity="one">היום האחרון</item>
+        <item quantity="two">היומיים האחרונים</item>
+        <item quantity="other">%d הימים האחרונים</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">בקצב הזה</string>
+    <plurals name="profile_life_years">
+        <item quantity="one">שנה אחת מהחיים שלך חוזרת אליך</item>
+        <item quantity="two">שנתיים מהחיים שלך חוזרות אליך</item>
+        <item quantity="other">%d שנים מהחיים שלך חוזרות אליך</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="one">חודש אחד מהחיים שלך חוזר אליך</item>
+        <item quantity="two">חודשיים מהחיים שלך חוזרים אליך</item>
+        <item quantity="other">%d חודשים מהחיים שלך חוזרים אליך</item>
+    </plurals>
+    <string name="profile_life_none">כל שעה בלי הטלפון חוזרת להיות שלך</string>
+    <string name="profile_best_streak">הרצף הטוב ביותר</string>
+    <plurals name="profile_days">
+        <item quantity="one">יום אחד</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%d ימים</item>
+    </plurals>
+    <string name="profile_urges">התגברות על דחפים</string>
+    <string name="profile_recap_ready">הסיכום השבועי שלך מוכן</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">עריכת פרופיל</string>
+    <string name="edit_name">שם</string>
+    <string name="edit_email">אימייל</string>
+    <string name="edit_name_placeholder">השם הפרטי שלך</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">שמירת שינויים</string>
+    <string name="edit_avatar_colour">שינוי צבע האווטאר</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">סגירה</string>
+    <string name="recap_over_name">השבוע שלך, %s</string>
+    <string name="recap_over">השבוע שלך</string>
+    <string name="recap_less">פחות זמן מסך משבוע שעבר</string>
+    <string name="recap_more">יותר זמן מסך משבוע שעבר</string>
+    <string name="recap_same">אותו זמן מסך כמו בשבוע שעבר</string>
+    <string name="recap_saved">נחסך</string>
+    <string name="recap_best_day">היום הטוב ביותר</string>
+    <string name="recap_streak">רצף</string>
+    <string name="recap_share">שיתוף השבוע שלי</string>
+    <string name="recap_share_text">השבוע שלי ב-Recentr: %1$s זמן מסך לעומת שבוע שעבר, נחסכו %2$s והיום הכי טוב שלי היה %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">כל הכלים לימים רגועים יותר</string>
+    <string name="plus_benefit_rules">כללים ושגרות ללא הגבלה</string>
+    <string name="plus_benefit_strict">מצב קפדני ופתיחות חירום</string>
+    <string name="plus_benefit_recaps">סיכומים שבועיים והתבוננות</string>
+    <string name="plus_yearly">שנתי</string>
+    <string name="plus_monthly">חודשי</string>
+    <string name="plus_yearly_discount">‎−50%</string>
+    <string name="plus_yearly_per_month">$2.50 / חודש</string>
+    <string name="plus_billed_monthly">מחויב מדי חודש</string>
+    <string name="plus_start_trial">התחלת ניסיון חינם ל-7 ימים</string>
+    <string name="plus_cancel_anytime">ביטול בכל עת ·\u0020</string>
+    <string name="plus_restore">שחזור רכישה</string>
+    <string name="plus_restore_none_title">אין מה לשחזר</string>
+    <string name="plus_restore_none_body">לא נמצאה רכישה של Recentr Plus בחשבון הזה.</string>
+    <string name="plus_restore_ok_title">הרכישה שוחזרה</string>
+    <string name="plus_restore_ok_body">Recentr Plus פעילה בטלפון הזה.</string>
+    <string name="plus_trial_started">Recentr Plus פעילה — שבוע חינם בשבילך</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">מנוי</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">מתחדש ב-%s</string>
+    <string name="sub_change_plan">שינוי מסלול</string>
+    <string name="sub_restore">שחזור רכישה</string>
+    <string name="sub_invoices">חשבוניות</string>
+    <string name="sub_cancel">ביטול המנוי</string>
+    <string name="sub_change_title">מעבר למסלול %s?</string>
+    <string name="sub_change_body">המסלול החדש יתחיל בסוף התקופה הנוכחית.</string>
+    <string name="sub_change_confirm">מעבר</string>
+    <string name="sub_cancel_title">לבטל את Recentr Plus?</string>
+    <string name="sub_cancel_body">Plus נשארת איתך עד סוף התקופה הנוכחית, ואז חוזרים למסלול החינמי.</string>
+    <string name="sub_cancel_confirm">ביטול המסלול</string>
+    <string name="sub_keep">להשאיר את Plus</string>
+    <string name="sub_not_now">לא עכשיו</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">הגדרות</string>
+    <string name="settings_general">כללי</string>
+    <string name="settings_protection">הגנה</string>
+    <string name="settings_support">תמיכה</string>
+    <string name="settings_account">חשבון</string>
+    <string name="settings_developer">מפתחים</string>
+    <string name="settings_notifications">התראות</string>
+    <string name="settings_on">פועל</string>
+    <string name="settings_off">כבוי</string>
+    <string name="settings_appearance">מראה</string>
+    <string name="settings_app_icon">סמל האפליקציה</string>
+    <string name="settings_language">שפה</string>
+    <string name="settings_time_format">פורמט שעה</string>
+    <string name="time_format_am_pm">AM/PM</string>
+    <string name="time_format_24h">24 שעות</string>
+    <string name="time_format_body">איך השעות מוצגות ב-Recentr.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">מצב קפדני</string>
+    <string name="settings_strict_caption">סשנים ושגרות חדשים מתחילים במצב קפדני.</string>
+    <string name="settings_always_allowed">תמיד מותרות</string>
+    <string name="settings_always_allowed_none">ללא</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="one">אפליקציה אחת</item>
+        <item quantity="two">שתי אפליקציות</item>
+        <item quantity="other">%d אפליקציות</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">פתיחות חירום</string>
+    <string name="settings_unlocks_left">נותרו: %d</string>
+    <string name="settings_app_blocking">חסימת אפליקציות</string>
+    <string name="settings_unlock_pass">כרטיס פתיחה</string>
+    <string name="settings_pass_none">ללא</string>
+    <string name="settings_pass_rules">כללים: %d</string>
+    <string name="settings_help">עזרה ומשוב</string>
+    <string name="settings_rate">דירוג Recentr</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">חינם</string>
+    <string name="settings_log_out">התנתקות</string>
+    <string name="settings_delete_account">מחיקת חשבון</string>
+    <string name="settings_replay_onboarding">הצגה חוזרת של ההיכרות</string>
+    <string name="settings_design_system">מערכת עיצוב</string>
+    <string name="emergency_title">פתיחות חירום</string>
+    <string name="emergency_body">נותרו לך %1$d מתוך %2$d פתיחות חירום החודש. כשמצב קפדני או מגבלה שנוצלה חוסמים אפליקציה, כל אחת מהן פותחת אותה ל-5 דקות בכל זאת. הן מתחדשות ב-%3$s.</string>
+    <string name="unlock_pass_title">כרטיס פתיחה</string>
+    <string name="unlock_pass_none">עדיין אין כלל שדורש כרטיס. בוחרים “סריקת קוד ששומרים במקום אחר” כשיטת הפתיחה של כלל, ואז מדפיסים את הכרטיס שלו כאן.</string>
+    <string name="unlock_pass_body">מדפיסים את הכרטיס של כלל ושומרים אותו רחוק מהטלפון. סריקה שלו היא הדרך להיכנס.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">כרטיס הפתיחה שלך</string>
+    <string name="unlock_pass_screen_body">מדפיסים ושומרים רחוק מהמיטה. סריקה היא הדרך היחידה לפתוח.</string>
+    <string name="unlock_pass_caption">Recentr · כרטיס #%1$s</string>
+    <string name="unlock_pass_share">שיתוף</string>
+    <string name="unlock_pass_print">הדפסת הכרטיס</string>
+    <string name="unlock_pass_document">כרטיס הפתיחה של Recentr</string>
+    <string name="dialog_ok">אישור</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">עזרה ומשוב</string>
+    <string name="help_subtitle">אנחנו קוראים כל הודעה.</string>
+    <string name="help_not_blocking">Recentr לא חוסמת אפליקציה</string>
+    <string name="help_not_blocking_body">כדי לחסום צריך גישה לנתוני שימוש, ו-Recentr צריכה לפעול ברקע. כדאי לבדוק בהגדרות › אפליקציות › Recentr ולכבות את אופטימיזציית הסוללה.</string>
+    <string name="help_strict">שאלות על מצב קפדני</string>
+    <string name="help_strict_body">אחרי שמפעילים מצב קפדני לסשן או לשגרה, אי אפשר לפתוח את האפליקציות שלהם עד הסיום, מלבד בפתיחת חירום. גם כיבוי המצב ימתין לסיום. ההגדרה הכללית בהגדרות › מצב קפדני מפעילה אותו בכל סשן ושגרה חדשים.</string>
+    <string name="help_billing">חיוב ו-Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus מחויבת דרך Google Play. אפשר לבטל בכל עת דרך הגדרות › Recentr Plus או דרך המנויים שלך ב-Play.</string>
+    <string name="help_note_section">שליחת הודעה אלינו</string>
+    <string name="help_note_title">רעיון ל-Recentr</string>
+    <string name="help_note_placeholder">היה מעולה סשן “לומדים עם חברים” שבו כולם ננעלים יחד.</string>
+    <string name="help_send">שליחת משוב</string>
+    <string name="help_feedback_subject">משוב על Recentr</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">מראה</string>
+    <string name="appearance_theme">ערכת נושא</string>
+    <string name="theme_light">בהיר</string>
+    <string name="theme_dark">כהה</string>
+    <string name="theme_auto">אוטומטי</string>
+    <string name="appearance_app_icon">סמל האפליקציה</string>
+    <string name="icon_sky">שמיים</string>
+    <string name="icon_night">לילה</string>
+    <string name="icon_mint">מנטה</string>
+    <string name="icon_sunset">שקיעה</string>
+    <string name="appearance_mascot">הצגת הדמות במסך הבית</string>
+    <string name="appearance_reduce_motion">הפחתת תנועה</string>
+    <string name="appearance_haptics">משוב רטט</string>
+    <string name="appearance_haptics_caption">רטט קל כשבוחרים, מפעילים או חוגגים</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">התראות</string>
+    <string name="notifications_subtitle">תזכורות עדינות, אף פעם לא רעש.</string>
+    <string name="notifications_reminders">תזכורות</string>
+    <string name="notifications_routine">לפני שהשגרה מתחילה</string>
+    <string name="notifications_limit">מגבלה כמעט מוצתה</string>
+    <string name="notifications_goal">בדיקת יעד יומי</string>
+    <string name="notifications_celebrations">חגיגות</string>
+    <string name="notifications_streaks">רצפים ואבני דרך</string>
+    <string name="notifications_recap">סיכום שבועי</string>
+    <string name="notifications_quiet_hours">שעות שקט</string>
+    <string name="notifications_dont_notify">לא לשלוח התראות</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">ההתראות של Recentr כבויות בטלפון הזה.</string>
+    <string name="notifications_turn_on">הפעלה</string>
+    <string name="quiet_title">שעות שקט</string>
+    <string name="quiet_subtitle">בלי תזכורות בין השעות האלה.</string>
+    <string name="quiet_from">התחלה</string>
+    <string name="quiet_to">סיום</string>
+    <string name="quiet_save">שמירה</string>
+    <string name="time_dialog_cancel">ביטול</string>
+    <string name="time_dialog_ok">אישור</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">שפה</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">שפת המערכת</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">להתנתק מ-Recentr?</string>
+    <string name="logout_body">הכללים שלך ימשיכו לפעול בטלפון הזה. אפשר להתחבר שוב בכל עת כדי לסנכרן אותם.</string>
+    <string name="logout_confirm">התנתקות</string>
+    <string name="logout_stay">להישאר</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">למחוק את החשבון?</string>
+    <string name="delete_body">כל הכללים, הרצפים וההתבוננויות יימחקו. יש להקליד DELETE כדי לאשר.</string>
+    <string name="delete_placeholder">להקליד DELETE</string>
+    <string name="delete_confirm">מחיקת החשבון</string>
+    <string name="delete_cancel">ביטול</string>
+    <string name="back">חזרה</string>
+    <string name="duration_h">%1$d שע׳</string>
+    <string name="duration_m">%1$d דק׳</string>
+    <string name="duration_h_m_compact">%1$d שע׳ %2$02d</string>
+    <string name="duration_h_m">%1$d שע׳ %2$d דק׳</string>
+</resources>

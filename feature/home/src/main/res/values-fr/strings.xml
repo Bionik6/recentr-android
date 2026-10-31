@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- French. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">Ouvrir le profil</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d h %2$02d</string>
+    <string name="home_duration_hours">%1$d h</string>
+    <string name="home_duration_minutes">%1$d min</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">Temps d’écran aujourd’hui</string>
+    <string name="home_hero_screen_time_yesterday">Temps d’écran hier</string>
+    <string name="home_hero_average_week">Moyenne quotidienne · cette semaine</string>
+    <string name="home_hero_average_month">Moyenne quotidienne · ce mois-ci</string>
+    <string name="home_goal_under">Sous ton objectif de %1$s</string>
+    <string name="home_goal_over">Au-dessus de ton objectif de %1$s</string>
+    <string name="home_compare_less_week">%1$d %% en moins que la semaine dernière</string>
+    <string name="home_compare_more_week">%1$d %% en plus que la semaine dernière</string>
+    <string name="home_compare_less_month">%1$d %% en moins que le mois dernier</string>
+    <string name="home_compare_more_month">%1$d %% en plus que le mois dernier</string>
+    <string name="home_syncing">Synchronisation du temps d’écran…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">Non connecté</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">Qualité aujourd’hui</string>
+    <string name="home_hero_quality_yesterday">Qualité hier</string>
+    <string name="home_hero_quality_week">Qualité · cette semaine</string>
+    <string name="home_hero_quality_month">Qualité · ce mois-ci</string>
+    <string name="home_quality_focused">Concentré</string>
+    <string name="home_quality_balanced">Équilibré</string>
+    <string name="home_quality_distracted">Distrait</string>
+    <string name="home_split_focus">Concentration %1$d %%</string>
+    <string name="home_split_social">Social %1$d %%</string>
+    <string name="home_split_fun">Loisirs %1$d %%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">Plus longue déconnexion aujourd’hui</string>
+    <string name="home_hero_offline_yesterday">Plus longue déconnexion hier</string>
+    <string name="home_hero_offline_week">Plus longue déconnexion · cette semaine</string>
+    <string name="home_hero_offline_month">Plus longue déconnexion · ce mois-ci</string>
+    <string name="home_offline_chip">Moment sans téléphone</string>
+    <string name="home_hero_details">Afficher les détails</string>
+    <string name="home_hero_page">Page %1$d sur %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">Baisse</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">Prises en main</string>
+    <string name="home_stat_notifications">Notifications</string>
+    <string name="home_stat_total">Total</string>
+    <string name="home_stat_best_day">Meilleur jour</string>
+    <string-array name="home_day_letters">
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>J</item>
+        <item>V</item>
+        <item>S</item>
+        <item>D</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>lun.</item>
+        <item>mar.</item>
+        <item>mer.</item>
+        <item>jeu.</item>
+        <item>ven.</item>
+        <item>sam.</item>
+        <item>dim.</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">Série</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+    <string name="home_tile_next">Prochaine · %1$s</string>
+    <string name="home_tile_ongoing">En cours · %1$s</string>
+    <string name="home_tile_blocking">Blocage · %1$s</string>
+    <string name="home_tile_left">%1$s restant</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">Prochaine</string>
+    <string name="home_tile_no_rule">Aucune règle prévue</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">Chargement…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">Les plus utilisées</string>
+    <string name="home_filter_apps">Applis</string>
+    <string name="home_filter_categories">Catégories</string>
+    <string name="home_category_social">Social</string>
+    <string name="home_category_entertainment">Divertissement</string>
+    <string name="home_category_games">Jeux</string>
+    <string name="home_category_productivity">Productivité</string>
+    <string name="home_category_music">Musique</string>
+    <string name="home_category_other">Autres</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s les yeux rivés sur ton écran</string>
+    <string name="home_info_glued_average">%1$s par jour les yeux rivés sur ton écran</string>
+    <string name="home_info_hints_title">Pistes pour réfléchir</string>
+    <string name="home_info_glued_hints">Combien d’interruptions as-tu eues ? Pourquoi attrapes-tu ton téléphone ? C’était vraiment important ?</string>
+    <string name="home_info_offline">%1$s sans téléphone</string>
+    <string name="home_info_offline_today">Ta plus longue période sans téléphone aujourd’hui.</string>
+    <string name="home_info_offline_yesterday">Ta plus longue période sans téléphone hier.</string>
+    <string name="home_info_offline_week">Ta plus longue période sans téléphone cette semaine.</string>
+    <string name="home_info_offline_month">Ta plus longue période sans téléphone ce mois-ci.</string>
+    <string name="home_info_offline_hints">Qu’as-tu fait pendant ce temps ? Qu’est-ce que ça t’a fait ?</string>
+    <string name="home_info_got_it">Compris</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">Toujours autorisées</string>
+    <string name="home_always_allowed_subtitle">Les applis qui échappent à tes blocages</string>
+    <string name="home_always_allowed_empty_title">Aucune appli sélectionnée</string>
+    <string name="home_always_allowed_empty_body">Choisis les applis qui doivent rester disponibles même quand tes blocages sont actifs.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">%d appli toujours autorisée</item>
+        <item quantity="many">%d applis toujours autorisées</item>
+        <item quantity="other">%d applis toujours autorisées</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">Configurer</string>
+    <string name="home_always_allowed_close">Fermer</string>
+    <string name="home_always_allowed_settings_title">Retrouve « Toujours autorisées » dans les paramètres</string>
+    <string name="home_always_allowed_settings_body">Quand tu en as besoin, tu le trouveras dans Paramètres › Protection › Toujours autorisées.</string>
+    <string name="home_always_allowed_settings_got_it">Compris</string>
+</resources>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">Відкрити профіль</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d год %2$02d хв</string>
+    <string name="home_duration_hours">%1$d год</string>
+    <string name="home_duration_minutes">%1$d хв</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">Екранний час сьогодні</string>
+    <string name="home_hero_screen_time_yesterday">Екранний час вчора</string>
+    <string name="home_hero_average_week">Середнє за день · цього тижня</string>
+    <string name="home_hero_average_month">Середнє за день · цього місяця</string>
+    <string name="home_goal_under">Менше за твою ціль: %1$s</string>
+    <string name="home_goal_over">Більше за твою ціль: %1$s</string>
+    <string name="home_compare_less_week">На %1$d%% менше, ніж минулого тижня</string>
+    <string name="home_compare_more_week">На %1$d%% більше, ніж минулого тижня</string>
+    <string name="home_compare_less_month">На %1$d%% менше, ніж минулого місяця</string>
+    <string name="home_compare_more_month">На %1$d%% більше, ніж минулого місяця</string>
+    <string name="home_syncing">Синхронізація екранного часу…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">Не підключено</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">Якість сьогодні</string>
+    <string name="home_hero_quality_yesterday">Якість вчора</string>
+    <string name="home_hero_quality_week">Якість · цього тижня</string>
+    <string name="home_hero_quality_month">Якість · цього місяця</string>
+    <string name="home_quality_focused">Зосереджено</string>
+    <string name="home_quality_balanced">Збалансовано</string>
+    <string name="home_quality_distracted">Розсіяно</string>
+    <string name="home_split_focus">Фокус %1$d%%</string>
+    <string name="home_split_social">Соцмережі %1$d%%</string>
+    <string name="home_split_fun">Розваги %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">Найдовше без телефона сьогодні</string>
+    <string name="home_hero_offline_yesterday">Найдовше без телефона вчора</string>
+    <string name="home_hero_offline_week">Найдовше без телефона · цього тижня</string>
+    <string name="home_hero_offline_month">Найдовше без телефона · цього місяця</string>
+    <string name="home_offline_chip">Час без телефона</string>
+    <string name="home_hero_details">Показати деталі</string>
+    <string name="home_hero_page">Сторінка %1$d з %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">Зменшення</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">Підняття</string>
+    <string name="home_stat_notifications">Сповіщення</string>
+    <string name="home_stat_total">Усього</string>
+    <string name="home_stat_best_day">Найкращий день</string>
+    <string-array name="home_day_letters">
+        <item>П</item>
+        <item>В</item>
+        <item>С</item>
+        <item>Ч</item>
+        <item>П</item>
+        <item>С</item>
+        <item>Н</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>пн</item>
+        <item>вт</item>
+        <item>ср</item>
+        <item>чт</item>
+        <item>пт</item>
+        <item>сб</item>
+        <item>нд</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">Серія</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
+    </plurals>
+    <string name="home_tile_next">Далі · %1$s</string>
+    <string name="home_tile_ongoing">Триває · %1$s</string>
+    <string name="home_tile_blocking">Блокує · %1$s</string>
+    <string name="home_tile_left">Залишилось %1$s</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">Далі</string>
+    <string name="home_tile_no_rule">Немає запланованих правил</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">Завантаження…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">Найчастіше</string>
+    <string name="home_filter_apps">Додатки</string>
+    <string name="home_filter_categories">Категорії</string>
+    <string name="home_category_social">Соцмережі</string>
+    <string name="home_category_entertainment">Розваги</string>
+    <string name="home_category_games">Ігри</string>
+    <string name="home_category_productivity">Продуктивність</string>
+    <string name="home_category_music">Музика</string>
+    <string name="home_category_other">Інше</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s у полоні екрана</string>
+    <string name="home_info_glued_average">%1$s на день у полоні екрана</string>
+    <string name="home_info_hints_title">Над чим замислитися</string>
+    <string name="home_info_glued_hints">Як часто тебе переривали? Чому ти береш телефон? Чи це справді було важливо?</string>
+    <string name="home_info_offline">%1$s без телефона</string>
+    <string name="home_info_offline_today">Твій найдовший час без телефона сьогодні.</string>
+    <string name="home_info_offline_yesterday">Твій найдовший час без телефона вчора.</string>
+    <string name="home_info_offline_week">Твій найдовший час без телефона цього тижня.</string>
+    <string name="home_info_offline_month">Твій найдовший час без телефона цього місяця.</string>
+    <string name="home_info_offline_hints">Що вдалося зробити за цей час? Які були відчуття?</string>
+    <string name="home_info_got_it">Зрозуміло</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">Завжди дозволені</string>
+    <string name="home_always_allowed_subtitle">Додатки, що обходять твої блокування</string>
+    <string name="home_always_allowed_empty_title">Додатків не вибрано</string>
+    <string name="home_always_allowed_empty_body">Обери додатки, які мають лишатися доступними, навіть коли твої блокування ввімкнено.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">%d додаток завжди дозволений</item>
+        <item quantity="few">%d додатки завжди дозволені</item>
+        <item quantity="many">%d додатків завжди дозволені</item>
+        <item quantity="other">%d додатків завжди дозволені</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">Налаштувати</string>
+    <string name="home_always_allowed_close">Закрити</string>
+    <string name="home_always_allowed_settings_title">«Завжди дозволені» — у налаштуваннях</string>
+    <string name="home_always_allowed_settings_body">Коли знадобиться, шукай у Налаштування › Захист › Завжди дозволені.</string>
+    <string name="home_always_allowed_settings_got_it">Зрозуміло</string>
+</resources>

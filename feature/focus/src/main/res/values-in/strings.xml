@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Indonesian. -->
+<resources>
+    <string name="focus_title">Timer</string>
+    <string name="focus_more">Opsi lainnya</string>
+    <string name="focus_close">Tutup</string>
+    <string name="focus_back">Kembali</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d mnt</string>
+    <string name="focus_dial_description">Durasi fokus: %d menit. Geser untuk mengubah.</string>
+    <string name="focus_sound">Suara</string>
+    <string name="focus_block">Blokir</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">Tidak ada</string>
+    <string name="focus_rounds">Putaran</string>
+    <string name="focus_rounds_value">%1$d × %2$d mnt</string>
+    <string name="focus_start">Mulai fokus</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">Mode ketat</string>
+    <string name="focus_strict_caption">Mode ketat: tidak bisa jeda atau mengakhiri lebih awal</string>
+    <string name="focus_strict_note">Mode ketat: fokus ini berakhir dengan sendirinya</string>
+    <string name="focus_strict_confirm_title">Aktifkan Mode ketat?</string>
+    <string name="focus_strict_confirm_body">Kamu tidak bisa menjeda atau mengakhiri fokus ini lebih awal. Istirahat tetap datang.</string>
+    <string name="focus_strict_turn_on">Aktifkan</string>
+    <string name="focus_cancel">Batal</string>
+    <string name="focus_back_to_focus">Kembali fokus</string>
+    <string name="focus_back_to_focus_left">Kembali fokus · %1$s</string>
+    <string name="focus_rename">Ganti nama</string>
+    <string name="focus_rename_title">Beri nama sesi ini</string>
+    <string name="focus_rename_save">Simpan</string>
+    <string name="focus_log">Log fokus</string>
+    <string name="focus_change_sound">Ganti suara</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">Putaran %1$d dari %2$d</string>
+    <string name="focus_left_ends">tersisa · berakhir %s</string>
+    <string name="focus_paused_round_of">Dijeda · putaran %1$d dari %2$d</string>
+    <string name="focus_ready_round_of">Siap untuk putaran %1$d dari %2$d</string>
+    <string name="focus_round_n">Putaran %d</string>
+    <string name="focus_take_your_time">Santai saja</string>
+    <string name="focus_paused_for">dijeda selama %s</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="other">%d aplikasi ditahan</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="other">%d aplikasi masih ditahan</item>
+    </plurals>
+    <string name="focus_pause">Jeda</string>
+    <string name="focus_resume">Lanjutkan</string>
+    <string name="focus_start_round">Mulai putaran</string>
+    <string name="focus_end_session">Akhiri sesi</string>
+    <string name="focus_restart_round">Ulangi putaran</string>
+    <string name="focus_round_restarted">Putaran %d diulang</string>
+    <string name="focus_undo">Urungkan</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">Suara fokus</string>
+    <string name="sounds_subtitle_none">Nyalakan sebanyak yang kamu suka.</string>
+    <string name="sounds_subtitle_on">%1$s menyala</string>
+    <string name="sounds_subtitle_on_muted">%1$s menyala · %2$d dibisukan</string>
+    <string name="sounds_subtitle_muted">Tidak ada yang diputar · %d dibisukan</string>
+    <string name="sounds_mute_all">Bisukan semua</string>
+    <string name="sounds_unmute_all">Bunyikan semua</string>
+    <string name="sounds_on_count">%d menyala</string>
+    <string name="sounds_volume">Volume</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">Mati</string>
+    <string name="sound_state_muted">Dibisukan</string>
+    <string name="sound_turn_on">Nyalakan</string>
+    <string name="sound_mute">Bisukan</string>
+    <string name="sound_unmute">Bunyikan</string>
+    <string name="sound_mix_off">Mati</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">Tambah suara</string>
+    <string name="sound_category_rain">Hujan</string>
+    <string name="sound_category_water">Air</string>
+    <string name="sound_category_nature">Alam</string>
+    <string name="sound_category_places">Tempat</string>
+    <string name="sound_category_steady">Detak &amp; derau</string>
+    <string name="sound_soft_rain">Hujan gerimis</string>
+    <string name="sound_heavy_rain">Hujan deras</string>
+    <string name="sound_forest_rain">Hujan di hutan</string>
+    <string name="sound_rain_village">Hujan di desa</string>
+    <string name="sound_thunder">Guntur</string>
+    <string name="sound_river">Sungai</string>
+    <string name="sound_small_river">Anak sungai</string>
+    <string name="sound_beach">Pantai</string>
+    <string name="sound_sea_beach">Tepi laut</string>
+    <string name="sound_soft_beach">Pesisir tenang</string>
+    <string name="sound_whale">Paus</string>
+    <string name="sound_forest_night">Hutan malam</string>
+    <string name="sound_birds">Burung</string>
+    <string name="sound_crickets">Jangkrik</string>
+    <string name="sound_cicada_birds">Tonggeret</string>
+    <string name="sound_farm">Peternakan</string>
+    <string name="sound_wind">Angin</string>
+    <string name="sound_campfire">Api unggun</string>
+    <string name="sound_coffee_shop">Kedai kopi</string>
+    <string name="sound_office">Kantor</string>
+    <string name="sound_street_traffic">Jalanan</string>
+    <string name="sound_construction">Konstruksi</string>
+    <string name="sound_keyboard_typing">Mengetik</string>
+    <string name="sound_clock_tick">Jam</string>
+    <string name="sound_clock_stopwatch">Stopwatch</string>
+    <string name="sound_white_noise">Derau putih</string>
+    <string name="sound_pink_noise">Derau pink</string>
+    <string name="sounds_done">Selesai</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">Istirahat</string>
+    <string name="break_round_done">Putaran %1$d selesai · sisa %2$d</string>
+    <string name="break_until">sampai putaran %d</string>
+    <string name="break_ideas_title">Coba ini daripada scroll</string>
+    <string name="break_idea_window">Lihat ke luar jendela</string>
+    <string name="break_idea_window_hint">20 detik, sejauh 20 meter</string>
+    <string name="break_idea_water">Minum segelas air</string>
+    <string name="break_idea_water_hint">Otakmu akan berterima kasih</string>
+    <string name="break_idea_stretch">Regangkan bahumu</string>
+    <string name="break_idea_stretch_hint">Putar ke belakang 5 kali</string>
+    <string name="break_skip">Lewati istirahat</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="other">%1$d menit %2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="other">%d putaran</item>
+    </plurals>
+    <string name="complete_zero_unlocks">nol buka kunci</string>
+    <plurals name="complete_unlocks">
+        <item quantity="other">%d buka kunci</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. Itu yang terpanjang minggu ini.</string>
+    <string name="complete_focus_streak">Rentetan fokus</string>
+    <plurals name="complete_days">
+        <item quantity="other">%d hari</item>
+    </plurals>
+    <string name="complete_urges">Dorongan yang ditahan</string>
+    <string name="complete_urges_today">%d hari ini</string>
+    <string name="complete_note_title">Apa yang berhasil kamu selesaikan?</string>
+    <string name="complete_note_placeholder">Kerangka bab 3 + dua halaman. Ponsel tetap telungkup.</string>
+    <string name="complete_another">Mulai putaran lagi</string>
+    <string name="complete_done">Selesai</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">Kamu sudah fokus %d mnt</string>
+    <string name="hold_leave_body">Aplikasimu tetap ditahan sampai %s. Bertahanlah — kamu hebat.</string>
+    <string name="hold_back">Kembali fokus</string>
+    <string name="hold_end">Akhiri sesi lebih awal</string>
+    <string name="hold_keep_focusing">Tetap fokus</string>
+    <string name="hold_end_now">Akhiri sekarang?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="other">Akhiri sekarang dan %d aplikasimu kembali.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s %2$d mnt tetap dihitung.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">Log fokus</string>
+    <string name="history_this_week">Minggu ini</string>
+    <string name="history_sessions">Sesi</string>
+    <string name="history_today">Hari ini, %s</string>
+    <string name="history_yesterday">Kemarin, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">Belum ada sesi. Sesi fokusmu akan muncul di sini.</string>
+    <string name="history_clear">Hapus log</string>
+    <string-array name="focus_day_letters">
+        <item>S</item>
+        <item>S</item>
+        <item>R</item>
+        <item>K</item>
+        <item>J</item>
+        <item>S</item>
+        <item>M</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">Putaran</string>
+    <string name="rounds_subtitle">Bekerja dalam putaran dengan istirahat singkat di antaranya.</string>
+    <string name="rounds_focus">Fokus</string>
+    <string name="rounds_short_break">Istirahat singkat</string>
+    <string name="rounds_count">Putaran</string>
+    <string name="rounds_long_break">Istirahat panjang</string>
+    <string name="rounds_minutes">%d mnt</string>
+    <string name="rounds_auto_start">Mulai otomatis putaran berikutnya</string>
+    <string name="rounds_total">Total: %s dengan istirahat</string>
+    <string name="rounds_save">Simpan putaran</string>
+    <string name="rounds_decrease">Kurangi %s</string>
+    <string name="rounds_increase">Tambah %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d j</string>
+    <string name="duration_m">%1$d mnt</string>
+    <string name="duration_h_m">%1$d j %2$d mnt</string>
+    <string name="focus_notification_channel">Timer fokus</string>
+    <string name="focus_notification_channel_description">Sesi yang sedang berjalan, dengan suaranya tetap diputar saat Recentr ditutup.</string>
+    <string name="focus_notification_round">Putaran %1$d dari %2$d</string>
+    <string name="focus_notification_break">Istirahat · berikutnya putaran %1$d</string>
+    <string name="focus_notification_paused">Dijeda · putaran %1$d dari %2$d</string>
+</resources>

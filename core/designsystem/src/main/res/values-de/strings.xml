@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- German. -->
+<resources>
+    <string name="ds_tab_home">Start</string>
+    <string name="ds_tab_rules">Regeln</string>
+    <string name="ds_tab_timer">Timer</string>
+    <string name="ds_tab_insights">Einblicke</string>
+    <string name="ds_skip">Überspringen</string>
+    <string name="ds_back">Zurück</string>
+    <string name="ds_clear">Löschen</string>
+    <string name="ds_more_options">Weitere Optionen</string>
+    <string name="ds_goal_title">Tagesziel</string>
+    <string name="ds_goal_subtitle">Recentr erinnert dich, wenn du nah dran bist.</string>
+    <string name="ds_goal_save">Ziel speichern</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Schnellauswahl</string>
+    <string name="ds_duration_minutes">%1$d min</string>
+    <string name="ds_duration_hours">%1$d h</string>
+    <string name="ds_duration_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">App-Blockierung aktivieren</string>
+    <string name="ds_blocking_body">Damit Recentr die Apps, die du blockierst, auf Eis legen kann, nutzt es den Bedienungshilfen-Dienst von Android. Er sieht nur, welche App du öffnest – nie, was auf deinem Bildschirm ist – und nichts verlässt dein Handy.</string>
+    <string name="ds_blocking_steps">Öffne in den Einstellungen › Bedienungshilfen „Recentr App-Blocker“ (unter „Installierte Apps“ oder „Heruntergeladene Apps“) und schalte ihn ein.</string>
+    <string name="ds_blocking_open_settings">Einstellungen öffnen</string>
+    <string name="ds_blocking_not_now">Jetzt nicht</string>
+    <string name="ds_blocking_off_title">Blockierung ist aus</string>
+    <string name="ds_blocking_off_body">Schalte sie ein, damit deine Regeln und Fokus-Sitzungen Apps auf Eis legen.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Recentr mit der Bildschirmzeit verbinden</string>
+    <string name="ds_usage_access_body">Recentr braucht den Zugriff auf Nutzungsdaten, um deine Bildschirmzeit, Pickups und Benachrichtigungen zu zählen. Alles bleibt auf deinem Handy.</string>
+    <string name="ds_usage_access_connect">Verbinden</string>
+</resources>

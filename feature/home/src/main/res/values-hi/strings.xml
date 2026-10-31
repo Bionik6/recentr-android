@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hindi. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">प्रोफ़ाइल खोलें</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d घं %2$02d मि</string>
+    <string name="home_duration_hours">%1$d घं</string>
+    <string name="home_duration_minutes">%1$d मि</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">आज का स्क्रीन टाइम</string>
+    <string name="home_hero_screen_time_yesterday">बीते कल का स्क्रीन टाइम</string>
+    <string name="home_hero_average_week">रोज़ का औसत · इस हफ़्ते</string>
+    <string name="home_hero_average_month">रोज़ का औसत · इस महीने</string>
+    <string name="home_goal_under">आपके %1$s के लक्ष्य से कम</string>
+    <string name="home_goal_over">आपके %1$s के लक्ष्य से ज़्यादा</string>
+    <string name="home_compare_less_week">पिछले हफ़्ते से %1$d%% कम</string>
+    <string name="home_compare_more_week">पिछले हफ़्ते से %1$d%% ज़्यादा</string>
+    <string name="home_compare_less_month">पिछले महीने से %1$d%% कम</string>
+    <string name="home_compare_more_month">पिछले महीने से %1$d%% ज़्यादा</string>
+    <string name="home_syncing">स्क्रीन टाइम सिंक हो रहा है…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">जुड़ा नहीं</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">आज की गुणवत्ता</string>
+    <string name="home_hero_quality_yesterday">बीते कल की गुणवत्ता</string>
+    <string name="home_hero_quality_week">गुणवत्ता · इस हफ़्ते</string>
+    <string name="home_hero_quality_month">गुणवत्ता · इस महीने</string>
+    <string name="home_quality_focused">एकाग्र</string>
+    <string name="home_quality_balanced">संतुलित</string>
+    <string name="home_quality_distracted">भटका हुआ</string>
+    <string name="home_split_focus">फ़ोकस %1$d%%</string>
+    <string name="home_split_social">सोशल %1$d%%</string>
+    <string name="home_split_fun">मज़ा %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">आज का सबसे लंबा ऑफ़लाइन समय</string>
+    <string name="home_hero_offline_yesterday">बीते कल का सबसे लंबा ऑफ़लाइन समय</string>
+    <string name="home_hero_offline_week">सबसे लंबा ऑफ़लाइन · इस हफ़्ते</string>
+    <string name="home_hero_offline_month">सबसे लंबा ऑफ़लाइन · इस महीने</string>
+    <string name="home_offline_chip">फ़ोन-मुक्त अवधि</string>
+    <string name="home_hero_details">विवरण दिखाएँ</string>
+    <string name="home_hero_page">पेज %1$d / %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">कमी</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">पिकअप</string>
+    <string name="home_stat_notifications">नोटिफ़िकेशन</string>
+    <string name="home_stat_total">कुल</string>
+    <string name="home_stat_best_day">सबसे अच्छा दिन</string>
+    <string-array name="home_day_letters">
+        <item>सो</item>
+        <item>मं</item>
+        <item>बु</item>
+        <item>गु</item>
+        <item>शु</item>
+        <item>श</item>
+        <item>र</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>सोम</item>
+        <item>मंगल</item>
+        <item>बुध</item>
+        <item>गुरु</item>
+        <item>शुक्र</item>
+        <item>शनि</item>
+        <item>रवि</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">स्ट्रीक</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">%d दिन</item>
+        <item quantity="other">%d दिन</item>
+    </plurals>
+    <string name="home_tile_next">अगला · %1$s</string>
+    <string name="home_tile_ongoing">जारी · %1$s</string>
+    <string name="home_tile_blocking">ब्लॉकिंग · %1$s</string>
+    <string name="home_tile_left">%1$s बचे</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">अगला</string>
+    <string name="home_tile_no_rule">कोई नियम तय नहीं</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">लोड हो रहा है…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">सबसे ज़्यादा इस्तेमाल</string>
+    <string name="home_filter_apps">ऐप्स</string>
+    <string name="home_filter_categories">श्रेणियाँ</string>
+    <string name="home_category_social">सोशल</string>
+    <string name="home_category_entertainment">मनोरंजन</string>
+    <string name="home_category_games">गेम</string>
+    <string name="home_category_productivity">उत्पादकता</string>
+    <string name="home_category_music">संगीत</string>
+    <string name="home_category_other">अन्य</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s आपकी स्क्रीन से चिपके रहे</string>
+    <string name="home_info_glued_average">रोज़ %1$s आपकी स्क्रीन से चिपके रहे</string>
+    <string name="home_info_hints_title">सोचने के लिए कुछ सवाल</string>
+    <string name="home_info_glued_hints">आपको कितनी बार टोका गया? आप फ़ोन की ओर हाथ क्यों बढ़ाते हैं? क्या वह सच में ज़रूरी था?</string>
+    <string name="home_info_offline">%1$s ऑफ़लाइन</string>
+    <string name="home_info_offline_today">आज फ़ोन के बिना आपकी सबसे लंबी अवधि।</string>
+    <string name="home_info_offline_yesterday">बीते कल फ़ोन के बिना आपकी सबसे लंबी अवधि।</string>
+    <string name="home_info_offline_week">इस हफ़्ते फ़ोन के बिना आपकी सबसे लंबी अवधि।</string>
+    <string name="home_info_offline_month">इस महीने फ़ोन के बिना आपकी सबसे लंबी अवधि।</string>
+    <string name="home_info_offline_hints">इस दौरान आपने क्या कर लिया? इससे आपको कैसा लगा?</string>
+    <string name="home_info_got_it">ठीक है</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">हमेशा अनुमत</string>
+    <string name="home_always_allowed_subtitle">वे ऐप्स जो आपके ब्लॉक से बाहर रहते हैं</string>
+    <string name="home_always_allowed_empty_title">कोई ऐप नहीं चुना</string>
+    <string name="home_always_allowed_empty_body">ऐसे ऐप्स चुनें जो आपके ब्लॉक चालू होने पर भी उपलब्ध रहें।</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">%d ऐप हमेशा अनुमत</item>
+        <item quantity="other">%d ऐप्स हमेशा अनुमत</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">सेट करें</string>
+    <string name="home_always_allowed_close">बंद करें</string>
+    <string name="home_always_allowed_settings_title">हमेशा अनुमत सेटिंग में है</string>
+    <string name="home_always_allowed_settings_body">जब भी ज़रूरत हो, यह आपको सेटिंग › सुरक्षा › हमेशा अनुमत में मिलेगा।</string>
+    <string name="home_always_allowed_settings_got_it">ठीक है</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese. -->
+<resources>
+    <string name="ds_tab_home">ホーム</string>
+    <string name="ds_tab_rules">ルール</string>
+    <string name="ds_tab_timer">タイマー</string>
+    <string name="ds_tab_insights">インサイト</string>
+    <string name="ds_skip">スキップ</string>
+    <string name="ds_back">戻る</string>
+    <string name="ds_clear">クリア</string>
+    <string name="ds_more_options">その他のオプション</string>
+    <string name="ds_goal_title">1日の目標</string>
+    <string name="ds_goal_subtitle">目標に近づくと、Recentrがそっとお知らせします。</string>
+    <string name="ds_goal_save">目標を保存</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">クイック選択</string>
+    <string name="ds_duration_minutes">%1$d分</string>
+    <string name="ds_duration_hours">%1$d時間</string>
+    <string name="ds_duration_hours_minutes">%1$d時間%2$02d分</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">アプリのブロックをオンにする</string>
+    <string name="ds_blocking_body">ブロックしたアプリを保留にするため、RecentrはAndroidのユーザー補助サービスを使います。確認するのは開いたアプリの名前だけで、画面の内容は一切見ません。データがスマホの外に出ることもありません。</string>
+    <string name="ds_blocking_steps">「設定」›「ユーザー補助」で、「インストール済みアプリ」または「ダウンロード済みアプリ」にある「Recentrのアプリブロック」を開き、オンにしてください。</string>
+    <string name="ds_blocking_open_settings">設定を開く</string>
+    <string name="ds_blocking_not_now">今はしない</string>
+    <string name="ds_blocking_off_title">ブロックがオフです</string>
+    <string name="ds_blocking_off_body">オンにすると、ルールや集中セッションがアプリを保留にします。</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Recentrをスクリーンタイムに接続</string>
+    <string name="ds_usage_access_body">スクリーンタイム、持ち上げ回数、通知を集計するには、「使用状況へのアクセス」が必要です。すべてスマホの中に保存されます。</string>
+    <string name="ds_usage_access_connect">接続</string>
+</resources>

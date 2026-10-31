@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified). -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">打开个人资料</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d小时%2$02d分</string>
+    <string name="home_duration_hours">%1$d小时</string>
+    <string name="home_duration_minutes">%1$d分钟</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">今日屏幕使用时间</string>
+    <string name="home_hero_screen_time_yesterday">昨日屏幕使用时间</string>
+    <string name="home_hero_average_week">日均 · 本周</string>
+    <string name="home_hero_average_month">日均 · 本月</string>
+    <string name="home_goal_under">低于 %1$s 目标</string>
+    <string name="home_goal_over">超出 %1$s 目标</string>
+    <string name="home_compare_less_week">比上周少 %1$d%%</string>
+    <string name="home_compare_more_week">比上周多 %1$d%%</string>
+    <string name="home_compare_less_month">比上月少 %1$d%%</string>
+    <string name="home_compare_more_month">比上月多 %1$d%%</string>
+    <string name="home_syncing">正在同步屏幕使用时间…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">未连接</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">今日使用质量</string>
+    <string name="home_hero_quality_yesterday">昨日使用质量</string>
+    <string name="home_hero_quality_week">使用质量 · 本周</string>
+    <string name="home_hero_quality_month">使用质量 · 本月</string>
+    <string name="home_quality_focused">专注</string>
+    <string name="home_quality_balanced">均衡</string>
+    <string name="home_quality_distracted">分心</string>
+    <string name="home_split_focus">专注 %1$d%%</string>
+    <string name="home_split_social">社交 %1$d%%</string>
+    <string name="home_split_fun">娱乐 %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">今日最长离线</string>
+    <string name="home_hero_offline_yesterday">昨日最长离线</string>
+    <string name="home_hero_offline_week">最长离线 · 本周</string>
+    <string name="home_hero_offline_month">最长离线 · 本月</string>
+    <string name="home_offline_chip">远离手机的时光</string>
+    <string name="home_hero_details">显示详情</string>
+    <string name="home_hero_page">第 %1$d / %2$d 页</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">减少</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">拿起次数</string>
+    <string name="home_stat_notifications">通知</string>
+    <string name="home_stat_total">总计</string>
+    <string name="home_stat_best_day">最佳日</string>
+    <string-array name="home_day_letters">
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>日</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">连续记录</string>
+    <plurals name="home_streak_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <string name="home_tile_next">下一个 · %1$s</string>
+    <string name="home_tile_ongoing">进行中 · %1$s</string>
+    <string name="home_tile_blocking">屏蔽中 · %1$s</string>
+    <string name="home_tile_left">剩余 %1$s</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">下一个</string>
+    <string name="home_tile_no_rule">暂无计划中的规则</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">加载中…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">最常使用</string>
+    <string name="home_filter_apps">应用</string>
+    <string name="home_filter_categories">类别</string>
+    <string name="home_category_social">社交</string>
+    <string name="home_category_entertainment">娱乐</string>
+    <string name="home_category_games">游戏</string>
+    <string name="home_category_productivity">效率</string>
+    <string name="home_category_music">音乐</string>
+    <string name="home_category_other">其他</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s 都黏在了屏幕上</string>
+    <string name="home_info_glued_average">每天有 %1$s 黏在屏幕上</string>
+    <string name="home_info_hints_title">不妨想一想</string>
+    <string name="home_info_glued_hints">你被打断了多少次？为什么会拿起手机？这真的重要吗？</string>
+    <string name="home_info_offline">离线 %1$s</string>
+    <string name="home_info_offline_today">你今天最长的一段不碰手机的时间。</string>
+    <string name="home_info_offline_yesterday">你昨天最长的一段不碰手机的时间。</string>
+    <string name="home_info_offline_week">你本周最长的一段不碰手机的时间。</string>
+    <string name="home_info_offline_month">你本月最长的一段不碰手机的时间。</string>
+    <string name="home_info_offline_hints">这段时间里你做成了什么？感觉怎么样？</string>
+    <string name="home_info_got_it">知道了</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">始终允许</string>
+    <string name="home_always_allowed_subtitle">不受屏蔽影响的应用</string>
+    <string name="home_always_allowed_empty_title">还没有选择应用</string>
+    <string name="home_always_allowed_empty_body">选择那些即使屏蔽开启也应保持可用的应用。</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="other">%d 个应用始终允许</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">去设置</string>
+    <string name="home_always_allowed_close">关闭</string>
+    <string name="home_always_allowed_settings_title">“始终允许”在设置里</string>
+    <string name="home_always_allowed_settings_body">需要时，你可以在“设置 › 保护 › 始终允许”中找到它。</string>
+    <string name="home_always_allowed_settings_got_it">知道了</string>
+</resources>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turkish. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">Profili aç</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d sa %2$02d</string>
+    <string name="home_duration_hours">%1$d sa</string>
+    <string name="home_duration_minutes">%1$d dk</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">Bugünkü ekran süresi</string>
+    <string name="home_hero_screen_time_yesterday">Dünkü ekran süresi</string>
+    <string name="home_hero_average_week">Günlük ortalama · bu hafta</string>
+    <string name="home_hero_average_month">Günlük ortalama · bu ay</string>
+    <string name="home_goal_under">%1$s hedefinin altında</string>
+    <string name="home_goal_over">%1$s hedefinin üstünde</string>
+    <string name="home_compare_less_week">Geçen haftadan %%%1$d az</string>
+    <string name="home_compare_more_week">Geçen haftadan %%%1$d fazla</string>
+    <string name="home_compare_less_month">Geçen aydan %%%1$d az</string>
+    <string name="home_compare_more_month">Geçen aydan %%%1$d fazla</string>
+    <string name="home_syncing">Ekran süresi eşitleniyor…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">Bağlı değil</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">Bugünün kalitesi</string>
+    <string name="home_hero_quality_yesterday">Dünün kalitesi</string>
+    <string name="home_hero_quality_week">Kalite · bu hafta</string>
+    <string name="home_hero_quality_month">Kalite · bu ay</string>
+    <string name="home_quality_focused">Odaklı</string>
+    <string name="home_quality_balanced">Dengeli</string>
+    <string name="home_quality_distracted">Dağınık</string>
+    <string name="home_split_focus">Odak %%%1$d</string>
+    <string name="home_split_social">Sosyal %%%1$d</string>
+    <string name="home_split_fun">Eğlence %%%1$d</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">Bugünün en uzun telefonsuz süresi</string>
+    <string name="home_hero_offline_yesterday">Dünün en uzun telefonsuz süresi</string>
+    <string name="home_hero_offline_week">En uzun telefonsuz süre · bu hafta</string>
+    <string name="home_hero_offline_month">En uzun telefonsuz süre · bu ay</string>
+    <string name="home_offline_chip">Telefonsuz süre</string>
+    <string name="home_hero_details">Ayrıntıları göster</string>
+    <string name="home_hero_page">Sayfa %1$d / %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">Azalma</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">Telefon alma</string>
+    <string name="home_stat_notifications">Bildirimler</string>
+    <string name="home_stat_total">Toplam</string>
+    <string name="home_stat_best_day">En iyi gün</string>
+    <string-array name="home_day_letters">
+        <item>P</item>
+        <item>S</item>
+        <item>Ç</item>
+        <item>P</item>
+        <item>C</item>
+        <item>C</item>
+        <item>P</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>Pzt</item>
+        <item>Sal</item>
+        <item>Çar</item>
+        <item>Per</item>
+        <item>Cum</item>
+        <item>Cmt</item>
+        <item>Paz</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">Seri</string>
+    <plurals name="home_streak_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <string name="home_tile_next">Sıradaki · %1$s</string>
+    <string name="home_tile_ongoing">Sürüyor · %1$s</string>
+    <string name="home_tile_blocking">Engelliyor · %1$s</string>
+    <string name="home_tile_left">%1$s kaldı</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">Sıradaki</string>
+    <string name="home_tile_no_rule">Planlı kural yok</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">Yükleniyor…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">En çok kullanılanlar</string>
+    <string name="home_filter_apps">Uygulamalar</string>
+    <string name="home_filter_categories">Kategoriler</string>
+    <string name="home_category_social">Sosyal</string>
+    <string name="home_category_entertainment">Eğlence</string>
+    <string name="home_category_games">Oyunlar</string>
+    <string name="home_category_productivity">Üretkenlik</string>
+    <string name="home_category_music">Müzik</string>
+    <string name="home_category_other">Diğer</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">Ekrana yapışık geçen süre: %1$s</string>
+    <string name="home_info_glued_average">Günde %1$s ekrana yapışık</string>
+    <string name="home_info_hints_title">Düşünmek için ipuçları</string>
+    <string name="home_info_glued_hints">Ne sıklıkla bölündün? Telefona neden uzanıyorsun? Gerçekten önemli miydi?</string>
+    <string name="home_info_offline">%1$s telefonsuz</string>
+    <string name="home_info_offline_today">Bugün telefonsuz geçirdiğin en uzun süre.</string>
+    <string name="home_info_offline_yesterday">Dün telefonsuz geçirdiğin en uzun süre.</string>
+    <string name="home_info_offline_week">Bu hafta telefonsuz geçirdiğin en uzun süre.</string>
+    <string name="home_info_offline_month">Bu ay telefonsuz geçirdiğin en uzun süre.</string>
+    <string name="home_info_offline_hints">Bu sürede neler yaptın? Nasıl hissettirdi?</string>
+    <string name="home_info_got_it">Anladım</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">Her zaman izinli</string>
+    <string name="home_always_allowed_subtitle">Engellerini atlayan uygulamalar</string>
+    <string name="home_always_allowed_empty_title">Seçili uygulama yok</string>
+    <string name="home_always_allowed_empty_body">Engellerin açıkken bile erişilebilir kalacak uygulamaları seç.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="one">%d uygulama her zaman izinli</item>
+        <item quantity="other">%d uygulama her zaman izinli</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">Ayarla</string>
+    <string name="home_always_allowed_close">Kapat</string>
+    <string name="home_always_allowed_settings_title">Her zaman izinli, Ayarlar’da</string>
+    <string name="home_always_allowed_settings_body">İhtiyacın olduğunda Ayarlar › Koruma › Her zaman izinli bölümünde bulursun.</string>
+    <string name="home_always_allowed_settings_got_it">Anladım</string>
+</resources>

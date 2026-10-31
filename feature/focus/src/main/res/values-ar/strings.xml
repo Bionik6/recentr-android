@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic. -->
+<resources>
+    <string name="focus_title">المؤقت</string>
+    <string name="focus_more">المزيد من الخيارات</string>
+    <string name="focus_close">إغلاق</string>
+    <string name="focus_back">رجوع</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d د</string>
+    <string name="focus_dial_description">مدة التركيز: %d دقيقة. اسحب للتغيير.</string>
+    <string name="focus_sound">الصوت</string>
+    <string name="focus_block">الحظر</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">لا شيء</string>
+    <string name="focus_rounds">الجولات</string>
+    <string name="focus_rounds_value">%1$d × %2$d د</string>
+    <string name="focus_start">ابدأ التركيز</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">الوضع الصارم</string>
+    <string name="focus_strict_caption">الوضع الصارم: بلا إيقاف مؤقت أو إنهاء مبكر</string>
+    <string name="focus_strict_note">الوضع الصارم: ينتهي هذا التركيز من تلقاء نفسه</string>
+    <string name="focus_strict_confirm_title">تفعيل الوضع الصارم؟</string>
+    <string name="focus_strict_confirm_body">لن تتمكن من إيقاف هذا التركيز مؤقتًا أو إنهائه مبكرًا. أما الاستراحات فتأتي في موعدها.</string>
+    <string name="focus_strict_turn_on">تفعيل</string>
+    <string name="focus_cancel">إلغاء</string>
+    <string name="focus_back_to_focus">العودة إلى التركيز</string>
+    <string name="focus_back_to_focus_left">العودة إلى التركيز · %1$s</string>
+    <string name="focus_rename">إعادة تسمية</string>
+    <string name="focus_rename_title">سمِّ هذه الجلسة</string>
+    <string name="focus_rename_save">حفظ</string>
+    <string name="focus_log">سجل التركيز</string>
+    <string name="focus_change_sound">تغيير الصوت</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">الجولة %1$d من %2$d</string>
+    <string name="focus_left_ends">متبقٍ · ينتهي في %s</string>
+    <string name="focus_paused_round_of">متوقف مؤقتًا · الجولة %1$d من %2$d</string>
+    <string name="focus_ready_round_of">جاهز للجولة %1$d من %2$d</string>
+    <string name="focus_round_n">الجولة %d</string>
+    <string name="focus_take_your_time">خذ وقتك</string>
+    <string name="focus_paused_for">متوقف مؤقتًا منذ %s</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="zero">لا تطبيقات معلّقة</item>
+        <item quantity="one">تطبيق واحد معلّق</item>
+        <item quantity="two">تطبيقان معلّقان</item>
+        <item quantity="few">%d تطبيقات معلّقة</item>
+        <item quantity="many">%d تطبيقًا معلّقًا</item>
+        <item quantity="other">%d تطبيق معلّق</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="zero">لا تطبيقات معلّقة بعد</item>
+        <item quantity="one">تطبيق واحد ما زال معلّقًا</item>
+        <item quantity="two">تطبيقان ما زالا معلّقين</item>
+        <item quantity="few">%d تطبيقات ما زالت معلّقة</item>
+        <item quantity="many">%d تطبيقًا ما زال معلّقًا</item>
+        <item quantity="other">%d تطبيق ما زال معلّقًا</item>
+    </plurals>
+    <string name="focus_pause">إيقاف مؤقت</string>
+    <string name="focus_resume">استئناف</string>
+    <string name="focus_start_round">ابدأ الجولة</string>
+    <string name="focus_end_session">إنهاء الجلسة</string>
+    <string name="focus_restart_round">إعادة الجولة</string>
+    <string name="focus_round_restarted">أُعيدت الجولة %d</string>
+    <string name="focus_undo">تراجع</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">أصوات التركيز</string>
+    <string name="sounds_subtitle_none">شغّل منها ما تشاء.</string>
+    <string name="sounds_subtitle_on">%1$s قيد التشغيل</string>
+    <string name="sounds_subtitle_on_muted">%1$s قيد التشغيل · المكتومة: %2$d</string>
+    <string name="sounds_subtitle_muted">لا شيء قيد التشغيل · المكتومة: %d</string>
+    <string name="sounds_mute_all">كتم الكل</string>
+    <string name="sounds_unmute_all">إلغاء كتم الكل</string>
+    <string name="sounds_on_count">قيد التشغيل: %d</string>
+    <string name="sounds_volume">مستوى الصوت</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">متوقف</string>
+    <string name="sound_state_muted">مكتوم</string>
+    <string name="sound_turn_on">تشغيل</string>
+    <string name="sound_mute">كتم</string>
+    <string name="sound_unmute">إلغاء الكتم</string>
+    <string name="sound_mix_off">متوقف</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">أضف صوتًا</string>
+    <string name="sound_category_rain">المطر</string>
+    <string name="sound_category_water">الماء</string>
+    <string name="sound_category_nature">الطبيعة</string>
+    <string name="sound_category_places">الأماكن</string>
+    <string name="sound_category_steady">نقرات وضوضاء</string>
+    <string name="sound_soft_rain">مطر خفيف</string>
+    <string name="sound_heavy_rain">مطر غزير</string>
+    <string name="sound_forest_rain">مطر في الغابة</string>
+    <string name="sound_rain_village">مطر في القرية</string>
+    <string name="sound_thunder">رعد</string>
+    <string name="sound_river">نهر</string>
+    <string name="sound_small_river">جدول</string>
+    <string name="sound_beach">شاطئ</string>
+    <string name="sound_sea_beach">ساحل البحر</string>
+    <string name="sound_soft_beach">شاطئ هادئ</string>
+    <string name="sound_whale">حيتان</string>
+    <string name="sound_forest_night">غابة في الليل</string>
+    <string name="sound_birds">طيور</string>
+    <string name="sound_crickets">صراصير الليل</string>
+    <string name="sound_cicada_birds">زيزان</string>
+    <string name="sound_farm">مزرعة</string>
+    <string name="sound_wind">رياح</string>
+    <string name="sound_campfire">نار المخيم</string>
+    <string name="sound_coffee_shop">مقهى</string>
+    <string name="sound_office">مكتب</string>
+    <string name="sound_street_traffic">شارع</string>
+    <string name="sound_construction">ورشة بناء</string>
+    <string name="sound_keyboard_typing">كتابة</string>
+    <string name="sound_clock_tick">ساعة</string>
+    <string name="sound_clock_stopwatch">ساعة إيقاف</string>
+    <string name="sound_white_noise">ضوضاء بيضاء</string>
+    <string name="sound_pink_noise">ضوضاء وردية</string>
+    <string name="sounds_done">تم</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">استراحة</string>
+    <string name="break_round_done">اكتملت الجولة %1$d · المتبقي %2$d</string>
+    <string name="break_until">حتى الجولة %d</string>
+    <string name="break_ideas_title">جرّب هذا بدل التمرير</string>
+    <string name="break_idea_window">انظر من النافذة</string>
+    <string name="break_idea_window_hint">20 ثانية، إلى مسافة 20 مترًا</string>
+    <string name="break_idea_water">اشرب كوب ماء</string>
+    <string name="break_idea_water_hint">عقلك سيشكرك</string>
+    <string name="break_idea_stretch">مدّد كتفيك</string>
+    <string name="break_idea_stretch_hint">حرّكهما للخلف 5 مرات</string>
+    <string name="break_skip">تخطي الاستراحة</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="zero">%1$d دقيقة من %2$s</item>
+        <item quantity="one">دقيقة واحدة من %2$s</item>
+        <item quantity="two">دقيقتان من %2$s</item>
+        <item quantity="few">%1$d دقائق من %2$s</item>
+        <item quantity="many">%1$d دقيقة من %2$s</item>
+        <item quantity="other">%1$d دقيقة من %2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="zero">لا جولات</item>
+        <item quantity="one">جولة واحدة</item>
+        <item quantity="two">جولتان</item>
+        <item quantity="few">%d جولات</item>
+        <item quantity="many">%d جولة</item>
+        <item quantity="other">%d جولة</item>
+    </plurals>
+    <string name="complete_zero_unlocks">بلا أي عملية فتح</string>
+    <plurals name="complete_unlocks">
+        <item quantity="zero">بلا أي عملية فتح</item>
+        <item quantity="one">عملية فتح واحدة</item>
+        <item quantity="two">عمليتا فتح</item>
+        <item quantity="few">%d عمليات فتح</item>
+        <item quantity="many">%d عملية فتح</item>
+        <item quantity="other">%d عملية فتح</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. هذه أطول جلسة لك هذا الأسبوع.</string>
+    <string name="complete_focus_streak">سلسلة التركيز</string>
+    <plurals name="complete_days">
+        <item quantity="zero">لا أيام</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <string name="complete_urges">الرغبات التي قاومتها</string>
+    <string name="complete_urges_today">اليوم: %d</string>
+    <string name="complete_note_title">ماذا أنجزت؟</string>
+    <string name="complete_note_placeholder">مخطط الفصل 3 + صفحتان. بقي الهاتف مقلوبًا على وجهه.</string>
+    <string name="complete_another">ابدأ جولة أخرى</string>
+    <string name="complete_done">تم</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">أنت في الدقيقة %d من التركيز</string>
+    <string name="hold_leave_body">تبقى تطبيقاتك معلّقة حتى %s. استمر — أنت تقوم بعمل رائع.</string>
+    <string name="hold_back">العودة إلى التركيز</string>
+    <string name="hold_end">إنهاء الجلسة مبكرًا</string>
+    <string name="hold_keep_focusing">واصل التركيز</string>
+    <string name="hold_end_now">الإنهاء الآن؟</string>
+    <plurals name="hold_end_apps">
+        <item quantity="zero">أنهِ الآن وتعود تطبيقاتك.</item>
+        <item quantity="one">أنهِ الآن ويعود تطبيقك.</item>
+        <item quantity="two">أنهِ الآن ويعود تطبيقاك.</item>
+        <item quantity="few">أنهِ الآن وتعود تطبيقاتك الـ%d.</item>
+        <item quantity="many">أنهِ الآن وتعود تطبيقاتك الـ%d.</item>
+        <item quantity="other">أنهِ الآن وتعود تطبيقاتك الـ%d.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s تبقى %2$d د محتسبة لك.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">سجل التركيز</string>
+    <string name="history_this_week">هذا الأسبوع</string>
+    <string name="history_sessions">الجلسات</string>
+    <string name="history_today">اليوم، %s</string>
+    <string name="history_yesterday">أمس، %s</string>
+    <string name="history_day">%1$s، %2$s</string>
+    <string name="history_empty">لا توجد جلسات بعد. ستظهر جلسات التركيز هنا.</string>
+    <string name="history_clear">مسح السجل</string>
+    <string-array name="focus_day_letters">
+        <item>ن</item>
+        <item>ث</item>
+        <item>ر</item>
+        <item>خ</item>
+        <item>ج</item>
+        <item>س</item>
+        <item>ح</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">الجولات</string>
+    <string name="rounds_subtitle">اعمل على شكل جولات تتخللها استراحات قصيرة.</string>
+    <string name="rounds_focus">التركيز</string>
+    <string name="rounds_short_break">استراحة قصيرة</string>
+    <string name="rounds_count">الجولات</string>
+    <string name="rounds_long_break">استراحة طويلة</string>
+    <string name="rounds_minutes">%d د</string>
+    <string name="rounds_auto_start">بدء الجولة التالية تلقائيًا</string>
+    <string name="rounds_total">المجموع: %s مع الاستراحات</string>
+    <string name="rounds_save">حفظ الجولات</string>
+    <string name="rounds_decrease">تقليل %s</string>
+    <string name="rounds_increase">زيادة %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d س</string>
+    <string name="duration_m">%1$d د</string>
+    <string name="duration_h_m">%1$d س %2$d د</string>
+    <string name="focus_notification_channel">مؤقت التركيز</string>
+    <string name="focus_notification_channel_description">الجلسة الجارية، بينما تُشغَّل أصواتها حتى مع إغلاق Recentr.</string>
+    <string name="focus_notification_round">الجولة %1$d من %2$d</string>
+    <string name="focus_notification_break">استراحة · الجولة %1$d تالية</string>
+    <string name="focus_notification_paused">متوقف مؤقتًا · الجولة %1$d من %2$d</string>
+</resources>

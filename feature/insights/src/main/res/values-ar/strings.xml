@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">رجوع</string>
+    <string name="insights_close">إغلاق</string>
+    <string name="insights_more">المزيد من الخيارات</string>
+    <string name="insights_duration_m">%1$d د</string>
+    <string name="insights_duration_h">%1$d س</string>
+    <string name="insights_duration_h_m">%1$d س %2$02d د</string>
+    <string name="insights_duration_compact">%1$d س %2$02d د</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d%%</string>
+    <string name="insights_date">%1$s %2$d</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>ن</item>
+        <item>ث</item>
+        <item>ر</item>
+        <item>خ</item>
+        <item>ج</item>
+        <item>س</item>
+        <item>ح</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>الاثنين</item>
+        <item>الثلاثاء</item>
+        <item>الأربعاء</item>
+        <item>الخميس</item>
+        <item>الجمعة</item>
+        <item>السبت</item>
+        <item>الأحد</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>الاثنين</item>
+        <item>الثلاثاء</item>
+        <item>الأربعاء</item>
+        <item>الخميس</item>
+        <item>الجمعة</item>
+        <item>السبت</item>
+        <item>الأحد</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>يناير</item>
+        <item>فبراير</item>
+        <item>مارس</item>
+        <item>أبريل</item>
+        <item>مايو</item>
+        <item>يونيو</item>
+        <item>يوليو</item>
+        <item>أغسطس</item>
+        <item>سبتمبر</item>
+        <item>أكتوبر</item>
+        <item>نوفمبر</item>
+        <item>ديسمبر</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>يناير</item>
+        <item>فبراير</item>
+        <item>مارس</item>
+        <item>أبريل</item>
+        <item>مايو</item>
+        <item>يونيو</item>
+        <item>يوليو</item>
+        <item>أغسطس</item>
+        <item>سبتمبر</item>
+        <item>أكتوبر</item>
+        <item>نوفمبر</item>
+        <item>ديسمبر</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">الإحصاءات</string>
+    <string name="insights_tab_day">اليوم</string>
+    <string name="insights_tab_week">الأسبوع</string>
+    <string name="insights_tab_month">الشهر</string>
+    <string name="insights_daily_average">المتوسط اليومي</string>
+    <string name="insights_screen_time_today">وقت الشاشة اليوم</string>
+    <string name="insights_screen_time_yesterday">وقت الشاشة أمس</string>
+    <string name="insights_screen_time">وقت الشاشة</string>
+    <string name="insights_vs_last_week">%1$s مقابل الأسبوع الماضي</string>
+    <string name="insights_vs_yesterday">%1$s مقابل أمس</string>
+    <string name="insights_vs_day_before">%1$s مقابل اليوم السابق</string>
+    <string name="insights_vs_week_before">%1$s مقابل الأسبوع السابق</string>
+    <string name="insights_goal_line">الهدف %1$s</string>
+    <string name="insights_by_category">حسب الفئة</string>
+    <string name="insights_no_usage">لا يوجد وقت شاشة بعد.</string>
+    <string name="insights_top_apps">أكثر التطبيقات</string>
+    <string name="insights_no_apps">لم يُستخدم أي تطبيق بعد.</string>
+    <string name="insights_see_more">عرض المزيد</string>
+    <string name="insights_category_social">التواصل الاجتماعي</string>
+    <string name="insights_category_video">الفيديو</string>
+    <string name="insights_category_music">الموسيقى</string>
+    <string name="insights_category_games">الألعاب</string>
+    <string name="insights_category_productivity">الإنتاجية</string>
+    <string name="insights_category_other">أخرى</string>
+    <string name="insights_menu_pickups">عمليات الالتقاط</string>
+    <string name="insights_menu_daily_goal">الهدف اليومي</string>
+    <string name="insights_menu_streak">السلسلة</string>
+    <string name="insights_menu_achievements">الإنجازات</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">ضمن الهدف</string>
+    <string name="insights_less">أقل</string>
+    <string name="insights_more_legend">أكثر</string>
+    <string name="insights_best_day">أفضل يوم</string>
+    <string name="insights_toughest_day">أصعب يوم</string>
+    <string name="insights_see_report">عرض تقرير %1$s</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: لا توجد بيانات</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">اليوم</string>
+    <string name="insights_period_yesterday">أمس</string>
+    <string name="insights_period_week">هذا الأسبوع</string>
+    <string name="insights_period_month">هذا الشهر</string>
+    <string name="insights_period_last_week">الأسبوع الماضي</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s، %2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s، %2$d</string>
+    <string name="insights_previous">السابق</string>
+    <string name="insights_next">التالي</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="zero">لا مرات فتح</item>
+        <item quantity="one">مرة فتح واحدة</item>
+        <item quantity="two">مرتا فتح</item>
+        <item quantity="few">%d مرات فتح</item>
+        <item quantity="many">%d مرة فتح</item>
+        <item quantity="other">%d مرة فتح</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · تجاوزت الحد بمقدار %2$s</string>
+    <string name="insights_left_in_limit">%1$s · متبقٍ %2$s من حدك</string>
+    <string name="insights_by_hour">حسب الساعة</string>
+    <string name="insights_longest_session">أطول جلسة</string>
+    <string name="insights_first_open">أول فتح</string>
+    <string name="insights_usual_first_open">أول فتح معتاد</string>
+    <string name="insights_noticed">لاحظ Recentr</string>
+    <string name="insights_noticed_idle">بالكاد فتحت %1$s. استمر على هذا النحو.</string>
+    <string name="insights_noticed_checks">تفتح %1$s بمعدل %2$d في اليوم لزيارات قصيرة. بضع ثوانٍ من التوقف قبل فتحه تكسر هذه العادة التلقائية.</string>
+    <string name="insights_noticed_night">معظم وقتك على %1$s يكون بعد الساعة %2$s. روتين وقت النوم قد يستعيده لك.</string>
+    <string name="insights_noticed_morning">معظم وقتك على %1$s يكون قبل الساعة %2$s. روتين صباحي هادئ قد يستعيده لك.</string>
+    <string name="insights_noticed_work">معظم وقتك على %1$s يكون خلال يوم العمل. جلسة تركيز قد تستعيده لك.</string>
+    <string name="insights_noticed_evening">معظم وقتك على %1$s يكون في المساء. حد قد يستعيده لك.</string>
+    <string name="insights_noticed_spread">وقتك على %1$s موزّع على مدار اليوم. الحد يبقيه تحت السيطرة.</string>
+    <string name="insights_set_limit">ضع حدًا</string>
+    <string name="insights_edit_limit">تعديل الحد</string>
+    <string name="insights_block_app">حظر %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">عمليات الالتقاط</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="zero">عمليات التقاط اليوم</item>
+        <item quantity="one">عملية التقاط اليوم</item>
+        <item quantity="two">عمليتا التقاط اليوم</item>
+        <item quantity="few">عمليات التقاط اليوم</item>
+        <item quantity="many">عملية التقاط اليوم</item>
+        <item quantity="other">عملية التقاط اليوم</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="zero">عمليات التقاط أمس</item>
+        <item quantity="one">عملية التقاط أمس</item>
+        <item quantity="two">عمليتا التقاط أمس</item>
+        <item quantity="few">عمليات التقاط أمس</item>
+        <item quantity="many">عملية التقاط أمس</item>
+        <item quantity="other">عملية التقاط أمس</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="zero">عمليات التقاط في ذلك اليوم</item>
+        <item quantity="one">عملية التقاط في ذلك اليوم</item>
+        <item quantity="two">عمليتا التقاط في ذلك اليوم</item>
+        <item quantity="few">عمليات التقاط في ذلك اليوم</item>
+        <item quantity="many">عملية التقاط في ذلك اليوم</item>
+        <item quantity="other">عملية التقاط في ذلك اليوم</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="zero">عمليات التقاط في اليوم</item>
+        <item quantity="one">عملية التقاط في اليوم</item>
+        <item quantity="two">عمليتا التقاط في اليوم</item>
+        <item quantity="few">عمليات التقاط في اليوم</item>
+        <item quantity="many">عملية التقاط في اليوم</item>
+        <item quantity="other">عملية التقاط في اليوم</item>
+    </plurals>
+    <string name="insights_first_pickup">الأولى عند %1$s</string>
+    <string name="insights_usual_first_pickup">الأولى عادةً عند %1$s</string>
+    <string name="insights_no_pickup">لا عمليات التقاط بعد</string>
+    <string name="insights_when_pick_up">متى تلتقط هاتفك</string>
+    <string name="insights_opened_first">أول ما تفتحه بعد الالتقاط</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">لم يُفتح أي تطبيق بعد الالتقاط حتى الآن.</string>
+    <string name="insights_tip_bedroom">اشحن هاتفك خارج غرفة النوم — سيسهل عليك تجنّب الالتقاط عند %1$s.</string>
+    <string name="insights_tip_reflex">%1$s هو أول ما تفتحه. انقله بعيدًا عن شاشتك الرئيسية لكسر العادة التلقائية.</string>
+    <string name="insights_tip_evening">المساء هو وقت ذروة التقاطك للهاتف. روتين وقت النوم يُبقي الهاتف جانبًا.</string>
+    <string name="insights_tip_default">كل التقاط تتجاوزه هو انتصار. جرّب أن تترك هاتفك مقلوبًا على وجهه.</string>
+    <string name="insights_start_bedtime">ابدأ روتين وقت النوم</string>
+    <string name="insights_heat_cd">%1$s إلى %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">تقرير %1$s</string>
+    <plurals name="insights_hours">
+        <item quantity="zero">لا ساعات</item>
+        <item quantity="one">ساعة واحدة</item>
+        <item quantity="two">ساعتان</item>
+        <item quantity="few">%d ساعات</item>
+        <item quantity="many">%d ساعة</item>
+        <item quantity="other">%d ساعة</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="zero">لا دقائق</item>
+        <item quantity="one">دقيقة واحدة</item>
+        <item quantity="two">دقيقتان</item>
+        <item quantity="few">%d دقائق</item>
+        <item quantity="many">%d دقيقة</item>
+        <item quantity="other">%d دقيقة</item>
+    </plurals>
+    <string name="insights_won_back_month">استعدتها هذا الشهر</string>
+    <string name="insights_pickups_a_day_label">عمليات الالتقاط يوميًا</string>
+    <string name="insights_best_streak">أفضل سلسلة</string>
+    <plurals name="insights_days">
+        <item quantity="zero">لا أيام</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <string name="insights_new">جديد</string>
+    <string name="insights_share_month">شارك شهري</string>
+    <string name="insights_replay">إعادة التشغيل</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">الهدف اليومي</string>
+    <string name="insights_edit_goal">تعديل الهدف اليومي</string>
+    <string name="insights_days_on_target">أيام ضمن الهدف: %1$d من %2$d</string>
+    <string name="insights_goal_under">الهدف: أقل من %1$s يوميًا</string>
+    <string name="insights_adjust_goal">تعديل الهدف</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">الإنجازات</string>
+    <string name="achievements_earned_count">حصلت على %1$d من %2$d</string>
+    <string name="achievements_level">المستوى %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>بداية جديدة</item>
+        <item>العثور على الهدوء</item>
+        <item>يد ثابتة</item>
+        <item>حارس الهدوء</item>
+        <item>تركيز عميق</item>
+        <item>سيد الزن</item>
+        <item>أسطورة بلا إنترنت</item>
+    </string-array>
+    <string name="achievements_points">%1$d / %2$d من نقاط الهدوء</string>
+    <string name="achievements_points_max">نقاط الهدوء: %1$d</string>
+    <string name="achievements_all">الكل</string>
+    <string name="achievements_earned">المكتسبة</string>
+    <string name="achievements_next_up">التالية</string>
+    <string name="achievements_none_earned">وسامك الأول على بعد خطوات.</string>
+    <string name="achievements_all_earned">حصلت على كل الأوسمة. يا للروعة!</string>
+    <string name="achievements_progress_days">الأيام: %1$d / %2$d</string>
+    <string name="achievements_progress_nights">الليالي: %1$d / %2$d</string>
+    <string name="achievements_progress_mornings">الصباحات: %1$d / %2$d</string>
+    <string name="achievements_progress_hours">الساعات: %1$d / %2$d</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">الأيام: %1$d من %2$d</string>
+    <string name="achievements_of_nights">الليالي: %1$d من %2$d</string>
+    <string name="achievements_of_mornings">الصباحات: %1$d من %2$d</string>
+    <string name="achievements_of_hours">الساعات: %1$d من %2$d</string>
+    <string name="achievements_of_urges">الرغبات: %1$d من %2$d</string>
+    <string name="achievements_not_yet">لم تُكتسب بعد</string>
+    <string name="achievements_points_reward">+%1$d من نقاط الهدوء</string>
+    <string name="achievements_got_it">فهمت</string>
+    <string name="achievements_locked_cd">%1$s، مقفل، %2$s</string>
+    <string name="achievements_earned_cd">%1$s، تم الحصول عليه في %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">وسام جديد</string>
+    <string name="achievements_earned_on">تم الحصول عليه في %1$s</string>
+    <string name="achievements_nice">رائع!</string>
+    <string name="achievements_share_badge">مشاركة الوسام</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">أول قفل</string>
+    <string name="badge_first_lock_goal">احظر التطبيقات بأول قاعدة لك.</string>
+    <string name="badge_first_lock_cheer">قاعدتك الأولى تعمل الآن. أقفال صغيرة، انتصارات كبيرة.</string>
+    <string name="badge_first_lock_milestone">حظرت %1$s للمرة الأولى.</string>
+    <string name="badge_first_lock_milestone_any">أنشأت أول قاعدة حظر لك.</string>
+    <string name="badge_note_to_self">ملاحظة لنفسي</string>
+    <string name="badge_note_to_self_goal">اكتب السبب في إحدى قواعدك.</string>
+    <string name="badge_note_to_self_cheer">سببك مكتوب الآن. سيذكّرك بما يهمك حقًا.</string>
+    <string name="badge_note_to_self_milestone">كتبت لماذا تفعل هذا.</string>
+    <string name="badge_first_focus">أول تركيز</string>
+    <string name="badge_first_focus_goal">أنهِ أول جلسة تركيز لك.</string>
+    <string name="badge_first_focus_cheer">أول جلسة انتهت. عضلة تركيزك بدأت تسخن.</string>
+    <string name="badge_first_focus_milestone">أول جلسة تركيز لك.</string>
+    <string name="badge_focus_ten_hours">10 ساعات تركيز</string>
+    <string name="badge_focus_ten_hours_goal">اقضِ 10 ساعات في جلسات التركيز.</string>
+    <string name="badge_focus_ten_hours_cheer">عشر ساعات من التركيز العميق. إنه يوم عمل كامل استعدته.</string>
+    <string name="badge_focus_ten_hours_milestone">10 ساعات قضيتها في جلسات التركيز.</string>
+    <string name="badge_seven_day_streak">سلسلة 7 أيام</string>
+    <string name="badge_seven_day_streak_goal">حافظ على سلسلتك 7 أيام.</string>
+    <string name="badge_seven_day_streak_cheer">أسبوع كامل ضمن هدفك. أبقِ الشعلة متقدة.</string>
+    <string name="badge_seven_day_streak_milestone">أسبوع كامل ضمن هدفك.</string>
+    <string name="badge_goal_crusher">تحطيم الهدف</string>
+    <string name="badge_goal_crusher_goal">ابقَ ضمن هدفك اليومي 7 أيام متتالية.</string>
+    <string name="badge_goal_crusher_cheer">سبعة أيام ضمن هدفك دون الحاجة إلى حماية السلسلة. أبدعت.</string>
+    <string name="badge_goal_crusher_milestone">7 أيام ضمن هدفك دون حماية السلسلة.</string>
+    <string name="badge_two_calm_weeks">أسبوعان هادئان</string>
+    <string name="badge_two_calm_weeks_goal">حافظ على سلسلتك 14 يومًا.</string>
+    <string name="badge_two_calm_weeks_cheer">أسبوعان هادئان. بدأ هذا يصبح عادة.</string>
+    <string name="badge_two_calm_weeks_milestone">14 يومًا متتاليًا ضمن هدفك.</string>
+    <string name="badge_calm_month">شهر هادئ</string>
+    <string name="badge_calm_month_goal">حافظ على سلسلتك 30 يومًا.</string>
+    <string name="badge_calm_month_cheer">شهر كامل من الهدوء. أسطوري.</string>
+    <string name="badge_calm_month_milestone">30 يومًا متتاليًا ضمن هدفك.</string>
+    <string name="badge_night_owl">بومة الليل تتقاعد</string>
+    <string name="badge_night_owl_goal">7 ليالٍ متتالية بلا شاشات بعد %1$s.</string>
+    <string name="badge_night_owl_cheer">7 ليالٍ متتالية بلا شاشات بعد %1$s. نومك يشكرك.</string>
+    <string name="badge_night_owl_milestone">بلا شاشات بعد %1$s لمدة 7 ليالٍ.</string>
+    <string name="badge_slow_mornings">صباحات هادئة</string>
+    <string name="badge_slow_mornings_goal">5 صباحات متتالية بلا شاشات قبل %1$s.</string>
+    <string name="badge_slow_mornings_cheer">خمسة صباحات هادئة. يبدأ يومك بك أنت، لا بالتمرير.</string>
+    <string name="badge_slow_mornings_milestone">بلا شاشات قبل %1$s لمدة 5 صباحات.</string>
+    <string name="badge_screen_free_sunday">أحد بلا شاشات</string>
+    <string name="badge_screen_free_sunday_goal">اقضِ يوم أحد بأقل من 30 دقيقة من وقت الشاشة.</string>
+    <string name="badge_screen_free_sunday_cheer">أحد شبه منقطع عن العالم الرقمي. ألا تشعر بخفة أكبر؟</string>
+    <string name="badge_screen_free_sunday_milestone">يوم أحد بأقل من 30 دقيقة من وقت الشاشة.</string>
+    <string name="badge_gentle_day">يوم لطيف</string>
+    <string name="badge_gentle_day_goal">اقضِ يومًا كاملًا بأقل من ساعة من وقت الشاشة.</string>
+    <string name="badge_gentle_day_cheer">أقل من ساعة طوال اليوم. لطيف على عينيك وعقلك.</string>
+    <string name="badge_gentle_day_milestone">يوم كامل بأقل من ساعة.</string>
+    <string name="badge_hands_off">ارفع يديك</string>
+    <string name="badge_hands_off_goal">التقط هاتفك أقل من 20 مرة في اليوم.</string>
+    <string name="badge_hands_off_cheer">أقل من 20 عملية التقاط في يوم. وجدت يداك ما هو أفضل لتفعله.</string>
+    <string name="badge_hands_off_milestone">أقل من 20 عملية التقاط في يوم واحد.</string>
+    <string name="badge_urges_resisted">قاومت 100 رغبة</string>
+    <string name="badge_urges_resisted_goal">اختر التوقف 100 مرة خلال جلسات التركيز.</string>
+    <string name="badge_urges_resisted_cheer">100 رغبة، 100 وقفة. أنت من يتحكم.</string>
+    <string name="badge_urges_resisted_milestone">اخترت التوقف 100 مرة.</string>
+    <string name="badge_ten_hours_won_back">استعدت 10 ساعات</string>
+    <string name="badge_ten_hours_won_back_goal">استعد 10 ساعات من عادتك القديمة مع الهاتف.</string>
+    <string name="badge_ten_hours_won_back_cheer">10 ساعات عادت إلى حياتك. ماذا ستفعل بها؟</string>
+    <string name="badge_ten_hours_won_back_milestone">10 ساعات استعدتها من عادتك القديمة.</string>
+    <string name="badge_fifty_hours_won_back">استعدت 50 ساعة</string>
+    <string name="badge_fifty_hours_won_back_goal">استعد 50 ساعة من عادتك القديمة مع الهاتف.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50 ساعة استعدتها. هذا أكثر من أسبوع عمل.</string>
+    <string name="badge_fifty_hours_won_back_milestone">50 ساعة استعدتها من عادتك القديمة.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">السلسلة</string>
+    <string name="streak_best_yet">أيام متتالية · أفضل ما حققت</string>
+    <string name="streak_best">أيام متتالية · الأفضل %1$s</string>
+    <string name="streak_this_week">هذا الأسبوع</string>
+    <plurals name="streak_savers_left">
+        <item quantity="zero">لا حمايات متبقية للسلسلة</item>
+        <item quantity="one">حماية واحدة متبقية للسلسلة</item>
+        <item quantity="two">حمايتان متبقيتان للسلسلة</item>
+        <item quantity="few">%d حمايات متبقية للسلسلة</item>
+        <item quantity="many">%d حماية متبقية للسلسلة</item>
+        <item quantity="other">%d حماية متبقية للسلسلة</item>
+    </plurals>
+    <string name="streak_saver_used">استخدمت واحدة في %1$s — وبقيت سلسلتك آمنة.</string>
+    <string name="streak_saver_unused">تجاوزت هدفك يومًا؟ حماية السلسلة تُبقي سلسلتك آمنة.</string>
+    <string name="streak_savers_out">لم تتبق حماية هذا الشهر. تصل حمايات جديدة في الأول من الشهر.</string>
+    <plurals name="streak_days_to">
+        <item quantity="zero">%1$d يوم حتى «%2$s»</item>
+        <item quantity="one">يوم واحد حتى «%2$s»</item>
+        <item quantity="two">يومان حتى «%2$s»</item>
+        <item quantity="few">%1$d أيام حتى «%2$s»</item>
+        <item quantity="many">%1$d يومًا حتى «%2$s»</item>
+        <item quantity="other">%1$d يوم حتى «%2$s»</item>
+    </plurals>
+    <string name="streak_all_done">حصلت على كل أوسمة السلسلة. واصل هكذا!</string>
+    <string name="streak_help">كيف تعمل السلسلة</string>
+    <string name="streak_help_body">كل يوم ضمن هدفك اليومي يضيف واحدًا إلى سلسلتك. تجاوزت الهدف؟ حماية السلسلة تغطي ذلك اليوم — تحصل على 3 كل شهر.</string>
+    <string name="streak_help_ok">فهمت</string>
+    <string name="streak_day_on_target">%1$s: ضمن هدفك</string>
+    <string name="streak_day_saved">%1$s: أنقذته حماية السلسلة</string>
+    <string name="streak_day_missed">%1$s: تجاوز هدفك</string>
+    <string name="streak_day_today">%1$s: اليوم</string>
+    <string name="streak_day_empty">%1$s: لا توجد بيانات</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">المعالم</string>
+    <plurals name="milestones_since">
+        <item quantity="zero">منذ بدأت · %d يوم</item>
+        <item quantity="one">منذ بدأت · يوم واحد</item>
+        <item quantity="two">منذ بدأت · يومان</item>
+        <item quantity="few">منذ بدأت · %d أيام</item>
+        <item quantity="many">منذ بدأت · %d يومًا</item>
+        <item quantity="other">منذ بدأت · %d يوم</item>
+    </plurals>
+    <string name="milestones_next">التالي</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">مشاركة</string>
+    <string name="share_won_back">استعدت</string>
+    <string name="share_in_month">في %1$s مع Recentr</string>
+    <string name="share_earned">حصلت على</string>
+    <string name="share_with_recentr">مع Recentr</string>
+    <string name="share_streak_chip">سلسلة أيام: %1$d</string>
+    <string name="share_daily_chip">%1$s يوميًا</string>
+    <string name="share_level_chip">المستوى %1$d</string>
+    <string name="share_stories">القصص</string>
+    <string name="share_post">منشور</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">نسخ الرابط</string>
+    <string name="share_save">حفظ</string>
+    <string name="share_done">تم</string>
+    <string name="share_text_month">استعدت %1$s في %2$s مع Recentr. %3$s</string>
+    <string name="share_text_badge">حصلت على «%1$s» مع Recentr. %2$s</string>
+    <string name="share_copied">تم النسخ</string>
+    <string name="share_saved">تم الحفظ في الصور</string>
+    <string name="share_save_failed">تعذّر حفظ الصورة</string>
+</resources>

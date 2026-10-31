@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Swedish. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_edit">Redigera profil</string>
+    <string name="profile_add_name">Lägg till ditt namn</string>
+    <string name="profile_open_settings">Inställningar</string>
+    <plurals name="profile_member_days">
+        <item quantity="one">%d dag med Recentr</item>
+        <item quantity="other">%d dagar med Recentr</item>
+    </plurals>
+    <string name="profile_before">Före</string>
+    <string name="profile_now">Nu</string>
+    <string name="profile_daily_average">dagligt snitt</string>
+    <string name="profile_today">idag</string>
+    <plurals name="profile_last_days">
+        <item quantity="one">senaste %d dag</item>
+        <item quantity="other">senaste %d dagarna</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">I den här takten</string>
+    <plurals name="profile_life_years">
+        <item quantity="one">Du vinner tillbaka %d år av ditt liv</item>
+        <item quantity="other">Du vinner tillbaka %d år av ditt liv</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="one">Du vinner tillbaka %d månad av ditt liv</item>
+        <item quantity="other">Du vinner tillbaka %d månader av ditt liv</item>
+    </plurals>
+    <string name="profile_life_none">Varje timme borta från telefonen är din igen</string>
+    <string name="profile_best_streak">Bästa svit</string>
+    <plurals name="profile_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+    <string name="profile_urges">Motstådda impulser</string>
+    <string name="profile_recap_ready">Din veckosammanfattning är klar</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">Redigera profil</string>
+    <string name="edit_name">Namn</string>
+    <string name="edit_email">E-post</string>
+    <string name="edit_name_placeholder">Ditt förnamn</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">Spara ändringar</string>
+    <string name="edit_avatar_colour">Byt avatarens färg</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">Stäng</string>
+    <string name="recap_over_name">Din vecka, %s</string>
+    <string name="recap_over">Din vecka</string>
+    <string name="recap_less">mindre skärmtid än förra veckan</string>
+    <string name="recap_more">mer skärmtid än förra veckan</string>
+    <string name="recap_same">lika mycket skärmtid som förra veckan</string>
+    <string name="recap_saved">Sparat</string>
+    <string name="recap_best_day">Bästa dag</string>
+    <string name="recap_streak">Svit</string>
+    <string name="recap_share">Dela min vecka</string>
+    <string name="recap_share_text">Min vecka på Recentr: %1$s skärmtid jämfört med förra veckan, %2$s sparat och min bästa dag var %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">Alla verktyg för lugnare dagar</string>
+    <string name="plus_benefit_rules">Obegränsat med regler och rutiner</string>
+    <string name="plus_benefit_strict">Strikt läge och nödupplåsningar</string>
+    <string name="plus_benefit_recaps">Veckosammanfattningar och reflektioner</string>
+    <string name="plus_yearly">Årsvis</string>
+    <string name="plus_monthly">Månadsvis</string>
+    <string name="plus_yearly_discount">−50 %</string>
+    <string name="plus_yearly_per_month">2,50 $ / månad</string>
+    <string name="plus_billed_monthly">faktureras månadsvis</string>
+    <string name="plus_start_trial">Starta 7 dagars gratis provperiod</string>
+    <string name="plus_cancel_anytime">Avsluta när du vill ·\u0020</string>
+    <string name="plus_restore">Återställ köp</string>
+    <string name="plus_restore_none_title">Inget att återställa</string>
+    <string name="plus_restore_none_body">Inget Recentr Plus-köp hittades för det här kontot.</string>
+    <string name="plus_restore_ok_title">Köpet har återställts</string>
+    <string name="plus_restore_ok_body">Recentr Plus är aktivt på den här telefonen.</string>
+    <string name="plus_trial_started">Recentr Plus är på – njut av din gratisvecka</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">Prenumeration</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">Förnyas den %s</string>
+    <string name="sub_change_plan">Byt plan</string>
+    <string name="sub_restore">Återställ köp</string>
+    <string name="sub_invoices">Fakturor</string>
+    <string name="sub_cancel">Avsluta prenumeration</string>
+    <string name="sub_change_title">Byta till %s?</string>
+    <string name="sub_change_body">Din nya plan startar när den nuvarande perioden slutar.</string>
+    <string name="sub_change_confirm">Byt</string>
+    <string name="sub_cancel_title">Avsluta Recentr Plus?</string>
+    <string name="sub_cancel_body">Du behåller Plus till slutet av den nuvarande perioden och går sedan tillbaka till gratisplanen.</string>
+    <string name="sub_cancel_confirm">Avsluta planen</string>
+    <string name="sub_keep">Behåll Plus</string>
+    <string name="sub_not_now">Inte nu</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">Inställningar</string>
+    <string name="settings_general">Allmänt</string>
+    <string name="settings_protection">Skydd</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_account">Konto</string>
+    <string name="settings_developer">Utvecklare</string>
+    <string name="settings_notifications">Aviseringar</string>
+    <string name="settings_on">På</string>
+    <string name="settings_off">Av</string>
+    <string name="settings_appearance">Utseende</string>
+    <string name="settings_app_icon">Appikon</string>
+    <string name="settings_language">Språk</string>
+    <string name="settings_time_format">Tidsformat</string>
+    <string name="time_format_am_pm">AM/PM</string>
+    <string name="time_format_24h">24 h</string>
+    <string name="time_format_body">Hur tider visas i Recentr.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">Strikt läge</string>
+    <string name="settings_strict_caption">Nya sessioner och rutiner startar strikta.</string>
+    <string name="settings_always_allowed">Alltid tillåtna</string>
+    <string name="settings_always_allowed_none">Inga</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d appar</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">Nödupplåsningar</string>
+    <string name="settings_unlocks_left">%d kvar</string>
+    <string name="settings_app_blocking">Appblockering</string>
+    <string name="settings_unlock_pass">Upplåsningskort</string>
+    <string name="settings_pass_none">Inget</string>
+    <string name="settings_pass_rules">Regler: %d</string>
+    <string name="settings_help">Hjälp och feedback</string>
+    <string name="settings_rate">Betygsätt Recentr</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">Gratis</string>
+    <string name="settings_log_out">Logga ut</string>
+    <string name="settings_delete_account">Radera konto</string>
+    <string name="settings_replay_onboarding">Visa introduktionen igen</string>
+    <string name="settings_design_system">Designsystem</string>
+    <string name="emergency_title">Nödupplåsningar</string>
+    <string name="emergency_body">Du har %1$d av %2$d nödupplåsningar kvar den här månaden. När Strikt läge eller en förbrukad gräns håller en app låst öppnar varje nödupplåsning den ändå i 5 minuter. De kommer tillbaka den %3$s.</string>
+    <string name="unlock_pass_title">Upplåsningskort</string>
+    <string name="unlock_pass_none">Ingen regel kräver ett kort än. Välj ”Skanna en kod du förvarar på annat håll” som en regels upplåsning och skriv sedan ut dess kort här.</string>
+    <string name="unlock_pass_body">Skriv ut en regels kort och förvara det långt från telefonen. Att skanna det är vägen in.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">Ditt upplåsningskort</string>
+    <string name="unlock_pass_screen_body">Skriv ut det och förvara det långt från sängen. Att skanna det är det enda sättet att låsa upp.</string>
+    <string name="unlock_pass_caption">Recentr · kort #%1$s</string>
+    <string name="unlock_pass_share">Dela</string>
+    <string name="unlock_pass_print">Skriv ut kortet</string>
+    <string name="unlock_pass_document">Recentr upplåsningskort</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">Hjälp och feedback</string>
+    <string name="help_subtitle">Vi läser varje meddelande.</string>
+    <string name="help_not_blocking">Recentr blockerar inte en app</string>
+    <string name="help_not_blocking_body">Blockering kräver åtkomst till användningsdata och att Recentr körs i bakgrunden. Kolla Inställningar › Appar › Recentr och stäng av batterioptimering.</string>
+    <string name="help_strict">Frågor om Strikt läge</string>
+    <string name="help_strict_body">Slå på Strikt läge för en session eller rutin så kan dess appar inte låsas upp förrän den tar slut, förutom med en nödupplåsning. Att stänga av det får då vänta tills den är slut. Under Inställningar › Strikt läge slår du på det för alla nya.</string>
+    <string name="help_billing">Fakturering och Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus faktureras via Google Play. Du kan avsluta när som helst under Inställningar › Recentr Plus eller i dina Play-prenumerationer.</string>
+    <string name="help_note_section">Skicka oss ett meddelande</string>
+    <string name="help_note_title">Idé till Recentr</string>
+    <string name="help_note_placeholder">Skulle älska en ”plugga med vänner”-session där vi alla låser tillsammans.</string>
+    <string name="help_send">Skicka feedback</string>
+    <string name="help_feedback_subject">Recentr-feedback</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">Utseende</string>
+    <string name="appearance_theme">Tema</string>
+    <string name="theme_light">Ljust</string>
+    <string name="theme_dark">Mörkt</string>
+    <string name="theme_auto">Auto</string>
+    <string name="appearance_app_icon">Appikon</string>
+    <string name="icon_sky">Himmel</string>
+    <string name="icon_night">Natt</string>
+    <string name="icon_mint">Mynta</string>
+    <string name="icon_sunset">Solnedgång</string>
+    <string name="appearance_mascot">Visa maskoten på Hem</string>
+    <string name="appearance_reduce_motion">Minska rörelse</string>
+    <string name="appearance_haptics">Haptik</string>
+    <string name="appearance_haptics_caption">Små knackningar när du väljer, växlar eller firar</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">Aviseringar</string>
+    <string name="notifications_subtitle">Milda knuffar, aldrig brus.</string>
+    <string name="notifications_reminders">Påminnelser</string>
+    <string name="notifications_routine">Innan en rutin börjar</string>
+    <string name="notifications_limit">Gräns nästan nådd</string>
+    <string name="notifications_goal">Daglig målkoll</string>
+    <string name="notifications_celebrations">Firanden</string>
+    <string name="notifications_streaks">Sviter och milstolpar</string>
+    <string name="notifications_recap">Veckosammanfattning</string>
+    <string name="notifications_quiet_hours">Tysta timmar</string>
+    <string name="notifications_dont_notify">Avisera mig inte</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">Aviseringar är avstängda för Recentr på den här telefonen.</string>
+    <string name="notifications_turn_on">Slå på</string>
+    <string name="quiet_title">Tysta timmar</string>
+    <string name="quiet_subtitle">Inga knuffar mellan de här tiderna.</string>
+    <string name="quiet_from">Börjar</string>
+    <string name="quiet_to">Slutar</string>
+    <string name="quiet_save">Spara</string>
+    <string name="time_dialog_cancel">Avbryt</string>
+    <string name="time_dialog_ok">OK</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">Språk</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">Systemspråk</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Logga ut från Recentr?</string>
+    <string name="logout_body">Dina regler fortsätter gälla på den här telefonen. Logga in igen när som helst för att synka dem.</string>
+    <string name="logout_confirm">Logga ut</string>
+    <string name="logout_stay">Stanna</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">Radera ditt konto?</string>
+    <string name="delete_body">Alla regler, sviter och reflektioner raderas. Skriv DELETE för att bekräfta.</string>
+    <string name="delete_placeholder">Skriv DELETE</string>
+    <string name="delete_confirm">Radera konto</string>
+    <string name="delete_cancel">Avbryt</string>
+    <string name="back">Tillbaka</string>
+    <string name="duration_h">%1$d h</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_h_m_compact">%1$d h %2$02d</string>
+    <string name="duration_h_m">%1$d h %2$d min</string>
+</resources>

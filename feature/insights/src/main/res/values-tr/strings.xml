@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turkish. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">Geri</string>
+    <string name="insights_close">Kapat</string>
+    <string name="insights_more">Diğer seçenekler</string>
+    <string name="insights_duration_m">%1$d dk</string>
+    <string name="insights_duration_h">%1$d sa</string>
+    <string name="insights_duration_h_m">%1$d sa %2$02d dk</string>
+    <string name="insights_duration_compact">%1$d sa %2$02d</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%%%1$d</string>
+    <string name="insights_date">%2$d %1$s</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>P</item>
+        <item>S</item>
+        <item>Ç</item>
+        <item>P</item>
+        <item>C</item>
+        <item>C</item>
+        <item>P</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>Pzt</item>
+        <item>Sal</item>
+        <item>Çar</item>
+        <item>Per</item>
+        <item>Cum</item>
+        <item>Cmt</item>
+        <item>Paz</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>Pazartesi</item>
+        <item>Salı</item>
+        <item>Çarşamba</item>
+        <item>Perşembe</item>
+        <item>Cuma</item>
+        <item>Cumartesi</item>
+        <item>Pazar</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>Ocak</item>
+        <item>Şubat</item>
+        <item>Mart</item>
+        <item>Nisan</item>
+        <item>Mayıs</item>
+        <item>Haziran</item>
+        <item>Temmuz</item>
+        <item>Ağustos</item>
+        <item>Eylül</item>
+        <item>Ekim</item>
+        <item>Kasım</item>
+        <item>Aralık</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>Oca</item>
+        <item>Şub</item>
+        <item>Mar</item>
+        <item>Nis</item>
+        <item>May</item>
+        <item>Haz</item>
+        <item>Tem</item>
+        <item>Ağu</item>
+        <item>Eyl</item>
+        <item>Eki</item>
+        <item>Kas</item>
+        <item>Ara</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">İçgörüler</string>
+    <string name="insights_tab_day">Gün</string>
+    <string name="insights_tab_week">Hafta</string>
+    <string name="insights_tab_month">Ay</string>
+    <string name="insights_daily_average">Günlük ortalama</string>
+    <string name="insights_screen_time_today">Bugünkü ekran süresi</string>
+    <string name="insights_screen_time_yesterday">Dünkü ekran süresi</string>
+    <string name="insights_screen_time">Ekran süresi</string>
+    <string name="insights_vs_last_week">Geçen haftaya göre %1$s</string>
+    <string name="insights_vs_yesterday">Düne göre %1$s</string>
+    <string name="insights_vs_day_before">Önceki güne göre %1$s</string>
+    <string name="insights_vs_week_before">Önceki haftaya göre %1$s</string>
+    <string name="insights_goal_line">Hedef %1$s</string>
+    <string name="insights_by_category">Kategoriye göre</string>
+    <string name="insights_no_usage">Henüz ekran süresi yok.</string>
+    <string name="insights_top_apps">En çok kullanılan uygulamalar</string>
+    <string name="insights_no_apps">Henüz kullanılan uygulama yok.</string>
+    <string name="insights_see_more">Daha fazla gör</string>
+    <string name="insights_category_social">Sosyal</string>
+    <string name="insights_category_video">Video</string>
+    <string name="insights_category_music">Müzik</string>
+    <string name="insights_category_games">Oyunlar</string>
+    <string name="insights_category_productivity">Üretkenlik</string>
+    <string name="insights_category_other">Diğer</string>
+    <string name="insights_menu_pickups">Telefon alma</string>
+    <string name="insights_menu_daily_goal">Günlük hedef</string>
+    <string name="insights_menu_streak">Seri</string>
+    <string name="insights_menu_achievements">Başarılar</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">Hedefin altında</string>
+    <string name="insights_less">Az</string>
+    <string name="insights_more_legend">Çok</string>
+    <string name="insights_best_day">En iyi gün</string>
+    <string name="insights_toughest_day">En zor gün</string>
+    <string name="insights_see_report">%1$s raporunu gör</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: veri yok</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">Bugün</string>
+    <string name="insights_period_yesterday">Dün</string>
+    <string name="insights_period_week">Bu hafta</string>
+    <string name="insights_period_month">Bu ay</string>
+    <string name="insights_period_last_week">Geçen hafta</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s, %2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s %2$d</string>
+    <string name="insights_previous">Önceki</string>
+    <string name="insights_next">Sonraki</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="one">%d açılış</item>
+        <item quantity="other">%d açılış</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · limitin %2$s üstünde</string>
+    <string name="insights_left_in_limit">%1$s · limitinde %2$s kaldı</string>
+    <string name="insights_by_hour">Saate göre</string>
+    <string name="insights_longest_session">En uzun seans</string>
+    <string name="insights_first_open">İlk açılış</string>
+    <string name="insights_usual_first_open">Genelde ilk açılış</string>
+    <string name="insights_noticed">Recentr fark etti</string>
+    <string name="insights_noticed_idle">%1$s uygulamasını neredeyse hiç açmadın. Böyle devam.</string>
+    <string name="insights_noticed_checks">%1$s uygulamasını günde %2$d kez kısa süreliğine açıyorsun. Açılmadan önce birkaç saniyelik bir duraklama refleksi kırar.</string>
+    <string name="insights_noticed_night">%1$s kullanımının çoğu %2$s sonrasında. Bir uyku rutini bunu geri kazanabilir.</string>
+    <string name="insights_noticed_morning">%1$s kullanımının çoğu %2$s öncesinde. Sakin bir sabah rutini bunu geri kazanabilir.</string>
+    <string name="insights_noticed_work">%1$s kullanımının çoğu iş saatlerinde. Bir odak seansı bunu geri kazanabilir.</string>
+    <string name="insights_noticed_evening">%1$s kullanımının çoğu akşamları. Bir limit bunu geri kazanabilir.</string>
+    <string name="insights_noticed_spread">%1$s kullanımın gün içine yayılmış. Bir limit onu kontrol altında tutar.</string>
+    <string name="insights_set_limit">Limit belirle</string>
+    <string name="insights_edit_limit">Limiti düzenle</string>
+    <string name="insights_block_app">Engelle: %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">Telefon alma</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="one">bugün telefon alma</item>
+        <item quantity="other">bugün telefon alma</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="one">dün telefon alma</item>
+        <item quantity="other">dün telefon alma</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="one">o gün telefon alma</item>
+        <item quantity="other">o gün telefon alma</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="one">günde telefon alma</item>
+        <item quantity="other">günde telefon alma</item>
+    </plurals>
+    <string name="insights_first_pickup">İlk: %1$s</string>
+    <string name="insights_usual_first_pickup">Genelde ilk: %1$s</string>
+    <string name="insights_no_pickup">Henüz telefon alma yok</string>
+    <string name="insights_when_pick_up">Telefonu ne zaman alıyorsun</string>
+    <string name="insights_opened_first">Telefonu alınca ilk açılanlar</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">Telefonu aldıktan sonra açılan uygulama yok.</string>
+    <string name="insights_tip_bedroom">Telefonunu yatak odası dışında şarj et — %1$s civarında telefonu almamak kolaylaşır.</string>
+    <string name="insights_tip_reflex">İlk açtığın uygulama %1$s. Refleksi kırmak için onu ana ekranından kaldır.</string>
+    <string name="insights_tip_evening">Telefonu en çok akşamları alıyorsun. Bir uyku rutini telefonu yerinde tutar.</string>
+    <string name="insights_tip_default">Almadığın her telefon bir kazanç. Telefonu ters çevirip bırakmayı dene.</string>
+    <string name="insights_start_bedtime">Uyku rutini başlat</string>
+    <string name="insights_heat_cd">%1$s – %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">%1$s raporu</string>
+    <plurals name="insights_hours">
+        <item quantity="one">%d saat</item>
+        <item quantity="other">%d saat</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
+    </plurals>
+    <string name="insights_won_back_month">bu ay geri kazanıldı</string>
+    <string name="insights_pickups_a_day_label">Günde telefon alma</string>
+    <string name="insights_best_streak">En iyi seri</string>
+    <plurals name="insights_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <string name="insights_new">yeni</string>
+    <string name="insights_share_month">Ayımı paylaş</string>
+    <string name="insights_replay">Tekrar oynat</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">Günlük hedef</string>
+    <string name="insights_edit_goal">Günlük hedefi düzenle</string>
+    <string name="insights_days_on_target">Hedefte geçen gün: %1$d / %2$d</string>
+    <string name="insights_goal_under">Hedef: günde %1$s altı</string>
+    <string name="insights_adjust_goal">Hedefi ayarla</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">Başarılar</string>
+    <string name="achievements_earned_count">Kazanılan: %1$d / %2$d</string>
+    <string name="achievements_level">Seviye %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>Yeni başlangıç</item>
+        <item>Huzuru bulmak</item>
+        <item>Sağlam eller</item>
+        <item>Huzur bekçisi</item>
+        <item>Derin odak</item>
+        <item>Zen ustası</item>
+        <item>Çevrimdışı efsane</item>
+    </string-array>
+    <string name="achievements_points">%1$d / %2$d sakinlik puanı</string>
+    <string name="achievements_points_max">%1$d sakinlik puanı</string>
+    <string name="achievements_all">Tümü</string>
+    <string name="achievements_earned">Kazanılan</string>
+    <string name="achievements_next_up">Sıradakiler</string>
+    <string name="achievements_none_earned">İlk rozetin çok yakın.</string>
+    <string name="achievements_all_earned">Tüm rozetleri kazandın. Vay canına.</string>
+    <string name="achievements_progress_days">%1$d / %2$d gün</string>
+    <string name="achievements_progress_nights">%1$d / %2$d gece</string>
+    <string name="achievements_progress_mornings">%1$d / %2$d sabah</string>
+    <string name="achievements_progress_hours">%1$d / %2$d saat</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">%1$d / %2$d gün</string>
+    <string name="achievements_of_nights">%1$d / %2$d gece</string>
+    <string name="achievements_of_mornings">%1$d / %2$d sabah</string>
+    <string name="achievements_of_hours">%1$d / %2$d saat</string>
+    <string name="achievements_of_urges">%1$d / %2$d dürtü</string>
+    <string name="achievements_not_yet">Henüz kazanılmadı</string>
+    <string name="achievements_points_reward">+%1$d sakinlik puanı</string>
+    <string name="achievements_got_it">Anladım</string>
+    <string name="achievements_locked_cd">%1$s, kilitli, %2$s</string>
+    <string name="achievements_earned_cd">%1$s, kazanıldı, %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">Yeni rozet</string>
+    <string name="achievements_earned_on">Kazanıldı: %1$s</string>
+    <string name="achievements_nice">Harika!</string>
+    <string name="achievements_share_badge">Rozeti paylaş</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">İlk kilit</string>
+    <string name="badge_first_lock_goal">İlk kuralınla uygulamaları engelle.</string>
+    <string name="badge_first_lock_cheer">İlk kuralın yürürlükte. Küçük kilitler, büyük kazançlar.</string>
+    <string name="badge_first_lock_milestone">%1$s uygulamasını ilk kez engelledin.</string>
+    <string name="badge_first_lock_milestone_any">İlk engelleme kuralını kurdun.</string>
+    <string name="badge_note_to_self">Kendine not</string>
+    <string name="badge_note_to_self_goal">Kurallarından birine nedenini yaz.</string>
+    <string name="badge_note_to_self_cheer">Nedenin yazıldı. Seni dürüst tutacak.</string>
+    <string name="badge_note_to_self_milestone">Bunu neden yaptığını yazdın.</string>
+    <string name="badge_first_focus">İlk odak</string>
+    <string name="badge_first_focus_goal">İlk odak seansını bitir.</string>
+    <string name="badge_first_focus_cheer">Bir seans tamam. Odak kasın ısınıyor.</string>
+    <string name="badge_first_focus_milestone">İlk odak seansın.</string>
+    <string name="badge_focus_ten_hours">10 saat odak</string>
+    <string name="badge_focus_ten_hours_goal">Odak seanslarında 10 saat geçir.</string>
+    <string name="badge_focus_ten_hours_cheer">On saat derin odak. Koca bir iş günü geri alındı.</string>
+    <string name="badge_focus_ten_hours_milestone">Odak seanslarında 10 saat geçirildi.</string>
+    <string name="badge_seven_day_streak">7 günlük seri</string>
+    <string name="badge_seven_day_streak_goal">Serini 7 gün sürdür.</string>
+    <string name="badge_seven_day_streak_cheer">Tam bir hafta hedefinin altında. Ateşi canlı tut.</string>
+    <string name="badge_seven_day_streak_milestone">Tam bir hafta hedefinin altında.</string>
+    <string name="badge_goal_crusher">Hedef avcısı</string>
+    <string name="badge_goal_crusher_goal">Günlük hedefinin altında üst üste 7 gün kal.</string>
+    <string name="badge_goal_crusher_cheer">Yedi gün hedefinin altında, koruyucuya gerek kalmadan. Harikaydı.</string>
+    <string name="badge_goal_crusher_milestone">Seri koruyucu kullanmadan 7 gün hedefinin altında.</string>
+    <string name="badge_two_calm_weeks">Sakin iki hafta</string>
+    <string name="badge_two_calm_weeks_goal">Serini 14 gün sürdür.</string>
+    <string name="badge_two_calm_weeks_cheer">Sakin iki hafta. Bu bir alışkanlığa dönüşüyor.</string>
+    <string name="badge_two_calm_weeks_milestone">Üst üste 14 gün hedefinin altında.</string>
+    <string name="badge_calm_month">Sakin ay</string>
+    <string name="badge_calm_month_goal">Serini 30 gün sürdür.</string>
+    <string name="badge_calm_month_cheer">Koca bir ay sakinlik. Efsane.</string>
+    <string name="badge_calm_month_milestone">Üst üste 30 gün hedefinin altında.</string>
+    <string name="badge_night_owl">Emekli baykuş</string>
+    <string name="badge_night_owl_goal">Üst üste 7 gece %1$s sonrasında ekran yok.</string>
+    <string name="badge_night_owl_cheer">Üst üste 7 gece %1$s sonrasında ekran yok. Uykun teşekkür ediyor.</string>
+    <string name="badge_night_owl_milestone">7 gece boyunca %1$s sonrasında ekran yok.</string>
+    <string name="badge_slow_mornings">Yavaş sabahlar</string>
+    <string name="badge_slow_mornings_goal">Üst üste 5 sabah %1$s öncesinde ekran yok.</string>
+    <string name="badge_slow_mornings_cheer">Beş yavaş sabah. Günün akışınla değil, seninle başlıyor.</string>
+    <string name="badge_slow_mornings_milestone">5 sabah boyunca %1$s öncesinde ekran yok.</string>
+    <string name="badge_screen_free_sunday">Ekransız pazar</string>
+    <string name="badge_screen_free_sunday_goal">Bir pazarı 30 dakikanın altında ekran süresiyle geçir.</string>
+    <string name="badge_screen_free_sunday_cheer">Neredeyse şebeke dışı bir pazar. Daha hafif hissettirmiyor mu?</string>
+    <string name="badge_screen_free_sunday_milestone">30 dakikanın altında ekran süresiyle geçen bir pazar.</string>
+    <string name="badge_gentle_day">Yumuşak gün</string>
+    <string name="badge_gentle_day_goal">Bütün bir günü 1 saatin altında ekran süresiyle geçir.</string>
+    <string name="badge_gentle_day_cheer">Bütün gün bir saatin altında. Gözlerine ve zihnine nazik.</string>
+    <string name="badge_gentle_day_milestone">Bütün bir gün 1 saatin altında.</string>
+    <string name="badge_hands_off">Eller çekilsin</string>
+    <string name="badge_hands_off_goal">Bir günde telefonu 20 defadan az al.</string>
+    <string name="badge_hands_off_cheer">Bir günde 20’den az telefon alma. Ellerin daha güzel işler buldu.</string>
+    <string name="badge_hands_off_milestone">Bir günde 20’den az telefon alma.</string>
+    <string name="badge_urges_resisted">100 dürtüye direndin</string>
+    <string name="badge_urges_resisted_goal">Odak seanslarında 100 kez duraklamayı seç.</string>
+    <string name="badge_urges_resisted_cheer">100 dürtü, 100 duraklama. Kontrol sende.</string>
+    <string name="badge_urges_resisted_milestone">100 kez duraklamayı seçtin.</string>
+    <string name="badge_ten_hours_won_back">10 saat geri kazanıldı</string>
+    <string name="badge_ten_hours_won_back_goal">Eski telefon alışkanlığından 10 saat geri kazan.</string>
+    <string name="badge_ten_hours_won_back_cheer">Hayatına 10 saat geri döndü. Onlarla ne yapacaksın?</string>
+    <string name="badge_ten_hours_won_back_milestone">Eski alışkanlığından 10 saat geri kazanıldı.</string>
+    <string name="badge_fifty_hours_won_back">50 saat geri kazanıldı</string>
+    <string name="badge_fifty_hours_won_back_goal">Eski telefon alışkanlığından 50 saat geri kazan.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50 saat geri kazanıldı. Bu bir çalışma haftasından fazla.</string>
+    <string name="badge_fifty_hours_won_back_milestone">Eski alışkanlığından 50 saat geri kazanıldı.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">Seri</string>
+    <string name="streak_best_yet">günlük seri · şimdiye kadarki en iyin</string>
+    <string name="streak_best">günlük seri · en iyi %1$s</string>
+    <string name="streak_this_week">Bu hafta</string>
+    <plurals name="streak_savers_left">
+        <item quantity="one">%d seri koruyucu kaldı</item>
+        <item quantity="other">%d seri koruyucu kaldı</item>
+    </plurals>
+    <string name="streak_saver_used">%1$s için bir tane kullandın — serin güvende kaldı.</string>
+    <string name="streak_saver_unused">Bir gün hedefi aştın mı? Koruyucu serini güvende tutar.</string>
+    <string name="streak_savers_out">Bu ay koruyucu kalmadı. Yenileri ayın 1’inde gelir.</string>
+    <plurals name="streak_days_to">
+        <item quantity="one">“%2$s” için %1$d gün</item>
+        <item quantity="other">“%2$s” için %1$d gün</item>
+    </plurals>
+    <string name="streak_all_done">Tüm seri rozetleri kazanıldı. Böyle devam!</string>
+    <string name="streak_help">Seriler nasıl çalışır</string>
+    <string name="streak_help_body">Günlük hedefinin altında kaldığın her gün serine bir ekler. Aştın mı? Bir seri koruyucu o günü kurtarır — her ay 3 tane alırsın.</string>
+    <string name="streak_help_ok">Anladım</string>
+    <string name="streak_day_on_target">%1$s: hedefin altında</string>
+    <string name="streak_day_saved">%1$s: seri koruyucuyla kurtarıldı</string>
+    <string name="streak_day_missed">%1$s: hedefin üstünde</string>
+    <string name="streak_day_today">%1$s: bugün</string>
+    <string name="streak_day_empty">%1$s: veri yok</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">Kilometre taşları</string>
+    <plurals name="milestones_since">
+        <item quantity="one">Başlayalı · %d gün</item>
+        <item quantity="other">Başlayalı · %d gün</item>
+    </plurals>
+    <string name="milestones_next">Sonraki</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">Paylaş</string>
+    <string name="share_won_back">Geri kazandım</string>
+    <string name="share_in_month">%1$s ayında Recentr ile</string>
+    <string name="share_earned">Kazandım</string>
+    <string name="share_with_recentr">Recentr ile</string>
+    <string name="share_streak_chip">%1$d günlük seri</string>
+    <string name="share_daily_chip">günde %1$s</string>
+    <string name="share_level_chip">Seviye %1$d</string>
+    <string name="share_stories">Hikâyeler</string>
+    <string name="share_post">Gönderi</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">Bağlantıyı kopyala</string>
+    <string name="share_save">Kaydet</string>
+    <string name="share_done">Bitti</string>
+    <string name="share_text_month">Recentr ile %2$s ayında %1$s geri kazandım. %3$s</string>
+    <string name="share_text_badge">Recentr ile “%1$s” rozetini kazandım. %2$s</string>
+    <string name="share_copied">Kopyalandı</string>
+    <string name="share_saved">Resimlere kaydedildi</string>
+    <string name="share_save_failed">Görsel kaydedilemedi</string>
+</resources>

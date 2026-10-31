@@ -1,24 +1,61 @@
 package com.recentr.core.model
 
+import java.util.Locale
+
 /** Theme choice of Settings › Appearance. */
 enum class ThemeMode { Light, Dark, Auto }
 
 /** Launcher icon colourway of Settings › Appearance › App icon. */
 enum class AppIconStyle { Sky, Night, Mint, Sunset }
 
-/** Languages offered by Settings › Language (BCP 47 tag + endonym). */
+/**
+ * Languages Recentr is translated into, offered by Settings › Language (BCP 47 tag + endonym), in
+ * the order of their English names.
+ */
 enum class AppLanguage(val tag: String, val endonym: String) {
-    English("en", "English"),
-    Spanish("es", "Español"),
+    Arabic("ar", "العربية"),
+    Bulgarian("bg", "Български"),
+    Chinese("zh-Hans", "简体中文"),
+    Czech("cs", "Čeština"),
+    English("en", "English (US)"),
     French("fr", "Français"),
     German("de", "Deutsch"),
-    Portuguese("pt", "Português"),
-    Vietnamese("vi", "Tiếng Việt"),
+    Hebrew("he", "עברית"),
+    Hindi("hi", "हिन्दी"),
+    Indonesian("id", "Bahasa Indonesia"),
+    Italian("it", "Italiano"),
     Japanese("ja", "日本語"),
+    Korean("ko", "한국어"),
+    Polish("pl", "Polski"),
+    Portuguese("pt-BR", "Português (Brasil)"),
+    Russian("ru", "Русский"),
+    Spanish("es", "Español"),
+    Swedish("sv", "Svenska"),
+    Turkish("tr", "Türkçe"),
+    Ukrainian("uk", "Українська"),
     ;
 
     companion object {
-        fun fromTag(tag: String?): AppLanguage? = entries.firstOrNull { it.tag == tag }
+        /** The language of a stored or system tag: "fr", "pt" (kept by earlier versions), "iw". */
+        fun fromTag(tag: String?): AppLanguage? = tag?.let { forLocale(Locale.forLanguageTag(it)) }
+
+        /**
+         * The translation Android picks for [locale]: same language, whatever the region, except
+         * Chinese, which is only translated in simplified characters.
+         */
+        fun forLocale(locale: Locale): AppLanguage? {
+            // Android still reports Hebrew and Indonesian by their former codes.
+            val language = when (locale.language) {
+                "iw" -> "he"
+                "in" -> "id"
+                else -> locale.language
+            }
+            if (language == "zh") {
+                val simplified = locale.script == "Hans" || (locale.script.isEmpty() && locale.country in setOf("", "CN", "SG"))
+                return if (simplified) Chinese else null
+            }
+            return entries.firstOrNull { it.tag.substringBefore('-') == language }
+        }
     }
 }
 

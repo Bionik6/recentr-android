@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hindi. -->
+<resources>
+    <string name="focus_title">टाइमर</string>
+    <string name="focus_more">और विकल्प</string>
+    <string name="focus_close">बंद करें</string>
+    <string name="focus_back">वापस</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d मिनट</string>
+    <string name="focus_dial_description">फ़ोकस की अवधि: %d मिनट। बदलने के लिए खींचें।</string>
+    <string name="focus_sound">साउंड</string>
+    <string name="focus_block">ब्लॉक</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">कोई नहीं</string>
+    <string name="focus_rounds">राउंड</string>
+    <string name="focus_rounds_value">%1$d × %2$d मिनट</string>
+    <string name="focus_start">फ़ोकस शुरू करें</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">सख़्त मोड</string>
+    <string name="focus_strict_caption">सख़्त मोड: बीच में रुकना या जल्दी खत्म करना नहीं</string>
+    <string name="focus_strict_note">सख़्त मोड: यह फ़ोकस अपने आप खत्म होगा</string>
+    <string name="focus_strict_confirm_title">सख़्त मोड चालू करें?</string>
+    <string name="focus_strict_confirm_body">आप इस फ़ोकस को बीच में रोक या जल्दी खत्म नहीं कर पाएँगे। ब्रेक फिर भी मिलेंगे।</string>
+    <string name="focus_strict_turn_on">चालू करें</string>
+    <string name="focus_cancel">रद्द करें</string>
+    <string name="focus_back_to_focus">फ़ोकस पर लौटें</string>
+    <string name="focus_back_to_focus_left">फ़ोकस पर लौटें · %1$s</string>
+    <string name="focus_rename">नाम बदलें</string>
+    <string name="focus_rename_title">इस सेशन को नाम दें</string>
+    <string name="focus_rename_save">सेव करें</string>
+    <string name="focus_log">फ़ोकस लॉग</string>
+    <string name="focus_change_sound">साउंड बदलें</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">राउंड %1$d / %2$d</string>
+    <string name="focus_left_ends">बचे · %s पर खत्म</string>
+    <string name="focus_paused_round_of">रुका हुआ · राउंड %1$d / %2$d</string>
+    <string name="focus_ready_round_of">राउंड %1$d / %2$d के लिए तैयार</string>
+    <string name="focus_round_n">राउंड %d</string>
+    <string name="focus_take_your_time">आराम से</string>
+    <string name="focus_paused_for">%s से रुका हुआ</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="one">%d ऐप होल्ड पर</item>
+        <item quantity="other">%d ऐप्स होल्ड पर</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="one">%d ऐप अब भी होल्ड पर</item>
+        <item quantity="other">%d ऐप्स अब भी होल्ड पर</item>
+    </plurals>
+    <string name="focus_pause">रोकें</string>
+    <string name="focus_resume">जारी रखें</string>
+    <string name="focus_start_round">राउंड शुरू करें</string>
+    <string name="focus_end_session">सेशन खत्म करें</string>
+    <string name="focus_restart_round">राउंड फिर शुरू करें</string>
+    <string name="focus_round_restarted">राउंड %d फिर शुरू हुआ</string>
+    <string name="focus_undo">पूर्ववत करें</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">फ़ोकस साउंड</string>
+    <string name="sounds_subtitle_none">जितनी चाहें उतनी चालू करें।</string>
+    <string name="sounds_subtitle_on">%1$s चालू</string>
+    <string name="sounds_subtitle_on_muted">%1$s चालू · म्यूट: %2$d</string>
+    <string name="sounds_subtitle_muted">कुछ नहीं बज रहा · म्यूट: %d</string>
+    <string name="sounds_mute_all">सब म्यूट करें</string>
+    <string name="sounds_unmute_all">सब अनम्यूट करें</string>
+    <string name="sounds_on_count">चालू: %d</string>
+    <string name="sounds_volume">वॉल्यूम</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">बंद</string>
+    <string name="sound_state_muted">म्यूट</string>
+    <string name="sound_turn_on">चालू करें</string>
+    <string name="sound_mute">म्यूट करें</string>
+    <string name="sound_unmute">अनम्यूट करें</string>
+    <string name="sound_mix_off">बंद</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">साउंड जोड़ें</string>
+    <string name="sound_category_rain">बारिश</string>
+    <string name="sound_category_water">पानी</string>
+    <string name="sound_category_nature">प्रकृति</string>
+    <string name="sound_category_places">जगहें</string>
+    <string name="sound_category_steady">टिक और शोर</string>
+    <string name="sound_soft_rain">हल्की बारिश</string>
+    <string name="sound_heavy_rain">तेज़ बारिश</string>
+    <string name="sound_forest_rain">जंगल में बारिश</string>
+    <string name="sound_rain_village">गाँव की बारिश</string>
+    <string name="sound_thunder">गरज</string>
+    <string name="sound_river">नदी</string>
+    <string name="sound_small_river">धारा</string>
+    <string name="sound_beach">समुद्र तट</string>
+    <string name="sound_sea_beach">समुद्र किनारा</string>
+    <string name="sound_soft_beach">शांत किनारा</string>
+    <string name="sound_whale">व्हेल</string>
+    <string name="sound_forest_night">रात का जंगल</string>
+    <string name="sound_birds">पक्षी</string>
+    <string name="sound_crickets">झींगुर</string>
+    <string name="sound_cicada_birds">सिकाडा</string>
+    <string name="sound_farm">खेत</string>
+    <string name="sound_wind">हवा</string>
+    <string name="sound_campfire">अलाव</string>
+    <string name="sound_coffee_shop">कॉफ़ी शॉप</string>
+    <string name="sound_office">ऑफ़िस</string>
+    <string name="sound_street_traffic">सड़क</string>
+    <string name="sound_construction">निर्माण</string>
+    <string name="sound_keyboard_typing">टाइपिंग</string>
+    <string name="sound_clock_tick">घड़ी</string>
+    <string name="sound_clock_stopwatch">स्टॉपवॉच</string>
+    <string name="sound_white_noise">व्हाइट नॉइज़</string>
+    <string name="sound_pink_noise">पिंक नॉइज़</string>
+    <string name="sounds_done">हो गया</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">ब्रेक</string>
+    <string name="break_round_done">राउंड %1$d पूरा · %2$d बाकी</string>
+    <string name="break_until">राउंड %d तक</string>
+    <string name="break_ideas_title">स्क्रॉल करने की जगह यह आज़माएँ</string>
+    <string name="break_idea_window">खिड़की से बाहर देखें</string>
+    <string name="break_idea_window_hint">20 सेकंड, 20 मीटर दूर</string>
+    <string name="break_idea_water">एक गिलास पानी पिएँ</string>
+    <string name="break_idea_water_hint">आपका दिमाग शुक्रिया कहेगा</string>
+    <string name="break_idea_stretch">कंधों को स्ट्रेच करें</string>
+    <string name="break_idea_stretch_hint">5 बार पीछे की ओर घुमाएँ</string>
+    <string name="break_skip">ब्रेक छोड़ें</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="one">%2$s के %1$d मिनट</item>
+        <item quantity="other">%2$s के %1$d मिनट</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="one">%d राउंड</item>
+        <item quantity="other">%d राउंड</item>
+    </plurals>
+    <string name="complete_zero_unlocks">ज़ीरो अनलॉक</string>
+    <plurals name="complete_unlocks">
+        <item quantity="one">%d अनलॉक</item>
+        <item quantity="other">%d अनलॉक</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s।</string>
+    <string name="complete_longest">%1$s · %2$s। यह इस हफ़्ते का आपका सबसे लंबा है।</string>
+    <string name="complete_focus_streak">फ़ोकस स्ट्रीक</string>
+    <plurals name="complete_days">
+        <item quantity="one">%d दिन</item>
+        <item quantity="other">%d दिन</item>
+    </plurals>
+    <string name="complete_urges">तलब पर काबू</string>
+    <string name="complete_urges_today">आज %d</string>
+    <string name="complete_note_title">आपने क्या पूरा किया?</string>
+    <string name="complete_note_placeholder">अध्याय 3 की रूपरेखा और दो पन्ने। फ़ोन उल्टा रखा रहा।</string>
+    <string name="complete_another">एक और राउंड शुरू करें</string>
+    <string name="complete_done">हो गया</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">फ़ोकस में आपके %d मिनट हो चुके हैं</string>
+    <string name="hold_leave_body">आपके ऐप्स %s तक होल्ड पर रहेंगे। डटे रहें — आप बहुत अच्छा कर रहे हैं।</string>
+    <string name="hold_back">फ़ोकस पर लौटें</string>
+    <string name="hold_end">सेशन जल्दी खत्म करें</string>
+    <string name="hold_keep_focusing">फ़ोकस जारी रखें</string>
+    <string name="hold_end_now">अभी खत्म करें?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="one">अभी खत्म करेंगे तो आपका ऐप वापस आ जाएगा।</item>
+        <item quantity="other">अभी खत्म करेंगे तो आपके %d ऐप्स वापस आ जाएँगे।</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s फिर भी %2$d मिनट गिने जाएँगे।</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">फ़ोकस लॉग</string>
+    <string name="history_this_week">इस हफ़्ते</string>
+    <string name="history_sessions">सेशन</string>
+    <string name="history_today">आज, %s</string>
+    <string name="history_yesterday">बीता कल, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">अभी कोई सेशन नहीं। आपके फ़ोकस सेशन यहाँ दिखेंगे।</string>
+    <string name="history_clear">लॉग साफ़ करें</string>
+    <string-array name="focus_day_letters">
+        <item>सो</item>
+        <item>मं</item>
+        <item>बु</item>
+        <item>गु</item>
+        <item>शु</item>
+        <item>श</item>
+        <item>र</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">राउंड</string>
+    <string name="rounds_subtitle">बीच में छोटे ब्रेक के साथ राउंड में काम करें।</string>
+    <string name="rounds_focus">फ़ोकस</string>
+    <string name="rounds_short_break">छोटा ब्रेक</string>
+    <string name="rounds_count">राउंड</string>
+    <string name="rounds_long_break">लंबा ब्रेक</string>
+    <string name="rounds_minutes">%d मिनट</string>
+    <string name="rounds_auto_start">अगला राउंड अपने आप शुरू करें</string>
+    <string name="rounds_total">कुल: ब्रेक सहित %s</string>
+    <string name="rounds_save">राउंड सेव करें</string>
+    <string name="rounds_decrease">%s घटाएँ</string>
+    <string name="rounds_increase">%s बढ़ाएँ</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d घं</string>
+    <string name="duration_m">%1$d मि</string>
+    <string name="duration_h_m">%1$d घं %2$d मि</string>
+    <string name="focus_notification_channel">फ़ोकस टाइमर</string>
+    <string name="focus_notification_channel_description">चल रहा सेशन, और Recentr बंद होने पर भी बजती उसकी आवाज़ें।</string>
+    <string name="focus_notification_round">राउंड %1$d / %2$d</string>
+    <string name="focus_notification_break">ब्रेक · अगला राउंड %1$d</string>
+    <string name="focus_notification_paused">रुका हुआ · राउंड %1$d / %2$d</string>
+</resources>
