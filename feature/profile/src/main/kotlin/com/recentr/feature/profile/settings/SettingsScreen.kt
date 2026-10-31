@@ -62,6 +62,8 @@ internal class SettingsActions(
     val onOpenAlwaysAllowed: () -> Unit = {},
     val onReplayOnboarding: (() -> Unit)? = null,
     val onOpenDesignSystem: (() -> Unit)? = null,
+    /** Opens Developer › Language, which switches the language right away. */
+    val onOpenDeveloperLanguage: (() -> Unit)? = null,
 )
 
 private enum class SettingsOverlay { TimeFormat, Blocking, Emergency, UnlockPass, LogOut, Delete }
@@ -170,11 +172,14 @@ internal fun SettingsScreen(
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
-            if (actions.onReplayOnboarding != null || actions.onOpenDesignSystem != null) {
+            if (actions.onReplayOnboarding != null || actions.onOpenDesignSystem != null || actions.onOpenDeveloperLanguage != null) {
                 Spacer(Modifier.height(6.dp))
                 Section(R.string.settings_developer) {
                     actions.onReplayOnboarding?.let { ValueRow(R.string.settings_replay_onboarding, null, RecentrIcon.Refresh, it) }
                     actions.onOpenDesignSystem?.let { ValueRow(R.string.settings_design_system, null, RecentrIcon.Apps, it) }
+                    actions.onOpenDeveloperLanguage?.let {
+                        ValueRow(R.string.settings_language, developerLanguageLabel(DeveloperLanguages.selected(appLocales(context))), RecentrIcon.Sparkle, it)
+                    }
                 }
             }
         }
@@ -228,7 +233,7 @@ private fun monthDay(epochMillis: Long): String {
 
 /** The language shown when the app follows the system: the system one if offered, else English. */
 internal fun systemLanguage(): AppLanguage =
-    AppLanguage.fromTag(Locale.getDefault().language) ?: AppLanguage.English
+    AppLanguage.forLocale(Locale.getDefault()) ?: AppLanguage.English
 
 private fun openStoreListing(context: Context) {
     val market = Intent(Intent.ACTION_VIEW, "market://details?id=${context.packageName}".toUri())

@@ -24,6 +24,9 @@ android {
             // A debug build reinstalled starts afresh, from the onboarding, rather than with the
             // rules and profile of an earlier install restored from the backup.
             manifestPlaceholders["allowBackup"] = "false"
+            // Settings › Developer › Language offers the pseudo-locales: accented English (en-XA)
+            // shows untranslated text, Arabic (ar-XB) right-to-left layouts.
+            isPseudoLocalesEnabled = true
         }
         release {
             isMinifyEnabled = true
