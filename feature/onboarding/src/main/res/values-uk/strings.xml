@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian. -->
+<resources>
+    <!-- Shared -->
+    <string name="onb_continue">Продовжити</string>
+
+    <!-- Durations: compact (4h20 · 6h · 45m) and spelled out (6 hours · 45 minutes) -->
+    <string name="onb_duration_hm">%1$d год %2$02d хв</string>
+    <string name="onb_duration_h">%1$d год</string>
+    <string name="onb_duration_m">%1$d хв</string>
+    <plurals name="onb_hours">
+        <item quantity="one">%d година</item>
+        <item quantity="few">%d години</item>
+        <item quantity="many">%d годин</item>
+        <item quantity="other">%d годин</item>
+    </plurals>
+    <plurals name="onb_minutes">
+        <item quantity="one">%d хвилина</item>
+        <item quantity="few">%d хвилини</item>
+        <item quantity="many">%d хвилин</item>
+        <item quantity="other">%d хвилин</item>
+    </plurals>
+
+    <!-- 05 · Welcome -->
+    <string name="onb_welcome_stat_people_value">250 тис.+</string>
+    <string name="onb_welcome_stat_people_label">людей у фокусі</string>
+    <string name="onb_welcome_stat_time_value">11 год</string>
+    <string name="onb_welcome_stat_time_label">повертається щотижня</string>
+    <string name="onb_welcome_before">Було</string>
+    <string name="onb_welcome_before_value">7 год 40 хв</string>
+    <string name="onb_welcome_now">Тепер</string>
+    <string name="onb_welcome_now_value">2 год 10 хв</string>
+    <string name="onb_welcome_title">Екранний час — на твоїх умовах.</string>
+    <string name="onb_welcome_subtitle">Блокуй додатки, що затягують, — м’яко, з паузою, а не боротьбою.</string>
+    <string name="onb_welcome_get_started">Почати</string>
+
+    <!-- 06 · A little friction -->
+    <string name="onb_friction_title">Recentr додає паузу перед додатками, що затягують</string>
+    <string name="onb_friction_shield_message">Ти не заходиш в Instagram вже 6 год 15 хв</string>
+    <string name="onb_friction_shield_primary">Я впораюсь</string>
+    <string name="onb_friction_shield_secondary">Усе одно розблокувати (4/5)</string>
+
+    <!-- 07 · Social proof -->
+    <string name="onb_social_title">250 000 людей використовують Recentr, щоб повернути свій час</string>
+    <string name="onb_social_score">4,8</string>
+    <string name="onb_social_count">із понад 7 000 відгуків</string>
+    <string name="onb_social_rating_description">Оцінка 4,8 із 5</string>
+    <string name="onb_review1_title">Повернулися мої вечори</string>
+    <string name="onb_review1_body">Було 7 годин на день, стало менше 3. Маленька пауза перед відкриттям X — геніально.</string>
+    <string name="onb_review1_name">Андрій Р.</string>
+    <string name="onb_review2_title">Єдиний, що прижився</string>
+    <string name="onb_review2_body">Інші блокувальники я просто видаляв. Цей здається добрим, тому я його залишаю.</string>
+    <string name="onb_review2_name">Оксана С.</string>
+    <string name="onb_review3_title">Сон повернувся</string>
+    <string name="onb_review3_body">Нічна рутина блокує все о 23:00. Мої ранки знову належать мені.</string>
+    <string name="onb_review3_name">Лев М.</string>
+
+    <!-- 08 · Your turn -->
+    <string name="onb_your_turn_overline">Тепер твоя черга</string>
+    <string name="onb_your_turn_title">Налаштуймо Recentr під твої дні</string>
+    <string name="onb_your_turn_cta">Поїхали</string>
+
+    <!-- 09 · Name -->
+    <string name="onb_name_title">Як до тебе звертатися?</string>
+    <string name="onb_name_placeholder">Твоє ім’я</string>
+
+    <!-- 10 · What’s wrong -->
+    <string name="onb_pain_title">Що не так із твоїм часом у телефоні?</string>
+    <string name="onb_pain_subtitle">Обери все, що підходить.</string>
+    <string name="onb_pain_sleep">Це шкодить моєму сну</string>
+    <string name="onb_pain_focus">Мені важко зосередитися</string>
+    <string name="onb_pain_scroll">Я гортаю, не думаючи</string>
+    <string name="onb_pain_notifications">Сповіщення відволікають</string>
+    <string name="onb_pain_hours">Години зникають непомітно</string>
+    <string name="onb_pain_fine">Чесно кажучи, усе гаразд…</string>
+
+    <!-- 11 · Time spent -->
+    <string name="onb_usage_title">Скільки часу ти проводиш у телефоні?</string>
+    <string name="onb_usage_subtitle">На день, приблизно — без осуду.</string>
+    <string name="onb_usage_over_7">Понад 7 годин</string>
+    <string name="onb_usage_5_7">5 – 7 годин</string>
+    <string name="onb_usage_3_5">3 – 5 годин</string>
+    <string name="onb_usage_1_3">1 – 3 години</string>
+    <string name="onb_usage_under_1">Менше 1 години</string>
+
+    <!-- 12 · Daily goal -->
+    <string name="onb_goal_title">Постав щоденну ціль</string>
+    <string name="onb_goal_subtitle">У середньому ти проводиш %1$s на день. Спробуймо менше.</string>
+    <string name="onb_goal_tone_bold">Сміливий виклик!</string>
+    <string name="onb_goal_tone_balanced">Гарний баланс</string>
+    <string name="onb_goal_tone_easy">Легкий старт</string>
+    <string name="onb_goal_your_goal">Твоя ціль</string>
+    <string name="onb_goal_today">Сьогодні</string>
+    <string name="onb_goal_note">Це не блокує додатки — це лише орієнтир.</string>
+
+    <!-- 13 · Doing the math -->
+    <string name="onb_math_title">Порахуймо</string>
+    <string name="onb_math_percent">%1$d%%</string>
+    <string name="onb_math_step_habits">Вивчаємо твої звички</string>
+    <string name="onb_math_step_goal">Підбираємо під твою ціль</string>
+    <string name="onb_math_step_plan">Складаємо твій план</string>
+
+    <!-- 14 · Honest news -->
+    <string name="onb_news_overline">Гаразд, будьмо чесними</string>
+    <string name="onb_news_title">У нас є хороші… і не дуже новини</string>
+    <string name="onb_news_cta">Розкажи більше</string>
+
+    <!-- 15 · Years on phone -->
+    <string name="onb_years_lead">У такому темпі ти проведеш</string>
+    <plurals name="onb_years_number">
+        <item quantity="one">%d рік</item>
+        <item quantity="few">%d роки</item>
+        <item quantity="many">%d років</item>
+        <item quantity="other">%d років</item>
+    </plurals>
+    <string name="onb_years_tail">свого життя в телефоні</string>
+    <string name="onb_years_every_day">Щодня</string>
+    <string name="onb_years_every_year">Щороку</string>
+    <plurals name="onb_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
+    </plurals>
+
+    <!-- 16 · A way out -->
+    <string name="onb_way_out_title">Хороша новина? Ти можеш повертати собі %1$s на день.</string>
+    <string name="onb_way_out_subtitle">Саме тому ми зробили Recentr — м’який вихід, а не ще один обов’язок.</string>
+    <string name="onb_way_out_cta">Як це працює?</string>
+
+    <!-- 17 · How it works -->
+    <string name="onb_how_title">Як працює Recentr</string>
+    <string name="onb_how_step">Крок %1$d</string>
+    <string name="onb_how_step1_title">Обери, що тебе затягує</string>
+    <string name="onb_how_step1_body">Обери додатки, а тоді — Блокування, Сесію чи Ліміт.</string>
+    <string name="onb_how_step2_title">Зустрінь паузу, а не стіну</string>
+    <string name="onb_how_step2_body">Кілька секунд, щоб видихнути, перш ніж відкрити додаток.</string>
+    <string name="onb_how_step3_title">Вирощуй спокійніші дні</string>
+    <string name="onb_how_step3_body">Тримайся в межах цілі й підтримуй серію.</string>
+
+    <!-- 18 · Screen Time access -->
+    <string name="onb_screen_time_title">Підключи Recentr до екранного часу</string>
+    <string name="onb_screen_time_subtitle">Це потрібно, щоб ставити ліміти. Усе залишається на твоєму телефоні.</string>
+    <string name="onb_screen_time_cta">Підключити</string>
+    <string name="onb_screen_time_alert_title">«Recentr» хоче отримати доступ до екранного часу</string>
+    <string name="onb_screen_time_alert_body">Recentr використовує це, щоб ставити ліміти й бачити твоє використання. Твої дані ніколи не покидають цей телефон.</string>
+    <string name="onb_screen_time_alert_allow">Продовжити</string>
+    <string name="onb_screen_time_alert_deny">Не дозволяти</string>
+
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">Що тебе затягує?</string>
+    <string name="onb_apps_subtitle">Соцмережі чи будь-які інші додатки. Три рутини ставлять їх на паузу з 10-секундним очікуванням, щоб пройти. Змінити можна будь-коли.</string>
+    <string name="onb_apps_choose">Обрати додатки</string>
+    <plurals name="onb_apps_count">
+        <item quantity="one">%d додаток</item>
+        <item quantity="few">%d додатки</item>
+        <item quantity="many">%d додатків</item>
+        <item quantity="other">%d додатків</item>
+    </plurals>
+
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s – %2$s · %3$s</string>
+    <string name="onb_days_weekdays">Будні</string>
+    <string name="onb_days_every_day">Щодня</string>
+    <string name="onb_days_weekends">Вихідні</string>
+
+    <!-- 19 · Notifications -->
+    <string name="onb_notif_title">Будь на крок попереду</string>
+    <string name="onb_notif_subtitle">Лагідні нагадування, перш ніж почнеться рутина або вичерпається ліміт.</string>
+    <string name="onb_notif_now">зараз</string>
+    <string name="onb_notif_banner1_title">Нічна рутина починається за 10 хв</string>
+    <string name="onb_notif_banner1_body">Без телефона з 23:00. Солодких снів.</string>
+    <string name="onb_notif_banner2_title">Залишилось 5 хв «Часу в соцмережах»</string>
+    <string name="onb_notif_banner2_body">Закругляйся — X заблокується після 2 год 15 хв.</string>
+    <string name="onb_notif_banner3_title">Серія 3 дні!</string>
+    <string name="onb_notif_banner3_body">Знову менше за %1$s.</string>
+
+    <!-- 21 · All set -->
+    <string name="onb_all_set_title">Усе готово, %1$s</string>
+    <string name="onb_all_set_title_no_name">Усе готово</string>
+    <string name="onb_all_set_subtitle">Ось твій план на цей тиждень.</string>
+    <string name="onb_all_set_daily_goal">Щоденна ціль</string>
+    <string name="onb_all_set_first_rule">Перше правило</string>
+    <string name="onb_rule_bedtime">Час сну</string>
+    <string name="onb_rule_focus">Час фокусу</string>
+    <string name="onb_rule_social">Ліміт соцмереж</string>
+    <string name="onb_rule_quiet">Тихі години</string>
+    <string name="onb_rule_daily_limit">Бюджет часу</string>
+    <string name="onb_all_set_note_title">Навіщо я це роблю</string>
+    <string name="onb_reason_scroll">Більше вечорів надворі, менше годин у TikTok.</string>
+    <string name="onb_reason_sleep">Спокійніші ночі, ранки без телефона.</string>
+    <string name="onb_reason_focus">Спершу глибока робота, стрічки — потім.</string>
+    <string name="onb_reason_notifications">Менше пінгів, більше присутності.</string>
+    <string name="onb_reason_hours">Помічати свій час, поки він не вислизнув.</string>
+    <string name="onb_reason_fine">Трохи більше балансу щодня.</string>
+    <string name="onb_all_set_cta">Почати мою першу сесію</string>
+
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">Робочий час</string>
+    <string name="onb_routine_night_pause">Нічна пауза</string>
+    <string name="onb_routine_weekend_zen">Дзен вихідних</string>
+</resources>

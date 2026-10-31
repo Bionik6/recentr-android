@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Spanish. -->
+<resources>
+    <string name="ds_tab_home">Inicio</string>
+    <string name="ds_tab_rules">Reglas</string>
+    <string name="ds_tab_timer">Temporizador</string>
+    <string name="ds_tab_insights">Estadísticas</string>
+    <string name="ds_skip">Omitir</string>
+    <string name="ds_back">Atrás</string>
+    <string name="ds_clear">Borrar</string>
+    <string name="ds_more_options">Más opciones</string>
+    <string name="ds_goal_title">Objetivo diario</string>
+    <string name="ds_goal_subtitle">Recentr te avisa cuando te acercas.</string>
+    <string name="ds_goal_save">Guardar objetivo</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Selección rápida</string>
+    <string name="ds_duration_minutes">%1$d min</string>
+    <string name="ds_duration_hours">%1$d h</string>
+    <string name="ds_duration_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Activa el bloqueo de apps</string>
+    <string name="ds_blocking_body">Para poner en espera las apps que bloqueas, Recentr usa el servicio de Accesibilidad de Android. Solo ve qué app abres —nunca lo que hay en tu pantalla— y nada sale de tu teléfono.</string>
+    <string name="ds_blocking_steps">En Configuración › Accesibilidad, abre «Bloqueo de apps de Recentr» (en Apps instaladas o descargadas) y actívalo.</string>
+    <string name="ds_blocking_open_settings">Abrir Configuración</string>
+    <string name="ds_blocking_not_now">Ahora no</string>
+    <string name="ds_blocking_off_title">El bloqueo está desactivado</string>
+    <string name="ds_blocking_off_body">Actívalo para que tus reglas y sesiones de enfoque pongan apps en espera.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Conecta Recentr al tiempo de pantalla</string>
+    <string name="ds_usage_access_body">Recentr necesita el acceso a datos de uso para contar tu tiempo de pantalla, activaciones y notificaciones. Todo se queda en tu teléfono.</string>
+    <string name="ds_usage_access_connect">Conectar</string>
+</resources>

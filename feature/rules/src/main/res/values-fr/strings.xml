@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- French. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">Règles</string>
+    <string name="rules_templates_title">Modèles</string>
+    <string name="rules_subtitle_active">Actives : %1$d</string>
+    <string name="rules_subtitle_active_paused">Actives : %1$d · en pause : %2$d</string>
+    <string name="rules_templates_subtitle">Règles prêtes à l’emploi · touche pour démarrer</string>
+    <string name="rules_group_locks">Verrous</string>
+    <string name="rules_group_sessions">Sessions</string>
+    <string name="rules_group_limits">Limites</string>
+    <string name="rules_group_routines">Routines</string>
+    <string name="rules_group_templates">Modèles</string>
+    <string name="rules_add_session">Ajouter une session</string>
+    <string name="rules_add_session_hint">Ex. « Bloquer les applis pendant 30 min »</string>
+    <string name="rules_add_routine">Ajouter une routine</string>
+    <string name="rules_add_routine_hint">Ex. « Pas de téléphone pendant le dîner »</string>
+    <string name="rules_add_lock">Ajouter un verrou</string>
+    <string name="rules_add_lock_hint">Ex. « Garder TikTok fermé toute la journée »</string>
+    <string name="rules_add_limit">Ajouter une limite</string>
+    <string name="rules_add_limit_hint">Ex. « 1 heure de YouTube par jour »</string>
+    <string name="rules_more">Plus d’options</string>
+    <string name="rules_empty_title">Aucune règle pour l’instant</string>
+    <string name="rules_empty_body">Lance une session ou choisis un modèle pour commencer.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">En cours</string>
+    <string name="rules_status_upcoming">À venir</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Prête</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d appli</item>
+        <item quantity="many">+ %d applis</item>
+        <item quantity="other">+ %d applis</item>
+    </plurals>
+    <string name="rules_tile_ready">PRÊTE</string>
+    <string name="rules_status_blocking">Blocage</string>
+    <string name="rules_status_paused">En pause</string>
+    <string name="rules_status_times_up">Temps écoulé</string>
+    <string name="rules_status_unlocks">Déverrouillages %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">Déverrouillages illimités</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">Désactivé</string>
+    <string name="rules_all_day">Toute la journée</string>
+    <string name="rules_strict_mode">Mode strict</string>
+    <string name="rules_value_locked">Verrouillé</string>
+    <string name="rules_value_off">Désactivé</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">Jusqu’à minuit</string>
+    <string name="rules_budget_today">Budget du jour</string>
+    <string name="rules_value_left">%1$s restant</string>
+    <string name="rules_value_starts_in">dans %1$s</string>
+    <string name="rules_value_paused">En pause</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">Tous les jours</string>
+    <string name="rules_days_weekdays">En semaine</string>
+    <string name="rules_days_weekends">Le week-end</string>
+    <string-array name="rules_day_short">
+        <item>lun.</item>
+        <item>mar.</item>
+        <item>mer.</item>
+        <item>jeu.</item>
+        <item>ven.</item>
+        <item>sam.</item>
+        <item>dim.</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>lundi</item>
+        <item>mardi</item>
+        <item>mercredi</item>
+        <item>jeudi</item>
+        <item>vendredi</item>
+        <item>samedi</item>
+        <item>dimanche</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>J</item>
+        <item>V</item>
+        <item>S</item>
+        <item>D</item>
+    </string-array>
+    <string name="rules_am">AM</string>
+    <string name="rules_pm">PM</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d min</string>
+    <string name="rules_hours_short">%1$d h</string>
+    <string name="rules_hours_minutes">%1$d h %2$d min</string>
+    <string name="rules_compact_seconds">%1$d s</string>
+    <string name="rules_compact_minutes">%1$d min</string>
+    <string name="rules_compact_hours">%1$d h</string>
+    <string name="rules_compact_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- Common -->
+    <string name="rules_none">Aucun</string>
+    <string name="rules_save">Enregistrer</string>
+    <string name="rules_done">Terminé</string>
+    <string name="rules_continue">Continuer</string>
+    <string name="rules_cancel">Annuler</string>
+    <string name="rules_back">Retour</string>
+    <string name="rules_edit_name">Modifier le nom et le sticker</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">%d appli</item>
+        <item quantity="many">%d applis</item>
+        <item quantity="other">%d applis</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">Session</string>
+    <string name="rules_type_lock">Verrou</string>
+    <string name="rules_type_limit">Limite</string>
+    <string name="rules_type_routine">Routine</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">Bloquer</string>
+    <string name="rules_row_active">Actif</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">Méthode de déverrouillage</string>
+    <string name="rules_row_unlocks_per_day">Déverrouillages par jour</string>
+    <string name="rules_row_apps">Applis</string>
+    <string name="rules_row_reminders">Rappels</string>
+    <string name="rules_row_each_unlock">Chaque déverrouillage dure</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">Session</string>
+    <string name="rules_session_subtitle">Bloque des applis pendant %1$s dès que tu la lances.</string>
+    <string name="rules_session_default_name">Session de concentration</string>
+    <string name="rules_suggestions">SUGGESTIONS</string>
+    <string name="rules_start">Démarrer</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">Aucun déverrouillage avant la fin.</string>
+    <string name="rules_unlock_strict_caption">Les déverrouillages sont indisponibles en Mode strict.</string>
+    <string name="rules_strict_confirm_title">Activer le Mode strict ?</string>
+    <string name="rules_strict_confirm_body">Tu ne pourras pas déverrouiller ces applis avant la fin, sauf avec un déverrouillage d’urgence.</string>
+    <string name="rules_turn_on">Activer</string>
+    <string name="rules_not_now">Pas maintenant</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">Bloquer ces applis maintenant ?</string>
+    <string name="rules_block_now_body">La règle bloque déjà : les applis que tu ajoutes sont bloquées immédiatement.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">Activer %1$s ?</string>
+    <string name="rules_lock_confirm_body">Une fois activé, tout ce qui l’assouplit — retirer des applis, plus de déverrouillages, le désactiver — ne s’applique qu’à minuit.</string>
+    <string name="rules_limit_confirm_title">Démarrer %1$s ?</string>
+    <string name="rules_limit_confirm_body">Une fois démarrée, tout ce qui l’assouplit — un budget plus grand, retirer des applis — ne s’applique qu’à minuit, à la réinitialisation.</string>
+    <string name="rules_block_now">Bloquer maintenant</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">Verrou</string>
+    <string name="rules_lock_subtitle">Garde des applis choisies fermées, avec quelques courts déverrouillages par jour.</string>
+    <string name="rules_lock_note_title">Pourquoi ce verrou ?</string>
+    <string name="rules_hold_create_lock">Maintiens pour créer le verrou</string>
+    <string name="rules_hold_create_session">Maintiens pour créer la session</string>
+    <string name="rules_unlock_wait">Attendre %1$d s</string>
+    <string name="rules_unlock_retype">Recopier</string>
+    <string name="rules_unlock_scan">Scanner un code</string>
+    <string name="rules_unlock_walk">Marcher %1$d pas</string>
+    <string name="rules_unlimited">Illimité</string>
+    <string name="rules_lock_default_name">Verrou</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">Choisir des applis</string>
+    <string name="rules_selected">Sélection : %1$d</string>
+    <string name="rules_search_apps">Rechercher des applis</string>
+    <string name="rules_category_social">Social</string>
+    <string name="rules_category_entertainment">Divertissement</string>
+    <string name="rules_category_music">Musique</string>
+    <string name="rules_category_games">Jeux</string>
+    <string name="rules_category_productivity">Productivité</string>
+    <string name="rules_category_other">Autres</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="one">Bloquer · %d appli</item>
+        <item quantity="many">Bloquer · %d applis</item>
+        <item quantity="other">Bloquer · %d applis</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">Toutes les applis et catégories</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">Toutes</string>
+    <string name="rules_no_apps_found">Aucune appli ne correspond à « %1$s ».</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">Actif pendant</string>
+    <string name="rules_ends_at">Se termine à %1$s</string>
+    <string name="rules_hours_label">Heures</string>
+    <string name="rules_minutes_label">Minutes</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">Limite</string>
+    <string name="rules_limit_subtitle">Un budget de temps pour aujourd’hui, pour les applis qui dévorent ta journée.</string>
+    <string name="rules_hold_create_limit">Maintiens pour créer la limite</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">Verrouillé jusqu’à minuit</string>
+    <string name="rules_locked_in_lock">Il est actif dès sa création. L’assouplir — retirer des applis, plus de déverrouillages, le désactiver — ou le supprimer ne prend effet qu’après la réinitialisation quotidienne, à minuit.</string>
+    <string name="rules_locked_in_limit">Elle démarre dès sa création. L’assouplir — un budget plus grand, retirer des applis — ou la supprimer ne prend effet qu’après la réinitialisation quotidienne, à minuit.</string>
+    <string name="rules_limit_resets">Se réinitialise automatiquement à minuit.</string>
+    <string name="rules_limit_default_name">Limite</string>
+    <string name="rules_limit_social_name">Temps social</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">Coucher</string>
+    <string name="rules_bedtime_subtitle">Bloque des applis selon un horaire.</string>
+    <string name="rules_from">DE</string>
+    <string name="rules_until">JUSQU’À</string>
+    <string name="rules_tonight">%1$s · ce soir</string>
+    <string name="rules_today">%1$s · aujourd’hui</string>
+    <string name="rules_tomorrow">%1$s · demain</string>
+    <string name="rules_tonight_alone">Ce soir</string>
+    <string name="rules_today_alone">Aujourd’hui</string>
+    <string name="rules_tomorrow_alone">Demain</string>
+    <string name="rules_hold_create_routine">Maintiens pour créer la routine</string>
+    <string name="rules_starts_at">Début à</string>
+    <string name="rules_ends_at_title">Fin à</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">Comment déverrouiller ?</string>
+    <string name="rules_unlock_subtitle">Choisis le type de friction qui te convient.</string>
+    <string name="rules_unlock_option_wait">Attendre quelques secondes</string>
+    <string name="rules_unlock_option_retype">Recopier un texte pénible</string>
+    <string name="rules_unlock_option_scan">Scanner un code rangé ailleurs</string>
+    <string name="rules_unlock_option_walk">Marcher %1$d pas</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">Attendre avant de déverrouiller</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">%d seconde</item>
+        <item quantity="many">%d secondes</item>
+        <item quantity="other">%d secondes</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 minute</string>
+    <string name="rules_seconds_chip">%1$d s</string>
+    <string name="rules_one_min_chip">1 min</string>
+    <string name="rules_unlocks_per_day_title">Déverrouillages par jour</string>
+    <string name="rules_each_unlock_title">Chaque déverrouillage dure</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">Concentration</string>
+    <string name="rules_section_focus_body">Pour travailler, étudier ou faire avancer un projet.</string>
+    <string name="rules_section_unwind">Détente</string>
+    <string name="rules_section_unwind_body">Des soirées plus calmes et des matins plus doux.</string>
+    <string name="rules_section_be_present">Présence</string>
+    <string name="rules_section_be_present_body">De l’attention pour ceux qui t’entourent, ou pour toi.</string>
+    <string name="rules_section_scroll_less">Moins de scroll</string>
+    <string name="rules_section_scroll_less_body">Ouvre tes applis exprès, pas par habitude.</string>
+    <string name="rules_tpl_focus_sprint">Sprint de concentration</string>
+    <string name="rules_tpl_focus_sprint_body">Distractions bloquées, dès maintenant.</string>
+    <string name="rules_tpl_study_hour">Heure d’étude</string>
+    <string name="rules_tpl_study_hour_body">Une heure d’étude, dès maintenant.</string>
+    <string name="rules_tpl_work_rhythm">Rythme de travail</string>
+    <string name="rules_tpl_work_rhythm_body">Distractions bloquées en semaine.</string>
+    <string name="rules_tpl_evening_calm">Soirée calme</string>
+    <string name="rules_tpl_evening_calm_body">Pas d’applis sociales ni vidéo, chaque soir.</string>
+    <string name="rules_tpl_night_pause">Pause nocturne</string>
+    <string name="rules_tpl_night_pause_body">Distractions bloquées toute la nuit.</string>
+    <string name="rules_tpl_slow_morning">Matin tranquille</string>
+    <string name="rules_tpl_slow_morning_body">Commence chaque journée sans applis sociales.</string>
+    <string name="rules_tpl_dinner_together">Dîner ensemble</string>
+    <string name="rules_tpl_dinner_together_body">Distractions bloquées pendant le dîner.</string>
+    <string name="rules_tpl_family_hour">Heure en famille</string>
+    <string name="rules_tpl_family_hour_body">Les dimanches, réservés au temps ensemble.</string>
+    <string name="rules_tpl_time_for_me">Du temps pour moi</string>
+    <string name="rules_tpl_time_for_me_body">Lire, créer ou simplement respirer.</string>
+    <string name="rules_tpl_walk_before_you_scroll">Marcher avant de scroller</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">Puis 5 min dans l’appli, 3 fois par jour.</string>
+    <string name="rules_tpl_pause_before_opening">Pause avant d’ouvrir</string>
+    <string name="rules_tpl_pause_before_opening_body">Puis 5 min dans l’appli, 3 fois par jour.</string>
+    <string name="rules_tpl_social_budget">Budget social</string>
+    <string name="rules_tpl_social_budget_body">Partagé, puis bloqué jusqu’à minuit.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">Nouvelle règle</string>
+    <string name="rules_new_rule_subtitle">Que veux-tu configurer ?</string>
+    <string name="rules_browse_templates">Parcourir les modèles</string>
+    <string name="rules_kind_routine_body">Bloque des applis selon un horaire, comme le coucher ou les heures de travail.</string>
+    <string name="rules_kind_session_body">Bloque des applis aussi longtemps que tu le choisis, une fois lancée.</string>
+    <string name="rules_kind_lock_body">Garde des applis fermées dès que tu l’actives, avec quelques courts déverrouillages par jour.</string>
+    <string name="rules_kind_limit_body">Un budget de temps pour aujourd’hui. Une fois épuisé, les applis restent bloquées jusqu’à minuit.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">Actif · %1$s</string>
+    <string name="rules_detail_running">En cours</string>
+    <string name="rules_detail_paused">En pause</string>
+    <string name="rules_detail_paused_until">En pause jusqu’à %1$s</string>
+    <string name="rules_detail_on">Activé</string>
+    <string name="rules_detail_off">Désactivé</string>
+    <string name="rules_blocked">Bloquées</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">Applis</string>
+    <string name="rules_apps_blocking">Bloquées en ce moment</string>
+    <string name="rules_apps_not_blocking">Pas bloquées en ce moment</string>
+    <string name="rules_apps_blocked">Bloquées</string>
+    <string name="rules_apps_blocked_when_on">Bloquées quand elle est active</string>
+    <string name="rules_apps_unlocked">Déverrouillées pour l’instant</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">Rien n’est bloqué en ce moment.</string>
+    <string name="rules_apps_none_unlocked">Aucune appli déverrouillée en ce moment.</string>
+    <string name="rules_streak">Série</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+    <string name="rules_why">Pourquoi</string>
+    <string name="rules_why_placeholder">Touche pour écrire pourquoi c’est important.</string>
+    <string name="rules_why_empty">Aucune raison écrite pour l’instant.</string>
+    <string name="rules_tile_now">MAINTENANT</string>
+    <string name="rules_tile_left_of">restant sur %1$s</string>
+    <string name="rules_tile_used">Utilisé : %1$s</string>
+    <string name="rules_tile_today">AUJOURD’HUI</string>
+    <string name="rules_tile_not_started">Pas encore démarré</string>
+    <string name="rules_tile_unlocks_today">DÉVERROUILLAGES AUJOURD’HUI</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">Désactivé</string>
+    <string name="rules_reminder_before">%1$d min avant</string>
+    <string name="rules_reminders_title">Me rappeler avant le début</string>
+    <string name="rules_activate">Activer</string>
+    <string name="rules_turn_off">Désactiver</string>
+    <string name="rules_menu_edit_settings">Modifier la règle</string>
+    <string name="rules_menu_pause">Mettre la règle en pause</string>
+    <string name="rules_menu_resume">Reprendre la règle</string>
+    <string name="rules_menu_delete">Supprimer la règle</string>
+    <string name="rules_pause_title">Mettre %1$s en pause ?</string>
+    <string name="rules_pause_hour">Pendant 1 heure</string>
+    <string name="rules_pause_tomorrow">Jusqu’à demain</string>
+    <string name="rules_pause_manual">Jusqu’à ce que je la réactive</string>
+    <string name="rules_pause_rule">Mettre la règle en pause</string>
+    <string name="rules_pause_later">La pause commence à la fin de cette plage.</string>
+    <string name="rules_paused_toast">%1$s en pause</string>
+    <string name="rules_resumed_toast">%1$s reprend</string>
+    <string name="rules_edit_title">Modifier la règle</string>
+    <string name="rules_sticker">STICKER</string>
+    <string name="rules_name_placeholder">Nom de la règle</string>
+    <string name="rules_more_stickers">Plus de stickers</string>
+    <string name="rules_more_stickers_soon">D’autres stickers arrivent bientôt</string>
+    <string name="rules_delete_title">Supprimer %1$s ?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">Ta série de %d jour sur cette règle sera perdue. Cette action est irréversible.</item>
+        <item quantity="many">Ta série de %d jours sur cette règle sera perdue. Cette action est irréversible.</item>
+        <item quantity="other">Ta série de %d jours sur cette règle sera perdue. Cette action est irréversible.</item>
+    </plurals>
+    <string name="rules_delete_body">Cette règle et son historique seront supprimés. Cette action est irréversible.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">Elle continue de bloquer jusqu’à minuit, puis elle est supprimée.</string>
+    <string name="rules_delete_body_later_session">Elle continue de bloquer jusqu’à la fin de la session, puis elle est supprimée.</string>
+    <string name="rules_delete_body_later_at">Elle continue de bloquer jusqu’à %1$s, puis elle est supprimée.</string>
+    <string name="rules_delete_rule">Supprimer la règle</string>
+    <string name="rules_keep_it">La garder</string>
+    <string name="rules_deleted_toast">%1$s supprimée</string>
+    <string name="rules_note_title">Pourquoi cette règle ?</string>
+    <string name="rules_note_placeholder">Écris-le…</string>
+    <string name="rules_session_started">Session démarrée · %1$s</string>
+    <string name="rules_limit_started">Limite démarrée · %1$s pour aujourd’hui</string>
+    <string name="rules_lock_activated">%1$s activé</string>
+    <string name="rules_rule_created">%1$s créée</string>
+    <string name="rules_rule_saved">Modifications enregistrées</string>
+    <string name="rules_saved_later_midnight">Enregistré · certaines modifications s’appliquent à minuit</string>
+    <string name="rules_saved_later_session">Enregistré · certaines modifications s’appliquent à la fin de la session</string>
+    <string name="rules_saved_later_at">Enregistré · certaines modifications s’appliquent à %1$s</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">Tes modifications s’appliquent à minuit</string>
+    <string name="rules_pending_changes_session">Tes modifications s’appliquent à la fin de la session</string>
+    <string name="rules_pending_changes_at">Tes modifications s’appliquent à %1$s</string>
+    <string name="rules_pending_delete_midnight">Suppression à minuit</string>
+    <string name="rules_pending_delete_session">Suppression à la fin de la session</string>
+    <string name="rules_pending_delete_at">Suppression à %1$s</string>
+    <string name="rules_pending_turn_off">Désactivation à minuit</string>
+    <string name="rules_pending_pause">Mise en pause à la fin de cette plage</string>
+    <string name="rules_pending_drop">Annuler les modifications</string>
+    <string name="rules_pending_keep_rule">Garder la règle</string>
+    <string name="rules_pending_keep_on">La laisser active</string>
+    <string name="rules_pending_dont_pause">Ne pas mettre en pause</string>
+    <string name="rules_session_ended">Session terminée</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">Toujours autorisées</string>
+    <string name="rules_allowed_explainer">Recentr ne bloque jamais ces applis, quelle que soit la règle ou le minuteur.</string>
+    <string name="rules_allowed_add">Ajouter une appli</string>
+    <string name="rules_allowed_remove">Retirer %1$s</string>
+    <string name="rules_allowed_section">Autorisées</string>
+    <string name="rules_allowed_waiting">Arrive plus tard</string>
+    <string name="rules_allowed_none">Aucune appli pour l’instant. Plans, VTC ou appli santé sont de bons choix.</string>
+    <string name="rules_allowed_changes_tomorrow">Tes modifications s’appliquent à %1$s demain</string>
+    <string name="rules_allowed_changes_on">Tes modifications s’appliquent le %1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">Autoriser · %d appli</item>
+        <item quantity="many">Autoriser · %d applis</item>
+        <item quantity="other">Autoriser · %d applis</item>
+    </plurals>
+    <string name="rules_allowed_done_none">Ne rien autoriser</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">Toujours autorisées</string>
+    <string name="focus_apps_subtitle">En veille pendant les cycles, libres pendant les pauses.</string>
+    <string name="focus_apps_on_hold">En veille</string>
+</resources>

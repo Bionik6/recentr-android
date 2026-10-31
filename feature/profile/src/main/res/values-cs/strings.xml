@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_edit">Upravit profil</string>
+    <string name="profile_add_name">Přidej své jméno</string>
+    <string name="profile_open_settings">Nastavení</string>
+    <plurals name="profile_member_days">
+        <item quantity="one">S Recentr už %d den</item>
+        <item quantity="few">S Recentr už %d dny</item>
+        <item quantity="many">S Recentr už %d dne</item>
+        <item quantity="other">S Recentr už %d dní</item>
+    </plurals>
+    <string name="profile_before">Před</string>
+    <string name="profile_now">Teď</string>
+    <string name="profile_daily_average">denní průměr</string>
+    <string name="profile_today">dnes</string>
+    <plurals name="profile_last_days">
+        <item quantity="one">poslední %d den</item>
+        <item quantity="few">poslední %d dny</item>
+        <item quantity="many">posledního %d dne</item>
+        <item quantity="other">posledních %d dní</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">Při tomhle tempu</string>
+    <plurals name="profile_life_years">
+        <item quantity="one">Získáváš zpět %d rok života</item>
+        <item quantity="few">Získáváš zpět %d roky života</item>
+        <item quantity="many">Získáváš zpět %d roku života</item>
+        <item quantity="other">Získáváš zpět %d let života</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="one">Získáváš zpět %d měsíc života</item>
+        <item quantity="few">Získáváš zpět %d měsíce života</item>
+        <item quantity="many">Získáváš zpět %d měsíce života</item>
+        <item quantity="other">Získáváš zpět %d měsíců života</item>
+    </plurals>
+    <string name="profile_life_none">Každá hodina bez telefonu je zase tvoje</string>
+    <string name="profile_best_streak">Nejlepší série</string>
+    <plurals name="profile_days">
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="many">%d dne</item>
+        <item quantity="other">%d dní</item>
+    </plurals>
+    <string name="profile_urges">Odolaná nutkání</string>
+    <string name="profile_recap_ready">Tvé týdenní shrnutí je připravené</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">Upravit profil</string>
+    <string name="edit_name">Jméno</string>
+    <string name="edit_email">E-mail</string>
+    <string name="edit_name_placeholder">Tvé křestní jméno</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">Uložit změny</string>
+    <string name="edit_avatar_colour">Změnit barvu avataru</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">Zavřít</string>
+    <string name="recap_over_name">Tvůj týden, %s</string>
+    <string name="recap_over">Tvůj týden</string>
+    <string name="recap_less">méně času u obrazovky než minulý týden</string>
+    <string name="recap_more">více času u obrazovky než minulý týden</string>
+    <string name="recap_same">stejně času u obrazovky jako minulý týden</string>
+    <string name="recap_saved">Ušetřeno</string>
+    <string name="recap_best_day">Nejlepší den</string>
+    <string name="recap_streak">Série</string>
+    <string name="recap_share">Sdílet můj týden</string>
+    <string name="recap_share_text">Můj týden s Recentr: čas u obrazovky %1$s oproti minulému týdnu, ušetřeno %2$s a nejlepší den byl %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">Všechny nástroje pro klidnější dny</string>
+    <string name="plus_benefit_rules">Neomezená pravidla a rutiny</string>
+    <string name="plus_benefit_strict">Přísný režim a nouzová odemknutí</string>
+    <string name="plus_benefit_recaps">Týdenní shrnutí a zamyšlení</string>
+    <string name="plus_yearly">Roční</string>
+    <string name="plus_monthly">Měsíční</string>
+    <string name="plus_yearly_discount">−50 %</string>
+    <string name="plus_yearly_per_month">2,50 $ / měsíc</string>
+    <string name="plus_billed_monthly">účtováno měsíčně</string>
+    <string name="plus_start_trial">Vyzkoušet 7 dní zdarma</string>
+    <string name="plus_cancel_anytime">Zrušit můžeš kdykoli ·\u0020</string>
+    <string name="plus_restore">Obnovit nákup</string>
+    <string name="plus_restore_none_title">Není co obnovit</string>
+    <string name="plus_restore_none_body">Pro tento účet nebyl nalezen žádný nákup Recentr Plus.</string>
+    <string name="plus_restore_ok_title">Nákup obnoven</string>
+    <string name="plus_restore_ok_body">Recentr Plus je na tomto telefonu aktivní.</string>
+    <string name="plus_trial_started">Recentr Plus je zapnutý — užij si týden zdarma</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">Předplatné</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">Obnoví se: %s</string>
+    <string name="sub_change_plan">Změnit tarif</string>
+    <string name="sub_restore">Obnovit nákup</string>
+    <string name="sub_invoices">Faktury</string>
+    <string name="sub_cancel">Zrušit předplatné</string>
+    <string name="sub_change_title">Přepnout na: %s?</string>
+    <string name="sub_change_body">Nový tarif začne platit po skončení aktuálního období.</string>
+    <string name="sub_change_confirm">Přepnout</string>
+    <string name="sub_cancel_title">Zrušit Recentr Plus?</string>
+    <string name="sub_cancel_body">Plus ti zůstane do konce aktuálního období, pak se vrátíš k bezplatnému tarifu.</string>
+    <string name="sub_cancel_confirm">Zrušit tarif</string>
+    <string name="sub_keep">Ponechat Plus</string>
+    <string name="sub_not_now">Teď ne</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">Nastavení</string>
+    <string name="settings_general">Obecné</string>
+    <string name="settings_protection">Ochrana</string>
+    <string name="settings_support">Podpora</string>
+    <string name="settings_account">Účet</string>
+    <string name="settings_developer">Pro vývojáře</string>
+    <string name="settings_notifications">Oznámení</string>
+    <string name="settings_on">Zapnuto</string>
+    <string name="settings_off">Vypnuto</string>
+    <string name="settings_appearance">Vzhled</string>
+    <string name="settings_app_icon">Ikona aplikace</string>
+    <string name="settings_language">Jazyk</string>
+    <string name="settings_time_format">Formát času</string>
+    <string name="time_format_am_pm">AM/PM</string>
+    <string name="time_format_24h">24 h</string>
+    <string name="time_format_body">Jak se v Recentr zobrazuje čas.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">Přísný režim</string>
+    <string name="settings_strict_caption">Nová sezení a rutiny začnou v přísném režimu.</string>
+    <string name="settings_always_allowed">Vždy povoleno</string>
+    <string name="settings_always_allowed_none">Žádné</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="one">%d aplikace</item>
+        <item quantity="few">%d aplikace</item>
+        <item quantity="many">%d aplikace</item>
+        <item quantity="other">%d aplikací</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">Nouzová odemknutí</string>
+    <string name="settings_unlocks_left">Zbývá: %d</string>
+    <string name="settings_app_blocking">Blokování aplikací</string>
+    <string name="settings_unlock_pass">Odemykací karta</string>
+    <string name="settings_pass_none">Žádná</string>
+    <string name="settings_pass_rules">Pravidla: %d</string>
+    <string name="settings_help">Nápověda a zpětná vazba</string>
+    <string name="settings_rate">Ohodnotit Recentr</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">Zdarma</string>
+    <string name="settings_log_out">Odhlásit se</string>
+    <string name="settings_delete_account">Smazat účet</string>
+    <string name="settings_replay_onboarding">Spustit úvod znovu</string>
+    <string name="settings_design_system">Design system</string>
+    <string name="emergency_title">Nouzová odemknutí</string>
+    <string name="emergency_body">Tento měsíc ti zbývají nouzová odemknutí: %1$d z %2$d. Když aplikaci drží Přísný režim nebo vyčerpaný limit, každé z nich ji i tak otevře na 5 minut. Obnoví se %3$s.</string>
+    <string name="unlock_pass_title">Odemykací karta</string>
+    <string name="unlock_pass_none">Zatím žádné pravidlo nevyžaduje kartu. Jako odemknutí pravidla vyber „Naskenovat kód uložený jinde“ a pak si tu vytiskni jeho kartu.</string>
+    <string name="unlock_pass_body">Vytiskni kartu pravidla a schovej ji daleko od telefonu. Její naskenování je cesta dovnitř.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">Tvoje odemykací karta</string>
+    <string name="unlock_pass_screen_body">Vytiskni ji a schovej daleko od postele. Odemknout jde jedině naskenováním.</string>
+    <string name="unlock_pass_caption">Recentr · karta #%1$s</string>
+    <string name="unlock_pass_share">Sdílet</string>
+    <string name="unlock_pass_print">Vytisknout kartu</string>
+    <string name="unlock_pass_document">Odemykací karta Recentr</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">Nápověda a zpětná vazba</string>
+    <string name="help_subtitle">Čteme každou zprávu.</string>
+    <string name="help_not_blocking">Recentr aplikaci neblokuje</string>
+    <string name="help_not_blocking_body">Blokování potřebuje přístup k údajům o využití a Recentr běžící na pozadí. Zkontroluj Nastavení › Aplikace › Recentr a vypni optimalizaci baterie.</string>
+    <string name="help_strict">Otázky k Přísnému režimu</string>
+    <string name="help_strict_body">Zapni Přísný režim pro sezení nebo rutinu a do jejího konce nepůjde její aplikace odemknout, jedině nouzovým odemknutím. Vypnout ho jde až po konci. V Nastavení › Přísný režim ho zapneš pro každé nové.</string>
+    <string name="help_billing">Platby a Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus se účtuje přes Google Play. Zrušit ho můžeš kdykoli v Nastavení › Recentr Plus nebo v předplatných v Google Play.</string>
+    <string name="help_note_section">Napiš nám</string>
+    <string name="help_note_title">Nápad pro Recentr</string>
+    <string name="help_note_placeholder">Bylo by skvělé mít sezení „učení s kamarády“, ve kterém se zamkneme všichni společně.</string>
+    <string name="help_send">Odeslat zpětnou vazbu</string>
+    <string name="help_feedback_subject">Zpětná vazba k Recentr</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">Vzhled</string>
+    <string name="appearance_theme">Motiv</string>
+    <string name="theme_light">Světlý</string>
+    <string name="theme_dark">Tmavý</string>
+    <string name="theme_auto">Auto</string>
+    <string name="appearance_app_icon">Ikona aplikace</string>
+    <string name="icon_sky">Obloha</string>
+    <string name="icon_night">Noc</string>
+    <string name="icon_mint">Máta</string>
+    <string name="icon_sunset">Západ slunce</string>
+    <string name="appearance_mascot">Zobrazit maskota na Domů</string>
+    <string name="appearance_reduce_motion">Omezit animace</string>
+    <string name="appearance_haptics">Haptika</string>
+    <string name="appearance_haptics_caption">Jemné vibrace při výběru, přepínání i oslavách</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">Oznámení</string>
+    <string name="notifications_subtitle">Jemná upozornění, nikdy hluk.</string>
+    <string name="notifications_reminders">Připomínky</string>
+    <string name="notifications_routine">Před začátkem rutiny</string>
+    <string name="notifications_limit">Limit je téměř vyčerpán</string>
+    <string name="notifications_goal">Kontrola denního cíle</string>
+    <string name="notifications_celebrations">Oslavy</string>
+    <string name="notifications_streaks">Série a milníky</string>
+    <string name="notifications_recap">Týdenní shrnutí</string>
+    <string name="notifications_quiet_hours">Tiché hodiny</string>
+    <string name="notifications_dont_notify">Neoznamovat</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">Oznámení jsou pro Recentr v tomto telefonu vypnutá.</string>
+    <string name="notifications_turn_on">Zapnout</string>
+    <string name="quiet_title">Tiché hodiny</string>
+    <string name="quiet_subtitle">Mezi těmito časy žádná upozornění.</string>
+    <string name="quiet_from">Začíná</string>
+    <string name="quiet_to">Končí</string>
+    <string name="quiet_save">Uložit</string>
+    <string name="time_dialog_cancel">Zrušit</string>
+    <string name="time_dialog_ok">OK</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">Jazyk</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">Jazyk systému</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Odhlásit se z Recentr?</string>
+    <string name="logout_body">Tvá pravidla na tomto telefonu poběží dál. Kdykoli se přihlas zpět a synchronizuj je.</string>
+    <string name="logout_confirm">Odhlásit se</string>
+    <string name="logout_stay">Zůstat</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">Smazat účet?</string>
+    <string name="delete_body">Všechna pravidla, série a zamyšlení budou smazána. Pro potvrzení napiš DELETE.</string>
+    <string name="delete_placeholder">Napiš DELETE</string>
+    <string name="delete_confirm">Smazat účet</string>
+    <string name="delete_cancel">Zrušit</string>
+    <string name="back">Zpět</string>
+    <string name="duration_h">%1$d h</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_h_m_compact">%1$d h %2$02d</string>
+    <string name="duration_h_m">%1$d h %2$d min</string>
+</resources>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Polish. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_edit">Edytuj profil</string>
+    <string name="profile_add_name">Dodaj imię</string>
+    <string name="profile_open_settings">Ustawienia</string>
+    <plurals name="profile_member_days">
+        <item quantity="one">Z Recentr od %d dnia</item>
+        <item quantity="few">Z Recentr od %d dni</item>
+        <item quantity="many">Z Recentr od %d dni</item>
+        <item quantity="other">Z Recentr od %d dnia</item>
+    </plurals>
+    <string name="profile_before">Przed</string>
+    <string name="profile_now">Teraz</string>
+    <string name="profile_daily_average">średnia dzienna</string>
+    <string name="profile_today">dziś</string>
+    <plurals name="profile_last_days">
+        <item quantity="one">ostatni %d dzień</item>
+        <item quantity="few">ostatnie %d dni</item>
+        <item quantity="many">ostatnie %d dni</item>
+        <item quantity="other">ostatniego %d dnia</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">W takim tempie</string>
+    <plurals name="profile_life_years">
+        <item quantity="one">Odzyskujesz %d rok swojego życia</item>
+        <item quantity="few">Odzyskujesz %d lata swojego życia</item>
+        <item quantity="many">Odzyskujesz %d lat swojego życia</item>
+        <item quantity="other">Odzyskujesz %d roku swojego życia</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="one">Odzyskujesz %d miesiąc swojego życia</item>
+        <item quantity="few">Odzyskujesz %d miesiące swojego życia</item>
+        <item quantity="many">Odzyskujesz %d miesięcy swojego życia</item>
+        <item quantity="other">Odzyskujesz %d miesiąca swojego życia</item>
+    </plurals>
+    <string name="profile_life_none">Każda godzina bez telefonu znów jest twoja</string>
+    <string name="profile_best_streak">Najlepsza seria</string>
+    <plurals name="profile_days">
+        <item quantity="one">%d dzień</item>
+        <item quantity="few">%d dni</item>
+        <item quantity="many">%d dni</item>
+        <item quantity="other">%d dnia</item>
+    </plurals>
+    <string name="profile_urges">Pokonane pokusy</string>
+    <string name="profile_recap_ready">Twoje tygodniowe podsumowanie jest gotowe</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">Edytuj profil</string>
+    <string name="edit_name">Imię</string>
+    <string name="edit_email">E-mail</string>
+    <string name="edit_name_placeholder">Twoje imię</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">Zapisz zmiany</string>
+    <string name="edit_avatar_colour">Zmień kolor awatara</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">Zamknij</string>
+    <string name="recap_over_name">Twój tydzień, %s</string>
+    <string name="recap_over">Twój tydzień</string>
+    <string name="recap_less">mniej czasu przed ekranem niż w zeszłym tygodniu</string>
+    <string name="recap_more">więcej czasu przed ekranem niż w zeszłym tygodniu</string>
+    <string name="recap_same">tyle samo czasu przed ekranem co w zeszłym tygodniu</string>
+    <string name="recap_saved">Zaoszczędzone</string>
+    <string name="recap_best_day">Najlepszy dzień</string>
+    <string name="recap_streak">Seria</string>
+    <string name="recap_share">Udostępnij mój tydzień</string>
+    <string name="recap_share_text">Mój tydzień z Recentr: czas przed ekranem %1$s w porównaniu z zeszłym tygodniem, zaoszczędzone %2$s, najlepszy dzień: %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">Wszystko, co daje spokojniejsze dni</string>
+    <string name="plus_benefit_rules">Nieograniczone reguły i rutyny</string>
+    <string name="plus_benefit_strict">Tryb ścisły i awaryjne odblokowania</string>
+    <string name="plus_benefit_recaps">Tygodniowe podsumowania i refleksje</string>
+    <string name="plus_yearly">Rocznie</string>
+    <string name="plus_monthly">Miesięcznie</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_per_month">$2,50 / mies.</string>
+    <string name="plus_billed_monthly">rozliczane co miesiąc</string>
+    <string name="plus_start_trial">Zacznij 7-dniowy darmowy okres próbny</string>
+    <string name="plus_cancel_anytime">Anuluj w dowolnej chwili ·\u0020</string>
+    <string name="plus_restore">Przywróć zakup</string>
+    <string name="plus_restore_none_title">Nic do przywrócenia</string>
+    <string name="plus_restore_none_body">Nie znaleziono zakupu Recentr Plus dla tego konta.</string>
+    <string name="plus_restore_ok_title">Zakup przywrócony</string>
+    <string name="plus_restore_ok_body">Recentr Plus jest aktywny na tym telefonie.</string>
+    <string name="plus_trial_started">Recentr Plus włączony – ciesz się darmowym tygodniem</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">Subskrypcja</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">Odnowienie: %s</string>
+    <string name="sub_change_plan">Zmień plan</string>
+    <string name="sub_restore">Przywróć zakup</string>
+    <string name="sub_invoices">Faktury</string>
+    <string name="sub_cancel">Anuluj subskrypcję</string>
+    <string name="sub_change_title">Przełączyć na %s?</string>
+    <string name="sub_change_body">Twój nowy plan zacznie się po zakończeniu bieżącego okresu.</string>
+    <string name="sub_change_confirm">Przełącz</string>
+    <string name="sub_cancel_title">Anulować Recentr Plus?</string>
+    <string name="sub_cancel_body">Plus zostaje z tobą do końca bieżącego okresu, a potem wracasz do planu darmowego.</string>
+    <string name="sub_cancel_confirm">Anuluj plan</string>
+    <string name="sub_keep">Zachowaj Plus</string>
+    <string name="sub_not_now">Nie teraz</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">Ustawienia</string>
+    <string name="settings_general">Ogólne</string>
+    <string name="settings_protection">Ochrona</string>
+    <string name="settings_support">Wsparcie</string>
+    <string name="settings_account">Konto</string>
+    <string name="settings_developer">Dla programistów</string>
+    <string name="settings_notifications">Powiadomienia</string>
+    <string name="settings_on">Wł.</string>
+    <string name="settings_off">Wył.</string>
+    <string name="settings_appearance">Wygląd</string>
+    <string name="settings_app_icon">Ikona aplikacji</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_time_format">Format czasu</string>
+    <string name="time_format_am_pm">AM/PM</string>
+    <string name="time_format_24h">24H</string>
+    <string name="time_format_body">Jak wyświetlane są godziny w Recentr.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">Tryb ścisły</string>
+    <string name="settings_strict_caption">Nowe sesje i rutyny zaczynają się w trybie ścisłym.</string>
+    <string name="settings_always_allowed">Zawsze dozwolone</string>
+    <string name="settings_always_allowed_none">Brak</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="one">%d aplikacja</item>
+        <item quantity="few">%d aplikacje</item>
+        <item quantity="many">%d aplikacji</item>
+        <item quantity="other">%d aplikacji</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">Awaryjne odblokowania</string>
+    <string name="settings_unlocks_left">Zostało: %d</string>
+    <string name="settings_app_blocking">Blokowanie aplikacji</string>
+    <string name="settings_unlock_pass">Przepustka odblokowania</string>
+    <string name="settings_pass_none">Brak</string>
+    <string name="settings_pass_rules">Reguły: %d</string>
+    <string name="settings_help">Pomoc i opinie</string>
+    <string name="settings_rate">Oceń Recentr</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">Darmowy</string>
+    <string name="settings_log_out">Wyloguj się</string>
+    <string name="settings_delete_account">Usuń konto</string>
+    <string name="settings_replay_onboarding">Odtwórz wprowadzenie ponownie</string>
+    <string name="settings_design_system">System projektowy</string>
+    <string name="emergency_title">Awaryjne odblokowania</string>
+    <string name="emergency_body">Masz %1$d z %2$d awaryjnych odblokowań w tym miesiącu. Gdy aplikację blokuje tryb ścisły lub wyczerpany limit, każde z nich otwiera ją na 5 minut mimo blokady. Wrócą %3$s.</string>
+    <string name="unlock_pass_title">Przepustka odblokowania</string>
+    <string name="unlock_pass_none">Żadna reguła nie wymaga jeszcze przepustki. Wybierz „Zeskanuj kod, który trzymasz gdzie indziej” jako sposób odblokowania reguły, a potem wydrukuj jej przepustkę tutaj.</string>
+    <string name="unlock_pass_body">Wydrukuj przepustkę reguły i trzymaj ją z dala od telefonu. Jej zeskanowanie to twoja droga do środka.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">Twoja przepustka odblokowania</string>
+    <string name="unlock_pass_screen_body">Wydrukuj ją i trzymaj z dala od łóżka. Zeskanowanie jej to jedyny sposób odblokowania.</string>
+    <string name="unlock_pass_caption">Recentr · przepustka #%1$s</string>
+    <string name="unlock_pass_share">Udostępnij</string>
+    <string name="unlock_pass_print">Drukuj przepustkę</string>
+    <string name="unlock_pass_document">Przepustka odblokowania Recentr</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">Pomoc i opinie</string>
+    <string name="help_subtitle">Czytamy każdą wiadomość.</string>
+    <string name="help_not_blocking">Recentr nie blokuje aplikacji</string>
+    <string name="help_not_blocking_body">Blokowanie wymaga dostępu do danych o użyciu i działania Recentr w tle. Sprawdź Ustawienia › Aplikacje › Recentr i wyłącz optymalizację baterii.</string>
+    <string name="help_strict">Pytania o tryb ścisły</string>
+    <string name="help_strict_body">Włącz tryb ścisły dla sesji lub rutyny, a do jej końca aplikacji nie da się odblokować inaczej niż awaryjnym odblokowaniem. Jego wyłączenie czeka wtedy do końca. Ustawienia › Tryb ścisły włącza go dla każdej nowej.</string>
+    <string name="help_billing">Płatności i Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus jest rozliczany przez Google Play. Możesz anulować w dowolnej chwili w Ustawienia › Recentr Plus lub w swoich subskrypcjach Play.</string>
+    <string name="help_note_section">Napisz do nas</string>
+    <string name="help_note_title">Pomysł na Recentr</string>
+    <string name="help_note_placeholder">Fajnie byłoby mieć sesję „nauka ze znajomymi”, w której wszyscy blokujemy się razem.</string>
+    <string name="help_send">Wyślij opinię</string>
+    <string name="help_feedback_subject">Opinia o Recentr</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">Wygląd</string>
+    <string name="appearance_theme">Motyw</string>
+    <string name="theme_light">Jasny</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_auto">Auto</string>
+    <string name="appearance_app_icon">Ikona aplikacji</string>
+    <string name="icon_sky">Niebo</string>
+    <string name="icon_night">Noc</string>
+    <string name="icon_mint">Mięta</string>
+    <string name="icon_sunset">Zachód słońca</string>
+    <string name="appearance_mascot">Pokaż maskotkę na ekranie Start</string>
+    <string name="appearance_reduce_motion">Ogranicz animacje</string>
+    <string name="appearance_haptics">Wibracje</string>
+    <string name="appearance_haptics_caption">Delikatne wibracje przy wyborze, przełączaniu i świętowaniu</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">Powiadomienia</string>
+    <string name="notifications_subtitle">Delikatne przypomnienia, nigdy hałas.</string>
+    <string name="notifications_reminders">Przypomnienia</string>
+    <string name="notifications_routine">Przed startem rutyny</string>
+    <string name="notifications_limit">Limit prawie wyczerpany</string>
+    <string name="notifications_goal">Sprawdzenie dziennego celu</string>
+    <string name="notifications_celebrations">Świętowanie</string>
+    <string name="notifications_streaks">Serie i kamienie milowe</string>
+    <string name="notifications_recap">Tygodniowe podsumowanie</string>
+    <string name="notifications_quiet_hours">Godziny ciszy</string>
+    <string name="notifications_dont_notify">Nie powiadamiaj mnie</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">Powiadomienia Recentr są wyłączone na tym telefonie.</string>
+    <string name="notifications_turn_on">Włącz</string>
+    <string name="quiet_title">Godziny ciszy</string>
+    <string name="quiet_subtitle">Bez przypomnień w tych godzinach.</string>
+    <string name="quiet_from">Początek</string>
+    <string name="quiet_to">Koniec</string>
+    <string name="quiet_save">Zapisz</string>
+    <string name="time_dialog_cancel">Anuluj</string>
+    <string name="time_dialog_ok">OK</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">Język</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">Język systemu</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Wylogować się z Recentr?</string>
+    <string name="logout_body">Twoje reguły nadal działają na tym telefonie. Zaloguj się ponownie w dowolnej chwili, aby je zsynchronizować.</string>
+    <string name="logout_confirm">Wyloguj się</string>
+    <string name="logout_stay">Zostań</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">Usunąć swoje konto?</string>
+    <string name="delete_body">Wszystkie reguły, serie i refleksje zostaną usunięte. Wpisz DELETE, aby potwierdzić.</string>
+    <string name="delete_placeholder">Wpisz DELETE</string>
+    <string name="delete_confirm">Usuń konto</string>
+    <string name="delete_cancel">Anuluj</string>
+    <string name="back">Wstecz</string>
+    <string name="duration_h">%1$d h</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_h_m_compact">%1$d h %2$02d</string>
+    <string name="duration_h_m">%1$d h %2$d min</string>
+</resources>

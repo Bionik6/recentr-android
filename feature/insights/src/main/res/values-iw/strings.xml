@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hebrew. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">חזרה</string>
+    <string name="insights_close">סגירה</string>
+    <string name="insights_more">אפשרויות נוספות</string>
+    <string name="insights_duration_m">%1$d דק׳</string>
+    <string name="insights_duration_h">%1$d שע׳</string>
+    <string name="insights_duration_h_m">%1$d שע׳ %2$02d דק׳</string>
+    <string name="insights_duration_compact">%1$d שע׳ %2$02d</string>
+    <string name="insights_minus">‎−%1$s</string>
+    <string name="insights_plus">‎+%1$s</string>
+    <string name="insights_percent">%1$d%%</string>
+    <string name="insights_date">%2$d %1$s</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>ב׳</item>
+        <item>ג׳</item>
+        <item>ד׳</item>
+        <item>ה׳</item>
+        <item>ו׳</item>
+        <item>ש׳</item>
+        <item>א׳</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>יום ב׳</item>
+        <item>יום ג׳</item>
+        <item>יום ד׳</item>
+        <item>יום ה׳</item>
+        <item>יום ו׳</item>
+        <item>שבת</item>
+        <item>יום א׳</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>יום שני</item>
+        <item>יום שלישי</item>
+        <item>יום רביעי</item>
+        <item>יום חמישי</item>
+        <item>יום שישי</item>
+        <item>יום שבת</item>
+        <item>יום ראשון</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>ינואר</item>
+        <item>פברואר</item>
+        <item>מרץ</item>
+        <item>אפריל</item>
+        <item>מאי</item>
+        <item>יוני</item>
+        <item>יולי</item>
+        <item>אוגוסט</item>
+        <item>ספטמבר</item>
+        <item>אוקטובר</item>
+        <item>נובמבר</item>
+        <item>דצמבר</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>ינו׳</item>
+        <item>פבר׳</item>
+        <item>מרץ</item>
+        <item>אפר׳</item>
+        <item>מאי</item>
+        <item>יוני</item>
+        <item>יולי</item>
+        <item>אוג׳</item>
+        <item>ספט׳</item>
+        <item>אוק׳</item>
+        <item>נוב׳</item>
+        <item>דצמ׳</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">תובנות</string>
+    <string name="insights_tab_day">יום</string>
+    <string name="insights_tab_week">שבוע</string>
+    <string name="insights_tab_month">חודש</string>
+    <string name="insights_daily_average">ממוצע יומי</string>
+    <string name="insights_screen_time_today">זמן מסך היום</string>
+    <string name="insights_screen_time_yesterday">זמן מסך אתמול</string>
+    <string name="insights_screen_time">זמן מסך</string>
+    <string name="insights_vs_last_week">%1$s לעומת שבוע שעבר</string>
+    <string name="insights_vs_yesterday">%1$s לעומת אתמול</string>
+    <string name="insights_vs_day_before">%1$s לעומת היום שלפני</string>
+    <string name="insights_vs_week_before">%1$s לעומת השבוע שלפני</string>
+    <string name="insights_goal_line">יעד %1$s</string>
+    <string name="insights_by_category">לפי קטגוריה</string>
+    <string name="insights_no_usage">עדיין אין זמן מסך.</string>
+    <string name="insights_top_apps">האפליקציות המובילות</string>
+    <string name="insights_no_apps">עדיין לא נעשה שימוש באפליקציות.</string>
+    <string name="insights_see_more">עוד</string>
+    <string name="insights_category_social">חברתי</string>
+    <string name="insights_category_video">וידאו</string>
+    <string name="insights_category_music">מוזיקה</string>
+    <string name="insights_category_games">משחקים</string>
+    <string name="insights_category_productivity">פרודוקטיביות</string>
+    <string name="insights_category_other">אחר</string>
+    <string name="insights_menu_pickups">הרמות</string>
+    <string name="insights_menu_daily_goal">יעד יומי</string>
+    <string name="insights_menu_streak">רצף</string>
+    <string name="insights_menu_achievements">הישגים</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">מתחת ליעד</string>
+    <string name="insights_less">פחות</string>
+    <string name="insights_more_legend">יותר</string>
+    <string name="insights_best_day">היום הטוב ביותר</string>
+    <string name="insights_toughest_day">היום הקשה ביותר</string>
+    <string name="insights_see_report">הצגת דוח %1$s</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: אין נתונים</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">היום</string>
+    <string name="insights_period_yesterday">אתמול</string>
+    <string name="insights_period_week">השבוע</string>
+    <string name="insights_period_month">החודש</string>
+    <string name="insights_period_last_week">שבוע שעבר</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s, %2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s, %2$d</string>
+    <string name="insights_previous">הקודם</string>
+    <string name="insights_next">הבא</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="one">פתיחה אחת</item>
+        <item quantity="two">שתי פתיחות</item>
+        <item quantity="other">%d פתיחות</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · %2$s מעל המגבלה</string>
+    <string name="insights_left_in_limit">%1$s · עוד %2$s במגבלה</string>
+    <string name="insights_by_hour">לפי שעה</string>
+    <string name="insights_longest_session">הסשן הארוך ביותר</string>
+    <string name="insights_first_open">פתיחה ראשונה</string>
+    <string name="insights_usual_first_open">פתיחה ראשונה בדרך כלל</string>
+    <string name="insights_noticed">Recentr הבחינה</string>
+    <string name="insights_noticed_idle">כמעט לא פתחת את %1$s. כדאי להמשיך כך.</string>
+    <string name="insights_noticed_checks">פתיחות של %1$s ביום: %2$d, בביקורים קצרים. כמה שניות של עצירה לפני הפתיחה שוברות את הרפלקס.</string>
+    <string name="insights_noticed_night">רוב הזמן שלך ב-%1$s הוא אחרי %2$s. שגרת שינה יכולה להחזיר אותו.</string>
+    <string name="insights_noticed_morning">רוב הזמן שלך ב-%1$s הוא לפני %2$s. שגרת בוקר רגועה יכולה להחזיר אותו.</string>
+    <string name="insights_noticed_work">רוב הזמן שלך ב-%1$s הוא במהלך יום העבודה. סשן פוקוס יכול להחזיר אותו.</string>
+    <string name="insights_noticed_evening">רוב הזמן שלך ב-%1$s הוא בערב. מגבלה יכולה להחזיר אותו.</string>
+    <string name="insights_noticed_spread">הזמן שלך ב-%1$s מפוזר לאורך היום. מגבלה תשמור עליו בשליטה.</string>
+    <string name="insights_set_limit">הגדרת מגבלה</string>
+    <string name="insights_edit_limit">עריכת המגבלה</string>
+    <string name="insights_block_app">חסימת %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">הרמות</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="one">הרמה היום</item>
+        <item quantity="two">הרמות היום</item>
+        <item quantity="other">הרמות היום</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="one">הרמה אתמול</item>
+        <item quantity="two">הרמות אתמול</item>
+        <item quantity="other">הרמות אתמול</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="one">הרמה באותו יום</item>
+        <item quantity="two">הרמות באותו יום</item>
+        <item quantity="other">הרמות באותו יום</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="one">הרמה ביום</item>
+        <item quantity="two">הרמות ביום</item>
+        <item quantity="other">הרמות ביום</item>
+    </plurals>
+    <string name="insights_first_pickup">הראשונה ב-%1$s</string>
+    <string name="insights_usual_first_pickup">בדרך כלל הראשונה ב-%1$s</string>
+    <string name="insights_no_pickup">עדיין אין הרמות</string>
+    <string name="insights_when_pick_up">מתי מרימים את הטלפון</string>
+    <string name="insights_opened_first">נפתחות ראשונות אחרי הרמה</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">עדיין לא נפתחה אפליקציה אחרי הרמה.</string>
+    <string name="insights_tip_bedroom">כדאי להטעין את הטלפון מחוץ לחדר השינה — ההרמה של %1$s תהיה קלה יותר.</string>
+    <string name="insights_tip_reflex">הדבר הראשון שנפתח הוא %1$s. כדאי להרחיק את האפליקציה ממסך הבית כדי לשבור את הרפלקס.</string>
+    <string name="insights_tip_evening">בערבים יש הכי הרבה הרמות. שגרת שינה עוזרת להשאיר את הטלפון בצד.</string>
+    <string name="insights_tip_default">כל הרמה שדילגת עליה היא ניצחון. כדאי לנסות להשאיר את הטלפון הפוך.</string>
+    <string name="insights_start_bedtime">יצירת שגרת שינה</string>
+    <string name="insights_heat_cd">%1$s עד %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">דוח %1$s</string>
+    <plurals name="insights_hours">
+        <item quantity="one">שעה אחת</item>
+        <item quantity="two">שעתיים</item>
+        <item quantity="other">%d שעות</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="one">דקה אחת</item>
+        <item quantity="two">שתי דקות</item>
+        <item quantity="other">%d דקות</item>
+    </plurals>
+    <string name="insights_won_back_month">הוחזרו החודש</string>
+    <string name="insights_pickups_a_day_label">הרמות ביום</string>
+    <string name="insights_best_streak">הרצף הטוב ביותר</string>
+    <plurals name="insights_days">
+        <item quantity="one">יום אחד</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%d ימים</item>
+    </plurals>
+    <string name="insights_new">חדש</string>
+    <string name="insights_share_month">שיתוף החודש שלי</string>
+    <string name="insights_replay">הפעלה חוזרת</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">יעד יומי</string>
+    <string name="insights_edit_goal">עריכת היעד היומי</string>
+    <string name="insights_days_on_target">ימים שעמדו ביעד: %1$d מתוך %2$d</string>
+    <string name="insights_goal_under">יעד: פחות מ-%1$s ביום</string>
+    <string name="insights_adjust_goal">התאמת היעד</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">הישגים</string>
+    <string name="achievements_earned_count">%1$d מתוך %2$d הושגו</string>
+    <string name="achievements_level">רמה %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>התחלה חדשה</item>
+        <item>מוצאים שלווה</item>
+        <item>יד יציבה</item>
+        <item>שומר השלווה</item>
+        <item>מיקוד עמוק</item>
+        <item>מאסטר זן</item>
+        <item>אגדת אופליין</item>
+    </string-array>
+    <string name="achievements_points">%1$d / %2$d נקודות שלווה</string>
+    <string name="achievements_points_max">נקודות שלווה: %1$d</string>
+    <string name="achievements_all">הכול</string>
+    <string name="achievements_earned">הושגו</string>
+    <string name="achievements_next_up">הבאים בתור</string>
+    <string name="achievements_none_earned">התג הראשון שלך בדרך.</string>
+    <string name="achievements_all_earned">זכית בכל התגים. וואו.</string>
+    <string name="achievements_progress_days">%1$d / %2$d ימים</string>
+    <string name="achievements_progress_nights">%1$d / %2$d לילות</string>
+    <string name="achievements_progress_mornings">%1$d / %2$d בקרים</string>
+    <string name="achievements_progress_hours">%1$d / %2$d שעות</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">%1$d מתוך %2$d ימים</string>
+    <string name="achievements_of_nights">%1$d מתוך %2$d לילות</string>
+    <string name="achievements_of_mornings">%1$d מתוך %2$d בקרים</string>
+    <string name="achievements_of_hours">%1$d מתוך %2$d שעות</string>
+    <string name="achievements_of_urges">%1$d מתוך %2$d דחפים</string>
+    <string name="achievements_not_yet">טרם הושג</string>
+    <string name="achievements_points_reward">נקודות שלווה ‎+%1$d</string>
+    <string name="achievements_got_it">הבנתי</string>
+    <string name="achievements_locked_cd">%1$s, נעול, %2$s</string>
+    <string name="achievements_earned_cd">%1$s, הושג: %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">תג חדש</string>
+    <string name="achievements_earned_on">הושג: %1$s</string>
+    <string name="achievements_nice">יפה!</string>
+    <string name="achievements_share_badge">שיתוף התג</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">נעילה ראשונה</string>
+    <string name="badge_first_lock_goal">חסימת אפליקציות עם הכלל הראשון שלך.</string>
+    <string name="badge_first_lock_cheer">הכלל הראשון שלך פעיל. נעילות קטנות, ניצחונות גדולים.</string>
+    <string name="badge_first_lock_milestone">חסמת את %1$s בפעם הראשונה.</string>
+    <string name="badge_first_lock_milestone_any">הגדרת את כלל החסימה הראשון שלך.</string>
+    <string name="badge_note_to_self">פתק לעצמי</string>
+    <string name="badge_note_to_self_goal">כתיבת הסיבה באחד הכללים שלך.</string>
+    <string name="badge_note_to_self_cheer">הסיבה שלך כתובה. היא תזכיר לך מה חשוב.</string>
+    <string name="badge_note_to_self_milestone">כתבת את הסיבה שבגללה התחלת.</string>
+    <string name="badge_first_focus">פוקוס ראשון</string>
+    <string name="badge_first_focus_goal">סיום סשן הפוקוס הראשון שלך.</string>
+    <string name="badge_first_focus_cheer">סשן אחד מאחוריך. שריר הפוקוס שלך מתחמם.</string>
+    <string name="badge_first_focus_milestone">סשן הפוקוס הראשון שלך.</string>
+    <string name="badge_focus_ten_hours">10 שעות פוקוס</string>
+    <string name="badge_focus_ten_hours_goal">10 שעות בסשני פוקוס.</string>
+    <string name="badge_focus_ten_hours_cheer">עשר שעות של פוקוס עמוק. זה יום עבודה שלם שחזר אליך.</string>
+    <string name="badge_focus_ten_hours_milestone">10 שעות בסשני פוקוס.</string>
+    <string name="badge_seven_day_streak">רצף של 7 ימים</string>
+    <string name="badge_seven_day_streak_goal">שמירה על הרצף במשך 7 ימים.</string>
+    <string name="badge_seven_day_streak_cheer">שבוע שלם מתחת ליעד. שומרים על האש!</string>
+    <string name="badge_seven_day_streak_milestone">שבוע שלם מתחת ליעד.</string>
+    <string name="badge_goal_crusher">ריסוק היעד</string>
+    <string name="badge_goal_crusher_goal">7 ימים ברציפות מתחת ליעד היומי.</string>
+    <string name="badge_goal_crusher_cheer">שבעה ימים מתחת ליעד, בלי צורך במגן רצף. ריסקת אותו.</string>
+    <string name="badge_goal_crusher_milestone">7 ימים מתחת ליעד בלי מגן רצף.</string>
+    <string name="badge_two_calm_weeks">שבועיים של שלווה</string>
+    <string name="badge_two_calm_weeks_goal">שמירה על הרצף במשך 14 ימים.</string>
+    <string name="badge_two_calm_weeks_cheer">שבועיים של שלווה. זה כבר הופך להרגל.</string>
+    <string name="badge_two_calm_weeks_milestone">14 ימים ברציפות מתחת ליעד.</string>
+    <string name="badge_calm_month">חודש של שלווה</string>
+    <string name="badge_calm_month_goal">שמירה על הרצף במשך 30 ימים.</string>
+    <string name="badge_calm_month_cheer">חודש שלם של שלווה. אגדי.</string>
+    <string name="badge_calm_month_milestone">30 ימים ברציפות מתחת ליעד.</string>
+    <string name="badge_night_owl">ינשוף לילה בפנסיה</string>
+    <string name="badge_night_owl_goal">7 לילות ברציפות בלי מסכים אחרי %1$s.</string>
+    <string name="badge_night_owl_cheer">7 לילות ברציפות בלי מסכים אחרי %1$s. השינה שלך אומרת תודה.</string>
+    <string name="badge_night_owl_milestone">בלי מסכים אחרי %1$s במשך 7 לילות.</string>
+    <string name="badge_slow_mornings">בקרים איטיים</string>
+    <string name="badge_slow_mornings_goal">5 בקרים ברציפות בלי מסכים לפני %1$s.</string>
+    <string name="badge_slow_mornings_cheer">חמישה בקרים איטיים. היום שלך מתחיל ממך, לא מהפיד.</string>
+    <string name="badge_slow_mornings_milestone">בלי מסכים לפני %1$s במשך 5 בקרים.</string>
+    <string name="badge_screen_free_sunday">יום ראשון בלי מסכים</string>
+    <string name="badge_screen_free_sunday_goal">יום ראשון עם פחות מ-30 דקות של זמן מסך.</string>
+    <string name="badge_screen_free_sunday_cheer">יום ראשון כמעט מנותק מהרשת. זה מרגיש קל יותר, נכון?</string>
+    <string name="badge_screen_free_sunday_milestone">יום ראשון עם פחות מ-30 דקות של זמן מסך.</string>
+    <string name="badge_gentle_day">יום עדין</string>
+    <string name="badge_gentle_day_goal">יום שלם עם פחות משעה של זמן מסך.</string>
+    <string name="badge_gentle_day_cheer">פחות משעה ביום שלם. עדין לעיניים ולראש.</string>
+    <string name="badge_gentle_day_milestone">יום שלם עם פחות משעה.</string>
+    <string name="badge_hands_off">ידיים בצד</string>
+    <string name="badge_hands_off_goal">פחות מ-20 הרמות של הטלפון ביום.</string>
+    <string name="badge_hands_off_cheer">פחות מ-20 הרמות ביום. הידיים שלך מצאו דברים טובים יותר לעשות.</string>
+    <string name="badge_hands_off_milestone">פחות מ-20 הרמות ביום.</string>
+    <string name="badge_urges_resisted">התגברות על 100 דחפים</string>
+    <string name="badge_urges_resisted_goal">לבחור בעצירה 100 פעמים במהלך סשני פוקוס.</string>
+    <string name="badge_urges_resisted_cheer">100 דחפים, 100 עצירות. השליטה בידיים שלך.</string>
+    <string name="badge_urges_resisted_milestone">בחרת בעצירה 100 פעמים.</string>
+    <string name="badge_ten_hours_won_back">10 שעות שהוחזרו</string>
+    <string name="badge_ten_hours_won_back_goal">להחזיר 10 שעות מההרגל הישן שלך עם הטלפון.</string>
+    <string name="badge_ten_hours_won_back_cheer">10 שעות חזרו לחיים שלך. ומה עושים איתן?</string>
+    <string name="badge_ten_hours_won_back_milestone">10 שעות שהוחזרו מההרגל הישן שלך.</string>
+    <string name="badge_fifty_hours_won_back">50 שעות שהוחזרו</string>
+    <string name="badge_fifty_hours_won_back_goal">להחזיר 50 שעות מההרגל הישן שלך עם הטלפון.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50 שעות הוחזרו. זה יותר משבוע עבודה.</string>
+    <string name="badge_fifty_hours_won_back_milestone">50 שעות שהוחזרו מההרגל הישן שלך.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">רצף</string>
+    <string name="streak_best_yet">ימים ברצף · השיא שלך עד היום</string>
+    <string name="streak_best">ימים ברצף · שיא: %1$s</string>
+    <string name="streak_this_week">השבוע</string>
+    <plurals name="streak_savers_left">
+        <item quantity="one">מגן רצף אחד נותר</item>
+        <item quantity="two">שני מגני רצף נותרו</item>
+        <item quantity="other">%d מגני רצף נותרו</item>
+    </plurals>
+    <string name="streak_saver_used">נעשה שימוש באחד ב-%1$s — הרצף שלך נשאר שלם.</string>
+    <string name="streak_saver_unused">חרגת מהיעד ביום מסוים? מגן רצף ישמור על הרצף.</string>
+    <string name="streak_savers_out">אין עוד מגני רצף החודש. חדשים מגיעים ב-1 לחודש.</string>
+    <plurals name="streak_days_to">
+        <item quantity="one">יום אחד עד “%2$s”</item>
+        <item quantity="two">יומיים עד “%2$s”</item>
+        <item quantity="other">%1$d ימים עד “%2$s”</item>
+    </plurals>
+    <string name="streak_all_done">כל תגי הרצף הושגו. ממשיכים!</string>
+    <string name="streak_help">איך עובד הרצף</string>
+    <string name="streak_help_body">כל יום מתחת ליעד היומי מוסיף יום אחד לרצף. חרגת? מגן רצף מכסה את היום — מקבלים 3 בכל חודש.</string>
+    <string name="streak_help_ok">הבנתי</string>
+    <string name="streak_day_on_target">%1$s: מתחת ליעד</string>
+    <string name="streak_day_saved">%1$s: הוצל בזכות מגן רצף</string>
+    <string name="streak_day_missed">%1$s: מעל היעד</string>
+    <string name="streak_day_today">%1$s: היום</string>
+    <string name="streak_day_empty">%1$s: אין נתונים</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">אבני דרך</string>
+    <plurals name="milestones_since">
+        <item quantity="one">מאז שהתחלת · יום אחד</item>
+        <item quantity="two">מאז שהתחלת · יומיים</item>
+        <item quantity="other">מאז שהתחלת · %d ימים</item>
+    </plurals>
+    <string name="milestones_next">הבא</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">שיתוף</string>
+    <string name="share_won_back">החזרתי לעצמי</string>
+    <string name="share_in_month">ב%1$s עם Recentr</string>
+    <string name="share_earned">זכיתי בתג</string>
+    <string name="share_with_recentr">עם Recentr</string>
+    <string name="share_streak_chip">ימי רצף: %1$d</string>
+    <string name="share_daily_chip">%1$s ביום</string>
+    <string name="share_level_chip">רמה %1$d</string>
+    <string name="share_stories">סטוריז</string>
+    <string name="share_post">פוסט</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">העתקת קישור</string>
+    <string name="share_save">שמירה</string>
+    <string name="share_done">סיום</string>
+    <string name="share_text_month">החזרתי לעצמי %1$s ב%2$s עם Recentr. %3$s</string>
+    <string name="share_text_badge">זכיתי ב-“%1$s” עם Recentr. %2$s</string>
+    <string name="share_copied">הועתק</string>
+    <string name="share_saved">נשמר בתמונות</string>
+    <string name="share_save_failed">לא ניתן היה לשמור את התמונה</string>
+</resources>

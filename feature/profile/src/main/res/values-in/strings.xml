@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Indonesian. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_edit">Ubah profil</string>
+    <string name="profile_add_name">Tambahkan namamu</string>
+    <string name="profile_open_settings">Pengaturan</string>
+    <plurals name="profile_member_days">
+        <item quantity="other">Sudah %d hari bersama Recentr</item>
+    </plurals>
+    <string name="profile_before">Sebelum</string>
+    <string name="profile_now">Sekarang</string>
+    <string name="profile_daily_average">rata-rata harian</string>
+    <string name="profile_today">hari ini</string>
+    <plurals name="profile_last_days">
+        <item quantity="other">%d hari terakhir</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">Dengan laju ini</string>
+    <plurals name="profile_life_years">
+        <item quantity="other">Kamu merebut kembali %d tahun hidupmu</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="other">Kamu merebut kembali %d bulan hidupmu</item>
+    </plurals>
+    <string name="profile_life_none">Setiap jam tanpa ponsel kembali menjadi milikmu</string>
+    <string name="profile_best_streak">Rentetan terbaik</string>
+    <plurals name="profile_days">
+        <item quantity="other">%d hari</item>
+    </plurals>
+    <string name="profile_urges">Dorongan yang ditahan</string>
+    <string name="profile_recap_ready">Rekap mingguanmu sudah siap</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">Ubah profil</string>
+    <string name="edit_name">Nama</string>
+    <string name="edit_email">Email</string>
+    <string name="edit_name_placeholder">Nama depanmu</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">Simpan perubahan</string>
+    <string name="edit_avatar_colour">Ganti warna avatar</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">Tutup</string>
+    <string name="recap_over_name">Minggumu, %s</string>
+    <string name="recap_over">Minggumu</string>
+    <string name="recap_less">waktu layar lebih sedikit dari minggu lalu</string>
+    <string name="recap_more">waktu layar lebih banyak dari minggu lalu</string>
+    <string name="recap_same">waktu layar sama seperti minggu lalu</string>
+    <string name="recap_saved">Dihemat</string>
+    <string name="recap_best_day">Hari terbaik</string>
+    <string name="recap_streak">Rentetan</string>
+    <string name="recap_share">Bagikan mingguku</string>
+    <string name="recap_share_text">Mingguku di Recentr: waktu layar %1$s dibanding minggu lalu, %2$s dihemat, dan hari terbaikku %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">Semua alat untuk hari yang lebih tenang</string>
+    <string name="plus_benefit_rules">Aturan &amp; rutinitas tanpa batas</string>
+    <string name="plus_benefit_strict">Mode ketat &amp; buka kunci darurat</string>
+    <string name="plus_benefit_recaps">Rekap mingguan &amp; refleksi</string>
+    <string name="plus_yearly">Tahunan</string>
+    <string name="plus_monthly">Bulanan</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_per_month">$2,50 / bulan</string>
+    <string name="plus_billed_monthly">ditagih bulanan</string>
+    <string name="plus_start_trial">Mulai uji coba gratis 7 hari</string>
+    <string name="plus_cancel_anytime">Batalkan kapan saja ·\u0020</string>
+    <string name="plus_restore">Pulihkan pembelian</string>
+    <string name="plus_restore_none_title">Tidak ada yang dipulihkan</string>
+    <string name="plus_restore_none_body">Tidak ditemukan pembelian Recentr Plus untuk akun ini.</string>
+    <string name="plus_restore_ok_title">Pembelian dipulihkan</string>
+    <string name="plus_restore_ok_body">Recentr Plus aktif di ponsel ini.</string>
+    <string name="plus_trial_started">Recentr Plus aktif — nikmati minggu gratismu</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">Langganan</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">Diperpanjang pada %s</string>
+    <string name="sub_change_plan">Ganti paket</string>
+    <string name="sub_restore">Pulihkan pembelian</string>
+    <string name="sub_invoices">Faktur</string>
+    <string name="sub_cancel">Batalkan langganan</string>
+    <string name="sub_change_title">Beralih ke %s?</string>
+    <string name="sub_change_body">Paket barumu dimulai saat periode saat ini berakhir.</string>
+    <string name="sub_change_confirm">Beralih</string>
+    <string name="sub_cancel_title">Batalkan Recentr Plus?</string>
+    <string name="sub_cancel_body">Kamu tetap punya Plus sampai akhir periode saat ini, lalu kembali ke paket gratis.</string>
+    <string name="sub_cancel_confirm">Batalkan paket</string>
+    <string name="sub_keep">Tetap pakai Plus</string>
+    <string name="sub_not_now">Nanti saja</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_general">Umum</string>
+    <string name="settings_protection">Perlindungan</string>
+    <string name="settings_support">Dukungan</string>
+    <string name="settings_account">Akun</string>
+    <string name="settings_developer">Pengembang</string>
+    <string name="settings_notifications">Notifikasi</string>
+    <string name="settings_on">Aktif</string>
+    <string name="settings_off">Nonaktif</string>
+    <string name="settings_appearance">Tampilan</string>
+    <string name="settings_app_icon">Ikon aplikasi</string>
+    <string name="settings_language">Bahasa</string>
+    <string name="settings_time_format">Format waktu</string>
+    <string name="time_format_am_pm">AM/PM</string>
+    <string name="time_format_24h">24 jam</string>
+    <string name="time_format_body">Cara waktu ditampilkan di seluruh Recentr.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">Mode ketat</string>
+    <string name="settings_strict_caption">Sesi dan rutinitas baru dimulai dalam Mode ketat.</string>
+    <string name="settings_always_allowed">Selalu diizinkan</string>
+    <string name="settings_always_allowed_none">Tidak ada</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="other">%d aplikasi</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">Buka kunci darurat</string>
+    <string name="settings_unlocks_left">sisa %d</string>
+    <string name="settings_app_blocking">Pemblokiran aplikasi</string>
+    <string name="settings_unlock_pass">Kartu buka kunci</string>
+    <string name="settings_pass_none">Tidak ada</string>
+    <string name="settings_pass_rules">%d aturan</string>
+    <string name="settings_help">Bantuan &amp; masukan</string>
+    <string name="settings_rate">Beri nilai Recentr</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">Gratis</string>
+    <string name="settings_log_out">Keluar</string>
+    <string name="settings_delete_account">Hapus akun</string>
+    <string name="settings_replay_onboarding">Ulangi pengenalan</string>
+    <string name="settings_design_system">Sistem desain</string>
+    <string name="emergency_title">Buka kunci darurat</string>
+    <string name="emergency_body">Kamu punya sisa %1$d dari %2$d buka kunci darurat bulan ini. Saat Mode ketat atau batas yang sudah habis menahan sebuah aplikasi, tiap satunya tetap membukanya selama 5 menit. Jatahnya kembali pada %3$s.</string>
+    <string name="unlock_pass_title">Kartu buka kunci</string>
+    <string name="unlock_pass_none">Belum ada aturan yang meminta kartu. Pilih “Pindai kode yang kamu simpan di tempat lain” sebagai cara buka kunci sebuah aturan, lalu cetak kartunya di sini.</string>
+    <string name="unlock_pass_body">Cetak kartu sebuah aturan dan simpan jauh dari ponselmu. Memindainya adalah jalan masuknya.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">Kartu buka kuncimu</string>
+    <string name="unlock_pass_screen_body">Cetak dan simpan jauh dari tempat tidurmu. Memindainya adalah satu-satunya cara membuka kunci.</string>
+    <string name="unlock_pass_caption">Recentr · kartu #%1$s</string>
+    <string name="unlock_pass_share">Bagikan</string>
+    <string name="unlock_pass_print">Cetak kartu</string>
+    <string name="unlock_pass_document">Kartu buka kunci Recentr</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">Bantuan &amp; masukan</string>
+    <string name="help_subtitle">Kami membaca setiap pesan.</string>
+    <string name="help_not_blocking">Recentr tidak memblokir aplikasi</string>
+    <string name="help_not_blocking_body">Pemblokiran butuh Akses penggunaan dan Recentr berjalan di latar belakang. Periksa Pengaturan › Aplikasi › Recentr dan matikan optimalisasi baterai.</string>
+    <string name="help_strict">Pertanyaan tentang Mode ketat</string>
+    <string name="help_strict_body">Aktifkan Mode ketat untuk sesi atau rutinitas dan, sampai selesai, aplikasinya tidak bisa dibuka kuncinya, kecuali dengan buka kunci darurat. Mematikannya pun harus menunggu sampai selesai. Pengaturan › Mode ketat mengaktifkannya untuk setiap yang baru.</string>
+    <string name="help_billing">Tagihan &amp; Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus ditagih lewat Google Play. Kamu bisa membatalkannya kapan saja dari Pengaturan › Recentr Plus atau langganan Play-mu.</string>
+    <string name="help_note_section">Kirim catatan untuk kami</string>
+    <string name="help_note_title">Ide untuk Recentr</string>
+    <string name="help_note_placeholder">Pengin ada sesi “belajar bareng teman” di mana kita semua mengunci bersama.</string>
+    <string name="help_send">Kirim masukan</string>
+    <string name="help_feedback_subject">Masukan Recentr</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">Tampilan</string>
+    <string name="appearance_theme">Tema</string>
+    <string name="theme_light">Terang</string>
+    <string name="theme_dark">Gelap</string>
+    <string name="theme_auto">Otomatis</string>
+    <string name="appearance_app_icon">Ikon aplikasi</string>
+    <string name="icon_sky">Langit</string>
+    <string name="icon_night">Malam</string>
+    <string name="icon_mint">Mint</string>
+    <string name="icon_sunset">Senja</string>
+    <string name="appearance_mascot">Tampilkan maskot di Beranda</string>
+    <string name="appearance_reduce_motion">Kurangi gerakan</string>
+    <string name="appearance_haptics">Haptik</string>
+    <string name="appearance_haptics_caption">Ketukan kecil saat kamu memilih, menggeser sakelar, atau merayakan</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">Notifikasi</string>
+    <string name="notifications_subtitle">Pengingat lembut, tanpa bising.</string>
+    <string name="notifications_reminders">Pengingat</string>
+    <string name="notifications_routine">Sebelum rutinitas dimulai</string>
+    <string name="notifications_limit">Batas hampir tercapai</string>
+    <string name="notifications_goal">Cek target harian</string>
+    <string name="notifications_celebrations">Perayaan</string>
+    <string name="notifications_streaks">Rentetan &amp; tonggak</string>
+    <string name="notifications_recap">Rekap mingguan</string>
+    <string name="notifications_quiet_hours">Jam tenang</string>
+    <string name="notifications_dont_notify">Jangan beri tahu aku</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">Notifikasi untuk Recentr dimatikan di ponsel ini.</string>
+    <string name="notifications_turn_on">Aktifkan</string>
+    <string name="quiet_title">Jam tenang</string>
+    <string name="quiet_subtitle">Tanpa pengingat di antara waktu ini.</string>
+    <string name="quiet_from">Mulai</string>
+    <string name="quiet_to">Berakhir</string>
+    <string name="quiet_save">Simpan</string>
+    <string name="time_dialog_cancel">Batal</string>
+    <string name="time_dialog_ok">OK</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">Bahasa</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">Bahasa sistem</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Keluar dari Recentr?</string>
+    <string name="logout_body">Aturanmu tetap berjalan di ponsel ini. Masuk lagi kapan saja untuk menyinkronkannya.</string>
+    <string name="logout_confirm">Keluar</string>
+    <string name="logout_stay">Tetap masuk</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">Hapus akunmu?</string>
+    <string name="delete_body">Semua aturan, rentetan, dan refleksi akan dihapus. Ketik DELETE untuk mengonfirmasi.</string>
+    <string name="delete_placeholder">Ketik DELETE</string>
+    <string name="delete_confirm">Hapus akun</string>
+    <string name="delete_cancel">Batal</string>
+    <string name="back">Kembali</string>
+    <string name="duration_h">%1$d j</string>
+    <string name="duration_m">%1$d mnt</string>
+    <string name="duration_h_m_compact">%1$d j %2$02d</string>
+    <string name="duration_h_m">%1$d j %2$d mnt</string>
+</resources>

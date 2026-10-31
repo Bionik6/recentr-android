@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified). -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">Recentr 应用屏蔽</string>
+    <string name="hold_service_summary">让被你的规则和专注时段屏蔽的应用暂缓使用。</string>
+    <string name="hold_service_description">Recentr 会让被你的规则和专注时段屏蔽的应用暂缓使用。它只知道你打开了哪个应用，绝不会看到屏幕上的内容，也不会有任何数据离开你的手机。</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">%1$s 正在休息</string>
+    <string name="shield_on_hold">%1$s 暂缓使用中</string>
+    <string name="shield_until">%1$s · 至 %2$s</string>
+    <string name="shield_until_tomorrow">%1$s · 至明天 %2$s</string>
+    <string name="shield_limit">%1$s · 今日已用 %2$s</string>
+    <string name="shield_stayed_off">你已坚持 %1$s 没有打开</string>
+    <string name="shield_focus_minutes">你已专注 %1$d 分钟</string>
+    <string name="shield_focus_started">你的专注刚刚开始</string>
+    <string name="shield_got_this">我可以的</string>
+    <string name="shield_back_to_focus">回到专注</string>
+    <string name="shield_end_focus">提前结束专注</string>
+    <string name="shield_unlock_anyway">仍要解锁</string>
+    <string name="shield_unlock_anyway_left">仍要解锁（还剩 %1$d/%2$d 次）</string>
+    <string name="shield_emergency">紧急解锁</string>
+    <string name="duration_h">%1$d小时</string>
+    <string name="duration_m">%1$d分钟</string>
+    <string name="duration_h_m">%1$d小时%2$d分钟</string>
+    <string name="stayed_off_h_m">%1$d小时%2$02d分</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · 由 %2$s 锁定</string>
+    <string name="unlock_strict_on">%1$s · 严格模式已开启</string>
+    <string name="unlock_wait_overline">还是想进去？</string>
+    <string name="unlock_wait_title">选择解锁时长</string>
+    <string name="unlock_wait_breath">深呼吸一下…</string>
+    <string name="unlock_wait_done">你停下来想了想，真棒。</string>
+    <string name="unlock_minutes_chip">%1$d 分钟</string>
+    <string name="unlock_nevermind">算了</string>
+    <string name="unlock_unlock">解锁</string>
+    <string name="unlock_retype_title">输入这段话来解锁</string>
+    <string name="unlock_retype_text">我正在选择刷信息流，而不是今天说过很重要的事，而且我很清楚这一点。</string>
+    <string name="unlock_quote">“%1$s”</string>
+    <string name="unlock_retype_hint">开始输入…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">打错了——从头再来</string>
+    <string name="unlock_retype_start_over">重新开始</string>
+    <string name="unlock_scan_title">扫描你的 Recentr 二维码</string>
+    <string name="unlock_scan_subtitle">就是你贴在冰箱上的那张。</string>
+    <string name="unlock_scan_steady">拿稳别动…</string>
+    <string name="unlock_scan_wrong_pass">这是另一条规则的通行证</string>
+    <string name="unlock_scan_no_camera">Recentr 需要使用相机来扫描你的通行证。</string>
+    <string name="unlock_scan_allow_camera">允许使用相机</string>
+    <string name="unlock_scan_use_passcode">改用通行码</string>
+    <string name="unlock_close">关闭</string>
+    <string name="unlock_passcode_title">输入你的通行码</string>
+    <string name="unlock_passcode_subtitle">就是二维码下方印着的数字。</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">这不是你通行证上的代码。</string>
+    <string name="unlock_emergency_title">紧急解锁</string>
+    <string name="unlock_emergency_body">严格模式已开启。仅在真正重要时使用——本月你还剩 %1$d 次。</string>
+    <string name="unlock_emergency_spent">严格模式已开启，本月的紧急解锁次数已用完。</string>
+    <string name="unlock_emergency_limit_body">今天的时间已用完，限额不提供解锁。仅在真正重要时使用——本月你还剩 %1$d 次。</string>
+    <string name="unlock_emergency_limit_spent">今天的时间已用完，本月的紧急解锁次数也已用完。</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="other">还剩 %d 次紧急解锁</item>
+    </plurals>
+    <string name="unlock_hold">长按解锁 · %1$d 秒</string>
+    <string name="unlock_hold_none">没有紧急解锁次数了</string>
+    <string name="unlock_cancel">取消</string>
+    <string name="unlock_open_title">%1$s 已打开</string>
+    <string name="unlock_time_left">剩余 %1$s</string>
+    <string name="unlock_open_caption">计时结束后，我们会再次锁上。</string>
+    <string name="unlock_open_app">打开 %1$s</string>
+    <string name="unlock_lock_again">重新锁上</string>
+    <string name="unlock_walk_title">走 %1$d 步来解锁</string>
+    <string name="unlock_walk_subtitle">刷之前先走一走。走满 %1$d 步，就能打开 %2$s。</string>
+    <string name="unlock_walking_title">再走几步</string>
+    <string name="unlock_walking_subtitle">走到 %2$d 步之前，%1$s 会一直锁着。慢慢来。</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">步 · 准备好就出发</string>
+    <string name="unlock_walk_more_to_go">步 · 还差 %1$d 步</string>
+    <string name="unlock_walk_goal_reached">步 · 目标达成</string>
+    <string name="unlock_walk_locked_until">走满 %1$d 步前保持锁定</string>
+    <string name="unlock_walk_complete_chip">已走完 %1$d 步</string>
+    <string name="unlock_walk_safety_title">手机收好，抬头看路。</string>
+    <string name="unlock_walk_safety_body">请在安全、开阔的地方行走。查看进度前先停下脚步。</string>
+    <string name="unlock_walk_no_permission_title">Recentr 无法统计你的步数</string>
+    <string name="unlock_walk_no_permission_body">请为 Recentr 允许“身体活动”权限，然后重新开始走路。</string>
+    <string name="unlock_walk_no_sensor_title">这部手机无法统计步数</string>
+    <string name="unlock_walk_no_sensor_body">请在规则页面选择其他解锁方式。</string>
+    <string name="unlock_walk_start">开始走路</string>
+    <string name="unlock_walk_cancel">取消步行</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="other">还差 %1$d 步即可解锁</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · 解锁 %2$d 分钟</string>
+    <string name="unlock_walk_done_title">%1$s 已解锁</string>
+    <string name="unlock_walk_done_subtitle">走了 %1$d 步，给自己一个小小的重置。你的 %2$d 分钟休息已就绪。</string>
+    <string name="unlock_walk_done_note_body">计时结束后，我们会再次锁上。打开 %1$s 前请先停止走动。</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="other">%1$d 分钟，专属于你</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="other">%1$d 分钟</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">规则提醒</string>
+    <string name="reminder_channel_description">例程开始屏蔽应用前的温馨提醒。</string>
+    <string name="reminder_title">%1$s 将在 %2$d 分钟后开始</string>
+    <string name="reminder_text">应用将在 %1$s 被屏蔽。</string>
+</resources>

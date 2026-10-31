@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">ルール</string>
+    <string name="rules_templates_title">テンプレート</string>
+    <string name="rules_subtitle_active">有効 %1$d件</string>
+    <string name="rules_subtitle_active_paused">有効 %1$d件 · 一時停止 %2$d件</string>
+    <string name="rules_templates_subtitle">すぐ使えるルール · タップして開始</string>
+    <string name="rules_group_locks">ロック</string>
+    <string name="rules_group_sessions">セッション</string>
+    <string name="rules_group_limits">制限</string>
+    <string name="rules_group_routines">ルーティン</string>
+    <string name="rules_group_templates">テンプレート</string>
+    <string name="rules_add_session">セッションを追加</string>
+    <string name="rules_add_session_hint">例：「これから30分、アプリをブロック」</string>
+    <string name="rules_add_routine">ルーティンを追加</string>
+    <string name="rules_add_routine_hint">例：「夕食中はスマホなし」</string>
+    <string name="rules_add_lock">ロックを追加</string>
+    <string name="rules_add_lock_hint">例：「TikTokを一日じゅう閉じておく」</string>
+    <string name="rules_add_limit">制限を追加</string>
+    <string name="rules_add_limit_hint">例：「YouTubeは1日1時間」</string>
+    <string name="rules_more">その他のオプション</string>
+    <string name="rules_empty_title">ルールはまだありません</string>
+    <string name="rules_empty_body">セッションを始めるか、テンプレートを選んではじめましょう。</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">実行中</string>
+    <string name="rules_status_upcoming">予定</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">準備OK</string>
+    <plurals name="rules_more_apps">
+        <item quantity="other">+ %d個のアプリ</item>
+    </plurals>
+    <string name="rules_tile_ready">準備OK</string>
+    <string name="rules_status_blocking">ブロック中</string>
+    <string name="rules_status_paused">一時停止中</string>
+    <string name="rules_status_times_up">時間切れ</string>
+    <string name="rules_status_unlocks">解除 %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">解除は無制限</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">オフ</string>
+    <string name="rules_all_day">終日</string>
+    <string name="rules_strict_mode">厳格モード</string>
+    <string name="rules_value_locked">ロック中</string>
+    <string name="rules_value_off">オフ</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">午前0時まで</string>
+    <string name="rules_budget_today">今日の予算</string>
+    <string name="rules_value_left">残り%1$s</string>
+    <string name="rules_value_starts_in">%1$s後</string>
+    <string name="rules_value_paused">一時停止中</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s～%2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">毎日</string>
+    <string name="rules_days_weekdays">平日</string>
+    <string name="rules_days_weekends">週末</string>
+    <string-array name="rules_day_short">
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>月曜日</item>
+        <item>火曜日</item>
+        <item>水曜日</item>
+        <item>木曜日</item>
+        <item>金曜日</item>
+        <item>土曜日</item>
+        <item>日曜日</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
+    </string-array>
+    <string name="rules_am">午前</string>
+    <string name="rules_pm">午後</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d分</string>
+    <string name="rules_hours_short">%1$d時間</string>
+    <string name="rules_hours_minutes">%1$d時間%2$d分</string>
+    <string name="rules_compact_seconds">%1$d秒</string>
+    <string name="rules_compact_minutes">%1$d分</string>
+    <string name="rules_compact_hours">%1$d時間</string>
+    <string name="rules_compact_hours_minutes">%1$d時間%2$02d分</string>
+
+    <!-- Common -->
+    <string name="rules_none">なし</string>
+    <string name="rules_save">保存</string>
+    <string name="rules_done">完了</string>
+    <string name="rules_continue">続ける</string>
+    <string name="rules_cancel">キャンセル</string>
+    <string name="rules_back">戻る</string>
+    <string name="rules_edit_name">名前とステッカーを編集</string>
+    <plurals name="rules_apps_count">
+        <item quantity="other">%d個のアプリ</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">セッション</string>
+    <string name="rules_type_lock">ロック</string>
+    <string name="rules_type_limit">制限</string>
+    <string name="rules_type_routine">ルーティン</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">ブロック</string>
+    <string name="rules_row_active">実行日</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">解除方法</string>
+    <string name="rules_row_unlocks_per_day">1日の解除回数</string>
+    <string name="rules_row_apps">アプリ</string>
+    <string name="rules_row_reminders">リマインダー</string>
+    <string name="rules_row_each_unlock">1回の解除の長さ</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">セッション</string>
+    <string name="rules_session_subtitle">開始すると、%1$sのあいだアプリをブロックします。</string>
+    <string name="rules_session_default_name">集中セッション</string>
+    <string name="rules_suggestions">候補</string>
+    <string name="rules_start">開始</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">終了するまで解除できません。</string>
+    <string name="rules_unlock_strict_caption">厳格モードでは、解除は使えません。</string>
+    <string name="rules_strict_confirm_title">厳格モードをオンにしますか？</string>
+    <string name="rules_strict_confirm_body">終了するまで、緊急解除以外ではこれらのアプリを解除できなくなります。</string>
+    <string name="rules_turn_on">オンにする</string>
+    <string name="rules_not_now">今はしない</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">これらのアプリを今すぐブロックしますか？</string>
+    <string name="rules_block_now_body">このルールは実行中です。追加したアプリは、すぐにブロックされます。</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">%1$sをオンにしますか？</string>
+    <string name="rules_lock_confirm_body">オンにすると、ゆるくする変更（アプリの削除、解除回数の追加、オフにすること）は、午前0時にならないと反映されません。</string>
+    <string name="rules_limit_confirm_title">%1$sを開始しますか？</string>
+    <string name="rules_limit_confirm_body">開始すると、ゆるくする変更（予算の増加、アプリの削除）は、リセットされる午前0時まで反映されません。</string>
+    <string name="rules_block_now">今すぐブロック</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">ロック</string>
+    <string name="rules_lock_subtitle">選んだアプリを閉じたままにします。1日に数回の短い解除つき。</string>
+    <string name="rules_lock_note_title">このロックの理由は？</string>
+    <string name="rules_hold_create_lock">長押ししてロックを作成</string>
+    <string name="rules_hold_create_session">長押ししてセッションを作成</string>
+    <string name="rules_unlock_wait">%1$d秒待つ</string>
+    <string name="rules_unlock_retype">再入力</string>
+    <string name="rules_unlock_scan">コードをスキャン</string>
+    <string name="rules_unlock_walk">%1$d歩あるく</string>
+    <string name="rules_unlimited">無制限</string>
+    <string name="rules_lock_default_name">ロック</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">アプリを選ぶ</string>
+    <string name="rules_selected">%1$d件選択中</string>
+    <string name="rules_search_apps">アプリを検索</string>
+    <string name="rules_category_social">SNS</string>
+    <string name="rules_category_entertainment">エンタメ</string>
+    <string name="rules_category_music">音楽</string>
+    <string name="rules_category_games">ゲーム</string>
+    <string name="rules_category_productivity">仕事効率化</string>
+    <string name="rules_category_other">その他</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="other">ブロック · %d個</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">すべてのアプリとカテゴリ</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">すべて</string>
+    <string name="rules_no_apps_found">「%1$s」に一致するアプリはありません。</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">実行時間</string>
+    <string name="rules_ends_at">%1$sに終了</string>
+    <string name="rules_hours_label">時間</string>
+    <string name="rules_minutes_label">分</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">制限</string>
+    <string name="rules_limit_subtitle">一日を食いつぶすアプリのための、今日の時間予算です。</string>
+    <string name="rules_hold_create_limit">長押しして制限を作成</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">午前0時まで固定</string>
+    <string name="rules_locked_in_lock">作成するとすぐにオンになります。ゆるくする変更（アプリの削除、解除回数の追加、オフにすること）や削除は、午前0時の毎日のリセット後に反映されます。</string>
+    <string name="rules_locked_in_limit">作成するとすぐに開始します。ゆるくする変更（予算の増加、アプリの削除）や削除は、午前0時の毎日のリセット後に反映されます。</string>
+    <string name="rules_limit_resets">午前0時に自動でリセットされます。</string>
+    <string name="rules_limit_default_name">制限</string>
+    <string name="rules_limit_social_name">SNSの時間</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">就寝</string>
+    <string name="rules_bedtime_subtitle">スケジュールに沿ってアプリをブロックします。</string>
+    <string name="rules_from">開始</string>
+    <string name="rules_until">終了</string>
+    <string name="rules_tonight">%1$s · 今夜</string>
+    <string name="rules_today">%1$s · 今日</string>
+    <string name="rules_tomorrow">%1$s · 明日</string>
+    <string name="rules_tonight_alone">今夜</string>
+    <string name="rules_today_alone">今日</string>
+    <string name="rules_tomorrow_alone">明日</string>
+    <string name="rules_hold_create_routine">長押ししてルーティンを作成</string>
+    <string name="rules_starts_at">開始時刻</string>
+    <string name="rules_ends_at_title">終了時刻</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">どうやって解除しますか？</string>
+    <string name="rules_unlock_subtitle">自分に合う「ひと手間」を選びましょう。</string>
+    <string name="rules_unlock_option_wait">数秒待つ</string>
+    <string name="rules_unlock_option_retype">つらい文章を入力し直す</string>
+    <string name="rules_unlock_option_scan">別の場所に置いたコードをスキャン</string>
+    <string name="rules_unlock_option_walk">%1$d歩あるく</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">解除前の待ち時間</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="other">%d秒</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1分</string>
+    <string name="rules_seconds_chip">%1$d秒</string>
+    <string name="rules_one_min_chip">1分</string>
+    <string name="rules_unlocks_per_day_title">1日の解除回数</string>
+    <string name="rules_each_unlock_title">1回の解除の長さ</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">集中</string>
+    <string name="rules_section_focus_body">仕事、勉強、プロジェクトの仕上げに。</string>
+    <string name="rules_section_unwind">くつろぐ</string>
+    <string name="rules_section_unwind_body">おだやかな夜と、やさしい朝のために。</string>
+    <string name="rules_section_be_present">いま、ここに</string>
+    <string name="rules_section_be_present_body">身近な人や自分自身に、意識を向けるために。</string>
+    <string name="rules_section_scroll_less">スクロールを減らす</string>
+    <string name="rules_section_scroll_less_body">アプリは習慣ではなく、意志で開きましょう。</string>
+    <string name="rules_tpl_focus_sprint">集中スプリント</string>
+    <string name="rules_tpl_focus_sprint_body">気が散るものを、今すぐブロック。</string>
+    <string name="rules_tpl_study_hour">勉強の1時間</string>
+    <string name="rules_tpl_study_hour_body">今から1時間、勉強に集中。</string>
+    <string name="rules_tpl_work_rhythm">仕事のリズム</string>
+    <string name="rules_tpl_work_rhythm_body">平日は、気が散るものをブロック。</string>
+    <string name="rules_tpl_evening_calm">おだやかな夜</string>
+    <string name="rules_tpl_evening_calm_body">毎晩、SNSや動画アプリはお休み。</string>
+    <string name="rules_tpl_night_pause">ナイトポーズ</string>
+    <string name="rules_tpl_night_pause_body">夜のあいだ、気が散るものをブロック。</string>
+    <string name="rules_tpl_slow_morning">ゆっくりな朝</string>
+    <string name="rules_tpl_slow_morning_body">SNSアプリなしで、一日をスタート。</string>
+    <string name="rules_tpl_dinner_together">みんなで夕食</string>
+    <string name="rules_tpl_dinner_together_body">夕食のあいだ、気が散るものをブロック。</string>
+    <string name="rules_tpl_family_hour">家族の時間</string>
+    <string name="rules_tpl_family_hour_body">日曜日は、一緒に過ごす時間のために。</string>
+    <string name="rules_tpl_time_for_me">自分の時間</string>
+    <string name="rules_tpl_time_for_me_body">読んで、つくって、ただ深呼吸。</string>
+    <string name="rules_tpl_walk_before_you_scroll">歩いてからスクロール</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">そのあとアプリを5分、1日3回まで。</string>
+    <string name="rules_tpl_pause_before_opening">開く前にひと呼吸</string>
+    <string name="rules_tpl_pause_before_opening_body">そのあとアプリを5分、1日3回まで。</string>
+    <string name="rules_tpl_social_budget">SNSの時間予算</string>
+    <string name="rules_tpl_social_budget_body">アプリ全体で共有し、使い切ったら午前0時までブロック。</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">新しいルール</string>
+    <string name="rules_new_rule_subtitle">何を設定しますか？</string>
+    <string name="rules_browse_templates">テンプレートを見る</string>
+    <string name="rules_kind_routine_body">就寝時間や仕事の時間など、スケジュールに沿ってアプリをブロックします。</string>
+    <string name="rules_kind_session_body">開始すると、選んだ時間だけアプリをブロックします。</string>
+    <string name="rules_kind_lock_body">オンにした時点からアプリを閉じたままにします。1日に数回の短い解除つき。</string>
+    <string name="rules_kind_limit_body">今日の時間予算です。使い切ると、午前0時までアプリはブロックされたままです。</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">実行日：%1$s</string>
+    <string name="rules_detail_running">実行中</string>
+    <string name="rules_detail_paused">一時停止中</string>
+    <string name="rules_detail_paused_until">%1$sまで一時停止中</string>
+    <string name="rules_detail_on">オン</string>
+    <string name="rules_detail_off">オフ</string>
+    <string name="rules_blocked">ブロック中</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">アプリ</string>
+    <string name="rules_apps_blocking">今ブロック中</string>
+    <string name="rules_apps_not_blocking">今はブロックしていません</string>
+    <string name="rules_apps_blocked">ブロック中</string>
+    <string name="rules_apps_blocked_when_on">オンのときにブロック</string>
+    <string name="rules_apps_unlocked">今は解除中</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">今ブロック中のものはありません。</string>
+    <string name="rules_apps_none_unlocked">今解除中のアプリはありません。</string>
+    <string name="rules_streak">連続記録</string>
+    <plurals name="rules_streak_days">
+        <item quantity="other">%d日</item>
+    </plurals>
+    <string name="rules_why">理由</string>
+    <string name="rules_why_placeholder">タップして、なぜ大切かを書き留めましょう。</string>
+    <string name="rules_why_empty">理由はまだ書かれていません。</string>
+    <string name="rules_tile_now">今</string>
+    <string name="rules_tile_left_of">%1$sのうち残り</string>
+    <string name="rules_tile_used">%1$s使用</string>
+    <string name="rules_tile_today">今日</string>
+    <string name="rules_tile_not_started">まだ開始していません</string>
+    <string name="rules_tile_unlocks_today">今日の解除</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">オフ</string>
+    <string name="rules_reminder_before">%1$d分前</string>
+    <string name="rules_reminders_title">開始前にお知らせ</string>
+    <string name="rules_activate">有効にする</string>
+    <string name="rules_turn_off">オフにする</string>
+    <string name="rules_menu_edit_settings">ルールを編集</string>
+    <string name="rules_menu_pause">ルールを一時停止</string>
+    <string name="rules_menu_resume">ルールを再開</string>
+    <string name="rules_menu_delete">ルールを削除</string>
+    <string name="rules_pause_title">%1$sを一時停止しますか？</string>
+    <string name="rules_pause_hour">1時間</string>
+    <string name="rules_pause_tomorrow">明日まで</string>
+    <string name="rules_pause_manual">再びオンにするまで</string>
+    <string name="rules_pause_rule">ルールを一時停止</string>
+    <string name="rules_pause_later">一時停止は、この時間枠が終わると始まります。</string>
+    <string name="rules_paused_toast">%1$sを一時停止しました</string>
+    <string name="rules_resumed_toast">%1$sが再びオンになりました</string>
+    <string name="rules_edit_title">ルールを編集</string>
+    <string name="rules_sticker">ステッカー</string>
+    <string name="rules_name_placeholder">ルール名</string>
+    <string name="rules_more_stickers">ステッカーをもっと見る</string>
+    <string name="rules_more_stickers_soon">ステッカーは近日追加予定です</string>
+    <string name="rules_delete_title">%1$sを削除しますか？</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="other">このルールの%d日連続記録は失われます。この操作は元に戻せません。</item>
+    </plurals>
+    <string name="rules_delete_body">このルールと履歴は削除されます。この操作は元に戻せません。</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">午前0時までブロックを続け、そのあと削除されます。</string>
+    <string name="rules_delete_body_later_session">セッションが終わるまでブロックを続け、そのあと削除されます。</string>
+    <string name="rules_delete_body_later_at">%1$sまでブロックを続け、そのあと削除されます。</string>
+    <string name="rules_delete_rule">ルールを削除</string>
+    <string name="rules_keep_it">残す</string>
+    <string name="rules_deleted_toast">%1$sを削除しました</string>
+    <string name="rules_note_title">このルールの理由は？</string>
+    <string name="rules_note_placeholder">書き留めましょう…</string>
+    <string name="rules_session_started">セッション開始 · %1$s</string>
+    <string name="rules_limit_started">制限を開始 · 今日は%1$s</string>
+    <string name="rules_lock_activated">%1$sがオンです</string>
+    <string name="rules_rule_created">%1$sを作成しました</string>
+    <string name="rules_rule_saved">変更を保存しました</string>
+    <string name="rules_saved_later_midnight">保存しました · 一部の変更は午前0時に反映されます</string>
+    <string name="rules_saved_later_session">保存しました · 一部の変更はセッション終了時に反映されます</string>
+    <string name="rules_saved_later_at">保存しました · 一部の変更は%1$sに反映されます</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">変更は午前0時に反映されます</string>
+    <string name="rules_pending_changes_session">変更はセッション終了時に反映されます</string>
+    <string name="rules_pending_changes_at">変更は%1$sに反映されます</string>
+    <string name="rules_pending_delete_midnight">午前0時に削除されます</string>
+    <string name="rules_pending_delete_session">セッション終了時に削除されます</string>
+    <string name="rules_pending_delete_at">%1$sに削除されます</string>
+    <string name="rules_pending_turn_off">午前0時にオフになります</string>
+    <string name="rules_pending_pause">この時間枠の終了時に一時停止します</string>
+    <string name="rules_pending_drop">変更を破棄</string>
+    <string name="rules_pending_keep_rule">ルールを残す</string>
+    <string name="rules_pending_keep_on">オンのままにする</string>
+    <string name="rules_pending_dont_pause">一時停止しない</string>
+    <string name="rules_session_ended">セッションが終了しました</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">常に許可</string>
+    <string name="rules_allowed_explainer">ルールやタイマーに関係なく、Recentrはこれらのアプリを決してブロックしません。</string>
+    <string name="rules_allowed_add">アプリを追加</string>
+    <string name="rules_allowed_remove">%1$sを削除</string>
+    <string name="rules_allowed_section">許可</string>
+    <string name="rules_allowed_waiting">あとで追加</string>
+    <string name="rules_allowed_none">まだアプリがありません。地図、配車、ヘルスケアのアプリがおすすめです。</string>
+    <string name="rules_allowed_changes_tomorrow">変更は明日の%1$sに反映されます</string>
+    <string name="rules_allowed_changes_on">変更は%1$sに反映されます</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="other">許可 · %d個</item>
+    </plurals>
+    <string name="rules_allowed_done_none">どれも許可しない</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">常に許可</string>
+    <string name="focus_apps_subtitle">ラウンド中は保留、休憩中は自由に使えます。</string>
+    <string name="focus_apps_on_hold">保留中</string>
+</resources>

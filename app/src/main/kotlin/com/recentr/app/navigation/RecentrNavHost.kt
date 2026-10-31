@@ -1,5 +1,6 @@
 package com.recentr.app.navigation
 
+import android.os.Build
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -53,7 +54,7 @@ private val PopExit = slideOutHorizontally(tween(300)) { it / 3 } + fadeOut(twee
 /**
  * Root navigation: onboarding graph → main tabs. Feature modules contribute their own full-screen
  * destinations (rule editors, settings, focus timer…) at this level so they are drawn above the
- * tab bar. [debugTools] adds the QA shortcuts (replay onboarding, design system) to Settings.
+ * tab bar. [debugTools] adds the QA shortcuts (replay onboarding, design system, language) to Settings.
  * [ruleToOpen] is a tapped notification's rule (NotificationLink): its page opens over the Rules
  * tab, then [onRuleOpened].
  */
@@ -129,6 +130,8 @@ fun RecentrNavHost(
             } else {
                 null
             },
+            // Per-app languages need Android 13.
+            developerLanguage = debugTools && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU,
         )
     }
     // A screen brought back on the onboarding (left there by a QA shortcut, or an older screen of

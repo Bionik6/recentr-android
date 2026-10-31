@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese. -->
+<resources>
+    <string name="focus_title">タイマー</string>
+    <string name="focus_more">その他のオプション</string>
+    <string name="focus_close">閉じる</string>
+    <string name="focus_back">戻る</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d分</string>
+    <string name="focus_dial_description">集中時間：%d分。ドラッグして変更できます。</string>
+    <string name="focus_sound">サウンド</string>
+    <string name="focus_block">ブロック</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">なし</string>
+    <string name="focus_rounds">ラウンド</string>
+    <string name="focus_rounds_value">%1$d × %2$d分</string>
+    <string name="focus_start">集中を始める</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">厳格モード</string>
+    <string name="focus_strict_caption">厳格モード：一時停止も途中終了もできません</string>
+    <string name="focus_strict_note">厳格モード：この集中は時間になると自動で終わります</string>
+    <string name="focus_strict_confirm_title">厳格モードをオンにしますか？</string>
+    <string name="focus_strict_confirm_body">この集中は、一時停止も途中終了もできなくなります。休憩はちゃんと来ます。</string>
+    <string name="focus_strict_turn_on">オンにする</string>
+    <string name="focus_cancel">キャンセル</string>
+    <string name="focus_back_to_focus">集中に戻る</string>
+    <string name="focus_back_to_focus_left">集中に戻る · %1$s</string>
+    <string name="focus_rename">名前を変更</string>
+    <string name="focus_rename_title">セッションに名前をつける</string>
+    <string name="focus_rename_save">保存</string>
+    <string name="focus_log">集中ログ</string>
+    <string name="focus_change_sound">サウンドを変更</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">ラウンド %1$d/%2$d</string>
+    <string name="focus_left_ends">残り · %sに終了</string>
+    <string name="focus_paused_round_of">一時停止中 · ラウンド %1$d/%2$d</string>
+    <string name="focus_ready_round_of">ラウンド %1$d/%2$dの準備OK</string>
+    <string name="focus_round_n">ラウンド %d</string>
+    <string name="focus_take_your_time">ゆっくりどうぞ</string>
+    <string name="focus_paused_for">%s一時停止中</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="other">%d個のアプリを保留中</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="other">%d個のアプリがまだ保留中</item>
+    </plurals>
+    <string name="focus_pause">一時停止</string>
+    <string name="focus_resume">再開</string>
+    <string name="focus_start_round">ラウンドを開始</string>
+    <string name="focus_end_session">セッションを終了</string>
+    <string name="focus_restart_round">ラウンドをやり直す</string>
+    <string name="focus_round_restarted">ラウンド %dをやり直しました</string>
+    <string name="focus_undo">元に戻す</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">集中サウンド</string>
+    <string name="sounds_subtitle_none">いくつでもオンにできます。</string>
+    <string name="sounds_subtitle_on">%1$sがオン</string>
+    <string name="sounds_subtitle_on_muted">%1$sがオン · %2$d件ミュート</string>
+    <string name="sounds_subtitle_muted">再生中なし · %d件ミュート</string>
+    <string name="sounds_mute_all">すべてミュート</string>
+    <string name="sounds_unmute_all">すべてミュート解除</string>
+    <string name="sounds_on_count">%d件オン</string>
+    <string name="sounds_volume">音量</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">オフ</string>
+    <string name="sound_state_muted">ミュート中</string>
+    <string name="sound_turn_on">オンにする</string>
+    <string name="sound_mute">ミュート</string>
+    <string name="sound_unmute">ミュート解除</string>
+    <string name="sound_mix_off">オフ</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">サウンドを追加</string>
+    <string name="sound_category_rain">雨</string>
+    <string name="sound_category_water">水辺</string>
+    <string name="sound_category_nature">自然</string>
+    <string name="sound_category_places">場所</string>
+    <string name="sound_category_steady">時計音とノイズ</string>
+    <string name="sound_soft_rain">小雨</string>
+    <string name="sound_heavy_rain">大雨</string>
+    <string name="sound_forest_rain">森の雨</string>
+    <string name="sound_rain_village">村の雨</string>
+    <string name="sound_thunder">雷</string>
+    <string name="sound_river">川</string>
+    <string name="sound_small_river">小川</string>
+    <string name="sound_beach">ビーチ</string>
+    <string name="sound_sea_beach">海辺</string>
+    <string name="sound_soft_beach">おだやかな浜辺</string>
+    <string name="sound_whale">クジラ</string>
+    <string name="sound_forest_night">夜の森</string>
+    <string name="sound_birds">鳥</string>
+    <string name="sound_crickets">コオロギ</string>
+    <string name="sound_cicada_birds">セミ</string>
+    <string name="sound_farm">農場</string>
+    <string name="sound_wind">風</string>
+    <string name="sound_campfire">たき火</string>
+    <string name="sound_coffee_shop">カフェ</string>
+    <string name="sound_office">オフィス</string>
+    <string name="sound_street_traffic">街の通り</string>
+    <string name="sound_construction">工事現場</string>
+    <string name="sound_keyboard_typing">タイピング</string>
+    <string name="sound_clock_tick">時計</string>
+    <string name="sound_clock_stopwatch">ストップウォッチ</string>
+    <string name="sound_white_noise">ホワイトノイズ</string>
+    <string name="sound_pink_noise">ピンクノイズ</string>
+    <string name="sounds_done">完了</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">休憩</string>
+    <string name="break_round_done">ラウンド %1$d 完了 · あと%2$dラウンド</string>
+    <string name="break_until">ラウンド %dまで</string>
+    <string name="break_ideas_title">スクロールの代わりに、こんなことを</string>
+    <string name="break_idea_window">窓の外を眺める</string>
+    <string name="break_idea_window_hint">20秒間、20メートル先を見る</string>
+    <string name="break_idea_water">コップ1杯の水を飲む</string>
+    <string name="break_idea_water_hint">脳が喜びます</string>
+    <string name="break_idea_stretch">肩をストレッチ</string>
+    <string name="break_idea_stretch_hint">後ろに5回まわす</string>
+    <string name="break_skip">休憩をスキップ</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="other">%1$d分の%2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="other">%dラウンド</item>
+    </plurals>
+    <string name="complete_zero_unlocks">解除ゼロ</string>
+    <plurals name="complete_unlocks">
+        <item quantity="other">解除%d回</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s。</string>
+    <string name="complete_longest">%1$s · %2$s。今週でいちばん長いセッションです。</string>
+    <string name="complete_focus_streak">集中の連続記録</string>
+    <plurals name="complete_days">
+        <item quantity="other">%d日</item>
+    </plurals>
+    <string name="complete_urges">誘惑に勝った回数</string>
+    <string name="complete_urges_today">今日%d回</string>
+    <string name="complete_note_title">何ができましたか？</string>
+    <string name="complete_note_placeholder">第3章のアウトライン＋2ページ。スマホは伏せたまま。</string>
+    <string name="complete_another">もう1ラウンド始める</string>
+    <string name="complete_done">完了</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">集中して%d分が経ちました</string>
+    <string name="hold_leave_body">アプリは%sまで保留のままです。その調子です — とてもいい感じですよ。</string>
+    <string name="hold_back">集中に戻る</string>
+    <string name="hold_end">セッションを早めに終了</string>
+    <string name="hold_keep_focusing">集中を続ける</string>
+    <string name="hold_end_now">今すぐ終了しますか？</string>
+    <plurals name="hold_end_apps">
+        <item quantity="other">今すぐ終了すると、%d個のアプリが戻ってきます。</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s%2$d分はそのまま記録されます。</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">集中ログ</string>
+    <string name="history_this_week">今週</string>
+    <string name="history_sessions">セッション</string>
+    <string name="history_today">今日 %s</string>
+    <string name="history_yesterday">昨日 %s</string>
+    <string name="history_day">%1$s %2$s</string>
+    <string name="history_empty">まだセッションがありません。集中セッションはここに表示されます。</string>
+    <string name="history_clear">ログを消去</string>
+    <string-array name="focus_day_letters">
+        <item>月</item>
+        <item>火</item>
+        <item>水</item>
+        <item>木</item>
+        <item>金</item>
+        <item>土</item>
+        <item>日</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">ラウンド</string>
+    <string name="rounds_subtitle">短い休憩をはさみながら、ラウンドごとに取り組みます。</string>
+    <string name="rounds_focus">集中</string>
+    <string name="rounds_short_break">短い休憩</string>
+    <string name="rounds_count">ラウンド数</string>
+    <string name="rounds_long_break">長い休憩</string>
+    <string name="rounds_minutes">%d分</string>
+    <string name="rounds_auto_start">次のラウンドを自動で開始</string>
+    <string name="rounds_total">合計：休憩込みで%s</string>
+    <string name="rounds_save">ラウンドを保存</string>
+    <string name="rounds_decrease">%sを減らす</string>
+    <string name="rounds_increase">%sを増やす</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d時間</string>
+    <string name="duration_m">%1$d分</string>
+    <string name="duration_h_m">%1$d時間%2$d分</string>
+    <string name="focus_notification_channel">集中タイマー</string>
+    <string name="focus_notification_channel_description">進行中のセッションを表示し、Recentrを閉じていてもサウンドを再生します。</string>
+    <string name="focus_notification_round">ラウンド %1$d/%2$d</string>
+    <string name="focus_notification_break">休憩 · 次はラウンド %1$d</string>
+    <string name="focus_notification_paused">一時停止中 · ラウンド %1$d/%2$d</string>
+</resources>

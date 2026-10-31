@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified). -->
+<resources>
+    <string name="focus_title">计时器</string>
+    <string name="focus_more">更多选项</string>
+    <string name="focus_close">关闭</string>
+    <string name="focus_back">返回</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d 分钟</string>
+    <string name="focus_dial_description">专注时长：%d 分钟。拖动即可调整。</string>
+    <string name="focus_sound">声音</string>
+    <string name="focus_block">屏蔽</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">无</string>
+    <string name="focus_rounds">轮次</string>
+    <string name="focus_rounds_value">%1$d × %2$d 分钟</string>
+    <string name="focus_start">开始专注</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">严格模式</string>
+    <string name="focus_strict_caption">严格模式：不可暂停，也不能提前结束</string>
+    <string name="focus_strict_note">严格模式：本次专注到点自动结束</string>
+    <string name="focus_strict_confirm_title">开启严格模式？</string>
+    <string name="focus_strict_confirm_body">你将无法暂停或提前结束这次专注。休息时间照常。</string>
+    <string name="focus_strict_turn_on">开启</string>
+    <string name="focus_cancel">取消</string>
+    <string name="focus_back_to_focus">回到专注</string>
+    <string name="focus_back_to_focus_left">回到专注 · %1$s</string>
+    <string name="focus_rename">重命名</string>
+    <string name="focus_rename_title">为这次专注命名</string>
+    <string name="focus_rename_save">保存</string>
+    <string name="focus_log">专注记录</string>
+    <string name="focus_change_sound">更换声音</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">第 %1$d / %2$d 轮</string>
+    <string name="focus_left_ends">剩余 · %s 结束</string>
+    <string name="focus_paused_round_of">已暂停 · 第 %1$d / %2$d 轮</string>
+    <string name="focus_ready_round_of">准备开始第 %1$d / %2$d 轮</string>
+    <string name="focus_round_n">第 %d 轮</string>
+    <string name="focus_take_your_time">慢慢来</string>
+    <string name="focus_paused_for">已暂停 %s</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="other">%d 个应用暂缓使用</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="other">%d 个应用仍暂缓使用</item>
+    </plurals>
+    <string name="focus_pause">暂停</string>
+    <string name="focus_resume">继续</string>
+    <string name="focus_start_round">开始本轮</string>
+    <string name="focus_end_session">结束专注</string>
+    <string name="focus_restart_round">重新开始本轮</string>
+    <string name="focus_round_restarted">第 %d 轮已重新开始</string>
+    <string name="focus_undo">撤销</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">专注声音</string>
+    <string name="sounds_subtitle_none">想开几个就开几个。</string>
+    <string name="sounds_subtitle_on">%1$s 已开启</string>
+    <string name="sounds_subtitle_on_muted">%1$s 已开启 · %2$d 个已静音</string>
+    <string name="sounds_subtitle_muted">未在播放 · %d 个已静音</string>
+    <string name="sounds_mute_all">全部静音</string>
+    <string name="sounds_unmute_all">取消全部静音</string>
+    <string name="sounds_on_count">%d 个已开启</string>
+    <string name="sounds_volume">音量</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">关闭</string>
+    <string name="sound_state_muted">已静音</string>
+    <string name="sound_turn_on">开启</string>
+    <string name="sound_mute">静音</string>
+    <string name="sound_unmute">取消静音</string>
+    <string name="sound_mix_off">关闭</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">添加声音</string>
+    <string name="sound_category_rain">雨声</string>
+    <string name="sound_category_water">水声</string>
+    <string name="sound_category_nature">自然</string>
+    <string name="sound_category_places">场所</string>
+    <string name="sound_category_steady">滴答与噪音</string>
+    <string name="sound_soft_rain">细雨</string>
+    <string name="sound_heavy_rain">大雨</string>
+    <string name="sound_forest_rain">林间雨声</string>
+    <string name="sound_rain_village">乡村雨声</string>
+    <string name="sound_thunder">雷声</string>
+    <string name="sound_river">河流</string>
+    <string name="sound_small_river">溪流</string>
+    <string name="sound_beach">海滩</string>
+    <string name="sound_sea_beach">海边</string>
+    <string name="sound_soft_beach">平静海岸</string>
+    <string name="sound_whale">鲸鱼</string>
+    <string name="sound_forest_night">夜晚森林</string>
+    <string name="sound_birds">鸟鸣</string>
+    <string name="sound_crickets">蟋蟀</string>
+    <string name="sound_cicada_birds">蝉鸣</string>
+    <string name="sound_farm">农场</string>
+    <string name="sound_wind">风声</string>
+    <string name="sound_campfire">篝火</string>
+    <string name="sound_coffee_shop">咖啡馆</string>
+    <string name="sound_office">办公室</string>
+    <string name="sound_street_traffic">街道</string>
+    <string name="sound_construction">工地</string>
+    <string name="sound_keyboard_typing">打字声</string>
+    <string name="sound_clock_tick">时钟</string>
+    <string name="sound_clock_stopwatch">秒表</string>
+    <string name="sound_white_noise">白噪音</string>
+    <string name="sound_pink_noise">粉红噪音</string>
+    <string name="sounds_done">完成</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">休息</string>
+    <string name="break_round_done">第 %1$d 轮完成 · 还剩 %2$d 轮</string>
+    <string name="break_until">直到第 %d 轮</string>
+    <string name="break_ideas_title">别刷手机，试试这些</string>
+    <string name="break_idea_window">望向窗外</string>
+    <string name="break_idea_window_hint">20 秒，看向 20 米外</string>
+    <string name="break_idea_water">喝一杯水</string>
+    <string name="break_idea_water_hint">你的大脑会感谢你</string>
+    <string name="break_idea_stretch">舒展一下肩膀</string>
+    <string name="break_idea_stretch_hint">向后绕肩 5 次</string>
+    <string name="break_skip">跳过休息</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="other">%1$d 分钟的%2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="other">%d 轮</item>
+    </plurals>
+    <string name="complete_zero_unlocks">零次解锁</string>
+    <plurals name="complete_unlocks">
+        <item quantity="other">%d 次解锁</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s。</string>
+    <string name="complete_longest">%1$s · %2$s。这是你本周最长的一次。</string>
+    <string name="complete_focus_streak">专注连续记录</string>
+    <plurals name="complete_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <string name="complete_urges">忍住的冲动</string>
+    <string name="complete_urges_today">今天 %d 次</string>
+    <string name="complete_note_title">你完成了什么？</string>
+    <string name="complete_note_placeholder">第三章提纲加两页正文。手机全程屏幕朝下。</string>
+    <string name="complete_another">再来一轮</string>
+    <string name="complete_done">完成</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">你已专注 %d 分钟</string>
+    <string name="hold_leave_body">你的应用会一直暂缓使用，直到 %s。坚持住——你做得很棒。</string>
+    <string name="hold_back">回到专注</string>
+    <string name="hold_end">提前结束专注</string>
+    <string name="hold_keep_focusing">继续专注</string>
+    <string name="hold_end_now">现在结束？</string>
+    <plurals name="hold_end_apps">
+        <item quantity="other">现在结束，你的 %d 个应用就会恢复。</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s 这 %2$d 分钟仍会计入。</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">专注记录</string>
+    <string name="history_this_week">本周</string>
+    <string name="history_sessions">专注时段</string>
+    <string name="history_today">今天，%s</string>
+    <string name="history_yesterday">昨天，%s</string>
+    <string name="history_day">%1$s，%2$s</string>
+    <string name="history_empty">还没有记录。你的专注时段会显示在这里。</string>
+    <string name="history_clear">清空记录</string>
+    <string-array name="focus_day_letters">
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>日</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">轮次</string>
+    <string name="rounds_subtitle">分轮专注，中间穿插短暂休息。</string>
+    <string name="rounds_focus">专注</string>
+    <string name="rounds_short_break">短休息</string>
+    <string name="rounds_count">轮数</string>
+    <string name="rounds_long_break">长休息</string>
+    <string name="rounds_minutes">%d 分钟</string>
+    <string name="rounds_auto_start">自动开始下一轮</string>
+    <string name="rounds_total">总计：%s（含休息）</string>
+    <string name="rounds_save">保存轮次</string>
+    <string name="rounds_decrease">减少 %s</string>
+    <string name="rounds_increase">增加 %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d小时</string>
+    <string name="duration_m">%1$d分钟</string>
+    <string name="duration_h_m">%1$d小时%2$d分钟</string>
+    <string name="focus_notification_channel">专注计时器</string>
+    <string name="focus_notification_channel_description">进行中的专注时段；即使关闭 Recentr，声音也会继续播放。</string>
+    <string name="focus_notification_round">第 %1$d / %2$d 轮</string>
+    <string name="focus_notification_break">休息 · 下一轮为第 %1$d 轮</string>
+    <string name="focus_notification_paused">已暂停 · 第 %1$d / %2$d 轮</string>
+</resources>

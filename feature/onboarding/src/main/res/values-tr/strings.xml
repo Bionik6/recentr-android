@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turkish. -->
+<resources>
+    <!-- Shared -->
+    <string name="onb_continue">Devam</string>
+
+    <!-- Durations: compact (4h20 · 6h · 45m) and spelled out (6 hours · 45 minutes) -->
+    <string name="onb_duration_hm">%1$d sa %2$02d</string>
+    <string name="onb_duration_h">%1$d sa</string>
+    <string name="onb_duration_m">%1$d dk</string>
+    <plurals name="onb_hours">
+        <item quantity="one">%d saat</item>
+        <item quantity="other">%d saat</item>
+    </plurals>
+    <plurals name="onb_minutes">
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
+    </plurals>
+
+    <!-- 05 · Welcome -->
+    <string name="onb_welcome_stat_people_value">250 bin+</string>
+    <string name="onb_welcome_stat_people_label">odaklı insan</string>
+    <string name="onb_welcome_stat_time_value">11 sa</string>
+    <string name="onb_welcome_stat_time_label">haftalık geri kazanılan</string>
+    <string name="onb_welcome_before">Önce</string>
+    <string name="onb_welcome_before_value">7 sa 40 dk</string>
+    <string name="onb_welcome_now">Şimdi</string>
+    <string name="onb_welcome_now_value">2 sa 10 dk</string>
+    <string name="onb_welcome_title">Ekran süresi, senin kurallarınla.</string>
+    <string name="onb_welcome_subtitle">Seni içine çeken uygulamaları engelle — nazikçe, kavgayla değil bir duraklamayla.</string>
+    <string name="onb_welcome_get_started">Başla</string>
+
+    <!-- 06 · A little friction -->
+    <string name="onb_friction_title">Recentr, seni çeken uygulamalardan önce bir duraklama ekler</string>
+    <string name="onb_friction_shield_message">Instagram’a 6 sa 15 dk dokunmadın</string>
+    <string name="onb_friction_shield_primary">Ben hallederim</string>
+    <string name="onb_friction_shield_secondary">Yine de aç (4/5)</string>
+
+    <!-- 07 · Social proof -->
+    <string name="onb_social_title">250.000 kişi zamanını geri almak için Recentr kullanıyor</string>
+    <string name="onb_social_score">4,8</string>
+    <string name="onb_social_count">7.000+ yorumdan</string>
+    <string name="onb_social_rating_description">5 üzerinden 4,8 puan</string>
+    <string name="onb_review1_title">Akşamlarımı geri aldım</string>
+    <string name="onb_review1_body">Günde 7 saatten 3’ün altına düştüm. X’i açmadan önceki küçük duraklama dahice.</string>
+    <string name="onb_review1_name">Emre R.</string>
+    <string name="onb_review2_title">Kalıcı olan tek uygulama</string>
+    <string name="onb_review2_body">Diğer engelleyicileri hemen sildim. Bu nazik hissettiriyor, o yüzden duruyor.</string>
+    <string name="onb_review2_name">Elif S.</string>
+    <string name="onb_review3_title">Uyku geri döndü</string>
+    <string name="onb_review3_body">Gece rutini her şeyi 23.00’te kilitliyor. Sabahlarım yeniden benim.</string>
+    <string name="onb_review3_name">Mert M.</string>
+
+    <!-- 08 · Your turn -->
+    <string name="onb_your_turn_overline">Şimdi sıra sende</string>
+    <string name="onb_your_turn_title">Recentr’i günlerine göre ayarlayalım</string>
+    <string name="onb_your_turn_cta">Hadi başlayalım</string>
+
+    <!-- 09 · Name -->
+    <string name="onb_name_title">Sana ne diyelim?</string>
+    <string name="onb_name_placeholder">Adın</string>
+
+    <!-- 10 · What’s wrong -->
+    <string name="onb_pain_title">Peki, telefon kullanımında ne sorun var?</string>
+    <string name="onb_pain_subtitle">Uyanların hepsini seç.</string>
+    <string name="onb_pain_sleep">Uykumu bozuyor</string>
+    <string name="onb_pain_focus">Odaklanmakta zorlanıyorum</string>
+    <string name="onb_pain_scroll">Düşünmeden kaydırıyorum</string>
+    <string name="onb_pain_notifications">Bildirimler dikkatimi dağıtıyor</string>
+    <string name="onb_pain_hours">Saatler fark etmeden uçup gidiyor</string>
+    <string name="onb_pain_fine">Açıkçası, sorun yok…</string>
+
+    <!-- 11 · Time spent -->
+    <string name="onb_usage_title">Telefonda ne kadar zaman geçiriyorsun?</string>
+    <string name="onb_usage_subtitle">Günde yaklaşık olarak — yargılamak yok.</string>
+    <string name="onb_usage_over_7">7 saatten fazla</string>
+    <string name="onb_usage_5_7">5 – 7 saat</string>
+    <string name="onb_usage_3_5">3 – 5 saat</string>
+    <string name="onb_usage_1_3">1 – 3 saat</string>
+    <string name="onb_usage_under_1">1 saatten az</string>
+
+    <!-- 12 · Daily goal -->
+    <string name="onb_goal_title">Günlük hedefini belirle</string>
+    <string name="onb_goal_subtitle">Günde ortalama %1$s kullanıyorsun. Biraz daha azını hedefleyelim.</string>
+    <string name="onb_goal_tone_bold">Cesur hedef!</string>
+    <string name="onb_goal_tone_balanced">Güzel denge</string>
+    <string name="onb_goal_tone_easy">Kolay başlangıç</string>
+    <string name="onb_goal_your_goal">Hedefin</string>
+    <string name="onb_goal_today">Bugün</string>
+    <string name="onb_goal_note">Bu, uygulamaları engellemez — sadece bir rehber.</string>
+
+    <!-- 13 · Doing the math -->
+    <string name="onb_math_title">Hesap yapalım</string>
+    <string name="onb_math_percent">%%%1$d</string>
+    <string name="onb_math_step_habits">Alışkanlıkların okunuyor</string>
+    <string name="onb_math_step_goal">Hedefinle eşleştiriliyor</string>
+    <string name="onb_math_step_plan">Planın hazırlanıyor</string>
+
+    <!-- 14 · Honest news -->
+    <string name="onb_news_overline">Pekâlâ, dürüst olalım</string>
+    <string name="onb_news_title">İyi… ve pek iyi olmayan haberlerimiz var</string>
+    <string name="onb_news_cta">Anlat bakalım</string>
+
+    <!-- 15 · Years on phone -->
+    <string name="onb_years_lead">Bu gidişle,</string>
+    <plurals name="onb_years_number">
+        <item quantity="one">%d yıl</item>
+        <item quantity="other">%d yıl</item>
+    </plurals>
+    <string name="onb_years_tail">hayatını telefonda geçireceksin</string>
+    <string name="onb_years_every_day">Her gün</string>
+    <string name="onb_years_every_year">Her yıl</string>
+    <plurals name="onb_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+
+    <!-- 16 · A way out -->
+    <string name="onb_way_out_title">İyi haber? Günde %1$s geri kazanabilirsin.</string>
+    <string name="onb_way_out_subtitle">Recentr’i bu yüzden yaptık — başka bir angarya değil, nazik bir çıkış yolu.</string>
+    <string name="onb_way_out_cta">Nasıl çalışıyor?</string>
+
+    <!-- 17 · How it works -->
+    <string name="onb_how_title">Recentr nasıl çalışır</string>
+    <string name="onb_how_step">Adım %1$d</string>
+    <string name="onb_how_step1_title">Seni çekeni seç</string>
+    <string name="onb_how_step1_body">Uygulamaları seç, sonra bir Kilit, Seans ya da Limit.</string>
+    <string name="onb_how_step2_title">Duvara değil, duraklamaya rastla</string>
+    <string name="onb_how_step2_body">Açmadan önce nefes almak için birkaç saniye.</string>
+    <string name="onb_how_step3_title">Daha sakin günler yetiştir</string>
+    <string name="onb_how_step3_body">Hedefinin altında kal, seriyi canlı tut.</string>
+
+    <!-- 18 · Screen Time access -->
+    <string name="onb_screen_time_title">Recentr için Ekran Süresi’ni bağla</string>
+    <string name="onb_screen_time_subtitle">Limit koymak için buna ihtiyacımız var. Her şey telefonunda kalır.</string>
+    <string name="onb_screen_time_cta">Bağla</string>
+    <string name="onb_screen_time_alert_title">“Recentr” Ekran Süresi’ne erişmek istiyor</string>
+    <string name="onb_screen_time_alert_body">Recentr bunu limit koymak ve kullanımını görmek için kullanır. Verilerin bu telefondan asla çıkmaz.</string>
+    <string name="onb_screen_time_alert_allow">Devam</string>
+    <string name="onb_screen_time_alert_deny">İzin verme</string>
+
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">Seni ne çekiyor?</string>
+    <string name="onb_apps_subtitle">Sosyal uygulamalar ya da başka herhangi biri. Üç rutin onları duraklatır; geçmek için 10 saniyelik bir bekleme var. İstediğin zaman değiştirebilirsin.</string>
+    <string name="onb_apps_choose">Uygulama seç</string>
+    <plurals name="onb_apps_count">
+        <item quantity="one">%d uygulama</item>
+        <item quantity="other">%d uygulama</item>
+    </plurals>
+
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s – %2$s · %3$s</string>
+    <string name="onb_days_weekdays">Hafta içi</string>
+    <string name="onb_days_every_day">Her gün</string>
+    <string name="onb_days_weekends">Hafta sonu</string>
+
+    <!-- 19 · Notifications -->
+    <string name="onb_notif_title">Bir adım önde ol</string>
+    <string name="onb_notif_subtitle">Bir rutin başlamadan ya da limit dolmadan önce nazik hatırlatmalar.</string>
+    <string name="onb_notif_now">şimdi</string>
+    <string name="onb_notif_banner1_title">Gece rutini 10 dk içinde başlıyor</string>
+    <string name="onb_notif_banner1_body">23.00’ten itibaren telefonsuz. Tatlı rüyalar.</string>
+    <string name="onb_notif_banner2_title">Sosyal zamanda 5 dk kaldı</string>
+    <string name="onb_notif_banner2_body">Toparla — X, 2 sa 15 dk dolunca kilitlenir.</string>
+    <string name="onb_notif_banner3_title">3 günlük seri!</string>
+    <string name="onb_notif_banner3_body">Yine %1$s altında kaldın.</string>
+
+    <!-- 21 · All set -->
+    <string name="onb_all_set_title">Hazırsın, %1$s</string>
+    <string name="onb_all_set_title_no_name">Hazırsın</string>
+    <string name="onb_all_set_subtitle">İşte bu haftaki planın.</string>
+    <string name="onb_all_set_daily_goal">Günlük hedef</string>
+    <string name="onb_all_set_first_rule">İlk kural</string>
+    <string name="onb_rule_bedtime">Uyku vakti</string>
+    <string name="onb_rule_focus">Odak zamanı</string>
+    <string name="onb_rule_social">Sosyal limit</string>
+    <string name="onb_rule_quiet">Sessiz saatler</string>
+    <string name="onb_rule_daily_limit">Süre bütçesi</string>
+    <string name="onb_all_set_note_title">Bunu neden yapıyorum</string>
+    <string name="onb_reason_scroll">Dışarıda daha çok akşam, TikTok’ta daha az saat.</string>
+    <string name="onb_reason_sleep">Daha sakin geceler, telefonsuz sabahlar.</string>
+    <string name="onb_reason_focus">Önce derin çalışma, akışlar sonra.</string>
+    <string name="onb_reason_notifications">Daha az bildirim, daha çok burada olmak.</string>
+    <string name="onb_reason_hours">Zamanım kaçıp gitmeden fark etmek.</string>
+    <string name="onb_reason_fine">Her gün biraz daha denge.</string>
+    <string name="onb_all_set_cta">İlk seansımı başlat</string>
+
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">Çalışma Zamanı</string>
+    <string name="onb_routine_night_pause">Gece Duraklaması</string>
+    <string name="onb_routine_weekend_zen">Hafta Sonu Zen</string>
+</resources>

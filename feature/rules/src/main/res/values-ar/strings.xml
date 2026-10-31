@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">القواعد</string>
+    <string name="rules_templates_title">القوالب</string>
+    <string name="rules_subtitle_active">النشطة: %1$d</string>
+    <string name="rules_subtitle_active_paused">النشطة: %1$d · المتوقفة مؤقتًا: %2$d</string>
+    <string name="rules_templates_subtitle">قواعد جاهزة · انقر للبدء</string>
+    <string name="rules_group_locks">الأقفال</string>
+    <string name="rules_group_sessions">الجلسات</string>
+    <string name="rules_group_limits">الحدود</string>
+    <string name="rules_group_routines">الروتينات</string>
+    <string name="rules_group_templates">القوالب</string>
+    <string name="rules_add_session">أضف جلسة</string>
+    <string name="rules_add_session_hint">مثال: «احظر التطبيقات خلال الـ30 دقيقة القادمة»</string>
+    <string name="rules_add_routine">أضف روتينًا</string>
+    <string name="rules_add_routine_hint">مثال: «لا هاتف أثناء العشاء»</string>
+    <string name="rules_add_lock">أضف قفلًا</string>
+    <string name="rules_add_lock_hint">مثال: «أبقِ TikTok مغلقًا طوال اليوم»</string>
+    <string name="rules_add_limit">أضف حدًا</string>
+    <string name="rules_add_limit_hint">مثال: «ساعة واحدة من YouTube يوميًا»</string>
+    <string name="rules_more">المزيد من الخيارات</string>
+    <string name="rules_empty_title">لا توجد قواعد بعد</string>
+    <string name="rules_empty_body">ابدأ جلسة أو اختر قالبًا للبدء.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">جارٍ</string>
+    <string name="rules_status_upcoming">قادم</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">جاهز</string>
+    <plurals name="rules_more_apps">
+        <item quantity="zero">+ %d تطبيق</item>
+        <item quantity="one">+ تطبيق واحد</item>
+        <item quantity="two">+ تطبيقان</item>
+        <item quantity="few">+ %d تطبيقات</item>
+        <item quantity="many">+ %d تطبيقًا</item>
+        <item quantity="other">+ %d تطبيق</item>
+    </plurals>
+    <string name="rules_tile_ready">جاهز</string>
+    <string name="rules_status_blocking">قيد الحظر</string>
+    <string name="rules_status_paused">متوقف مؤقتًا</string>
+    <string name="rules_status_times_up">انتهى الوقت</string>
+    <string name="rules_status_unlocks">عمليات الفتح %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">فتح غير محدود</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">متوقف</string>
+    <string name="rules_all_day">طوال اليوم</string>
+    <string name="rules_strict_mode">الوضع الصارم</string>
+    <string name="rules_value_locked">مقفل</string>
+    <string name="rules_value_off">متوقف</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">حتى منتصف الليل</string>
+    <string name="rules_budget_today">ميزانية اليوم</string>
+    <string name="rules_value_left">متبقٍ %1$s</string>
+    <string name="rules_value_starts_in">بعد %1$s</string>
+    <string name="rules_value_paused">متوقف مؤقتًا</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">كل يوم</string>
+    <string name="rules_days_weekdays">أيام العمل</string>
+    <string name="rules_days_weekends">عطلة نهاية الأسبوع</string>
+    <string-array name="rules_day_short">
+        <item>الاثنين</item>
+        <item>الثلاثاء</item>
+        <item>الأربعاء</item>
+        <item>الخميس</item>
+        <item>الجمعة</item>
+        <item>السبت</item>
+        <item>الأحد</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>الاثنين</item>
+        <item>الثلاثاء</item>
+        <item>الأربعاء</item>
+        <item>الخميس</item>
+        <item>الجمعة</item>
+        <item>السبت</item>
+        <item>الأحد</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>ن</item>
+        <item>ث</item>
+        <item>ر</item>
+        <item>خ</item>
+        <item>ج</item>
+        <item>س</item>
+        <item>ح</item>
+    </string-array>
+    <string name="rules_am">ص</string>
+    <string name="rules_pm">م</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d د</string>
+    <string name="rules_hours_short">%1$d س</string>
+    <string name="rules_hours_minutes">%1$d س %2$d د</string>
+    <string name="rules_compact_seconds">%1$d ث</string>
+    <string name="rules_compact_minutes">%1$d د</string>
+    <string name="rules_compact_hours">%1$d س</string>
+    <string name="rules_compact_hours_minutes">%1$d س %2$02d د</string>
+
+    <!-- Common -->
+    <string name="rules_none">لا شيء</string>
+    <string name="rules_save">حفظ</string>
+    <string name="rules_done">تم</string>
+    <string name="rules_continue">متابعة</string>
+    <string name="rules_cancel">إلغاء</string>
+    <string name="rules_back">رجوع</string>
+    <string name="rules_edit_name">تعديل الاسم والملصق</string>
+    <plurals name="rules_apps_count">
+        <item quantity="zero">لا تطبيقات</item>
+        <item quantity="one">تطبيق واحد</item>
+        <item quantity="two">تطبيقان</item>
+        <item quantity="few">%d تطبيقات</item>
+        <item quantity="many">%d تطبيقًا</item>
+        <item quantity="other">%d تطبيق</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">جلسة</string>
+    <string name="rules_type_lock">قفل</string>
+    <string name="rules_type_limit">حد</string>
+    <string name="rules_type_routine">روتين</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">الحظر</string>
+    <string name="rules_row_active">نشط</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">طريقة الفتح</string>
+    <string name="rules_row_unlocks_per_day">عمليات الفتح يوميًا</string>
+    <string name="rules_row_apps">التطبيقات</string>
+    <string name="rules_row_reminders">التذكيرات</string>
+    <string name="rules_row_each_unlock">مدة كل فتح</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">جلسة</string>
+    <string name="rules_session_subtitle">احظر التطبيقات لمدة %1$s بمجرد أن تبدأها.</string>
+    <string name="rules_session_default_name">جلسة تركيز</string>
+    <string name="rules_suggestions">اقتراحات</string>
+    <string name="rules_start">ابدأ</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">لا فتح حتى تنتهي.</string>
+    <string name="rules_unlock_strict_caption">الفتح غير متاح في الوضع الصارم.</string>
+    <string name="rules_strict_confirm_title">تفعيل الوضع الصارم؟</string>
+    <string name="rules_strict_confirm_body">لن تتمكن من فتح هذه التطبيقات حتى ينتهي، إلا بفتح طارئ.</string>
+    <string name="rules_turn_on">تفعيل</string>
+    <string name="rules_not_now">ليس الآن</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">حظر هذه التطبيقات الآن؟</string>
+    <string name="rules_block_now_body">القاعدة قيد الحظر الآن: ستُحظر التطبيقات التي أضفتها فورًا.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">تفعيل %1$s؟</string>
+    <string name="rules_lock_confirm_body">بعد تفعيله، لن يُطبَّق أي تغيير يخفف الحظر — مثل إزالة التطبيقات أو زيادة عمليات الفتح أو إيقافه — إلا عند منتصف الليل.</string>
+    <string name="rules_limit_confirm_title">بدء %1$s؟</string>
+    <string name="rules_limit_confirm_body">بعد بدئه، لن يُطبَّق أي تغيير يخفف الحظر — مثل ميزانية أكبر أو إزالة التطبيقات — إلا عند منتصف الليل، حين يُعاد ضبطه.</string>
+    <string name="rules_block_now">احظر الآن</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">قفل</string>
+    <string name="rules_lock_subtitle">أبقِ التطبيقات المختارة مغلقة، مع بضع عمليات فتح قصيرة يوميًا.</string>
+    <string name="rules_lock_note_title">لماذا هذا القفل؟</string>
+    <string name="rules_hold_create_lock">اضغط مطولًا لإنشاء القفل</string>
+    <string name="rules_hold_create_session">اضغط مطولًا لإنشاء الجلسة</string>
+    <string name="rules_unlock_wait">انتظر %1$d ث</string>
+    <string name="rules_unlock_retype">أعد الكتابة</string>
+    <string name="rules_unlock_scan">مسح الرمز</string>
+    <string name="rules_unlock_walk">امشِ %1$d خطوة</string>
+    <string name="rules_unlimited">غير محدود</string>
+    <string name="rules_lock_default_name">قفل</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">اختر التطبيقات</string>
+    <string name="rules_selected">المحدد: %1$d</string>
+    <string name="rules_search_apps">ابحث عن تطبيقات</string>
+    <string name="rules_category_social">التواصل الاجتماعي</string>
+    <string name="rules_category_entertainment">الترفيه</string>
+    <string name="rules_category_music">الموسيقى</string>
+    <string name="rules_category_games">الألعاب</string>
+    <string name="rules_category_productivity">الإنتاجية</string>
+    <string name="rules_category_other">أخرى</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="zero">حظر · لا تطبيقات</item>
+        <item quantity="one">حظر · تطبيق واحد</item>
+        <item quantity="two">حظر · تطبيقان</item>
+        <item quantity="few">حظر · %d تطبيقات</item>
+        <item quantity="many">حظر · %d تطبيقًا</item>
+        <item quantity="other">حظر · %d تطبيق</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">كل التطبيقات والفئات</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">الكل</string>
+    <string name="rules_no_apps_found">لا توجد تطبيقات تطابق «%1$s».</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">نشط لمدة</string>
+    <string name="rules_ends_at">ينتهي عند %1$s</string>
+    <string name="rules_hours_label">ساعات</string>
+    <string name="rules_minutes_label">دقائق</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">حد</string>
+    <string name="rules_limit_subtitle">ميزانية وقت لليوم، للتطبيقات التي تلتهم يومك.</string>
+    <string name="rules_hold_create_limit">اضغط مطولًا لإنشاء الحد</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">مثبّت حتى منتصف الليل</string>
+    <string name="rules_locked_in_lock">يعمل بمجرد إنشائه. تخفيفه — بإزالة التطبيقات أو زيادة عمليات الفتح أو إيقافه — أو حذفه لا يسري إلا بعد إعادة الضبط اليومية عند منتصف الليل.</string>
+    <string name="rules_locked_in_limit">يبدأ بمجرد إنشائه. تخفيفه — بميزانية أكبر أو بإزالة التطبيقات — أو حذفه لا يسري إلا بعد إعادة الضبط اليومية عند منتصف الليل.</string>
+    <string name="rules_limit_resets">يُعاد ضبطه تلقائيًا عند منتصف الليل.</string>
+    <string name="rules_limit_default_name">حد</string>
+    <string name="rules_limit_social_name">وقت التواصل الاجتماعي</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">وقت النوم</string>
+    <string name="rules_bedtime_subtitle">احظر التطبيقات وفق جدول.</string>
+    <string name="rules_from">من</string>
+    <string name="rules_until">حتى</string>
+    <string name="rules_tonight">%1$s · الليلة</string>
+    <string name="rules_today">%1$s · اليوم</string>
+    <string name="rules_tomorrow">%1$s · غدًا</string>
+    <string name="rules_tonight_alone">الليلة</string>
+    <string name="rules_today_alone">اليوم</string>
+    <string name="rules_tomorrow_alone">غدًا</string>
+    <string name="rules_hold_create_routine">اضغط مطولًا لإنشاء الروتين</string>
+    <string name="rules_starts_at">يبدأ عند</string>
+    <string name="rules_ends_at_title">ينتهي عند</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">كيف تفتح؟</string>
+    <string name="rules_unlock_subtitle">اختر نوع العائق المناسب لك.</string>
+    <string name="rules_unlock_option_wait">انتظر بضع ثوانٍ</string>
+    <string name="rules_unlock_option_retype">أعد كتابة نص مزعج</string>
+    <string name="rules_unlock_option_scan">امسح رمزًا تحتفظ به في مكان آخر</string>
+    <string name="rules_unlock_option_walk">امشِ %1$d خطوة</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">الانتظار قبل الفتح</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="zero">لا ثوانٍ</item>
+        <item quantity="one">ثانية واحدة</item>
+        <item quantity="two">ثانيتان</item>
+        <item quantity="few">%d ثوانٍ</item>
+        <item quantity="many">%d ثانية</item>
+        <item quantity="other">%d ثانية</item>
+    </plurals>
+    <string name="rules_wait_one_minute">دقيقة واحدة</string>
+    <string name="rules_seconds_chip">%1$d ث</string>
+    <string name="rules_one_min_chip">1 د</string>
+    <string name="rules_unlocks_per_day_title">عمليات الفتح يوميًا</string>
+    <string name="rules_each_unlock_title">مدة كل فتح</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">التركيز</string>
+    <string name="rules_section_focus_body">للعمل أو الدراسة أو إنجاز مشروع.</string>
+    <string name="rules_section_unwind">استرخاء</string>
+    <string name="rules_section_unwind_body">أمسيات أهدأ وصباحات ألطف.</string>
+    <string name="rules_section_be_present">كن حاضرًا</string>
+    <string name="rules_section_be_present_body">انتباهك لمن حولك، أو لنفسك.</string>
+    <string name="rules_section_scroll_less">تصفح أقل</string>
+    <string name="rules_section_scroll_less_body">افتح تطبيقاتك عن قصد، لا بدافع العادة.</string>
+    <string name="rules_tpl_focus_sprint">اندفاعة تركيز</string>
+    <string name="rules_tpl_focus_sprint_body">المشتتات محظورة، من الآن.</string>
+    <string name="rules_tpl_study_hour">ساعة دراسة</string>
+    <string name="rules_tpl_study_hour_body">ساعة من الدراسة، تبدأ الآن.</string>
+    <string name="rules_tpl_work_rhythm">إيقاع العمل</string>
+    <string name="rules_tpl_work_rhythm_body">المشتتات محظورة في أيام العمل.</string>
+    <string name="rules_tpl_evening_calm">هدوء المساء</string>
+    <string name="rules_tpl_evening_calm_body">بلا تطبيقات تواصل أو فيديو، كل مساء.</string>
+    <string name="rules_tpl_night_pause">هدنة الليل</string>
+    <string name="rules_tpl_night_pause_body">المشتتات محظورة طوال الليل.</string>
+    <string name="rules_tpl_slow_morning">صباح هادئ</string>
+    <string name="rules_tpl_slow_morning_body">ابدأ كل يوم بلا تطبيقات التواصل.</string>
+    <string name="rules_tpl_dinner_together">عشاء معًا</string>
+    <string name="rules_tpl_dinner_together_body">المشتتات محظورة طوال العشاء.</string>
+    <string name="rules_tpl_family_hour">ساعة العائلة</string>
+    <string name="rules_tpl_family_hour_body">أيام الأحد، مخصصة لقضاء الوقت معًا.</string>
+    <string name="rules_tpl_time_for_me">وقت لي</string>
+    <string name="rules_tpl_time_for_me_body">اقرأ، أبدع، أو تنفّس فقط.</string>
+    <string name="rules_tpl_walk_before_you_scroll">امشِ قبل أن تتصفح</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">ثم 5 د في التطبيق، 3 مرات يوميًا.</string>
+    <string name="rules_tpl_pause_before_opening">توقف قبل الفتح</string>
+    <string name="rules_tpl_pause_before_opening_body">ثم 5 د في التطبيق، 3 مرات يوميًا.</string>
+    <string name="rules_tpl_social_budget">ميزانية التواصل</string>
+    <string name="rules_tpl_social_budget_body">ميزانية مشتركة، ثم حظر حتى منتصف الليل.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">قاعدة جديدة</string>
+    <string name="rules_new_rule_subtitle">ماذا تريد أن تُعدّ؟</string>
+    <string name="rules_browse_templates">تصفح القوالب</string>
+    <string name="rules_kind_routine_body">يحظر التطبيقات وفق جدول، مثل وقت النوم أو ساعات العمل.</string>
+    <string name="rules_kind_session_body">يحظر التطبيقات للمدة التي تختارها، بمجرد أن تبدأه.</string>
+    <string name="rules_kind_lock_body">يُبقي التطبيقات مغلقة من لحظة تفعيله، مع بضع عمليات فتح قصيرة يوميًا.</string>
+    <string name="rules_kind_limit_body">ميزانية وقت لليوم. وعندما تُستهلك، تبقى التطبيقات محظورة حتى منتصف الليل.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">نشط %1$s</string>
+    <string name="rules_detail_running">يعمل الآن</string>
+    <string name="rules_detail_paused">متوقف مؤقتًا</string>
+    <string name="rules_detail_paused_until">متوقف مؤقتًا حتى %1$s</string>
+    <string name="rules_detail_on">مفعّل</string>
+    <string name="rules_detail_off">متوقف</string>
+    <string name="rules_blocked">محظور</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">التطبيقات</string>
+    <string name="rules_apps_blocking">محظورة الآن</string>
+    <string name="rules_apps_not_blocking">غير محظورة الآن</string>
+    <string name="rules_apps_blocked">محظورة</string>
+    <string name="rules_apps_blocked_when_on">محظورة عند تفعيله</string>
+    <string name="rules_apps_unlocked">مفتوحة مؤقتًا</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">لا شيء محظور الآن.</string>
+    <string name="rules_apps_none_unlocked">لا يوجد تطبيق مفتوح الآن.</string>
+    <string name="rules_streak">السلسلة</string>
+    <plurals name="rules_streak_days">
+        <item quantity="zero">لا أيام</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <string name="rules_why">السبب</string>
+    <string name="rules_why_placeholder">اضغط لتكتب لماذا هذا مهم.</string>
+    <string name="rules_why_empty">لم تكتب سببًا بعد.</string>
+    <string name="rules_tile_now">الآن</string>
+    <string name="rules_tile_left_of">متبقٍ من %1$s</string>
+    <string name="rules_tile_used">المستخدم %1$s</string>
+    <string name="rules_tile_today">اليوم</string>
+    <string name="rules_tile_not_started">لم يبدأ بعد</string>
+    <string name="rules_tile_unlocks_today">عمليات الفتح اليوم</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">متوقف</string>
+    <string name="rules_reminder_before">قبل %1$d د</string>
+    <string name="rules_reminders_title">ذكّرني قبل أن يبدأ</string>
+    <string name="rules_activate">تفعيل</string>
+    <string name="rules_turn_off">إيقاف</string>
+    <string name="rules_menu_edit_settings">تعديل القاعدة</string>
+    <string name="rules_menu_pause">إيقاف القاعدة مؤقتًا</string>
+    <string name="rules_menu_resume">استئناف القاعدة</string>
+    <string name="rules_menu_delete">حذف القاعدة</string>
+    <string name="rules_pause_title">إيقاف %1$s مؤقتًا؟</string>
+    <string name="rules_pause_hour">لمدة ساعة</string>
+    <string name="rules_pause_tomorrow">حتى الغد</string>
+    <string name="rules_pause_manual">حتى أعيد تفعيله</string>
+    <string name="rules_pause_rule">إيقاف القاعدة مؤقتًا</string>
+    <string name="rules_pause_later">يبدأ الإيقاف المؤقت عند انتهاء هذه الفترة.</string>
+    <string name="rules_paused_toast">تم إيقاف %1$s مؤقتًا</string>
+    <string name="rules_resumed_toast">عاد %1$s إلى العمل</string>
+    <string name="rules_edit_title">تعديل القاعدة</string>
+    <string name="rules_sticker">الملصق</string>
+    <string name="rules_name_placeholder">اسم القاعدة</string>
+    <string name="rules_more_stickers">المزيد من الملصقات</string>
+    <string name="rules_more_stickers_soon">المزيد من الملصقات في الطريق</string>
+    <string name="rules_delete_title">حذف %1$s؟</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="zero">ستضيع سلسلتك على هذه القاعدة. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="one">ستضيع سلسلتك البالغة يومًا واحدًا على هذه القاعدة. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="two">ستضيع سلسلتك البالغة يومين على هذه القاعدة. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="few">ستضيع سلسلتك البالغة %d أيام على هذه القاعدة. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="many">ستضيع سلسلتك البالغة %d يومًا على هذه القاعدة. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="other">ستضيع سلسلتك البالغة %d يوم على هذه القاعدة. لا يمكن التراجع عن ذلك.</item>
+    </plurals>
+    <string name="rules_delete_body">ستُحذف هذه القاعدة وسجلها. لا يمكن التراجع عن ذلك.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">تستمر في الحظر حتى منتصف الليل، ثم تُحذف.</string>
+    <string name="rules_delete_body_later_session">تستمر في الحظر حتى تنتهي الجلسة، ثم تُحذف.</string>
+    <string name="rules_delete_body_later_at">تستمر في الحظر حتى %1$s، ثم تُحذف.</string>
+    <string name="rules_delete_rule">حذف القاعدة</string>
+    <string name="rules_keep_it">الاحتفاظ بها</string>
+    <string name="rules_deleted_toast">تم حذف %1$s</string>
+    <string name="rules_note_title">لماذا هذه القاعدة؟</string>
+    <string name="rules_note_placeholder">اكتبه…</string>
+    <string name="rules_session_started">بدأت الجلسة · %1$s</string>
+    <string name="rules_limit_started">بدأ الحد · %1$s لليوم</string>
+    <string name="rules_lock_activated">%1$s مفعّل</string>
+    <string name="rules_rule_created">تم إنشاء %1$s</string>
+    <string name="rules_rule_saved">تم حفظ التغييرات</string>
+    <string name="rules_saved_later_midnight">تم الحفظ · بعض التغييرات تسري عند منتصف الليل</string>
+    <string name="rules_saved_later_session">تم الحفظ · بعض التغييرات تسري عند انتهاء الجلسة</string>
+    <string name="rules_saved_later_at">تم الحفظ · بعض التغييرات تسري عند %1$s</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">تسري تغييراتك عند منتصف الليل</string>
+    <string name="rules_pending_changes_session">تسري تغييراتك عند انتهاء الجلسة</string>
+    <string name="rules_pending_changes_at">تسري تغييراتك عند %1$s</string>
+    <string name="rules_pending_delete_midnight">يُحذف عند منتصف الليل</string>
+    <string name="rules_pending_delete_session">يُحذف عند انتهاء الجلسة</string>
+    <string name="rules_pending_delete_at">يُحذف عند %1$s</string>
+    <string name="rules_pending_turn_off">يتوقف عند منتصف الليل</string>
+    <string name="rules_pending_pause">يتوقف مؤقتًا عند انتهاء هذه الفترة</string>
+    <string name="rules_pending_drop">تجاهل التغييرات</string>
+    <string name="rules_pending_keep_rule">الاحتفاظ بالقاعدة</string>
+    <string name="rules_pending_keep_on">إبقاؤه مفعّلًا</string>
+    <string name="rules_pending_dont_pause">عدم الإيقاف المؤقت</string>
+    <string name="rules_session_ended">انتهت الجلسة</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">مسموح دائمًا</string>
+    <string name="rules_allowed_explainer">لا يحظر Recentr هذه التطبيقات أبدًا، مهما كانت القاعدة أو المؤقت.</string>
+    <string name="rules_allowed_add">إضافة تطبيق</string>
+    <string name="rules_allowed_remove">إزالة %1$s</string>
+    <string name="rules_allowed_section">المسموح بها</string>
+    <string name="rules_allowed_waiting">تنضم لاحقًا</string>
+    <string name="rules_allowed_none">لا تطبيقات بعد. الخرائط أو تطبيق التوصيل أو تطبيق صحي خيارات جيدة.</string>
+    <string name="rules_allowed_changes_tomorrow">تسري تغييراتك عند %1$s غدًا</string>
+    <string name="rules_allowed_changes_on">تسري تغييراتك في %1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="zero">السماح · لا تطبيقات</item>
+        <item quantity="one">السماح · تطبيق واحد</item>
+        <item quantity="two">السماح · تطبيقان</item>
+        <item quantity="few">السماح · %d تطبيقات</item>
+        <item quantity="many">السماح · %d تطبيقًا</item>
+        <item quantity="other">السماح · %d تطبيق</item>
+    </plurals>
+    <string name="rules_allowed_done_none">عدم السماح بأي تطبيق</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">مسموح دائمًا</string>
+    <string name="focus_apps_subtitle">معلّقة أثناء الجولات، ومتاحة في الاستراحات.</string>
+    <string name="focus_apps_on_hold">معلّق</string>
+</resources>

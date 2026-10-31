@@ -37,10 +37,27 @@ it's already up, in `onNewIntent`. To try it without waiting for a reminder:
 adb shell am start -n com.recentr.app/.MainActivity -a android.intent.action.VIEW -d recentr://rules/<id>
 ```
 
-In debug builds, **Profile › Settings › Developer** has *Replay onboarding* and *Design system*
-(living catalogue of every token and component). The focus timer is the **Timer** tab. The **Insights** tab opens on Day, today, as on iOS; the
+In debug builds, **Profile › Settings › Developer** has *Replay onboarding*, *Design system*
+(living catalogue of every token and component) and *Language* (Android 13+), which switches the
+app's language right away: the system's, any translation, or a pseudo-locale — accented English
+(en-XA) shows text that isn't translated, Arabic (ar-XB) right-to-left layouts. The focus timer is the **Timer** tab. The **Insights** tab opens on Day, today, as on iOS; the
 usage card on **Home** opens it on the Home period (Day / Week / Month); Pickups, Daily goal, Streak and Achievements are in its **⋯** menu, the streak
 also from the Home streak tile.
+
+## Languages
+
+Recentr is translated into 20 languages: Arabic, Bulgarian, Chinese (Simplified), Czech, English,
+French, German, Hebrew, Hindi, Indonesian, Italian, Japanese, Korean, Polish, Portuguese (Brazil),
+Russian, Spanish, Swedish, Turkish and Ukrainian. Each module's `values-<language>/strings.xml`
+holds them (`values-iw` is Hebrew, `values-in` Indonesian, `values-b+zh+Hans` Chinese); weekday and
+month names come from CLDR. `AppLanguage` lists them for Settings › Language, and
+`app/src/main/res/xml/locales_config.xml` for Android's per-app language settings.
+
+`TranslationsTest` (`:app`) fails when a string, plural or array is missing from a language, when a
+translation loses a placeholder, or when plurals lack a form of their language (Arabic has six,
+Russian four…). A string added in English needs its translations in the same change. A count in a
+plain `<string>` can't change form with the number: use `<plurals>`, or a wording that reads right
+for any number ("Steps: %d").
 
 ## Modules
 
@@ -157,7 +174,7 @@ also from the Home streak tile.
   out* clears the email and replays the onboarding (rules stay), *Delete account* erases every
   local store. Settings are persisted (`SettingsRepository`): *Show mascot on Home* hides the Home
   mascot, *App icon* switches the launcher `activity-alias` when the app goes to the background,
-  *Language* sets the per-app locale on Android 13+ (no translations ship yet). *Dark* / *Auto*
+  *Language* sets the per-app locale on Android 13+. *Dark* / *Auto*
   themes are saved but the app stays light until a dark palette exists. Notification preferences
   and quiet hours are stored; no reminder is scheduled yet.
 - Focus timer: the session runs on the wall clock in memory (`FocusRepository`, like the rules), so

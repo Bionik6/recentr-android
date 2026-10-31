@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turkish. -->
+<resources>
+    <string name="focus_title">Zamanlayıcı</string>
+    <string name="focus_more">Diğer seçenekler</string>
+    <string name="focus_close">Kapat</string>
+    <string name="focus_back">Geri</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d dk</string>
+    <string name="focus_dial_description">Odak süresi: %d dakika. Değiştirmek için sürükle.</string>
+    <string name="focus_sound">Ses</string>
+    <string name="focus_block">Engelle</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">Yok</string>
+    <string name="focus_rounds">Turlar</string>
+    <string name="focus_rounds_value">%1$d × %2$d dk</string>
+    <string name="focus_start">Odağı başlat</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">Katı mod</string>
+    <string name="focus_strict_caption">Katı mod: duraklatma ve erken bitirme yok</string>
+    <string name="focus_strict_note">Katı mod: bu odak kendiliğinden biter</string>
+    <string name="focus_strict_confirm_title">Katı mod açılsın mı?</string>
+    <string name="focus_strict_confirm_body">Bu odağı duraklatamaz ya da erken bitiremezsin. Molalar yine de gelir.</string>
+    <string name="focus_strict_turn_on">Aç</string>
+    <string name="focus_cancel">İptal</string>
+    <string name="focus_back_to_focus">Odağa dön</string>
+    <string name="focus_back_to_focus_left">Odağa dön · %1$s</string>
+    <string name="focus_rename">Yeniden adlandır</string>
+    <string name="focus_rename_title">Seansa ad ver</string>
+    <string name="focus_rename_save">Kaydet</string>
+    <string name="focus_log">Odak günlüğü</string>
+    <string name="focus_change_sound">Sesi değiştir</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">Tur %1$d / %2$d</string>
+    <string name="focus_left_ends">kaldı · bitiş: %s</string>
+    <string name="focus_paused_round_of">Duraklatıldı · tur %1$d / %2$d</string>
+    <string name="focus_ready_round_of">Tur %1$d / %2$d için hazır</string>
+    <string name="focus_round_n">Tur %d</string>
+    <string name="focus_take_your_time">Acele etme</string>
+    <string name="focus_paused_for">%s süredir duraklatıldı</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="one">%d uygulama beklemede</item>
+        <item quantity="other">%d uygulama beklemede</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="one">%d uygulama hâlâ beklemede</item>
+        <item quantity="other">%d uygulama hâlâ beklemede</item>
+    </plurals>
+    <string name="focus_pause">Duraklat</string>
+    <string name="focus_resume">Devam et</string>
+    <string name="focus_start_round">Turu başlat</string>
+    <string name="focus_end_session">Seansı bitir</string>
+    <string name="focus_restart_round">Turu yeniden başlat</string>
+    <string name="focus_round_restarted">Tur %d yeniden başladı</string>
+    <string name="focus_undo">Geri al</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">Odak sesleri</string>
+    <string name="sounds_subtitle_none">İstediğin kadarını aç.</string>
+    <string name="sounds_subtitle_on">%1$s açık</string>
+    <string name="sounds_subtitle_on_muted">%1$s açık · %2$d sessiz</string>
+    <string name="sounds_subtitle_muted">Çalan ses yok · %d sessiz</string>
+    <string name="sounds_mute_all">Tümünü sessize al</string>
+    <string name="sounds_unmute_all">Tümünün sesini aç</string>
+    <string name="sounds_on_count">%d açık</string>
+    <string name="sounds_volume">Ses düzeyi</string>
+    <string name="sounds_volume_value">%%%d</string>
+    <string name="sound_state_off">Kapalı</string>
+    <string name="sound_state_muted">Sessiz</string>
+    <string name="sound_turn_on">Aç</string>
+    <string name="sound_mute">Sessize al</string>
+    <string name="sound_unmute">Sesi aç</string>
+    <string name="sound_mix_off">Kapalı</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">Ses ekle</string>
+    <string name="sound_category_rain">Yağmur</string>
+    <string name="sound_category_water">Su</string>
+    <string name="sound_category_nature">Doğa</string>
+    <string name="sound_category_places">Mekânlar</string>
+    <string name="sound_category_steady">Tik tak ve gürültü</string>
+    <string name="sound_soft_rain">Hafif yağmur</string>
+    <string name="sound_heavy_rain">Sağanak</string>
+    <string name="sound_forest_rain">Orman yağmuru</string>
+    <string name="sound_rain_village">Köyde yağmur</string>
+    <string name="sound_thunder">Gök gürültüsü</string>
+    <string name="sound_river">Nehir</string>
+    <string name="sound_small_river">Dere</string>
+    <string name="sound_beach">Plaj</string>
+    <string name="sound_sea_beach">Deniz kıyısı</string>
+    <string name="sound_soft_beach">Sakin sahil</string>
+    <string name="sound_whale">Balinalar</string>
+    <string name="sound_forest_night">Gece ormanı</string>
+    <string name="sound_birds">Kuşlar</string>
+    <string name="sound_crickets">Cırcır böcekleri</string>
+    <string name="sound_cicada_birds">Ağustos böcekleri</string>
+    <string name="sound_farm">Çiftlik</string>
+    <string name="sound_wind">Rüzgâr</string>
+    <string name="sound_campfire">Kamp ateşi</string>
+    <string name="sound_coffee_shop">Kafe</string>
+    <string name="sound_office">Ofis</string>
+    <string name="sound_street_traffic">Sokak</string>
+    <string name="sound_construction">İnşaat</string>
+    <string name="sound_keyboard_typing">Klavye</string>
+    <string name="sound_clock_tick">Saat</string>
+    <string name="sound_clock_stopwatch">Kronometre</string>
+    <string name="sound_white_noise">Beyaz gürültü</string>
+    <string name="sound_pink_noise">Pembe gürültü</string>
+    <string name="sounds_done">Bitti</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">Mola</string>
+    <string name="break_round_done">Tur %1$d bitti · %2$d kaldı</string>
+    <string name="break_until">%d. tura kadar</string>
+    <string name="break_ideas_title">Kaydırmak yerine şunu dene</string>
+    <string name="break_idea_window">Pencereden dışarı bak</string>
+    <string name="break_idea_window_hint">20 saniye, 20 metre uzağa</string>
+    <string name="break_idea_water">Bir bardak su iç</string>
+    <string name="break_idea_water_hint">Beynin sana teşekkür edecek</string>
+    <string name="break_idea_stretch">Omuzlarını esnet</string>
+    <string name="break_idea_stretch_hint">5 kez geriye doğru çevir</string>
+    <string name="break_skip">Molayı atla</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="one">%2$s: %1$d dakika</item>
+        <item quantity="other">%2$s: %1$d dakika</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="one">%d tur</item>
+        <item quantity="other">%d tur</item>
+    </plurals>
+    <string name="complete_zero_unlocks">sıfır kilit açma</string>
+    <plurals name="complete_unlocks">
+        <item quantity="one">%d kilit açma</item>
+        <item quantity="other">%d kilit açma</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. Bu haftaki en uzun seansın.</string>
+    <string name="complete_focus_streak">Odak serisi</string>
+    <plurals name="complete_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <string name="complete_urges">Direnilen dürtüler</string>
+    <string name="complete_urges_today">bugün %d</string>
+    <string name="complete_note_title">Neyi bitirdin?</string>
+    <string name="complete_note_placeholder">3. bölümün taslağı + iki sayfa. Telefon ters durdu.</string>
+    <string name="complete_another">Bir tur daha başlat</string>
+    <string name="complete_done">Bitti</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">Odaklanalı %d dk oldu</string>
+    <string name="hold_leave_body">Uygulamaların saat %s olana kadar beklemede kalır. Devam et — harika gidiyorsun.</string>
+    <string name="hold_back">Odağa dön</string>
+    <string name="hold_end">Seansı erken bitir</string>
+    <string name="hold_keep_focusing">Odaklanmaya devam</string>
+    <string name="hold_end_now">Şimdi bitirilsin mi?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="one">Şimdi bitirirsen uygulaman geri gelir.</item>
+        <item quantity="other">Şimdi bitirirsen %d uygulaman geri gelir.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s Yine de %2$d dk sayılır.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">Odak günlüğü</string>
+    <string name="history_this_week">Bu hafta</string>
+    <string name="history_sessions">Seanslar</string>
+    <string name="history_today">Bugün, %s</string>
+    <string name="history_yesterday">Dün, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">Henüz seans yok. Odak seansların burada görünecek.</string>
+    <string name="history_clear">Günlüğü temizle</string>
+    <string-array name="focus_day_letters">
+        <item>P</item>
+        <item>S</item>
+        <item>Ç</item>
+        <item>P</item>
+        <item>C</item>
+        <item>C</item>
+        <item>P</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">Turlar</string>
+    <string name="rounds_subtitle">Aralarda kısa molalarla turlar halinde çalış.</string>
+    <string name="rounds_focus">Odak</string>
+    <string name="rounds_short_break">Kısa mola</string>
+    <string name="rounds_count">Turlar</string>
+    <string name="rounds_long_break">Uzun mola</string>
+    <string name="rounds_minutes">%d dk</string>
+    <string name="rounds_auto_start">Sonraki turu otomatik başlat</string>
+    <string name="rounds_total">Toplam: %s (molalarla)</string>
+    <string name="rounds_save">Turları kaydet</string>
+    <string name="rounds_decrease">Azalt: %s</string>
+    <string name="rounds_increase">Artır: %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d sa</string>
+    <string name="duration_m">%1$d dk</string>
+    <string name="duration_h_m">%1$d sa %2$d dk</string>
+    <string name="focus_notification_channel">Odak zamanlayıcısı</string>
+    <string name="focus_notification_channel_description">Devam eden seans; Recentr kapalıyken bile sesleri çalmaya devam eder.</string>
+    <string name="focus_notification_round">Tur %1$d / %2$d</string>
+    <string name="focus_notification_break">Mola · sırada tur %1$d</string>
+    <string name="focus_notification_paused">Duraklatıldı · tur %1$d / %2$d</string>
+</resources>

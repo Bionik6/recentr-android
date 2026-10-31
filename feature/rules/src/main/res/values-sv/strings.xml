@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Swedish. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">Regler</string>
+    <string name="rules_templates_title">Mallar</string>
+    <string name="rules_subtitle_active">Aktiva: %1$d</string>
+    <string name="rules_subtitle_active_paused">Aktiva: %1$d · Pausade: %2$d</string>
+    <string name="rules_templates_subtitle">Färdiga regler · tryck för att börja</string>
+    <string name="rules_group_locks">Lås</string>
+    <string name="rules_group_sessions">Sessioner</string>
+    <string name="rules_group_limits">Gränser</string>
+    <string name="rules_group_routines">Rutiner</string>
+    <string name="rules_group_templates">Mallar</string>
+    <string name="rules_add_session">Lägg till en session</string>
+    <string name="rules_add_session_hint">T.ex. ”Blockera appar de närmaste 30 min”</string>
+    <string name="rules_add_routine">Lägg till en rutin</string>
+    <string name="rules_add_routine_hint">T.ex. ”Ingen telefon under middagen”</string>
+    <string name="rules_add_lock">Lägg till ett lås</string>
+    <string name="rules_add_lock_hint">T.ex. ”Håll TikTok stängt hela dagen”</string>
+    <string name="rules_add_limit">Lägg till en gräns</string>
+    <string name="rules_add_limit_hint">T.ex. ”1 timme YouTube om dagen”</string>
+    <string name="rules_more">Fler alternativ</string>
+    <string name="rules_empty_title">Inga regler än</string>
+    <string name="rules_empty_body">Starta en session eller välj en mall för att komma igång.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">Pågår</string>
+    <string name="rules_status_upcoming">Kommande</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Redo</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d app</item>
+        <item quantity="other">+ %d appar</item>
+    </plurals>
+    <string name="rules_tile_ready">REDO</string>
+    <string name="rules_status_blocking">Blockerar</string>
+    <string name="rules_status_paused">Pausad</string>
+    <string name="rules_status_times_up">Tiden är slut</string>
+    <string name="rules_status_unlocks">Upplåsningar %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">Obegränsade upplåsningar</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">Av</string>
+    <string name="rules_all_day">Hela dagen</string>
+    <string name="rules_strict_mode">Strikt läge</string>
+    <string name="rules_value_locked">Låst</string>
+    <string name="rules_value_off">Av</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">Till midnatt</string>
+    <string name="rules_budget_today">Budget för idag</string>
+    <string name="rules_value_left">%1$s kvar</string>
+    <string name="rules_value_starts_in">om %1$s</string>
+    <string name="rules_value_paused">Pausad</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">Varje dag</string>
+    <string name="rules_days_weekdays">Vardagar</string>
+    <string name="rules_days_weekends">Helger</string>
+    <string-array name="rules_day_short">
+        <item>mån</item>
+        <item>tis</item>
+        <item>ons</item>
+        <item>tors</item>
+        <item>fre</item>
+        <item>lör</item>
+        <item>sön</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>måndag</item>
+        <item>tisdag</item>
+        <item>onsdag</item>
+        <item>torsdag</item>
+        <item>fredag</item>
+        <item>lördag</item>
+        <item>söndag</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>M</item>
+        <item>T</item>
+        <item>O</item>
+        <item>T</item>
+        <item>F</item>
+        <item>L</item>
+        <item>S</item>
+    </string-array>
+    <string name="rules_am">FM</string>
+    <string name="rules_pm">EM</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d min</string>
+    <string name="rules_hours_short">%1$d h</string>
+    <string name="rules_hours_minutes">%1$d h %2$d min</string>
+    <string name="rules_compact_seconds">%1$d s</string>
+    <string name="rules_compact_minutes">%1$d min</string>
+    <string name="rules_compact_hours">%1$d h</string>
+    <string name="rules_compact_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- Common -->
+    <string name="rules_none">Inga</string>
+    <string name="rules_save">Spara</string>
+    <string name="rules_done">Klart</string>
+    <string name="rules_continue">Fortsätt</string>
+    <string name="rules_cancel">Avbryt</string>
+    <string name="rules_back">Tillbaka</string>
+    <string name="rules_edit_name">Redigera namn och klistermärke</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d appar</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">Session</string>
+    <string name="rules_type_lock">Lås</string>
+    <string name="rules_type_limit">Gräns</string>
+    <string name="rules_type_routine">Rutin</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">Blockera</string>
+    <string name="rules_row_active">Aktiv</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">Upplåsningssätt</string>
+    <string name="rules_row_unlocks_per_day">Upplåsningar per dag</string>
+    <string name="rules_row_apps">Appar</string>
+    <string name="rules_row_reminders">Påminnelser</string>
+    <string name="rules_row_each_unlock">Varje upplåsning varar</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">Session</string>
+    <string name="rules_session_subtitle">Blockera appar i %1$s när du startar den.</string>
+    <string name="rules_session_default_name">Fokussession</string>
+    <string name="rules_suggestions">FÖRSLAG</string>
+    <string name="rules_start">Starta</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">Inga upplåsningar förrän den tar slut.</string>
+    <string name="rules_unlock_strict_caption">Upplåsningar är inte tillgängliga i Strikt läge.</string>
+    <string name="rules_strict_confirm_title">Slå på Strikt läge?</string>
+    <string name="rules_strict_confirm_body">Du kan inte låsa upp de här apparna förrän det tar slut, förutom med en nödupplåsning.</string>
+    <string name="rules_turn_on">Slå på</string>
+    <string name="rules_not_now">Inte nu</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">Blockera de här apparna nu?</string>
+    <string name="rules_block_now_body">Regeln blockerar just nu: apparna du lade till blockeras direkt.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">Slå på %1$s?</string>
+    <string name="rules_lock_confirm_body">När det väl är på gäller allt som gör det lättare – ta bort appar, fler upplåsningar, stänga av det – först vid midnatt.</string>
+    <string name="rules_limit_confirm_title">Starta %1$s?</string>
+    <string name="rules_limit_confirm_body">När den väl är startad gäller allt som gör det lättare – en större budget, ta bort appar – först vid midnatt, när den återställs.</string>
+    <string name="rules_block_now">Blockera nu</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">Lås</string>
+    <string name="rules_lock_subtitle">Håll valda appar stängda, med några korta upplåsningar om dagen.</string>
+    <string name="rules_lock_note_title">Varför det här låset?</string>
+    <string name="rules_hold_create_lock">Håll för att skapa lås</string>
+    <string name="rules_hold_create_session">Håll för att skapa session</string>
+    <string name="rules_unlock_wait">Vänta %1$d s</string>
+    <string name="rules_unlock_retype">Skriv av</string>
+    <string name="rules_unlock_scan">Skanna kod</string>
+    <string name="rules_unlock_walk">Gå %1$d steg</string>
+    <string name="rules_unlimited">Obegränsat</string>
+    <string name="rules_lock_default_name">Lås</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">Välj appar</string>
+    <string name="rules_selected">Valda: %1$d</string>
+    <string name="rules_search_apps">Sök appar</string>
+    <string name="rules_category_social">Socialt</string>
+    <string name="rules_category_entertainment">Underhållning</string>
+    <string name="rules_category_music">Musik</string>
+    <string name="rules_category_games">Spel</string>
+    <string name="rules_category_productivity">Produktivitet</string>
+    <string name="rules_category_other">Övrigt</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="one">Blockera · %d app</item>
+        <item quantity="other">Blockera · %d appar</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">Alla appar och kategorier</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">Alla</string>
+    <string name="rules_no_apps_found">Inga appar matchar ”%1$s”.</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">Aktiv i</string>
+    <string name="rules_ends_at">Slutar kl. %1$s</string>
+    <string name="rules_hours_label">Timmar</string>
+    <string name="rules_minutes_label">Minuter</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">Gräns</string>
+    <string name="rules_limit_subtitle">En tidsbudget för idag, för appar som äter upp din dag.</string>
+    <string name="rules_hold_create_limit">Håll för att skapa gräns</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">Låst till midnatt</string>
+    <string name="rules_locked_in_lock">Det är på så fort det skapas. Att lätta på det – ta bort appar, fler upplåsningar, stänga av det – eller radera det gäller först efter den dagliga återställningen vid midnatt.</string>
+    <string name="rules_locked_in_limit">Den startar så fort den skapas. Att lätta på den – en större budget, ta bort appar – eller radera den gäller först efter den dagliga återställningen vid midnatt.</string>
+    <string name="rules_limit_resets">Återställs automatiskt vid midnatt.</string>
+    <string name="rules_limit_default_name">Gräns</string>
+    <string name="rules_limit_social_name">Social tid</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">Läggdags</string>
+    <string name="rules_bedtime_subtitle">Blockera appar enligt ett schema.</string>
+    <string name="rules_from">FRÅN</string>
+    <string name="rules_until">TILL</string>
+    <string name="rules_tonight">%1$s · ikväll</string>
+    <string name="rules_today">%1$s · idag</string>
+    <string name="rules_tomorrow">%1$s · i morgon</string>
+    <string name="rules_tonight_alone">Ikväll</string>
+    <string name="rules_today_alone">Idag</string>
+    <string name="rules_tomorrow_alone">I morgon</string>
+    <string name="rules_hold_create_routine">Håll för att skapa rutin</string>
+    <string name="rules_starts_at">Börjar</string>
+    <string name="rules_ends_at_title">Slutar</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">Hur låser du upp?</string>
+    <string name="rules_unlock_subtitle">Välj den sorts friktion som funkar för dig.</string>
+    <string name="rules_unlock_option_wait">Vänta några sekunder</string>
+    <string name="rules_unlock_option_retype">Skriv av en jobbig text</string>
+    <string name="rules_unlock_option_scan">Skanna en kod du förvarar på annat håll</string>
+    <string name="rules_unlock_option_walk">Gå %1$d steg</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">Vänta före upplåsning</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">%d sekund</item>
+        <item quantity="other">%d sekunder</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 minut</string>
+    <string name="rules_seconds_chip">%1$d s</string>
+    <string name="rules_one_min_chip">1 min</string>
+    <string name="rules_unlocks_per_day_title">Upplåsningar per dag</string>
+    <string name="rules_each_unlock_title">Varje upplåsning varar</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">Fokus</string>
+    <string name="rules_section_focus_body">För att jobba, plugga eller få ett projekt gjort.</string>
+    <string name="rules_section_unwind">Varva ner</string>
+    <string name="rules_section_unwind_body">Lugnare kvällar och mjukare morgnar.</string>
+    <string name="rules_section_be_present">Var närvarande</string>
+    <string name="rules_section_be_present_body">Uppmärksamhet för människorna omkring dig, eller för dig själv.</string>
+    <string name="rules_section_scroll_less">Scrolla mindre</string>
+    <string name="rules_section_scroll_less_body">Öppna dina appar med avsikt, inte av vana.</string>
+    <string name="rules_tpl_focus_sprint">Fokussprint</string>
+    <string name="rules_tpl_focus_sprint_body">Distraktioner blockerade, från och med nu.</string>
+    <string name="rules_tpl_study_hour">Pluggtimme</string>
+    <string name="rules_tpl_study_hour_body">En timmes plugg, från och med nu.</string>
+    <string name="rules_tpl_work_rhythm">Arbetsrytm</string>
+    <string name="rules_tpl_work_rhythm_body">Distraktioner blockerade på vardagar.</string>
+    <string name="rules_tpl_evening_calm">Kvällsro</string>
+    <string name="rules_tpl_evening_calm_body">Inga sociala appar eller videoappar, varje kväll.</string>
+    <string name="rules_tpl_night_pause">Nattpaus</string>
+    <string name="rules_tpl_night_pause_body">Distraktioner blockerade hela natten.</string>
+    <string name="rules_tpl_slow_morning">Lugn morgon</string>
+    <string name="rules_tpl_slow_morning_body">Starta varje dag utan sociala appar.</string>
+    <string name="rules_tpl_dinner_together">Middag tillsammans</string>
+    <string name="rules_tpl_dinner_together_body">Distraktioner blockerade under middagen.</string>
+    <string name="rules_tpl_family_hour">Familjetimme</string>
+    <string name="rules_tpl_family_hour_body">Söndagar, reserverade för tid tillsammans.</string>
+    <string name="rules_tpl_time_for_me">Tid för mig</string>
+    <string name="rules_tpl_time_for_me_body">Läs, skapa eller bara andas.</string>
+    <string name="rules_tpl_walk_before_you_scroll">Gå före du scrollar</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">Sedan 5 min i appen, 3 gånger om dagen.</string>
+    <string name="rules_tpl_pause_before_opening">Pausa före öppning</string>
+    <string name="rules_tpl_pause_before_opening_body">Sedan 5 min i appen, 3 gånger om dagen.</string>
+    <string name="rules_tpl_social_budget">Social budget</string>
+    <string name="rules_tpl_social_budget_body">Delad, sedan blockerad till midnatt.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">Ny regel</string>
+    <string name="rules_new_rule_subtitle">Vad vill du ställa in?</string>
+    <string name="rules_browse_templates">Bläddra bland mallar</string>
+    <string name="rules_kind_routine_body">Blockerar appar enligt ett schema, som läggdags eller arbetstid.</string>
+    <string name="rules_kind_session_body">Blockerar appar så länge du väljer, när du har startat den.</string>
+    <string name="rules_kind_lock_body">Håller appar stängda från det att du slår på det, med några korta upplåsningar om dagen.</string>
+    <string name="rules_kind_limit_body">En tidsbudget för idag. När den är förbrukad förblir apparna blockerade till midnatt.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">Aktiv %1$s</string>
+    <string name="rules_detail_running">Pågår nu</string>
+    <string name="rules_detail_paused">Pausad</string>
+    <string name="rules_detail_paused_until">Pausad till %1$s</string>
+    <string name="rules_detail_on">På</string>
+    <string name="rules_detail_off">Av</string>
+    <string name="rules_blocked">Blockerade</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">Appar</string>
+    <string name="rules_apps_blocking">Blockerade just nu</string>
+    <string name="rules_apps_not_blocking">Blockerar inte just nu</string>
+    <string name="rules_apps_blocked">Blockerade</string>
+    <string name="rules_apps_blocked_when_on">Blockerade när den är på</string>
+    <string name="rules_apps_unlocked">Upplåsta för tillfället</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">Inget är blockerat just nu.</string>
+    <string name="rules_apps_none_unlocked">Ingen app är upplåst just nu.</string>
+    <string name="rules_streak">Svit</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+    <string name="rules_why">Varför</string>
+    <string name="rules_why_placeholder">Tryck för att skriva ner varför det här är viktigt.</string>
+    <string name="rules_why_empty">Ingen anledning nedskriven än.</string>
+    <string name="rules_tile_now">NU</string>
+    <string name="rules_tile_left_of">kvar av %1$s</string>
+    <string name="rules_tile_used">%1$s använt</string>
+    <string name="rules_tile_today">IDAG</string>
+    <string name="rules_tile_not_started">Inte startad än</string>
+    <string name="rules_tile_unlocks_today">UPPLÅSNINGAR IDAG</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">Av</string>
+    <string name="rules_reminder_before">%1$d min före</string>
+    <string name="rules_reminders_title">Påminn mig innan den startar</string>
+    <string name="rules_activate">Aktivera</string>
+    <string name="rules_turn_off">Stäng av</string>
+    <string name="rules_menu_edit_settings">Redigera regel</string>
+    <string name="rules_menu_pause">Pausa regel</string>
+    <string name="rules_menu_resume">Återuppta regel</string>
+    <string name="rules_menu_delete">Radera regel</string>
+    <string name="rules_pause_title">Pausa %1$s?</string>
+    <string name="rules_pause_hour">I 1 timme</string>
+    <string name="rules_pause_tomorrow">Till i morgon</string>
+    <string name="rules_pause_manual">Tills jag slår på den igen</string>
+    <string name="rules_pause_rule">Pausa regel</string>
+    <string name="rules_pause_later">Pausen börjar när det här fönstret slutar.</string>
+    <string name="rules_paused_toast">%1$s har pausats</string>
+    <string name="rules_resumed_toast">%1$s är på igen</string>
+    <string name="rules_edit_title">Redigera regel</string>
+    <string name="rules_sticker">KLISTERMÄRKE</string>
+    <string name="rules_name_placeholder">Regelnamn</string>
+    <string name="rules_more_stickers">Fler klistermärken</string>
+    <string name="rules_more_stickers_soon">Fler klistermärken är på väg</string>
+    <string name="rules_delete_title">Radera %1$s?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">Din %d dagars svit på den här regeln går förlorad. Det här kan inte ångras.</item>
+        <item quantity="other">Din %d dagars svit på den här regeln går förlorad. Det här kan inte ångras.</item>
+    </plurals>
+    <string name="rules_delete_body">Den här regeln och dess historik tas bort. Det här kan inte ångras.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">Den fortsätter blockera till midnatt och raderas sedan.</string>
+    <string name="rules_delete_body_later_session">Den fortsätter blockera tills sessionen slutar och raderas sedan.</string>
+    <string name="rules_delete_body_later_at">Den fortsätter blockera till %1$s och raderas sedan.</string>
+    <string name="rules_delete_rule">Radera regel</string>
+    <string name="rules_keep_it">Behåll den</string>
+    <string name="rules_deleted_toast">%1$s har raderats</string>
+    <string name="rules_note_title">Varför den här regeln?</string>
+    <string name="rules_note_placeholder">Skriv ner det…</string>
+    <string name="rules_session_started">Session startad · %1$s</string>
+    <string name="rules_limit_started">Gräns startad · %1$s för idag</string>
+    <string name="rules_lock_activated">%1$s är på</string>
+    <string name="rules_rule_created">%1$s har skapats</string>
+    <string name="rules_rule_saved">Ändringar sparade</string>
+    <string name="rules_saved_later_midnight">Sparat · vissa ändringar gäller vid midnatt</string>
+    <string name="rules_saved_later_session">Sparat · vissa ändringar gäller när sessionen slutar</string>
+    <string name="rules_saved_later_at">Sparat · vissa ändringar gäller kl. %1$s</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">Dina ändringar gäller vid midnatt</string>
+    <string name="rules_pending_changes_session">Dina ändringar gäller när sessionen slutar</string>
+    <string name="rules_pending_changes_at">Dina ändringar gäller kl. %1$s</string>
+    <string name="rules_pending_delete_midnight">Raderas vid midnatt</string>
+    <string name="rules_pending_delete_session">Raderas när sessionen slutar</string>
+    <string name="rules_pending_delete_at">Raderas kl. %1$s</string>
+    <string name="rules_pending_turn_off">Stängs av vid midnatt</string>
+    <string name="rules_pending_pause">Pausas när det här fönstret slutar</string>
+    <string name="rules_pending_drop">Förkasta ändringar</string>
+    <string name="rules_pending_keep_rule">Behåll regeln</string>
+    <string name="rules_pending_keep_on">Behåll den på</string>
+    <string name="rules_pending_dont_pause">Pausa inte</string>
+    <string name="rules_session_ended">Sessionen är slut</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">Alltid tillåtna</string>
+    <string name="rules_allowed_explainer">Recentr blockerar aldrig de här apparna, oavsett regel eller timer.</string>
+    <string name="rules_allowed_add">Lägg till app</string>
+    <string name="rules_allowed_remove">Ta bort %1$s</string>
+    <string name="rules_allowed_section">Tillåtna</string>
+    <string name="rules_allowed_waiting">Tillkommer senare</string>
+    <string name="rules_allowed_none">Ingen app än. Kartor, taxi eller en hälsoapp är bra val.</string>
+    <string name="rules_allowed_changes_tomorrow">Dina ändringar gäller kl. %1$s i morgon</string>
+    <string name="rules_allowed_changes_on">Dina ändringar gäller den %1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">Tillåt · %d app</item>
+        <item quantity="other">Tillåt · %d appar</item>
+    </plurals>
+    <string name="rules_allowed_done_none">Tillåt inga</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">Alltid tillåtna</string>
+    <string name="focus_apps_subtitle">På is under omgångarna, fria på rasterna.</string>
+    <string name="focus_apps_on_hold">På is</string>
+</resources>

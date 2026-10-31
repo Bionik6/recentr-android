@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian. -->
+<resources>
+    <string name="focus_title">Таймер</string>
+    <string name="focus_more">Більше опцій</string>
+    <string name="focus_close">Закрити</string>
+    <string name="focus_back">Назад</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d хв</string>
+    <string name="focus_dial_description">Тривалість фокусу: %d хв. Потягни, щоб змінити.</string>
+    <string name="focus_sound">Звук</string>
+    <string name="focus_block">Блокувати</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">Немає</string>
+    <string name="focus_rounds">Раунди</string>
+    <string name="focus_rounds_value">%1$d × %2$d хв</string>
+    <string name="focus_start">Почати фокус</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">Суворий режим</string>
+    <string name="focus_strict_caption">Суворий режим: без пауз і дострокового завершення</string>
+    <string name="focus_strict_note">Суворий режим: цей фокус завершиться сам</string>
+    <string name="focus_strict_confirm_title">Увімкнути Суворий режим?</string>
+    <string name="focus_strict_confirm_body">Ти не зможеш призупинити цей фокус чи завершити його раніше. Перерви все одно будуть.</string>
+    <string name="focus_strict_turn_on">Увімкнути</string>
+    <string name="focus_cancel">Скасувати</string>
+    <string name="focus_back_to_focus">Повернутися до фокусу</string>
+    <string name="focus_back_to_focus_left">Повернутися до фокусу · %1$s</string>
+    <string name="focus_rename">Перейменувати</string>
+    <string name="focus_rename_title">Назви цю сесію</string>
+    <string name="focus_rename_save">Зберегти</string>
+    <string name="focus_log">Журнал фокусу</string>
+    <string name="focus_change_sound">Змінити звук</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">Раунд %1$d з %2$d</string>
+    <string name="focus_left_ends">залишилось · завершиться о %s</string>
+    <string name="focus_paused_round_of">Пауза · раунд %1$d з %2$d</string>
+    <string name="focus_ready_round_of">Готово до раунду %1$d з %2$d</string>
+    <string name="focus_round_n">Раунд %d</string>
+    <string name="focus_take_your_time">Не поспішай</string>
+    <string name="focus_paused_for">пауза: %s</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="one">%d додаток на паузі</item>
+        <item quantity="few">%d додатки на паузі</item>
+        <item quantity="many">%d додатків на паузі</item>
+        <item quantity="other">%d додатків на паузі</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="one">%d додаток досі на паузі</item>
+        <item quantity="few">%d додатки досі на паузі</item>
+        <item quantity="many">%d додатків досі на паузі</item>
+        <item quantity="other">%d додатків досі на паузі</item>
+    </plurals>
+    <string name="focus_pause">Пауза</string>
+    <string name="focus_resume">Продовжити</string>
+    <string name="focus_start_round">Почати раунд</string>
+    <string name="focus_end_session">Завершити сесію</string>
+    <string name="focus_restart_round">Почати раунд знову</string>
+    <string name="focus_round_restarted">Раунд %d перезапущено</string>
+    <string name="focus_undo">Скасувати</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">Звуки фокусу</string>
+    <string name="sounds_subtitle_none">Вмикай скільки завгодно.</string>
+    <string name="sounds_subtitle_on">Увімкнено: %1$s</string>
+    <string name="sounds_subtitle_on_muted">Увімкнено: %1$s · без звуку: %2$d</string>
+    <string name="sounds_subtitle_muted">Нічого не грає · без звуку: %d</string>
+    <string name="sounds_mute_all">Вимкнути звук усім</string>
+    <string name="sounds_unmute_all">Увімкнути звук усім</string>
+    <string name="sounds_on_count">Увімкнено: %d</string>
+    <string name="sounds_volume">Гучність</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">Вимкнено</string>
+    <string name="sound_state_muted">Без звуку</string>
+    <string name="sound_turn_on">Увімкнути</string>
+    <string name="sound_mute">Вимкнути звук</string>
+    <string name="sound_unmute">Увімкнути звук</string>
+    <string name="sound_mix_off">Вимкнено</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">Додати звук</string>
+    <string name="sound_category_rain">Дощ</string>
+    <string name="sound_category_water">Вода</string>
+    <string name="sound_category_nature">Природа</string>
+    <string name="sound_category_places">Місця</string>
+    <string name="sound_category_steady">Цокіт і шум</string>
+    <string name="sound_soft_rain">Легкий дощ</string>
+    <string name="sound_heavy_rain">Сильний дощ</string>
+    <string name="sound_forest_rain">Дощ у лісі</string>
+    <string name="sound_rain_village">Дощ у селі</string>
+    <string name="sound_thunder">Грім</string>
+    <string name="sound_river">Річка</string>
+    <string name="sound_small_river">Струмок</string>
+    <string name="sound_beach">Пляж</string>
+    <string name="sound_sea_beach">Узбережжя</string>
+    <string name="sound_soft_beach">Тихий берег</string>
+    <string name="sound_whale">Кити</string>
+    <string name="sound_forest_night">Нічний ліс</string>
+    <string name="sound_birds">Птахи</string>
+    <string name="sound_crickets">Цвіркуни</string>
+    <string name="sound_cicada_birds">Цикади</string>
+    <string name="sound_farm">Ферма</string>
+    <string name="sound_wind">Вітер</string>
+    <string name="sound_campfire">Багаття</string>
+    <string name="sound_coffee_shop">Кав’ярня</string>
+    <string name="sound_office">Офіс</string>
+    <string name="sound_street_traffic">Вулиця</string>
+    <string name="sound_construction">Будівництво</string>
+    <string name="sound_keyboard_typing">Друкування</string>
+    <string name="sound_clock_tick">Годинник</string>
+    <string name="sound_clock_stopwatch">Секундомір</string>
+    <string name="sound_white_noise">Білий шум</string>
+    <string name="sound_pink_noise">Рожевий шум</string>
+    <string name="sounds_done">Готово</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">Перерва</string>
+    <string name="break_round_done">Раунд %1$d завершено · ще %2$d</string>
+    <string name="break_until">до раунду %d</string>
+    <string name="break_ideas_title">Спробуй це замість скролінгу</string>
+    <string name="break_idea_window">Подивись у вікно</string>
+    <string name="break_idea_window_hint">20 секунд, 20 метрів удалину</string>
+    <string name="break_idea_water">Випий склянку води</string>
+    <string name="break_idea_water_hint">Твій мозок скаже дякую</string>
+    <string name="break_idea_stretch">Розімни плечі</string>
+    <string name="break_idea_stretch_hint">Прокрути їх назад 5 разів</string>
+    <string name="break_skip">Пропустити перерву</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="one">%1$d хвилина · %2$s</item>
+        <item quantity="few">%1$d хвилини · %2$s</item>
+        <item quantity="many">%1$d хвилин · %2$s</item>
+        <item quantity="other">%1$d хвилин · %2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="one">%d раунд</item>
+        <item quantity="few">%d раунди</item>
+        <item quantity="many">%d раундів</item>
+        <item quantity="other">%d раундів</item>
+    </plurals>
+    <string name="complete_zero_unlocks">жодного розблокування</string>
+    <plurals name="complete_unlocks">
+        <item quantity="one">%d розблокування</item>
+        <item quantity="few">%d розблокування</item>
+        <item quantity="many">%d розблокувань</item>
+        <item quantity="other">%d розблокувань</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. Це твоя найдовша за цей тиждень.</string>
+    <string name="complete_focus_streak">Серія фокусу</string>
+    <plurals name="complete_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
+    </plurals>
+    <string name="complete_urges">Подолані спокуси</string>
+    <string name="complete_urges_today">%d сьогодні</string>
+    <string name="complete_note_title">Що вдалося зробити?</string>
+    <string name="complete_note_placeholder">План третього розділу + дві сторінки. Телефон лежав екраном донизу.</string>
+    <string name="complete_another">Почати ще один раунд</string>
+    <string name="complete_done">Готово</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">Ти у фокусі вже %d хв</string>
+    <string name="hold_leave_body">Твої додатки залишаться на паузі до %s. Тримайся — у тебе чудово виходить.</string>
+    <string name="hold_back">Повернутися до фокусу</string>
+    <string name="hold_end">Завершити сесію раніше</string>
+    <string name="hold_keep_focusing">Продовжити фокус</string>
+    <string name="hold_end_now">Завершити зараз?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="one">Завершиш зараз — і %d додаток повернеться.</item>
+        <item quantity="few">Завершиш зараз — і %d додатки повернуться.</item>
+        <item quantity="many">Завершиш зараз — і %d додатків повернуться.</item>
+        <item quantity="other">Завершиш зараз — і %d додатків повернуться.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s Ці %2$d хв усе одно зарахуються.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">Журнал фокусу</string>
+    <string name="history_this_week">Цього тижня</string>
+    <string name="history_sessions">Сесії</string>
+    <string name="history_today">Сьогодні, %s</string>
+    <string name="history_yesterday">Вчора, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">Поки що немає сесій. Тут з’являтимуться твої сесії фокусу.</string>
+    <string name="history_clear">Очистити журнал</string>
+    <string-array name="focus_day_letters">
+        <item>П</item>
+        <item>В</item>
+        <item>С</item>
+        <item>Ч</item>
+        <item>П</item>
+        <item>С</item>
+        <item>Н</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">Раунди</string>
+    <string name="rounds_subtitle">Працюй раундами з короткими перервами між ними.</string>
+    <string name="rounds_focus">Фокус</string>
+    <string name="rounds_short_break">Коротка перерва</string>
+    <string name="rounds_count">Раунди</string>
+    <string name="rounds_long_break">Довга перерва</string>
+    <string name="rounds_minutes">%d хв</string>
+    <string name="rounds_auto_start">Автоматично починати наступний раунд</string>
+    <string name="rounds_total">Разом: %s із перервами</string>
+    <string name="rounds_save">Зберегти раунди</string>
+    <string name="rounds_decrease">Зменшити: %s</string>
+    <string name="rounds_increase">Збільшити: %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d год</string>
+    <string name="duration_m">%1$d хв</string>
+    <string name="duration_h_m">%1$d год %2$d хв</string>
+    <string name="focus_notification_channel">Таймер фокусу</string>
+    <string name="focus_notification_channel_description">Поточна сесія, поки її звуки грають із закритим Recentr.</string>
+    <string name="focus_notification_round">Раунд %1$d з %2$d</string>
+    <string name="focus_notification_break">Перерва · далі раунд %1$d</string>
+    <string name="focus_notification_paused">Пауза · раунд %1$d з %2$d</string>
+</resources>

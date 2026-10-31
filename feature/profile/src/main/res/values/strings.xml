@@ -210,6 +210,11 @@
     <!-- 70 · Settings — Language -->
     <string name="language_title">Language</string>
 
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">System default</string>
+    <string name="developer_language_accented" translatable="false">Pseudo · accented (en-XA)</string>
+    <string name="developer_language_rtl" translatable="false">Pseudo · right-to-left (ar-XB)</string>
+
     <!-- 71 · Settings — Log out -->
     <string name="logout_title">Log out of Recentr?</string>
     <string name="logout_body">Your rules keep running on this phone. Sign back in anytime to sync them.</string>

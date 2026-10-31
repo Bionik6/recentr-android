@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Swedish. -->
+<resources>
+    <string name="ds_tab_home">Hem</string>
+    <string name="ds_tab_rules">Regler</string>
+    <string name="ds_tab_timer">Timer</string>
+    <string name="ds_tab_insights">Insikter</string>
+    <string name="ds_skip">Hoppa över</string>
+    <string name="ds_back">Tillbaka</string>
+    <string name="ds_clear">Rensa</string>
+    <string name="ds_more_options">Fler alternativ</string>
+    <string name="ds_goal_title">Dagligt mål</string>
+    <string name="ds_goal_subtitle">Recentr ger dig en knuff när du närmar dig.</string>
+    <string name="ds_goal_save">Spara mål</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Snabbval</string>
+    <string name="ds_duration_minutes">%1$d min</string>
+    <string name="ds_duration_hours">%1$d h</string>
+    <string name="ds_duration_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Slå på appblockering</string>
+    <string name="ds_blocking_body">För att lägga appar du blockerar på is använder Recentr Androids tillgänglighetstjänst. Den ser bara vilken app du öppnar – aldrig vad som finns på skärmen – och inget lämnar din telefon.</string>
+    <string name="ds_blocking_steps">Öppna ”Recentr appblockering” under Inställningar › Tillgänglighet (under Installerade appar eller Nedladdade appar) och slå på den.</string>
+    <string name="ds_blocking_open_settings">Öppna Inställningar</string>
+    <string name="ds_blocking_not_now">Inte nu</string>
+    <string name="ds_blocking_off_title">Blockeringen är av</string>
+    <string name="ds_blocking_off_body">Slå på den så att dina regler och fokussessioner lägger appar på is.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Koppla Recentr till skärmtid</string>
+    <string name="ds_usage_access_body">Recentr behöver åtkomst till användningsdata för att räkna din skärmtid, dina upplockningar och aviseringar. Allt stannar på din telefon.</string>
+    <string name="ds_usage_access_connect">Koppla</string>
+</resources>

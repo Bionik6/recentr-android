@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">Pravidla</string>
+    <string name="rules_templates_title">Šablony</string>
+    <string name="rules_subtitle_active">Aktivní: %1$d</string>
+    <string name="rules_subtitle_active_paused">Aktivní: %1$d · pozastavená: %2$d</string>
+    <string name="rules_templates_subtitle">Hotová pravidla · klepni a začni</string>
+    <string name="rules_group_locks">Zámky</string>
+    <string name="rules_group_sessions">Sezení</string>
+    <string name="rules_group_limits">Limity</string>
+    <string name="rules_group_routines">Rutiny</string>
+    <string name="rules_group_templates">Šablony</string>
+    <string name="rules_add_session">Přidat sezení</string>
+    <string name="rules_add_session_hint">Např. „Blokovat aplikace příštích 30 min“</string>
+    <string name="rules_add_routine">Přidat rutinu</string>
+    <string name="rules_add_routine_hint">Např. „Žádný telefon při večeři“</string>
+    <string name="rules_add_lock">Přidat zámek</string>
+    <string name="rules_add_lock_hint">Např. „TikTok zavřený celý den“</string>
+    <string name="rules_add_limit">Přidat limit</string>
+    <string name="rules_add_limit_hint">Např. „1 hodina YouTube denně“</string>
+    <string name="rules_more">Další možnosti</string>
+    <string name="rules_empty_title">Zatím žádná pravidla</string>
+    <string name="rules_empty_body">Začni sezení nebo si vyber šablonu.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">Probíhá</string>
+    <string name="rules_status_upcoming">Nadcházející</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Připraveno</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d aplikace</item>
+        <item quantity="few">+ %d aplikace</item>
+        <item quantity="many">+ %d aplikace</item>
+        <item quantity="other">+ %d aplikací</item>
+    </plurals>
+    <string name="rules_tile_ready">PŘIPRAVENO</string>
+    <string name="rules_status_blocking">Blokuje</string>
+    <string name="rules_status_paused">Pozastaveno</string>
+    <string name="rules_status_times_up">Čas vypršel</string>
+    <string name="rules_status_unlocks">Odemknutí %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">Neomezená odemknutí</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">Vypnuto</string>
+    <string name="rules_all_day">Celý den</string>
+    <string name="rules_strict_mode">Přísný režim</string>
+    <string name="rules_value_locked">Zamčeno</string>
+    <string name="rules_value_off">Vypnuto</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">Do půlnoci</string>
+    <string name="rules_budget_today">Rozpočet na dnes</string>
+    <string name="rules_value_left">Zbývá %1$s</string>
+    <string name="rules_value_starts_in">za %1$s</string>
+    <string name="rules_value_paused">Pozastaveno</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">Každý den</string>
+    <string name="rules_days_weekdays">Ve všední dny</string>
+    <string name="rules_days_weekends">O víkendech</string>
+    <string-array name="rules_day_short">
+        <item>po</item>
+        <item>út</item>
+        <item>st</item>
+        <item>čt</item>
+        <item>pá</item>
+        <item>so</item>
+        <item>ne</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>pondělí</item>
+        <item>úterý</item>
+        <item>středa</item>
+        <item>čtvrtek</item>
+        <item>pátek</item>
+        <item>sobota</item>
+        <item>neděle</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>P</item>
+        <item>Ú</item>
+        <item>S</item>
+        <item>Č</item>
+        <item>P</item>
+        <item>S</item>
+        <item>N</item>
+    </string-array>
+    <string name="rules_am">dop.</string>
+    <string name="rules_pm">odp.</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d min</string>
+    <string name="rules_hours_short">%1$d h</string>
+    <string name="rules_hours_minutes">%1$d h %2$d min</string>
+    <string name="rules_compact_seconds">%1$d s</string>
+    <string name="rules_compact_minutes">%1$d min</string>
+    <string name="rules_compact_hours">%1$d h</string>
+    <string name="rules_compact_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- Common -->
+    <string name="rules_none">Žádné</string>
+    <string name="rules_save">Uložit</string>
+    <string name="rules_done">Hotovo</string>
+    <string name="rules_continue">Pokračovat</string>
+    <string name="rules_cancel">Zrušit</string>
+    <string name="rules_back">Zpět</string>
+    <string name="rules_edit_name">Upravit název a nálepku</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">%d aplikace</item>
+        <item quantity="few">%d aplikace</item>
+        <item quantity="many">%d aplikace</item>
+        <item quantity="other">%d aplikací</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">Sezení</string>
+    <string name="rules_type_lock">Zámek</string>
+    <string name="rules_type_limit">Limit</string>
+    <string name="rules_type_routine">Rutina</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">Blokovat</string>
+    <string name="rules_row_active">Aktivní</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">Způsob odemknutí</string>
+    <string name="rules_row_unlocks_per_day">Odemknutí za den</string>
+    <string name="rules_row_apps">Aplikace</string>
+    <string name="rules_row_reminders">Připomínky</string>
+    <string name="rules_row_each_unlock">Jedno odemknutí trvá</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">Sezení</string>
+    <string name="rules_session_subtitle">Po spuštění zablokuje aplikace na %1$s.</string>
+    <string name="rules_session_default_name">Sezení soustředění</string>
+    <string name="rules_suggestions">NÁVRHY</string>
+    <string name="rules_start">Začít</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">Žádná odemknutí, dokud neskončí.</string>
+    <string name="rules_unlock_strict_caption">V přísném režimu není odemknutí k dispozici.</string>
+    <string name="rules_strict_confirm_title">Zapnout Přísný režim?</string>
+    <string name="rules_strict_confirm_body">Tyto aplikace nepůjde odemknout, dokud to neskončí, jedině nouzovým odemknutím.</string>
+    <string name="rules_turn_on">Zapnout</string>
+    <string name="rules_not_now">Teď ne</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">Zablokovat tyto aplikace hned?</string>
+    <string name="rules_block_now_body">Pravidlo právě blokuje: přidané aplikace se zablokují okamžitě.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">Zapnout %1$s?</string>
+    <string name="rules_lock_confirm_body">Po zapnutí se vše, co to usnadňuje — odebrání aplikací, další odemknutí, vypnutí — projeví až o půlnoci.</string>
+    <string name="rules_limit_confirm_title">Spustit %1$s?</string>
+    <string name="rules_limit_confirm_body">Po spuštění se vše, co to usnadňuje — větší rozpočet, odebrání aplikací — projeví až o půlnoci, kdy se limit obnoví.</string>
+    <string name="rules_block_now">Blokovat hned</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">Zámek</string>
+    <string name="rules_lock_subtitle">Drž vybrané aplikace zavřené, s pár krátkými odemknutími denně.</string>
+    <string name="rules_lock_note_title">Proč tento zámek?</string>
+    <string name="rules_hold_create_lock">Podrž pro vytvoření zámku</string>
+    <string name="rules_hold_create_session">Podrž pro vytvoření sezení</string>
+    <string name="rules_unlock_wait">Čekat %1$d s</string>
+    <string name="rules_unlock_retype">Opsat</string>
+    <string name="rules_unlock_scan">Naskenovat kód</string>
+    <string name="rules_unlock_walk">Kroky: %1$d</string>
+    <string name="rules_unlimited">Neomezeně</string>
+    <string name="rules_lock_default_name">Zámek</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">Vybrat aplikace</string>
+    <string name="rules_selected">Vybráno: %1$d</string>
+    <string name="rules_search_apps">Hledat aplikace</string>
+    <string name="rules_category_social">Sociální sítě</string>
+    <string name="rules_category_entertainment">Zábava</string>
+    <string name="rules_category_music">Hudba</string>
+    <string name="rules_category_games">Hry</string>
+    <string name="rules_category_productivity">Produktivita</string>
+    <string name="rules_category_other">Ostatní</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="one">Blokovat · %d aplikace</item>
+        <item quantity="few">Blokovat · %d aplikace</item>
+        <item quantity="many">Blokovat · %d aplikace</item>
+        <item quantity="other">Blokovat · %d aplikací</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">Všechny aplikace a kategorie</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">Vše</string>
+    <string name="rules_no_apps_found">Žádná aplikace neodpovídá „%1$s“.</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">Aktivní po dobu</string>
+    <string name="rules_ends_at">Skončí v %1$s</string>
+    <string name="rules_hours_label">Hodiny</string>
+    <string name="rules_minutes_label">Minuty</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">Limit</string>
+    <string name="rules_limit_subtitle">Časový rozpočet na dnes pro aplikace, které ti žerou den.</string>
+    <string name="rules_hold_create_limit">Podrž pro vytvoření limitu</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">Zamčeno do půlnoci</string>
+    <string name="rules_locked_in_lock">Zapne se hned po vytvoření. Zmírnění — odebrání aplikací, další odemknutí, vypnutí — i smazání se projeví až po denním obnovení o půlnoci.</string>
+    <string name="rules_locked_in_limit">Spustí se hned po vytvoření. Zmírnění — větší rozpočet, odebrání aplikací — i smazání se projeví až po denním obnovení o půlnoci.</string>
+    <string name="rules_limit_resets">O půlnoci se automaticky obnoví.</string>
+    <string name="rules_limit_default_name">Limit</string>
+    <string name="rules_limit_social_name">Čas na sítích</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">Čas spánku</string>
+    <string name="rules_bedtime_subtitle">Blokuj aplikace podle rozvrhu.</string>
+    <string name="rules_from">OD</string>
+    <string name="rules_until">DO</string>
+    <string name="rules_tonight">%1$s · dnes v noci</string>
+    <string name="rules_today">%1$s · dnes</string>
+    <string name="rules_tomorrow">%1$s · zítra</string>
+    <string name="rules_tonight_alone">Dnes v noci</string>
+    <string name="rules_today_alone">Dnes</string>
+    <string name="rules_tomorrow_alone">Zítra</string>
+    <string name="rules_hold_create_routine">Podrž pro vytvoření rutiny</string>
+    <string name="rules_starts_at">Začíná v</string>
+    <string name="rules_ends_at_title">Končí v</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">Jak budeš odemykat?</string>
+    <string name="rules_unlock_subtitle">Vyber si, jaká překážka ti pomáhá.</string>
+    <string name="rules_unlock_option_wait">Chvíli počkat</string>
+    <string name="rules_unlock_option_retype">Opsat nepříjemný text</string>
+    <string name="rules_unlock_option_scan">Naskenovat kód uložený jinde</string>
+    <string name="rules_unlock_option_walk">Ujít kroky: %1$d</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">Čekání před odemknutím</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">%d sekunda</item>
+        <item quantity="few">%d sekundy</item>
+        <item quantity="many">%d sekundy</item>
+        <item quantity="other">%d sekund</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 minuta</string>
+    <string name="rules_seconds_chip">%1$d s</string>
+    <string name="rules_one_min_chip">1 min</string>
+    <string name="rules_unlocks_per_day_title">Odemknutí za den</string>
+    <string name="rules_each_unlock_title">Jedno odemknutí trvá</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">Soustředění</string>
+    <string name="rules_section_focus_body">Na práci, učení nebo dokončení projektu.</string>
+    <string name="rules_section_unwind">Uvolnění</string>
+    <string name="rules_section_unwind_body">Klidnější večery a jemnější rána.</string>
+    <string name="rules_section_be_present">Přítomnost</string>
+    <string name="rules_section_be_present_body">Pozornost pro lidi kolem tebe nebo pro sebe.</string>
+    <string name="rules_section_scroll_less">Méně scrollování</string>
+    <string name="rules_section_scroll_less_body">Otevírej aplikace záměrně, ne ze zvyku.</string>
+    <string name="rules_tpl_focus_sprint">Soustředěný sprint</string>
+    <string name="rules_tpl_focus_sprint_body">Rozptýlení zablokovaná, od teď.</string>
+    <string name="rules_tpl_study_hour">Hodina učení</string>
+    <string name="rules_tpl_study_hour_body">Hodina učení, od teď.</string>
+    <string name="rules_tpl_work_rhythm">Pracovní rytmus</string>
+    <string name="rules_tpl_work_rhythm_body">Rozptýlení zablokovaná ve všední dny.</string>
+    <string name="rules_tpl_evening_calm">Večerní klid</string>
+    <string name="rules_tpl_evening_calm_body">Žádné sociální sítě ani video aplikace, každý večer.</string>
+    <string name="rules_tpl_night_pause">Noční pauza</string>
+    <string name="rules_tpl_night_pause_body">Rozptýlení zablokovaná celou noc.</string>
+    <string name="rules_tpl_slow_morning">Pomalé ráno</string>
+    <string name="rules_tpl_slow_morning_body">Začni každý den bez sociálních sítí.</string>
+    <string name="rules_tpl_dinner_together">Společná večeře</string>
+    <string name="rules_tpl_dinner_together_body">Rozptýlení zablokovaná po celou večeři.</string>
+    <string name="rules_tpl_family_hour">Rodinná hodina</string>
+    <string name="rules_tpl_family_hour_body">Neděle vyhrazené společnému času.</string>
+    <string name="rules_tpl_time_for_me">Čas pro mě</string>
+    <string name="rules_tpl_time_for_me_body">Čti, tvoř nebo prostě dýchej.</string>
+    <string name="rules_tpl_walk_before_you_scroll">Projdi se před scrollováním</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">Pak 5 min v aplikaci, 3× denně.</string>
+    <string name="rules_tpl_pause_before_opening">Pauza před otevřením</string>
+    <string name="rules_tpl_pause_before_opening_body">Pak 5 min v aplikaci, 3× denně.</string>
+    <string name="rules_tpl_social_budget">Rozpočet na sítě</string>
+    <string name="rules_tpl_social_budget_body">Společný rozpočet, pak blokace do půlnoci.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">Nové pravidlo</string>
+    <string name="rules_new_rule_subtitle">Co chceš nastavit?</string>
+    <string name="rules_browse_templates">Procházet šablony</string>
+    <string name="rules_kind_routine_body">Blokuje aplikace podle rozvrhu, třeba před spaním nebo v pracovní době.</string>
+    <string name="rules_kind_session_body">Po spuštění blokuje aplikace tak dlouho, jak si zvolíš.</string>
+    <string name="rules_kind_lock_body">Drží aplikace zavřené od chvíle, kdy ho zapneš, s pár krátkými odemknutími denně.</string>
+    <string name="rules_kind_limit_body">Časový rozpočet na dnes. Jakmile se vyčerpá, aplikace zůstanou zablokované do půlnoci.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">Aktivní: %1$s</string>
+    <string name="rules_detail_running">Běží teď</string>
+    <string name="rules_detail_paused">Pozastaveno</string>
+    <string name="rules_detail_paused_until">Pozastaveno do %1$s</string>
+    <string name="rules_detail_on">Zapnuto</string>
+    <string name="rules_detail_off">Vypnuto</string>
+    <string name="rules_blocked">Blokováno</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">Aplikace</string>
+    <string name="rules_apps_blocking">Právě blokované</string>
+    <string name="rules_apps_not_blocking">Právě neblokuje</string>
+    <string name="rules_apps_blocked">Blokované</string>
+    <string name="rules_apps_blocked_when_on">Blokované, když je zapnuté</string>
+    <string name="rules_apps_unlocked">Zatím odemčené</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">Právě nic není blokováno.</string>
+    <string name="rules_apps_none_unlocked">Právě není odemčená žádná aplikace.</string>
+    <string name="rules_streak">Série</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="many">%d dne</item>
+        <item quantity="other">%d dní</item>
+    </plurals>
+    <string name="rules_why">Proč</string>
+    <string name="rules_why_placeholder">Klepni a napiš, proč na tom záleží.</string>
+    <string name="rules_why_empty">Zatím není zapsaný žádný důvod.</string>
+    <string name="rules_tile_now">TEĎ</string>
+    <string name="rules_tile_left_of">zbývá z %1$s</string>
+    <string name="rules_tile_used">využito %1$s</string>
+    <string name="rules_tile_today">DNES</string>
+    <string name="rules_tile_not_started">Zatím nespuštěno</string>
+    <string name="rules_tile_unlocks_today">ODEMKNUTÍ DNES</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">Vypnuto</string>
+    <string name="rules_reminder_before">%1$d min předem</string>
+    <string name="rules_reminders_title">Připomenout před začátkem</string>
+    <string name="rules_activate">Aktivovat</string>
+    <string name="rules_turn_off">Vypnout</string>
+    <string name="rules_menu_edit_settings">Upravit pravidlo</string>
+    <string name="rules_menu_pause">Pozastavit pravidlo</string>
+    <string name="rules_menu_resume">Znovu zapnout pravidlo</string>
+    <string name="rules_menu_delete">Smazat pravidlo</string>
+    <string name="rules_pause_title">Pozastavit %1$s?</string>
+    <string name="rules_pause_hour">Na 1 hodinu</string>
+    <string name="rules_pause_tomorrow">Do zítřka</string>
+    <string name="rules_pause_manual">Dokud ho znovu nezapnu</string>
+    <string name="rules_pause_rule">Pozastavit pravidlo</string>
+    <string name="rules_pause_later">Pozastavení začne po skončení tohoto okna.</string>
+    <string name="rules_paused_toast">Pozastaveno: %1$s</string>
+    <string name="rules_resumed_toast">Znovu zapnuto: %1$s</string>
+    <string name="rules_edit_title">Upravit pravidlo</string>
+    <string name="rules_sticker">NÁLEPKA</string>
+    <string name="rules_name_placeholder">Název pravidla</string>
+    <string name="rules_more_stickers">Další nálepky</string>
+    <string name="rules_more_stickers_soon">Další nálepky jsou na cestě</string>
+    <string name="rules_delete_title">Smazat %1$s?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">Přijdeš o %d-denní sérii u tohoto pravidla. Tuto akci nelze vrátit.</item>
+        <item quantity="few">Přijdeš o %d-denní sérii u tohoto pravidla. Tuto akci nelze vrátit.</item>
+        <item quantity="many">Přijdeš o %d-denní sérii u tohoto pravidla. Tuto akci nelze vrátit.</item>
+        <item quantity="other">Přijdeš o %d-denní sérii u tohoto pravidla. Tuto akci nelze vrátit.</item>
+    </plurals>
+    <string name="rules_delete_body">Toto pravidlo a jeho historie budou odstraněny. Tuto akci nelze vrátit.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">Do půlnoci dál blokuje, pak se smaže.</string>
+    <string name="rules_delete_body_later_session">Do konce sezení dál blokuje, pak se smaže.</string>
+    <string name="rules_delete_body_later_at">Do %1$s dál blokuje, pak se smaže.</string>
+    <string name="rules_delete_rule">Smazat pravidlo</string>
+    <string name="rules_keep_it">Ponechat</string>
+    <string name="rules_deleted_toast">Smazáno: %1$s</string>
+    <string name="rules_note_title">Proč toto pravidlo?</string>
+    <string name="rules_note_placeholder">Napiš to…</string>
+    <string name="rules_session_started">Sezení spuštěno · %1$s</string>
+    <string name="rules_limit_started">Limit spuštěn · %1$s na dnes</string>
+    <string name="rules_lock_activated">Zapnuto: %1$s</string>
+    <string name="rules_rule_created">Vytvořeno: %1$s</string>
+    <string name="rules_rule_saved">Změny uloženy</string>
+    <string name="rules_saved_later_midnight">Uloženo · některé změny se projeví o půlnoci</string>
+    <string name="rules_saved_later_session">Uloženo · některé změny se projeví po skončení sezení</string>
+    <string name="rules_saved_later_at">Uloženo · některé změny se projeví v %1$s</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">Změny se projeví o půlnoci</string>
+    <string name="rules_pending_changes_session">Změny se projeví po skončení sezení</string>
+    <string name="rules_pending_changes_at">Změny se projeví v %1$s</string>
+    <string name="rules_pending_delete_midnight">O půlnoci se smaže</string>
+    <string name="rules_pending_delete_session">Po skončení sezení se smaže</string>
+    <string name="rules_pending_delete_at">V %1$s se smaže</string>
+    <string name="rules_pending_turn_off">O půlnoci se vypne</string>
+    <string name="rules_pending_pause">Po skončení tohoto okna se pozastaví</string>
+    <string name="rules_pending_drop">Zahodit změny</string>
+    <string name="rules_pending_keep_rule">Ponechat pravidlo</string>
+    <string name="rules_pending_keep_on">Nechat zapnuté</string>
+    <string name="rules_pending_dont_pause">Nepozastavovat</string>
+    <string name="rules_session_ended">Sezení skončilo</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">Vždy povoleno</string>
+    <string name="rules_allowed_explainer">Recentr tyto aplikace nikdy neblokuje, ať platí jakékoli pravidlo nebo časovač.</string>
+    <string name="rules_allowed_add">Přidat aplikaci</string>
+    <string name="rules_allowed_remove">Odebrat %1$s</string>
+    <string name="rules_allowed_section">Povolené</string>
+    <string name="rules_allowed_waiting">Přidá se později</string>
+    <string name="rules_allowed_none">Zatím žádná aplikace. Dobrá volba jsou mapy, odvoz nebo zdravotní aplikace.</string>
+    <string name="rules_allowed_changes_tomorrow">Změny se projeví zítra v %1$s</string>
+    <string name="rules_allowed_changes_on">Změny se projeví dne %1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">Povolit · %d aplikace</item>
+        <item quantity="few">Povolit · %d aplikace</item>
+        <item quantity="many">Povolit · %d aplikace</item>
+        <item quantity="other">Povolit · %d aplikací</item>
+    </plurals>
+    <string name="rules_allowed_done_none">Nepovolit žádnou</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">Vždy povoleno</string>
+    <string name="focus_apps_subtitle">Pozastavené během kol, o přestávkách volné.</string>
+    <string name="focus_apps_on_hold">Pozastaveno</string>
+</resources>

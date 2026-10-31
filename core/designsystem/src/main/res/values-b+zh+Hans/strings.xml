@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified). -->
+<resources>
+    <string name="ds_tab_home">首页</string>
+    <string name="ds_tab_rules">规则</string>
+    <string name="ds_tab_timer">计时器</string>
+    <string name="ds_tab_insights">洞察</string>
+    <string name="ds_skip">跳过</string>
+    <string name="ds_back">返回</string>
+    <string name="ds_clear">清除</string>
+    <string name="ds_more_options">更多选项</string>
+    <string name="ds_goal_title">每日目标</string>
+    <string name="ds_goal_subtitle">接近目标时，Recentr 会轻轻提醒你。</string>
+    <string name="ds_goal_save">保存目标</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">快速选择</string>
+    <string name="ds_duration_minutes">%1$d分钟</string>
+    <string name="ds_duration_hours">%1$d小时</string>
+    <string name="ds_duration_hours_minutes">%1$d小时%2$02d分</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">开启应用屏蔽</string>
+    <string name="ds_blocking_body">为了让你屏蔽的应用暂缓使用，Recentr 会用到 Android 的无障碍服务。它只知道你打开了哪个应用，绝不会看到屏幕上的内容，也不会有任何数据离开你的手机。</string>
+    <string name="ds_blocking_steps">在“设置 › 无障碍”中，打开“Recentr 应用屏蔽”（位于“已安装的应用”或“已下载的应用”下），然后将其开启。</string>
+    <string name="ds_blocking_open_settings">打开设置</string>
+    <string name="ds_blocking_not_now">以后再说</string>
+    <string name="ds_blocking_off_title">屏蔽已关闭</string>
+    <string name="ds_blocking_off_body">开启后，你的规则和专注时段才能让应用暂缓使用。</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">将 Recentr 连接到屏幕使用时间</string>
+    <string name="ds_usage_access_body">Recentr 需要“使用情况访问权限”，才能统计你的屏幕使用时间、拿起次数和通知数量。所有数据都只保存在你的手机上。</string>
+    <string name="ds_usage_access_connect">连接</string>
+</resources>

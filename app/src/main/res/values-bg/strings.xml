@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bulgarian. -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">Блокиране на приложения от Recentr</string>
+    <string name="hold_service_summary">Поставя на изчакване приложенията, блокирани от правилата и фокус сесиите ти.</string>
+    <string name="hold_service_description">Recentr поставя на изчакване приложенията, блокирани от твоите правила и фокус сесии. Вижда само кое приложение отваряш — никога какво има на екрана ти — и нищо не напуска телефона ти.</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">%1$s почива</string>
+    <string name="shield_on_hold">%1$s е на изчакване</string>
+    <string name="shield_until">%1$s · до %2$s</string>
+    <string name="shield_until_tomorrow">%1$s · до %2$s утре</string>
+    <string name="shield_limit">%1$s · днешните %2$s са изразходвани</string>
+    <string name="shield_stayed_off">Вече %1$s си далеч от приложението</string>
+    <string name="shield_focus_minutes">Във фокус си от %1$d мин</string>
+    <string name="shield_focus_started">Фокусът ти току-що започна</string>
+    <string name="shield_got_this">Справям се</string>
+    <string name="shield_back_to_focus">Обратно към фокуса</string>
+    <string name="shield_end_focus">Прекрати фокуса по-рано</string>
+    <string name="shield_unlock_anyway">Отключи все пак</string>
+    <string name="shield_unlock_anyway_left">Отключи все пак (остават: %1$d от %2$d)</string>
+    <string name="shield_emergency">Спешно отключване</string>
+    <string name="duration_h">%1$d ч</string>
+    <string name="duration_m">%1$d мин</string>
+    <string name="duration_h_m">%1$d ч %2$d мин</string>
+    <string name="stayed_off_h_m">%1$d ч %2$02d</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · заключено от %2$s</string>
+    <string name="unlock_strict_on">%1$s · Строгият режим е включен</string>
+    <string name="unlock_wait_overline">Още ли искаш да влезеш?</string>
+    <string name="unlock_wait_title">Избери време за отключване</string>
+    <string name="unlock_wait_breath">Поеми си дъх…</string>
+    <string name="unlock_wait_done">Спря за миг. Браво.</string>
+    <string name="unlock_minutes_chip">%1$d мин</string>
+    <string name="unlock_nevermind">Няма значение</string>
+    <string name="unlock_unlock">Отключи</string>
+    <string name="unlock_retype_title">Напиши това, за да отключиш</string>
+    <string name="unlock_retype_text">Избирам лентата с публикации пред работата, която казах, че е важна днес, и го знам.</string>
+    <string name="unlock_quote">„%1$s“</string>
+    <string name="unlock_retype_hint">Започни да пишеш…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">Грешка — започни отначало</string>
+    <string name="unlock_retype_start_over">Отначало</string>
+    <string name="unlock_scan_title">Сканирай кода си от Recentr</string>
+    <string name="unlock_scan_subtitle">Този, който залепи на хладилника.</string>
+    <string name="unlock_scan_steady">Дръж стабилно…</string>
+    <string name="unlock_scan_wrong_pass">Това е пропуск за друго правило</string>
+    <string name="unlock_scan_no_camera">Recentr се нуждае от камерата, за да сканира пропуска ти.</string>
+    <string name="unlock_scan_allow_camera">Разреши камерата</string>
+    <string name="unlock_scan_use_passcode">Въведи код вместо това</string>
+    <string name="unlock_close">Затвори</string>
+    <string name="unlock_passcode_title">Въведи кода на пропуска</string>
+    <string name="unlock_passcode_subtitle">Това е числото, отпечатано под QR кода.</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">Това не е кодът от твоя пропуск.</string>
+    <string name="unlock_emergency_title">Спешно отключване</string>
+    <string name="unlock_emergency_body">Строгият режим е включен. Използвай това само когато наистина е важно. Оставащи този месец: %1$d.</string>
+    <string name="unlock_emergency_spent">Строгият режим е включен, а спешните отключвания за този месец са изчерпани.</string>
+    <string name="unlock_emergency_limit_body">Времето за днес изтече, а лимитът няма отключвания. Използвай това само когато наистина е важно. Оставащи този месец: %1$d.</string>
+    <string name="unlock_emergency_limit_spent">Времето за днес изтече, а спешните отключвания за този месец са изчерпани.</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="one">Остава %d спешно отключване</item>
+        <item quantity="other">Остават %d спешни отключвания</item>
+    </plurals>
+    <string name="unlock_hold">Задръж за отключване · %1$d сек</string>
+    <string name="unlock_hold_none">Няма спешни отключвания</string>
+    <string name="unlock_cancel">Отказ</string>
+    <string name="unlock_open_title">Отворено: %1$s</string>
+    <string name="unlock_time_left">Още %1$s</string>
+    <string name="unlock_open_caption">Ще го заключим отново, когато таймерът изтече.</string>
+    <string name="unlock_open_app">Отвори %1$s</string>
+    <string name="unlock_lock_again">Заключи отново</string>
+    <string name="unlock_walk_title">Стъпки за отключване: %1$d</string>
+    <string name="unlock_walk_subtitle">Малка разходка преди скролването. Извърви всички стъпки (%1$d) и получаваш %2$s.</string>
+    <string name="unlock_walking_title">Още малко стъпки</string>
+    <string name="unlock_walking_subtitle">%1$s остава заключено, докато не извървиш всички стъпки (%2$d). Не бързай.</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">стъпки · когато пожелаеш</string>
+    <string name="unlock_walk_more_to_go">стъпки · още %1$d до края</string>
+    <string name="unlock_walk_goal_reached">стъпки · целта е постигната</string>
+    <string name="unlock_walk_locked_until">Заключено · нужни стъпки: %1$d</string>
+    <string name="unlock_walk_complete_chip">Завършени стъпки: %1$d</string>
+    <string name="unlock_walk_safety_title">Телефонът настрана. Очите напред.</string>
+    <string name="unlock_walk_safety_body">Ходи на безопасно, свободно място. Спри, преди да проверяваш напредъка си.</string>
+    <string name="unlock_walk_no_permission_title">Recentr не може да брои стъпките ти</string>
+    <string name="unlock_walk_no_permission_body">Разреши „Физическа активност“ за Recentr и започни да ходиш отново.</string>
+    <string name="unlock_walk_no_sensor_title">Този телефон не може да брои стъпки</string>
+    <string name="unlock_walk_no_sensor_body">Избери друг начин за отключване на страницата на правилото.</string>
+    <string name="unlock_walk_start">Започни да ходиш</string>
+    <string name="unlock_walk_cancel">Откажи разходката</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="one">Остава %1$d стъпка за отключване</item>
+        <item quantity="other">Остават %1$d стъпки за отключване</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · отключване за %2$d мин</string>
+    <string name="unlock_walk_done_title">Отключено: %1$s</string>
+    <string name="unlock_walk_done_subtitle">Стъпки: %1$d. Малко презареждане. Почивката ти от %2$d мин е готова.</string>
+    <string name="unlock_walk_done_note_body">Ще го заключим отново, когато таймерът изтече. Спри да ходиш, преди да отвориш %1$s.</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="one">%1$d минута само за теб</item>
+        <item quantity="other">%1$d минути само за теб</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="one">%1$d минута</item>
+        <item quantity="other">%1$d минути</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">Напомняния за правила</string>
+    <string name="reminder_channel_description">Предупреждение, преди рутина да започне да блокира приложения.</string>
+    <string name="reminder_title">%1$s започва след %2$d мин</string>
+    <string name="reminder_text">Приложенията се блокират в %1$s.</string>
+</resources>

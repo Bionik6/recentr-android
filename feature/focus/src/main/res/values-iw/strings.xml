@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hebrew. -->
+<resources>
+    <string name="focus_title">טיימר</string>
+    <string name="focus_more">אפשרויות נוספות</string>
+    <string name="focus_close">סגירה</string>
+    <string name="focus_back">חזרה</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d דק׳</string>
+    <string name="focus_dial_description">משך הפוקוס בדקות: %d. יש לגרור כדי לשנות.</string>
+    <string name="focus_sound">צליל</string>
+    <string name="focus_block">חסימה</string>
+    <string name="focus_block_more">‎+%d</string>
+    <string name="focus_block_none">ללא</string>
+    <string name="focus_rounds">סבבים</string>
+    <string name="focus_rounds_value">%1$d × %2$d דק׳</string>
+    <string name="focus_start">התחלת פוקוס</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">מצב קפדני</string>
+    <string name="focus_strict_caption">מצב קפדני: בלי השהיה ובלי סיום מוקדם</string>
+    <string name="focus_strict_note">מצב קפדני: הפוקוס הזה מסתיים מעצמו</string>
+    <string name="focus_strict_confirm_title">להפעיל מצב קפדני?</string>
+    <string name="focus_strict_confirm_body">לא תהיה אפשרות להשהות או לסיים את הפוקוס הזה מוקדם. ההפסקות יגיעו כרגיל.</string>
+    <string name="focus_strict_turn_on">להפעיל</string>
+    <string name="focus_cancel">ביטול</string>
+    <string name="focus_back_to_focus">חזרה לפוקוס</string>
+    <string name="focus_back_to_focus_left">חזרה לפוקוס · %1$s</string>
+    <string name="focus_rename">שינוי שם</string>
+    <string name="focus_rename_title">מתן שם לסשן</string>
+    <string name="focus_rename_save">שמירה</string>
+    <string name="focus_log">יומן פוקוס</string>
+    <string name="focus_change_sound">החלפת צליל</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">סבב %1$d מתוך %2$d</string>
+    <string name="focus_left_ends">נותרו · מסתיים ב-%s</string>
+    <string name="focus_paused_round_of">מושהה · סבב %1$d מתוך %2$d</string>
+    <string name="focus_ready_round_of">מוכנים לסבב %1$d מתוך %2$d</string>
+    <string name="focus_round_n">סבב %d</string>
+    <string name="focus_take_your_time">בלי לחץ</string>
+    <string name="focus_paused_for">מושהה במשך %s</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="one">אפליקציה אחת בהמתנה</item>
+        <item quantity="two">שתי אפליקציות בהמתנה</item>
+        <item quantity="other">%d אפליקציות בהמתנה</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="one">אפליקציה אחת עדיין בהמתנה</item>
+        <item quantity="two">שתי אפליקציות עדיין בהמתנה</item>
+        <item quantity="other">%d אפליקציות עדיין בהמתנה</item>
+    </plurals>
+    <string name="focus_pause">השהיה</string>
+    <string name="focus_resume">המשך</string>
+    <string name="focus_start_round">התחלת סבב</string>
+    <string name="focus_end_session">סיום הסשן</string>
+    <string name="focus_restart_round">התחלת הסבב מחדש</string>
+    <string name="focus_round_restarted">סבב %d התחיל מחדש</string>
+    <string name="focus_undo">ביטול</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">צלילי פוקוס</string>
+    <string name="sounds_subtitle_none">אפשר להפעיל כמה שרוצים.</string>
+    <string name="sounds_subtitle_on">פועל: %1$s</string>
+    <string name="sounds_subtitle_on_muted">פועל: %1$s · מושתקים: %2$d</string>
+    <string name="sounds_subtitle_muted">שום דבר לא מתנגן · מושתקים: %d</string>
+    <string name="sounds_mute_all">השתקת הכול</string>
+    <string name="sounds_unmute_all">ביטול השתקת הכול</string>
+    <string name="sounds_on_count">פועלים: %d</string>
+    <string name="sounds_volume">עוצמה</string>
+    <string name="sounds_volume_value">%d%%</string>
+    <string name="sound_state_off">כבוי</string>
+    <string name="sound_state_muted">מושתק</string>
+    <string name="sound_turn_on">הפעלה</string>
+    <string name="sound_mute">השתקה</string>
+    <string name="sound_unmute">ביטול השתקה</string>
+    <string name="sound_mix_off">כבוי</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">הוספת צליל</string>
+    <string name="sound_category_rain">גשם</string>
+    <string name="sound_category_water">מים</string>
+    <string name="sound_category_nature">טבע</string>
+    <string name="sound_category_places">מקומות</string>
+    <string name="sound_category_steady">תקתוק ורעש</string>
+    <string name="sound_soft_rain">גשם עדין</string>
+    <string name="sound_heavy_rain">גשם חזק</string>
+    <string name="sound_forest_rain">גשם ביער</string>
+    <string name="sound_rain_village">גשם בכפר</string>
+    <string name="sound_thunder">רעמים</string>
+    <string name="sound_river">נהר</string>
+    <string name="sound_small_river">נחל</string>
+    <string name="sound_beach">חוף</string>
+    <string name="sound_sea_beach">שפת הים</string>
+    <string name="sound_soft_beach">חוף שקט</string>
+    <string name="sound_whale">לווייתנים</string>
+    <string name="sound_forest_night">יער בלילה</string>
+    <string name="sound_birds">ציפורים</string>
+    <string name="sound_crickets">צרצרים</string>
+    <string name="sound_cicada_birds">ציקדות</string>
+    <string name="sound_farm">חווה</string>
+    <string name="sound_wind">רוח</string>
+    <string name="sound_campfire">מדורה</string>
+    <string name="sound_coffee_shop">בית קפה</string>
+    <string name="sound_office">משרד</string>
+    <string name="sound_street_traffic">רחוב</string>
+    <string name="sound_construction">בנייה</string>
+    <string name="sound_keyboard_typing">הקלדה</string>
+    <string name="sound_clock_tick">שעון</string>
+    <string name="sound_clock_stopwatch">סטופר</string>
+    <string name="sound_white_noise">רעש לבן</string>
+    <string name="sound_pink_noise">רעש ורוד</string>
+    <string name="sounds_done">סיום</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">הפסקה</string>
+    <string name="break_round_done">סבב %1$d הסתיים · נותרו: %2$d</string>
+    <string name="break_until">עד סבב %d</string>
+    <string name="break_ideas_title">במקום לגלול, אפשר לנסות</string>
+    <string name="break_idea_window">להסתכל מהחלון</string>
+    <string name="break_idea_window_hint">20 שניות, על משהו במרחק 20 מטר</string>
+    <string name="break_idea_water">לשתות כוס מים</string>
+    <string name="break_idea_water_hint">המוח שלך יודה לך</string>
+    <string name="break_idea_stretch">למתוח את הכתפיים</string>
+    <string name="break_idea_stretch_hint">5 סיבובים לאחור</string>
+    <string name="break_skip">דילוג על ההפסקה</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="one">דקה אחת של %2$s</item>
+        <item quantity="two">שתי דקות של %2$s</item>
+        <item quantity="other">%1$d דקות של %2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="one">סבב אחד</item>
+        <item quantity="two">שני סבבים</item>
+        <item quantity="other">%d סבבים</item>
+    </plurals>
+    <string name="complete_zero_unlocks">אפס פתיחות</string>
+    <plurals name="complete_unlocks">
+        <item quantity="one">פתיחה אחת</item>
+        <item quantity="two">שתי פתיחות</item>
+        <item quantity="other">%d פתיחות</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. זה הארוך ביותר שלך השבוע.</string>
+    <string name="complete_focus_streak">רצף פוקוס</string>
+    <plurals name="complete_days">
+        <item quantity="one">יום אחד</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%d ימים</item>
+    </plurals>
+    <string name="complete_urges">התגברות על דחפים</string>
+    <string name="complete_urges_today">היום: %d</string>
+    <string name="complete_note_title">מה סיימת?</string>
+    <string name="complete_note_placeholder">מתווה לפרק 3 + שני עמודים. הטלפון נשאר הפוך על השולחן.</string>
+    <string name="complete_another">התחלת סבב נוסף</string>
+    <string name="complete_done">סיום</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">%d דק׳ בפוקוס</string>
+    <string name="hold_leave_body">האפליקציות שלך יישארו בהמתנה עד %s. ההתמדה משתלמת — הולך לך נהדר.</string>
+    <string name="hold_back">חזרה לפוקוס</string>
+    <string name="hold_end">סיום מוקדם של הסשן</string>
+    <string name="hold_keep_focusing">להמשיך להתמקד</string>
+    <string name="hold_end_now">לסיים עכשיו?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="one">סיום עכשיו יחזיר את האפליקציה.</item>
+        <item quantity="two">סיום עכשיו יחזיר את שתי האפליקציות.</item>
+        <item quantity="other">סיום עכשיו יחזיר את %d האפליקציות.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s הזמן שעבר (%2$d דק׳) עדיין נחשב.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">יומן פוקוס</string>
+    <string name="history_this_week">השבוע</string>
+    <string name="history_sessions">סשנים</string>
+    <string name="history_today">היום, %s</string>
+    <string name="history_yesterday">אתמול, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">עדיין אין סשנים. סשני הפוקוס שלך יופיעו כאן.</string>
+    <string name="history_clear">ניקוי היומן</string>
+    <string-array name="focus_day_letters">
+        <item>ב׳</item>
+        <item>ג׳</item>
+        <item>ד׳</item>
+        <item>ה׳</item>
+        <item>ו׳</item>
+        <item>ש׳</item>
+        <item>א׳</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">סבבים</string>
+    <string name="rounds_subtitle">עבודה בסבבים עם הפסקות קצרות ביניהם.</string>
+    <string name="rounds_focus">פוקוס</string>
+    <string name="rounds_short_break">הפסקה קצרה</string>
+    <string name="rounds_count">סבבים</string>
+    <string name="rounds_long_break">הפסקה ארוכה</string>
+    <string name="rounds_minutes">%d דק׳</string>
+    <string name="rounds_auto_start">התחלה אוטומטית של הסבב הבא</string>
+    <string name="rounds_total">סה״כ: %s כולל הפסקות</string>
+    <string name="rounds_save">שמירת הסבבים</string>
+    <string name="rounds_decrease">הפחתת %s</string>
+    <string name="rounds_increase">הגדלת %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d שע׳</string>
+    <string name="duration_m">%1$d דק׳</string>
+    <string name="duration_h_m">%1$d שע׳ %2$d דק׳</string>
+    <string name="focus_notification_channel">טיימר פוקוס</string>
+    <string name="focus_notification_channel_description">הסשן המתנהל, והצלילים שלו ממשיכים להתנגן גם כשהאפליקציה סגורה.</string>
+    <string name="focus_notification_round">סבב %1$d מתוך %2$d</string>
+    <string name="focus_notification_break">הפסקה · הסבב הבא: %1$d</string>
+    <string name="focus_notification_paused">מושהה · סבב %1$d מתוך %2$d</string>
+</resources>

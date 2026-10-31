@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Indonesian. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">Kembali</string>
+    <string name="insights_close">Tutup</string>
+    <string name="insights_more">Opsi lainnya</string>
+    <string name="insights_duration_m">%1$d mnt</string>
+    <string name="insights_duration_h">%1$d j</string>
+    <string name="insights_duration_h_m">%1$d j %2$02d mnt</string>
+    <string name="insights_duration_compact">%1$d j %2$02d</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d%%</string>
+    <string name="insights_date">%2$d %1$s</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>S</item>
+        <item>S</item>
+        <item>R</item>
+        <item>K</item>
+        <item>J</item>
+        <item>S</item>
+        <item>M</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>Sen</item>
+        <item>Sel</item>
+        <item>Rab</item>
+        <item>Kam</item>
+        <item>Jum</item>
+        <item>Sab</item>
+        <item>Min</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>Senin</item>
+        <item>Selasa</item>
+        <item>Rabu</item>
+        <item>Kamis</item>
+        <item>Jumat</item>
+        <item>Sabtu</item>
+        <item>Minggu</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>Januari</item>
+        <item>Februari</item>
+        <item>Maret</item>
+        <item>April</item>
+        <item>Mei</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>Agustus</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Desember</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>Mei</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Agu</item>
+        <item>Sep</item>
+        <item>Okt</item>
+        <item>Nov</item>
+        <item>Des</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">Insight</string>
+    <string name="insights_tab_day">Hari</string>
+    <string name="insights_tab_week">Minggu</string>
+    <string name="insights_tab_month">Bulan</string>
+    <string name="insights_daily_average">Rata-rata harian</string>
+    <string name="insights_screen_time_today">Waktu layar hari ini</string>
+    <string name="insights_screen_time_yesterday">Waktu layar kemarin</string>
+    <string name="insights_screen_time">Waktu layar</string>
+    <string name="insights_vs_last_week">%1$s vs minggu lalu</string>
+    <string name="insights_vs_yesterday">%1$s vs kemarin</string>
+    <string name="insights_vs_day_before">%1$s vs hari sebelumnya</string>
+    <string name="insights_vs_week_before">%1$s vs minggu sebelumnya</string>
+    <string name="insights_goal_line">Target %1$s</string>
+    <string name="insights_by_category">Per kategori</string>
+    <string name="insights_no_usage">Belum ada waktu layar.</string>
+    <string name="insights_top_apps">Aplikasi teratas</string>
+    <string name="insights_no_apps">Belum ada aplikasi yang dipakai.</string>
+    <string name="insights_see_more">Lihat selengkapnya</string>
+    <string name="insights_category_social">Sosial</string>
+    <string name="insights_category_video">Video</string>
+    <string name="insights_category_music">Musik</string>
+    <string name="insights_category_games">Game</string>
+    <string name="insights_category_productivity">Produktivitas</string>
+    <string name="insights_category_other">Lainnya</string>
+    <string name="insights_menu_pickups">Pengambilan</string>
+    <string name="insights_menu_daily_goal">Target harian</string>
+    <string name="insights_menu_streak">Rentetan</string>
+    <string name="insights_menu_achievements">Pencapaian</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">Di bawah target</string>
+    <string name="insights_less">Lebih sedikit</string>
+    <string name="insights_more_legend">Lebih banyak</string>
+    <string name="insights_best_day">Hari terbaik</string>
+    <string name="insights_toughest_day">Hari tersulit</string>
+    <string name="insights_see_report">Lihat laporan %1$s</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: tidak ada data</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">Hari ini</string>
+    <string name="insights_period_yesterday">Kemarin</string>
+    <string name="insights_period_week">Minggu ini</string>
+    <string name="insights_period_month">Bulan ini</string>
+    <string name="insights_period_last_week">Minggu lalu</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s, %2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s %2$d</string>
+    <string name="insights_previous">Sebelumnya</string>
+    <string name="insights_next">Berikutnya</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="other">%d kali dibuka</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · %2$s melebihi batasmu</string>
+    <string name="insights_left_in_limit">%1$s · sisa %2$s dari batasmu</string>
+    <string name="insights_by_hour">Per jam</string>
+    <string name="insights_longest_session">Sesi terlama</string>
+    <string name="insights_first_open">Pertama dibuka</string>
+    <string name="insights_usual_first_open">Biasanya pertama dibuka</string>
+    <string name="insights_noticed">Yang Recentr perhatikan</string>
+    <string name="insights_noticed_idle">Kamu hampir tidak membuka %1$s. Pertahankan ya.</string>
+    <string name="insights_noticed_checks">Kamu membuka %1$s %2$d kali sehari untuk kunjungan singkat. Jeda beberapa detik sebelum aplikasi terbuka bisa memutus refleks itu.</string>
+    <string name="insights_noticed_night">Sebagian besar waktumu di %1$s ada setelah %2$s. Rutinitas tidur bisa merebutnya kembali.</string>
+    <string name="insights_noticed_morning">Sebagian besar waktumu di %1$s ada sebelum %2$s. Rutinitas pagi yang tenang bisa merebutnya kembali.</string>
+    <string name="insights_noticed_work">Sebagian besar waktumu di %1$s ada di jam kerja. Sesi fokus bisa merebutnya kembali.</string>
+    <string name="insights_noticed_evening">Sebagian besar waktumu di %1$s ada di malam hari. Sebuah batas bisa merebutnya kembali.</string>
+    <string name="insights_noticed_spread">Waktumu di %1$s tersebar sepanjang hari. Sebuah batas bisa menjaganya tetap terkendali.</string>
+    <string name="insights_set_limit">Atur batas</string>
+    <string name="insights_edit_limit">Ubah batas</string>
+    <string name="insights_block_app">Blokir %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">Pengambilan</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="other">pengambilan hari ini</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="other">pengambilan kemarin</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="other">pengambilan pada hari itu</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="other">pengambilan per hari</item>
+    </plurals>
+    <string name="insights_first_pickup">Pertama pukul %1$s</string>
+    <string name="insights_usual_first_pickup">Biasanya pertama pukul %1$s</string>
+    <string name="insights_no_pickup">Belum ada pengambilan</string>
+    <string name="insights_when_pick_up">Kapan kamu mengambil ponsel</string>
+    <string name="insights_opened_first">Dibuka pertama setelah pengambilan</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">Belum ada aplikasi yang dibuka setelah pengambilan.</string>
+    <string name="insights_tip_bedroom">Isi daya ponselmu di luar kamar tidur — pengambilan pukul %1$s jadi lebih mudah ditahan.</string>
+    <string name="insights_tip_reflex">%1$s adalah hal pertama yang kamu buka. Pindahkan dari layar utama untuk memutus refleks itu.</string>
+    <string name="insights_tip_evening">Malam hari adalah waktu pengambilan tersibukmu. Rutinitas tidur membantu menjauhkan ponsel.</string>
+    <string name="insights_tip_default">Setiap pengambilan yang kamu lewati adalah kemenangan. Coba taruh ponselmu telungkup.</string>
+    <string name="insights_start_bedtime">Mulai rutinitas tidur</string>
+    <string name="insights_heat_cd">%1$s sampai %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">Laporan %1$s</string>
+    <plurals name="insights_hours">
+        <item quantity="other">%d jam</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="other">%d menit</item>
+    </plurals>
+    <string name="insights_won_back_month">direbut kembali bulan ini</string>
+    <string name="insights_pickups_a_day_label">Pengambilan per hari</string>
+    <string name="insights_best_streak">Rentetan terbaik</string>
+    <plurals name="insights_days">
+        <item quantity="other">%d hari</item>
+    </plurals>
+    <string name="insights_new">baru</string>
+    <string name="insights_share_month">Bagikan bulanku</string>
+    <string name="insights_replay">Putar ulang</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">Target harian</string>
+    <string name="insights_edit_goal">Ubah target harian</string>
+    <string name="insights_days_on_target">%1$d dari %2$d hari sesuai target</string>
+    <string name="insights_goal_under">Target: di bawah %1$s per hari</string>
+    <string name="insights_adjust_goal">Atur target</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">Pencapaian</string>
+    <string name="achievements_earned_count">%1$d dari %2$d diraih</string>
+    <string name="achievements_level">Level %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>Awal baru</item>
+        <item>Menemukan tenang</item>
+        <item>Tangan mantap</item>
+        <item>Penjaga ketenangan</item>
+        <item>Fokus mendalam</item>
+        <item>Master zen</item>
+        <item>Legenda offline</item>
+    </string-array>
+    <string name="achievements_points">%1$d / %2$d poin tenang</string>
+    <string name="achievements_points_max">%1$d poin tenang</string>
+    <string name="achievements_all">Semua</string>
+    <string name="achievements_earned">Diraih</string>
+    <string name="achievements_next_up">Berikutnya</string>
+    <string name="achievements_none_earned">Lencana pertamamu sudah dekat.</string>
+    <string name="achievements_all_earned">Kamu meraih semua lencana. Wow.</string>
+    <string name="achievements_progress_days">%1$d / %2$d hari</string>
+    <string name="achievements_progress_nights">%1$d / %2$d malam</string>
+    <string name="achievements_progress_mornings">%1$d / %2$d pagi</string>
+    <string name="achievements_progress_hours">%1$d / %2$d jam</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">%1$d dari %2$d hari</string>
+    <string name="achievements_of_nights">%1$d dari %2$d malam</string>
+    <string name="achievements_of_mornings">%1$d dari %2$d pagi</string>
+    <string name="achievements_of_hours">%1$d dari %2$d jam</string>
+    <string name="achievements_of_urges">%1$d dari %2$d dorongan</string>
+    <string name="achievements_not_yet">Belum diraih</string>
+    <string name="achievements_points_reward">+%1$d poin tenang</string>
+    <string name="achievements_got_it">Mengerti</string>
+    <string name="achievements_locked_cd">%1$s, terkunci, %2$s</string>
+    <string name="achievements_earned_cd">%1$s, diraih %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">Lencana baru</string>
+    <string name="achievements_earned_on">Diraih %1$s</string>
+    <string name="achievements_nice">Mantap!</string>
+    <string name="achievements_share_badge">Bagikan lencana</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">Kunci pertama</string>
+    <string name="badge_first_lock_goal">Blokir aplikasi dengan aturan pertamamu.</string>
+    <string name="badge_first_lock_cheer">Aturan pertamamu sudah aktif. Kunci kecil, kemenangan besar.</string>
+    <string name="badge_first_lock_milestone">Kamu memblokir %1$s untuk pertama kalinya.</string>
+    <string name="badge_first_lock_milestone_any">Kamu membuat aturan pemblokiran pertamamu.</string>
+    <string name="badge_note_to_self">Catatan untuk diri sendiri</string>
+    <string name="badge_note_to_self_goal">Tulis alasanmu di salah satu aturanmu.</string>
+    <string name="badge_note_to_self_cheer">Alasanmu sudah tertulis. Ini akan menjagamu tetap jujur.</string>
+    <string name="badge_note_to_self_milestone">Kamu menuliskan alasan kamu melakukan ini.</string>
+    <string name="badge_first_focus">Fokus pertama</string>
+    <string name="badge_first_focus_goal">Selesaikan sesi fokus pertamamu.</string>
+    <string name="badge_first_focus_cheer">Satu sesi selesai. Otot fokusmu mulai panas.</string>
+    <string name="badge_first_focus_milestone">Sesi fokus pertamamu.</string>
+    <string name="badge_focus_ten_hours">Fokus 10 jam</string>
+    <string name="badge_focus_ten_hours_goal">Habiskan 10 jam dalam sesi fokus.</string>
+    <string name="badge_focus_ten_hours_cheer">Sepuluh jam fokus mendalam. Itu sehari kerja penuh yang kamu rebut kembali.</string>
+    <string name="badge_focus_ten_hours_milestone">10 jam dihabiskan dalam sesi fokus.</string>
+    <string name="badge_seven_day_streak">Rentetan 7 hari</string>
+    <string name="badge_seven_day_streak_goal">Jaga rentetanmu tetap berjalan selama 7 hari.</string>
+    <string name="badge_seven_day_streak_cheer">Seminggu penuh di bawah targetmu. Jaga apinya tetap menyala.</string>
+    <string name="badge_seven_day_streak_milestone">Seminggu penuh di bawah targetmu.</string>
+    <string name="badge_goal_crusher">Penakluk target</string>
+    <string name="badge_goal_crusher_goal">Tetap di bawah target harianmu 7 hari berturut-turut.</string>
+    <string name="badge_goal_crusher_cheer">Tujuh hari di bawah targetmu, tanpa penyelamat. Keren banget.</string>
+    <string name="badge_goal_crusher_milestone">7 hari di bawah targetmu tanpa penyelamat rentetan.</string>
+    <string name="badge_two_calm_weeks">Dua minggu tenang</string>
+    <string name="badge_two_calm_weeks_goal">Jaga rentetanmu tetap berjalan selama 14 hari.</string>
+    <string name="badge_two_calm_weeks_cheer">Dua minggu tenang. Ini mulai jadi kebiasaan.</string>
+    <string name="badge_two_calm_weeks_milestone">14 hari berturut-turut di bawah targetmu.</string>
+    <string name="badge_calm_month">Sebulan tenang</string>
+    <string name="badge_calm_month_goal">Jaga rentetanmu tetap berjalan selama 30 hari.</string>
+    <string name="badge_calm_month_cheer">Sebulan penuh yang tenang. Legendaris.</string>
+    <string name="badge_calm_month_milestone">30 hari berturut-turut di bawah targetmu.</string>
+    <string name="badge_night_owl">Burung hantu pensiun</string>
+    <string name="badge_night_owl_goal">7 malam berturut-turut tanpa layar setelah %1$s.</string>
+    <string name="badge_night_owl_cheer">7 malam berturut-turut tanpa layar setelah %1$s. Tidurmu bilang terima kasih.</string>
+    <string name="badge_night_owl_milestone">Tanpa layar setelah %1$s selama 7 malam.</string>
+    <string name="badge_slow_mornings">Pagi yang santai</string>
+    <string name="badge_slow_mornings_goal">5 pagi berturut-turut tanpa layar sebelum %1$s.</string>
+    <string name="badge_slow_mornings_cheer">Lima pagi yang santai. Harimu dimulai dari dirimu, bukan dari feed.</string>
+    <string name="badge_slow_mornings_milestone">Tanpa layar sebelum %1$s selama 5 pagi.</string>
+    <string name="badge_screen_free_sunday">Minggu bebas layar</string>
+    <string name="badge_screen_free_sunday_goal">Lewati satu hari Minggu dengan waktu layar di bawah 30 menit.</string>
+    <string name="badge_screen_free_sunday_cheer">Hari Minggu yang nyaris offline. Terasa lebih ringan, kan?</string>
+    <string name="badge_screen_free_sunday_milestone">Satu hari Minggu dengan waktu layar di bawah 30 menit.</string>
+    <string name="badge_gentle_day">Hari yang lembut</string>
+    <string name="badge_gentle_day_goal">Lewati sehari penuh dengan waktu layar di bawah 1 jam.</string>
+    <string name="badge_gentle_day_cheer">Di bawah satu jam sepanjang hari. Lembut untuk mata dan pikiranmu.</string>
+    <string name="badge_gentle_day_milestone">Sehari penuh di bawah 1 jam.</string>
+    <string name="badge_hands_off">Lepas tangan</string>
+    <string name="badge_hands_off_goal">Ambil ponselmu kurang dari 20 kali dalam sehari.</string>
+    <string name="badge_hands_off_cheer">Kurang dari 20 pengambilan dalam sehari. Tanganmu menemukan hal yang lebih seru.</string>
+    <string name="badge_hands_off_milestone">Kurang dari 20 pengambilan dalam sehari.</string>
+    <string name="badge_urges_resisted">100 dorongan ditahan</string>
+    <string name="badge_urges_resisted_goal">Pilih jeda sebanyak 100 kali selama sesi fokus.</string>
+    <string name="badge_urges_resisted_cheer">100 dorongan, 100 jeda. Kamu yang memegang kendali.</string>
+    <string name="badge_urges_resisted_milestone">Kamu memilih jeda sebanyak 100 kali.</string>
+    <string name="badge_ten_hours_won_back">10 jam direbut kembali</string>
+    <string name="badge_ten_hours_won_back_goal">Rebut kembali 10 jam dari kebiasaan lamamu dengan ponsel.</string>
+    <string name="badge_ten_hours_won_back_cheer">10 jam kembali ke hidupmu. Mau kamu apakan?</string>
+    <string name="badge_ten_hours_won_back_milestone">10 jam direbut kembali dari kebiasaan lamamu.</string>
+    <string name="badge_fifty_hours_won_back">50 jam direbut kembali</string>
+    <string name="badge_fifty_hours_won_back_goal">Rebut kembali 50 jam dari kebiasaan lamamu dengan ponsel.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50 jam direbut kembali. Itu lebih dari seminggu kerja.</string>
+    <string name="badge_fifty_hours_won_back_milestone">50 jam direbut kembali dari kebiasaan lamamu.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">Rentetan</string>
+    <string name="streak_best_yet">hari beruntun · terbaikmu sejauh ini</string>
+    <string name="streak_best">hari beruntun · terbaik %1$s</string>
+    <string name="streak_this_week">Minggu ini</string>
+    <plurals name="streak_savers_left">
+        <item quantity="other">Sisa %d penyelamat rentetan</item>
+    </plurals>
+    <string name="streak_saver_used">Terpakai satu pada %1$s — rentetanmu tetap aman.</string>
+    <string name="streak_saver_unused">Melebihi target satu hari? Penyelamat menjaga rentetanmu tetap aman.</string>
+    <string name="streak_savers_out">Tidak ada penyelamat tersisa bulan ini. Yang baru datang pada tanggal 1.</string>
+    <plurals name="streak_days_to">
+        <item quantity="other">%1$d hari lagi ke “%2$s”</item>
+    </plurals>
+    <string name="streak_all_done">Semua lencana rentetan sudah diraih. Pertahankan!</string>
+    <string name="streak_help">Cara kerja rentetan</string>
+    <string name="streak_help_body">Setiap hari di bawah target harianmu menambah satu ke rentetanmu. Melebihi target? Penyelamat rentetan menutupi hari itu — kamu dapat 3 setiap bulan.</string>
+    <string name="streak_help_ok">Mengerti</string>
+    <string name="streak_day_on_target">%1$s: di bawah targetmu</string>
+    <string name="streak_day_saved">%1$s: diselamatkan penyelamat rentetan</string>
+    <string name="streak_day_missed">%1$s: melebihi targetmu</string>
+    <string name="streak_day_today">%1$s: hari ini</string>
+    <string name="streak_day_empty">%1$s: tidak ada data</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">Tonggak</string>
+    <plurals name="milestones_since">
+        <item quantity="other">Sejak kamu mulai · %d hari</item>
+    </plurals>
+    <string name="milestones_next">Berikutnya</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">Bagikan</string>
+    <string name="share_won_back">Aku merebut kembali</string>
+    <string name="share_in_month">di %1$s bersama Recentr</string>
+    <string name="share_earned">Aku meraih</string>
+    <string name="share_with_recentr">bersama Recentr</string>
+    <string name="share_streak_chip">Rentetan %1$d hari</string>
+    <string name="share_daily_chip">%1$s per hari</string>
+    <string name="share_level_chip">Level %1$d</string>
+    <string name="share_stories">Stories</string>
+    <string name="share_post">Postingan</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">Salin tautan</string>
+    <string name="share_save">Simpan</string>
+    <string name="share_done">Selesai</string>
+    <string name="share_text_month">Aku merebut kembali %1$s dalam %2$s bersama Recentr. %3$s</string>
+    <string name="share_text_badge">Aku meraih “%1$s” bersama Recentr. %2$s</string>
+    <string name="share_copied">Disalin</string>
+    <string name="share_saved">Disimpan ke Gambar</string>
+    <string name="share_save_failed">Tidak bisa menyimpan gambar</string>
+</resources>

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hebrew. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">כללים</string>
+    <string name="rules_templates_title">תבניות</string>
+    <string name="rules_subtitle_active">פעילים: %1$d</string>
+    <string name="rules_subtitle_active_paused">פעילים: %1$d · מושהים: %2$d</string>
+    <string name="rules_templates_subtitle">כללים מוכנים · הקשה כדי להתחיל</string>
+    <string name="rules_group_locks">נעילות</string>
+    <string name="rules_group_sessions">סשנים</string>
+    <string name="rules_group_limits">מגבלות</string>
+    <string name="rules_group_routines">שגרות</string>
+    <string name="rules_group_templates">תבניות</string>
+    <string name="rules_add_session">הוספת סשן</string>
+    <string name="rules_add_session_hint">למשל: “חסימת אפליקציות ל-30 הדקות הקרובות”</string>
+    <string name="rules_add_routine">הוספת שגרה</string>
+    <string name="rules_add_routine_hint">למשל: “בלי טלפון בארוחת ערב”</string>
+    <string name="rules_add_lock">הוספת נעילה</string>
+    <string name="rules_add_lock_hint">למשל: “TikTok סגורה כל היום”</string>
+    <string name="rules_add_limit">הוספת מגבלה</string>
+    <string name="rules_add_limit_hint">למשל: “שעה של YouTube ביום”</string>
+    <string name="rules_more">אפשרויות נוספות</string>
+    <string name="rules_empty_title">עדיין אין כללים</string>
+    <string name="rules_empty_body">כדי להתחיל, אפשר להפעיל סשן או לבחור תבנית.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">מתנהל</string>
+    <string name="rules_status_upcoming">בקרוב</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">מוכן</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ אפליקציה אחת</item>
+        <item quantity="two">+ שתי אפליקציות</item>
+        <item quantity="other">+ %d אפליקציות</item>
+    </plurals>
+    <string name="rules_tile_ready">מוכן</string>
+    <string name="rules_status_blocking">חוסם</string>
+    <string name="rules_status_paused">מושהה</string>
+    <string name="rules_status_times_up">הזמן נגמר</string>
+    <string name="rules_status_unlocks">פתיחות %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">פתיחות ללא הגבלה</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">כבוי</string>
+    <string name="rules_all_day">כל היום</string>
+    <string name="rules_strict_mode">מצב קפדני</string>
+    <string name="rules_value_locked">נעול</string>
+    <string name="rules_value_off">כבוי</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">עד חצות</string>
+    <string name="rules_budget_today">תקציב להיום</string>
+    <string name="rules_value_left">עוד %1$s</string>
+    <string name="rules_value_starts_in">בעוד %1$s</string>
+    <string name="rules_value_paused">מושהה</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">כל יום</string>
+    <string name="rules_days_weekdays">ימי חול</string>
+    <string name="rules_days_weekends">סופי שבוע</string>
+    <string-array name="rules_day_short">
+        <item>יום ב׳</item>
+        <item>יום ג׳</item>
+        <item>יום ד׳</item>
+        <item>יום ה׳</item>
+        <item>יום ו׳</item>
+        <item>שבת</item>
+        <item>יום א׳</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>יום שני</item>
+        <item>יום שלישי</item>
+        <item>יום רביעי</item>
+        <item>יום חמישי</item>
+        <item>יום שישי</item>
+        <item>יום שבת</item>
+        <item>יום ראשון</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>ב׳</item>
+        <item>ג׳</item>
+        <item>ד׳</item>
+        <item>ה׳</item>
+        <item>ו׳</item>
+        <item>ש׳</item>
+        <item>א׳</item>
+    </string-array>
+    <string name="rules_am">לפנה״צ</string>
+    <string name="rules_pm">אחה״צ</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d דק׳</string>
+    <string name="rules_hours_short">%1$d שע׳</string>
+    <string name="rules_hours_minutes">%1$d שע׳ %2$d דק׳</string>
+    <string name="rules_compact_seconds">%1$d שנ׳</string>
+    <string name="rules_compact_minutes">%1$d דק׳</string>
+    <string name="rules_compact_hours">%1$d שע׳</string>
+    <string name="rules_compact_hours_minutes">%1$d שע׳ %2$02d</string>
+
+    <!-- Common -->
+    <string name="rules_none">ללא</string>
+    <string name="rules_save">שמירה</string>
+    <string name="rules_done">סיום</string>
+    <string name="rules_continue">המשך</string>
+    <string name="rules_cancel">ביטול</string>
+    <string name="rules_back">חזרה</string>
+    <string name="rules_edit_name">עריכת שם ומדבקה</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">אפליקציה אחת</item>
+        <item quantity="two">שתי אפליקציות</item>
+        <item quantity="other">%d אפליקציות</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">סשן</string>
+    <string name="rules_type_lock">נעילה</string>
+    <string name="rules_type_limit">מגבלה</string>
+    <string name="rules_type_routine">שגרה</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">חסימה</string>
+    <string name="rules_row_active">פעיל</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">שיטת פתיחה</string>
+    <string name="rules_row_unlocks_per_day">פתיחות ביום</string>
+    <string name="rules_row_apps">אפליקציות</string>
+    <string name="rules_row_reminders">תזכורות</string>
+    <string name="rules_row_each_unlock">כל פתיחה נמשכת</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">סשן</string>
+    <string name="rules_session_subtitle">חסימת אפליקציות ל-%1$s מרגע ההתחלה.</string>
+    <string name="rules_session_default_name">סשן פוקוס</string>
+    <string name="rules_suggestions">הצעות</string>
+    <string name="rules_start">התחלה</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">בלי פתיחות עד הסיום.</string>
+    <string name="rules_unlock_strict_caption">פתיחות לא זמינות במצב קפדני.</string>
+    <string name="rules_strict_confirm_title">להפעיל מצב קפדני?</string>
+    <string name="rules_strict_confirm_body">לא תהיה אפשרות לפתוח את האפליקציות האלה עד הסיום, מלבד בפתיחת חירום.</string>
+    <string name="rules_turn_on">להפעיל</string>
+    <string name="rules_not_now">לא עכשיו</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">לחסום את האפליקציות עכשיו?</string>
+    <string name="rules_block_now_body">הכלל חוסם כרגע: האפליקציות שהוספת ייחסמו מיד.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">להפעיל את %1$s?</string>
+    <string name="rules_lock_confirm_body">אחרי ההפעלה, כל שינוי שמקל — הסרת אפליקציות, עוד פתיחות, כיבוי — ייכנס לתוקף רק בחצות.</string>
+    <string name="rules_limit_confirm_title">להתחיל את %1$s?</string>
+    <string name="rules_limit_confirm_body">אחרי ההתחלה, כל שינוי שמקל — תקציב גדול יותר, הסרת אפליקציות — ייכנס לתוקף רק בחצות, באיפוס.</string>
+    <string name="rules_block_now">לחסום עכשיו</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">נעילה</string>
+    <string name="rules_lock_subtitle">שומרים על אפליקציות נבחרות סגורות, עם כמה פתיחות קצרות ביום.</string>
+    <string name="rules_lock_note_title">למה הנעילה הזו?</string>
+    <string name="rules_hold_create_lock">להחזיק ליצירת הנעילה</string>
+    <string name="rules_hold_create_session">להחזיק ליצירת הסשן</string>
+    <string name="rules_unlock_wait">המתנה: %1$d שנ׳</string>
+    <string name="rules_unlock_retype">הקלדה מחדש</string>
+    <string name="rules_unlock_scan">סריקת קוד</string>
+    <string name="rules_unlock_walk">צעדים: %1$d</string>
+    <string name="rules_unlimited">ללא הגבלה</string>
+    <string name="rules_lock_default_name">נעילה</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">בחירת אפליקציות</string>
+    <string name="rules_selected">נבחרו: %1$d</string>
+    <string name="rules_search_apps">חיפוש אפליקציות</string>
+    <string name="rules_category_social">חברתי</string>
+    <string name="rules_category_entertainment">בידור</string>
+    <string name="rules_category_music">מוזיקה</string>
+    <string name="rules_category_games">משחקים</string>
+    <string name="rules_category_productivity">פרודוקטיביות</string>
+    <string name="rules_category_other">אחר</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="one">חסימה · אפליקציה אחת</item>
+        <item quantity="two">חסימה · שתי אפליקציות</item>
+        <item quantity="other">חסימה · %d אפליקציות</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">כל האפליקציות והקטגוריות</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">הכול</string>
+    <string name="rules_no_apps_found">אין אפליקציות שתואמות ל-“%1$s”.</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">פעיל למשך</string>
+    <string name="rules_ends_at">מסתיים ב-%1$s</string>
+    <string name="rules_hours_label">שעות</string>
+    <string name="rules_minutes_label">דקות</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">מגבלה</string>
+    <string name="rules_limit_subtitle">תקציב זמן להיום, לאפליקציות שאוכלות את היום.</string>
+    <string name="rules_hold_create_limit">להחזיק ליצירת המגבלה</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">נעול עד חצות</string>
+    <string name="rules_locked_in_lock">היא פועלת מיד עם יצירתה. הקלה — הסרת אפליקציות, עוד פתיחות, כיבוי — או מחיקה ייכנסו לתוקף רק אחרי האיפוס היומי, בחצות.</string>
+    <string name="rules_locked_in_limit">היא מתחילה מיד עם יצירתה. הקלה — תקציב גדול יותר, הסרת אפליקציות — או מחיקה ייכנסו לתוקף רק אחרי האיפוס היומי, בחצות.</string>
+    <string name="rules_limit_resets">מתאפסת אוטומטית בחצות.</string>
+    <string name="rules_limit_default_name">מגבלה</string>
+    <string name="rules_limit_social_name">זמן חברתי</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">שעת שינה</string>
+    <string name="rules_bedtime_subtitle">חסימת אפליקציות לפי לוח זמנים.</string>
+    <string name="rules_from">מ-</string>
+    <string name="rules_until">עד</string>
+    <string name="rules_tonight">%1$s · הלילה</string>
+    <string name="rules_today">%1$s · היום</string>
+    <string name="rules_tomorrow">%1$s · מחר</string>
+    <string name="rules_tonight_alone">הלילה</string>
+    <string name="rules_today_alone">היום</string>
+    <string name="rules_tomorrow_alone">מחר</string>
+    <string name="rules_hold_create_routine">להחזיק ליצירת השגרה</string>
+    <string name="rules_starts_at">התחלה</string>
+    <string name="rules_ends_at_title">סיום</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">איך פותחים?</string>
+    <string name="rules_unlock_subtitle">אפשר לבחור את סוג החיכוך שמתאים לך.</string>
+    <string name="rules_unlock_option_wait">המתנה של כמה שניות</string>
+    <string name="rules_unlock_option_retype">הקלדה מחדש של טקסט מעיק</string>
+    <string name="rules_unlock_option_scan">סריקת קוד ששומרים במקום אחר</string>
+    <string name="rules_unlock_option_walk">הליכה (צעדים: %1$d)</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">המתנה לפני פתיחה</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">שנייה אחת</item>
+        <item quantity="two">שתי שניות</item>
+        <item quantity="other">%d שניות</item>
+    </plurals>
+    <string name="rules_wait_one_minute">דקה אחת</string>
+    <string name="rules_seconds_chip">%1$d שנ׳</string>
+    <string name="rules_one_min_chip">1 דק׳</string>
+    <string name="rules_unlocks_per_day_title">פתיחות ביום</string>
+    <string name="rules_each_unlock_title">כל פתיחה נמשכת</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">פוקוס</string>
+    <string name="rules_section_focus_body">לעבודה, ללימודים או לסיום פרויקט.</string>
+    <string name="rules_section_unwind">הרפיה</string>
+    <string name="rules_section_unwind_body">ערבים רגועים ובקרים עדינים יותר.</string>
+    <string name="rules_section_be_present">נוכחות</string>
+    <string name="rules_section_be_present_body">תשומת לב לאנשים סביבך, או לעצמך.</string>
+    <string name="rules_section_scroll_less">פחות גלילה</string>
+    <string name="rules_section_scroll_less_body">פותחים אפליקציות בכוונה, לא מתוך הרגל.</string>
+    <string name="rules_tpl_focus_sprint">ספרינט פוקוס</string>
+    <string name="rules_tpl_focus_sprint_body">הסחות דעת חסומות, החל מעכשיו.</string>
+    <string name="rules_tpl_study_hour">שעת לימוד</string>
+    <string name="rules_tpl_study_hour_body">שעה של לימוד, החל מעכשיו.</string>
+    <string name="rules_tpl_work_rhythm">קצב עבודה</string>
+    <string name="rules_tpl_work_rhythm_body">הסחות דעת חסומות בימי חול.</string>
+    <string name="rules_tpl_evening_calm">שלווה בערב</string>
+    <string name="rules_tpl_evening_calm_body">בלי אפליקציות חברתיות או וידאו, בכל ערב.</string>
+    <string name="rules_tpl_night_pause">הפסקת לילה</string>
+    <string name="rules_tpl_night_pause_body">הסחות דעת חסומות לאורך הלילה.</string>
+    <string name="rules_tpl_slow_morning">בוקר איטי</string>
+    <string name="rules_tpl_slow_morning_body">מתחילים כל יום בלי אפליקציות חברתיות.</string>
+    <string name="rules_tpl_dinner_together">ארוחת ערב משותפת</string>
+    <string name="rules_tpl_dinner_together_body">הסחות דעת חסומות לאורך הארוחה.</string>
+    <string name="rules_tpl_family_hour">שעה משפחתית</string>
+    <string name="rules_tpl_family_hour_body">ימי ראשון, שמורים לזמן ביחד.</string>
+    <string name="rules_tpl_time_for_me">זמן לעצמי</string>
+    <string name="rules_tpl_time_for_me_body">לקרוא, ליצור או פשוט לנשום.</string>
+    <string name="rules_tpl_walk_before_you_scroll">הליכה לפני גלילה</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">ואז 5 דק׳ באפליקציה, 3 פעמים ביום.</string>
+    <string name="rules_tpl_pause_before_opening">עצירה לפני פתיחה</string>
+    <string name="rules_tpl_pause_before_opening_body">ואז 5 דק׳ באפליקציה, 3 פעמים ביום.</string>
+    <string name="rules_tpl_social_budget">תקציב חברתי</string>
+    <string name="rules_tpl_social_budget_body">משותף, ואז חסום עד חצות.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">כלל חדש</string>
+    <string name="rules_new_rule_subtitle">מה להגדיר?</string>
+    <string name="rules_browse_templates">עיון בתבניות</string>
+    <string name="rules_kind_routine_body">חוסמת אפליקציות לפי לוח זמנים, כמו שעת שינה או שעות עבודה.</string>
+    <string name="rules_kind_session_body">חוסם אפליקציות למשך הזמן שבחרת, מרגע ההתחלה.</string>
+    <string name="rules_kind_lock_body">שומרת על אפליקציות סגורות מרגע ההפעלה, עם כמה פתיחות קצרות ביום.</string>
+    <string name="rules_kind_limit_body">תקציב זמן להיום. כשהוא נגמר, האפליקציות נשארות חסומות עד חצות.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">פעיל: %1$s</string>
+    <string name="rules_detail_running">פועל עכשיו</string>
+    <string name="rules_detail_paused">מושהה</string>
+    <string name="rules_detail_paused_until">מושהה עד %1$s</string>
+    <string name="rules_detail_on">פועל</string>
+    <string name="rules_detail_off">כבוי</string>
+    <string name="rules_blocked">חסומות</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">אפליקציות</string>
+    <string name="rules_apps_blocking">חסומות כרגע</string>
+    <string name="rules_apps_not_blocking">כרגע לא חוסם</string>
+    <string name="rules_apps_blocked">חסומות</string>
+    <string name="rules_apps_blocked_when_on">חסומות כשהכלל פועל</string>
+    <string name="rules_apps_unlocked">פתוחות לעת עתה</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">שום דבר לא חסום כרגע.</string>
+    <string name="rules_apps_none_unlocked">אין אפליקציה פתוחה כרגע.</string>
+    <string name="rules_streak">רצף</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">יום אחד</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%d ימים</item>
+    </plurals>
+    <string name="rules_why">למה</string>
+    <string name="rules_why_placeholder">הקשה כדי לכתוב למה זה חשוב.</string>
+    <string name="rules_why_empty">עדיין לא נכתבה סיבה.</string>
+    <string name="rules_tile_now">עכשיו</string>
+    <string name="rules_tile_left_of">נותרו מתוך %1$s</string>
+    <string name="rules_tile_used">נוצלו %1$s</string>
+    <string name="rules_tile_today">היום</string>
+    <string name="rules_tile_not_started">עדיין לא התחיל</string>
+    <string name="rules_tile_unlocks_today">פתיחות היום</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">כבוי</string>
+    <string name="rules_reminder_before">%1$d דק׳ לפני</string>
+    <string name="rules_reminders_title">תזכורת לפני ההתחלה</string>
+    <string name="rules_activate">הפעלה</string>
+    <string name="rules_turn_off">כיבוי</string>
+    <string name="rules_menu_edit_settings">עריכת הכלל</string>
+    <string name="rules_menu_pause">השהיית הכלל</string>
+    <string name="rules_menu_resume">חידוש הכלל</string>
+    <string name="rules_menu_delete">מחיקת הכלל</string>
+    <string name="rules_pause_title">להשהות את %1$s?</string>
+    <string name="rules_pause_hour">לשעה אחת</string>
+    <string name="rules_pause_tomorrow">עד מחר</string>
+    <string name="rules_pause_manual">עד שאפעיל מחדש</string>
+    <string name="rules_pause_rule">השהיית הכלל</string>
+    <string name="rules_pause_later">ההשהיה תתחיל בסוף החלון הנוכחי.</string>
+    <string name="rules_paused_toast">%1$s הושהה</string>
+    <string name="rules_resumed_toast">%1$s חזר לפעול</string>
+    <string name="rules_edit_title">עריכת כלל</string>
+    <string name="rules_sticker">מדבקה</string>
+    <string name="rules_name_placeholder">שם הכלל</string>
+    <string name="rules_more_stickers">עוד מדבקות</string>
+    <string name="rules_more_stickers_soon">עוד מדבקות בדרך</string>
+    <string name="rules_delete_title">למחוק את %1$s?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">הרצף של יום אחד בכלל הזה יאבד. אי אפשר לבטל את הפעולה.</item>
+        <item quantity="two">הרצף של יומיים בכלל הזה יאבד. אי אפשר לבטל את הפעולה.</item>
+        <item quantity="other">הרצף של %d ימים בכלל הזה יאבד. אי אפשר לבטל את הפעולה.</item>
+    </plurals>
+    <string name="rules_delete_body">הכלל וההיסטוריה שלו יימחקו. אי אפשר לבטל את הפעולה.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">הוא ימשיך לחסום עד חצות, ואז יימחק.</string>
+    <string name="rules_delete_body_later_session">הוא ימשיך לחסום עד סוף הסשן, ואז יימחק.</string>
+    <string name="rules_delete_body_later_at">הוא ימשיך לחסום עד %1$s, ואז יימחק.</string>
+    <string name="rules_delete_rule">מחיקת הכלל</string>
+    <string name="rules_keep_it">להשאיר</string>
+    <string name="rules_deleted_toast">%1$s נמחק</string>
+    <string name="rules_note_title">למה הכלל הזה?</string>
+    <string name="rules_note_placeholder">אפשר לכתוב כאן…</string>
+    <string name="rules_session_started">הסשן התחיל · %1$s</string>
+    <string name="rules_limit_started">המגבלה התחילה · %1$s להיום</string>
+    <string name="rules_lock_activated">%1$s הופעלה</string>
+    <string name="rules_rule_created">%1$s נוצר</string>
+    <string name="rules_rule_saved">השינויים נשמרו</string>
+    <string name="rules_saved_later_midnight">נשמר · חלק מהשינויים ייכנסו לתוקף בחצות</string>
+    <string name="rules_saved_later_session">נשמר · חלק מהשינויים ייכנסו לתוקף בסיום הסשן</string>
+    <string name="rules_saved_later_at">נשמר · חלק מהשינויים ייכנסו לתוקף ב-%1$s</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">השינויים ייכנסו לתוקף בחצות</string>
+    <string name="rules_pending_changes_session">השינויים ייכנסו לתוקף בסיום הסשן</string>
+    <string name="rules_pending_changes_at">השינויים ייכנסו לתוקף ב-%1$s</string>
+    <string name="rules_pending_delete_midnight">יימחק בחצות</string>
+    <string name="rules_pending_delete_session">יימחק בסיום הסשן</string>
+    <string name="rules_pending_delete_at">יימחק ב-%1$s</string>
+    <string name="rules_pending_turn_off">יכבה בחצות</string>
+    <string name="rules_pending_pause">יושהה בסוף החלון הנוכחי</string>
+    <string name="rules_pending_drop">ביטול השינויים</string>
+    <string name="rules_pending_keep_rule">להשאיר את הכלל</string>
+    <string name="rules_pending_keep_on">להשאיר פעיל</string>
+    <string name="rules_pending_dont_pause">לא להשהות</string>
+    <string name="rules_session_ended">הסשן הסתיים</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">תמיד מותרות</string>
+    <string name="rules_allowed_explainer">Recentr אף פעם לא חוסמת את האפליקציות האלה, לא משנה איזה כלל או טיימר פועל.</string>
+    <string name="rules_allowed_add">הוספת אפליקציה</string>
+    <string name="rules_allowed_remove">הסרת %1$s</string>
+    <string name="rules_allowed_section">מותרות</string>
+    <string name="rules_allowed_waiting">מצטרפת בהמשך</string>
+    <string name="rules_allowed_none">עדיין אין אפליקציות. מפות, הסעות או אפליקציית בריאות הן בחירות טובות.</string>
+    <string name="rules_allowed_changes_tomorrow">השינויים ייכנסו לתוקף מחר ב-%1$s</string>
+    <string name="rules_allowed_changes_on">השינויים ייכנסו לתוקף ב-%1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">לאפשר · אפליקציה אחת</item>
+        <item quantity="two">לאפשר · שתי אפליקציות</item>
+        <item quantity="other">לאפשר · %d אפליקציות</item>
+    </plurals>
+    <string name="rules_allowed_done_none">לא לאפשר אף אחת</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">תמיד מותרות</string>
+    <string name="focus_apps_subtitle">בהמתנה במהלך הסבבים, חופשיות בהפסקות.</string>
+    <string name="focus_apps_on_hold">בהמתנה</string>
+</resources>

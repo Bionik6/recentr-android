@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Portuguese (Brazil). -->
+<resources>
+    <string name="ds_tab_home">Início</string>
+    <string name="ds_tab_rules">Regras</string>
+    <string name="ds_tab_timer">Timer</string>
+    <string name="ds_tab_insights">Insights</string>
+    <string name="ds_skip">Pular</string>
+    <string name="ds_back">Voltar</string>
+    <string name="ds_clear">Limpar</string>
+    <string name="ds_more_options">Mais opções</string>
+    <string name="ds_goal_title">Meta diária</string>
+    <string name="ds_goal_subtitle">O Recentr avisa quando você chegar perto.</string>
+    <string name="ds_goal_save">Salvar meta</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Seleção rápida</string>
+    <string name="ds_duration_minutes">%1$d min</string>
+    <string name="ds_duration_hours">%1$d h</string>
+    <string name="ds_duration_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Ative o bloqueio de apps</string>
+    <string name="ds_blocking_body">Para colocar em espera os apps que você bloqueia, o Recentr usa o serviço de Acessibilidade do Android. Ele só vê qual app você abre — nunca o que está na sua tela — e nada sai do seu celular.</string>
+    <string name="ds_blocking_steps">Em Configurações › Acessibilidade, abra “Bloqueio de apps do Recentr” (em Apps instalados ou Apps baixados) e ative.</string>
+    <string name="ds_blocking_open_settings">Abrir Configurações</string>
+    <string name="ds_blocking_not_now">Agora não</string>
+    <string name="ds_blocking_off_title">Bloqueio desativado</string>
+    <string name="ds_blocking_off_body">Ative para que suas regras e sessões de foco coloquem apps em espera.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Conecte o Recentr ao Tempo de tela</string>
+    <string name="ds_usage_access_body">O Recentr precisa do Acesso ao uso para contar seu tempo de tela, ativações e notificações. Tudo fica no seu celular.</string>
+    <string name="ds_usage_access_connect">Conectar</string>
+</resources>

@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Korean. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">규칙</string>
+    <string name="rules_templates_title">템플릿</string>
+    <string name="rules_subtitle_active">활성 %1$d개</string>
+    <string name="rules_subtitle_active_paused">활성 %1$d개 · 일시정지 %2$d개</string>
+    <string name="rules_templates_subtitle">미리 만들어진 규칙 · 탭해서 시작</string>
+    <string name="rules_group_locks">잠금</string>
+    <string name="rules_group_sessions">세션</string>
+    <string name="rules_group_limits">한도</string>
+    <string name="rules_group_routines">루틴</string>
+    <string name="rules_group_templates">템플릿</string>
+    <string name="rules_add_session">세션 추가</string>
+    <string name="rules_add_session_hint">예: “앞으로 30분 동안 앱 차단”</string>
+    <string name="rules_add_routine">루틴 추가</string>
+    <string name="rules_add_routine_hint">예: “저녁 식사 중에는 폰 금지”</string>
+    <string name="rules_add_lock">잠금 추가</string>
+    <string name="rules_add_lock_hint">예: “하루 종일 TikTok 닫아 두기”</string>
+    <string name="rules_add_limit">한도 추가</string>
+    <string name="rules_add_limit_hint">예: “하루 YouTube 1시간”</string>
+    <string name="rules_more">더보기</string>
+    <string name="rules_empty_title">아직 규칙이 없어요</string>
+    <string name="rules_empty_body">세션을 시작하거나 템플릿을 골라 시작해 보세요.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">진행 중</string>
+    <string name="rules_status_upcoming">예정</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">준비됨</string>
+    <plurals name="rules_more_apps">
+        <item quantity="other">+ 앱 %d개</item>
+    </plurals>
+    <string name="rules_tile_ready">준비됨</string>
+    <string name="rules_status_blocking">차단 중</string>
+    <string name="rules_status_paused">일시정지</string>
+    <string name="rules_status_times_up">시간 종료</string>
+    <string name="rules_status_unlocks">잠금 해제 %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">잠금 해제 무제한</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">꺼짐</string>
+    <string name="rules_all_day">하루 종일</string>
+    <string name="rules_strict_mode">엄격 모드</string>
+    <string name="rules_value_locked">잠김</string>
+    <string name="rules_value_off">꺼짐</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">자정까지</string>
+    <string name="rules_budget_today">오늘의 예산</string>
+    <string name="rules_value_left">%1$s 남음</string>
+    <string name="rules_value_starts_in">%1$s 후</string>
+    <string name="rules_value_paused">일시정지</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">매일</string>
+    <string name="rules_days_weekdays">평일</string>
+    <string name="rules_days_weekends">주말</string>
+    <string-array name="rules_day_short">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>월요일</item>
+        <item>화요일</item>
+        <item>수요일</item>
+        <item>목요일</item>
+        <item>금요일</item>
+        <item>토요일</item>
+        <item>일요일</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+    <string name="rules_am">오전</string>
+    <string name="rules_pm">오후</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d분</string>
+    <string name="rules_hours_short">%1$d시간</string>
+    <string name="rules_hours_minutes">%1$d시간 %2$d분</string>
+    <string name="rules_compact_seconds">%1$d초</string>
+    <string name="rules_compact_minutes">%1$d분</string>
+    <string name="rules_compact_hours">%1$d시간</string>
+    <string name="rules_compact_hours_minutes">%1$d시간 %2$02d분</string>
+
+    <!-- Common -->
+    <string name="rules_none">없음</string>
+    <string name="rules_save">저장</string>
+    <string name="rules_done">완료</string>
+    <string name="rules_continue">계속</string>
+    <string name="rules_cancel">취소</string>
+    <string name="rules_back">뒤로</string>
+    <string name="rules_edit_name">이름 및 스티커 편집</string>
+    <plurals name="rules_apps_count">
+        <item quantity="other">앱 %d개</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">세션</string>
+    <string name="rules_type_lock">잠금</string>
+    <string name="rules_type_limit">한도</string>
+    <string name="rules_type_routine">루틴</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">차단</string>
+    <string name="rules_row_active">활성</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">잠금 해제 방법</string>
+    <string name="rules_row_unlocks_per_day">하루 잠금 해제 횟수</string>
+    <string name="rules_row_apps">앱</string>
+    <string name="rules_row_reminders">리마인더</string>
+    <string name="rules_row_each_unlock">해제 1회 시간</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">세션</string>
+    <string name="rules_session_subtitle">시작하면 %1$s 동안 앱을 차단해요.</string>
+    <string name="rules_session_default_name">집중 세션</string>
+    <string name="rules_suggestions">추천</string>
+    <string name="rules_start">시작</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">끝날 때까지 잠금 해제 불가.</string>
+    <string name="rules_unlock_strict_caption">엄격 모드에서는 잠금 해제를 쓸 수 없어요.</string>
+    <string name="rules_strict_confirm_title">엄격 모드를 켤까요?</string>
+    <string name="rules_strict_confirm_body">끝날 때까지는 긴급 잠금 해제 외에는 이 앱들을 잠금 해제할 수 없어요.</string>
+    <string name="rules_turn_on">켜기</string>
+    <string name="rules_not_now">나중에</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">지금 이 앱들을 차단할까요?</string>
+    <string name="rules_block_now_body">규칙이 차단 중이라서 추가한 앱이 바로 차단돼요.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">%1$s 켤까요?</string>
+    <string name="rules_lock_confirm_body">켜고 나면 더 느슨하게 바꾸는 일(앱 제거, 잠금 해제 횟수 늘리기, 끄기)은 자정에만 적용돼요.</string>
+    <string name="rules_limit_confirm_title">%1$s 시작할까요?</string>
+    <string name="rules_limit_confirm_body">시작하고 나면 더 느슨하게 바꾸는 일(예산 늘리기, 앱 제거)은 초기화되는 자정에만 적용돼요.</string>
+    <string name="rules_block_now">지금 차단</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">잠금</string>
+    <string name="rules_lock_subtitle">고른 앱을 닫아 두고, 하루에 짧게 몇 번만 잠금 해제해요.</string>
+    <string name="rules_lock_note_title">이 잠금을 만드는 이유는?</string>
+    <string name="rules_hold_create_lock">길게 눌러 잠금 만들기</string>
+    <string name="rules_hold_create_session">길게 눌러 세션 만들기</string>
+    <string name="rules_unlock_wait">%1$d초 대기</string>
+    <string name="rules_unlock_retype">다시 입력</string>
+    <string name="rules_unlock_scan">코드 스캔</string>
+    <string name="rules_unlock_walk">%1$d걸음 걷기</string>
+    <string name="rules_unlimited">무제한</string>
+    <string name="rules_lock_default_name">잠금</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">앱 선택</string>
+    <string name="rules_selected">%1$d개 선택됨</string>
+    <string name="rules_search_apps">앱 검색</string>
+    <string name="rules_category_social">소셜</string>
+    <string name="rules_category_entertainment">엔터테인먼트</string>
+    <string name="rules_category_music">음악</string>
+    <string name="rules_category_games">게임</string>
+    <string name="rules_category_productivity">생산성</string>
+    <string name="rules_category_other">기타</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="other">차단 · 앱 %d개</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">모든 앱과 카테고리</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">전체</string>
+    <string name="rules_no_apps_found">“%1$s” 검색 결과가 없어요.</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">활성 시간</string>
+    <string name="rules_ends_at">%1$s에 종료</string>
+    <string name="rules_hours_label">시간</string>
+    <string name="rules_minutes_label">분</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">한도</string>
+    <string name="rules_limit_subtitle">하루를 잡아먹는 앱을 위한 오늘의 시간 예산이에요.</string>
+    <string name="rules_hold_create_limit">길게 눌러 한도 만들기</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">자정까지 고정돼요</string>
+    <string name="rules_locked_in_lock">만들자마자 켜져요. 더 느슨하게 바꾸거나(앱 제거, 잠금 해제 횟수 늘리기, 끄기) 삭제하는 것은 자정 일일 초기화 이후에만 적용돼요.</string>
+    <string name="rules_locked_in_limit">만들자마자 시작돼요. 더 느슨하게 바꾸거나(예산 늘리기, 앱 제거) 삭제하는 것은 자정 일일 초기화 이후에만 적용돼요.</string>
+    <string name="rules_limit_resets">자정에 자동으로 초기화돼요.</string>
+    <string name="rules_limit_default_name">한도</string>
+    <string name="rules_limit_social_name">소셜 시간</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">취침 시간</string>
+    <string name="rules_bedtime_subtitle">일정에 맞춰 앱을 차단해요.</string>
+    <string name="rules_from">시작</string>
+    <string name="rules_until">종료</string>
+    <string name="rules_tonight">%1$s · 오늘 밤</string>
+    <string name="rules_today">%1$s · 오늘</string>
+    <string name="rules_tomorrow">%1$s · 내일</string>
+    <string name="rules_tonight_alone">오늘 밤</string>
+    <string name="rules_today_alone">오늘</string>
+    <string name="rules_tomorrow_alone">내일</string>
+    <string name="rules_hold_create_routine">길게 눌러 루틴 만들기</string>
+    <string name="rules_starts_at">시작 시간</string>
+    <string name="rules_ends_at_title">종료 시간</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">어떻게 잠금 해제할까요?</string>
+    <string name="rules_unlock_subtitle">나에게 맞는 마찰 방식을 골라 보세요.</string>
+    <string name="rules_unlock_option_wait">몇 초 기다리기</string>
+    <string name="rules_unlock_option_retype">부담스러운 문장 다시 입력하기</string>
+    <string name="rules_unlock_option_scan">다른 곳에 둔 코드 스캔하기</string>
+    <string name="rules_unlock_option_walk">%1$d걸음 걷기</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">잠금 해제 전 대기</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="other">%d초</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1분</string>
+    <string name="rules_seconds_chip">%1$d초</string>
+    <string name="rules_one_min_chip">1분</string>
+    <string name="rules_unlocks_per_day_title">하루 잠금 해제 횟수</string>
+    <string name="rules_each_unlock_title">한 번에 잠금 해제되는 시간</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">집중</string>
+    <string name="rules_section_focus_body">일, 공부, 프로젝트 마무리를 위해.</string>
+    <string name="rules_section_unwind">릴랙스</string>
+    <string name="rules_section_unwind_body">더 차분한 저녁과 더 부드러운 아침.</string>
+    <string name="rules_section_be_present">지금에 집중</string>
+    <string name="rules_section_be_present_body">곁에 있는 사람들이나 나 자신을 위한 관심.</string>
+    <string name="rules_section_scroll_less">스크롤 줄이기</string>
+    <string name="rules_section_scroll_less_body">습관이 아니라 의도를 갖고 앱을 열어요.</string>
+    <string name="rules_tpl_focus_sprint">집중 스프린트</string>
+    <string name="rules_tpl_focus_sprint_body">방해 요소를 지금부터 차단해요.</string>
+    <string name="rules_tpl_study_hour">공부 시간</string>
+    <string name="rules_tpl_study_hour_body">지금부터 한 시간 공부해요.</string>
+    <string name="rules_tpl_work_rhythm">업무 리듬</string>
+    <string name="rules_tpl_work_rhythm_body">평일에 방해 요소를 차단해요.</string>
+    <string name="rules_tpl_evening_calm">차분한 저녁</string>
+    <string name="rules_tpl_evening_calm_body">매일 저녁 소셜·동영상 앱 없음.</string>
+    <string name="rules_tpl_night_pause">밤의 멈춤</string>
+    <string name="rules_tpl_night_pause_body">밤새 방해 요소를 차단해요.</string>
+    <string name="rules_tpl_slow_morning">느긋한 아침</string>
+    <string name="rules_tpl_slow_morning_body">소셜 앱 없이 하루를 시작해요.</string>
+    <string name="rules_tpl_dinner_together">함께하는 저녁 식사</string>
+    <string name="rules_tpl_dinner_together_body">저녁 식사 동안 방해 요소를 차단해요.</string>
+    <string name="rules_tpl_family_hour">가족 시간</string>
+    <string name="rules_tpl_family_hour_body">함께하는 시간을 위해 비워 둔 일요일.</string>
+    <string name="rules_tpl_time_for_me">나를 위한 시간</string>
+    <string name="rules_tpl_time_for_me_body">읽고, 만들고, 그저 숨 쉬어요.</string>
+    <string name="rules_tpl_walk_before_you_scroll">걷고 나서 스크롤</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">그다음 앱을 5분, 하루 3번.</string>
+    <string name="rules_tpl_pause_before_opening">열기 전에 잠깐 멈춤</string>
+    <string name="rules_tpl_pause_before_opening_body">그다음 앱을 5분, 하루 3번.</string>
+    <string name="rules_tpl_social_budget">소셜 예산</string>
+    <string name="rules_tpl_social_budget_body">함께 쓰고, 자정까지 차단해요.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">새 규칙</string>
+    <string name="rules_new_rule_subtitle">무엇을 설정할까요?</string>
+    <string name="rules_browse_templates">템플릿 둘러보기</string>
+    <string name="rules_kind_routine_body">취침이나 근무 시간처럼 일정에 맞춰 앱을 차단해요.</string>
+    <string name="rules_kind_session_body">시작한 순간부터 정한 시간 동안 앱을 차단해요.</string>
+    <string name="rules_kind_lock_body">켜는 순간부터 앱을 닫아 두고, 하루에 짧게 몇 번만 잠금 해제해요.</string>
+    <string name="rules_kind_limit_body">오늘의 시간 예산이에요. 다 쓰면 자정까지 앱이 차단돼요.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">%1$s 활성</string>
+    <string name="rules_detail_running">실행 중</string>
+    <string name="rules_detail_paused">일시정지</string>
+    <string name="rules_detail_paused_until">%1$s까지 일시정지</string>
+    <string name="rules_detail_on">켜짐</string>
+    <string name="rules_detail_off">꺼짐</string>
+    <string name="rules_blocked">차단됨</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">앱</string>
+    <string name="rules_apps_blocking">지금 차단 중</string>
+    <string name="rules_apps_not_blocking">지금은 차단하지 않음</string>
+    <string name="rules_apps_blocked">차단됨</string>
+    <string name="rules_apps_blocked_when_on">켜져 있을 때 차단됨</string>
+    <string name="rules_apps_unlocked">지금은 잠금 해제됨</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">지금 차단된 앱이 없어요.</string>
+    <string name="rules_apps_none_unlocked">지금 잠금 해제된 앱이 없어요.</string>
+    <string name="rules_streak">연속 기록</string>
+    <plurals name="rules_streak_days">
+        <item quantity="other">%d일</item>
+    </plurals>
+    <string name="rules_why">이유</string>
+    <string name="rules_why_placeholder">탭해서 이 규칙이 중요한 이유를 적어 보세요.</string>
+    <string name="rules_why_empty">아직 적어 둔 이유가 없어요.</string>
+    <string name="rules_tile_now">지금</string>
+    <string name="rules_tile_left_of">%1$s 중 남음</string>
+    <string name="rules_tile_used">%1$s 사용</string>
+    <string name="rules_tile_today">오늘</string>
+    <string name="rules_tile_not_started">아직 시작 안 함</string>
+    <string name="rules_tile_unlocks_today">오늘 잠금 해제</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">꺼짐</string>
+    <string name="rules_reminder_before">%1$d분 전</string>
+    <string name="rules_reminders_title">시작 전에 알려 주세요</string>
+    <string name="rules_activate">활성화</string>
+    <string name="rules_turn_off">끄기</string>
+    <string name="rules_menu_edit_settings">규칙 편집</string>
+    <string name="rules_menu_pause">규칙 일시정지</string>
+    <string name="rules_menu_resume">규칙 다시 시작</string>
+    <string name="rules_menu_delete">규칙 삭제</string>
+    <string name="rules_pause_title">%1$s 일시정지할까요?</string>
+    <string name="rules_pause_hour">1시간 동안</string>
+    <string name="rules_pause_tomorrow">내일까지</string>
+    <string name="rules_pause_manual">다시 켤 때까지</string>
+    <string name="rules_pause_rule">규칙 일시정지</string>
+    <string name="rules_pause_later">이 시간대가 끝나면 일시정지가 시작돼요.</string>
+    <string name="rules_paused_toast">%1$s 일시정지됨</string>
+    <string name="rules_resumed_toast">%1$s 다시 켜졌어요</string>
+    <string name="rules_edit_title">규칙 편집</string>
+    <string name="rules_sticker">스티커</string>
+    <string name="rules_name_placeholder">규칙 이름</string>
+    <string name="rules_more_stickers">스티커 더 보기</string>
+    <string name="rules_more_stickers_soon">스티커가 더 추가될 예정이에요</string>
+    <string name="rules_delete_title">%1$s 삭제할까요?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="other">이 규칙의 %d일 연속 기록이 사라져요. 되돌릴 수 없어요.</item>
+    </plurals>
+    <string name="rules_delete_body">이 규칙과 기록이 삭제돼요. 되돌릴 수 없어요.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">자정까지 계속 차단하고, 그다음 삭제돼요.</string>
+    <string name="rules_delete_body_later_session">세션이 끝날 때까지 계속 차단하고, 그다음 삭제돼요.</string>
+    <string name="rules_delete_body_later_at">%1$s까지 계속 차단하고, 그다음 삭제돼요.</string>
+    <string name="rules_delete_rule">규칙 삭제</string>
+    <string name="rules_keep_it">유지하기</string>
+    <string name="rules_deleted_toast">%1$s 삭제됨</string>
+    <string name="rules_note_title">이 규칙을 만드는 이유는?</string>
+    <string name="rules_note_placeholder">적어 보세요…</string>
+    <string name="rules_session_started">세션 시작 · %1$s</string>
+    <string name="rules_limit_started">한도 시작 · 오늘 %1$s</string>
+    <string name="rules_lock_activated">%1$s 켜졌어요</string>
+    <string name="rules_rule_created">%1$s 만들어졌어요</string>
+    <string name="rules_rule_saved">변경 사항 저장됨</string>
+    <string name="rules_saved_later_midnight">저장됨 · 일부 변경은 자정에 적용돼요</string>
+    <string name="rules_saved_later_session">저장됨 · 일부 변경은 세션이 끝나면 적용돼요</string>
+    <string name="rules_saved_later_at">저장됨 · 일부 변경은 %1$s에 적용돼요</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">변경 사항은 자정에 적용돼요</string>
+    <string name="rules_pending_changes_session">변경 사항은 세션이 끝나면 적용돼요</string>
+    <string name="rules_pending_changes_at">변경 사항은 %1$s에 적용돼요</string>
+    <string name="rules_pending_delete_midnight">자정에 삭제돼요</string>
+    <string name="rules_pending_delete_session">세션이 끝나면 삭제돼요</string>
+    <string name="rules_pending_delete_at">%1$s에 삭제돼요</string>
+    <string name="rules_pending_turn_off">자정에 꺼져요</string>
+    <string name="rules_pending_pause">이 시간대가 끝나면 일시정지돼요</string>
+    <string name="rules_pending_drop">변경 사항 버리기</string>
+    <string name="rules_pending_keep_rule">규칙 유지</string>
+    <string name="rules_pending_keep_on">계속 켜 두기</string>
+    <string name="rules_pending_dont_pause">일시정지 안 함</string>
+    <string name="rules_session_ended">세션 종료됨</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">항상 허용</string>
+    <string name="rules_allowed_explainer">규칙이나 타이머와 상관없이 Recentr는 이 앱들을 절대 차단하지 않아요.</string>
+    <string name="rules_allowed_add">앱 추가</string>
+    <string name="rules_allowed_remove">%1$s 삭제</string>
+    <string name="rules_allowed_section">허용됨</string>
+    <string name="rules_allowed_waiting">나중에 추가</string>
+    <string name="rules_allowed_none">아직 앱이 없어요. 지도, 택시, 건강 앱이 좋은 예예요.</string>
+    <string name="rules_allowed_changes_tomorrow">변경 사항은 내일 %1$s에 적용돼요</string>
+    <string name="rules_allowed_changes_on">변경 사항은 %1$s에 적용돼요</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="other">허용 · 앱 %d개</item>
+    </plurals>
+    <string name="rules_allowed_done_none">허용 안 함</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">항상 허용</string>
+    <string name="focus_apps_subtitle">라운드 중에는 일시 중지, 휴식 중에는 자유예요.</string>
+    <string name="focus_apps_on_hold">일시 중지</string>
+</resources>

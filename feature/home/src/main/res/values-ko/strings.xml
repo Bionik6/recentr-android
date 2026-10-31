@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Korean. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">프로필 열기</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d시간 %2$02d분</string>
+    <string name="home_duration_hours">%1$d시간</string>
+    <string name="home_duration_minutes">%1$d분</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">오늘 스크린 타임</string>
+    <string name="home_hero_screen_time_yesterday">어제 스크린 타임</string>
+    <string name="home_hero_average_week">일평균 · 이번 주</string>
+    <string name="home_hero_average_month">일평균 · 이번 달</string>
+    <string name="home_goal_under">목표 %1$s 이내</string>
+    <string name="home_goal_over">목표 %1$s 초과</string>
+    <string name="home_compare_less_week">지난주보다 %1$d%% 적어요</string>
+    <string name="home_compare_more_week">지난주보다 %1$d%% 많아요</string>
+    <string name="home_compare_less_month">지난달보다 %1$d%% 적어요</string>
+    <string name="home_compare_more_month">지난달보다 %1$d%% 많아요</string>
+    <string name="home_syncing">스크린 타임 동기화 중…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">연결 안 됨</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">오늘 사용 품질</string>
+    <string name="home_hero_quality_yesterday">어제 사용 품질</string>
+    <string name="home_hero_quality_week">사용 품질 · 이번 주</string>
+    <string name="home_hero_quality_month">사용 품질 · 이번 달</string>
+    <string name="home_quality_focused">집중됨</string>
+    <string name="home_quality_balanced">균형 잡힘</string>
+    <string name="home_quality_distracted">산만함</string>
+    <string name="home_split_focus">집중 %1$d%%</string>
+    <string name="home_split_social">소셜 %1$d%%</string>
+    <string name="home_split_fun">여가 %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">오늘 가장 긴 오프라인</string>
+    <string name="home_hero_offline_yesterday">어제 가장 긴 오프라인</string>
+    <string name="home_hero_offline_week">가장 긴 오프라인 · 이번 주</string>
+    <string name="home_hero_offline_month">가장 긴 오프라인 · 이번 달</string>
+    <string name="home_offline_chip">폰 없는 시간</string>
+    <string name="home_hero_details">자세히 보기</string>
+    <string name="home_hero_page">%1$d / %2$d 페이지</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">감소</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">폰 확인</string>
+    <string name="home_stat_notifications">알림</string>
+    <string name="home_stat_total">합계</string>
+    <string name="home_stat_best_day">최고의 날</string>
+    <string-array name="home_day_letters">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">연속 기록</string>
+    <plurals name="home_streak_days">
+        <item quantity="other">%d일</item>
+    </plurals>
+    <string name="home_tile_next">다음 · %1$s</string>
+    <string name="home_tile_ongoing">진행 중 · %1$s</string>
+    <string name="home_tile_blocking">차단 중 · %1$s</string>
+    <string name="home_tile_left">%1$s 남음</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">다음</string>
+    <string name="home_tile_no_rule">예정된 규칙 없음</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">불러오는 중…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">가장 많이 사용</string>
+    <string name="home_filter_apps">앱</string>
+    <string name="home_filter_categories">카테고리</string>
+    <string name="home_category_social">소셜</string>
+    <string name="home_category_entertainment">엔터테인먼트</string>
+    <string name="home_category_games">게임</string>
+    <string name="home_category_productivity">생산성</string>
+    <string name="home_category_music">음악</string>
+    <string name="home_category_other">기타</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s 동안 화면에 붙어 있었어요</string>
+    <string name="home_info_glued_average">하루 %1$s 동안 화면에 붙어 있었어요</string>
+    <string name="home_info_hints_title">되돌아볼 질문</string>
+    <string name="home_info_glued_hints">얼마나 자주 방해받았나요? 왜 폰에 손이 갈까요? 정말 중요한 일이었나요?</string>
+    <string name="home_info_offline">오프라인 %1$s</string>
+    <string name="home_info_offline_today">오늘 폰 없이 보낸 가장 긴 시간이에요.</string>
+    <string name="home_info_offline_yesterday">어제 폰 없이 보낸 가장 긴 시간이에요.</string>
+    <string name="home_info_offline_week">이번 주 폰 없이 보낸 가장 긴 시간이에요.</string>
+    <string name="home_info_offline_month">이번 달 폰 없이 보낸 가장 긴 시간이에요.</string>
+    <string name="home_info_offline_hints">그동안 어떤 일을 했나요? 기분은 어땠나요?</string>
+    <string name="home_info_got_it">확인</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">항상 허용</string>
+    <string name="home_always_allowed_subtitle">차단을 건너뛰는 앱</string>
+    <string name="home_always_allowed_empty_title">선택한 앱 없음</string>
+    <string name="home_always_allowed_empty_body">차단이 켜져 있어도 계속 쓸 수 있어야 하는 앱을 골라 주세요.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="other">항상 허용 앱 %d개</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">설정하기</string>
+    <string name="home_always_allowed_close">닫기</string>
+    <string name="home_always_allowed_settings_title">항상 허용은 설정에 있어요</string>
+    <string name="home_always_allowed_settings_body">필요할 때 설정 › 보호 › 항상 허용에서 찾을 수 있어요.</string>
+    <string name="home_always_allowed_settings_got_it">확인</string>
+</resources>

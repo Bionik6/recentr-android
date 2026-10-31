@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">Профіль</string>
+    <string name="profile_edit">Редагувати профіль</string>
+    <string name="profile_add_name">Додай своє ім’я</string>
+    <string name="profile_open_settings">Налаштування</string>
+    <plurals name="profile_member_days">
+        <item quantity="one">З Recentr уже %d день</item>
+        <item quantity="few">З Recentr уже %d дні</item>
+        <item quantity="many">З Recentr уже %d днів</item>
+        <item quantity="other">З Recentr уже %d днів</item>
+    </plurals>
+    <string name="profile_before">Було</string>
+    <string name="profile_now">Тепер</string>
+    <string name="profile_daily_average">середнє за день</string>
+    <string name="profile_today">сьогодні</string>
+    <plurals name="profile_last_days">
+        <item quantity="one">останній %d день</item>
+        <item quantity="few">останні %d дні</item>
+        <item quantity="many">останні %d днів</item>
+        <item quantity="other">останні %d днів</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">У такому темпі</string>
+    <plurals name="profile_life_years">
+        <item quantity="one">Ти повертаєш собі %d рік життя</item>
+        <item quantity="few">Ти повертаєш собі %d роки життя</item>
+        <item quantity="many">Ти повертаєш собі %d років життя</item>
+        <item quantity="other">Ти повертаєш собі %d років життя</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="one">Ти повертаєш собі %d місяць життя</item>
+        <item quantity="few">Ти повертаєш собі %d місяці життя</item>
+        <item quantity="many">Ти повертаєш собі %d місяців життя</item>
+        <item quantity="other">Ти повертаєш собі %d місяців життя</item>
+    </plurals>
+    <string name="profile_life_none">Кожна година без телефона знову твоя</string>
+    <string name="profile_best_streak">Найкраща серія</string>
+    <plurals name="profile_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
+    </plurals>
+    <string name="profile_urges">Подолані спокуси</string>
+    <string name="profile_recap_ready">Твій підсумок тижня готовий</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">Редагувати профіль</string>
+    <string name="edit_name">Ім’я</string>
+    <string name="edit_email">Електронна пошта</string>
+    <string name="edit_name_placeholder">Твоє ім’я</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">Зберегти зміни</string>
+    <string name="edit_avatar_colour">Змінити колір аватара</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">Закрити</string>
+    <string name="recap_over_name">Твій тиждень, %s</string>
+    <string name="recap_over">Твій тиждень</string>
+    <string name="recap_less">менше екранного часу, ніж минулого тижня</string>
+    <string name="recap_more">більше екранного часу, ніж минулого тижня</string>
+    <string name="recap_same">стільки ж екранного часу, як минулого тижня</string>
+    <string name="recap_saved">Збережено</string>
+    <string name="recap_best_day">Найкращий день</string>
+    <string name="recap_streak">Серія</string>
+    <string name="recap_share">Поділитися тижнем</string>
+    <string name="recap_share_text">Мій тиждень у Recentr: екранний час %1$s порівняно з минулим тижнем, збережено %2$s, а найкращий день — %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">Усі інструменти для спокійніших днів</string>
+    <string name="plus_benefit_rules">Необмежені правила та рутини</string>
+    <string name="plus_benefit_strict">Суворий режим і екстрені розблокування</string>
+    <string name="plus_benefit_recaps">Підсумки тижня та роздуми</string>
+    <string name="plus_yearly">Річний</string>
+    <string name="plus_monthly">Місячний</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_per_month">$2,50 / міс.</string>
+    <string name="plus_billed_monthly">оплата щомісяця</string>
+    <string name="plus_start_trial">Спробувати 7 днів безкоштовно</string>
+    <string name="plus_cancel_anytime">Скасувати можна будь-коли ·\u0020</string>
+    <string name="plus_restore">Відновити покупку</string>
+    <string name="plus_restore_none_title">Нічого відновлювати</string>
+    <string name="plus_restore_none_body">Для цього облікового запису покупку Recentr Plus не знайдено.</string>
+    <string name="plus_restore_ok_title">Покупку відновлено</string>
+    <string name="plus_restore_ok_body">Recentr Plus активний на цьому телефоні.</string>
+    <string name="plus_trial_started">Recentr Plus увімкнено — насолоджуйся безкоштовним тижнем</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">Підписка</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">Поновлення: %s</string>
+    <string name="sub_change_plan">Змінити план</string>
+    <string name="sub_restore">Відновити покупку</string>
+    <string name="sub_invoices">Рахунки</string>
+    <string name="sub_cancel">Скасувати підписку</string>
+    <string name="sub_change_title">Перейти на «%s»?</string>
+    <string name="sub_change_body">Твій новий план почне діяти після завершення поточного періоду.</string>
+    <string name="sub_change_confirm">Перейти</string>
+    <string name="sub_cancel_title">Скасувати Recentr Plus?</string>
+    <string name="sub_cancel_body">Plus діятиме до кінця поточного періоду, а потім ти повернешся на безкоштовний план.</string>
+    <string name="sub_cancel_confirm">Скасувати план</string>
+    <string name="sub_keep">Залишити Plus</string>
+    <string name="sub_not_now">Не зараз</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">Налаштування</string>
+    <string name="settings_general">Загальні</string>
+    <string name="settings_protection">Захист</string>
+    <string name="settings_support">Підтримка</string>
+    <string name="settings_account">Обліковий запис</string>
+    <string name="settings_developer">Розробник</string>
+    <string name="settings_notifications">Сповіщення</string>
+    <string name="settings_on">Увімкнено</string>
+    <string name="settings_off">Вимкнено</string>
+    <string name="settings_appearance">Вигляд</string>
+    <string name="settings_app_icon">Значок додатка</string>
+    <string name="settings_language">Мова</string>
+    <string name="settings_time_format">Формат часу</string>
+    <string name="time_format_am_pm">12 год</string>
+    <string name="time_format_24h">24 год</string>
+    <string name="time_format_body">Як відображається час у Recentr.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">Суворий режим</string>
+    <string name="settings_strict_caption">Нові сесії та рутини починаються суворими.</string>
+    <string name="settings_always_allowed">Завжди дозволені</string>
+    <string name="settings_always_allowed_none">Немає</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="one">%d додаток</item>
+        <item quantity="few">%d додатки</item>
+        <item quantity="many">%d додатків</item>
+        <item quantity="other">%d додатків</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">Екстрені розблокування</string>
+    <string name="settings_unlocks_left">Залишилось: %d</string>
+    <string name="settings_app_blocking">Блокування додатків</string>
+    <string name="settings_unlock_pass">Пропуск розблокування</string>
+    <string name="settings_pass_none">Немає</string>
+    <string name="settings_pass_rules">Правил: %d</string>
+    <string name="settings_help">Допомога та відгуки</string>
+    <string name="settings_rate">Оцінити Recentr</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">Безкоштовно</string>
+    <string name="settings_log_out">Вийти</string>
+    <string name="settings_delete_account">Видалити обліковий запис</string>
+    <string name="settings_replay_onboarding">Повторити знайомство</string>
+    <string name="settings_design_system">Дизайн-система</string>
+    <string name="emergency_title">Екстрені розблокування</string>
+    <string name="emergency_body">Цього місяця залишилось екстрених розблокувань: %1$d з %2$d. Коли Суворий режим або вичерпаний ліміт тримає додаток заблокованим, кожне з них усе одно відкриває його на 5 хвилин. Вони повернуться %3$s.</string>
+    <string name="unlock_pass_title">Пропуск розблокування</string>
+    <string name="unlock_pass_none">Жодне правило поки не вимагає пропуск. Обери «Сканувати код, який ти зберігаєш окремо» як розблокування правила, а потім роздрукуй його пропуск тут.</string>
+    <string name="unlock_pass_body">Роздрукуй пропуск правила й тримай його подалі від телефона. Щоб зайти, його потрібно відсканувати.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">Твій пропуск розблокування</string>
+    <string name="unlock_pass_screen_body">Роздрукуй його й тримай подалі від ліжка. Сканування — єдиний спосіб розблокувати.</string>
+    <string name="unlock_pass_caption">Recentr · пропуск #%1$s</string>
+    <string name="unlock_pass_share">Поділитися</string>
+    <string name="unlock_pass_print">Друкувати пропуск</string>
+    <string name="unlock_pass_document">Пропуск розблокування Recentr</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">Допомога та відгуки</string>
+    <string name="help_subtitle">Ми читаємо кожне повідомлення.</string>
+    <string name="help_not_blocking">Recentr не блокує додаток</string>
+    <string name="help_not_blocking_body">Для блокування потрібен доступ до даних про використання, а Recentr має працювати у фоновому режимі. Перевір Налаштування › Додатки › Recentr і вимкни оптимізацію акумулятора.</string>
+    <string name="help_strict">Питання про Суворий режим</string>
+    <string name="help_strict_body">Увімкни Суворий режим для сесії чи рутини — і до її завершення додатки не можна розблокувати, окрім як екстреним розблокуванням. Вимкнути його можна лише після завершення. Налаштування › Суворий режим вмикає його для кожної нової.</string>
+    <string name="help_billing">Оплата та Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus оплачується через Google Play. Скасувати можна будь-коли в Налаштування › Recentr Plus або в підписках Google Play.</string>
+    <string name="help_note_section">Напиши нам</string>
+    <string name="help_note_title">Ідея для Recentr</string>
+    <string name="help_note_placeholder">Було б круто мати сесію «навчання з друзями», де ми всі блокуємося разом.</string>
+    <string name="help_send">Надіслати відгук</string>
+    <string name="help_feedback_subject">Відгук про Recentr</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">Вигляд</string>
+    <string name="appearance_theme">Тема</string>
+    <string name="theme_light">Світла</string>
+    <string name="theme_dark">Темна</string>
+    <string name="theme_auto">Авто</string>
+    <string name="appearance_app_icon">Значок додатка</string>
+    <string name="icon_sky">Небо</string>
+    <string name="icon_night">Ніч</string>
+    <string name="icon_mint">М’ята</string>
+    <string name="icon_sunset">Захід сонця</string>
+    <string name="appearance_mascot">Показувати маскота на головній</string>
+    <string name="appearance_reduce_motion">Менше анімації</string>
+    <string name="appearance_haptics">Вібровідгук</string>
+    <string name="appearance_haptics_caption">Легкі вібрації, коли обираєш, перемикаєш чи святкуєш</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">Сповіщення</string>
+    <string name="notifications_subtitle">Лагідні нагадування, ніколи не шум.</string>
+    <string name="notifications_reminders">Нагадування</string>
+    <string name="notifications_routine">Перед початком рутини</string>
+    <string name="notifications_limit">Ліміт майже вичерпано</string>
+    <string name="notifications_goal">Щоденна перевірка цілі</string>
+    <string name="notifications_celebrations">Святкування</string>
+    <string name="notifications_streaks">Серії та віхи</string>
+    <string name="notifications_recap">Підсумок тижня</string>
+    <string name="notifications_quiet_hours">Тихі години</string>
+    <string name="notifications_dont_notify">Не сповіщати мене</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">Сповіщення Recentr на цьому телефоні вимкнено.</string>
+    <string name="notifications_turn_on">Увімкнути</string>
+    <string name="quiet_title">Тихі години</string>
+    <string name="quiet_subtitle">Жодних нагадувань між цими годинами.</string>
+    <string name="quiet_from">Початок</string>
+    <string name="quiet_to">Кінець</string>
+    <string name="quiet_save">Зберегти</string>
+    <string name="time_dialog_cancel">Скасувати</string>
+    <string name="time_dialog_ok">OK</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">Мова</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">Мова системи</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Вийти з Recentr?</string>
+    <string name="logout_body">Твої правила й далі працюватимуть на цьому телефоні. Увійди знову будь-коли, щоб синхронізувати їх.</string>
+    <string name="logout_confirm">Вийти</string>
+    <string name="logout_stay">Залишитися</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">Видалити обліковий запис?</string>
+    <string name="delete_body">Усі правила, серії та роздуми буде стерто. Введи DELETE для підтвердження.</string>
+    <string name="delete_placeholder">Введи DELETE</string>
+    <string name="delete_confirm">Видалити обліковий запис</string>
+    <string name="delete_cancel">Скасувати</string>
+    <string name="back">Назад</string>
+    <string name="duration_h">%1$d год</string>
+    <string name="duration_m">%1$d хв</string>
+    <string name="duration_h_m_compact">%1$d год %2$02d хв</string>
+    <string name="duration_h_m">%1$d год %2$d хв</string>
+</resources>

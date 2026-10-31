@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Indonesian. -->
+<resources>
+    <!-- Shared -->
+    <string name="onb_continue">Lanjut</string>
+
+    <!-- Durations: compact (4h20 · 6h · 45m) and spelled out (6 hours · 45 minutes) -->
+    <string name="onb_duration_hm">%1$d j %2$02d</string>
+    <string name="onb_duration_h">%1$d j</string>
+    <string name="onb_duration_m">%1$d mnt</string>
+    <plurals name="onb_hours">
+        <item quantity="other">%d jam</item>
+    </plurals>
+    <plurals name="onb_minutes">
+        <item quantity="other">%d menit</item>
+    </plurals>
+
+    <!-- 05 · Welcome -->
+    <string name="onb_welcome_stat_people_value">250 rb+</string>
+    <string name="onb_welcome_stat_people_label">orang yang fokus</string>
+    <string name="onb_welcome_stat_time_value">11 j</string>
+    <string name="onb_welcome_stat_time_label">direbut kembali per minggu</string>
+    <string name="onb_welcome_before">Sebelum</string>
+    <string name="onb_welcome_before_value">7 j 40 mnt</string>
+    <string name="onb_welcome_now">Sekarang</string>
+    <string name="onb_welcome_now_value">2 j 10 mnt</string>
+    <string name="onb_welcome_title">Waktu layar, sesuai caramu.</string>
+    <string name="onb_welcome_subtitle">Blokir aplikasi yang menyeretmu — dengan lembut, lewat jeda, bukan perlawanan.</string>
+    <string name="onb_welcome_get_started">Mulai</string>
+
+    <!-- 06 · A little friction -->
+    <string name="onb_friction_title">Recentr memberi jeda sebelum aplikasi yang menyeretmu</string>
+    <string name="onb_friction_shield_message">Kamu sudah menjauh dari Instagram selama 6 j 15</string>
+    <string name="onb_friction_shield_primary">Aku pasti bisa</string>
+    <string name="onb_friction_shield_secondary">Tetap buka kunci (4/5)</string>
+
+    <!-- 07 · Social proof -->
+    <string name="onb_social_title">250.000 orang memakai Recentr untuk merebut kembali waktu mereka</string>
+    <string name="onb_social_score">4,8</string>
+    <string name="onb_social_count">dari 7.000+ ulasan</string>
+    <string name="onb_social_rating_description">Dinilai 4,8 dari 5</string>
+    <string name="onb_review1_title">Malamku kembali</string>
+    <string name="onb_review1_body">Dari 7 jam sehari jadi kurang dari 3. Jeda kecil sebelum membuka X itu jenius.</string>
+    <string name="onb_review1_name">Rizky A.</string>
+    <string name="onb_review2_title">Satu-satunya yang bertahan</string>
+    <string name="onb_review2_body">Aplikasi pemblokir lain langsung kuhapus. Yang ini terasa baik hati, jadi kupertahankan.</string>
+    <string name="onb_review2_name">Putri S.</string>
+    <string name="onb_review3_title">Tidurku kembali</string>
+    <string name="onb_review3_body">Rutinitas malam mengunci semuanya pukul 11. Pagiku jadi milikku lagi.</string>
+    <string name="onb_review3_name">Dimas M.</string>
+
+    <!-- 08 · Your turn -->
+    <string name="onb_your_turn_overline">Sekarang giliranmu</string>
+    <string name="onb_your_turn_title">Yuk, sesuaikan Recentr dengan harimu</string>
+    <string name="onb_your_turn_cta">Yuk mulai</string>
+
+    <!-- 09 · Name -->
+    <string name="onb_name_title">Kami harus memanggilmu apa?</string>
+    <string name="onb_name_placeholder">Nama depanmu</string>
+
+    <!-- 10 · What’s wrong -->
+    <string name="onb_pain_title">Jadi, apa yang salah dengan waktu ponselmu?</string>
+    <string name="onb_pain_subtitle">Pilih semua yang sesuai.</string>
+    <string name="onb_pain_sleep">Mengganggu tidurku</string>
+    <string name="onb_pain_focus">Aku susah fokus</string>
+    <string name="onb_pain_scroll">Aku scroll tanpa berpikir</string>
+    <string name="onb_pain_notifications">Notifikasi mengalihkan perhatianku</string>
+    <string name="onb_pain_hours">Berjam-jam hilang tanpa terasa</string>
+    <string name="onb_pain_fine">Jujur saja, baik-baik saja…</string>
+
+    <!-- 11 · Time spent -->
+    <string name="onb_usage_title">Berapa lama kamu memakai ponsel?</string>
+    <string name="onb_usage_subtitle">Per hari, kira-kira saja — tanpa menghakimi.</string>
+    <string name="onb_usage_over_7">Lebih dari 7 jam</string>
+    <string name="onb_usage_5_7">5 – 7 jam</string>
+    <string name="onb_usage_3_5">3 – 5 jam</string>
+    <string name="onb_usage_1_3">1 – 3 jam</string>
+    <string name="onb_usage_under_1">Kurang dari 1 jam</string>
+
+    <!-- 12 · Daily goal -->
+    <string name="onb_goal_title">Atur target harianmu</string>
+    <string name="onb_goal_subtitle">Rata-ratamu %1$s sehari. Yuk, targetkan lebih rendah.</string>
+    <string name="onb_goal_tone_bold">Target berani!</string>
+    <string name="onb_goal_tone_balanced">Seimbang</string>
+    <string name="onb_goal_tone_easy">Awal yang mudah</string>
+    <string name="onb_goal_your_goal">Targetmu</string>
+    <string name="onb_goal_today">Hari ini</string>
+    <string name="onb_goal_note">Ini tidak memblokir aplikasi — hanya sebagai panduan.</string>
+
+    <!-- 13 · Doing the math -->
+    <string name="onb_math_title">Mari kita hitung</string>
+    <string name="onb_math_percent">%1$d%%</string>
+    <string name="onb_math_step_habits">Membaca kebiasaanmu</string>
+    <string name="onb_math_step_goal">Menyesuaikan targetmu</string>
+    <string name="onb_math_step_plan">Menyusun rencanamu</string>
+
+    <!-- 14 · Honest news -->
+    <string name="onb_news_overline">Oke, jujur saja ya</string>
+    <string name="onb_news_title">Ada kabar baik… dan kabar kurang baik</string>
+    <string name="onb_news_cta">Ceritakan lebih banyak</string>
+
+    <!-- 15 · Years on phone -->
+    <string name="onb_years_lead">Dengan laju ini, kamu akan menghabiskan</string>
+    <plurals name="onb_years_number">
+        <item quantity="other">%d tahun</item>
+    </plurals>
+    <string name="onb_years_tail">dari hidupmu di ponsel</string>
+    <string name="onb_years_every_day">Setiap hari</string>
+    <string name="onb_years_every_year">Setiap tahun</string>
+    <plurals name="onb_days">
+        <item quantity="other">%d hari</item>
+    </plurals>
+
+    <!-- 16 · A way out -->
+    <string name="onb_way_out_title">Kabar baiknya? Kamu bisa merebut kembali %1$s per hari.</string>
+    <string name="onb_way_out_subtitle">Itulah alasan kami membuat Recentr — jalan keluar yang lembut, bukan tugas tambahan.</string>
+    <string name="onb_way_out_cta">Bagaimana caranya?</string>
+
+    <!-- 17 · How it works -->
+    <string name="onb_how_title">Cara kerja Recentr</string>
+    <string name="onb_how_step">Langkah %1$d</string>
+    <string name="onb_how_step1_title">Pilih yang menyeretmu</string>
+    <string name="onb_how_step1_body">Pilih aplikasi, lalu Kunci, Sesi, atau Batas.</string>
+    <string name="onb_how_step2_title">Temui jeda, bukan tembok</string>
+    <string name="onb_how_step2_body">Beberapa detik untuk bernapas sebelum kamu membukanya.</string>
+    <string name="onb_how_step3_title">Tumbuhkan hari-hari yang lebih tenang</string>
+    <string name="onb_how_step3_body">Tetap di bawah targetmu dan jaga rentetanmu tetap hidup.</string>
+
+    <!-- 18 · Screen Time access -->
+    <string name="onb_screen_time_title">Hubungkan Recentr ke waktu layar</string>
+    <string name="onb_screen_time_subtitle">Kami butuh ini untuk mengatur batas. Semuanya tetap di ponselmu.</string>
+    <string name="onb_screen_time_cta">Hubungkan</string>
+    <string name="onb_screen_time_alert_title">“Recentr” ingin mengakses waktu layar</string>
+    <string name="onb_screen_time_alert_body">Recentr memakai ini untuk mengatur batas dan melihat penggunaanmu. Datamu tidak pernah keluar dari ponsel ini.</string>
+    <string name="onb_screen_time_alert_allow">Lanjut</string>
+    <string name="onb_screen_time_alert_deny">Jangan izinkan</string>
+
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">Apa yang menyeretmu?</string>
+    <string name="onb_apps_subtitle">Aplikasi sosial, atau yang lain. Tiga rutinitas menahannya, dengan waktu tunggu 10 detik untuk bisa masuk. Kamu bisa mengubahnya kapan saja.</string>
+    <string name="onb_apps_choose">Pilih aplikasi</string>
+    <plurals name="onb_apps_count">
+        <item quantity="other">%d aplikasi</item>
+    </plurals>
+
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s – %2$s · %3$s</string>
+    <string name="onb_days_weekdays">Hari kerja</string>
+    <string name="onb_days_every_day">Setiap hari</string>
+    <string name="onb_days_weekends">Akhir pekan</string>
+
+    <!-- 19 · Notifications -->
+    <string name="onb_notif_title">Selangkah lebih maju</string>
+    <string name="onb_notif_subtitle">Pengingat lembut sebelum rutinitas dimulai atau batas habis.</string>
+    <string name="onb_notif_now">sekarang</string>
+    <string name="onb_notif_banner1_title">Rutinitas malam dimulai 10 mnt lagi</string>
+    <string name="onb_notif_banner1_body">Bebas ponsel mulai pukul 11 malam. Mimpi indah.</string>
+    <string name="onb_notif_banner2_title">Sisa 5 mnt untuk waktu Sosial</string>
+    <string name="onb_notif_banner2_body">Segera akhiri — X terkunci di 2 j 15.</string>
+    <string name="onb_notif_banner3_title">Rentetan 3 hari!</string>
+    <string name="onb_notif_banner3_body">Kamu kembali tetap di bawah %1$s.</string>
+
+    <!-- 21 · All set -->
+    <string name="onb_all_set_title">Semua siap, %1$s</string>
+    <string name="onb_all_set_title_no_name">Semua siap</string>
+    <string name="onb_all_set_subtitle">Ini rencanamu untuk minggu ini.</string>
+    <string name="onb_all_set_daily_goal">Target harian</string>
+    <string name="onb_all_set_first_rule">Aturan pertama</string>
+    <string name="onb_rule_bedtime">Waktu tidur</string>
+    <string name="onb_rule_focus">Waktu fokus</string>
+    <string name="onb_rule_social">Batas sosial</string>
+    <string name="onb_rule_quiet">Jam tenang</string>
+    <string name="onb_rule_daily_limit">Anggaran waktu</string>
+    <string name="onb_all_set_note_title">Alasanku melakukan ini</string>
+    <string name="onb_reason_scroll">Lebih banyak malam di luar rumah, lebih sedikit jam di TikTok.</string>
+    <string name="onb_reason_sleep">Malam lebih tenang, pagi bebas ponsel.</string>
+    <string name="onb_reason_focus">Kerja mendalam dulu, feed belakangan.</string>
+    <string name="onb_reason_notifications">Lebih sedikit notifikasi, lebih hadir.</string>
+    <string name="onb_reason_hours">Menyadari waktuku sebelum berlalu begitu saja.</string>
+    <string name="onb_reason_fine">Sedikit lebih seimbang setiap hari.</string>
+    <string name="onb_all_set_cta">Mulai sesi pertamaku</string>
+
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">Jam Kerja</string>
+    <string name="onb_routine_night_pause">Jeda Malam</string>
+    <string name="onb_routine_weekend_zen">Zen Akhir Pekan</string>
+</resources>

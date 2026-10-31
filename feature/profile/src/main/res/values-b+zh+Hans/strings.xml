@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified). -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">个人资料</string>
+    <string name="profile_edit">编辑个人资料</string>
+    <string name="profile_add_name">添加你的名字</string>
+    <string name="profile_open_settings">设置</string>
+    <plurals name="profile_member_days">
+        <item quantity="other">与 Recentr 同行 %d 天</item>
+    </plurals>
+    <string name="profile_before">之前</string>
+    <string name="profile_now">现在</string>
+    <string name="profile_daily_average">日均</string>
+    <string name="profile_today">今天</string>
+    <plurals name="profile_last_days">
+        <item quantity="other">最近 %d 天</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">照这个速度</string>
+    <plurals name="profile_life_years">
+        <item quantity="other">你正在赢回 %d 年的人生</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="other">你正在赢回 %d 个月的人生</item>
+    </plurals>
+    <string name="profile_life_none">每一个远离手机的小时，都重新属于你</string>
+    <string name="profile_best_streak">最长连续记录</string>
+    <plurals name="profile_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <string name="profile_urges">忍住的冲动</string>
+    <string name="profile_recap_ready">你的每周回顾已就绪</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">编辑个人资料</string>
+    <string name="edit_name">名字</string>
+    <string name="edit_email">邮箱</string>
+    <string name="edit_name_placeholder">你的名字</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">保存更改</string>
+    <string name="edit_avatar_colour">更换头像颜色</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">关闭</string>
+    <string name="recap_over_name">你的这一周，%s</string>
+    <string name="recap_over">你的这一周</string>
+    <string name="recap_less">屏幕使用时间比上周更少</string>
+    <string name="recap_more">屏幕使用时间比上周更多</string>
+    <string name="recap_same">屏幕使用时间与上周持平</string>
+    <string name="recap_saved">节省</string>
+    <string name="recap_best_day">最佳日</string>
+    <string name="recap_streak">连续记录</string>
+    <string name="recap_share">分享我的这一周</string>
+    <string name="recap_share_text">我在 Recentr 的这一周：屏幕使用时间较上周 %1$s，节省了 %2$s，最佳的一天是 %3$s。</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">让日子更平静的全部工具</string>
+    <string name="plus_benefit_rules">不限数量的规则和例程</string>
+    <string name="plus_benefit_strict">严格模式与紧急解锁</string>
+    <string name="plus_benefit_recaps">每周回顾与反思</string>
+    <string name="plus_yearly">按年</string>
+    <string name="plus_monthly">按月</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_per_month">$2.50 / 月</string>
+    <string name="plus_billed_monthly">按月计费</string>
+    <string name="plus_start_trial">开始 7 天免费试用</string>
+    <string name="plus_cancel_anytime">随时取消 ·\u0020</string>
+    <string name="plus_restore">恢复购买</string>
+    <string name="plus_restore_none_title">没有可恢复的内容</string>
+    <string name="plus_restore_none_body">此账号下未找到 Recentr Plus 购买记录。</string>
+    <string name="plus_restore_ok_title">购买已恢复</string>
+    <string name="plus_restore_ok_body">Recentr Plus 已在这部手机上生效。</string>
+    <string name="plus_trial_started">Recentr Plus 已开启——尽情享受你的免费一周</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">订阅</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">将于 %s 续订</string>
+    <string name="sub_change_plan">更改方案</string>
+    <string name="sub_restore">恢复购买</string>
+    <string name="sub_invoices">账单</string>
+    <string name="sub_cancel">取消订阅</string>
+    <string name="sub_change_title">切换到 %s？</string>
+    <string name="sub_change_body">新方案将在当前周期结束时生效。</string>
+    <string name="sub_change_confirm">切换</string>
+    <string name="sub_cancel_title">取消 Recentr Plus？</string>
+    <string name="sub_cancel_body">Plus 会保留到当前周期结束，之后恢复为免费方案。</string>
+    <string name="sub_cancel_confirm">取消方案</string>
+    <string name="sub_keep">保留 Plus</string>
+    <string name="sub_not_now">以后再说</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">设置</string>
+    <string name="settings_general">通用</string>
+    <string name="settings_protection">保护</string>
+    <string name="settings_support">支持</string>
+    <string name="settings_account">账号</string>
+    <string name="settings_developer">开发者</string>
+    <string name="settings_notifications">通知</string>
+    <string name="settings_on">开</string>
+    <string name="settings_off">关</string>
+    <string name="settings_appearance">外观</string>
+    <string name="settings_app_icon">应用图标</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_time_format">时间格式</string>
+    <string name="time_format_am_pm">12 小时制</string>
+    <string name="time_format_24h">24 小时制</string>
+    <string name="time_format_body">时间在 Recentr 中的显示方式。</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">严格模式</string>
+    <string name="settings_strict_caption">新的专注时段和例程默认开启严格模式。</string>
+    <string name="settings_always_allowed">始终允许</string>
+    <string name="settings_always_allowed_none">无</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="other">%d 个应用</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">紧急解锁</string>
+    <string name="settings_unlocks_left">剩余 %d 次</string>
+    <string name="settings_app_blocking">应用屏蔽</string>
+    <string name="settings_unlock_pass">解锁通行证</string>
+    <string name="settings_pass_none">无</string>
+    <string name="settings_pass_rules">%d 条规则</string>
+    <string name="settings_help">帮助与反馈</string>
+    <string name="settings_rate">为 Recentr 评分</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">免费</string>
+    <string name="settings_log_out">退出登录</string>
+    <string name="settings_delete_account">删除账号</string>
+    <string name="settings_replay_onboarding">重新播放新手引导</string>
+    <string name="settings_design_system">设计系统</string>
+    <string name="emergency_title">紧急解锁</string>
+    <string name="emergency_body">本月你还剩 %1$d / %2$d 次紧急解锁。当严格模式或已用完的限额让某个应用保持锁定时，每次解锁都能强行打开它 5 分钟。次数会在 %3$s 恢复。</string>
+    <string name="unlock_pass_title">解锁通行证</string>
+    <string name="unlock_pass_none">还没有规则要求通行证。把规则的解锁方式选为“扫描你放在别处的二维码”，再到这里打印它的通行证。</string>
+    <string name="unlock_pass_body">打印某条规则的通行证，放在离手机远的地方。扫描它才能解锁。</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">你的解锁通行证</string>
+    <string name="unlock_pass_screen_body">打印出来，放在离床远的地方。扫描它是唯一的解锁方式。</string>
+    <string name="unlock_pass_caption">Recentr · 通行证 #%1$s</string>
+    <string name="unlock_pass_share">分享</string>
+    <string name="unlock_pass_print">打印通行证</string>
+    <string name="unlock_pass_document">Recentr 解锁通行证</string>
+    <string name="dialog_ok">确定</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">帮助与反馈</string>
+    <string name="help_subtitle">每一条消息我们都会读。</string>
+    <string name="help_not_blocking">Recentr 没有屏蔽某个应用</string>
+    <string name="help_not_blocking_body">屏蔽功能需要“使用情况访问权限”，并要求 Recentr 在后台运行。请检查“设置 › 应用 › Recentr”，并关闭电池优化。</string>
+    <string name="help_strict">关于严格模式的问题</string>
+    <string name="help_strict_body">为某个专注时段或例程开启严格模式后，在它结束前，其中的应用无法解锁，紧急解锁除外。想关闭它也得等到结束。在“设置 › 严格模式”中开启，之后每个新建的都会默认开启。</string>
+    <string name="help_billing">账单与 Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus 通过 Google Play 计费。你可以随时在“设置 › Recentr Plus”或 Play 订阅中取消。</string>
+    <string name="help_note_section">给我们留言</string>
+    <string name="help_note_title">对 Recentr 的想法</string>
+    <string name="help_note_placeholder">想要一个“和朋友一起学习”的专注时段，大家一起锁定。</string>
+    <string name="help_send">发送反馈</string>
+    <string name="help_feedback_subject">Recentr 反馈</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">外观</string>
+    <string name="appearance_theme">主题</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_auto">自动</string>
+    <string name="appearance_app_icon">应用图标</string>
+    <string name="icon_sky">天空</string>
+    <string name="icon_night">夜晚</string>
+    <string name="icon_mint">薄荷</string>
+    <string name="icon_sunset">日落</string>
+    <string name="appearance_mascot">在首页显示吉祥物</string>
+    <string name="appearance_reduce_motion">减少动态效果</string>
+    <string name="appearance_haptics">触感反馈</string>
+    <string name="appearance_haptics_caption">选择、切换或庆祝时轻轻震动一下</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">通知</string>
+    <string name="notifications_subtitle">温柔的提醒，绝不吵闹。</string>
+    <string name="notifications_reminders">提醒</string>
+    <string name="notifications_routine">例程开始前</string>
+    <string name="notifications_limit">即将达到限额</string>
+    <string name="notifications_goal">每日目标检查</string>
+    <string name="notifications_celebrations">庆祝</string>
+    <string name="notifications_streaks">连续记录与里程碑</string>
+    <string name="notifications_recap">每周回顾</string>
+    <string name="notifications_quiet_hours">安静时间</string>
+    <string name="notifications_dont_notify">不打扰我</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">这部手机上已关闭 Recentr 的通知。</string>
+    <string name="notifications_turn_on">开启</string>
+    <string name="quiet_title">安静时间</string>
+    <string name="quiet_subtitle">这段时间内不会有提醒。</string>
+    <string name="quiet_from">开始</string>
+    <string name="quiet_to">结束</string>
+    <string name="quiet_save">保存</string>
+    <string name="time_dialog_cancel">取消</string>
+    <string name="time_dialog_ok">确定</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">语言</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">跟随系统</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">要退出 Recentr 登录吗？</string>
+    <string name="logout_body">你的规则会继续在这部手机上运行。随时重新登录即可同步。</string>
+    <string name="logout_confirm">退出登录</string>
+    <string name="logout_stay">留下</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">要删除你的账号吗？</string>
+    <string name="delete_body">所有规则、连续记录和反思都将被清除。请输入 DELETE 确认。</string>
+    <string name="delete_placeholder">输入 DELETE</string>
+    <string name="delete_confirm">删除账号</string>
+    <string name="delete_cancel">取消</string>
+    <string name="back">返回</string>
+    <string name="duration_h">%1$d小时</string>
+    <string name="duration_m">%1$d分钟</string>
+    <string name="duration_h_m_compact">%1$d小时%2$02d分</string>
+    <string name="duration_h_m">%1$d小时%2$d分钟</string>
+</resources>

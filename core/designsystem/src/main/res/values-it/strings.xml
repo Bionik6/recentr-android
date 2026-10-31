@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Italian. -->
+<resources>
+    <string name="ds_tab_home">Home</string>
+    <string name="ds_tab_rules">Regole</string>
+    <string name="ds_tab_timer">Timer</string>
+    <string name="ds_tab_insights">Statistiche</string>
+    <string name="ds_skip">Salta</string>
+    <string name="ds_back">Indietro</string>
+    <string name="ds_clear">Cancella</string>
+    <string name="ds_more_options">Altre opzioni</string>
+    <string name="ds_goal_title">Obiettivo giornaliero</string>
+    <string name="ds_goal_subtitle">Recentr ti avvisa quando ti avvicini.</string>
+    <string name="ds_goal_save">Salva obiettivo</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Selezione rapida</string>
+    <string name="ds_duration_minutes">%1$d min</string>
+    <string name="ds_duration_hours">%1$d h</string>
+    <string name="ds_duration_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Attiva il blocco delle app</string>
+    <string name="ds_blocking_body">Per mettere in pausa le app che blocchi, Recentr usa il servizio di accessibilità di Android. Vede solo quale app apri — mai cosa c’è sul tuo schermo — e nulla lascia il tuo telefono.</string>
+    <string name="ds_blocking_steps">In Impostazioni › Accessibilità, apri «Blocco app di Recentr» (in App installate o App scaricate) e attivalo.</string>
+    <string name="ds_blocking_open_settings">Apri Impostazioni</string>
+    <string name="ds_blocking_not_now">Non ora</string>
+    <string name="ds_blocking_off_title">Il blocco è disattivato</string>
+    <string name="ds_blocking_off_body">Attivalo perché le tue regole e sessioni focus mettano in pausa le app.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Collega Recentr a Tempo di utilizzo</string>
+    <string name="ds_usage_access_body">Per contare il tuo tempo di utilizzo, le prese in mano e le notifiche, Recentr ha bisogno dell’accesso ai dati di utilizzo. Tutto resta sul tuo telefono.</string>
+    <string name="ds_usage_access_connect">Collega</string>
+</resources>

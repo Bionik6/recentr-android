@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turkish. -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">Recentr uygulama engelleme</string>
+    <string name="hold_service_summary">Kurallarının ve odak seanslarının engellediği uygulamaları beklemeye alır.</string>
+    <string name="hold_service_description">Recentr, kurallarının ve odak seanslarının engellediği uygulamaları beklemeye alır. Yalnızca hangi uygulamayı açtığını görür — ekranında ne olduğunu asla görmez — ve hiçbir şey telefonundan çıkmaz.</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">%1$s dinleniyor</string>
+    <string name="shield_on_hold">%1$s beklemede</string>
+    <string name="shield_until">%1$s · %2$s olana kadar</string>
+    <string name="shield_until_tomorrow">%1$s · yarın %2$s olana kadar</string>
+    <string name="shield_limit">%1$s · bugünkü %2$s doldu</string>
+    <string name="shield_stayed_off">%1$s boyunca uzak durdun</string>
+    <string name="shield_focus_minutes">Odaklanalı %1$d dk oldu</string>
+    <string name="shield_focus_started">Odaklanman yeni başladı</string>
+    <string name="shield_got_this">Ben hallederim</string>
+    <string name="shield_back_to_focus">Odağa dön</string>
+    <string name="shield_end_focus">Odağı erken bitir</string>
+    <string name="shield_unlock_anyway">Yine de aç</string>
+    <string name="shield_unlock_anyway_left">Yine de aç (%1$d / %2$d kaldı)</string>
+    <string name="shield_emergency">Acil kilit açma</string>
+    <string name="duration_h">%1$d sa</string>
+    <string name="duration_m">%1$d dk</string>
+    <string name="duration_h_m">%1$d sa %2$d dk</string>
+    <string name="stayed_off_h_m">%1$d sa %2$02d</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · kilitleyen: %2$s</string>
+    <string name="unlock_strict_on">%1$s · Katı mod açık</string>
+    <string name="unlock_wait_overline">Yine de girmek mi istiyorsun?</string>
+    <string name="unlock_wait_title">Kilit açma süreni seç</string>
+    <string name="unlock_wait_breath">Derin bir nefes al…</string>
+    <string name="unlock_wait_done">Bir an durdun. Güzel.</string>
+    <string name="unlock_minutes_chip">%1$d dk</string>
+    <string name="unlock_nevermind">Boş ver</string>
+    <string name="unlock_unlock">Kilidi aç</string>
+    <string name="unlock_retype_title">Kilidi açmak için şunu yaz</string>
+    <string name="unlock_retype_text">Bugün önemli dediğim işin yerine bir akışı seçiyorum ve bunun farkındayım.</string>
+    <string name="unlock_quote">“%1$s”</string>
+    <string name="unlock_retype_hint">Yazmaya başla…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">Yazım hatası — baştan başla</string>
+    <string name="unlock_retype_start_over">Baştan başla</string>
+    <string name="unlock_scan_title">Recentr kodunu tara</string>
+    <string name="unlock_scan_subtitle">Buzdolabına yapıştırdığın kod.</string>
+    <string name="unlock_scan_steady">Sabit tut…</string>
+    <string name="unlock_scan_wrong_pass">Bu başka bir kuralın kartı</string>
+    <string name="unlock_scan_no_camera">Kartını taramak için kameraya ihtiyaç var.</string>
+    <string name="unlock_scan_allow_camera">Kameraya izin ver</string>
+    <string name="unlock_scan_use_passcode">Bunun yerine kodu kullan</string>
+    <string name="unlock_close">Kapat</string>
+    <string name="unlock_passcode_title">Kart kodunu yaz</string>
+    <string name="unlock_passcode_subtitle">QR kodunun altında yazan sayı.</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">Bu, kartındaki kod değil.</string>
+    <string name="unlock_emergency_title">Acil kilit açma</string>
+    <string name="unlock_emergency_body">Katı mod açık. Bunu yalnızca gerçekten önemliyse kullan — bu ay %1$d hakkın kaldı.</string>
+    <string name="unlock_emergency_spent">Katı mod açık ve bu ayki acil kilit açma haklarını bitirdin.</string>
+    <string name="unlock_emergency_limit_body">Bugünkü süre doldu ve limitlerde kilit açma yok. Bunu yalnızca gerçekten önemliyse kullan — bu ay %1$d hakkın kaldı.</string>
+    <string name="unlock_emergency_limit_spent">Bugünkü süre doldu ve bu ayki acil kilit açma haklarını bitirdin.</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="one">%d acil kilit açma hakkı kaldı</item>
+        <item quantity="other">%d acil kilit açma hakkı kaldı</item>
+    </plurals>
+    <string name="unlock_hold">Kilidi açmak için basılı tut · %1$d sn</string>
+    <string name="unlock_hold_none">Acil kilit açma hakkı kalmadı</string>
+    <string name="unlock_cancel">İptal</string>
+    <string name="unlock_open_title">%1$s açık</string>
+    <string name="unlock_time_left">%1$s kaldı</string>
+    <string name="unlock_open_caption">Süre bitince yeniden kilitleyeceğiz.</string>
+    <string name="unlock_open_app">Aç: %1$s</string>
+    <string name="unlock_lock_again">Yeniden kilitle</string>
+    <string name="unlock_walk_title">Kilidi açmak için %1$d adım yürü</string>
+    <string name="unlock_walk_subtitle">Kaydırmadan önce küçük bir yürüyüş. Tüm %1$d adımı tamamla, sonra %2$s senin.</string>
+    <string name="unlock_walking_title">Birkaç adım daha</string>
+    <string name="unlock_walking_subtitle">%1$s, %2$d adıma ulaşana kadar kilitli kalır. Acele etme.</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">adım · hazır olduğunda başla</string>
+    <string name="unlock_walk_more_to_go">adım · %1$d kaldı</string>
+    <string name="unlock_walk_goal_reached">adım · hedefe ulaşıldı</string>
+    <string name="unlock_walk_locked_until">%1$d adıma kadar kilitli</string>
+    <string name="unlock_walk_complete_chip">%1$d adım tamam</string>
+    <string name="unlock_walk_safety_title">Telefonu bırak, başını kaldır.</string>
+    <string name="unlock_walk_safety_body">Güvenli ve açık bir alanda yürü. İlerlemene bakmadan önce dur.</string>
+    <string name="unlock_walk_no_permission_title">Recentr adımlarını sayamıyor</string>
+    <string name="unlock_walk_no_permission_body">Recentr için Fiziksel aktivite iznini ver, sonra yeniden yürümeye başla.</string>
+    <string name="unlock_walk_no_sensor_title">Bu telefon adım sayamıyor</string>
+    <string name="unlock_walk_no_sensor_body">Kuralın sayfasında başka bir kilit açma yöntemi seç.</string>
+    <string name="unlock_walk_start">Yürümeye başla</string>
+    <string name="unlock_walk_cancel">Yürüyüşü iptal et</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="one">Kilidi açmak için %1$d adım kaldı</item>
+        <item quantity="other">Kilidi açmak için %1$d adım kaldı</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · %2$d dakikalık kilit açma</string>
+    <string name="unlock_walk_done_title">Kilit açıldı: %1$s</string>
+    <string name="unlock_walk_done_subtitle">%1$d adım. Küçük bir yenilenme. %2$d dakikalık molan hazır.</string>
+    <string name="unlock_walk_done_note_body">Süre bitince yeniden kilitleyeceğiz. %1$s açılmadan önce yürümeyi bırak.</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="one">%1$d dakika, sadece senin için</item>
+        <item quantity="other">%1$d dakika, sadece senin için</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="one">%1$d dakika</item>
+        <item quantity="other">%1$d dakika</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">Kural hatırlatıcıları</string>
+    <string name="reminder_channel_description">Bir rutin uygulamaları engellemeye başlamadan önce küçük bir uyarı.</string>
+    <string name="reminder_title">%1$s %2$d dk içinde başlıyor</string>
+    <string name="reminder_text">Uygulamalar saat %1$s olunca engellenecek.</string>
+</resources>

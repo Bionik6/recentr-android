@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">Zpět</string>
+    <string name="insights_close">Zavřít</string>
+    <string name="insights_more">Další možnosti</string>
+    <string name="insights_duration_m">%1$d min</string>
+    <string name="insights_duration_h">%1$d h</string>
+    <string name="insights_duration_h_m">%1$d h %2$02d min</string>
+    <string name="insights_duration_compact">%1$d h %2$02d</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d %%</string>
+    <string name="insights_date">%2$d. %1$s</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>P</item>
+        <item>Ú</item>
+        <item>S</item>
+        <item>Č</item>
+        <item>P</item>
+        <item>S</item>
+        <item>N</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>po</item>
+        <item>út</item>
+        <item>st</item>
+        <item>čt</item>
+        <item>pá</item>
+        <item>so</item>
+        <item>ne</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>pondělí</item>
+        <item>úterý</item>
+        <item>středa</item>
+        <item>čtvrtek</item>
+        <item>pátek</item>
+        <item>sobota</item>
+        <item>neděle</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>leden</item>
+        <item>únor</item>
+        <item>březen</item>
+        <item>duben</item>
+        <item>květen</item>
+        <item>červen</item>
+        <item>červenec</item>
+        <item>srpen</item>
+        <item>září</item>
+        <item>říjen</item>
+        <item>listopad</item>
+        <item>prosinec</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>led</item>
+        <item>úno</item>
+        <item>bře</item>
+        <item>dub</item>
+        <item>kvě</item>
+        <item>čvn</item>
+        <item>čvc</item>
+        <item>srp</item>
+        <item>zář</item>
+        <item>říj</item>
+        <item>lis</item>
+        <item>pro</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">Statistiky</string>
+    <string name="insights_tab_day">Den</string>
+    <string name="insights_tab_week">Týden</string>
+    <string name="insights_tab_month">Měsíc</string>
+    <string name="insights_daily_average">Denní průměr</string>
+    <string name="insights_screen_time_today">Čas u obrazovky dnes</string>
+    <string name="insights_screen_time_yesterday">Čas u obrazovky včera</string>
+    <string name="insights_screen_time">Čas u obrazovky</string>
+    <string name="insights_vs_last_week">%1$s oproti minulému týdnu</string>
+    <string name="insights_vs_yesterday">%1$s oproti včerejšku</string>
+    <string name="insights_vs_day_before">%1$s oproti předchozímu dni</string>
+    <string name="insights_vs_week_before">%1$s oproti předchozímu týdnu</string>
+    <string name="insights_goal_line">Cíl %1$s</string>
+    <string name="insights_by_category">Podle kategorie</string>
+    <string name="insights_no_usage">Zatím žádný čas u obrazovky.</string>
+    <string name="insights_top_apps">Nejčastější aplikace</string>
+    <string name="insights_no_apps">Zatím žádná použitá aplikace.</string>
+    <string name="insights_see_more">Zobrazit víc</string>
+    <string name="insights_category_social">Sociální sítě</string>
+    <string name="insights_category_video">Video</string>
+    <string name="insights_category_music">Hudba</string>
+    <string name="insights_category_games">Hry</string>
+    <string name="insights_category_productivity">Produktivita</string>
+    <string name="insights_category_other">Ostatní</string>
+    <string name="insights_menu_pickups">Zvednutí</string>
+    <string name="insights_menu_daily_goal">Denní cíl</string>
+    <string name="insights_menu_streak">Série</string>
+    <string name="insights_menu_achievements">Úspěchy</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">Pod cílem</string>
+    <string name="insights_less">Méně</string>
+    <string name="insights_more_legend">Více</string>
+    <string name="insights_best_day">Nejlepší den</string>
+    <string name="insights_toughest_day">Nejtěžší den</string>
+    <string name="insights_see_report">Zobrazit přehled (%1$s)</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: žádná data</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">Dnes</string>
+    <string name="insights_period_yesterday">Včera</string>
+    <string name="insights_period_week">Tento týden</string>
+    <string name="insights_period_month">Tento měsíc</string>
+    <string name="insights_period_last_week">Minulý týden</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s, %2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s %2$d</string>
+    <string name="insights_previous">Předchozí</string>
+    <string name="insights_next">Další</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="one">%d otevření</item>
+        <item quantity="few">%d otevření</item>
+        <item quantity="many">%d otevření</item>
+        <item quantity="other">%d otevření</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · %2$s nad limitem</string>
+    <string name="insights_left_in_limit">%1$s · zbývá %2$s z limitu</string>
+    <string name="insights_by_hour">Podle hodin</string>
+    <string name="insights_longest_session">Nejdelší sezení</string>
+    <string name="insights_first_open">První otevření</string>
+    <string name="insights_usual_first_open">Obvyklé první otevření</string>
+    <string name="insights_noticed">Recentr si všiml</string>
+    <string name="insights_noticed_idle">Aplikace %1$s zůstala téměř nedotčená. Tak to nech.</string>
+    <string name="insights_noticed_checks">Aplikaci %1$s otevíráš %2$d× denně jen nakrátko. Pár sekund pauzy před otevřením zlomí reflex.</string>
+    <string name="insights_noticed_night">Většina tvého času v aplikaci %1$s je po %2$s. Rutina před spaním ti ho může vrátit.</string>
+    <string name="insights_noticed_morning">Většina tvého času v aplikaci %1$s je před %2$s. Klidná ranní rutina ti ho může vrátit.</string>
+    <string name="insights_noticed_work">Většina tvého času v aplikaci %1$s je během pracovního dne. Sezení soustředění ti ho může vrátit.</string>
+    <string name="insights_noticed_evening">Většina tvého času v aplikaci %1$s je večer. Limit ti ho může vrátit.</string>
+    <string name="insights_noticed_spread">Tvůj čas v aplikaci %1$s je rozprostřený přes celý den. Limit ho udrží na uzdě.</string>
+    <string name="insights_set_limit">Nastavit limit</string>
+    <string name="insights_edit_limit">Upravit limit</string>
+    <string name="insights_block_app">Blokovat %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">Zvednutí</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="one">zvednutí dnes</item>
+        <item quantity="few">zvednutí dnes</item>
+        <item quantity="many">zvednutí dnes</item>
+        <item quantity="other">zvednutí dnes</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="one">zvednutí včera</item>
+        <item quantity="few">zvednutí včera</item>
+        <item quantity="many">zvednutí včera</item>
+        <item quantity="other">zvednutí včera</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="one">zvednutí ten den</item>
+        <item quantity="few">zvednutí ten den</item>
+        <item quantity="many">zvednutí ten den</item>
+        <item quantity="other">zvednutí ten den</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="one">zvednutí denně</item>
+        <item quantity="few">zvednutí denně</item>
+        <item quantity="many">zvednutí denně</item>
+        <item quantity="other">zvednutí denně</item>
+    </plurals>
+    <string name="insights_first_pickup">První v %1$s</string>
+    <string name="insights_usual_first_pickup">Obvykle první v %1$s</string>
+    <string name="insights_no_pickup">Zatím žádné zvednutí</string>
+    <string name="insights_when_pick_up">Kdy telefon zvedáš</string>
+    <string name="insights_opened_first">Otevřeno jako první po zvednutí</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">Po zvednutí zatím nebyla otevřena žádná aplikace.</string>
+    <string name="insights_tip_bedroom">Nabíjej telefon mimo ložnici — zvednutí kolem %1$s bude snazší.</string>
+    <string name="insights_tip_reflex">Aplikaci %1$s otevíráš jako první. Přesuň ji z domovské obrazovky a zlom ten reflex.</string>
+    <string name="insights_tip_evening">Večer telefon zvedáš nejčastěji. Rutina před spaním ho nechá ležet.</string>
+    <string name="insights_tip_default">Každé vynechané zvednutí je výhra. Zkus nechat telefon displejem dolů.</string>
+    <string name="insights_start_bedtime">Začít rutinu před spaním</string>
+    <string name="insights_heat_cd">%1$s až %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">Přehled: %1$s</string>
+    <plurals name="insights_hours">
+        <item quantity="one">%d hodina</item>
+        <item quantity="few">%d hodiny</item>
+        <item quantity="many">%d hodiny</item>
+        <item quantity="other">%d hodin</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="one">%d minuta</item>
+        <item quantity="few">%d minuty</item>
+        <item quantity="many">%d minuty</item>
+        <item quantity="other">%d minut</item>
+    </plurals>
+    <string name="insights_won_back_month">získáno zpět tento měsíc</string>
+    <string name="insights_pickups_a_day_label">Zvednutí denně</string>
+    <string name="insights_best_streak">Nejlepší série</string>
+    <plurals name="insights_days">
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="many">%d dne</item>
+        <item quantity="other">%d dní</item>
+    </plurals>
+    <string name="insights_new">nové</string>
+    <string name="insights_share_month">Sdílet můj měsíc</string>
+    <string name="insights_replay">Přehrát znovu</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">Denní cíl</string>
+    <string name="insights_edit_goal">Upravit denní cíl</string>
+    <string name="insights_days_on_target">Dní v cíli: %1$d z %2$d</string>
+    <string name="insights_goal_under">Cíl: méně než %1$s denně</string>
+    <string name="insights_adjust_goal">Upravit cíl</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">Úspěchy</string>
+    <string name="achievements_earned_count">Získáno: %1$d z %2$d</string>
+    <string name="achievements_level">Úroveň %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>Nový začátek</item>
+        <item>Hledání klidu</item>
+        <item>Pevná ruka</item>
+        <item>Strážce klidu</item>
+        <item>Hluboké soustředění</item>
+        <item>Zen mistr</item>
+        <item>Offline legenda</item>
+    </string-array>
+    <string name="achievements_points">Body klidu: %1$d / %2$d</string>
+    <string name="achievements_points_max">Body klidu: %1$d</string>
+    <string name="achievements_all">Vše</string>
+    <string name="achievements_earned">Získané</string>
+    <string name="achievements_next_up">Další na řadě</string>
+    <string name="achievements_none_earned">Tvůj první odznak je za rohem.</string>
+    <string name="achievements_all_earned">Všechny odznaky jsou tvoje. Wow.</string>
+    <string name="achievements_progress_days">Dny: %1$d / %2$d</string>
+    <string name="achievements_progress_nights">Noci: %1$d / %2$d</string>
+    <string name="achievements_progress_mornings">Rána: %1$d / %2$d</string>
+    <string name="achievements_progress_hours">Hodiny: %1$d / %2$d</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">Dny: %1$d z %2$d</string>
+    <string name="achievements_of_nights">Noci: %1$d z %2$d</string>
+    <string name="achievements_of_mornings">Rána: %1$d z %2$d</string>
+    <string name="achievements_of_hours">Hodiny: %1$d z %2$d</string>
+    <string name="achievements_of_urges">Nutkání: %1$d z %2$d</string>
+    <string name="achievements_not_yet">Zatím nezískáno</string>
+    <string name="achievements_points_reward">Body klidu: +%1$d</string>
+    <string name="achievements_got_it">Rozumím</string>
+    <string name="achievements_locked_cd">%1$s, zamčeno, %2$s</string>
+    <string name="achievements_earned_cd">%1$s, získáno %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">Nový odznak</string>
+    <string name="achievements_earned_on">Získáno: %1$s</string>
+    <string name="achievements_nice">Skvělé!</string>
+    <string name="achievements_share_badge">Sdílet odznak</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">První zámek</string>
+    <string name="badge_first_lock_goal">Zablokuj aplikace svým prvním pravidlem.</string>
+    <string name="badge_first_lock_cheer">Tvé první pravidlo je aktivní. Malé zámky, velké výhry.</string>
+    <string name="badge_first_lock_milestone">%1$s: poprvé zablokováno.</string>
+    <string name="badge_first_lock_milestone_any">První blokovací pravidlo je nastaveno.</string>
+    <string name="badge_note_to_self">Vzkaz sobě</string>
+    <string name="badge_note_to_self_goal">Napiš u jednoho ze svých pravidel, proč to děláš.</string>
+    <string name="badge_note_to_self_cheer">Tvůj důvod je zapsaný. Bude ti připomínat, proč to děláš.</string>
+    <string name="badge_note_to_self_milestone">Důvod, proč to děláš, je zapsaný.</string>
+    <string name="badge_first_focus">První soustředění</string>
+    <string name="badge_first_focus_goal">Dokonči své první sezení soustředění.</string>
+    <string name="badge_first_focus_cheer">První sezení je za tebou. Tvůj sval soustředění se rozehřívá.</string>
+    <string name="badge_first_focus_milestone">Tvé první sezení soustředění.</string>
+    <string name="badge_focus_ten_hours">10 hodin soustředění</string>
+    <string name="badge_focus_ten_hours_goal">Stráv 10 hodin v sezeních soustředění.</string>
+    <string name="badge_focus_ten_hours_cheer">Deset hodin hlubokého soustředění. To je celý pracovní den zpátky.</string>
+    <string name="badge_focus_ten_hours_milestone">10 hodin strávených v sezeních soustředění.</string>
+    <string name="badge_seven_day_streak">Série 7 dní</string>
+    <string name="badge_seven_day_streak_goal">Udrž svou sérii 7 dní.</string>
+    <string name="badge_seven_day_streak_cheer">Celý týden pod cílem. Drž ten oheň.</string>
+    <string name="badge_seven_day_streak_milestone">Celý týden pod cílem.</string>
+    <string name="badge_goal_crusher">Cíl pokořen</string>
+    <string name="badge_goal_crusher_goal">Zůstaň pod denním cílem 7 dní v řadě.</string>
+    <string name="badge_goal_crusher_cheer">Sedm dní pod cílem a žádná záchrana série. Hravě.</string>
+    <string name="badge_goal_crusher_milestone">7 dní pod cílem bez záchrany série.</string>
+    <string name="badge_two_calm_weeks">Dva klidné týdny</string>
+    <string name="badge_two_calm_weeks_goal">Udrž svou sérii 14 dní.</string>
+    <string name="badge_two_calm_weeks_cheer">Dva klidné týdny. Z toho se stává zvyk.</string>
+    <string name="badge_two_calm_weeks_milestone">14 dní v řadě pod cílem.</string>
+    <string name="badge_calm_month">Klidný měsíc</string>
+    <string name="badge_calm_month_goal">Udrž svou sérii 30 dní.</string>
+    <string name="badge_calm_month_cheer">Celý měsíc klidu. Legendární.</string>
+    <string name="badge_calm_month_milestone">30 dní v řadě pod cílem.</string>
+    <string name="badge_night_owl">Sova v důchodu</string>
+    <string name="badge_night_owl_goal">7 nocí v řadě bez obrazovek po %1$s.</string>
+    <string name="badge_night_owl_cheer">7 nocí v řadě bez obrazovek po %1$s. Tvůj spánek děkuje.</string>
+    <string name="badge_night_owl_milestone">7 nocí bez obrazovek po %1$s.</string>
+    <string name="badge_slow_mornings">Pomalá rána</string>
+    <string name="badge_slow_mornings_goal">5 rán v řadě bez obrazovek před %1$s.</string>
+    <string name="badge_slow_mornings_cheer">Pět pomalých rán. Tvůj den začíná tebou, ne sociálními sítěmi.</string>
+    <string name="badge_slow_mornings_milestone">5 rán bez obrazovek před %1$s.</string>
+    <string name="badge_screen_free_sunday">Neděle bez obrazovek</string>
+    <string name="badge_screen_free_sunday_goal">Stráv neděli s méně než 30 minutami u obrazovky.</string>
+    <string name="badge_screen_free_sunday_cheer">Neděle skoro mimo síť. Není ti hned lehčeji?</string>
+    <string name="badge_screen_free_sunday_milestone">Neděle s méně než 30 minutami u obrazovky.</string>
+    <string name="badge_gentle_day">Jemný den</string>
+    <string name="badge_gentle_day_goal">Stráv celý den s méně než hodinou u obrazovky.</string>
+    <string name="badge_gentle_day_cheer">Méně než hodina za celý den. Šetrné k očím i mysli.</string>
+    <string name="badge_gentle_day_milestone">Celý den pod 1 hodinou.</string>
+    <string name="badge_hands_off">Ruce pryč</string>
+    <string name="badge_hands_off_goal">Zvedni telefon za den méně než 20×.</string>
+    <string name="badge_hands_off_cheer">Méně než 20 zvednutí za den. Tvé ruce našly lepší zábavu.</string>
+    <string name="badge_hands_off_milestone">Méně než 20 zvednutí za den.</string>
+    <string name="badge_urges_resisted">100 odolaných nutkání</string>
+    <string name="badge_urges_resisted_goal">Vyber si pauzu 100× během sezení soustředění.</string>
+    <string name="badge_urges_resisted_cheer">100 nutkání, 100 pauz. Ty tu velíš.</string>
+    <string name="badge_urges_resisted_milestone">Pauza zvolena 100×.</string>
+    <string name="badge_ten_hours_won_back">10 hodin získáno zpět</string>
+    <string name="badge_ten_hours_won_back_goal">Získej zpět 10 hodin ze svého starého zvyku s telefonem.</string>
+    <string name="badge_ten_hours_won_back_cheer">10 hodin zpátky v tvém životě. Co s nimi uděláš?</string>
+    <string name="badge_ten_hours_won_back_milestone">10 hodin získaných zpět ze starého zvyku.</string>
+    <string name="badge_fifty_hours_won_back">50 hodin získáno zpět</string>
+    <string name="badge_fifty_hours_won_back_goal">Získej zpět 50 hodin ze svého starého zvyku s telefonem.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50 hodin získáno zpět. To je víc než pracovní týden.</string>
+    <string name="badge_fifty_hours_won_back_milestone">50 hodin získaných zpět ze starého zvyku.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">Série</string>
+    <string name="streak_best_yet">dní v sérii · tvůj dosavadní rekord</string>
+    <string name="streak_best">dní v sérii · rekord: %1$s</string>
+    <string name="streak_this_week">Tento týden</string>
+    <plurals name="streak_savers_left">
+        <item quantity="one">Zbývá %d záchrana série</item>
+        <item quantity="few">Zbývají %d záchrany série</item>
+        <item quantity="many">Zbývá %d záchrany série</item>
+        <item quantity="other">Zbývá %d záchran série</item>
+    </plurals>
+    <string name="streak_saver_used">Využita: %1$s — tvá série zůstala v bezpečí.</string>
+    <string name="streak_saver_unused">Jeden den nad cílem? Záchrana série tvou sérii ochrání.</string>
+    <string name="streak_savers_out">Žádná záchrana série tento měsíc nezbývá. Nové přibudou prvního v měsíci.</string>
+    <plurals name="streak_days_to">
+        <item quantity="one">%1$d den do „%2$s“</item>
+        <item quantity="few">%1$d dny do „%2$s“</item>
+        <item quantity="many">%1$d dne do „%2$s“</item>
+        <item quantity="other">%1$d dní do „%2$s“</item>
+    </plurals>
+    <string name="streak_all_done">Všechny odznaky za série jsou tvoje. Nepolevuj!</string>
+    <string name="streak_help">Jak fungují série</string>
+    <string name="streak_help_body">Každý den pod denním cílem přidá do série jedničku. Překročený cíl? Záchrana série ten den pokryje — každý měsíc dostaneš 3.</string>
+    <string name="streak_help_ok">Rozumím</string>
+    <string name="streak_day_on_target">%1$s: pod cílem</string>
+    <string name="streak_day_saved">%1$s: zachráněno záchranou série</string>
+    <string name="streak_day_missed">%1$s: nad cílem</string>
+    <string name="streak_day_today">%1$s: dnes</string>
+    <string name="streak_day_empty">%1$s: žádná data</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">Milníky</string>
+    <plurals name="milestones_since">
+        <item quantity="one">Od začátku · %d den</item>
+        <item quantity="few">Od začátku · %d dny</item>
+        <item quantity="many">Od začátku · %d dne</item>
+        <item quantity="other">Od začátku · %d dní</item>
+    </plurals>
+    <string name="milestones_next">Další</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">Sdílet</string>
+    <string name="share_won_back">Mám zpět</string>
+    <string name="share_in_month">za měsíc %1$s s aplikací Recentr</string>
+    <string name="share_earned">Odznak získán</string>
+    <string name="share_with_recentr">s aplikací Recentr</string>
+    <string name="share_streak_chip">%1$d-denní série</string>
+    <string name="share_daily_chip">%1$s denně</string>
+    <string name="share_level_chip">Úroveň %1$d</string>
+    <string name="share_stories">Stories</string>
+    <string name="share_post">Příspěvek</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">Kopírovat odkaz</string>
+    <string name="share_save">Uložit</string>
+    <string name="share_done">Hotovo</string>
+    <string name="share_text_month">Zpět mám %1$s za měsíc %2$s s aplikací Recentr. %3$s</string>
+    <string name="share_text_badge">Odznak „%1$s“ získán s aplikací Recentr. %2$s</string>
+    <string name="share_copied">Zkopírováno</string>
+    <string name="share_saved">Uloženo do složky Obrázky</string>
+    <string name="share_save_failed">Obrázek se nepodařilo uložit</string>
+</resources>

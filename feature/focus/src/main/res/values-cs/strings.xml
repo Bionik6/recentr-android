@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. -->
+<resources>
+    <string name="focus_title">Časovač</string>
+    <string name="focus_more">Další možnosti</string>
+    <string name="focus_close">Zavřít</string>
+    <string name="focus_back">Zpět</string>
+
+    <!-- 91 · Focus — Set up -->
+    <string name="focus_minutes_preset">%d min</string>
+    <string name="focus_dial_description">Délka soustředění: %d min. Změníš ji tažením.</string>
+    <string name="focus_sound">Zvuk</string>
+    <string name="focus_block">Blokovat</string>
+    <string name="focus_block_more">+%d</string>
+    <string name="focus_block_none">Nic</string>
+    <string name="focus_rounds">Kola</string>
+    <string name="focus_rounds_value">%1$d × %2$d min</string>
+    <string name="focus_start">Začít soustředění</string>
+    <string name="focus_dial_value">%d:00</string>
+    <string name="focus_strict_mode">Přísný režim</string>
+    <string name="focus_strict_caption">Přísný režim: bez pauzy a předčasného ukončení</string>
+    <string name="focus_strict_note">Přísný režim: soustředění skončí samo</string>
+    <string name="focus_strict_confirm_title">Zapnout Přísný režim?</string>
+    <string name="focus_strict_confirm_body">Soustředění nepůjde pozastavit ani předčasně ukončit. Přestávky ale zůstanou.</string>
+    <string name="focus_strict_turn_on">Zapnout</string>
+    <string name="focus_cancel">Zrušit</string>
+    <string name="focus_back_to_focus">Zpět k soustředění</string>
+    <string name="focus_back_to_focus_left">Zpět k soustředění · %1$s</string>
+    <string name="focus_rename">Přejmenovat</string>
+    <string name="focus_rename_title">Pojmenuj toto sezení</string>
+    <string name="focus_rename_save">Uložit</string>
+    <string name="focus_log">Záznam soustředění</string>
+    <string name="focus_change_sound">Změnit zvuk</string>
+
+    <!-- 92 · Focus — Running -->
+    <string name="focus_round_of">Kolo %1$d z %2$d</string>
+    <string name="focus_left_ends">zbývá · končí v %s</string>
+    <string name="focus_paused_round_of">Pauza · kolo %1$d z %2$d</string>
+    <string name="focus_ready_round_of">Připraveno na kolo %1$d z %2$d</string>
+    <string name="focus_round_n">Kolo %d</string>
+    <string name="focus_take_your_time">Nespěchej</string>
+    <string name="focus_paused_for">v pauze už %s</string>
+    <plurals name="focus_apps_on_hold">
+        <item quantity="one">%d pozastavená aplikace</item>
+        <item quantity="few">%d pozastavené aplikace</item>
+        <item quantity="many">%d pozastavené aplikace</item>
+        <item quantity="other">%d pozastavených aplikací</item>
+    </plurals>
+    <plurals name="focus_apps_still_on_hold">
+        <item quantity="one">%d aplikace je stále pozastavená</item>
+        <item quantity="few">%d aplikace jsou stále pozastavené</item>
+        <item quantity="many">%d aplikace je stále pozastavená</item>
+        <item quantity="other">%d aplikací je stále pozastaveno</item>
+    </plurals>
+    <string name="focus_pause">Pauza</string>
+    <string name="focus_resume">Pokračovat</string>
+    <string name="focus_start_round">Začít kolo</string>
+    <string name="focus_end_session">Ukončit sezení</string>
+    <string name="focus_restart_round">Restartovat kolo</string>
+    <string name="focus_round_restarted">Kolo %d restartováno</string>
+    <string name="focus_undo">Vrátit</string>
+
+    <!-- 93 · Focus — Sounds -->
+    <string name="sounds_title">Zvuky soustředění</string>
+    <string name="sounds_subtitle_none">Zapni jich, kolik chceš.</string>
+    <string name="sounds_subtitle_on">Zapnuto: %1$s</string>
+    <string name="sounds_subtitle_on_muted">Zapnuto: %1$s · ztlumeno: %2$d</string>
+    <string name="sounds_subtitle_muted">Nic nehraje · ztlumeno: %d</string>
+    <string name="sounds_mute_all">Ztlumit vše</string>
+    <string name="sounds_unmute_all">Zrušit ztlumení všech</string>
+    <string name="sounds_on_count">Zapnuto: %d</string>
+    <string name="sounds_volume">Hlasitost</string>
+    <string name="sounds_volume_value">%d %%</string>
+    <string name="sound_state_off">Vypnuto</string>
+    <string name="sound_state_muted">Ztlumeno</string>
+    <string name="sound_turn_on">Zapnout</string>
+    <string name="sound_mute">Ztlumit</string>
+    <string name="sound_unmute">Zrušit ztlumení</string>
+    <string name="sound_mix_off">Vypnuto</string>
+    <string name="sound_mix_more">%1$s + %2$d</string>
+    <string name="sound_add">Přidat zvuk</string>
+    <string name="sound_category_rain">Déšť</string>
+    <string name="sound_category_water">Voda</string>
+    <string name="sound_category_nature">Příroda</string>
+    <string name="sound_category_places">Místa</string>
+    <string name="sound_category_steady">Tikání a šum</string>
+    <string name="sound_soft_rain">Jemný déšť</string>
+    <string name="sound_heavy_rain">Silný déšť</string>
+    <string name="sound_forest_rain">Déšť v lese</string>
+    <string name="sound_rain_village">Déšť na vsi</string>
+    <string name="sound_thunder">Hrom</string>
+    <string name="sound_river">Řeka</string>
+    <string name="sound_small_river">Potok</string>
+    <string name="sound_beach">Pláž</string>
+    <string name="sound_sea_beach">Pobřeží</string>
+    <string name="sound_soft_beach">Klidný břeh</string>
+    <string name="sound_whale">Velryby</string>
+    <string name="sound_forest_night">Noční les</string>
+    <string name="sound_birds">Ptáci</string>
+    <string name="sound_crickets">Cvrčci</string>
+    <string name="sound_cicada_birds">Cikády</string>
+    <string name="sound_farm">Farma</string>
+    <string name="sound_wind">Vítr</string>
+    <string name="sound_campfire">Táborák</string>
+    <string name="sound_coffee_shop">Kavárna</string>
+    <string name="sound_office">Kancelář</string>
+    <string name="sound_street_traffic">Ulice</string>
+    <string name="sound_construction">Stavba</string>
+    <string name="sound_keyboard_typing">Psaní</string>
+    <string name="sound_clock_tick">Hodiny</string>
+    <string name="sound_clock_stopwatch">Stopky</string>
+    <string name="sound_white_noise">Bílý šum</string>
+    <string name="sound_pink_noise">Růžový šum</string>
+    <string name="sounds_done">Hotovo</string>
+
+    <!-- 94 · Focus — Break -->
+    <string name="break_title">Přestávka</string>
+    <string name="break_round_done">Kolo %1$d hotovo · zbývá: %2$d</string>
+    <string name="break_until">do kola %d</string>
+    <string name="break_ideas_title">Zkus tohle místo scrollování</string>
+    <string name="break_idea_window">Podívej se z okna</string>
+    <string name="break_idea_window_hint">20 sekund, 20 metrů daleko</string>
+    <string name="break_idea_water">Napij se sklenice vody</string>
+    <string name="break_idea_water_hint">Tvůj mozek ti poděkuje</string>
+    <string name="break_idea_stretch">Protáhni si ramena</string>
+    <string name="break_idea_stretch_hint">Pětkrát zakrouž rameny dozadu</string>
+    <string name="break_skip">Přeskočit přestávku</string>
+
+    <!-- 95 · Focus — Session complete -->
+    <plurals name="complete_title">
+        <item quantity="one">%1$d minuta: %2$s</item>
+        <item quantity="few">%1$d minuty: %2$s</item>
+        <item quantity="many">%1$d minuty: %2$s</item>
+        <item quantity="other">%1$d minut: %2$s</item>
+    </plurals>
+    <plurals name="complete_rounds">
+        <item quantity="one">%d kolo</item>
+        <item quantity="few">%d kola</item>
+        <item quantity="many">%d kola</item>
+        <item quantity="other">%d kol</item>
+    </plurals>
+    <string name="complete_zero_unlocks">žádné odemknutí</string>
+    <plurals name="complete_unlocks">
+        <item quantity="one">%d odemknutí</item>
+        <item quantity="few">%d odemknutí</item>
+        <item quantity="many">%d odemknutí</item>
+        <item quantity="other">%d odemknutí</item>
+    </plurals>
+    <string name="complete_summary">%1$s · %2$s.</string>
+    <string name="complete_longest">%1$s · %2$s. To je tento týden tvůj rekord.</string>
+    <string name="complete_focus_streak">Série soustředění</string>
+    <plurals name="complete_days">
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="many">%d dne</item>
+        <item quantity="other">%d dní</item>
+    </plurals>
+    <string name="complete_urges">Odolaná nutkání</string>
+    <string name="complete_urges_today">dnes: %d</string>
+    <string name="complete_note_title">Co se ti povedlo?</string>
+    <string name="complete_note_placeholder">Osnova 3. kapitoly + dvě stránky. Telefon zůstal displejem dolů.</string>
+    <string name="complete_another">Začít další kolo</string>
+    <string name="complete_done">Hotovo</string>
+
+    <!-- 96 · Focus — App on hold -->
+    <string name="hold_title">Soustředíš se už %d min</string>
+    <string name="hold_leave_body">Tvé aplikace zůstanou pozastavené do %s. Vydrž — jde ti to skvěle.</string>
+    <string name="hold_back">Zpět k soustředění</string>
+    <string name="hold_end">Ukončit sezení dřív</string>
+    <string name="hold_keep_focusing">Soustředit se dál</string>
+    <string name="hold_end_now">Ukončit teď?</string>
+    <plurals name="hold_end_apps">
+        <item quantity="one">Ukonči teď a tvoje aplikace se vrátí.</item>
+        <item quantity="few">Ukonči teď a tvé %d aplikace se vrátí.</item>
+        <item quantity="many">Ukonči teď a tvé %d aplikace se vrátí.</item>
+        <item quantity="other">Ukonči teď a tvých %d aplikací se vrátí.</item>
+    </plurals>
+    <string name="hold_end_minutes">%1$s Těch %2$d min se ti i tak započítá.</string>
+
+    <!-- 97 · Focus — History -->
+    <string name="history_title">Záznam soustředění</string>
+    <string name="history_this_week">Tento týden</string>
+    <string name="history_sessions">Sezení</string>
+    <string name="history_today">Dnes, %s</string>
+    <string name="history_yesterday">Včera, %s</string>
+    <string name="history_day">%1$s, %2$s</string>
+    <string name="history_empty">Zatím žádná sezení. Tvá sezení soustředění se objeví tady.</string>
+    <string name="history_clear">Vymazat záznam</string>
+    <string-array name="focus_day_letters">
+        <item>P</item>
+        <item>Ú</item>
+        <item>S</item>
+        <item>Č</item>
+        <item>P</item>
+        <item>S</item>
+        <item>N</item>
+    </string-array>
+
+    <!-- 98 · Focus — Rounds -->
+    <string name="rounds_title">Kola</string>
+    <string name="rounds_subtitle">Pracuj v kolech s krátkými přestávkami mezi nimi.</string>
+    <string name="rounds_focus">Soustředění</string>
+    <string name="rounds_short_break">Krátká přestávka</string>
+    <string name="rounds_count">Kola</string>
+    <string name="rounds_long_break">Dlouhá přestávka</string>
+    <string name="rounds_minutes">%d min</string>
+    <string name="rounds_auto_start">Automaticky spustit další kolo</string>
+    <string name="rounds_total">Celkem: %s s přestávkami</string>
+    <string name="rounds_save">Uložit kola</string>
+    <string name="rounds_decrease">Snížit: %s</string>
+    <string name="rounds_increase">Zvýšit: %s</string>
+
+    <!-- Block apps -->
+    <string name="duration_h">%1$d h</string>
+    <string name="duration_m">%1$d min</string>
+    <string name="duration_h_m">%1$d h %2$d min</string>
+    <string name="focus_notification_channel">Časovač soustředění</string>
+    <string name="focus_notification_channel_description">Probíhající sezení — zvuky hrají, i když je Recentr zavřený.</string>
+    <string name="focus_notification_round">Kolo %1$d z %2$d</string>
+    <string name="focus_notification_break">Přestávka · příště kolo %1$d</string>
+    <string name="focus_notification_paused">Pauza · kolo %1$d z %2$d</string>
+</resources>

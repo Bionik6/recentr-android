@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Indonesian. -->
+<resources>
+    <string name="ds_tab_home">Beranda</string>
+    <string name="ds_tab_rules">Aturan</string>
+    <string name="ds_tab_timer">Timer</string>
+    <string name="ds_tab_insights">Insight</string>
+    <string name="ds_skip">Lewati</string>
+    <string name="ds_back">Kembali</string>
+    <string name="ds_clear">Hapus</string>
+    <string name="ds_more_options">Opsi lainnya</string>
+    <string name="ds_goal_title">Target harian</string>
+    <string name="ds_goal_subtitle">Recentr akan mengingatkanmu saat sudah dekat.</string>
+    <string name="ds_goal_save">Simpan target</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Pilih cepat</string>
+    <string name="ds_duration_minutes">%1$d mnt</string>
+    <string name="ds_duration_hours">%1$d j</string>
+    <string name="ds_duration_hours_minutes">%1$d j %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Aktifkan pemblokiran aplikasi</string>
+    <string name="ds_blocking_body">Untuk menahan aplikasi yang kamu blokir, Recentr memakai layanan Aksesibilitas Android. Layanan ini hanya melihat aplikasi mana yang kamu buka — tidak pernah isi layarmu — dan tidak ada data yang keluar dari ponselmu.</string>
+    <string name="ds_blocking_steps">Di Pengaturan › Aksesibilitas, buka “Pemblokiran aplikasi Recentr” (di bawah Aplikasi terinstal atau Aplikasi terunduh) lalu aktifkan.</string>
+    <string name="ds_blocking_open_settings">Buka Pengaturan</string>
+    <string name="ds_blocking_not_now">Nanti saja</string>
+    <string name="ds_blocking_off_title">Pemblokiran nonaktif</string>
+    <string name="ds_blocking_off_body">Aktifkan agar aturan dan sesi fokusmu bisa menahan aplikasi.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Hubungkan Recentr ke waktu layar</string>
+    <string name="ds_usage_access_body">Recentr butuh Akses penggunaan untuk menghitung waktu layar, pengambilan, dan notifikasimu. Semuanya tetap di ponselmu.</string>
+    <string name="ds_usage_access_connect">Hubungkan</string>
+</resources>

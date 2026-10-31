@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Korean. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">뒤로</string>
+    <string name="insights_close">닫기</string>
+    <string name="insights_more">더보기</string>
+    <string name="insights_duration_m">%1$d분</string>
+    <string name="insights_duration_h">%1$d시간</string>
+    <string name="insights_duration_h_m">%1$d시간 %2$02d분</string>
+    <string name="insights_duration_compact">%1$d시간 %2$02d분</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d%%</string>
+    <string name="insights_date">%1$s %2$d일</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>월요일</item>
+        <item>화요일</item>
+        <item>수요일</item>
+        <item>목요일</item>
+        <item>금요일</item>
+        <item>토요일</item>
+        <item>일요일</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>1월</item>
+        <item>2월</item>
+        <item>3월</item>
+        <item>4월</item>
+        <item>5월</item>
+        <item>6월</item>
+        <item>7월</item>
+        <item>8월</item>
+        <item>9월</item>
+        <item>10월</item>
+        <item>11월</item>
+        <item>12월</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>1월</item>
+        <item>2월</item>
+        <item>3월</item>
+        <item>4월</item>
+        <item>5월</item>
+        <item>6월</item>
+        <item>7월</item>
+        <item>8월</item>
+        <item>9월</item>
+        <item>10월</item>
+        <item>11월</item>
+        <item>12월</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">인사이트</string>
+    <string name="insights_tab_day">일</string>
+    <string name="insights_tab_week">주</string>
+    <string name="insights_tab_month">월</string>
+    <string name="insights_daily_average">일평균</string>
+    <string name="insights_screen_time_today">오늘 스크린 타임</string>
+    <string name="insights_screen_time_yesterday">어제 스크린 타임</string>
+    <string name="insights_screen_time">스크린 타임</string>
+    <string name="insights_vs_last_week">지난주 대비 %1$s</string>
+    <string name="insights_vs_yesterday">어제 대비 %1$s</string>
+    <string name="insights_vs_day_before">전날 대비 %1$s</string>
+    <string name="insights_vs_week_before">전주 대비 %1$s</string>
+    <string name="insights_goal_line">목표 %1$s</string>
+    <string name="insights_by_category">카테고리별</string>
+    <string name="insights_no_usage">아직 스크린 타임이 없어요.</string>
+    <string name="insights_top_apps">많이 쓴 앱</string>
+    <string name="insights_no_apps">아직 사용한 앱이 없어요.</string>
+    <string name="insights_see_more">더 보기</string>
+    <string name="insights_category_social">소셜</string>
+    <string name="insights_category_video">동영상</string>
+    <string name="insights_category_music">음악</string>
+    <string name="insights_category_games">게임</string>
+    <string name="insights_category_productivity">생산성</string>
+    <string name="insights_category_other">기타</string>
+    <string name="insights_menu_pickups">폰 확인</string>
+    <string name="insights_menu_daily_goal">일일 목표</string>
+    <string name="insights_menu_streak">연속 기록</string>
+    <string name="insights_menu_achievements">업적</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">목표 이내</string>
+    <string name="insights_less">적음</string>
+    <string name="insights_more_legend">많음</string>
+    <string name="insights_best_day">최고의 날</string>
+    <string name="insights_toughest_day">가장 힘든 날</string>
+    <string name="insights_see_report">%1$s 리포트 보기</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: 데이터 없음</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">오늘</string>
+    <string name="insights_period_yesterday">어제</string>
+    <string name="insights_period_week">이번 주</string>
+    <string name="insights_period_month">이번 달</string>
+    <string name="insights_period_last_week">지난주</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%2$s (%1$s)</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%2$d년 %1$s</string>
+    <string name="insights_previous">이전</string>
+    <string name="insights_next">다음</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="other">%d회 실행</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · 한도보다 %2$s 초과</string>
+    <string name="insights_left_in_limit">%1$s · 한도까지 %2$s 남음</string>
+    <string name="insights_by_hour">시간대별</string>
+    <string name="insights_longest_session">가장 긴 사용</string>
+    <string name="insights_first_open">첫 실행</string>
+    <string name="insights_usual_first_open">평소 첫 실행</string>
+    <string name="insights_noticed">Recentr가 알아챈 것</string>
+    <string name="insights_noticed_idle">%1$s 앱은 거의 열지 않았어요. 이대로 쭉 가요.</string>
+    <string name="insights_noticed_checks">%1$s 앱을 하루 %2$d번, 잠깐씩 열어요. 열리기 전에 몇 초만 멈추면 반사적인 습관이 끊겨요.</string>
+    <string name="insights_noticed_night">%1$s 사용 시간의 대부분이 %2$s 이후예요. 취침 루틴으로 되찾을 수 있어요.</string>
+    <string name="insights_noticed_morning">%1$s 사용 시간의 대부분이 %2$s 이전이에요. 차분한 아침 루틴으로 되찾을 수 있어요.</string>
+    <string name="insights_noticed_work">%1$s 사용 시간의 대부분이 근무 시간이에요. 집중 세션으로 되찾을 수 있어요.</string>
+    <string name="insights_noticed_evening">%1$s 사용 시간의 대부분이 저녁이에요. 한도를 두면 되찾을 수 있어요.</string>
+    <string name="insights_noticed_spread">%1$s 사용 시간이 하루 내내 퍼져 있어요. 한도를 두면 조절할 수 있어요.</string>
+    <string name="insights_set_limit">한도 설정</string>
+    <string name="insights_edit_limit">한도 편집</string>
+    <string name="insights_block_app">%1$s 차단</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">폰 확인</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="other">오늘 폰 확인</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="other">어제 폰 확인</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="other">그날 폰 확인</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="other">하루 폰 확인</item>
+    </plurals>
+    <string name="insights_first_pickup">첫 확인 %1$s</string>
+    <string name="insights_usual_first_pickup">보통 첫 확인 %1$s</string>
+    <string name="insights_no_pickup">아직 폰 확인 없음</string>
+    <string name="insights_when_pick_up">폰을 확인하는 때</string>
+    <string name="insights_opened_first">폰 확인 후 가장 먼저 연 앱</string>
+    <string name="insights_open_count">%1$d회</string>
+    <string name="insights_no_first_open">폰 확인 후 연 앱이 아직 없어요.</string>
+    <string name="insights_tip_bedroom">침실 밖에서 폰을 충전해 보세요. %1$s 폰 확인이 한결 쉬워져요.</string>
+    <string name="insights_tip_reflex">%1$s 앱이 가장 먼저 여는 앱이에요. 홈 화면에서 치우면 반사적인 습관이 끊겨요.</string>
+    <string name="insights_tip_evening">저녁에 폰 확인이 가장 많아요. 취침 루틴으로 폰을 내려놓아 봐요.</string>
+    <string name="insights_tip_default">참아 낸 폰 확인 하나하나가 모두 승리예요. 폰을 엎어 두는 것부터 시작해 봐요.</string>
+    <string name="insights_start_bedtime">취침 루틴 시작하기</string>
+    <string name="insights_heat_cd">%1$s ~ %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">%1$s 리포트</string>
+    <plurals name="insights_hours">
+        <item quantity="other">%d시간</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="other">%d분</item>
+    </plurals>
+    <string name="insights_won_back_month">이번 달 되찾았어요</string>
+    <string name="insights_pickups_a_day_label">하루 폰 확인</string>
+    <string name="insights_best_streak">최고 연속 기록</string>
+    <plurals name="insights_days">
+        <item quantity="other">%d일</item>
+    </plurals>
+    <string name="insights_new">신규</string>
+    <string name="insights_share_month">이번 달 공유하기</string>
+    <string name="insights_replay">다시 보기</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">일일 목표</string>
+    <string name="insights_edit_goal">일일 목표 편집</string>
+    <string name="insights_days_on_target">%2$d일 중 %1$d일 목표 달성</string>
+    <string name="insights_goal_under">목표: 하루 %1$s 미만</string>
+    <string name="insights_adjust_goal">목표 조정</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">업적</string>
+    <string name="achievements_earned_count">%2$d개 중 %1$d개 획득</string>
+    <string name="achievements_level">레벨 %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>새로운 시작</item>
+        <item>평온 찾기</item>
+        <item>흔들림 없는 손</item>
+        <item>평온 지킴이</item>
+        <item>깊은 집중</item>
+        <item>젠 마스터</item>
+        <item>오프라인 전설</item>
+    </string-array>
+    <string name="achievements_points">평온 포인트 %1$d / %2$d</string>
+    <string name="achievements_points_max">평온 포인트 %1$d</string>
+    <string name="achievements_all">전체</string>
+    <string name="achievements_earned">획득</string>
+    <string name="achievements_next_up">다음 목표</string>
+    <string name="achievements_none_earned">첫 배지가 곧 찾아와요.</string>
+    <string name="achievements_all_earned">배지를 모두 모았어요. 우와.</string>
+    <string name="achievements_progress_days">%1$d / %2$d일</string>
+    <string name="achievements_progress_nights">%1$d / %2$d일 밤</string>
+    <string name="achievements_progress_mornings">%1$d / %2$d일 아침</string>
+    <string name="achievements_progress_hours">%1$d / %2$d시간</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">%2$d일 중 %1$d일</string>
+    <string name="achievements_of_nights">%2$d일 밤 중 %1$d일</string>
+    <string name="achievements_of_mornings">%2$d일 아침 중 %1$d일</string>
+    <string name="achievements_of_hours">%2$d시간 중 %1$d시간</string>
+    <string name="achievements_of_urges">충동 %2$d회 중 %1$d회</string>
+    <string name="achievements_not_yet">아직 획득 전</string>
+    <string name="achievements_points_reward">평온 포인트 +%1$d</string>
+    <string name="achievements_got_it">확인</string>
+    <string name="achievements_locked_cd">%1$s, 잠김, %2$s</string>
+    <string name="achievements_earned_cd">%1$s, %2$s 획득</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">새 배지</string>
+    <string name="achievements_earned_on">%1$s 획득</string>
+    <string name="achievements_nice">좋아요!</string>
+    <string name="achievements_share_badge">배지 공유</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">첫 잠금</string>
+    <string name="badge_first_lock_goal">첫 규칙으로 앱을 차단해요.</string>
+    <string name="badge_first_lock_cheer">첫 규칙이 시작됐어요. 작은 잠금, 큰 성과.</string>
+    <string name="badge_first_lock_milestone">%1$s 앱을 처음 차단했어요.</string>
+    <string name="badge_first_lock_milestone_any">첫 차단 규칙을 설정했어요.</string>
+    <string name="badge_note_to_self">나에게 쓰는 메모</string>
+    <string name="badge_note_to_self_goal">규칙 중 하나에 이유를 적어 둬요.</string>
+    <string name="badge_note_to_self_cheer">이유를 적어 뒀어요. 마음을 다잡는 데 도움이 될 거예요.</string>
+    <string name="badge_note_to_self_milestone">왜 이걸 하는지 적어 뒀어요.</string>
+    <string name="badge_first_focus">첫 집중</string>
+    <string name="badge_first_focus_goal">첫 집중 세션을 마쳐요.</string>
+    <string name="badge_first_focus_cheer">세션 하나 완료. 집중 근육이 몸을 풀고 있어요.</string>
+    <string name="badge_first_focus_milestone">첫 집중 세션.</string>
+    <string name="badge_focus_ten_hours">집중 10시간</string>
+    <string name="badge_focus_ten_hours_goal">집중 세션에서 10시간을 보내요.</string>
+    <string name="badge_focus_ten_hours_cheer">10시간의 깊은 집중. 하루 근무 시간을 통째로 되찾았어요.</string>
+    <string name="badge_focus_ten_hours_milestone">집중 세션 10시간.</string>
+    <string name="badge_seven_day_streak">7일 연속</string>
+    <string name="badge_seven_day_streak_goal">7일 동안 연속 기록을 이어 가요.</string>
+    <string name="badge_seven_day_streak_cheer">일주일 내내 목표 이내. 불꽃을 계속 살려 봐요.</string>
+    <string name="badge_seven_day_streak_milestone">일주일 내내 목표 이내.</string>
+    <string name="badge_goal_crusher">목표 정복자</string>
+    <string name="badge_goal_crusher_goal">일일 목표 이내를 7일 연속 지켜요.</string>
+    <string name="badge_goal_crusher_cheer">보호권 없이 7일 연속 목표 이내. 해냈어요.</string>
+    <string name="badge_goal_crusher_milestone">보호권 없이 7일 연속 목표 이내.</string>
+    <string name="badge_two_calm_weeks">차분한 2주</string>
+    <string name="badge_two_calm_weeks_goal">14일 동안 연속 기록을 이어 가요.</string>
+    <string name="badge_two_calm_weeks_cheer">차분한 2주. 이제 습관이 되어 가고 있어요.</string>
+    <string name="badge_two_calm_weeks_milestone">14일 연속 목표 이내.</string>
+    <string name="badge_calm_month">차분한 한 달</string>
+    <string name="badge_calm_month_goal">30일 동안 연속 기록을 이어 가요.</string>
+    <string name="badge_calm_month_cheer">한 달 내내 차분했어요. 전설이에요.</string>
+    <string name="badge_calm_month_milestone">30일 연속 목표 이내.</string>
+    <string name="badge_night_owl">올빼미 은퇴</string>
+    <string name="badge_night_owl_goal">%1$s 이후 화면 없이 7일 밤 연속.</string>
+    <string name="badge_night_owl_cheer">%1$s 이후 화면 없이 7일 밤 연속. 수면이 고마워해요.</string>
+    <string name="badge_night_owl_milestone">7일 밤 동안 %1$s 이후 화면 없음.</string>
+    <string name="badge_slow_mornings">느긋한 아침</string>
+    <string name="badge_slow_mornings_goal">%1$s 전까지 화면 없이 5일 아침 연속.</string>
+    <string name="badge_slow_mornings_cheer">느긋한 아침 5번. 하루가 피드가 아닌 나로 시작돼요.</string>
+    <string name="badge_slow_mornings_milestone">5일 아침 동안 %1$s 전 화면 없음.</string>
+    <string name="badge_screen_free_sunday">스크린 프리 일요일</string>
+    <string name="badge_screen_free_sunday_goal">일요일 하루를 스크린 타임 30분 미만으로 보내요.</string>
+    <string name="badge_screen_free_sunday_cheer">거의 오프라인이었던 일요일. 한결 가볍지 않나요?</string>
+    <string name="badge_screen_free_sunday_milestone">스크린 타임 30분 미만의 일요일.</string>
+    <string name="badge_gentle_day">부드러운 하루</string>
+    <string name="badge_gentle_day_goal">하루 종일 스크린 타임을 1시간 미만으로 보내요.</string>
+    <string name="badge_gentle_day_cheer">하루 종일 1시간 미만. 눈과 마음이 편안했을 거예요.</string>
+    <string name="badge_gentle_day_milestone">하루 종일 1시간 미만.</string>
+    <string name="badge_hands_off">손 떼기</string>
+    <string name="badge_hands_off_goal">하루 폰 확인을 20번 미만으로 해요.</string>
+    <string name="badge_hands_off_cheer">하루 폰 확인 20번 미만. 손이 더 멋진 일을 찾았네요.</string>
+    <string name="badge_hands_off_milestone">하루 폰 확인 20번 미만.</string>
+    <string name="badge_urges_resisted">충동 100번 참기</string>
+    <string name="badge_urges_resisted_goal">집중 세션 중 멈춤을 100번 선택해요.</string>
+    <string name="badge_urges_resisted_cheer">충동 100번, 멈춤 100번. 주도권은 나에게 있어요.</string>
+    <string name="badge_urges_resisted_milestone">멈춤을 100번 선택했어요.</string>
+    <string name="badge_ten_hours_won_back">10시간 되찾기</string>
+    <string name="badge_ten_hours_won_back_goal">예전 폰 습관에서 10시간을 되찾아요.</string>
+    <string name="badge_ten_hours_won_back_cheer">인생에 10시간이 돌아왔어요. 어디에 쓸까요?</string>
+    <string name="badge_ten_hours_won_back_milestone">예전 습관에서 10시간을 되찾았어요.</string>
+    <string name="badge_fifty_hours_won_back">50시간 되찾기</string>
+    <string name="badge_fifty_hours_won_back_goal">예전 폰 습관에서 50시간을 되찾아요.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50시간을 되찾았어요. 일주일 근무 시간보다 많아요.</string>
+    <string name="badge_fifty_hours_won_back_milestone">예전 습관에서 50시간을 되찾았어요.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">연속 기록</string>
+    <string name="streak_best_yet">일 연속 · 역대 최고</string>
+    <string name="streak_best">일 연속 · 최고 %1$s</string>
+    <string name="streak_this_week">이번 주</string>
+    <plurals name="streak_savers_left">
+        <item quantity="other">연속 기록 보호권 %d개 남음</item>
+    </plurals>
+    <string name="streak_saver_used">%1$s에 하나 사용했어요 — 연속 기록이 무사해요.</string>
+    <string name="streak_saver_unused">하루 목표를 넘겼나요? 보호권이 연속 기록을 지켜 줘요.</string>
+    <string name="streak_savers_out">이번 달 보호권을 다 썼어요. 새 보호권은 1일에 도착해요.</string>
+    <plurals name="streak_days_to">
+        <item quantity="other">“%2$s”까지 %1$d일</item>
+    </plurals>
+    <string name="streak_all_done">연속 기록 배지를 모두 모았어요. 계속 이어 가요!</string>
+    <string name="streak_help">연속 기록 알아보기</string>
+    <string name="streak_help_body">일일 목표 이내인 날마다 연속 기록이 하루씩 늘어요. 목표를 넘겼나요? 보호권이 그날을 지켜 줘요 — 매달 3개씩 받아요.</string>
+    <string name="streak_help_ok">확인</string>
+    <string name="streak_day_on_target">%1$s: 목표 이내</string>
+    <string name="streak_day_saved">%1$s: 보호권으로 지킴</string>
+    <string name="streak_day_missed">%1$s: 목표 초과</string>
+    <string name="streak_day_today">%1$s: 오늘</string>
+    <string name="streak_day_empty">%1$s: 데이터 없음</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">마일스톤</string>
+    <plurals name="milestones_since">
+        <item quantity="other">시작한 지 · %d일</item>
+    </plurals>
+    <string name="milestones_next">다음</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">공유</string>
+    <string name="share_won_back">내가 되찾은 시간</string>
+    <string name="share_in_month">%1$s, Recentr와 함께</string>
+    <string name="share_earned">내가 얻은 배지</string>
+    <string name="share_with_recentr">Recentr와 함께</string>
+    <string name="share_streak_chip">%1$d일 연속</string>
+    <string name="share_daily_chip">하루 %1$s</string>
+    <string name="share_level_chip">레벨 %1$d</string>
+    <string name="share_stories">스토리</string>
+    <string name="share_post">게시</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">링크 복사</string>
+    <string name="share_save">저장</string>
+    <string name="share_done">완료</string>
+    <string name="share_text_month">%2$s 동안 Recentr로 %1$s 되찾았어요. %3$s</string>
+    <string name="share_text_badge">Recentr로 “%1$s” 배지를 얻었어요. %2$s</string>
+    <string name="share_copied">복사됨</string>
+    <string name="share_saved">사진에 저장했어요</string>
+    <string name="share_save_failed">이미지를 저장할 수 없어요</string>
+</resources>

@@ -23,6 +23,7 @@ import com.recentr.feature.profile.plus.SubscriptionScreen
 import com.recentr.feature.profile.recap.WeeklyRecapDestination
 import com.recentr.feature.profile.settings.AppearanceScreen
 import com.recentr.feature.profile.settings.HelpScreen
+import com.recentr.feature.profile.settings.DeveloperLanguageScreen
 import com.recentr.feature.profile.settings.LanguageScreen
 import com.recentr.feature.profile.settings.NotificationsScreen
 import com.recentr.feature.profile.settings.SettingsActions
@@ -41,6 +42,8 @@ import kotlinx.serialization.Serializable
 @Serializable internal data object SettingsAppearanceRoute
 
 @Serializable internal data object SettingsLanguageRoute
+
+@Serializable internal data object DeveloperLanguageRoute
 
 @Serializable internal data object SettingsHelpRoute
 
@@ -88,6 +91,7 @@ private fun ProfileDestination(navController: NavHostController) {
  * @param onSignedOut after "Log out" or "Delete account": the app goes back to the onboarding.
  * @param onOpenAlwaysAllowed Settings › Always allowed, a Rules destination.
  * @param onReplayOnboarding / [onOpenDesignSystem] debug-only QA shortcuts listed in Settings.
+ * @param developerLanguage lists Developer › Language in Settings (debug builds, Android 13+).
  */
 fun NavGraphBuilder.profileDestinations(
     navController: NavHostController,
@@ -95,6 +99,7 @@ fun NavGraphBuilder.profileDestinations(
     onOpenAlwaysAllowed: () -> Unit,
     onReplayOnboarding: (() -> Unit)? = null,
     onOpenDesignSystem: (() -> Unit)? = null,
+    developerLanguage: Boolean = false,
 ) {
     val back: () -> Unit = { navController.popBackStack() }
     composable<ProfileRoute> { ProfileDestination(navController) }
@@ -126,6 +131,11 @@ fun NavGraphBuilder.profileDestinations(
                 onOpenAlwaysAllowed = onOpenAlwaysAllowed,
                 onReplayOnboarding = onReplayOnboarding,
                 onOpenDesignSystem = onOpenDesignSystem,
+                onOpenDeveloperLanguage = if (developerLanguage) {
+                    { navController.navigate(DeveloperLanguageRoute) { launchSingleTop = true } }
+                } else {
+                    null
+                },
             ),
         )
     }
@@ -144,6 +154,13 @@ fun NavGraphBuilder.profileDestinations(
         val state by viewModel.state.collectAsStateWithLifecycle()
         LanguageScreen(
             selected = state.settings.language,
+            onBack = back,
+            onSelect = { language -> viewModel.update { it.copy(language = language) } },
+        )
+    }
+    composable<DeveloperLanguageRoute> {
+        val viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
+        DeveloperLanguageScreen(
             onBack = back,
             onSelect = { language -> viewModel.update { it.copy(language = language) } },
         )

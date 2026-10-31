@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hindi. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">प्रोफ़ाइल</string>
+    <string name="profile_edit">प्रोफ़ाइल बदलें</string>
+    <string name="profile_add_name">अपना नाम जोड़ें</string>
+    <string name="profile_open_settings">सेटिंग</string>
+    <plurals name="profile_member_days">
+        <item quantity="one">Recentr के साथ %d दिन</item>
+        <item quantity="other">Recentr के साथ %d दिन</item>
+    </plurals>
+    <string name="profile_before">पहले</string>
+    <string name="profile_now">अब</string>
+    <string name="profile_daily_average">रोज़ का औसत</string>
+    <string name="profile_today">आज</string>
+    <plurals name="profile_last_days">
+        <item quantity="one">पिछले %d दिन</item>
+        <item quantity="other">पिछले %d दिन</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">इस रफ़्तार से</string>
+    <plurals name="profile_life_years">
+        <item quantity="one">आप अपनी ज़िंदगी का %d साल वापस पा रहे हैं</item>
+        <item quantity="other">आप अपनी ज़िंदगी के %d साल वापस पा रहे हैं</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="one">आप अपनी ज़िंदगी का %d महीना वापस पा रहे हैं</item>
+        <item quantity="other">आप अपनी ज़िंदगी के %d महीने वापस पा रहे हैं</item>
+    </plurals>
+    <string name="profile_life_none">फ़ोन से दूर बिताया हर घंटा फिर से आपका है</string>
+    <string name="profile_best_streak">सबसे लंबी स्ट्रीक</string>
+    <plurals name="profile_days">
+        <item quantity="one">%d दिन</item>
+        <item quantity="other">%d दिन</item>
+    </plurals>
+    <string name="profile_urges">तलब पर काबू</string>
+    <string name="profile_recap_ready">आपका साप्ताहिक रिकैप तैयार है</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">प्रोफ़ाइल बदलें</string>
+    <string name="edit_name">नाम</string>
+    <string name="edit_email">ईमेल</string>
+    <string name="edit_name_placeholder">आपका पहला नाम</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">बदलाव सेव करें</string>
+    <string name="edit_avatar_colour">अवतार का रंग बदलें</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">बंद करें</string>
+    <string name="recap_over_name">आपका हफ़्ता, %s</string>
+    <string name="recap_over">आपका हफ़्ता</string>
+    <string name="recap_less">पिछले हफ़्ते से कम स्क्रीन टाइम</string>
+    <string name="recap_more">पिछले हफ़्ते से ज़्यादा स्क्रीन टाइम</string>
+    <string name="recap_same">पिछले हफ़्ते जितना ही स्क्रीन टाइम</string>
+    <string name="recap_saved">बचाया</string>
+    <string name="recap_best_day">सबसे अच्छा दिन</string>
+    <string name="recap_streak">स्ट्रीक</string>
+    <string name="recap_share">मेरा हफ़्ता शेयर करें</string>
+    <string name="recap_share_text">Recentr पर मेरा हफ़्ता: पिछले हफ़्ते की तुलना में स्क्रीन टाइम %1$s, %2$s की बचत और मेरा सबसे अच्छा दिन %3$s रहा।</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">शांत दिनों के लिए हर ज़रूरी टूल</string>
+    <string name="plus_benefit_rules">असीमित नियम और रूटीन</string>
+    <string name="plus_benefit_strict">सख़्त मोड और इमरजेंसी पास</string>
+    <string name="plus_benefit_recaps">साप्ताहिक रिकैप और आत्म-चिंतन</string>
+    <string name="plus_yearly">सालाना</string>
+    <string name="plus_monthly">मासिक</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_per_month">$2.50 / माह</string>
+    <string name="plus_billed_monthly">हर महीने बिल</string>
+    <string name="plus_start_trial">7 दिन का फ़्री ट्रायल शुरू करें</string>
+    <string name="plus_cancel_anytime">कभी भी रद्द करें ·\u0020</string>
+    <string name="plus_restore">खरीदारी बहाल करें</string>
+    <string name="plus_restore_none_title">बहाल करने के लिए कुछ नहीं</string>
+    <string name="plus_restore_none_body">इस अकाउंट के लिए कोई Recentr Plus खरीदारी नहीं मिली।</string>
+    <string name="plus_restore_ok_title">खरीदारी बहाल हो गई</string>
+    <string name="plus_restore_ok_body">इस फ़ोन पर Recentr Plus चालू है।</string>
+    <string name="plus_trial_started">Recentr Plus चालू है — अपने फ़्री हफ़्ते का मज़ा लें</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">सब्सक्रिप्शन</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">%s को रिन्यू होगा</string>
+    <string name="sub_change_plan">प्लान बदलें</string>
+    <string name="sub_restore">खरीदारी बहाल करें</string>
+    <string name="sub_invoices">इनवॉइस</string>
+    <string name="sub_cancel">सब्सक्रिप्शन रद्द करें</string>
+    <string name="sub_change_title">%s पर स्विच करें?</string>
+    <string name="sub_change_body">आपका नया प्लान मौजूदा अवधि खत्म होने पर शुरू होगा।</string>
+    <string name="sub_change_confirm">स्विच करें</string>
+    <string name="sub_cancel_title">Recentr Plus रद्द करें?</string>
+    <string name="sub_cancel_body">मौजूदा अवधि के अंत तक आपके पास Plus रहेगा, फिर आप फ़्री प्लान पर लौट जाएँगे।</string>
+    <string name="sub_cancel_confirm">प्लान रद्द करें</string>
+    <string name="sub_keep">Plus रखें</string>
+    <string name="sub_not_now">अभी नहीं</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">सेटिंग</string>
+    <string name="settings_general">सामान्य</string>
+    <string name="settings_protection">सुरक्षा</string>
+    <string name="settings_support">सहायता</string>
+    <string name="settings_account">अकाउंट</string>
+    <string name="settings_developer">डेवलपर</string>
+    <string name="settings_notifications">नोटिफ़िकेशन</string>
+    <string name="settings_on">चालू</string>
+    <string name="settings_off">बंद</string>
+    <string name="settings_appearance">दिखावट</string>
+    <string name="settings_app_icon">ऐप आइकन</string>
+    <string name="settings_language">भाषा</string>
+    <string name="settings_time_format">समय का फ़ॉर्मैट</string>
+    <string name="time_format_am_pm">AM/PM</string>
+    <string name="time_format_24h">24H</string>
+    <string name="time_format_body">Recentr में समय कैसे दिखे।</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">सख़्त मोड</string>
+    <string name="settings_strict_caption">नए सेशन और रूटीन सख़्त मोड में शुरू होते हैं।</string>
+    <string name="settings_always_allowed">हमेशा अनुमत</string>
+    <string name="settings_always_allowed_none">कोई नहीं</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="one">%d ऐप</item>
+        <item quantity="other">%d ऐप्स</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">इमरजेंसी अनलॉक</string>
+    <string name="settings_unlocks_left">%d बचे</string>
+    <string name="settings_app_blocking">ऐप ब्लॉकिंग</string>
+    <string name="settings_unlock_pass">अनलॉक पास</string>
+    <string name="settings_pass_none">कोई नहीं</string>
+    <string name="settings_pass_rules">%d नियम</string>
+    <string name="settings_help">सहायता और फ़ीडबैक</string>
+    <string name="settings_rate">Recentr को रेट करें</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">फ़्री</string>
+    <string name="settings_log_out">लॉग आउट</string>
+    <string name="settings_delete_account">अकाउंट डिलीट करें</string>
+    <string name="settings_replay_onboarding">ऑनबोर्डिंग फिर देखें</string>
+    <string name="settings_design_system">डिज़ाइन सिस्टम</string>
+    <string name="emergency_title">इमरजेंसी अनलॉक</string>
+    <string name="emergency_body">इस महीने आपके %2$d में से %1$d इमरजेंसी अनलॉक बचे हैं। जब सख़्त मोड या खत्म हो चुकी लिमिट किसी ऐप को रोके हुए हो, तो हर अनलॉक उसे 5 मिनट के लिए फिर भी खोल देता है। ये %3$s को लौट आएँगे।</string>
+    <string name="unlock_pass_title">अनलॉक पास</string>
+    <string name="unlock_pass_none">अभी किसी नियम को पास नहीं चाहिए। किसी नियम के अनलॉक के रूप में “कहीं और रखा कोड स्कैन करें” चुनें, फिर उसका पास यहाँ से प्रिंट करें।</string>
+    <string name="unlock_pass_body">किसी नियम का पास प्रिंट करें और उसे अपने फ़ोन से दूर रखें। उसे स्कैन करना ही अंदर आने का रास्ता है।</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">आपका अनलॉक पास</string>
+    <string name="unlock_pass_screen_body">इसे प्रिंट करें और अपने बिस्तर से दूर रखें। इसे स्कैन करना ही अनलॉक करने का एकमात्र तरीका है।</string>
+    <string name="unlock_pass_caption">Recentr · पास #%1$s</string>
+    <string name="unlock_pass_share">शेयर करें</string>
+    <string name="unlock_pass_print">पास प्रिंट करें</string>
+    <string name="unlock_pass_document">Recentr अनलॉक पास</string>
+    <string name="dialog_ok">ठीक है</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">सहायता और फ़ीडबैक</string>
+    <string name="help_subtitle">हम हर संदेश पढ़ते हैं।</string>
+    <string name="help_not_blocking">Recentr कोई ऐप ब्लॉक नहीं कर रहा</string>
+    <string name="help_not_blocking_body">ब्लॉकिंग के लिए उपयोग एक्सेस और बैकग्राउंड में चलता Recentr ज़रूरी है। सेटिंग › ऐप्स › Recentr देखें और बैटरी ऑप्टिमाइज़ेशन बंद करें।</string>
+    <string name="help_strict">सख़्त मोड के बारे में सवाल</string>
+    <string name="help_strict_body">किसी सेशन या रूटीन के लिए सख़्त मोड चालू करें, तो उसके खत्म होने तक उसके ऐप्स अनलॉक नहीं हो सकते, सिवाय इमरजेंसी अनलॉक के। इसे बंद करने के लिए भी उसके अंत तक रुकना पड़ता है। सेटिंग › सख़्त मोड इसे हर नए सेशन और रूटीन के लिए चालू कर देता है।</string>
+    <string name="help_billing">बिलिंग और Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus की बिलिंग Google Play से होती है। आप सेटिंग › Recentr Plus या अपने Play सब्सक्रिप्शन से कभी भी रद्द कर सकते हैं।</string>
+    <string name="help_note_section">हमें एक नोट भेजें</string>
+    <string name="help_note_title">Recentr के लिए आइडिया</string>
+    <string name="help_note_placeholder">“दोस्तों के साथ पढ़ाई” जैसा सेशन चाहिए, जिसमें हम सब मिलकर लॉक करें।</string>
+    <string name="help_send">फ़ीडबैक भेजें</string>
+    <string name="help_feedback_subject">Recentr फ़ीडबैक</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">दिखावट</string>
+    <string name="appearance_theme">थीम</string>
+    <string name="theme_light">लाइट</string>
+    <string name="theme_dark">डार्क</string>
+    <string name="theme_auto">ऑटो</string>
+    <string name="appearance_app_icon">ऐप आइकन</string>
+    <string name="icon_sky">आसमानी</string>
+    <string name="icon_night">रात</string>
+    <string name="icon_mint">पुदीना</string>
+    <string name="icon_sunset">सूर्यास्त</string>
+    <string name="appearance_mascot">होम पर मैस्कॉट दिखाएँ</string>
+    <string name="appearance_reduce_motion">मोशन कम करें</string>
+    <string name="appearance_haptics">हैप्टिक</string>
+    <string name="appearance_haptics_caption">चुनने, टॉगल करने या जश्न मनाने पर हल्की थपक</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">नोटिफ़िकेशन</string>
+    <string name="notifications_subtitle">हल्के संकेत, कभी शोर नहीं।</string>
+    <string name="notifications_reminders">रिमाइंडर</string>
+    <string name="notifications_routine">रूटीन शुरू होने से पहले</string>
+    <string name="notifications_limit">लिमिट लगभग पूरी</string>
+    <string name="notifications_goal">रोज़ के लक्ष्य की जाँच</string>
+    <string name="notifications_celebrations">जश्न</string>
+    <string name="notifications_streaks">स्ट्रीक और पड़ाव</string>
+    <string name="notifications_recap">साप्ताहिक रिकैप</string>
+    <string name="notifications_quiet_hours">शांत घंटे</string>
+    <string name="notifications_dont_notify">मुझे सूचित न करें</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">इस फ़ोन पर Recentr के नोटिफ़िकेशन बंद हैं।</string>
+    <string name="notifications_turn_on">चालू करें</string>
+    <string name="quiet_title">शांत घंटे</string>
+    <string name="quiet_subtitle">इन समयों के बीच कोई संकेत नहीं।</string>
+    <string name="quiet_from">शुरू</string>
+    <string name="quiet_to">खत्म</string>
+    <string name="quiet_save">सेव करें</string>
+    <string name="time_dialog_cancel">रद्द करें</string>
+    <string name="time_dialog_ok">ठीक है</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">भाषा</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">सिस्टम की भाषा</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Recentr से लॉग आउट करें?</string>
+    <string name="logout_body">आपके नियम इस फ़ोन पर चलते रहेंगे। उन्हें सिंक करने के लिए कभी भी वापस साइन इन करें।</string>
+    <string name="logout_confirm">लॉग आउट करें</string>
+    <string name="logout_stay">रुकें</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">अपना अकाउंट डिलीट करें?</string>
+    <string name="delete_body">सभी नियम, स्ट्रीक और आत्म-चिंतन मिट जाएँगे। पुष्टि के लिए DELETE टाइप करें।</string>
+    <string name="delete_placeholder">DELETE टाइप करें</string>
+    <string name="delete_confirm">अकाउंट डिलीट करें</string>
+    <string name="delete_cancel">रद्द करें</string>
+    <string name="back">वापस</string>
+    <string name="duration_h">%1$d घं</string>
+    <string name="duration_m">%1$d मि</string>
+    <string name="duration_h_m_compact">%1$d घं %2$02d मि</string>
+    <string name="duration_h_m">%1$d घं %2$d मि</string>
+</resources>

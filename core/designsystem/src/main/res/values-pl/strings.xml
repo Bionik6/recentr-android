@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Polish. -->
+<resources>
+    <string name="ds_tab_home">Start</string>
+    <string name="ds_tab_rules">Reguły</string>
+    <string name="ds_tab_timer">Timer</string>
+    <string name="ds_tab_insights">Statystyki</string>
+    <string name="ds_skip">Pomiń</string>
+    <string name="ds_back">Wstecz</string>
+    <string name="ds_clear">Wyczyść</string>
+    <string name="ds_more_options">Więcej opcji</string>
+    <string name="ds_goal_title">Cel dzienny</string>
+    <string name="ds_goal_subtitle">Recentr przypomni ci, gdy będziesz blisko.</string>
+    <string name="ds_goal_save">Zapisz cel</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Szybki wybór</string>
+    <string name="ds_duration_minutes">%1$d min</string>
+    <string name="ds_duration_hours">%1$d h</string>
+    <string name="ds_duration_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Włącz blokowanie aplikacji</string>
+    <string name="ds_blocking_body">Aby wstrzymywać zablokowane aplikacje, Recentr korzysta z usługi ułatwień dostępu Androida. Widzi tylko, którą aplikację otwierasz – nigdy tego, co jest na ekranie – a nic nie opuszcza twojego telefonu.</string>
+    <string name="ds_blocking_steps">Wejdź w Ustawienia › Ułatwienia dostępu, otwórz „Blokowanie aplikacji Recentr” (w sekcji Zainstalowane lub Pobrane aplikacje) i włącz.</string>
+    <string name="ds_blocking_open_settings">Otwórz Ustawienia</string>
+    <string name="ds_blocking_not_now">Nie teraz</string>
+    <string name="ds_blocking_off_title">Blokowanie jest wyłączone</string>
+    <string name="ds_blocking_off_body">Włącz je, aby twoje reguły i sesje skupienia wstrzymywały aplikacje.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Połącz Recentr z czasem przed ekranem</string>
+    <string name="ds_usage_access_body">Recentr potrzebuje dostępu do danych o użyciu, aby liczyć twój czas przed ekranem, podniesienia telefonu i powiadomienia. Wszystko zostaje na twoim telefonie.</string>
+    <string name="ds_usage_access_connect">Połącz</string>
+</resources>

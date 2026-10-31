@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Indonesian. -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">Pemblokiran aplikasi Recentr</string>
+    <string name="hold_service_summary">Menahan aplikasi yang diblokir oleh aturan dan sesi fokusmu.</string>
+    <string name="hold_service_description">Recentr menahan aplikasi yang diblokir oleh aturan dan sesi fokusmu. Layanan ini hanya melihat aplikasi mana yang kamu buka — tidak pernah isi layarmu — dan tidak ada data yang keluar dari ponselmu.</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">%1$s sedang istirahat</string>
+    <string name="shield_on_hold">%1$s ditahan</string>
+    <string name="shield_until">%1$s · hingga %2$s</string>
+    <string name="shield_until_tomorrow">%1$s · hingga %2$s besok</string>
+    <string name="shield_limit">%1$s · %2$s hari ini terpakai</string>
+    <string name="shield_stayed_off">Kamu sudah menjauh selama %1$s</string>
+    <string name="shield_focus_minutes">Kamu sudah fokus %1$d mnt</string>
+    <string name="shield_focus_started">Fokusmu baru saja dimulai</string>
+    <string name="shield_got_this">Aku pasti bisa</string>
+    <string name="shield_back_to_focus">Kembali fokus</string>
+    <string name="shield_end_focus">Akhiri fokus lebih awal</string>
+    <string name="shield_unlock_anyway">Tetap buka kunci</string>
+    <string name="shield_unlock_anyway_left">Tetap buka kunci (sisa %1$d dari %2$d)</string>
+    <string name="shield_emergency">Buka kunci darurat</string>
+    <string name="duration_h">%1$d j</string>
+    <string name="duration_m">%1$d mnt</string>
+    <string name="duration_h_m">%1$d j %2$d mnt</string>
+    <string name="stayed_off_h_m">%1$d j %2$02d</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · dikunci oleh %2$s</string>
+    <string name="unlock_strict_on">%1$s · Mode ketat aktif</string>
+    <string name="unlock_wait_overline">Masih mau masuk?</string>
+    <string name="unlock_wait_title">Pilih waktu buka kuncimu</string>
+    <string name="unlock_wait_breath">Tarik napas dulu…</string>
+    <string name="unlock_wait_done">Kamu sudah berhenti sejenak. Bagus.</string>
+    <string name="unlock_minutes_chip">%1$d mnt</string>
+    <string name="unlock_nevermind">Batal saja</string>
+    <string name="unlock_unlock">Buka kunci</string>
+    <string name="unlock_retype_title">Ketik ini untuk membuka kunci</string>
+    <string name="unlock_retype_text">Aku memilih feed ketimbang pekerjaan yang kubilang penting hari ini, dan aku tahu itu.</string>
+    <string name="unlock_quote">“%1$s”</string>
+    <string name="unlock_retype_hint">Mulai mengetik…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">Salah ketik — ulangi dari awal</string>
+    <string name="unlock_retype_start_over">Mulai ulang</string>
+    <string name="unlock_scan_title">Pindai kode Recentr kamu</string>
+    <string name="unlock_scan_subtitle">Yang kamu tempel di kulkas.</string>
+    <string name="unlock_scan_steady">Tahan agar stabil…</string>
+    <string name="unlock_scan_wrong_pass">Itu kartu untuk aturan lain</string>
+    <string name="unlock_scan_no_camera">Recentr butuh kamera untuk memindai kartumu.</string>
+    <string name="unlock_scan_allow_camera">Izinkan kamera</string>
+    <string name="unlock_scan_use_passcode">Pakai kode saja</string>
+    <string name="unlock_close">Tutup</string>
+    <string name="unlock_passcode_title">Ketik kode kartumu</string>
+    <string name="unlock_passcode_subtitle">Itu angka yang tercetak di bawah kode QR.</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">Itu bukan kode di kartumu.</string>
+    <string name="unlock_emergency_title">Buka kunci darurat</string>
+    <string name="unlock_emergency_body">Mode ketat aktif. Pakai ini hanya saat benar-benar penting — sisa %1$d bulan ini.</string>
+    <string name="unlock_emergency_spent">Mode ketat aktif, dan buka kunci darurat bulan ini sudah habis.</string>
+    <string name="unlock_emergency_limit_body">Waktu hari ini sudah habis, dan batas tidak punya opsi buka kunci. Pakai ini hanya saat benar-benar penting — sisa %1$d bulan ini.</string>
+    <string name="unlock_emergency_limit_spent">Waktu hari ini sudah habis, dan buka kunci darurat bulan ini sudah habis.</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="other">Sisa %d buka kunci darurat</item>
+    </plurals>
+    <string name="unlock_hold">Tahan untuk membuka kunci · %1$d dtk</string>
+    <string name="unlock_hold_none">Tidak ada buka kunci darurat tersisa</string>
+    <string name="unlock_cancel">Batal</string>
+    <string name="unlock_open_title">%1$s terbuka</string>
+    <string name="unlock_time_left">sisa %1$s</string>
+    <string name="unlock_open_caption">Kami akan menguncinya lagi saat timer berakhir.</string>
+    <string name="unlock_open_app">Buka %1$s</string>
+    <string name="unlock_lock_again">Kunci lagi</string>
+    <string name="unlock_walk_title">Jalan %1$d langkah untuk membuka kunci</string>
+    <string name="unlock_walk_subtitle">Jalan santai sebelum scroll. Selesaikan semua %1$d langkah untuk membuka %2$s.</string>
+    <string name="unlock_walking_title">Beberapa langkah lagi</string>
+    <string name="unlock_walking_subtitle">%1$s tetap terkunci sampai kamu mencapai %2$d langkah. Santai saja.</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">langkah · siap kapan saja</string>
+    <string name="unlock_walk_more_to_go">langkah · %1$d lagi</string>
+    <string name="unlock_walk_goal_reached">langkah · target tercapai</string>
+    <string name="unlock_walk_locked_until">Terkunci sampai %1$d langkah</string>
+    <string name="unlock_walk_complete_chip">%1$d langkah selesai</string>
+    <string name="unlock_walk_safety_title">Simpan ponsel. Lihat ke depan.</string>
+    <string name="unlock_walk_safety_body">Jalanlah di tempat yang aman dan lapang. Berhenti dulu sebelum mengecek progres.</string>
+    <string name="unlock_walk_no_permission_title">Recentr tidak bisa menghitung langkahmu</string>
+    <string name="unlock_walk_no_permission_body">Izinkan Aktivitas fisik untuk Recentr, lalu mulai jalan lagi.</string>
+    <string name="unlock_walk_no_sensor_title">Ponsel ini tidak bisa menghitung langkah</string>
+    <string name="unlock_walk_no_sensor_body">Pilih cara buka kunci lain di halaman aturan.</string>
+    <string name="unlock_walk_start">Mulai jalan</string>
+    <string name="unlock_walk_cancel">Batalkan jalan</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="other">Sisa %1$d langkah untuk membuka kunci</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · buka kunci %2$d menit</string>
+    <string name="unlock_walk_done_title">Kunci %1$s terbuka</string>
+    <string name="unlock_walk_done_subtitle">%1$d langkah. Sedikit penyegaran. Istirahat %2$d menitmu sudah siap.</string>
+    <string name="unlock_walk_done_note_body">Kami akan menguncinya lagi saat timer berakhir. Berhenti jalan sebelum membuka %1$s.</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="other">%1$d menit, khusus untukmu</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="other">%1$d menit</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">Pengingat aturan</string>
+    <string name="reminder_channel_description">Pemberitahuan sebelum rutinitas mulai memblokir aplikasi.</string>
+    <string name="reminder_title">%1$s mulai %2$d mnt lagi</string>
+    <string name="reminder_text">Aplikasi diblokir pukul %1$s.</string>
+</resources>

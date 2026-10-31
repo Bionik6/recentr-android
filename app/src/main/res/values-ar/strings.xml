@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic. -->
+<resources>
+    <string name="app_name">Recentr</string>
+
+    <!-- App blocker (Settings › Accessibility) -->
+    <string name="hold_service_label">حظر تطبيقات Recentr</string>
+    <string name="hold_service_summary">يعلّق التطبيقات التي تحظرها قواعدك وجلسات التركيز.</string>
+    <string name="hold_service_description">يعلّق Recentr التطبيقات التي تحظرها قواعدك وجلسات التركيز. لا يرى سوى التطبيق الذي تفتحه — وليس ما على شاشتك أبدًا — ولا يغادر أي شيء هاتفك.</string>
+
+    <!-- App on hold: the shield (Figma 56) -->
+    <string name="shield_resting">%1$s في استراحة</string>
+    <string name="shield_on_hold">%1$s معلّق</string>
+    <string name="shield_until">%1$s · حتى %2$s</string>
+    <string name="shield_until_tomorrow">%1$s · حتى %2$s غدًا</string>
+    <string name="shield_limit">%1$s · استخدمت %2$s اليوم</string>
+    <string name="shield_stayed_off">ابتعدت عنه لمدة %1$s</string>
+    <string name="shield_focus_minutes">أنت في الدقيقة %1$d من التركيز</string>
+    <string name="shield_focus_started">بدأ تركيزك للتو</string>
+    <string name="shield_got_this">الأمر بيدي</string>
+    <string name="shield_back_to_focus">العودة إلى التركيز</string>
+    <string name="shield_end_focus">إنهاء التركيز مبكرًا</string>
+    <string name="shield_unlock_anyway">افتح على أي حال</string>
+    <string name="shield_unlock_anyway_left">افتح على أي حال (%1$d من %2$d متبقية)</string>
+    <string name="shield_emergency">فتح طارئ</string>
+    <string name="duration_h">%1$d س</string>
+    <string name="duration_m">%1$d د</string>
+    <string name="duration_h_m">%1$d س %2$d د</string>
+    <string name="stayed_off_h_m">%1$d س %2$02d د</string>
+
+    <!-- Unlock friction (Figma 48–55) -->
+    <string name="unlock_locked_by">%1$s · مقفل بواسطة %2$s</string>
+    <string name="unlock_strict_on">%1$s · الوضع الصارم مفعّل</string>
+    <string name="unlock_wait_overline">ما زلت تريد الدخول؟</string>
+    <string name="unlock_wait_title">اختر مدة الفتح</string>
+    <string name="unlock_wait_breath">خذ نفسًا عميقًا…</string>
+    <string name="unlock_wait_done">أخذت لحظة. أحسنت.</string>
+    <string name="unlock_minutes_chip">%1$d د</string>
+    <string name="unlock_nevermind">لا يهم</string>
+    <string name="unlock_unlock">فتح</string>
+    <string name="unlock_retype_title">اكتب هذه الجملة للفتح</string>
+    <string name="unlock_retype_text">أختار تصفح المنشورات بدل العمل الذي قلت إنه مهم اليوم، وأنا أعرف ذلك.</string>
+    <string name="unlock_quote">«%1$s»</string>
+    <string name="unlock_retype_hint">ابدأ الكتابة…</string>
+    <string name="unlock_retype_count">%1$d / %2$d</string>
+    <string name="unlock_retype_typo">خطأ في الكتابة — ابدأ من البداية</string>
+    <string name="unlock_retype_start_over">ابدأ من جديد</string>
+    <string name="unlock_scan_title">امسح رمز Recentr</string>
+    <string name="unlock_scan_subtitle">الرمز الذي ألصقته على الثلاجة.</string>
+    <string name="unlock_scan_steady">ثبّت الهاتف…</string>
+    <string name="unlock_scan_wrong_pass">هذه بطاقة قاعدة أخرى</string>
+    <string name="unlock_scan_no_camera">يحتاج Recentr إلى الكاميرا لمسح بطاقتك.</string>
+    <string name="unlock_scan_allow_camera">السماح بالكاميرا</string>
+    <string name="unlock_scan_use_passcode">استخدم رمز البطاقة بدلًا من ذلك</string>
+    <string name="unlock_close">إغلاق</string>
+    <string name="unlock_passcode_title">اكتب رمز البطاقة</string>
+    <string name="unlock_passcode_subtitle">إنه الرقم المطبوع أسفل رمز QR.</string>
+    <string name="unlock_passcode_hint">#0000</string>
+    <string name="unlock_passcode_wrong">هذا ليس الرمز المطبوع على بطاقتك.</string>
+    <string name="unlock_emergency_title">فتح طارئ</string>
+    <string name="unlock_emergency_body">الوضع الصارم مفعّل. استخدمه فقط عندما يكون الأمر مهمًا حقًا — المتبقي لك هذا الشهر: %1$d.</string>
+    <string name="unlock_emergency_spent">الوضع الصارم مفعّل، وقد استنفدت عمليات الفتح الطارئ لهذا الشهر.</string>
+    <string name="unlock_emergency_limit_body">انتهى وقت اليوم، والحد لا يسمح بالفتح. استخدمه فقط عندما يكون الأمر مهمًا حقًا — المتبقي لك هذا الشهر: %1$d.</string>
+    <string name="unlock_emergency_limit_spent">انتهى وقت اليوم، وقد استنفدت عمليات الفتح الطارئ لهذا الشهر.</string>
+    <plurals name="unlock_emergency_left">
+        <item quantity="zero">لا توجد عمليات فتح طارئ متبقية</item>
+        <item quantity="one">عملية فتح طارئ واحدة متبقية</item>
+        <item quantity="two">عمليتا فتح طارئ متبقيتان</item>
+        <item quantity="few">%d عمليات فتح طارئ متبقية</item>
+        <item quantity="many">%d عملية فتح طارئ متبقية</item>
+        <item quantity="other">%d عملية فتح طارئ متبقية</item>
+    </plurals>
+    <string name="unlock_hold">اضغط مطولًا للفتح · %1$d ث</string>
+    <string name="unlock_hold_none">لا توجد عمليات فتح طارئ متبقية</string>
+    <string name="unlock_cancel">إلغاء</string>
+    <string name="unlock_open_title">%1$s مفتوح</string>
+    <string name="unlock_time_left">متبقٍ %1$s</string>
+    <string name="unlock_open_caption">سنقفله مجددًا عند انتهاء المؤقت.</string>
+    <string name="unlock_open_app">افتح %1$s</string>
+    <string name="unlock_lock_again">اقفله مجددًا</string>
+    <string name="unlock_walk_title">امشِ %1$d خطوة للفتح</string>
+    <string name="unlock_walk_subtitle">مشي بسيط قبل أن تتصفح. أكمل كل الخطوات (%1$d) لتحصل على %2$s.</string>
+    <string name="unlock_walking_title">بضع خطوات أخرى</string>
+    <string name="unlock_walking_subtitle">يبقى %1$s مقفلًا حتى تصل إلى %2$d خطوة. خذ وقتك.</string>
+    <string name="unlock_walk_goal">/%1$d</string>
+    <string name="unlock_walk_ready">خطوة · ابدأ متى شئت</string>
+    <string name="unlock_walk_more_to_go">خطوة · المتبقي %1$d</string>
+    <string name="unlock_walk_goal_reached">خطوة · تحقق الهدف</string>
+    <string name="unlock_walk_locked_until">مقفل حتى %1$d خطوة</string>
+    <string name="unlock_walk_complete_chip">أكملت %1$d خطوة</string>
+    <string name="unlock_walk_safety_title">الهاتف جانبًا. ارفع عينيك.</string>
+    <string name="unlock_walk_safety_body">امشِ في مكان آمن ومفتوح. توقف قبل أن تتفقد تقدمك.</string>
+    <string name="unlock_walk_no_permission_title">لا يستطيع Recentr عدّ خطواتك</string>
+    <string name="unlock_walk_no_permission_body">اسمح لتطبيق Recentr بالوصول إلى النشاط البدني، ثم ابدأ المشي مجددًا.</string>
+    <string name="unlock_walk_no_sensor_title">هذا الهاتف لا يستطيع عدّ الخطوات</string>
+    <string name="unlock_walk_no_sensor_body">اختر طريقة فتح أخرى في صفحة القاعدة.</string>
+    <string name="unlock_walk_start">ابدأ المشي</string>
+    <string name="unlock_walk_cancel">إلغاء المشي</string>
+    <plurals name="unlock_walk_steps_left">
+        <item quantity="zero">لا خطوات متبقية للفتح</item>
+        <item quantity="one">خطوة واحدة متبقية للفتح</item>
+        <item quantity="two">خطوتان متبقيتان للفتح</item>
+        <item quantity="few">%1$d خطوات متبقية للفتح</item>
+        <item quantity="many">%1$d خطوة متبقية للفتح</item>
+        <item quantity="other">%1$d خطوة متبقية للفتح</item>
+    </plurals>
+    <string name="unlock_walk_unlock_chip">%1$s · فتح لمدة %2$d د</string>
+    <string name="unlock_walk_done_title">%1$s مفتوح</string>
+    <string name="unlock_walk_done_subtitle">%1$d خطوة. إعادة ضبط صغيرة. استراحتك لمدة %2$d د جاهزة.</string>
+    <string name="unlock_walk_done_note_body">سنقفله مجددًا عند انتهاء المؤقت. توقف عن المشي قبل فتح %1$s.</string>
+    <plurals name="unlock_walk_done_note_title">
+        <item quantity="zero">%1$d دقيقة، لك وحدك</item>
+        <item quantity="one">دقيقة واحدة، لك وحدك</item>
+        <item quantity="two">دقيقتان، لك وحدك</item>
+        <item quantity="few">%1$d دقائق، لك وحدك</item>
+        <item quantity="many">%1$d دقيقة، لك وحدك</item>
+        <item quantity="other">%1$d دقيقة، لك وحدك</item>
+    </plurals>
+    <plurals name="unlock_walk_minutes">
+        <item quantity="zero">%1$d دقيقة</item>
+        <item quantity="one">دقيقة واحدة</item>
+        <item quantity="two">دقيقتان</item>
+        <item quantity="few">%1$d دقائق</item>
+        <item quantity="many">%1$d دقيقة</item>
+        <item quantity="other">%1$d دقيقة</item>
+    </plurals>
+
+    <!-- Rule reminders (Rule detail › Reminders) -->
+    <string name="reminder_channel">تذكيرات القواعد</string>
+    <string name="reminder_channel_description">تنبيه قبل أن يبدأ الروتين بحظر التطبيقات.</string>
+    <string name="reminder_title">يبدأ %1$s بعد %2$d د</string>
+    <string name="reminder_text">تُحظر التطبيقات عند %1$s.</string>
+</resources>

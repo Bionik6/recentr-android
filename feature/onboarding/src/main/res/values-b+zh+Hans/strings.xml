@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified). -->
+<resources>
+    <!-- Shared -->
+    <string name="onb_continue">继续</string>
+
+    <!-- Durations: compact (4h20 · 6h · 45m) and spelled out (6 hours · 45 minutes) -->
+    <string name="onb_duration_hm">%1$d小时%2$02d分</string>
+    <string name="onb_duration_h">%1$d小时</string>
+    <string name="onb_duration_m">%1$d分钟</string>
+    <plurals name="onb_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <plurals name="onb_minutes">
+        <item quantity="other">%d 分钟</item>
+    </plurals>
+
+    <!-- 05 · Welcome -->
+    <string name="onb_welcome_stat_people_value">25万+</string>
+    <string name="onb_welcome_stat_people_label">位专注的人</string>
+    <string name="onb_welcome_stat_time_value">11小时</string>
+    <string name="onb_welcome_stat_time_label">每周赢回</string>
+    <string name="onb_welcome_before">之前</string>
+    <string name="onb_welcome_before_value">7小时40分</string>
+    <string name="onb_welcome_now">现在</string>
+    <string name="onb_welcome_now_value">2小时10分</string>
+    <string name="onb_welcome_title">屏幕使用时间，由你做主。</string>
+    <string name="onb_welcome_subtitle">屏蔽那些让你停不下来的应用——温柔地，用一次停顿，而不是一场硬仗。</string>
+    <string name="onb_welcome_get_started">开始使用</string>
+
+    <!-- 06 · A little friction -->
+    <string name="onb_friction_title">Recentr 会在那些让你沉迷的应用前加一次停顿</string>
+    <string name="onb_friction_shield_message">你已经 6小时15分 没打开 Instagram 了</string>
+    <string name="onb_friction_shield_primary">我可以的</string>
+    <string name="onb_friction_shield_secondary">仍要解锁（4/5）</string>
+
+    <!-- 07 · Social proof -->
+    <string name="onb_social_title">25 万人用 Recentr 夺回自己的时间</string>
+    <string name="onb_social_score">4.8</string>
+    <string name="onb_social_count">来自 7000 多条评价</string>
+    <string name="onb_social_rating_description">满分 5 分，评分 4.8</string>
+    <string name="onb_review1_title">找回了我的夜晚</string>
+    <string name="onb_review1_body">我每天的使用时间从 7 小时降到了 3 小时以内。打开 X 之前的那一小段停顿太妙了。</string>
+    <string name="onb_review1_name">子轩</string>
+    <string name="onb_review2_title">唯一坚持下来的一个</string>
+    <string name="onb_review2_body">其他屏蔽工具我都直接删了。这个让人觉得很友好，所以我留下了。</string>
+    <string name="onb_review2_name">雨桐</string>
+    <string name="onb_review3_title">睡眠回来了</string>
+    <string name="onb_review3_body">夜间例程在 11 点锁住所有应用。早晨又属于我自己了。</string>
+    <string name="onb_review3_name">浩然</string>
+
+    <!-- 08 · Your turn -->
+    <string name="onb_your_turn_overline">轮到你了</string>
+    <string name="onb_your_turn_title">让 Recentr 适配你的日常</string>
+    <string name="onb_your_turn_cta">出发</string>
+
+    <!-- 09 · Name -->
+    <string name="onb_name_title">我们该怎么称呼你？</string>
+    <string name="onb_name_placeholder">你的名字</string>
+
+    <!-- 10 · What’s wrong -->
+    <string name="onb_pain_title">那么，你的手机使用有什么问题？</string>
+    <string name="onb_pain_subtitle">可多选。</string>
+    <string name="onb_pain_sleep">影响我的睡眠</string>
+    <string name="onb_pain_focus">我很难集中注意力</string>
+    <string name="onb_pain_scroll">我会不自觉地刷个不停</string>
+    <string name="onb_pain_notifications">通知总让我分心</string>
+    <string name="onb_pain_hours">时间不知不觉就没了</string>
+    <string name="onb_pain_fine">说实话，还好啦…</string>
+
+    <!-- 11 · Time spent -->
+    <string name="onb_usage_title">你每天花多长时间看手机？</string>
+    <string name="onb_usage_subtitle">大概就行——不评判。</string>
+    <string name="onb_usage_over_7">超过 7 小时</string>
+    <string name="onb_usage_5_7">5 – 7 小时</string>
+    <string name="onb_usage_3_5">3 – 5 小时</string>
+    <string name="onb_usage_1_3">1 – 3 小时</string>
+    <string name="onb_usage_under_1">不到 1 小时</string>
+
+    <!-- 12 · Daily goal -->
+    <string name="onb_goal_title">设定你的每日目标</string>
+    <string name="onb_goal_subtitle">你平均每天 %1$s。我们把目标定低一点。</string>
+    <string name="onb_goal_tone_bold">大胆的目标！</string>
+    <string name="onb_goal_tone_balanced">恰到好处</string>
+    <string name="onb_goal_tone_easy">轻松起步</string>
+    <string name="onb_goal_your_goal">你的目标</string>
+    <string name="onb_goal_today">今天</string>
+    <string name="onb_goal_note">这不会屏蔽应用——只是一个参考。</string>
+
+    <!-- 13 · Doing the math -->
+    <string name="onb_math_title">来算一算</string>
+    <string name="onb_math_percent">%1$d%%</string>
+    <string name="onb_math_step_habits">分析你的习惯</string>
+    <string name="onb_math_step_goal">匹配你的目标</string>
+    <string name="onb_math_step_plan">制定你的计划</string>
+
+    <!-- 14 · Honest news -->
+    <string name="onb_news_overline">好，说实话</string>
+    <string name="onb_news_title">我们有好消息……也有不那么好的消息</string>
+    <string name="onb_news_cta">详细说说</string>
+
+    <!-- 15 · Years on phone -->
+    <string name="onb_years_lead">照这个速度，你将把</string>
+    <plurals name="onb_years_number">
+        <item quantity="other">%d 年</item>
+    </plurals>
+    <string name="onb_years_tail">的人生花在手机上</string>
+    <string name="onb_years_every_day">每天</string>
+    <string name="onb_years_every_year">每年</string>
+    <plurals name="onb_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+
+    <!-- 16 · A way out -->
+    <string name="onb_way_out_title">好消息是：你每天可以赢回 %1$s。</string>
+    <string name="onb_way_out_subtitle">这正是我们打造 Recentr 的原因——一条温柔的出路，而不是又一件苦差事。</string>
+    <string name="onb_way_out_cta">它是怎么运作的？</string>
+
+    <!-- 17 · How it works -->
+    <string name="onb_how_title">Recentr 如何运作</string>
+    <string name="onb_how_step">第 %1$d 步</string>
+    <string name="onb_how_step1_title">选出让你沉迷的应用</string>
+    <string name="onb_how_step1_body">选好应用，再选择锁定、专注时段或限额。</string>
+    <string name="onb_how_step2_title">遇到的是停顿，不是高墙</string>
+    <string name="onb_how_step2_body">打开之前，先有几秒钟喘口气。</string>
+    <string name="onb_how_step3_title">收获更平静的日子</string>
+    <string name="onb_how_step3_body">保持在目标以下，让连续记录一直延续。</string>
+
+    <!-- 18 · Screen Time access -->
+    <string name="onb_screen_time_title">将 Recentr 连接到屏幕使用时间</string>
+    <string name="onb_screen_time_subtitle">设置限额需要它。所有数据都只留在你的手机上。</string>
+    <string name="onb_screen_time_cta">连接</string>
+    <string name="onb_screen_time_alert_title">“Recentr”想要访问屏幕使用时间</string>
+    <string name="onb_screen_time_alert_body">Recentr 用它来设置限额并查看你的使用情况。你的数据绝不会离开这部手机。</string>
+    <string name="onb_screen_time_alert_allow">继续</string>
+    <string name="onb_screen_time_alert_deny">不允许</string>
+
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">什么让你沉迷？</string>
+    <string name="onb_apps_subtitle">社交应用，或其他任何应用。三个例程会让它们暂缓使用，需要等待 10 秒才能进入。你随时可以修改。</string>
+    <string name="onb_apps_choose">选择应用</string>
+    <plurals name="onb_apps_count">
+        <item quantity="other">%d 个应用</item>
+    </plurals>
+
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s – %2$s · %3$s</string>
+    <string name="onb_days_weekdays">工作日</string>
+    <string name="onb_days_every_day">每天</string>
+    <string name="onb_days_weekends">周末</string>
+
+    <!-- 19 · Notifications -->
+    <string name="onb_notif_title">领先一步</string>
+    <string name="onb_notif_subtitle">在例程开始或限额用完前，给你温柔的提醒。</string>
+    <string name="onb_notif_now">现在</string>
+    <string name="onb_notif_banner1_title">夜间例程将在 10 分钟后开始</string>
+    <string name="onb_notif_banner1_body">晚上 11 点起远离手机。祝你好梦。</string>
+    <string name="onb_notif_banner2_title">“社交时间”还剩 5 分钟</string>
+    <string name="onb_notif_banner2_body">收个尾吧——X 用满 2小时15分 就会锁定。</string>
+    <string name="onb_notif_banner3_title">连续 3 天！</string>
+    <string name="onb_notif_banner3_body">你又一次低于 %1$s 了。</string>
+
+    <!-- 21 · All set -->
+    <string name="onb_all_set_title">一切就绪，%1$s</string>
+    <string name="onb_all_set_title_no_name">一切就绪</string>
+    <string name="onb_all_set_subtitle">这是你本周的计划。</string>
+    <string name="onb_all_set_daily_goal">每日目标</string>
+    <string name="onb_all_set_first_rule">第一条规则</string>
+    <string name="onb_rule_bedtime">睡前</string>
+    <string name="onb_rule_focus">专注时间</string>
+    <string name="onb_rule_social">社交限额</string>
+    <string name="onb_rule_quiet">安静时间</string>
+    <string name="onb_rule_daily_limit">时间额度</string>
+    <string name="onb_all_set_note_title">我为什么这样做</string>
+    <string name="onb_reason_scroll">多一些户外的夜晚，少一些在 TikTok 上的时间。</string>
+    <string name="onb_reason_sleep">更平静的夜晚，不碰手机的早晨。</string>
+    <string name="onb_reason_focus">先做深度工作，再刷信息流。</string>
+    <string name="onb_reason_notifications">少一点提示音，多一点专注当下。</string>
+    <string name="onb_reason_hours">在时间溜走之前留意它。</string>
+    <string name="onb_reason_fine">每天多一点平衡。</string>
+    <string name="onb_all_set_cta">开始我的第一个专注时段</string>
+
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">工作时间</string>
+    <string name="onb_routine_night_pause">夜间暂停</string>
+    <string name="onb_routine_weekend_zen">周末禅意</string>
+</resources>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic. -->
+<resources>
+    <!-- Header -->
+    <string name="home_open_profile">فتح الملف الشخصي</string>
+
+    <!-- Durations ("1h12", "4h", "38m") -->
+    <string name="home_duration_hours_minutes">%1$d س %2$02d د</string>
+    <string name="home_duration_hours">%1$d س</string>
+    <string name="home_duration_minutes">%1$d د</string>
+
+    <!-- Hero · screen time page -->
+    <string name="home_hero_screen_time_today">وقت الشاشة اليوم</string>
+    <string name="home_hero_screen_time_yesterday">وقت الشاشة أمس</string>
+    <string name="home_hero_average_week">المتوسط اليومي · هذا الأسبوع</string>
+    <string name="home_hero_average_month">المتوسط اليومي · هذا الشهر</string>
+    <string name="home_goal_under">أقل من هدفك البالغ %1$s</string>
+    <string name="home_goal_over">أكثر من هدفك البالغ %1$s</string>
+    <string name="home_compare_less_week">أقل بنسبة %1$d%% من الأسبوع الماضي</string>
+    <string name="home_compare_more_week">أكثر بنسبة %1$d%% من الأسبوع الماضي</string>
+    <string name="home_compare_less_month">أقل بنسبة %1$d%% من الشهر الماضي</string>
+    <string name="home_compare_more_month">أكثر بنسبة %1$d%% من الشهر الماضي</string>
+    <string name="home_syncing">جارٍ مزامنة وقت الشاشة…</string>
+
+    <!-- No usage access: the hero's chip (the card is ds_usage_access_*) -->
+    <string name="home_no_access_chip">غير متصل</string>
+
+    <!-- Hero · quality page -->
+    <string name="home_hero_quality_today">الجودة اليوم</string>
+    <string name="home_hero_quality_yesterday">الجودة أمس</string>
+    <string name="home_hero_quality_week">الجودة · هذا الأسبوع</string>
+    <string name="home_hero_quality_month">الجودة · هذا الشهر</string>
+    <string name="home_quality_focused">مركّز</string>
+    <string name="home_quality_balanced">متوازن</string>
+    <string name="home_quality_distracted">مشتّت</string>
+    <string name="home_split_focus">التركيز %1$d%%</string>
+    <string name="home_split_social">التواصل %1$d%%</string>
+    <string name="home_split_fun">الترفيه %1$d%%</string>
+
+    <!-- Hero · offline page -->
+    <string name="home_hero_offline_today">أطول فترة دون هاتف اليوم</string>
+    <string name="home_hero_offline_yesterday">أطول فترة دون هاتف أمس</string>
+    <string name="home_hero_offline_week">أطول فترة دون هاتف · هذا الأسبوع</string>
+    <string name="home_hero_offline_month">أطول فترة دون هاتف · هذا الشهر</string>
+    <string name="home_offline_chip">فترة بلا هاتف</string>
+    <string name="home_hero_details">عرض التفاصيل</string>
+    <string name="home_hero_page">الصفحة %1$d من %2$d</string>
+
+    <!-- Today / week cards -->
+    <string name="home_stat_decrease">انخفاض</string>
+    <string name="home_stat_decrease_value">▾ %1$s</string>
+    <string name="home_stat_pickups">عمليات الالتقاط</string>
+    <string name="home_stat_notifications">الإشعارات</string>
+    <string name="home_stat_total">الإجمالي</string>
+    <string name="home_stat_best_day">أفضل يوم</string>
+    <string-array name="home_day_letters">
+        <item>ن</item>
+        <item>ث</item>
+        <item>ر</item>
+        <item>خ</item>
+        <item>ج</item>
+        <item>س</item>
+        <item>ح</item>
+    </string-array>
+    <string-array name="home_day_short">
+        <item>الاثنين</item>
+        <item>الثلاثاء</item>
+        <item>الأربعاء</item>
+        <item>الخميس</item>
+        <item>الجمعة</item>
+        <item>السبت</item>
+        <item>الأحد</item>
+    </string-array>
+
+    <!-- Tiles -->
+    <string name="home_tile_streak">السلسلة</string>
+    <plurals name="home_streak_days">
+        <item quantity="zero">لا أيام</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <string name="home_tile_next">التالي · %1$s</string>
+    <string name="home_tile_ongoing">جارٍ · %1$s</string>
+    <string name="home_tile_blocking">قيد الحظر · %1$s</string>
+    <string name="home_tile_left">متبقٍ %1$s</string>
+    <string name="home_tile_next_day">%1$s %2$s</string>
+    <string name="home_tile_next_none">التالي</string>
+    <string name="home_tile_no_rule">لا توجد قاعدة مجدولة</string>
+    <string name="home_tile_placeholder">—</string>
+    <string name="home_tile_loading">جارٍ التحميل…</string>
+
+    <!-- Most used -->
+    <string name="home_most_used">الأكثر استخدامًا</string>
+    <string name="home_filter_apps">التطبيقات</string>
+    <string name="home_filter_categories">الفئات</string>
+    <string name="home_category_social">التواصل الاجتماعي</string>
+    <string name="home_category_entertainment">الترفيه</string>
+    <string name="home_category_games">الألعاب</string>
+    <string name="home_category_productivity">الإنتاجية</string>
+    <string name="home_category_music">الموسيقى</string>
+    <string name="home_category_other">أخرى</string>
+
+    <!-- Info sheets -->
+    <string name="home_info_glued">%1$s قضيتها في التحديق بشاشتك</string>
+    <string name="home_info_glued_average">%1$s يوميًا في التحديق بشاشتك</string>
+    <string name="home_info_hints_title">أسئلة للتأمل</string>
+    <string name="home_info_glued_hints">كم مرة تمت مقاطعتك؟ لماذا تمد يدك إلى هاتفك؟ هل كان الأمر مهمًا حقًا؟</string>
+    <string name="home_info_offline">%1$s دون هاتف</string>
+    <string name="home_info_offline_today">أطول فترة قضيتها دون هاتفك اليوم.</string>
+    <string name="home_info_offline_yesterday">أطول فترة قضيتها دون هاتفك أمس.</string>
+    <string name="home_info_offline_week">أطول فترة قضيتها دون هاتفك هذا الأسبوع.</string>
+    <string name="home_info_offline_month">أطول فترة قضيتها دون هاتفك هذا الشهر.</string>
+    <string name="home_info_offline_hints">ماذا أنجزت خلال هذا الوقت؟ وبماذا شعرت؟</string>
+    <string name="home_info_got_it">فهمت</string>
+
+    <!-- Always allowed card -->
+    <string name="home_always_allowed_title">مسموح دائمًا</string>
+    <string name="home_always_allowed_subtitle">تطبيقات تتجاوز حظرك</string>
+    <string name="home_always_allowed_empty_title">لم تُحدَّد أي تطبيقات</string>
+    <string name="home_always_allowed_empty_body">اختر التطبيقات التي ينبغي أن تبقى متاحة حتى عندما يكون الحظر مفعّلًا.</string>
+    <plurals name="home_always_allowed_apps">
+        <item quantity="zero">لا تطبيقات مسموحة دائمًا</item>
+        <item quantity="one">تطبيق واحد مسموح دائمًا</item>
+        <item quantity="two">تطبيقان مسموحان دائمًا</item>
+        <item quantity="few">%d تطبيقات مسموحة دائمًا</item>
+        <item quantity="many">%d تطبيقًا مسموحًا دائمًا</item>
+        <item quantity="other">%d تطبيق مسموح دائمًا</item>
+    </plurals>
+    <string name="home_always_allowed_set_up">إعداد</string>
+    <string name="home_always_allowed_close">إغلاق</string>
+    <string name="home_always_allowed_settings_title">«مسموح دائمًا» في الإعدادات</string>
+    <string name="home_always_allowed_settings_body">ستجده متى احتجت إليه في الإعدادات › الحماية › مسموح دائمًا.</string>
+    <string name="home_always_allowed_settings_got_it">فهمت</string>
+</resources>

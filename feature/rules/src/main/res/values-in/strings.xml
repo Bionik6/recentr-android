@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Indonesian. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">Aturan</string>
+    <string name="rules_templates_title">Templat</string>
+    <string name="rules_subtitle_active">%1$d aktif</string>
+    <string name="rules_subtitle_active_paused">%1$d aktif · %2$d dijeda</string>
+    <string name="rules_templates_subtitle">Aturan siap pakai · ketuk untuk mulai</string>
+    <string name="rules_group_locks">Kunci</string>
+    <string name="rules_group_sessions">Sesi</string>
+    <string name="rules_group_limits">Batas</string>
+    <string name="rules_group_routines">Rutinitas</string>
+    <string name="rules_group_templates">Templat</string>
+    <string name="rules_add_session">Tambah sesi</string>
+    <string name="rules_add_session_hint">Mis. “Blokir aplikasi selama 30 mnt ke depan”</string>
+    <string name="rules_add_routine">Tambah rutinitas</string>
+    <string name="rules_add_routine_hint">Mis. “Tanpa ponsel saat makan malam”</string>
+    <string name="rules_add_lock">Tambah kunci</string>
+    <string name="rules_add_lock_hint">Mis. “Tutup TikTok seharian”</string>
+    <string name="rules_add_limit">Tambah batas</string>
+    <string name="rules_add_limit_hint">Mis. “1 jam YouTube sehari”</string>
+    <string name="rules_more">Opsi lainnya</string>
+    <string name="rules_empty_title">Belum ada aturan</string>
+    <string name="rules_empty_body">Mulai sesi atau pilih templat untuk memulai.</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">Berlangsung</string>
+    <string name="rules_status_upcoming">Akan datang</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">Siap</string>
+    <plurals name="rules_more_apps">
+        <item quantity="other">+ %d aplikasi</item>
+    </plurals>
+    <string name="rules_tile_ready">SIAP</string>
+    <string name="rules_status_blocking">Memblokir</string>
+    <string name="rules_status_paused">Dijeda</string>
+    <string name="rules_status_times_up">Waktu habis</string>
+    <string name="rules_status_unlocks">Buka kunci %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">Buka kunci tanpa batas</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">Nonaktif</string>
+    <string name="rules_all_day">Seharian</string>
+    <string name="rules_strict_mode">Mode ketat</string>
+    <string name="rules_value_locked">Terkunci</string>
+    <string name="rules_value_off">Nonaktif</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">Hingga tengah malam</string>
+    <string name="rules_budget_today">Anggaran hari ini</string>
+    <string name="rules_value_left">sisa %1$s</string>
+    <string name="rules_value_starts_in">dalam %1$s</string>
+    <string name="rules_value_paused">Dijeda</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">Setiap hari</string>
+    <string name="rules_days_weekdays">Hari kerja</string>
+    <string name="rules_days_weekends">Akhir pekan</string>
+    <string-array name="rules_day_short">
+        <item>Sen</item>
+        <item>Sel</item>
+        <item>Rab</item>
+        <item>Kam</item>
+        <item>Jum</item>
+        <item>Sab</item>
+        <item>Min</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>Senin</item>
+        <item>Selasa</item>
+        <item>Rabu</item>
+        <item>Kamis</item>
+        <item>Jumat</item>
+        <item>Sabtu</item>
+        <item>Minggu</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>S</item>
+        <item>S</item>
+        <item>R</item>
+        <item>K</item>
+        <item>J</item>
+        <item>S</item>
+        <item>M</item>
+    </string-array>
+    <string name="rules_am">AM</string>
+    <string name="rules_pm">PM</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d mnt</string>
+    <string name="rules_hours_short">%1$d j</string>
+    <string name="rules_hours_minutes">%1$d j %2$d mnt</string>
+    <string name="rules_compact_seconds">%1$d dtk</string>
+    <string name="rules_compact_minutes">%1$d mnt</string>
+    <string name="rules_compact_hours">%1$d j</string>
+    <string name="rules_compact_hours_minutes">%1$d j %2$02d</string>
+
+    <!-- Common -->
+    <string name="rules_none">Tidak ada</string>
+    <string name="rules_save">Simpan</string>
+    <string name="rules_done">Selesai</string>
+    <string name="rules_continue">Lanjut</string>
+    <string name="rules_cancel">Batal</string>
+    <string name="rules_back">Kembali</string>
+    <string name="rules_edit_name">Ubah nama dan stiker</string>
+    <plurals name="rules_apps_count">
+        <item quantity="other">%d aplikasi</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">Sesi</string>
+    <string name="rules_type_lock">Kunci</string>
+    <string name="rules_type_limit">Batas</string>
+    <string name="rules_type_routine">Rutinitas</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">Blokir</string>
+    <string name="rules_row_active">Aktif</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">Cara buka kunci</string>
+    <string name="rules_row_unlocks_per_day">Buka kunci per hari</string>
+    <string name="rules_row_apps">Aplikasi</string>
+    <string name="rules_row_reminders">Pengingat</string>
+    <string name="rules_row_each_unlock">Tiap buka kunci berlangsung</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">Sesi</string>
+    <string name="rules_session_subtitle">Blokir aplikasi selama %1$s setelah kamu memulainya.</string>
+    <string name="rules_session_default_name">Sesi fokus</string>
+    <string name="rules_suggestions">SARAN</string>
+    <string name="rules_start">Mulai</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">Tanpa buka kunci sampai selesai.</string>
+    <string name="rules_unlock_strict_caption">Buka kunci tidak tersedia dalam Mode ketat.</string>
+    <string name="rules_strict_confirm_title">Aktifkan Mode ketat?</string>
+    <string name="rules_strict_confirm_body">Kamu tidak akan bisa membuka kunci aplikasi ini sampai selesai, kecuali dengan buka kunci darurat.</string>
+    <string name="rules_turn_on">Aktifkan</string>
+    <string name="rules_not_now">Nanti saja</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">Blokir aplikasi ini sekarang?</string>
+    <string name="rules_block_now_body">Aturan sedang memblokir: aplikasi yang kamu tambahkan langsung diblokir.</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">Aktifkan %1$s?</string>
+    <string name="rules_lock_confirm_body">Setelah aktif, hal yang membuatnya lebih ringan — menghapus aplikasi, lebih banyak buka kunci, mematikannya — baru berlaku saat tengah malam.</string>
+    <string name="rules_limit_confirm_title">Mulai %1$s?</string>
+    <string name="rules_limit_confirm_body">Setelah dimulai, hal yang membuatnya lebih ringan — anggaran lebih besar, menghapus aplikasi — baru berlaku saat tengah malam, ketika direset.</string>
+    <string name="rules_block_now">Blokir sekarang</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">Kunci</string>
+    <string name="rules_lock_subtitle">Tutup aplikasi pilihan, dengan beberapa buka kunci singkat per hari.</string>
+    <string name="rules_lock_note_title">Kenapa kunci ini?</string>
+    <string name="rules_hold_create_lock">Tahan untuk membuat kunci</string>
+    <string name="rules_hold_create_session">Tahan untuk membuat sesi</string>
+    <string name="rules_unlock_wait">Tunggu %1$d dtk</string>
+    <string name="rules_unlock_retype">Ketik ulang</string>
+    <string name="rules_unlock_scan">Pindai kode</string>
+    <string name="rules_unlock_walk">Jalan %1$d langkah</string>
+    <string name="rules_unlimited">Tanpa batas</string>
+    <string name="rules_lock_default_name">Kunci</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">Pilih aplikasi</string>
+    <string name="rules_selected">%1$d dipilih</string>
+    <string name="rules_search_apps">Cari aplikasi</string>
+    <string name="rules_category_social">Sosial</string>
+    <string name="rules_category_entertainment">Hiburan</string>
+    <string name="rules_category_music">Musik</string>
+    <string name="rules_category_games">Game</string>
+    <string name="rules_category_productivity">Produktivitas</string>
+    <string name="rules_category_other">Lainnya</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="other">Blokir · %d aplikasi</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">Semua aplikasi &amp; kategori</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">Semua</string>
+    <string name="rules_no_apps_found">Tidak ada aplikasi yang cocok dengan “%1$s”.</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">Aktif selama</string>
+    <string name="rules_ends_at">Berakhir pukul %1$s</string>
+    <string name="rules_hours_label">Jam</string>
+    <string name="rules_minutes_label">Menit</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">Batas</string>
+    <string name="rules_limit_subtitle">Anggaran waktu untuk hari ini, untuk aplikasi yang menyita harimu.</string>
+    <string name="rules_hold_create_limit">Tahan untuk membuat batas</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">Terkunci sampai tengah malam</string>
+    <string name="rules_locked_in_lock">Langsung aktif begitu dibuat. Melonggarkannya — menghapus aplikasi, lebih banyak buka kunci, mematikannya — atau menghapusnya baru berlaku setelah reset harian, saat tengah malam.</string>
+    <string name="rules_locked_in_limit">Langsung dimulai begitu dibuat. Melonggarkannya — anggaran lebih besar, menghapus aplikasi — atau menghapusnya baru berlaku setelah reset harian, saat tengah malam.</string>
+    <string name="rules_limit_resets">Direset otomatis saat tengah malam.</string>
+    <string name="rules_limit_default_name">Batas</string>
+    <string name="rules_limit_social_name">Waktu sosial</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">Waktu tidur</string>
+    <string name="rules_bedtime_subtitle">Blokir aplikasi sesuai jadwal.</string>
+    <string name="rules_from">DARI</string>
+    <string name="rules_until">HINGGA</string>
+    <string name="rules_tonight">%1$s · malam ini</string>
+    <string name="rules_today">%1$s · hari ini</string>
+    <string name="rules_tomorrow">%1$s · besok</string>
+    <string name="rules_tonight_alone">Malam ini</string>
+    <string name="rules_today_alone">Hari ini</string>
+    <string name="rules_tomorrow_alone">Besok</string>
+    <string name="rules_hold_create_routine">Tahan untuk membuat rutinitas</string>
+    <string name="rules_starts_at">Mulai pukul</string>
+    <string name="rules_ends_at_title">Berakhir pukul</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">Bagaimana cara membuka kunci?</string>
+    <string name="rules_unlock_subtitle">Pilih jenis hambatan yang cocok untukmu.</string>
+    <string name="rules_unlock_option_wait">Tunggu beberapa detik</string>
+    <string name="rules_unlock_option_retype">Ketik ulang teks yang menyakitkan</string>
+    <string name="rules_unlock_option_scan">Pindai kode yang kamu simpan di tempat lain</string>
+    <string name="rules_unlock_option_walk">Jalan %1$d langkah</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">Tunggu sebelum membuka kunci</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="other">%d detik</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 menit</string>
+    <string name="rules_seconds_chip">%1$d dtk</string>
+    <string name="rules_one_min_chip">1 mnt</string>
+    <string name="rules_unlocks_per_day_title">Buka kunci per hari</string>
+    <string name="rules_each_unlock_title">Tiap buka kunci berlangsung</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">Fokus</string>
+    <string name="rules_section_focus_body">Untuk bekerja, belajar, atau menyelesaikan proyek.</string>
+    <string name="rules_section_unwind">Santai</string>
+    <string name="rules_section_unwind_body">Malam yang lebih tenang dan pagi yang lebih lembut.</string>
+    <string name="rules_section_be_present">Hadir Sepenuhnya</string>
+    <string name="rules_section_be_present_body">Perhatian untuk orang-orang di sekitarmu, atau untuk dirimu sendiri.</string>
+    <string name="rules_section_scroll_less">Kurangi Scroll</string>
+    <string name="rules_section_scroll_less_body">Buka aplikasimu dengan sengaja, bukan karena kebiasaan.</string>
+    <string name="rules_tpl_focus_sprint">Sprint Fokus</string>
+    <string name="rules_tpl_focus_sprint_body">Gangguan diblokir, mulai sekarang.</string>
+    <string name="rules_tpl_study_hour">Jam Belajar</string>
+    <string name="rules_tpl_study_hour_body">Satu jam belajar, mulai sekarang.</string>
+    <string name="rules_tpl_work_rhythm">Ritme Kerja</string>
+    <string name="rules_tpl_work_rhythm_body">Gangguan diblokir di hari kerja.</string>
+    <string name="rules_tpl_evening_calm">Malam Tenang</string>
+    <string name="rules_tpl_evening_calm_body">Tanpa aplikasi sosial atau video, setiap malam.</string>
+    <string name="rules_tpl_night_pause">Jeda Malam</string>
+    <string name="rules_tpl_night_pause_body">Gangguan diblokir sepanjang malam.</string>
+    <string name="rules_tpl_slow_morning">Pagi Santai</string>
+    <string name="rules_tpl_slow_morning_body">Mulai setiap hari tanpa aplikasi sosial.</string>
+    <string name="rules_tpl_dinner_together">Makan Malam Bersama</string>
+    <string name="rules_tpl_dinner_together_body">Gangguan diblokir selama makan malam.</string>
+    <string name="rules_tpl_family_hour">Jam Keluarga</string>
+    <string name="rules_tpl_family_hour_body">Hari Minggu, disisihkan untuk waktu bersama.</string>
+    <string name="rules_tpl_time_for_me">Waktu untuk Diri Sendiri</string>
+    <string name="rules_tpl_time_for_me_body">Membaca, berkarya, atau sekadar bernapas.</string>
+    <string name="rules_tpl_walk_before_you_scroll">Jalan Dulu Sebelum Scroll</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">Lalu 5 mnt di aplikasi, 3 kali sehari.</string>
+    <string name="rules_tpl_pause_before_opening">Jeda Sebelum Membuka</string>
+    <string name="rules_tpl_pause_before_opening_body">Lalu 5 mnt di aplikasi, 3 kali sehari.</string>
+    <string name="rules_tpl_social_budget">Anggaran Sosial</string>
+    <string name="rules_tpl_social_budget_body">Dibagi bersama, lalu diblokir hingga tengah malam.</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">Aturan baru</string>
+    <string name="rules_new_rule_subtitle">Apa yang ingin kamu atur?</string>
+    <string name="rules_browse_templates">Jelajahi templat</string>
+    <string name="rules_kind_routine_body">Memblokir aplikasi sesuai jadwal, seperti waktu tidur atau jam kerja.</string>
+    <string name="rules_kind_session_body">Memblokir aplikasi selama yang kamu pilih, setelah kamu memulainya.</string>
+    <string name="rules_kind_lock_body">Menutup aplikasi sejak kamu menyalakannya, dengan beberapa buka kunci singkat per hari.</string>
+    <string name="rules_kind_limit_body">Anggaran waktu untuk hari ini. Setelah habis, aplikasi tetap diblokir hingga tengah malam.</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">Aktif %1$s</string>
+    <string name="rules_detail_running">Sedang berjalan</string>
+    <string name="rules_detail_paused">Dijeda</string>
+    <string name="rules_detail_paused_until">Dijeda hingga %1$s</string>
+    <string name="rules_detail_on">Aktif</string>
+    <string name="rules_detail_off">Nonaktif</string>
+    <string name="rules_blocked">Diblokir</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">Aplikasi</string>
+    <string name="rules_apps_blocking">Diblokir sekarang</string>
+    <string name="rules_apps_not_blocking">Tidak memblokir sekarang</string>
+    <string name="rules_apps_blocked">Diblokir</string>
+    <string name="rules_apps_blocked_when_on">Diblokir saat aktif</string>
+    <string name="rules_apps_unlocked">Dibuka sementara</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">Tidak ada yang diblokir sekarang.</string>
+    <string name="rules_apps_none_unlocked">Tidak ada aplikasi yang dibuka kuncinya sekarang.</string>
+    <string name="rules_streak">Rentetan</string>
+    <plurals name="rules_streak_days">
+        <item quantity="other">%d hari</item>
+    </plurals>
+    <string name="rules_why">Alasan</string>
+    <string name="rules_why_placeholder">Ketuk untuk menulis kenapa ini penting.</string>
+    <string name="rules_why_empty">Belum ada alasan yang ditulis.</string>
+    <string name="rules_tile_now">SEKARANG</string>
+    <string name="rules_tile_left_of">tersisa dari %1$s</string>
+    <string name="rules_tile_used">%1$s terpakai</string>
+    <string name="rules_tile_today">HARI INI</string>
+    <string name="rules_tile_not_started">Belum dimulai</string>
+    <string name="rules_tile_unlocks_today">BUKA KUNCI HARI INI</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">Nonaktif</string>
+    <string name="rules_reminder_before">%1$d mnt sebelumnya</string>
+    <string name="rules_reminders_title">Ingatkan aku sebelum dimulai</string>
+    <string name="rules_activate">Aktifkan</string>
+    <string name="rules_turn_off">Matikan</string>
+    <string name="rules_menu_edit_settings">Ubah aturan</string>
+    <string name="rules_menu_pause">Jeda aturan</string>
+    <string name="rules_menu_resume">Lanjutkan aturan</string>
+    <string name="rules_menu_delete">Hapus aturan</string>
+    <string name="rules_pause_title">Jeda %1$s?</string>
+    <string name="rules_pause_hour">Selama 1 jam</string>
+    <string name="rules_pause_tomorrow">Sampai besok</string>
+    <string name="rules_pause_manual">Sampai aku menyalakannya lagi</string>
+    <string name="rules_pause_rule">Jeda aturan</string>
+    <string name="rules_pause_later">Jeda dimulai saat jendela ini berakhir.</string>
+    <string name="rules_paused_toast">%1$s dijeda</string>
+    <string name="rules_resumed_toast">%1$s aktif kembali</string>
+    <string name="rules_edit_title">Ubah aturan</string>
+    <string name="rules_sticker">STIKER</string>
+    <string name="rules_name_placeholder">Nama aturan</string>
+    <string name="rules_more_stickers">Stiker lainnya</string>
+    <string name="rules_more_stickers_soon">Stiker lainnya segera hadir</string>
+    <string name="rules_delete_title">Hapus %1$s?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="other">Rentetan %d harimu di aturan ini akan hilang. Tindakan ini tidak bisa dibatalkan.</item>
+    </plurals>
+    <string name="rules_delete_body">Aturan ini dan riwayatnya akan dihapus. Tindakan ini tidak bisa dibatalkan.</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">Aturan tetap memblokir hingga tengah malam, lalu dihapus.</string>
+    <string name="rules_delete_body_later_session">Aturan tetap memblokir hingga sesi berakhir, lalu dihapus.</string>
+    <string name="rules_delete_body_later_at">Aturan tetap memblokir hingga %1$s, lalu dihapus.</string>
+    <string name="rules_delete_rule">Hapus aturan</string>
+    <string name="rules_keep_it">Pertahankan</string>
+    <string name="rules_deleted_toast">%1$s dihapus</string>
+    <string name="rules_note_title">Kenapa aturan ini?</string>
+    <string name="rules_note_placeholder">Tuliskan…</string>
+    <string name="rules_session_started">Sesi dimulai · %1$s</string>
+    <string name="rules_limit_started">Batas dimulai · %1$s untuk hari ini</string>
+    <string name="rules_lock_activated">%1$s aktif</string>
+    <string name="rules_rule_created">%1$s dibuat</string>
+    <string name="rules_rule_saved">Perubahan disimpan</string>
+    <string name="rules_saved_later_midnight">Disimpan · beberapa perubahan berlaku saat tengah malam</string>
+    <string name="rules_saved_later_session">Disimpan · beberapa perubahan berlaku saat sesi berakhir</string>
+    <string name="rules_saved_later_at">Disimpan · beberapa perubahan berlaku pukul %1$s</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">Perubahanmu berlaku saat tengah malam</string>
+    <string name="rules_pending_changes_session">Perubahanmu berlaku saat sesi berakhir</string>
+    <string name="rules_pending_changes_at">Perubahanmu berlaku pukul %1$s</string>
+    <string name="rules_pending_delete_midnight">Dihapus saat tengah malam</string>
+    <string name="rules_pending_delete_session">Dihapus saat sesi berakhir</string>
+    <string name="rules_pending_delete_at">Dihapus pukul %1$s</string>
+    <string name="rules_pending_turn_off">Dinonaktifkan saat tengah malam</string>
+    <string name="rules_pending_pause">Dijeda saat jendela ini berakhir</string>
+    <string name="rules_pending_drop">Buang perubahan</string>
+    <string name="rules_pending_keep_rule">Pertahankan aturan</string>
+    <string name="rules_pending_keep_on">Biarkan tetap aktif</string>
+    <string name="rules_pending_dont_pause">Jangan jeda</string>
+    <string name="rules_session_ended">Sesi berakhir</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">Selalu diizinkan</string>
+    <string name="rules_allowed_explainer">Recentr tidak pernah memblokir aplikasi ini, apa pun aturan atau timernya.</string>
+    <string name="rules_allowed_add">Tambah aplikasi</string>
+    <string name="rules_allowed_remove">Hapus %1$s</string>
+    <string name="rules_allowed_section">Diizinkan</string>
+    <string name="rules_allowed_waiting">Bergabung nanti</string>
+    <string name="rules_allowed_none">Belum ada aplikasi. Peta, layanan antar-jemput, atau aplikasi kesehatan adalah pilihan bagus.</string>
+    <string name="rules_allowed_changes_tomorrow">Perubahanmu berlaku pukul %1$s besok</string>
+    <string name="rules_allowed_changes_on">Perubahanmu berlaku pada %1$s</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="other">Izinkan · %d aplikasi</item>
+    </plurals>
+    <string name="rules_allowed_done_none">Jangan izinkan apa pun</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">Selalu diizinkan</string>
+    <string name="focus_apps_subtitle">Ditahan selama putaran, bebas saat istirahat.</string>
+    <string name="focus_apps_on_hold">Ditahan</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bulgarian. -->
+<resources>
+    <string name="ds_tab_home">Начало</string>
+    <string name="ds_tab_rules">Правила</string>
+    <string name="ds_tab_timer">Таймер</string>
+    <string name="ds_tab_insights">Статистика</string>
+    <string name="ds_skip">Пропусни</string>
+    <string name="ds_back">Назад</string>
+    <string name="ds_clear">Изчисти</string>
+    <string name="ds_more_options">Още опции</string>
+    <string name="ds_goal_title">Дневна цел</string>
+    <string name="ds_goal_subtitle">Recentr ще те подсети, когато се доближиш.</string>
+    <string name="ds_goal_save">Запази целта</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Бърз избор</string>
+    <string name="ds_duration_minutes">%1$d мин</string>
+    <string name="ds_duration_hours">%1$d ч</string>
+    <string name="ds_duration_hours_minutes">%1$d ч %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Включи блокирането на приложения</string>
+    <string name="ds_blocking_body">За да постави блокираните приложения на изчакване, Recentr използва услугата за достъпност на Android. Тя вижда само кое приложение отваряш — никога какво има на екрана ти — и нищо не напуска телефона ти.</string>
+    <string name="ds_blocking_steps">В Настройки › Достъпност отвори „Блокиране на приложения от Recentr“ (в „Инсталирани приложения“ или „Изтеглени приложения“) и го включи.</string>
+    <string name="ds_blocking_open_settings">Отвори настройките</string>
+    <string name="ds_blocking_not_now">Не сега</string>
+    <string name="ds_blocking_off_title">Блокирането е изключено</string>
+    <string name="ds_blocking_off_body">Включи го, за да поставят правилата и фокус сесиите ти приложения на изчакване.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Свържи Recentr с екранното време</string>
+    <string name="ds_usage_access_body">Recentr се нуждае от достъп до данни за използване, за да отчита екранното ти време, вдигането на телефона и известията. Всичко остава на телефона ти.</string>
+    <string name="ds_usage_access_connect">Свържи</string>
+</resources>

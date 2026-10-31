@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian. -->
+<resources>
+    <!-- Common -->
+    <string name="insights_back">Назад</string>
+    <string name="insights_close">Закрити</string>
+    <string name="insights_more">Більше опцій</string>
+    <string name="insights_duration_m">%1$d хв</string>
+    <string name="insights_duration_h">%1$d год</string>
+    <string name="insights_duration_h_m">%1$d год %2$02d хв</string>
+    <string name="insights_duration_compact">%1$d год %2$02d хв</string>
+    <string name="insights_minus">−%1$s</string>
+    <string name="insights_plus">+%1$s</string>
+    <string name="insights_percent">%1$d%%</string>
+    <string name="insights_date">%2$d %1$s</string>
+    <string name="insights_no_value">—</string>
+    <string-array name="insights_weekday_initials">
+        <item>П</item>
+        <item>В</item>
+        <item>С</item>
+        <item>Ч</item>
+        <item>П</item>
+        <item>С</item>
+        <item>Н</item>
+    </string-array>
+    <string-array name="insights_weekday_short">
+        <item>пн</item>
+        <item>вт</item>
+        <item>ср</item>
+        <item>чт</item>
+        <item>пт</item>
+        <item>сб</item>
+        <item>нд</item>
+    </string-array>
+    <string-array name="insights_weekday_full">
+        <item>понеділок</item>
+        <item>вівторок</item>
+        <item>середа</item>
+        <item>четвер</item>
+        <item>пʼятниця</item>
+        <item>субота</item>
+        <item>неділя</item>
+    </string-array>
+    <string-array name="insights_months">
+        <item>січень</item>
+        <item>лютий</item>
+        <item>березень</item>
+        <item>квітень</item>
+        <item>травень</item>
+        <item>червень</item>
+        <item>липень</item>
+        <item>серпень</item>
+        <item>вересень</item>
+        <item>жовтень</item>
+        <item>листопад</item>
+        <item>грудень</item>
+    </string-array>
+    <string-array name="insights_months_short">
+        <item>січ.</item>
+        <item>лют.</item>
+        <item>бер.</item>
+        <item>квіт.</item>
+        <item>трав.</item>
+        <item>черв.</item>
+        <item>лип.</item>
+        <item>серп.</item>
+        <item>вер.</item>
+        <item>жовт.</item>
+        <item>лист.</item>
+        <item>груд.</item>
+    </string-array>
+
+    <!-- 99 · Overview -->
+    <string name="insights_title">Статистика</string>
+    <string name="insights_tab_day">День</string>
+    <string name="insights_tab_week">Тиждень</string>
+    <string name="insights_tab_month">Місяць</string>
+    <string name="insights_daily_average">Середнє за день</string>
+    <string name="insights_screen_time_today">Екранний час сьогодні</string>
+    <string name="insights_screen_time_yesterday">Екранний час вчора</string>
+    <string name="insights_screen_time">Екранний час</string>
+    <string name="insights_vs_last_week">%1$s порівняно з минулим тижнем</string>
+    <string name="insights_vs_yesterday">%1$s порівняно з вчорашнім днем</string>
+    <string name="insights_vs_day_before">%1$s порівняно з позавчора</string>
+    <string name="insights_vs_week_before">%1$s порівняно з попереднім тижнем</string>
+    <string name="insights_goal_line">Ціль %1$s</string>
+    <string name="insights_by_category">За категоріями</string>
+    <string name="insights_no_usage">Поки що немає екранного часу.</string>
+    <string name="insights_top_apps">Топ додатків</string>
+    <string name="insights_no_apps">Ще не використано жодного додатка.</string>
+    <string name="insights_see_more">Показати більше</string>
+    <string name="insights_category_social">Соцмережі</string>
+    <string name="insights_category_video">Відео</string>
+    <string name="insights_category_music">Музика</string>
+    <string name="insights_category_games">Ігри</string>
+    <string name="insights_category_productivity">Продуктивність</string>
+    <string name="insights_category_other">Інше</string>
+    <string name="insights_menu_pickups">Підняття</string>
+    <string name="insights_menu_daily_goal">Щоденна ціль</string>
+    <string name="insights_menu_streak">Серія</string>
+    <string name="insights_menu_achievements">Досягнення</string>
+    <string name="insights_chart_cd">%1$s: %2$s</string>
+
+    <!-- 102 · Month -->
+    <string name="insights_under_goal">Нижче цілі</string>
+    <string name="insights_less">Менше</string>
+    <string name="insights_more_legend">Більше</string>
+    <string name="insights_best_day">Найкращий день</string>
+    <string name="insights_toughest_day">Найважчий день</string>
+    <string name="insights_see_report">Переглянути звіт за %1$s</string>
+    <string name="insights_day_cd">%1$s: %2$s</string>
+    <string name="insights_day_cd_none">%1$s: немає даних</string>
+
+    <!-- 100 · App detail -->
+    <string name="insights_period_today">Сьогодні</string>
+    <string name="insights_period_yesterday">Вчора</string>
+    <string name="insights_period_week">Цього тижня</string>
+    <string name="insights_period_month">Цього місяця</string>
+    <string name="insights_period_last_week">Минулого тижня</string>
+
+    <!-- Date selector: "Sun, Oct 18", "Oct 5 – 11", "Sun, Oct 18, 2025". -->
+    <string name="insights_range_day">%1$s, %2$s</string>
+    <string name="insights_range_span">%1$s – %2$s</string>
+    <string name="insights_with_year">%1$s, %2$d</string>
+    <string name="insights_previous">Попередній</string>
+    <string name="insights_next">Наступний</string>
+    <string name="insights_app_subtitle">%1$s · %2$s</string>
+    <plurals name="insights_opens">
+        <item quantity="one">%d відкриття</item>
+        <item quantity="few">%d відкриття</item>
+        <item quantity="many">%d відкриттів</item>
+        <item quantity="other">%d відкриттів</item>
+    </plurals>
+    <string name="insights_over_limit">%1$s · перевищення ліміту на %2$s</string>
+    <string name="insights_left_in_limit">%1$s · до ліміту ще %2$s</string>
+    <string name="insights_by_hour">За годинами</string>
+    <string name="insights_longest_session">Найдовша сесія</string>
+    <string name="insights_first_open">Перше відкриття</string>
+    <string name="insights_usual_first_open">Зазвичай перше відкриття</string>
+    <string name="insights_noticed">Що помітив Recentr</string>
+    <string name="insights_noticed_idle">Відкриттів %1$s майже немає. Так тримати.</string>
+    <string name="insights_noticed_checks">%1$s: відкриттів на день — %2$d, і зазвичай ненадовго. Кілька секунд паузи перед відкриттям ламають рефлекс.</string>
+    <string name="insights_noticed_night">Більшість твого часу у %1$s припадає на період після %2$s. Рутина перед сном може його повернути.</string>
+    <string name="insights_noticed_morning">Більшість твого часу у %1$s припадає на період до %2$s. Спокійна ранкова рутина може його повернути.</string>
+    <string name="insights_noticed_work">Більшість твого часу у %1$s припадає на робочий день. Сесія фокусу може його повернути.</string>
+    <string name="insights_noticed_evening">Більшість твого часу у %1$s припадає на вечір. Ліміт може його повернути.</string>
+    <string name="insights_noticed_spread">Твій час у %1$s розподілений протягом дня. Ліміт тримає його під контролем.</string>
+    <string name="insights_set_limit">Встановити ліміт</string>
+    <string name="insights_edit_limit">Змінити ліміт</string>
+    <string name="insights_block_app">Заблокувати %1$s</string>
+
+    <!-- 101 · Pickups -->
+    <string name="insights_pickups">Підняття</string>
+    <plurals name="insights_pickups_today">
+        <item quantity="one">підняття сьогодні</item>
+        <item quantity="few">підняття сьогодні</item>
+        <item quantity="many">піднять сьогодні</item>
+        <item quantity="other">піднять сьогодні</item>
+    </plurals>
+    <plurals name="insights_pickups_yesterday">
+        <item quantity="one">підняття вчора</item>
+        <item quantity="few">підняття вчора</item>
+        <item quantity="many">піднять вчора</item>
+        <item quantity="other">піднять вчора</item>
+    </plurals>
+    <plurals name="insights_pickups_that_day">
+        <item quantity="one">підняття того дня</item>
+        <item quantity="few">підняття того дня</item>
+        <item quantity="many">піднять того дня</item>
+        <item quantity="other">піднять того дня</item>
+    </plurals>
+    <plurals name="insights_pickups_a_day">
+        <item quantity="one">підняття на день</item>
+        <item quantity="few">підняття на день</item>
+        <item quantity="many">піднять на день</item>
+        <item quantity="other">піднять на день</item>
+    </plurals>
+    <string name="insights_first_pickup">Перше о %1$s</string>
+    <string name="insights_usual_first_pickup">Зазвичай перше о %1$s</string>
+    <string name="insights_no_pickup">Ще жодного підняття</string>
+    <string name="insights_when_pick_up">Коли ти береш телефон</string>
+    <string name="insights_opened_first">Відкрито першим після підняття</string>
+    <string name="insights_open_count">%1$d×</string>
+    <string name="insights_no_first_open">Після підняття ще не відкрито жодного додатка.</string>
+    <string name="insights_tip_bedroom">Заряджай телефон поза спальнею — підняття о %1$s стане легшим.</string>
+    <string name="insights_tip_reflex">%1$s — перше, що ти відкриваєш. Прибери його з головного екрана, щоб зламати рефлекс.</string>
+    <string name="insights_tip_evening">Найбільше піднять телефону припадає на вечір. Рутина перед сном допоможе тримати його осторонь.</string>
+    <string name="insights_tip_default">Кожне пропущене підняття — це перемога. Спробуй класти телефон екраном донизу.</string>
+    <string name="insights_start_bedtime">Створити рутину перед сном</string>
+    <string name="insights_heat_cd">%1$s – %2$s: %3$d</string>
+
+    <!-- 103 · Monthly report -->
+    <string name="insights_report_chip">Звіт за %1$s</string>
+    <plurals name="insights_hours">
+        <item quantity="one">%d година</item>
+        <item quantity="few">%d години</item>
+        <item quantity="many">%d годин</item>
+        <item quantity="other">%d годин</item>
+    </plurals>
+    <plurals name="insights_minutes">
+        <item quantity="one">%d хвилина</item>
+        <item quantity="few">%d хвилини</item>
+        <item quantity="many">%d хвилин</item>
+        <item quantity="other">%d хвилин</item>
+    </plurals>
+    <string name="insights_won_back_month">повернуто цього місяця</string>
+    <string name="insights_pickups_a_day_label">Підняття на день</string>
+    <string name="insights_best_streak">Найкраща серія</string>
+    <plurals name="insights_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
+    </plurals>
+    <string name="insights_new">нове</string>
+    <string name="insights_share_month">Поділитися місяцем</string>
+    <string name="insights_replay">Повторити</string>
+
+    <!-- 104 · Daily goal -->
+    <string name="insights_daily_goal">Щоденна ціль</string>
+    <string name="insights_edit_goal">Змінити щоденну ціль</string>
+    <string name="insights_days_on_target">%1$d з %2$d днів у межах цілі</string>
+    <string name="insights_goal_under">Ціль: менше %1$s на день</string>
+    <string name="insights_adjust_goal">Змінити ціль</string>
+
+    <!-- 105 · Achievements -->
+    <string name="achievements_title">Досягнення</string>
+    <string name="achievements_earned_count">Отримано: %1$d з %2$d</string>
+    <string name="achievements_level">Рівень %1$d</string>
+    <string name="achievements_level_name">· %1$s</string>
+    <string-array name="achievements_level_names">
+        <item>Новий початок</item>
+        <item>У пошуках спокою</item>
+        <item>Тверда рука</item>
+        <item>Хранитель спокою</item>
+        <item>Глибокий фокус</item>
+        <item>Майстер дзен</item>
+        <item>Офлайн-легенда</item>
+    </string-array>
+    <string name="achievements_points">Бали спокою: %1$d / %2$d</string>
+    <string name="achievements_points_max">Бали спокою: %1$d</string>
+    <string name="achievements_all">Усі</string>
+    <string name="achievements_earned">Отримані</string>
+    <string name="achievements_next_up">Далі</string>
+    <string name="achievements_none_earned">Твій перший значок уже зовсім близько.</string>
+    <string name="achievements_all_earned">Усі значки зібрано. Вау.</string>
+    <string name="achievements_progress_days">Дні: %1$d / %2$d</string>
+    <string name="achievements_progress_nights">Ночі: %1$d / %2$d</string>
+    <string name="achievements_progress_mornings">Ранки: %1$d / %2$d</string>
+    <string name="achievements_progress_hours">Години: %1$d / %2$d</string>
+    <string name="achievements_progress_count">%1$d / %2$d</string>
+    <string name="achievements_of_days">Дні: %1$d з %2$d</string>
+    <string name="achievements_of_nights">Ночі: %1$d з %2$d</string>
+    <string name="achievements_of_mornings">Ранки: %1$d з %2$d</string>
+    <string name="achievements_of_hours">Години: %1$d з %2$d</string>
+    <string name="achievements_of_urges">Спокуси: %1$d з %2$d</string>
+    <string name="achievements_not_yet">Ще не отримано</string>
+    <string name="achievements_points_reward">Бали спокою: +%1$d</string>
+    <string name="achievements_got_it">Зрозуміло</string>
+    <string name="achievements_locked_cd">%1$s, заблоковано, %2$s</string>
+    <string name="achievements_earned_cd">%1$s, отримано %2$s</string>
+
+    <!-- 106 · Unlocked -->
+    <string name="achievements_new_badge">Новий значок</string>
+    <string name="achievements_earned_on">Отримано %1$s</string>
+    <string name="achievements_nice">Чудово!</string>
+    <string name="achievements_share_badge">Поділитися значком</string>
+
+    <!-- Badges: title, requirement, celebration, milestone -->
+    <string name="badge_first_lock">Перше блокування</string>
+    <string name="badge_first_lock_goal">Заблокуй додатки першим правилом.</string>
+    <string name="badge_first_lock_cheer">Твоє перше правило діє. Малі блокування — великі перемоги.</string>
+    <string name="badge_first_lock_milestone">%1$s заблоковано вперше.</string>
+    <string name="badge_first_lock_milestone_any">Створено перше правило блокування.</string>
+    <string name="badge_note_to_self">Нотатка собі</string>
+    <string name="badge_note_to_self_goal">Запиши, навіщо тобі одне з твоїх правил.</string>
+    <string name="badge_note_to_self_cheer">Твою причину записано. Вона допоможе не збитися зі шляху.</string>
+    <string name="badge_note_to_self_milestone">Записано, навіщо ти це робиш.</string>
+    <string name="badge_first_focus">Перший фокус</string>
+    <string name="badge_first_focus_goal">Заверши свою першу сесію фокусу.</string>
+    <string name="badge_first_focus_cheer">Одна сесія позаду. Твій м’яз фокусу розігрівається.</string>
+    <string name="badge_first_focus_milestone">Твоя перша сесія фокусу.</string>
+    <string name="badge_focus_ten_hours">10 годин фокусу</string>
+    <string name="badge_focus_ten_hours_goal">Проведи 10 годин у сесіях фокусу.</string>
+    <string name="badge_focus_ten_hours_cheer">Десять годин глибокого фокусу. Це цілий робочий день, повернений тобі.</string>
+    <string name="badge_focus_ten_hours_milestone">10 годин у сесіях фокусу.</string>
+    <string name="badge_seven_day_streak">Серія 7 днів</string>
+    <string name="badge_seven_day_streak_goal">Тримай серію 7 днів.</string>
+    <string name="badge_seven_day_streak_cheer">Цілий тиждень у межах цілі. Тримай вогонь!</string>
+    <string name="badge_seven_day_streak_milestone">Цілий тиждень у межах цілі.</string>
+    <string name="badge_goal_crusher">Підкорювач цілей</string>
+    <string name="badge_goal_crusher_goal">Тримайся в межах щоденної цілі 7 днів поспіль.</string>
+    <string name="badge_goal_crusher_cheer">Сім днів у межах цілі без жодної страховки. Блискуче.</string>
+    <string name="badge_goal_crusher_milestone">7 днів у межах цілі без страховки серії.</string>
+    <string name="badge_two_calm_weeks">Два спокійні тижні</string>
+    <string name="badge_two_calm_weeks_goal">Тримай серію 14 днів.</string>
+    <string name="badge_two_calm_weeks_cheer">Два спокійні тижні. Це стає звичкою.</string>
+    <string name="badge_two_calm_weeks_milestone">14 днів поспіль у межах цілі.</string>
+    <string name="badge_calm_month">Спокійний місяць</string>
+    <string name="badge_calm_month_goal">Тримай серію 30 днів.</string>
+    <string name="badge_calm_month_cheer">Цілий місяць спокою. Легендарно.</string>
+    <string name="badge_calm_month_milestone">30 днів поспіль у межах цілі.</string>
+    <string name="badge_night_owl">Сова на пенсії</string>
+    <string name="badge_night_owl_goal">7 ночей поспіль без екранів після %1$s.</string>
+    <string name="badge_night_owl_cheer">7 ночей поспіль без екранів після %1$s. Твій сон каже дякую.</string>
+    <string name="badge_night_owl_milestone">Без екранів після %1$s протягом 7 ночей.</string>
+    <string name="badge_slow_mornings">Неквапливі ранки</string>
+    <string name="badge_slow_mornings_goal">5 ранків поспіль без екранів до %1$s.</string>
+    <string name="badge_slow_mornings_cheer">П’ять неквапливих ранків. Твій день починається з тебе, а не зі стрічки.</string>
+    <string name="badge_slow_mornings_milestone">Без екранів до %1$s протягом 5 ранків.</string>
+    <string name="badge_screen_free_sunday">Неділя без екранів</string>
+    <string name="badge_screen_free_sunday_goal">Проведи неділю з екранним часом менше 30 хвилин.</string>
+    <string name="badge_screen_free_sunday_cheer">Неділя майже поза мережею. Хіба не легше?</string>
+    <string name="badge_screen_free_sunday_milestone">Неділя з екранним часом менше 30 хвилин.</string>
+    <string name="badge_gentle_day">М’який день</string>
+    <string name="badge_gentle_day_goal">Проведи цілий день з екранним часом менше 1 години.</string>
+    <string name="badge_gentle_day_cheer">Менше години за весь день. Дбайливо до очей і розуму.</string>
+    <string name="badge_gentle_day_milestone">Цілий день менше 1 години.</string>
+    <string name="badge_hands_off">Руки геть</string>
+    <string name="badge_hands_off_goal">Бери телефон до рук менше ніж 20 разів за день.</string>
+    <string name="badge_hands_off_cheer">Менше ніж 20 піднять за день. Твої руки знайшли кращі справи.</string>
+    <string name="badge_hands_off_milestone">Менше ніж 20 піднять за день.</string>
+    <string name="badge_urges_resisted">100 подоланих спокус</string>
+    <string name="badge_urges_resisted_goal">Обери паузу 100 разів під час сесій фокусу.</string>
+    <string name="badge_urges_resisted_cheer">100 спокус, 100 пауз. Керуєш ти.</string>
+    <string name="badge_urges_resisted_milestone">Паузу обрано 100 разів.</string>
+    <string name="badge_ten_hours_won_back">10 годин повернуто</string>
+    <string name="badge_ten_hours_won_back_goal">Відвойуй 10 годин у старої звички з телефоном.</string>
+    <string name="badge_ten_hours_won_back_cheer">10 годин повернуто у твоє життя. Що з ними робитимеш?</string>
+    <string name="badge_ten_hours_won_back_milestone">10 годин, відвойованих у старої звички.</string>
+    <string name="badge_fifty_hours_won_back">50 годин повернуто</string>
+    <string name="badge_fifty_hours_won_back_goal">Відвойуй 50 годин у старої звички з телефоном.</string>
+    <string name="badge_fifty_hours_won_back_cheer">50 годин повернуто. Це більше, ніж робочий тиждень.</string>
+    <string name="badge_fifty_hours_won_back_milestone">50 годин, відвойованих у старої звички.</string>
+
+    <!-- 108 · Streak -->
+    <string name="streak_title">Серія</string>
+    <string name="streak_best_yet">дн. серії · твій рекорд</string>
+    <string name="streak_best">дн. серії · рекорд: %1$s</string>
+    <string name="streak_this_week">Цього тижня</string>
+    <plurals name="streak_savers_left">
+        <item quantity="one">Залишилась %d страховка серії</item>
+        <item quantity="few">Залишилось %d страховки серії</item>
+        <item quantity="many">Залишилось %d страховок серії</item>
+        <item quantity="other">Залишилось %d страховок серії</item>
+    </plurals>
+    <string name="streak_saver_used">Використано на %1$s — серію збережено.</string>
+    <string name="streak_saver_unused">День понад ціль? Страховка збереже твою серію.</string>
+    <string name="streak_savers_out">Страховок цього місяця більше немає. Нові з’являться 1-го числа.</string>
+    <plurals name="streak_days_to">
+        <item quantity="one">%1$d день до «%2$s»</item>
+        <item quantity="few">%1$d дні до «%2$s»</item>
+        <item quantity="many">%1$d днів до «%2$s»</item>
+        <item quantity="other">%1$d днів до «%2$s»</item>
+    </plurals>
+    <string name="streak_all_done">Усі значки серії отримано. Так тримати!</string>
+    <string name="streak_help">Як працюють серії</string>
+    <string name="streak_help_body">Кожен день у межах щоденної цілі додає одиницю до серії. Перевищено ціль? Страховка покриє цей день — щомісяця їх 3.</string>
+    <string name="streak_help_ok">Зрозуміло</string>
+    <string name="streak_day_on_target">%1$s: у межах цілі</string>
+    <string name="streak_day_saved">%1$s: врятовано страховкою серії</string>
+    <string name="streak_day_missed">%1$s: понад ціль</string>
+    <string name="streak_day_today">%1$s: сьогодні</string>
+    <string name="streak_day_empty">%1$s: немає даних</string>
+
+    <!-- 109 · Milestones -->
+    <string name="milestones_title">Віхи</string>
+    <plurals name="milestones_since">
+        <item quantity="one">З першого дня · %d день</item>
+        <item quantity="few">З першого дня · %d дні</item>
+        <item quantity="many">З першого дня · %d днів</item>
+        <item quantity="other">З першого дня · %d днів</item>
+    </plurals>
+    <string name="milestones_next">Далі</string>
+
+    <!-- 110 · Share -->
+    <string name="share_title">Поділитися</string>
+    <string name="share_won_back">Відвойовано</string>
+    <string name="share_in_month">за %1$s з Recentr</string>
+    <string name="share_earned">Здобуто</string>
+    <string name="share_with_recentr">з Recentr</string>
+    <string name="share_streak_chip">Серія %1$d дн.</string>
+    <string name="share_daily_chip">%1$s на день</string>
+    <string name="share_level_chip">Рівень %1$d</string>
+    <string name="share_stories">Історії</string>
+    <string name="share_post">Допис</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_copy_link">Копіювати посилання</string>
+    <string name="share_save">Зберегти</string>
+    <string name="share_done">Готово</string>
+    <string name="share_text_month">За %2$s з Recentr відвойовано %1$s. %3$s</string>
+    <string name="share_text_badge">Мій новий значок у Recentr: «%1$s». %2$s</string>
+    <string name="share_copied">Скопійовано</string>
+    <string name="share_saved">Збережено в «Зображення»</string>
+    <string name="share_save_failed">Не вдалося зберегти зображення</string>
+</resources>

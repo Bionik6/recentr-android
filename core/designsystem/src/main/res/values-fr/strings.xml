@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- French. -->
+<resources>
+    <string name="ds_tab_home">Accueil</string>
+    <string name="ds_tab_rules">Règles</string>
+    <string name="ds_tab_timer">Minuteur</string>
+    <string name="ds_tab_insights">Statistiques</string>
+    <string name="ds_skip">Passer</string>
+    <string name="ds_back">Retour</string>
+    <string name="ds_clear">Effacer</string>
+    <string name="ds_more_options">Plus d’options</string>
+    <string name="ds_goal_title">Objectif quotidien</string>
+    <string name="ds_goal_subtitle">Recentr te prévient quand tu t’en approches.</string>
+    <string name="ds_goal_save">Enregistrer l’objectif</string>
+
+    <!-- Duration picker -->
+    <string name="ds_duration_quick_select">Sélection rapide</string>
+    <string name="ds_duration_minutes">%1$d min</string>
+    <string name="ds_duration_hours">%1$d h</string>
+    <string name="ds_duration_hours_minutes">%1$d h %2$02d</string>
+
+    <!-- App blocking (Accessibility service) -->
+    <string name="ds_blocking_title">Active le blocage des applis</string>
+    <string name="ds_blocking_body">Pour mettre en veille les applis que tu bloques, Recentr utilise le service d’accessibilité d’Android. Il ne voit que l’appli que tu ouvres — jamais ce qu’il y a sur ton écran — et rien ne quitte ton téléphone.</string>
+    <string name="ds_blocking_steps">Dans Paramètres › Accessibilité, ouvre « Blocage d’applis Recentr » (sous Applications installées ou téléchargées) et active-le.</string>
+    <string name="ds_blocking_open_settings">Ouvrir les paramètres</string>
+    <string name="ds_blocking_not_now">Pas maintenant</string>
+    <string name="ds_blocking_off_title">Le blocage est désactivé</string>
+    <string name="ds_blocking_off_body">Active-le pour que tes règles et tes sessions de concentration mettent les applis en veille.</string>
+
+    <!-- Screen time (Usage access) -->
+    <string name="ds_usage_access_title">Connecte Recentr au temps d’écran</string>
+    <string name="ds_usage_access_body">Recentr a besoin de l’accès aux données d’utilisation pour compter ton temps d’écran, tes prises en main et tes notifications. Tout reste sur ton téléphone.</string>
+    <string name="ds_usage_access_connect">Connecter</string>
+</resources>

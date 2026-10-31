@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. -->
+<resources>
+    <!-- Shared -->
+    <string name="onb_continue">Pokračovat</string>
+
+    <!-- Durations: compact (4h20 · 6h · 45m) and spelled out (6 hours · 45 minutes) -->
+    <string name="onb_duration_hm">%1$d h %2$02d</string>
+    <string name="onb_duration_h">%1$d h</string>
+    <string name="onb_duration_m">%1$d min</string>
+    <plurals name="onb_hours">
+        <item quantity="one">%d hodina</item>
+        <item quantity="few">%d hodiny</item>
+        <item quantity="many">%d hodiny</item>
+        <item quantity="other">%d hodin</item>
+    </plurals>
+    <plurals name="onb_minutes">
+        <item quantity="one">%d minuta</item>
+        <item quantity="few">%d minuty</item>
+        <item quantity="many">%d minuty</item>
+        <item quantity="other">%d minut</item>
+    </plurals>
+
+    <!-- 05 · Welcome -->
+    <string name="onb_welcome_stat_people_value">250 tis.+</string>
+    <string name="onb_welcome_stat_people_label">soustředěných lidí</string>
+    <string name="onb_welcome_stat_time_value">11 h</string>
+    <string name="onb_welcome_stat_time_label">získáno zpět týdně</string>
+    <string name="onb_welcome_before">Před</string>
+    <string name="onb_welcome_before_value">7 h 40 min</string>
+    <string name="onb_welcome_now">Teď</string>
+    <string name="onb_welcome_now_value">2 h 10 min</string>
+    <string name="onb_welcome_title">Čas u obrazovky podle tebe.</string>
+    <string name="onb_welcome_subtitle">Zablokuj aplikace, které tě vtahují — jemně, pauzou, ne bojem.</string>
+    <string name="onb_welcome_get_started">Začít</string>
+
+    <!-- 06 · A little friction -->
+    <string name="onb_friction_title">Recentr přidá pauzu před aplikace, které tě vtahují</string>
+    <string name="onb_friction_shield_message">Instagram: držíš se stranou už 6 h 15</string>
+    <string name="onb_friction_shield_primary">Zvládnu to</string>
+    <string name="onb_friction_shield_secondary">Přesto odemknout (4/5)</string>
+
+    <!-- 07 · Social proof -->
+    <string name="onb_social_title">250 000 lidí si s Recentr bere zpět svůj čas</string>
+    <string name="onb_social_score">4,8</string>
+    <string name="onb_social_count">ze 7 000+ recenzí</string>
+    <string name="onb_social_rating_description">Hodnocení 4,8 z 5</string>
+    <string name="onb_review1_title">Večery jsou zase moje</string>
+    <string name="onb_review1_body">Z 7 hodin denně na méně než 3. Ta malá pauza před otevřením X je geniální.</string>
+    <string name="onb_review1_name">Jonáš R.</string>
+    <string name="onb_review2_title">Jediná, která vydržela</string>
+    <string name="onb_review2_body">Ostatní blokátory šly rovnou do koše. Tahle aplikace působí vlídně, tak ji nechávám.</string>
+    <string name="onb_review2_name">Tereza S.</string>
+    <string name="onb_review3_title">Spánek je zpět</string>
+    <string name="onb_review3_body">Noční rutina ve 23:00 všechno zamkne. Moje rána jsou zase moje.</string>
+    <string name="onb_review3_name">Leoš M.</string>
+
+    <!-- 08 · Your turn -->
+    <string name="onb_your_turn_overline">Teď jsi na řadě</string>
+    <string name="onb_your_turn_title">Pojďme Recentr naladit na tvé dny</string>
+    <string name="onb_your_turn_cta">Jdeme na to</string>
+
+    <!-- 09 · Name -->
+    <string name="onb_name_title">Jak ti máme říkat?</string>
+    <string name="onb_name_placeholder">Tvé křestní jméno</string>
+
+    <!-- 10 · What’s wrong -->
+    <string name="onb_pain_title">Tak co vadí na tvém čase s telefonem?</string>
+    <string name="onb_pain_subtitle">Vyber všechno, co platí.</string>
+    <string name="onb_pain_sleep">Škodí mému spánku</string>
+    <string name="onb_pain_focus">Těžko se soustředím</string>
+    <string name="onb_pain_scroll">Scrolluju bez přemýšlení</string>
+    <string name="onb_pain_notifications">Oznámení mě rozptylují</string>
+    <string name="onb_pain_hours">Hodiny mizí, aniž si toho všimnu</string>
+    <string name="onb_pain_fine">Popravdě, je to v pohodě…</string>
+
+    <!-- 11 · Time spent -->
+    <string name="onb_usage_title">Kolik času trávíš na telefonu?</string>
+    <string name="onb_usage_subtitle">Zhruba za den — bez soudů.</string>
+    <string name="onb_usage_over_7">Více než 7 hodin</string>
+    <string name="onb_usage_5_7">5 – 7 hodin</string>
+    <string name="onb_usage_3_5">3 – 5 hodin</string>
+    <string name="onb_usage_1_3">1 – 3 hodiny</string>
+    <string name="onb_usage_under_1">Méně než 1 hodina</string>
+
+    <!-- 12 · Daily goal -->
+    <string name="onb_goal_title">Nastav si denní cíl</string>
+    <string name="onb_goal_subtitle">V průměru máš %1$s denně. Zkusme cílit níž.</string>
+    <string name="onb_goal_tone_bold">Odvážný cíl!</string>
+    <string name="onb_goal_tone_balanced">Fajn rovnováha</string>
+    <string name="onb_goal_tone_easy">Snadný start</string>
+    <string name="onb_goal_your_goal">Tvůj cíl</string>
+    <string name="onb_goal_today">Dnes</string>
+    <string name="onb_goal_note">Tohle aplikace neblokuje — je to jen orientační vodítko.</string>
+
+    <!-- 13 · Doing the math -->
+    <string name="onb_math_title">Pojďme počítat</string>
+    <string name="onb_math_percent">%1$d %%</string>
+    <string name="onb_math_step_habits">Čtení tvých zvyků</string>
+    <string name="onb_math_step_goal">Přizpůsobení tvému cíli</string>
+    <string name="onb_math_step_plan">Sestavení tvého plánu</string>
+
+    <!-- 14 · Honest news -->
+    <string name="onb_news_overline">Tak dobře, buďme upřímní</string>
+    <string name="onb_news_title">Máme dobré… a ne tak dobré zprávy</string>
+    <string name="onb_news_cta">Řekni mi víc</string>
+
+    <!-- 15 · Years on phone -->
+    <string name="onb_years_lead">Takhle strávíš</string>
+    <plurals name="onb_years_number">
+        <item quantity="one">%d rok</item>
+        <item quantity="few">%d roky</item>
+        <item quantity="many">%d roku</item>
+        <item quantity="other">%d let</item>
+    </plurals>
+    <string name="onb_years_tail">života na telefonu</string>
+    <string name="onb_years_every_day">Každý den</string>
+    <string name="onb_years_every_year">Každý rok</string>
+    <plurals name="onb_days">
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="many">%d dne</item>
+        <item quantity="other">%d dní</item>
+    </plurals>
+
+    <!-- 16 · A way out -->
+    <string name="onb_way_out_title">Dobrá zpráva? Denně můžeš získat zpět %1$s.</string>
+    <string name="onb_way_out_subtitle">Proto jsme vytvořili Recentr — jemnou cestu ven, ne další povinnost.</string>
+    <string name="onb_way_out_cta">Jak to funguje?</string>
+
+    <!-- 17 · How it works -->
+    <string name="onb_how_title">Jak Recentr funguje</string>
+    <string name="onb_how_step">Krok %1$d</string>
+    <string name="onb_how_step1_title">Vyber, co tě vtahuje</string>
+    <string name="onb_how_step1_body">Vyber aplikace a pak Zámek, Sezení nebo Limit.</string>
+    <string name="onb_how_step2_title">Čeká tě pauza, ne zeď</string>
+    <string name="onb_how_step2_body">Pár sekund na nadechnutí, než ji otevřeš.</string>
+    <string name="onb_how_step3_title">Pěstuj klidnější dny</string>
+    <string name="onb_how_step3_body">Zůstaň pod cílem a udrž sérii naživu.</string>
+
+    <!-- 18 · Screen Time access -->
+    <string name="onb_screen_time_title">Připoj Recentr k času u obrazovky</string>
+    <string name="onb_screen_time_subtitle">Potřebujeme to k nastavení limitů. Vše zůstává v tvém telefonu.</string>
+    <string name="onb_screen_time_cta">Připojit</string>
+    <string name="onb_screen_time_alert_title">„Recentr“ žádá o přístup k času u obrazovky</string>
+    <string name="onb_screen_time_alert_body">Recentr to využívá k nastavení limitů a zobrazení tvého využití. Tvá data tento telefon nikdy neopustí.</string>
+    <string name="onb_screen_time_alert_allow">Pokračovat</string>
+    <string name="onb_screen_time_alert_deny">Nepovolit</string>
+
+    <!-- Apps to pause (not in Figma, as on iOS) -->
+    <string name="onb_apps_title">Co tě vtahuje?</string>
+    <string name="onb_apps_subtitle">Sociální aplikace, nebo jakékoli jiné. Tři rutiny je pozastaví a k otevření je potřeba 10 sekund čekání. Kdykoli je můžeš změnit.</string>
+    <string name="onb_apps_choose">Vybrat aplikace</string>
+    <plurals name="onb_apps_count">
+        <item quantity="one">%d aplikace</item>
+        <item quantity="few">%d aplikace</item>
+        <item quantity="many">%d aplikace</item>
+        <item quantity="other">%d aplikací</item>
+    </plurals>
+
+    <!-- "9:00 AM – 5:00 PM · Weekdays" -->
+    <string name="onb_apps_schedule">%1$s – %2$s · %3$s</string>
+    <string name="onb_days_weekdays">Ve všední dny</string>
+    <string name="onb_days_every_day">Každý den</string>
+    <string name="onb_days_weekends">O víkendech</string>
+
+    <!-- 19 · Notifications -->
+    <string name="onb_notif_title">Buď o krok napřed</string>
+    <string name="onb_notif_subtitle">Jemná upozornění, než rutina začne nebo než ti dojde limit.</string>
+    <string name="onb_notif_now">teď</string>
+    <string name="onb_notif_banner1_title">Noční rutina začíná za 10 min</string>
+    <string name="onb_notif_banner1_body">Od 23:00 bez telefonu. Sladké sny.</string>
+    <string name="onb_notif_banner2_title">Zbývá 5 min z času na sítích</string>
+    <string name="onb_notif_banner2_body">Dokonči to — X se zamkne po 2 h 15.</string>
+    <string name="onb_notif_banner3_title">3-denní série!</string>
+    <string name="onb_notif_banner3_body">Opět se držíš pod %1$s.</string>
+
+    <!-- 21 · All set -->
+    <string name="onb_all_set_title">Vše je připraveno, %1$s</string>
+    <string name="onb_all_set_title_no_name">Vše je připraveno</string>
+    <string name="onb_all_set_subtitle">Tady je tvůj plán na tento týden.</string>
+    <string name="onb_all_set_daily_goal">Denní cíl</string>
+    <string name="onb_all_set_first_rule">První pravidlo</string>
+    <string name="onb_rule_bedtime">Čas spánku</string>
+    <string name="onb_rule_focus">Čas soustředění</string>
+    <string name="onb_rule_social">Limit na sítě</string>
+    <string name="onb_rule_quiet">Tiché hodiny</string>
+    <string name="onb_rule_daily_limit">Časový rozpočet</string>
+    <string name="onb_all_set_note_title">Proč to dělám</string>
+    <string name="onb_reason_scroll">Víc večerů venku, méně času v aplikaci TikTok.</string>
+    <string name="onb_reason_sleep">Klidnější noci, rána bez telefonu.</string>
+    <string name="onb_reason_focus">Nejdřív hluboká práce, sítě až potom.</string>
+    <string name="onb_reason_notifications">Méně pípání, víc přítomnosti.</string>
+    <string name="onb_reason_hours">Všimnout si svého času, než proklouzne.</string>
+    <string name="onb_reason_fine">Každý den trochu víc rovnováhy.</string>
+    <string name="onb_all_set_cta">Začít moje první sezení</string>
+
+    <!-- The starter routines' names, as Rules lists them. -->
+    <string name="onb_routine_working_time">Pracovní doba</string>
+    <string name="onb_routine_night_pause">Noční pauza</string>
+    <string name="onb_routine_weekend_zen">Víkendový zen</string>
+</resources>

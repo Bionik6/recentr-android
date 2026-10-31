@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified). -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">规则</string>
+    <string name="rules_templates_title">模板</string>
+    <string name="rules_subtitle_active">%1$d 条生效中</string>
+    <string name="rules_subtitle_active_paused">%1$d 条生效中 · %2$d 条已暂停</string>
+    <string name="rules_templates_subtitle">现成的规则 · 点按即可开始</string>
+    <string name="rules_group_locks">锁定</string>
+    <string name="rules_group_sessions">专注时段</string>
+    <string name="rules_group_limits">限额</string>
+    <string name="rules_group_routines">例程</string>
+    <string name="rules_group_templates">模板</string>
+    <string name="rules_add_session">添加专注时段</string>
+    <string name="rules_add_session_hint">例如：“接下来 30 分钟屏蔽应用”</string>
+    <string name="rules_add_routine">添加例程</string>
+    <string name="rules_add_routine_hint">例如：“晚饭时不看手机”</string>
+    <string name="rules_add_lock">添加锁定</string>
+    <string name="rules_add_lock_hint">例如：“整天不打开 TikTok”</string>
+    <string name="rules_add_limit">添加限额</string>
+    <string name="rules_add_limit_hint">例如：“每天只看 1 小时 YouTube”</string>
+    <string name="rules_more">更多选项</string>
+    <string name="rules_empty_title">还没有规则</string>
+    <string name="rules_empty_body">开始一个专注时段，或选一个模板就能上手。</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">进行中</string>
+    <string name="rules_status_upcoming">即将开始</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">就绪</string>
+    <plurals name="rules_more_apps">
+        <item quantity="other">+ %d 个应用</item>
+    </plurals>
+    <string name="rules_tile_ready">就绪</string>
+    <string name="rules_status_blocking">屏蔽中</string>
+    <string name="rules_status_paused">已暂停</string>
+    <string name="rules_status_times_up">时间到</string>
+    <string name="rules_status_unlocks">解锁 %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">不限解锁次数</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">已关闭</string>
+    <string name="rules_all_day">全天</string>
+    <string name="rules_strict_mode">严格模式</string>
+    <string name="rules_value_locked">已锁定</string>
+    <string name="rules_value_off">关闭</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">至午夜</string>
+    <string name="rules_budget_today">今日额度</string>
+    <string name="rules_value_left">剩余 %1$s</string>
+    <string name="rules_value_starts_in">%1$s 后</string>
+    <string name="rules_value_paused">已暂停</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">每天</string>
+    <string name="rules_days_weekdays">工作日</string>
+    <string name="rules_days_weekends">周末</string>
+    <string-array name="rules_day_short">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>日</item>
+    </string-array>
+    <string name="rules_am">上午</string>
+    <string name="rules_pm">下午</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d 分钟</string>
+    <string name="rules_hours_short">%1$d 小时</string>
+    <string name="rules_hours_minutes">%1$d 小时 %2$d 分钟</string>
+    <string name="rules_compact_seconds">%1$d秒</string>
+    <string name="rules_compact_minutes">%1$d分钟</string>
+    <string name="rules_compact_hours">%1$d小时</string>
+    <string name="rules_compact_hours_minutes">%1$d小时%2$02d分</string>
+
+    <!-- Common -->
+    <string name="rules_none">无</string>
+    <string name="rules_save">保存</string>
+    <string name="rules_done">完成</string>
+    <string name="rules_continue">继续</string>
+    <string name="rules_cancel">取消</string>
+    <string name="rules_back">返回</string>
+    <string name="rules_edit_name">编辑名称和贴纸</string>
+    <plurals name="rules_apps_count">
+        <item quantity="other">%d 个应用</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">专注时段</string>
+    <string name="rules_type_lock">锁定</string>
+    <string name="rules_type_limit">限额</string>
+    <string name="rules_type_routine">例程</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">屏蔽</string>
+    <string name="rules_row_active">启用</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">解锁方式</string>
+    <string name="rules_row_unlocks_per_day">每天解锁次数</string>
+    <string name="rules_row_apps">应用</string>
+    <string name="rules_row_reminders">提醒</string>
+    <string name="rules_row_each_unlock">每次解锁时长</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">专注时段</string>
+    <string name="rules_session_subtitle">开始后将屏蔽应用，时长 %1$s。</string>
+    <string name="rules_session_default_name">专注时段</string>
+    <string name="rules_suggestions">建议</string>
+    <string name="rules_start">开始</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">结束前无法解锁。</string>
+    <string name="rules_unlock_strict_caption">严格模式下无法解锁。</string>
+    <string name="rules_strict_confirm_title">开启严格模式？</string>
+    <string name="rules_strict_confirm_body">在它结束前，你将无法解锁这些应用，紧急解锁除外。</string>
+    <string name="rules_turn_on">开启</string>
+    <string name="rules_not_now">以后再说</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">现在屏蔽这些应用？</string>
+    <string name="rules_block_now_body">这条规则正在屏蔽中：你添加的应用会立即被屏蔽。</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">开启 %1$s？</string>
+    <string name="rules_lock_confirm_body">一旦开启，任何放宽限制的改动——移除应用、增加解锁次数、关闭它——都要到午夜才会生效。</string>
+    <string name="rules_limit_confirm_title">开始 %1$s？</string>
+    <string name="rules_limit_confirm_body">一旦开始，任何放宽限制的改动——增加额度、移除应用——都要到午夜重置时才会生效。</string>
+    <string name="rules_block_now">立即屏蔽</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">锁定</string>
+    <string name="rules_lock_subtitle">让选定的应用保持关闭，每天只有几次短暂解锁。</string>
+    <string name="rules_lock_note_title">为什么要锁定？</string>
+    <string name="rules_hold_create_lock">长按创建锁定</string>
+    <string name="rules_hold_create_session">长按创建专注时段</string>
+    <string name="rules_unlock_wait">等待 %1$d 秒</string>
+    <string name="rules_unlock_retype">重新输入</string>
+    <string name="rules_unlock_scan">扫描二维码</string>
+    <string name="rules_unlock_walk">走 %1$d 步</string>
+    <string name="rules_unlimited">不限</string>
+    <string name="rules_lock_default_name">锁定</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">选择应用</string>
+    <string name="rules_selected">已选 %1$d 个</string>
+    <string name="rules_search_apps">搜索应用</string>
+    <string name="rules_category_social">社交</string>
+    <string name="rules_category_entertainment">娱乐</string>
+    <string name="rules_category_music">音乐</string>
+    <string name="rules_category_games">游戏</string>
+    <string name="rules_category_productivity">效率</string>
+    <string name="rules_category_other">其他</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="other">屏蔽 · %d 个应用</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">所有应用和类别</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">全部</string>
+    <string name="rules_no_apps_found">没有与“%1$s”匹配的应用。</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">持续</string>
+    <string name="rules_ends_at">结束于 %1$s</string>
+    <string name="rules_hours_label">小时</string>
+    <string name="rules_minutes_label">分钟</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">限额</string>
+    <string name="rules_limit_subtitle">为今天设定的时间额度，针对那些吞噬你一天的应用。</string>
+    <string name="rules_hold_create_limit">长按创建限额</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">锁定至午夜</string>
+    <string name="rules_locked_in_lock">创建后立即生效。放宽它——移除应用、增加解锁次数、关闭它——或删除它，都要等到每日重置后，也就是午夜才会生效。</string>
+    <string name="rules_locked_in_limit">创建后立即开始。放宽它——增加额度、移除应用——或删除它，都要等到每日重置后，也就是午夜才会生效。</string>
+    <string name="rules_limit_resets">每天午夜自动重置。</string>
+    <string name="rules_limit_default_name">限额</string>
+    <string name="rules_limit_social_name">社交时间</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">睡前</string>
+    <string name="rules_bedtime_subtitle">按计划屏蔽应用。</string>
+    <string name="rules_from">从</string>
+    <string name="rules_until">到</string>
+    <string name="rules_tonight">%1$s · 今晚</string>
+    <string name="rules_today">%1$s · 今天</string>
+    <string name="rules_tomorrow">%1$s · 明天</string>
+    <string name="rules_tonight_alone">今晚</string>
+    <string name="rules_today_alone">今天</string>
+    <string name="rules_tomorrow_alone">明天</string>
+    <string name="rules_hold_create_routine">长按创建例程</string>
+    <string name="rules_starts_at">开始于</string>
+    <string name="rules_ends_at_title">结束于</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">你要怎么解锁？</string>
+    <string name="rules_unlock_subtitle">挑一种对你有效的小阻力。</string>
+    <string name="rules_unlock_option_wait">等待几秒</string>
+    <string name="rules_unlock_option_retype">重新输入一段难受的文字</string>
+    <string name="rules_unlock_option_scan">扫描你放在别处的二维码</string>
+    <string name="rules_unlock_option_walk">走 %1$d 步</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">解锁前等待</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="other">%d 秒</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 分钟</string>
+    <string name="rules_seconds_chip">%1$d 秒</string>
+    <string name="rules_one_min_chip">1 分钟</string>
+    <string name="rules_unlocks_per_day_title">每天解锁次数</string>
+    <string name="rules_each_unlock_title">每次解锁时长</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">专注</string>
+    <string name="rules_section_focus_body">适合工作、学习或完成一个项目。</string>
+    <string name="rules_section_unwind">放松</string>
+    <string name="rules_section_unwind_body">更平静的夜晚，更温柔的早晨。</string>
+    <string name="rules_section_be_present">活在当下</string>
+    <string name="rules_section_be_present_body">把注意力留给身边的人，或留给自己。</string>
+    <string name="rules_section_scroll_less">少刷一点</string>
+    <string name="rules_section_scroll_less_body">有意识地打开应用，而不是出于习惯。</string>
+    <string name="rules_tpl_focus_sprint">专注冲刺</string>
+    <string name="rules_tpl_focus_sprint_body">即刻开始，屏蔽干扰。</string>
+    <string name="rules_tpl_study_hour">学习一小时</string>
+    <string name="rules_tpl_study_hour_body">一小时学习时间，即刻开始。</string>
+    <string name="rules_tpl_work_rhythm">工作节奏</string>
+    <string name="rules_tpl_work_rhythm_body">工作日屏蔽干扰。</string>
+    <string name="rules_tpl_evening_calm">宁静夜晚</string>
+    <string name="rules_tpl_evening_calm_body">每天晚上不看社交和视频应用。</string>
+    <string name="rules_tpl_night_pause">夜间暂停</string>
+    <string name="rules_tpl_night_pause_body">整晚屏蔽干扰。</string>
+    <string name="rules_tpl_slow_morning">慢享清晨</string>
+    <string name="rules_tpl_slow_morning_body">每天从没有社交应用的早晨开始。</string>
+    <string name="rules_tpl_dinner_together">共进晚餐</string>
+    <string name="rules_tpl_dinner_together_body">晚餐时屏蔽干扰。</string>
+    <string name="rules_tpl_family_hour">家庭时光</string>
+    <string name="rules_tpl_family_hour_body">周日留给彼此相伴的时光。</string>
+    <string name="rules_tpl_time_for_me">留给自己的时间</string>
+    <string name="rules_tpl_time_for_me_body">读书、创作，或者只是深呼吸。</string>
+    <string name="rules_tpl_walk_before_you_scroll">先走路再刷屏</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">之后每天可进入应用 3 次，每次 5 分钟。</string>
+    <string name="rules_tpl_pause_before_opening">打开前先停一停</string>
+    <string name="rules_tpl_pause_before_opening_body">之后每天可进入应用 3 次，每次 5 分钟。</string>
+    <string name="rules_tpl_social_budget">社交预算</string>
+    <string name="rules_tpl_social_budget_body">共用一份额度，用完后屏蔽到午夜。</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">新建规则</string>
+    <string name="rules_new_rule_subtitle">你想设置什么？</string>
+    <string name="rules_browse_templates">浏览模板</string>
+    <string name="rules_kind_routine_body">按计划屏蔽应用，比如睡前或工作时间。</string>
+    <string name="rules_kind_session_body">开始后，按你选的时长屏蔽应用。</string>
+    <string name="rules_kind_lock_body">从你开启起让应用保持关闭，每天只有几次短暂解锁。</string>
+    <string name="rules_kind_limit_body">今天的时间额度。用完后，应用会一直被屏蔽到午夜。</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">%1$s 生效</string>
+    <string name="rules_detail_running">正在运行</string>
+    <string name="rules_detail_paused">已暂停</string>
+    <string name="rules_detail_paused_until">暂停至 %1$s</string>
+    <string name="rules_detail_on">开启</string>
+    <string name="rules_detail_off">关闭</string>
+    <string name="rules_blocked">已屏蔽</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">应用</string>
+    <string name="rules_apps_blocking">当前已屏蔽</string>
+    <string name="rules_apps_not_blocking">当前未屏蔽</string>
+    <string name="rules_apps_blocked">已屏蔽</string>
+    <string name="rules_apps_blocked_when_on">开启时屏蔽</string>
+    <string name="rules_apps_unlocked">暂时已解锁</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">当前没有屏蔽任何应用。</string>
+    <string name="rules_apps_none_unlocked">当前没有已解锁的应用。</string>
+    <string name="rules_streak">连续记录</string>
+    <plurals name="rules_streak_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <string name="rules_why">原因</string>
+    <string name="rules_why_placeholder">点按写下这件事为什么重要。</string>
+    <string name="rules_why_empty">还没有写下原因。</string>
+    <string name="rules_tile_now">此刻</string>
+    <string name="rules_tile_left_of">剩余（共 %1$s）</string>
+    <string name="rules_tile_used">已用 %1$s</string>
+    <string name="rules_tile_today">今日</string>
+    <string name="rules_tile_not_started">尚未开始</string>
+    <string name="rules_tile_unlocks_today">今日解锁</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">关闭</string>
+    <string name="rules_reminder_before">提前 %1$d 分钟</string>
+    <string name="rules_reminders_title">开始前提醒我</string>
+    <string name="rules_activate">启用</string>
+    <string name="rules_turn_off">关闭</string>
+    <string name="rules_menu_edit_settings">编辑规则</string>
+    <string name="rules_menu_pause">暂停规则</string>
+    <string name="rules_menu_resume">恢复规则</string>
+    <string name="rules_menu_delete">删除规则</string>
+    <string name="rules_pause_title">暂停 %1$s？</string>
+    <string name="rules_pause_hour">暂停 1 小时</string>
+    <string name="rules_pause_tomorrow">暂停到明天</string>
+    <string name="rules_pause_manual">暂停到我重新开启</string>
+    <string name="rules_pause_rule">暂停规则</string>
+    <string name="rules_pause_later">暂停将在此时段结束后开始。</string>
+    <string name="rules_paused_toast">%1$s 已暂停</string>
+    <string name="rules_resumed_toast">%1$s 已重新开启</string>
+    <string name="rules_edit_title">编辑规则</string>
+    <string name="rules_sticker">贴纸</string>
+    <string name="rules_name_placeholder">规则名称</string>
+    <string name="rules_more_stickers">更多贴纸</string>
+    <string name="rules_more_stickers_soon">更多贴纸即将上线</string>
+    <string name="rules_delete_title">删除 %1$s？</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="other">你在这条规则上 %d 天的连续记录将会丢失。此操作无法撤销。</item>
+    </plurals>
+    <string name="rules_delete_body">这条规则及其历史记录将被移除。此操作无法撤销。</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">它会继续屏蔽到午夜，然后被删除。</string>
+    <string name="rules_delete_body_later_session">它会继续屏蔽到专注时段结束，然后被删除。</string>
+    <string name="rules_delete_body_later_at">它会继续屏蔽到 %1$s，然后被删除。</string>
+    <string name="rules_delete_rule">删除规则</string>
+    <string name="rules_keep_it">保留</string>
+    <string name="rules_deleted_toast">%1$s 已删除</string>
+    <string name="rules_note_title">为什么设这条规则？</string>
+    <string name="rules_note_placeholder">写下来…</string>
+    <string name="rules_session_started">专注时段已开始 · %1$s</string>
+    <string name="rules_limit_started">限额已开始 · 今日 %1$s</string>
+    <string name="rules_lock_activated">%1$s 已开启</string>
+    <string name="rules_rule_created">%1$s 已创建</string>
+    <string name="rules_rule_saved">更改已保存</string>
+    <string name="rules_saved_later_midnight">已保存 · 部分更改将在午夜生效</string>
+    <string name="rules_saved_later_session">已保存 · 部分更改将在专注时段结束时生效</string>
+    <string name="rules_saved_later_at">已保存 · 部分更改将在 %1$s 生效</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">你的更改将在午夜生效</string>
+    <string name="rules_pending_changes_session">你的更改将在专注时段结束时生效</string>
+    <string name="rules_pending_changes_at">你的更改将在 %1$s 生效</string>
+    <string name="rules_pending_delete_midnight">将于午夜删除</string>
+    <string name="rules_pending_delete_session">将在专注时段结束时删除</string>
+    <string name="rules_pending_delete_at">将于 %1$s 删除</string>
+    <string name="rules_pending_turn_off">将于午夜关闭</string>
+    <string name="rules_pending_pause">此时段结束时暂停</string>
+    <string name="rules_pending_drop">放弃更改</string>
+    <string name="rules_pending_keep_rule">保留规则</string>
+    <string name="rules_pending_keep_on">保持开启</string>
+    <string name="rules_pending_dont_pause">不暂停</string>
+    <string name="rules_session_ended">专注时段已结束</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">始终允许</string>
+    <string name="rules_allowed_explainer">无论规则或计时器如何设置，Recentr 都不会屏蔽这些应用。</string>
+    <string name="rules_allowed_add">添加应用</string>
+    <string name="rules_allowed_remove">移除 %1$s</string>
+    <string name="rules_allowed_section">已允许</string>
+    <string name="rules_allowed_waiting">稍后加入</string>
+    <string name="rules_allowed_none">还没有应用。地图、打车或健康类应用都很合适。</string>
+    <string name="rules_allowed_changes_tomorrow">你的更改将于明天 %1$s 生效</string>
+    <string name="rules_allowed_changes_on">你的更改将于 %1$s 生效</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="other">允许 · %d 个应用</item>
+    </plurals>
+    <string name="rules_allowed_done_none">不允许任何应用</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">始终允许</string>
+    <string name="focus_apps_subtitle">专注轮次中暂缓使用，休息时可自由使用。</string>
+    <string name="focus_apps_on_hold">暂缓使用</string>
+</resources>

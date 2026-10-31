@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">الملف الشخصي</string>
+    <string name="profile_edit">تعديل الملف الشخصي</string>
+    <string name="profile_add_name">أضف اسمك</string>
+    <string name="profile_open_settings">الإعدادات</string>
+    <plurals name="profile_member_days">
+        <item quantity="zero">مع Recentr منذ اليوم</item>
+        <item quantity="one">مع Recentr منذ يوم واحد</item>
+        <item quantity="two">مع Recentr منذ يومين</item>
+        <item quantity="few">مع Recentr منذ %d أيام</item>
+        <item quantity="many">مع Recentr منذ %d يومًا</item>
+        <item quantity="other">مع Recentr منذ %d يوم</item>
+    </plurals>
+    <string name="profile_before">قبل</string>
+    <string name="profile_now">الآن</string>
+    <string name="profile_daily_average">المتوسط اليومي</string>
+    <string name="profile_today">اليوم</string>
+    <plurals name="profile_last_days">
+        <item quantity="zero">آخر %d يوم</item>
+        <item quantity="one">آخر يوم</item>
+        <item quantity="two">آخر يومين</item>
+        <item quantity="few">آخر %d أيام</item>
+        <item quantity="many">آخر %d يومًا</item>
+        <item quantity="other">آخر %d يوم</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">بهذا الإيقاع</string>
+    <plurals name="profile_life_years">
+        <item quantity="zero">تستعيد %d سنة من حياتك</item>
+        <item quantity="one">تستعيد سنة واحدة من حياتك</item>
+        <item quantity="two">تستعيد سنتين من حياتك</item>
+        <item quantity="few">تستعيد %d سنوات من حياتك</item>
+        <item quantity="many">تستعيد %d سنة من حياتك</item>
+        <item quantity="other">تستعيد %d سنة من حياتك</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="zero">تستعيد %d شهر من حياتك</item>
+        <item quantity="one">تستعيد شهرًا واحدًا من حياتك</item>
+        <item quantity="two">تستعيد شهرين من حياتك</item>
+        <item quantity="few">تستعيد %d أشهر من حياتك</item>
+        <item quantity="many">تستعيد %d شهرًا من حياتك</item>
+        <item quantity="other">تستعيد %d شهر من حياتك</item>
+    </plurals>
+    <string name="profile_life_none">كل ساعة بعيدًا عن هاتفك تعود إليك</string>
+    <string name="profile_best_streak">أفضل سلسلة</string>
+    <plurals name="profile_days">
+        <item quantity="zero">لا أيام</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <string name="profile_urges">الرغبات التي قاومتها</string>
+    <string name="profile_recap_ready">ملخصك الأسبوعي جاهز</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">تعديل الملف الشخصي</string>
+    <string name="edit_name">الاسم</string>
+    <string name="edit_email">البريد الإلكتروني</string>
+    <string name="edit_name_placeholder">اسمك الأول</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">حفظ التغييرات</string>
+    <string name="edit_avatar_colour">تغيير لون الصورة الرمزية</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">إغلاق</string>
+    <string name="recap_over_name">أسبوعك، %s</string>
+    <string name="recap_over">أسبوعك</string>
+    <string name="recap_less">وقت شاشة أقل من الأسبوع الماضي</string>
+    <string name="recap_more">وقت شاشة أكثر من الأسبوع الماضي</string>
+    <string name="recap_same">وقت شاشة مماثل للأسبوع الماضي</string>
+    <string name="recap_saved">تم توفيره</string>
+    <string name="recap_best_day">أفضل يوم</string>
+    <string name="recap_streak">السلسلة</string>
+    <string name="recap_share">شارك أسبوعي</string>
+    <string name="recap_share_text">أسبوعي مع Recentr: وقت الشاشة %1$s مقارنة بالأسبوع الماضي، ووفّرت %2$s، وكان أفضل أيامي %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">كل ما تحتاجه لأيام أهدأ</string>
+    <string name="plus_benefit_rules">قواعد وروتينات غير محدودة</string>
+    <string name="plus_benefit_strict">الوضع الصارم وعمليات الفتح الطارئ</string>
+    <string name="plus_benefit_recaps">ملخصات أسبوعية وتأملات</string>
+    <string name="plus_yearly">سنوي</string>
+    <string name="plus_monthly">شهري</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_per_month">$2.50 / شهر</string>
+    <string name="plus_billed_monthly">تُحاسب شهريًا</string>
+    <string name="plus_start_trial">ابدأ تجربة مجانية لمدة 7 أيام</string>
+    <string name="plus_cancel_anytime">ألغِ في أي وقت ·\u0020</string>
+    <string name="plus_restore">استعادة الشراء</string>
+    <string name="plus_restore_none_title">لا شيء لاستعادته</string>
+    <string name="plus_restore_none_body">لم يتم العثور على عملية شراء Recentr Plus لهذا الحساب.</string>
+    <string name="plus_restore_ok_title">تمت استعادة الشراء</string>
+    <string name="plus_restore_ok_body">Recentr Plus مفعّل على هذا الهاتف.</string>
+    <string name="plus_trial_started">Recentr Plus مفعّل — استمتع بأسبوعك المجاني</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">الاشتراك</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">يتجدد في %s</string>
+    <string name="sub_change_plan">تغيير الخطة</string>
+    <string name="sub_restore">استعادة الشراء</string>
+    <string name="sub_invoices">الفواتير</string>
+    <string name="sub_cancel">إلغاء الاشتراك</string>
+    <string name="sub_change_title">التبديل إلى %s؟</string>
+    <string name="sub_change_body">تبدأ خطتك الجديدة عند انتهاء الفترة الحالية.</string>
+    <string name="sub_change_confirm">تبديل</string>
+    <string name="sub_cancel_title">إلغاء Recentr Plus؟</string>
+    <string name="sub_cancel_body">تحتفظ بـ Plus حتى نهاية الفترة الحالية، ثم تعود إلى الخطة المجانية.</string>
+    <string name="sub_cancel_confirm">إلغاء الخطة</string>
+    <string name="sub_keep">الاحتفاظ بـ Plus</string>
+    <string name="sub_not_now">ليس الآن</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_general">عام</string>
+    <string name="settings_protection">الحماية</string>
+    <string name="settings_support">الدعم</string>
+    <string name="settings_account">الحساب</string>
+    <string name="settings_developer">المطوّر</string>
+    <string name="settings_notifications">الإشعارات</string>
+    <string name="settings_on">مفعّل</string>
+    <string name="settings_off">متوقف</string>
+    <string name="settings_appearance">المظهر</string>
+    <string name="settings_app_icon">أيقونة التطبيق</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_time_format">تنسيق الوقت</string>
+    <string name="time_format_am_pm">ص/م</string>
+    <string name="time_format_24h">24 ساعة</string>
+    <string name="time_format_body">كيف تظهر الأوقات في Recentr.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">الوضع الصارم</string>
+    <string name="settings_strict_caption">تبدأ الجلسات والروتينات الجديدة بالوضع الصارم.</string>
+    <string name="settings_always_allowed">مسموح دائمًا</string>
+    <string name="settings_always_allowed_none">لا شيء</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="zero">لا تطبيقات</item>
+        <item quantity="one">تطبيق واحد</item>
+        <item quantity="two">تطبيقان</item>
+        <item quantity="few">%d تطبيقات</item>
+        <item quantity="many">%d تطبيقًا</item>
+        <item quantity="other">%d تطبيق</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">عمليات الفتح الطارئ</string>
+    <string name="settings_unlocks_left">المتبقي: %d</string>
+    <string name="settings_app_blocking">حظر التطبيقات</string>
+    <string name="settings_unlock_pass">بطاقة الفتح</string>
+    <string name="settings_pass_none">لا شيء</string>
+    <string name="settings_pass_rules">القواعد: %d</string>
+    <string name="settings_help">المساعدة والملاحظات</string>
+    <string name="settings_rate">قيّم Recentr</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">مجاني</string>
+    <string name="settings_log_out">تسجيل الخروج</string>
+    <string name="settings_delete_account">حذف الحساب</string>
+    <string name="settings_replay_onboarding">إعادة عرض الإرشادات</string>
+    <string name="settings_design_system">نظام التصميم</string>
+    <string name="emergency_title">عمليات الفتح الطارئ</string>
+    <string name="emergency_body">عمليات الفتح الطارئ المتبقية لك هذا الشهر: %1$d من %2$d. عندما يُبقي الوضع الصارم أو حد مستنفد تطبيقًا مغلقًا، تفتحه كل عملية منها لمدة 5 دقائق رغم ذلك. وتتجدد في %3$s.</string>
+    <string name="unlock_pass_title">بطاقة الفتح</string>
+    <string name="unlock_pass_none">لا توجد قاعدة تطلب بطاقة بعد. اختر «امسح رمزًا تحتفظ به في مكان آخر» كطريقة فتح لقاعدة، ثم اطبع بطاقتها هنا.</string>
+    <string name="unlock_pass_body">اطبع بطاقة قاعدة واحتفظ بها بعيدًا عن هاتفك. مسحها هو طريق الدخول.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">بطاقة الفتح الخاصة بك</string>
+    <string name="unlock_pass_screen_body">اطبعها واحتفظ بها بعيدًا عن سريرك. مسحها هو الطريقة الوحيدة للفتح.</string>
+    <string name="unlock_pass_caption">Recentr · بطاقة #%1$s</string>
+    <string name="unlock_pass_share">مشاركة</string>
+    <string name="unlock_pass_print">طباعة البطاقة</string>
+    <string name="unlock_pass_document">بطاقة فتح Recentr</string>
+    <string name="dialog_ok">حسنًا</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">المساعدة والملاحظات</string>
+    <string name="help_subtitle">نقرأ كل رسالة.</string>
+    <string name="help_not_blocking">Recentr لا يحظر تطبيقًا</string>
+    <string name="help_not_blocking_body">يحتاج الحظر إلى الوصول إلى بيانات الاستخدام وإلى بقاء Recentr يعمل في الخلفية. افتح الإعدادات › التطبيقات › Recentr وأوقف تحسين البطارية.</string>
+    <string name="help_strict">أسئلة عن الوضع الصارم</string>
+    <string name="help_strict_body">فعّل الوضع الصارم لجلسة أو روتين، وحتى ينتهي لن يمكن فتح تطبيقاته إلا بفتح طارئ. وإيقافه ينتظر انتهاءه. الإعدادات › الوضع الصارم تفعّله لكل جلسة أو روتين جديد.</string>
+    <string name="help_billing">الفوترة و Recentr Plus</string>
+    <string name="help_billing_body">تتم فوترة Recentr Plus عبر Google Play. يمكنك الإلغاء في أي وقت من الإعدادات › Recentr Plus أو من اشتراكاتك في Play.</string>
+    <string name="help_note_section">أرسل لنا ملاحظة</string>
+    <string name="help_note_title">فكرة لتطبيق Recentr</string>
+    <string name="help_note_placeholder">أتمنى جلسة «المذاكرة مع الأصدقاء» نقفل فيها جميعًا معًا.</string>
+    <string name="help_send">إرسال الملاحظات</string>
+    <string name="help_feedback_subject">ملاحظات حول Recentr</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">المظهر</string>
+    <string name="appearance_theme">السمة</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theme_auto">تلقائي</string>
+    <string name="appearance_app_icon">أيقونة التطبيق</string>
+    <string name="icon_sky">سماء</string>
+    <string name="icon_night">ليل</string>
+    <string name="icon_mint">نعناع</string>
+    <string name="icon_sunset">غروب</string>
+    <string name="appearance_mascot">إظهار التميمة في الرئيسية</string>
+    <string name="appearance_reduce_motion">تقليل الحركة</string>
+    <string name="appearance_haptics">الاهتزاز اللمسي</string>
+    <string name="appearance_haptics_caption">نقرات صغيرة عند الاختيار أو التبديل أو الاحتفال</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">الإشعارات</string>
+    <string name="notifications_subtitle">تنبيهات لطيفة، دون إزعاج.</string>
+    <string name="notifications_reminders">التذكيرات</string>
+    <string name="notifications_routine">قبل بدء الروتين</string>
+    <string name="notifications_limit">اقتراب الحد</string>
+    <string name="notifications_goal">متابعة الهدف اليومي</string>
+    <string name="notifications_celebrations">الاحتفالات</string>
+    <string name="notifications_streaks">السلاسل والمعالم</string>
+    <string name="notifications_recap">الملخص الأسبوعي</string>
+    <string name="notifications_quiet_hours">ساعات الهدوء</string>
+    <string name="notifications_dont_notify">لا ترسل لي إشعارات</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">الإشعارات متوقفة لتطبيق Recentr على هذا الهاتف.</string>
+    <string name="notifications_turn_on">تفعيل</string>
+    <string name="quiet_title">ساعات الهدوء</string>
+    <string name="quiet_subtitle">لا تنبيهات بين هذين الوقتين.</string>
+    <string name="quiet_from">يبدأ</string>
+    <string name="quiet_to">ينتهي</string>
+    <string name="quiet_save">حفظ</string>
+    <string name="time_dialog_cancel">إلغاء</string>
+    <string name="time_dialog_ok">حسنًا</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">اللغة</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">لغة النظام</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">تسجيل الخروج من Recentr؟</string>
+    <string name="logout_body">تستمر قواعدك في العمل على هذا الهاتف. سجّل الدخول مجددًا في أي وقت لمزامنتها.</string>
+    <string name="logout_confirm">تسجيل الخروج</string>
+    <string name="logout_stay">البقاء</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">حذف حسابك؟</string>
+    <string name="delete_body">سيتم مسح كل القواعد والسلاسل والتأملات. اكتب DELETE للتأكيد.</string>
+    <string name="delete_placeholder">اكتب DELETE</string>
+    <string name="delete_confirm">حذف الحساب</string>
+    <string name="delete_cancel">إلغاء</string>
+    <string name="back">رجوع</string>
+    <string name="duration_h">%1$d س</string>
+    <string name="duration_m">%1$d د</string>
+    <string name="duration_h_m_compact">%1$d س %2$02d د</string>
+    <string name="duration_h_m">%1$d س %2$d د</string>
+</resources>

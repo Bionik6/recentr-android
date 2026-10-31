@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hindi. -->
+<resources>
+    <!-- Rules list -->
+    <string name="rules_title">नियम</string>
+    <string name="rules_templates_title">टेम्पलेट</string>
+    <string name="rules_subtitle_active">सक्रिय: %1$d</string>
+    <string name="rules_subtitle_active_paused">सक्रिय: %1$d · रुके: %2$d</string>
+    <string name="rules_templates_subtitle">तैयार नियम · शुरू करने के लिए टैप करें</string>
+    <string name="rules_group_locks">लॉक</string>
+    <string name="rules_group_sessions">सेशन</string>
+    <string name="rules_group_limits">लिमिट</string>
+    <string name="rules_group_routines">रूटीन</string>
+    <string name="rules_group_templates">टेम्पलेट</string>
+    <string name="rules_add_session">सेशन जोड़ें</string>
+    <string name="rules_add_session_hint">जैसे “अगले 30 मिनट ऐप्स ब्लॉक करें”</string>
+    <string name="rules_add_routine">रूटीन जोड़ें</string>
+    <string name="rules_add_routine_hint">जैसे “खाने के समय फ़ोन नहीं”</string>
+    <string name="rules_add_lock">लॉक जोड़ें</string>
+    <string name="rules_add_lock_hint">जैसे “TikTok को पूरे दिन बंद रखें”</string>
+    <string name="rules_add_limit">लिमिट जोड़ें</string>
+    <string name="rules_add_limit_hint">जैसे “रोज़ YouTube का 1 घंटा”</string>
+    <string name="rules_more">और विकल्प</string>
+    <string name="rules_empty_title">अभी कोई नियम नहीं</string>
+    <string name="rules_empty_body">शुरू करने के लिए कोई सेशन शुरू करें या टेम्पलेट चुनें।</string>
+
+    <!-- Card chips & values -->
+    <string name="rules_status_ongoing">जारी</string>
+    <string name="rules_status_upcoming">आने वाला</string>
+
+    <!-- A saved session, waiting to be started again. -->
+    <string name="rules_status_ready">तैयार</string>
+    <plurals name="rules_more_apps">
+        <item quantity="one">+ %d ऐप</item>
+        <item quantity="other">+ %d ऐप्स</item>
+    </plurals>
+    <string name="rules_tile_ready">तैयार</string>
+    <string name="rules_status_blocking">ब्लॉक है</string>
+    <string name="rules_status_paused">रुका हुआ</string>
+    <string name="rules_status_times_up">समय खत्म</string>
+    <string name="rules_status_unlocks">अनलॉक %1$d/%2$d</string>
+    <string name="rules_status_unlocks_unlimited">असीमित अनलॉक</string>
+
+    <!-- A lock waiting for Activate. -->
+    <string name="rules_status_off">बंद</string>
+    <string name="rules_all_day">पूरा दिन</string>
+    <string name="rules_strict_mode">सख़्त मोड</string>
+    <string name="rules_value_locked">लॉक</string>
+    <string name="rules_value_off">बंद</string>
+
+    <!-- A started limit, a lock turning off: they end at midnight. -->
+    <string name="rules_until_midnight">आधी रात तक</string>
+    <string name="rules_budget_today">आज का बजट</string>
+    <string name="rules_value_left">%1$s बचे</string>
+    <string name="rules_value_starts_in">%1$s में</string>
+    <string name="rules_value_paused">रुका हुआ</string>
+    <string name="rules_value_used_of">%1$s / %2$s</string>
+    <string name="rules_schedule_format">%1$s · %2$s</string>
+    <string name="rules_time_range">%1$s – %2$s</string>
+
+    <!-- Days & times -->
+    <string name="rules_days_every_day">रोज़</string>
+    <string name="rules_days_weekdays">कार्यदिवस</string>
+    <string name="rules_days_weekends">सप्ताहांत</string>
+    <string-array name="rules_day_short">
+        <item>सोम</item>
+        <item>मंगल</item>
+        <item>बुध</item>
+        <item>गुरु</item>
+        <item>शुक्र</item>
+        <item>शनि</item>
+        <item>रवि</item>
+    </string-array>
+    <string-array name="rules_day_long">
+        <item>सोमवार</item>
+        <item>मंगलवार</item>
+        <item>बुधवार</item>
+        <item>गुरुवार</item>
+        <item>शुक्रवार</item>
+        <item>शनिवार</item>
+        <item>रविवार</item>
+    </string-array>
+    <string-array name="rules_day_letters">
+        <item>सो</item>
+        <item>मं</item>
+        <item>बु</item>
+        <item>गु</item>
+        <item>शु</item>
+        <item>श</item>
+        <item>र</item>
+    </string-array>
+    <string name="rules_am">AM</string>
+    <string name="rules_pm">PM</string>
+
+    <!-- Durations -->
+    <string name="rules_minutes_short">%1$d मिनट</string>
+    <string name="rules_hours_short">%1$d घं</string>
+    <string name="rules_hours_minutes">%1$d घं %2$d मिनट</string>
+    <string name="rules_compact_seconds">%1$d सेक</string>
+    <string name="rules_compact_minutes">%1$d मि</string>
+    <string name="rules_compact_hours">%1$d घं</string>
+    <string name="rules_compact_hours_minutes">%1$d घं %2$02d मि</string>
+
+    <!-- Common -->
+    <string name="rules_none">कोई नहीं</string>
+    <string name="rules_save">सेव करें</string>
+    <string name="rules_done">हो गया</string>
+    <string name="rules_continue">जारी रखें</string>
+    <string name="rules_cancel">रद्द करें</string>
+    <string name="rules_back">वापस</string>
+    <string name="rules_edit_name">नाम और स्टिकर बदलें</string>
+    <plurals name="rules_apps_count">
+        <item quantity="one">%d ऐप</item>
+        <item quantity="other">%d ऐप्स</item>
+    </plurals>
+
+    <!-- Rule types -->
+    <string name="rules_type_session">सेशन</string>
+    <string name="rules_type_lock">लॉक</string>
+    <string name="rules_type_limit">लिमिट</string>
+    <string name="rules_type_routine">रूटीन</string>
+
+    <!-- Setting rows -->
+    <string name="rules_row_block">ब्लॉक</string>
+    <string name="rules_row_active">सक्रिय</string>
+
+    <!-- Locks, sessions and routines: what it takes to open a blocked app ("How do you unlock?"). -->
+    <string name="rules_row_unlock_method">अनलॉक का तरीका</string>
+    <string name="rules_row_unlocks_per_day">रोज़ के अनलॉक</string>
+    <string name="rules_row_apps">ऐप्स</string>
+    <string name="rules_row_reminders">रिमाइंडर</string>
+    <string name="rules_row_each_unlock">हर अनलॉक कितना चलता है</string>
+
+    <!-- Session sheet -->
+    <string name="rules_session_title">सेशन</string>
+    <string name="rules_session_subtitle">शुरू करने के बाद %1$s के लिए ऐप्स ब्लॉक करें।</string>
+    <string name="rules_session_default_name">फ़ोकस सेशन</string>
+    <string name="rules_suggestions">सुझाव</string>
+    <string name="rules_start">शुरू करें</string>
+
+    <!-- Strict mode -->
+    <string name="rules_strict_caption">खत्म होने तक कोई अनलॉक नहीं।</string>
+    <string name="rules_unlock_strict_caption">सख़्त मोड में अनलॉक उपलब्ध नहीं हैं।</string>
+    <string name="rules_strict_confirm_title">सख़्त मोड चालू करें?</string>
+    <string name="rules_strict_confirm_body">खत्म होने तक आप इन ऐप्स को अनलॉक नहीं कर पाएँगे, सिवाय इमरजेंसी अनलॉक के।</string>
+    <string name="rules_turn_on">चालू करें</string>
+    <string name="rules_not_now">अभी नहीं</string>
+
+    <!-- Asked before a change that blocks more apps right away (apps added, a budget lowered to what's used). -->
+    <string name="rules_block_now_title">इन ऐप्स को अभी ब्लॉक करें?</string>
+    <string name="rules_block_now_body">यह नियम ब्लॉक कर रहा है: आपके जोड़े गए ऐप्स तुरंत ब्लॉक हो जाएँगे।</string>
+
+    <!-- Asked before a lock is activated or a limit started again from its page. -->
+    <string name="rules_lock_confirm_title">%1$s चालू करें?</string>
+    <string name="rules_lock_confirm_body">एक बार चालू होने पर, जो चीज़ें इसे आसान बनाती हैं — ऐप्स हटाना, ज़्यादा अनलॉक, इसे बंद करना — वे सिर्फ़ आधी रात को लागू होंगी।</string>
+    <string name="rules_limit_confirm_title">%1$s शुरू करें?</string>
+    <string name="rules_limit_confirm_body">एक बार शुरू होने पर, जो चीज़ें इसे आसान बनाती हैं — बड़ा बजट, ऐप्स हटाना — वे सिर्फ़ आधी रात को लागू होंगी, जब यह रीसेट होती है।</string>
+    <string name="rules_block_now">अभी ब्लॉक करें</string>
+
+    <!-- Lock sheet -->
+    <string name="rules_lock_title">लॉक</string>
+    <string name="rules_lock_subtitle">चुने हुए ऐप्स को बंद रखें, रोज़ कुछ छोटे अनलॉक के साथ।</string>
+    <string name="rules_lock_note_title">यह लॉक क्यों?</string>
+    <string name="rules_hold_create_lock">लॉक बनाने के लिए दबाए रखें</string>
+    <string name="rules_hold_create_session">सेशन बनाने के लिए दबाए रखें</string>
+    <string name="rules_unlock_wait">%1$d सेक रुकें</string>
+    <string name="rules_unlock_retype">दोबारा टाइप करें</string>
+    <string name="rules_unlock_scan">कोड स्कैन करें</string>
+    <string name="rules_unlock_walk">%1$d कदम चलें</string>
+    <string name="rules_unlimited">असीमित</string>
+    <string name="rules_lock_default_name">लॉक</string>
+
+    <!-- Choose apps -->
+    <string name="rules_choose_apps">ऐप्स चुनें</string>
+    <string name="rules_selected">चुने गए: %1$d</string>
+    <string name="rules_search_apps">ऐप्स खोजें</string>
+    <string name="rules_category_social">सोशल</string>
+    <string name="rules_category_entertainment">मनोरंजन</string>
+    <string name="rules_category_music">संगीत</string>
+    <string name="rules_category_games">गेम</string>
+    <string name="rules_category_productivity">उत्पादकता</string>
+    <string name="rules_category_other">अन्य</string>
+    <string name="rules_category_count">%1$s · %2$d</string>
+    <plurals name="rules_block_apps">
+        <item quantity="one">ब्लॉक करें · %d ऐप</item>
+        <item quantity="other">ब्लॉक करें · %d ऐप्स</item>
+    </plurals>
+    <string name="rules_all_apps_and_categories">सभी ऐप्स और श्रेणियाँ</string>
+
+    <!-- A category whose apps are all picked. -->
+    <string name="rules_picked_all">सभी</string>
+    <string name="rules_no_apps_found">“%1$s” से कोई ऐप मेल नहीं खाता।</string>
+
+    <!-- Session length -->
+    <string name="rules_active_for">इतनी देर सक्रिय</string>
+    <string name="rules_ends_at">%1$s पर खत्म</string>
+    <string name="rules_hours_label">घंटे</string>
+    <string name="rules_minutes_label">मिनट</string>
+
+    <!-- Limit sheet -->
+    <string name="rules_limit_title">लिमिट</string>
+    <string name="rules_limit_subtitle">आज के लिए समय का बजट, उन ऐप्स के लिए जो आपका दिन खा जाते हैं।</string>
+    <string name="rules_hold_create_limit">लिमिट बनाने के लिए दबाए रखें</string>
+
+    <!-- New lock or limit: above the create button. -->
+    <string name="rules_locked_in_title">आधी रात तक पक्का</string>
+    <string name="rules_locked_in_lock">बनते ही यह चालू हो जाता है। इसे आसान करना — ऐप्स हटाना, ज़्यादा अनलॉक, बंद करना — या डिलीट करना, रोज़ के रीसेट यानी आधी रात के बाद ही लागू होता है।</string>
+    <string name="rules_locked_in_limit">बनते ही यह शुरू हो जाती है। इसे आसान करना — बड़ा बजट, ऐप्स हटाना — या डिलीट करना, रोज़ के रीसेट यानी आधी रात के बाद ही लागू होता है।</string>
+    <string name="rules_limit_resets">आधी रात को अपने आप रीसेट होती है।</string>
+    <string name="rules_limit_default_name">लिमिट</string>
+    <string name="rules_limit_social_name">सोशल टाइम</string>
+
+    <!-- Bedtime sheet -->
+    <string name="rules_bedtime_title">सोने का समय</string>
+    <string name="rules_bedtime_subtitle">ऐप्स को शेड्यूल पर ब्लॉक करें।</string>
+    <string name="rules_from">से</string>
+    <string name="rules_until">तक</string>
+    <string name="rules_tonight">%1$s · आज रात</string>
+    <string name="rules_today">%1$s · आज</string>
+    <string name="rules_tomorrow">%1$s · कल</string>
+    <string name="rules_tonight_alone">आज रात</string>
+    <string name="rules_today_alone">आज</string>
+    <string name="rules_tomorrow_alone">कल</string>
+    <string name="rules_hold_create_routine">रूटीन बनाने के लिए दबाए रखें</string>
+    <string name="rules_starts_at">शुरू होता है</string>
+    <string name="rules_ends_at_title">खत्म होता है</string>
+
+    <!-- Unlock method -->
+    <string name="rules_unlock_title">आप अनलॉक कैसे करेंगे?</string>
+    <string name="rules_unlock_subtitle">वह रुकावट चुनें जो आपके लिए काम करती है।</string>
+    <string name="rules_unlock_option_wait">कुछ सेकंड इंतज़ार करें</string>
+    <string name="rules_unlock_option_retype">कोई चुभने वाला टेक्स्ट दोबारा टाइप करें</string>
+    <string name="rules_unlock_option_scan">कहीं और रखा कोड स्कैन करें</string>
+    <string name="rules_unlock_option_walk">%1$d कदम चलें</string>
+
+    <!-- Wait settings -->
+    <string name="rules_wait_title">अनलॉक से पहले इंतज़ार</string>
+    <plurals name="rules_wait_seconds">
+        <item quantity="one">%d सेकंड</item>
+        <item quantity="other">%d सेकंड</item>
+    </plurals>
+    <string name="rules_wait_one_minute">1 मिनट</string>
+    <string name="rules_seconds_chip">%1$d सेक</string>
+    <string name="rules_one_min_chip">1 मिनट</string>
+    <string name="rules_unlocks_per_day_title">रोज़ के अनलॉक</string>
+    <string name="rules_each_unlock_title">हर अनलॉक कितना चलता है</string>
+
+    <!-- Templates -->
+    <string name="rules_section_focus">फ़ोकस</string>
+    <string name="rules_section_focus_body">काम, पढ़ाई या कोई प्रोजेक्ट पूरा करने के लिए।</string>
+    <string name="rules_section_unwind">सुकून</string>
+    <string name="rules_section_unwind_body">शांत शामें और नरम सुबहें।</string>
+    <string name="rules_section_be_present">मौजूद रहें</string>
+    <string name="rules_section_be_present_body">आसपास के लोगों या खुद पर ध्यान देने के लिए।</string>
+    <string name="rules_section_scroll_less">कम स्क्रॉल करें</string>
+    <string name="rules_section_scroll_less_body">ऐप्स आदत से नहीं, सोच-समझकर खोलें।</string>
+    <string name="rules_tpl_focus_sprint">फ़ोकस स्प्रिंट</string>
+    <string name="rules_tpl_focus_sprint_body">ध्यान भटकाने वाले ऐप्स ब्लॉक, अभी से।</string>
+    <string name="rules_tpl_study_hour">पढ़ाई का घंटा</string>
+    <string name="rules_tpl_study_hour_body">एक घंटे की पढ़ाई, अभी से।</string>
+    <string name="rules_tpl_work_rhythm">काम की लय</string>
+    <string name="rules_tpl_work_rhythm_body">कार्यदिवसों में ध्यान भटकाने वाले ऐप्स ब्लॉक।</string>
+    <string name="rules_tpl_evening_calm">शाम का सुकून</string>
+    <string name="rules_tpl_evening_calm_body">हर शाम कोई सोशल या वीडियो ऐप नहीं।</string>
+    <string name="rules_tpl_night_pause">रात का ठहराव</string>
+    <string name="rules_tpl_night_pause_body">पूरी रात ध्यान भटकाने वाले ऐप्स ब्लॉक।</string>
+    <string name="rules_tpl_slow_morning">धीमी सुबह</string>
+    <string name="rules_tpl_slow_morning_body">हर दिन की शुरुआत सोशल ऐप्स के बिना।</string>
+    <string name="rules_tpl_dinner_together">साथ में खाना</string>
+    <string name="rules_tpl_dinner_together_body">खाने के दौरान ध्यान भटकाने वाले ऐप्स ब्लॉक।</string>
+    <string name="rules_tpl_family_hour">परिवार का समय</string>
+    <string name="rules_tpl_family_hour_body">रविवार, साथ बिताने के लिए सुरक्षित।</string>
+    <string name="rules_tpl_time_for_me">मेरे लिए समय</string>
+    <string name="rules_tpl_time_for_me_body">पढ़ें, रचें या बस साँस लें।</string>
+    <string name="rules_tpl_walk_before_you_scroll">स्क्रॉल से पहले टहलें</string>
+    <string name="rules_tpl_walk_before_you_scroll_body">फिर ऐप में 5 मिनट, दिन में 3 बार।</string>
+    <string name="rules_tpl_pause_before_opening">खोलने से पहले ठहरें</string>
+    <string name="rules_tpl_pause_before_opening_body">फिर ऐप में 5 मिनट, दिन में 3 बार।</string>
+    <string name="rules_tpl_social_budget">सोशल बजट</string>
+    <string name="rules_tpl_social_budget_body">साझा, फिर आधी रात तक ब्लॉक।</string>
+
+    <!-- New rule -->
+    <string name="rules_new_rule">नया नियम</string>
+    <string name="rules_new_rule_subtitle">आप क्या सेट करना चाहते हैं?</string>
+    <string name="rules_browse_templates">टेम्पलेट देखें</string>
+    <string name="rules_kind_routine_body">शेड्यूल पर ऐप्स ब्लॉक करता है, जैसे सोने का समय या काम के घंटे।</string>
+    <string name="rules_kind_session_body">शुरू करने के बाद, आपके चुने समय तक ऐप्स ब्लॉक करता है।</string>
+    <string name="rules_kind_lock_body">चालू करने के बाद से ऐप्स बंद रखता है, रोज़ कुछ छोटे अनलॉक के साथ।</string>
+    <string name="rules_kind_limit_body">आज के लिए समय का बजट। खत्म होने पर ऐप्स आधी रात तक ब्लॉक रहते हैं।</string>
+
+    <!-- Detail -->
+    <string name="rules_detail_sub">%1$s · %2$s</string>
+    <string name="rules_detail_active_days">%1$s सक्रिय</string>
+    <string name="rules_detail_running">अभी चल रहा है</string>
+    <string name="rules_detail_paused">रुका हुआ</string>
+    <string name="rules_detail_paused_until">%1$s तक रुका हुआ</string>
+    <string name="rules_detail_on">चालू</string>
+    <string name="rules_detail_off">बंद</string>
+    <string name="rules_blocked">ब्लॉक</string>
+
+    <!-- "Apps" sheet (the rule page's "Blocked" tile) -->
+    <string name="rules_apps_title">ऐप्स</string>
+    <string name="rules_apps_blocking">अभी ब्लॉक</string>
+    <string name="rules_apps_not_blocking">अभी ब्लॉक नहीं</string>
+    <string name="rules_apps_blocked">ब्लॉक</string>
+    <string name="rules_apps_blocked_when_on">चालू होने पर ब्लॉक</string>
+    <string name="rules_apps_unlocked">फ़िलहाल अनलॉक</string>
+
+    <!-- After a section's title: "Blocked · 9". -->
+    <string name="rules_apps_section_count">\u0020· %1$d</string>
+    <string name="rules_apps_none_blocked">अभी कुछ ब्लॉक नहीं है।</string>
+    <string name="rules_apps_none_unlocked">अभी कोई ऐप अनलॉक नहीं है।</string>
+    <string name="rules_streak">स्ट्रीक</string>
+    <plurals name="rules_streak_days">
+        <item quantity="one">%d दिन</item>
+        <item quantity="other">%d दिन</item>
+    </plurals>
+    <string name="rules_why">वजह</string>
+    <string name="rules_why_placeholder">यह क्यों ज़रूरी है, लिखने के लिए टैप करें।</string>
+    <string name="rules_why_empty">अभी तक कोई वजह नहीं लिखी।</string>
+    <string name="rules_tile_now">अभी</string>
+    <string name="rules_tile_left_of">%1$s में से बचे</string>
+    <string name="rules_tile_used">%1$s इस्तेमाल</string>
+    <string name="rules_tile_today">आज</string>
+    <string name="rules_tile_not_started">अभी शुरू नहीं हुआ</string>
+    <string name="rules_tile_unlocks_today">आज के अनलॉक</string>
+    <string name="rules_tile_unlocks_of">%1$d/%2$d</string>
+    <string name="rules_reminder_off">बंद</string>
+    <string name="rules_reminder_before">%1$d मिनट पहले</string>
+    <string name="rules_reminders_title">शुरू होने से पहले याद दिलाएँ</string>
+    <string name="rules_activate">चालू करें</string>
+    <string name="rules_turn_off">बंद करें</string>
+    <string name="rules_menu_edit_settings">नियम बदलें</string>
+    <string name="rules_menu_pause">नियम रोकें</string>
+    <string name="rules_menu_resume">नियम फिर शुरू करें</string>
+    <string name="rules_menu_delete">नियम डिलीट करें</string>
+    <string name="rules_pause_title">%1$s रोकें?</string>
+    <string name="rules_pause_hour">1 घंटे के लिए</string>
+    <string name="rules_pause_tomorrow">कल तक</string>
+    <string name="rules_pause_manual">जब तक मैं फिर चालू न करूँ</string>
+    <string name="rules_pause_rule">नियम रोकें</string>
+    <string name="rules_pause_later">यह विराम इस विंडो के खत्म होने पर शुरू होगा।</string>
+    <string name="rules_paused_toast">%1$s रोका गया</string>
+    <string name="rules_resumed_toast">%1$s फिर चालू है</string>
+    <string name="rules_edit_title">नियम बदलें</string>
+    <string name="rules_sticker">स्टिकर</string>
+    <string name="rules_name_placeholder">नियम का नाम</string>
+    <string name="rules_more_stickers">और स्टिकर</string>
+    <string name="rules_more_stickers_soon">और स्टिकर आ रहे हैं</string>
+    <string name="rules_delete_title">%1$s डिलीट करें?</string>
+    <plurals name="rules_delete_body_streak">
+        <item quantity="one">इस नियम पर आपकी %d दिन की स्ट्रीक खत्म हो जाएगी। इसे वापस नहीं किया जा सकता।</item>
+        <item quantity="other">इस नियम पर आपकी %d दिन की स्ट्रीक खत्म हो जाएगी। इसे वापस नहीं किया जा सकता।</item>
+    </plurals>
+    <string name="rules_delete_body">यह नियम और इसका इतिहास हटा दिया जाएगा। इसे वापस नहीं किया जा सकता।</string>
+
+    <!-- The rule is engaged: the delete waits for the end of its engagement. -->
+    <string name="rules_delete_body_later_midnight">यह आधी रात तक ब्लॉक करता रहेगा, फिर डिलीट हो जाएगा।</string>
+    <string name="rules_delete_body_later_session">यह सेशन खत्म होने तक ब्लॉक करता रहेगा, फिर डिलीट हो जाएगा।</string>
+    <string name="rules_delete_body_later_at">यह %1$s तक ब्लॉक करता रहेगा, फिर डिलीट हो जाएगा।</string>
+    <string name="rules_delete_rule">नियम डिलीट करें</string>
+    <string name="rules_keep_it">रहने दें</string>
+    <string name="rules_deleted_toast">%1$s डिलीट हो गया</string>
+    <string name="rules_note_title">यह नियम क्यों?</string>
+    <string name="rules_note_placeholder">इसे लिख लें…</string>
+    <string name="rules_session_started">सेशन शुरू हुआ · %1$s</string>
+    <string name="rules_limit_started">लिमिट शुरू हुई · आज के लिए %1$s</string>
+    <string name="rules_lock_activated">%1$s चालू है</string>
+    <string name="rules_rule_created">%1$s बन गया</string>
+    <string name="rules_rule_saved">बदलाव सेव हो गए</string>
+    <string name="rules_saved_later_midnight">सेव हुआ · कुछ बदलाव आधी रात को लागू होंगे</string>
+    <string name="rules_saved_later_session">सेव हुआ · कुछ बदलाव सेशन खत्म होने पर लागू होंगे</string>
+    <string name="rules_saved_later_at">सेव हुआ · कुछ बदलाव %1$s पर लागू होंगे</string>
+
+    <!-- Changes kept for when the rule's engagement ends (Rule detail) -->
+    <string name="rules_pending_changes_midnight">आपके बदलाव आधी रात को लागू होंगे</string>
+    <string name="rules_pending_changes_session">आपके बदलाव सेशन खत्म होने पर लागू होंगे</string>
+    <string name="rules_pending_changes_at">आपके बदलाव %1$s पर लागू होंगे</string>
+    <string name="rules_pending_delete_midnight">आधी रात को डिलीट होगा</string>
+    <string name="rules_pending_delete_session">सेशन खत्म होने पर डिलीट होगा</string>
+    <string name="rules_pending_delete_at">%1$s पर डिलीट होगा</string>
+    <string name="rules_pending_turn_off">आधी रात को बंद होगा</string>
+    <string name="rules_pending_pause">इस विंडो के खत्म होने पर रुकेगा</string>
+    <string name="rules_pending_drop">बदलाव छोड़ें</string>
+    <string name="rules_pending_keep_rule">नियम रखें</string>
+    <string name="rules_pending_keep_on">चालू रखें</string>
+    <string name="rules_pending_dont_pause">न रोकें</string>
+    <string name="rules_session_ended">सेशन खत्म हुआ</string>
+
+    <!-- Settings › Always allowed (docs/RULES.md › "Always allowed") -->
+    <string name="rules_allowed_title">हमेशा अनुमत</string>
+    <string name="rules_allowed_explainer">Recentr इन ऐप्स को कभी ब्लॉक नहीं करता, चाहे कोई भी नियम या टाइमर हो।</string>
+    <string name="rules_allowed_add">ऐप जोड़ें</string>
+    <string name="rules_allowed_remove">%1$s हटाएँ</string>
+    <string name="rules_allowed_section">अनुमत</string>
+    <string name="rules_allowed_waiting">बाद में जुड़ेगा</string>
+    <string name="rules_allowed_none">अभी कोई ऐप नहीं। मैप्स, राइड या हेल्थ ऐप अच्छे विकल्प हैं।</string>
+    <string name="rules_allowed_changes_tomorrow">आपके बदलाव कल %1$s पर लागू होंगे</string>
+    <string name="rules_allowed_changes_on">आपके बदलाव %1$s को लागू होंगे</string>
+    <plurals name="rules_allowed_done">
+        <item quantity="one">अनुमति दें · %d ऐप</item>
+        <item quantity="other">अनुमति दें · %d ऐप्स</item>
+    </plurals>
+    <string name="rules_allowed_done_none">किसी को अनुमति न दें</string>
+
+    <!-- The rule page's "Apps" sheet -->
+    <string name="rules_apps_always_allowed">हमेशा अनुमत</string>
+    <string name="focus_apps_subtitle">राउंड के दौरान होल्ड पर, ब्रेक में आज़ाद।</string>
+    <string name="focus_apps_on_hold">होल्ड पर</string>
+</resources>

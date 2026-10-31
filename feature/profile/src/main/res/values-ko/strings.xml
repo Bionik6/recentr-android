@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Korean. -->
+<resources>
+    <!-- 61 · Profile — Overview -->
+    <string name="profile_title">프로필</string>
+    <string name="profile_edit">프로필 편집</string>
+    <string name="profile_add_name">이름 추가</string>
+    <string name="profile_open_settings">설정</string>
+    <plurals name="profile_member_days">
+        <item quantity="other">Recentr와 함께 %d일째</item>
+    </plurals>
+    <string name="profile_before">이전</string>
+    <string name="profile_now">지금</string>
+    <string name="profile_daily_average">일평균</string>
+    <string name="profile_today">오늘</string>
+    <plurals name="profile_last_days">
+        <item quantity="other">최근 %d일</item>
+    </plurals>
+    <string name="profile_now_loading">…</string>
+    <string name="profile_life_over">이 속도라면</string>
+    <plurals name="profile_life_years">
+        <item quantity="other">인생의 %d년을 되찾는 중이에요</item>
+    </plurals>
+    <plurals name="profile_life_months">
+        <item quantity="other">인생의 %d개월을 되찾는 중이에요</item>
+    </plurals>
+    <string name="profile_life_none">폰에서 벗어난 시간은 모두 다시 내 것이에요</string>
+    <string name="profile_best_streak">최고 연속 기록</string>
+    <plurals name="profile_days">
+        <item quantity="other">%d일</item>
+    </plurals>
+    <string name="profile_urges">참아 낸 충동</string>
+    <string name="profile_recap_ready">주간 요약이 준비됐어요</string>
+
+    <!-- 62 · Profile — Edit -->
+    <string name="edit_title">프로필 편집</string>
+    <string name="edit_name">이름</string>
+    <string name="edit_email">이메일</string>
+    <string name="edit_name_placeholder">이름</string>
+    <string name="edit_email_placeholder">you@example.com</string>
+    <string name="edit_save">변경 사항 저장</string>
+    <string name="edit_avatar_colour">아바타 색상 변경</string>
+
+    <!-- 63 · Profile — Weekly recap -->
+    <string name="recap_close">닫기</string>
+    <string name="recap_over_name">%s님의 한 주</string>
+    <string name="recap_over">나의 한 주</string>
+    <string name="recap_less">지난주보다 적은 스크린 타임</string>
+    <string name="recap_more">지난주보다 많은 스크린 타임</string>
+    <string name="recap_same">지난주와 같은 스크린 타임</string>
+    <string name="recap_saved">절약</string>
+    <string name="recap_best_day">최고의 날</string>
+    <string name="recap_streak">연속 기록</string>
+    <string name="recap_share">내 한 주 공유하기</string>
+    <string name="recap_share_text">Recentr에서 보낸 내 한 주: 지난주 대비 스크린 타임 %1$s, %2$s 절약, 최고의 날은 %3$s.</string>
+
+    <!-- 64 · Profile — Recentr Plus -->
+    <string name="plus_title">Recentr Plus</string>
+    <string name="plus_subtitle">차분한 하루를 위한 모든 도구</string>
+    <string name="plus_benefit_rules">무제한 규칙 &amp; 루틴</string>
+    <string name="plus_benefit_strict">엄격 모드 &amp; 긴급 잠금 해제</string>
+    <string name="plus_benefit_recaps">주간 요약 &amp; 되돌아보기</string>
+    <string name="plus_yearly">연간</string>
+    <string name="plus_monthly">월간</string>
+    <string name="plus_yearly_discount">−50%</string>
+    <string name="plus_yearly_per_month">월 $2.50</string>
+    <string name="plus_billed_monthly">월 단위 결제</string>
+    <string name="plus_start_trial">7일 무료 체험 시작</string>
+    <string name="plus_cancel_anytime">언제든 해지 ·\u0020</string>
+    <string name="plus_restore">구매 복원</string>
+    <string name="plus_restore_none_title">복원할 항목 없음</string>
+    <string name="plus_restore_none_body">이 계정에서 Recentr Plus 구매 내역을 찾을 수 없어요.</string>
+    <string name="plus_restore_ok_title">구매가 복원됐어요</string>
+    <string name="plus_restore_ok_body">이 폰에서 Recentr Plus가 활성화됐어요.</string>
+    <string name="plus_trial_started">Recentr Plus가 켜졌어요 — 무료 일주일을 즐겨요</string>
+
+    <!-- 65 · Profile — Subscription -->
+    <string name="sub_title">구독</string>
+    <string name="sub_plan_line">%1$s · %2$s</string>
+    <string name="sub_renews">%s에 갱신돼요</string>
+    <string name="sub_change_plan">플랜 변경</string>
+    <string name="sub_restore">구매 복원</string>
+    <string name="sub_invoices">청구서</string>
+    <string name="sub_cancel">구독 해지</string>
+    <string name="sub_change_title">%s 플랜으로 바꿀까요?</string>
+    <string name="sub_change_body">새 플랜은 현재 기간이 끝나면 시작돼요.</string>
+    <string name="sub_change_confirm">전환</string>
+    <string name="sub_cancel_title">Recentr Plus를 해지할까요?</string>
+    <string name="sub_cancel_body">현재 기간이 끝날 때까지 Plus를 이용한 뒤 무료 플랜으로 돌아가요.</string>
+    <string name="sub_cancel_confirm">플랜 해지</string>
+    <string name="sub_keep">Plus 유지</string>
+    <string name="sub_not_now">나중에</string>
+
+    <!-- 66 · Settings -->
+    <string name="settings_title">설정</string>
+    <string name="settings_general">일반</string>
+    <string name="settings_protection">보호</string>
+    <string name="settings_support">지원</string>
+    <string name="settings_account">계정</string>
+    <string name="settings_developer">개발자</string>
+    <string name="settings_notifications">알림</string>
+    <string name="settings_on">켜짐</string>
+    <string name="settings_off">꺼짐</string>
+    <string name="settings_appearance">화면 설정</string>
+    <string name="settings_app_icon">앱 아이콘</string>
+    <string name="settings_language">언어</string>
+    <string name="settings_time_format">시간 형식</string>
+    <string name="time_format_am_pm">오전/오후</string>
+    <string name="time_format_24h">24시간</string>
+    <string name="time_format_body">Recentr에서 시간이 표시되는 방식이에요.</string>
+    <string name="time_format_option">%1$s · %2$s</string>
+    <string name="settings_strict_mode">엄격 모드</string>
+    <string name="settings_strict_caption">새 세션과 루틴은 엄격 모드로 시작해요.</string>
+    <string name="settings_always_allowed">항상 허용</string>
+    <string name="settings_always_allowed_none">없음</string>
+    <plurals name="settings_always_allowed_apps">
+        <item quantity="other">앱 %d개</item>
+    </plurals>
+    <string name="settings_emergency_unlocks">긴급 잠금 해제</string>
+    <string name="settings_unlocks_left">%d회 남음</string>
+    <string name="settings_app_blocking">앱 차단</string>
+    <string name="settings_unlock_pass">잠금 해제 패스</string>
+    <string name="settings_pass_none">없음</string>
+    <string name="settings_pass_rules">규칙 %d개</string>
+    <string name="settings_help">도움말 및 의견</string>
+    <string name="settings_rate">Recentr 평가하기</string>
+    <string name="settings_plus">Recentr Plus</string>
+    <string name="settings_plus_free">무료</string>
+    <string name="settings_log_out">로그아웃</string>
+    <string name="settings_delete_account">계정 삭제</string>
+    <string name="settings_replay_onboarding">온보딩 다시 보기</string>
+    <string name="settings_design_system">디자인 시스템</string>
+    <string name="emergency_title">긴급 잠금 해제</string>
+    <string name="emergency_body">이번 달 긴급 잠금 해제가 %2$d회 중 %1$d회 남았어요. 엄격 모드나 소진된 한도 때문에 앱이 막혀 있을 때, 한 번 쓸 때마다 5분 동안 앱을 열 수 있어요. %3$s에 다시 채워져요.</string>
+    <string name="unlock_pass_title">잠금 해제 패스</string>
+    <string name="unlock_pass_none">패스가 필요한 규칙이 아직 없어요. 규칙의 잠금 해제 방법으로 “다른 곳에 둔 코드 스캔하기”를 고른 다음, 여기에서 패스를 인쇄해 주세요.</string>
+    <string name="unlock_pass_body">규칙의 패스를 인쇄해서 폰에서 먼 곳에 두세요. 스캔해야만 들어갈 수 있어요.</string>
+    <string name="unlock_pass_code">#%1$s</string>
+    <string name="unlock_pass_screen_title">나의 잠금 해제 패스</string>
+    <string name="unlock_pass_screen_body">인쇄해서 침대에서 먼 곳에 두세요. 스캔해야만 잠금 해제할 수 있어요.</string>
+    <string name="unlock_pass_caption">Recentr · 패스 #%1$s</string>
+    <string name="unlock_pass_share">공유</string>
+    <string name="unlock_pass_print">패스 인쇄</string>
+    <string name="unlock_pass_document">Recentr 잠금 해제 패스</string>
+    <string name="dialog_ok">확인</string>
+
+    <!-- 67 · Settings — Help & feedback -->
+    <string name="help_title">도움말 및 의견</string>
+    <string name="help_subtitle">모든 메시지를 읽고 있어요.</string>
+    <string name="help_not_blocking">Recentr가 앱을 차단하지 않아요</string>
+    <string name="help_not_blocking_body">차단하려면 사용 정보 접근 권한이 필요하고 Recentr가 백그라운드에서 실행 중이어야 해요. 설정 › 앱 › Recentr에서 확인하고 배터리 최적화를 꺼 주세요.</string>
+    <string name="help_strict">엄격 모드 관련 질문</string>
+    <string name="help_strict_body">세션이나 루틴에서 엄격 모드를 켜면 끝날 때까지 해당 앱은 긴급 잠금 해제 외에는 잠금 해제할 수 없어요. 끄는 것도 끝날 때까지 기다려야 해요. 설정 › 엄격 모드에서 새로 만드는 모든 항목에 켤 수 있어요.</string>
+    <string name="help_billing">결제 &amp; Recentr Plus</string>
+    <string name="help_billing_body">Recentr Plus는 Google Play로 결제돼요. 설정 › Recentr Plus 또는 Play 구독에서 언제든 해지할 수 있어요.</string>
+    <string name="help_note_section">메모 보내기</string>
+    <string name="help_note_title">Recentr 아이디어</string>
+    <string name="help_note_placeholder">다 같이 함께 잠그는 “친구와 공부하기” 세션이 있으면 좋겠어요.</string>
+    <string name="help_send">의견 보내기</string>
+    <string name="help_feedback_subject">Recentr 의견</string>
+
+    <!-- 68 · Settings — Appearance -->
+    <string name="appearance_title">화면 설정</string>
+    <string name="appearance_theme">테마</string>
+    <string name="theme_light">라이트</string>
+    <string name="theme_dark">다크</string>
+    <string name="theme_auto">자동</string>
+    <string name="appearance_app_icon">앱 아이콘</string>
+    <string name="icon_sky">스카이</string>
+    <string name="icon_night">나이트</string>
+    <string name="icon_mint">민트</string>
+    <string name="icon_sunset">선셋</string>
+    <string name="appearance_mascot">홈에 마스코트 표시</string>
+    <string name="appearance_reduce_motion">움직임 줄이기</string>
+    <string name="appearance_haptics">햅틱</string>
+    <string name="appearance_haptics_caption">선택하거나 전환하거나 축하할 때 살짝 진동해요</string>
+
+    <!-- 69 · Settings — Notifications -->
+    <string name="notifications_title">알림</string>
+    <string name="notifications_subtitle">부드러운 알림만, 소음은 없어요.</string>
+    <string name="notifications_reminders">리마인더</string>
+    <string name="notifications_routine">루틴 시작 전</string>
+    <string name="notifications_limit">한도 거의 도달</string>
+    <string name="notifications_goal">일일 목표 점검</string>
+    <string name="notifications_celebrations">축하</string>
+    <string name="notifications_streaks">연속 기록 &amp; 마일스톤</string>
+    <string name="notifications_recap">주간 요약</string>
+    <string name="notifications_quiet_hours">조용한 시간</string>
+    <string name="notifications_dont_notify">알림 받지 않기</string>
+    <string name="notifications_range">%1$s – %2$s</string>
+    <string name="notifications_system_off">이 폰에서 Recentr 알림이 꺼져 있어요.</string>
+    <string name="notifications_turn_on">켜기</string>
+    <string name="quiet_title">조용한 시간</string>
+    <string name="quiet_subtitle">이 시간 사이에는 알림을 보내지 않아요.</string>
+    <string name="quiet_from">시작</string>
+    <string name="quiet_to">종료</string>
+    <string name="quiet_save">저장</string>
+    <string name="time_dialog_cancel">취소</string>
+    <string name="time_dialog_ok">확인</string>
+
+    <!-- 70 · Settings — Language -->
+    <string name="language_title">언어</string>
+
+    <!-- Settings › Developer › Language (debug builds) -->
+    <string name="developer_language_system">시스템 언어</string>
+
+    <!-- 71 · Settings — Log out -->
+    <string name="logout_title">Recentr에서 로그아웃할까요?</string>
+    <string name="logout_body">규칙은 이 폰에서 계속 작동해요. 언제든 다시 로그인해 동기화할 수 있어요.</string>
+    <string name="logout_confirm">로그아웃</string>
+    <string name="logout_stay">계속 사용</string>
+
+    <!-- 72 · Settings — Delete account -->
+    <string name="delete_title">계정을 삭제할까요?</string>
+    <string name="delete_body">모든 규칙, 연속 기록, 되돌아보기가 삭제돼요. 확인하려면 DELETE를 입력해 주세요.</string>
+    <string name="delete_placeholder">DELETE 입력</string>
+    <string name="delete_confirm">계정 삭제</string>
+    <string name="delete_cancel">취소</string>
+    <string name="back">뒤로</string>
+    <string name="duration_h">%1$d시간</string>
+    <string name="duration_m">%1$d분</string>
+    <string name="duration_h_m_compact">%1$d시간 %2$02d분</string>
+    <string name="duration_h_m">%1$d시간 %2$d분</string>
+</resources>
