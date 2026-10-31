@@ -154,12 +154,3 @@ Onboarding sets up three routines, so Rules isn't empty the first time:
 - Someone who already has rules (back from logging out) gets none.
 - Home's tile with the next rule, or the one blocking now, shows that rule on Rules: the list opens
   its section and scrolls to it.
-
-## Rules made before this
-
-- Locks with hours, and sessions with a weekly schedule (Android), become routines.
-- Locks without hours stay on.
-- Limits wait for Start: they no longer start over every day.
-- Strict mode is off on locks and limits.
-- "No unlocks" becomes the default: wait, five unlocks a day.
-- Habits (Android) are gone.

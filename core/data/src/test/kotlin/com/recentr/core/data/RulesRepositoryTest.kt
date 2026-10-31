@@ -4,9 +4,7 @@ import com.recentr.core.model.AppCategory
 import com.recentr.core.model.Rule
 import com.recentr.core.model.RuleChange
 import com.recentr.core.model.RuleSchedule
-import com.recentr.core.model.RuleSticker
 import com.recentr.core.model.RuleType
-import com.recentr.core.model.UnlockMethod
 import com.recentr.core.model.UsageApp
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
@@ -82,11 +80,13 @@ class RulesRepositoryTest {
     }
 
     @Test
-    fun `a file saved with templates still opens`() {
-        file.writeText(
-            """{"rules":[{"id":"r","type":"Lock","name":"WhatsApp"}],"templates":[{"id":"saved-1","type":"Session","name":"Old"}]}""",
-        )
-        assertEquals(listOf("r"), repository().rules.value.map { it.id })
+    fun `a file of another format isn't read, and the next save writes over it`() {
+        file.writeText("""{"rules":[{"id":"r","type":"Lock","name":"WhatsApp"}],"settledAt":$now}""")
+        val repo = repository()
+        assertTrue(repo.rules.value.isEmpty())
+
+        repo.upsert(lock)
+        assertEquals(listOf("l"), repository().rules.value.map { it.id })
     }
 
     @Test
@@ -111,18 +111,6 @@ class RulesRepositoryTest {
 
         repo.settle(now + day)
         assertEquals(0, repository(now + day).rule("l")!!.unlocksUsedToday)
-    }
-
-    @Test
-    fun `a file with only the counters' day still starts the day over`() {
-        file.writeText(
-            """{"rules":[{"id":"l","type":"Lock","name":"L","unlocksUsedToday":4}],"countersDay":${sunday.toEpochDay()}}""",
-        )
-        val repo = repository(at(monday, 9, 0))
-        repo.settle(at(sunday, 23, 0))
-        assertEquals(4, repo.rule("l")!!.unlocksUsedToday)
-        repo.settle(at(monday, 9, 0))
-        assertEquals(0, repo.rule("l")!!.unlocksUsedToday)
     }
 
     // Start, Activate
@@ -365,86 +353,6 @@ class RulesRepositoryTest {
         assertNotNull(repo.rule("l"))
     }
 
-    // Migration
-
-    @Test
-    fun `rules made before the four kinds are migrated once`() {
-        file.writeText(
-            """
-            {"rules":[
-              {"id":"habit","type":"Habit","name":"Read first","habitTasks":[{"id":"t","title":"Read","done":true}],"habitRepeat":"Weekdays"},
-              {"id":"work","type":"Session","name":"Work","schedule":{"startMinute":540,"endMinute":1020,"days":[1,2,3,4,5]},"sticker":"Bolt","unlockMethod":"None","unlocksPerDay":null,"reminderMinutesBefore":10},
-              {"id":"night","type":"Lock","name":"Nights","schedule":{"startMinute":1320,"endMinute":420},"strictMode":true},
-              {"id":"focus","type":"Session","name":"Focus","durationMinutes":30,"pausedUntil":9223372036854775807,"unlockMethod":"Strict","oneShot":true},
-              {"id":"socials","type":"Lock","name":"Socials","pausedUntil":${now + 3_600_000},"strictMode":true,"unlockMethod":"Reason","unlocksPerDay":3},
-              {"id":"off","type":"Lock","name":"Off","pausedUntil":9223372036854775807},
-              {"id":"limit","type":"Limit","name":"Daily limit","limitMinutes":60,"usedMinutes":45,"limitReset":"FourAm","limitAction":"AskReason","strictMode":true,"activeSince":${now - 3_600_000}},
-              {"id":"bedtime","type":"Bedtime","name":"Bedtime","schedule":{"startMinute":1380,"endMinute":420},"pausedUntil":9223372036854775807,"strictMode":true}
-            ],"settledAt":$now}
-            """.trimIndent(),
-        )
-        val repo = repository()
-        val rules = repo.rules.value.associateBy { it.id }
-        // Habits are gone.
-        assertEquals(listOf("work", "night", "focus", "socials", "off", "limit", "bedtime"), repo.rules.value.map { it.id })
-
-        // A session with a weekly schedule and a lock with hours become routines, keeping their sticker.
-        val work = rules.getValue("work")
-        assertEquals(RuleType.Bedtime, work.type)
-        assertEquals(RuleSticker.Bolt, work.sticker)
-        assertEquals(RuleSchedule(540, 1020, (1..5).toSet()), work.schedule)
-        assertEquals(10, work.reminderMinutesBefore)
-        // "No unlocks" becomes the default: wait, five unlocks a day.
-        assertEquals(UnlockMethod.Wait, work.unlockMethod)
-        assertEquals(5, work.unlocksPerDay)
-        val night = rules.getValue("night")
-        assertEquals(RuleType.Bedtime, night.type)
-        assertEquals(RuleSticker.Lock, night.sticker)
-        assertTrue(night.strictMode)
-
-        // A session without one stays a session; only routines pause.
-        val focus = rules.getValue("focus")
-        assertEquals(RuleType.Session, focus.type)
-        assertNull(focus.pausedUntil)
-        assertEquals(UnlockMethod.Wait, focus.unlockMethod)
-
-        // A lock without hours stays on from now, paused or not, unless it was paused until turned back on.
-        val socials = rules.getValue("socials")
-        assertEquals(now, socials.activeSince)
-        assertNull(socials.pausedUntil)
-        assertFalse(socials.strictMode)
-        assertEquals(UnlockMethod.Wait, socials.unlockMethod)
-        assertEquals(3, socials.unlocksPerDay)
-        assertNull(rules.getValue("off").activeSince)
-        assertNull(rules.getValue("off").pausedUntil)
-
-        // A limit waits for Start, with no Strict mode.
-        val limit = rules.getValue("limit")
-        assertNull(limit.activeSince)
-        assertEquals(0, limit.usedMinutes)
-        assertFalse(limit.strictMode)
-        assertEquals(60, limit.limitMinutes)
-
-        // A routine keeps its pause and Strict mode.
-        val bedtime = rules.getValue("bedtime")
-        assertEquals(Long.MAX_VALUE, bedtime.pausedUntil)
-        assertTrue(bedtime.strictMode)
-
-        // Saved as they are now: read again later, nothing is migrated twice.
-        val text = file.readText()
-        assertTrue(text.contains("\"version\":1"))
-        assertFalse(text.contains("limitReset"))
-        assertFalse(text.contains("Habit"))
-        assertEquals(now, repository(now + day).rule("socials")!!.activeSince)
-    }
-
-    @Test
-    fun `a migrated file keeps its rules when they can't all be read`() {
-        // An unknown unlock method left over from before decodes, migrated to a wait.
-        file.writeText("""{"rules":[{"id":"l","type":"Lock","name":"L","unlockMethod":"None"}]}""")
-        assertEquals(UnlockMethod.Wait, repository().rule("l")!!.unlockMethod)
-    }
-
     // Streaks
 
     private val tuesday = monday.plusDays(1)
@@ -464,7 +372,7 @@ class RulesRepositoryTest {
         // The 6:00 → 9:00 routine ran this morning, but its card still read "0 days".
         file.writeText(
             """{"rules":[{"id":"m","type":"Bedtime","name":"Morning Routine",""" +
-                """"schedule":{"startMinute":360,"endMinute":540,"days":[1,2,3,4,5]}}],"settledAt":${at(monday, 5)}}""",
+                """"schedule":{"startMinute":360,"endMinute":540,"days":[1,2,3,4,5]}}],"settledAt":${at(monday, 5)},"version":1}""",
         )
         val repo = repository(at(monday, 5))
         repo.settle(at(monday, 8))

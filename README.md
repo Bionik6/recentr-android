@@ -134,7 +134,7 @@ for any number ("Steps: %d").
   pause, turn off, delete) is kept on the rule and applied when the engagement ends; what
   reinforces it applies now (`Rule.edit` in `:core:model`, unit-tested).
 - Rules are saved to `files/rules.json` (`RulesRepository`, written after every change, with a
-  format version: files from before the four kinds are migrated on reading); the unlocks used
+  format version: a file of another one isn't read, as Recentr hasn't shipped); the unlocks used
   start over each day. The focus session and its log are still in memory.
 - App blocking: `HoldService` (`:app`) is an accessibility service told only which activity comes
   to the front (no window content). When that app is on hold — `HoldState` in `:core:data`, pure
